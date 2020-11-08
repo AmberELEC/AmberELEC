@@ -31,6 +31,9 @@ mkpkg-temp
 # backup files
 *.orig
 
+# vim swap files
+*.swp
+
 # crap
 .DS_Store
 .directory
