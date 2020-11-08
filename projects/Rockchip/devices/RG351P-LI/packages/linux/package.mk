@@ -30,9 +30,9 @@ case "$LINUX" in
     ;;
   RG351P-4.4)
     PKG_VERSION="718abd7245ab07d144e03826d7b0f161ab66bed2"
-    PKG_SHA256="dde222ff4e95c3c12c5ff7de3613d8b27b28bdf5f6168d1a0521c0087339e464"
+    PKG_SHA256="4874108ff9f2f13b9cbc31136075192a8976c8feca8204d8a294a4e6a9f9d61b"
     PKG_URL="https://github.com//lualiliu/RG351P-linux/archive/$PKG_VERSION.tar.gz"
-    PKG_SOURCE_NAME="$PKG_VERSION.tar.gz"
+    PKG_SOURCE_NAME="RG351P-linux-$PKG_VERSION.tar.gz"
     ;;    
   raspberrypi)
     PKG_VERSION="3c235dcfe80a7c7ba360219e4a3ecb256f294376" # 4.19.83
