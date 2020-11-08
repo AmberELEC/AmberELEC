@@ -12,7 +12,8 @@ export ARCH=arm
 if [ ! "$1" ]; then
   BUILD="${DEVICE}-LI"
 else
-  BUILD="${DEVICE}-$1"
+  BUILD=$(echo ${BUILD} | sed 's#^.*-##')
+  BUILD="${DEVICE}-${1^^}"
 fi
 
 echo "Staging ${BUILD}"
