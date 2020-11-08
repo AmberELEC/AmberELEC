@@ -1,0 +1,51 @@
+<theme>
+	<formatVersion>4</formatVersion>
+	<include>./../theme.xml</include>
+
+	<view name="system">
+		<image name="logo">
+			<path>./system.png</path>
+		</image>
+		<image name="SystemBackground" extra="true">
+			<tile>false</tile>
+			<pos>0 0</pos>
+			<origin>0 0</origin>
+			<size>1 1</size>
+			<zIndex>1</zIndex> 
+			<path>./background.png</path>
+		</image>
+	</view>
+	
+  	<view name="detailed, video">
+                <image name="system" extra="true">
+                   <origin>0.5 0.5</origin>
+                   <pos>0.75 0.138</pos>
+                   <maxSize>0.4 0.14</maxSize>
+                   <path>./system.png</path>
+                   <zIndex>3</zIndex>            
+                </image>
+				<image name="background" extra="true">
+					<origin>0 0</origin>
+					<pos>0 0</pos>
+					<size>1 1</size>
+					<zIndex>1</zIndex>                 
+					<path>./background_blur.png</path>
+				</image>
+	</view>	
+  	<view name="basic">
+                <image name="system" extra="true">
+                   <origin>0.5 0</origin>
+                   <pos>0.5 0.02</pos>
+                   <maxSize>1 .12</maxSize>
+                   <path>./system.png</path>
+                   <zIndex>3</zIndex>            
+                </image>
+				<image name="background" extra="true">
+					<origin>0 0</origin>
+					<pos>0 0</pos>
+					<size>1 1</size>
+					<zIndex>1</zIndex>                 
+					<path>./background_blur.png</path>
+				</image>
+	</view>		
+</theme>

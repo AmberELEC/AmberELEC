@@ -1,0 +1,11 @@
+{
+  "name": "@DISTRONAME@_@PROJECT@",
+  "version": "@LIBREELEC_VERSION@",
+  "release_date": "@RELEASE_DATE@",
+  "kernel": "@KERNEL_VERSION@",
+  "description": "@DESCRIPTION@",
+  "username": "root",
+  "password": "@ROOT_PASSWORD@",
+  "supported_hex_revisions": "@NOOBS_HEX@",
+  "supported_models": [@NOOBS_SUPPORTED_MODELS@]
+}

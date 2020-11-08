@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+
+echo "getting sources..."
+  if [ ! -d rtmpdump.git ]; then
+    git clone git://git.ffmpeg.org/rtmpdump rtmpdump.git
+  fi
+
+  cd rtmpdump.git
+    git pull
+    GIT_REV=`git log -n1 --format=%H`
+  cd ..
+
+echo "copying sources..."
+  rm -rf rtmpdump-$GIT_REV
+  cp -R rtmpdump.git rtmpdump-$GIT_REV
+
+echo "cleaning sources..."
+  rm -rf rtmpdump-$GIT_REV/.git
+
+echo "packing sources..."
+  tar cvJf rtmpdump-$GIT_REV.tar.xz rtmpdump-$GIT_REV
+
+echo "remove temporary sourcedir..."
+  rm -rf rtmpdump-$GIT_REV

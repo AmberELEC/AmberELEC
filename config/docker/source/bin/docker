@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+name="$(basename $0)"
+. /etc/profile
+oe_setup_addon "$name"
+
+docker rm "$name" 2>/dev/null
+docker run --name="$name" \

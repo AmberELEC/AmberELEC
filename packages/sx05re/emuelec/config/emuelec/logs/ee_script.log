@@ -1,0 +1,25 @@
+PLATFORM: setup
+ROM NAME: /emuelec/scripts/modules/05 - install drastic.sh
+BASE ROM NAME: 05 - install drastic.sh
+USING CONFIG: /storage/.config/retroarch/retroarch.cfg
+1st Argument: /emuelec/scripts/modules/05 - install drastic.sh
+2nd Argument: -Psetup
+3rd Argument: --core=
+4th Argument: --emulator=
+Full arguments: /emuelec/scripts/modules/05 - install drastic.sh -Psetup --core= --emulator= --controllers=-p1index 0 -p1guid 03000000091200000031000011010000 
+Run Command is:
+/usr/bin/bash /emuelec/scripts/fbterm.sh /emuelec/scripts/modules/05 - install drastic.sh
+Emulator Output is:
+[0000.000000] NOTICE: kmscon Revision  Aug 19 2020 03:56:28 (log_print_init() in /home/zd/3326/own/EmuELEC-3-7/build.RG351P-OdroidGoAdvance.arm-3.7/kmscon-0b3452719992f855b64fa21c9d7fbd6158a8d23a/src/shl_log.c:509)
+[0000.119515] NOTICE: vt: using tty /dev/tty2 (open_tty() in /home/zd/3326/own/EmuELEC-3-7/build.RG351P-OdroidGoAdvance.arm-3.7/kmscon-0b3452719992f855b64fa21c9d7fbd6158a8d23a/src/uterm_vt.c:285)
+[0000.120294] ERROR: font: requested backend 'pango' not found (new_font() in /home/zd/3326/own/EmuELEC-3-7/build.RG351P-OdroidGoAdvance.arm-3.7/kmscon-0b3452719992f855b64fa21c9d7fbd6158a8d23a/src/font.c:212)
+[0000.120431] ERROR: font: requested backend 'pango' not found (new_font() in /home/zd/3326/own/EmuELEC-3-7/build.RG351P-OdroidGoAdvance.arm-3.7/kmscon-0b3452719992f855b64fa21c9d7fbd6158a8d23a/src/font.c:212)
+[0000.233300] WARNING: video_fbdev: cannot read monitor refresh rate, forcing 60 Hz (display_activate_force() in /home/zd/3326/own/EmuELEC-3-7/build.RG351P-OdroidGoAdvance.arm-3.7/kmscon-0b3452719992f855b64fa21c9d7fbd6158a8d23a/src/uterm_fbdev_video.c:281)
+Using device path: /js
+Using button mode: hold
+Load cfg file ...
+Amlogic ini not found /storage/.kodi/addons/script.emuelec.Amlogic.launcher/config/jslisten.cfg
+Amlogic-ng ini not found /storage/.kodi/addons/script.emuelec.Amlogic-ng.launcher/config/jslisten.cfg
+Will Run: /usr/bin/killall kmscon
+button1: 0
+button2: 6

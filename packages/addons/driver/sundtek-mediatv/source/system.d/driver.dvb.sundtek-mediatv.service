@@ -1,0 +1,13 @@
+[Unit]
+Description=Sundtek driver service
+After=network-online.service
+Requires=network-online.service
+
+[Service]
+Type=oneshot
+ExecStart=-/bin/sh -c "exec sh /storage/.kodi/addons/driver.dvb.sundtek-mediatv/bin/sundtek-mediatv.start"
+ExecStop=-/bin/sh -c "exec sh /storage/.kodi/addons/driver.dvb.sundtek-mediatv/bin/sundtek-mediatv.stop"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=kodi.target

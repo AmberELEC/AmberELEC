@@ -1,0 +1,1428 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2018 Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
+
+### FUNCTION HELPERS ###
+# die (message, code) abort with optional message and code
+die() {
+  if [ -n "$1" ]; then
+    echo -e "$1" >&2
+  fi
+  exit "${2:-1}"
+}
+
+# return 0 if $2 in space-separated list $1, otherwise return 1
+listcontains() {
+  if [ -n "$1" -a -n "$2" ]; then
+    [[ ${1} =~ (^|[[:space:]])${2}($|[[:space:]]) ]] && return 0 || return 1
+  else
+    return 1
+  fi
+}
+
+# remove item(s) from list.
+# looping makes it greedy (eg. listremoveitem "abc def ghi" "(abc|def)" removes both "abc" and "def").
+listremoveitem() {
+  local data="${1}" odata tmp_array
+  if [ -n "$1" -a -n "$2" ]; then
+    while [ : ]; do
+      odata="${data}"
+      data="$(echo "${data}" | sed -E "s (^|[[:space:]])${2}($|[[:space:]]) \  g")"
+      [ "${odata}" = "${data}" ] && break
+    done
+  fi
+  # Use array word splitting to squash spaces
+  tmp_array=(${data})
+  echo "${tmp_array[@]}"
+}
+
+print_color() {
+  local clr_name="$1" clr_text="$2" clr_actual
+  local black red green yellow blue magenta cyan white endcolor
+  local boldblack boldred boldgreen boldyellow boldblue boldmagenta boldcyan boldwhite
+
+  [ -z "${clr_name}" ] && return 0
+
+  if [ "$DISABLE_COLORS" = "yes" ]; then
+    [ $# -eq 2 ] && echo -en "${clr_text}"
+    return 0
+  fi
+
+  black="\e[0;30m"
+  boldblack="\e[1;30m"
+  red="\e[0;31m"
+  boldred="\e[1;31m"
+  green="\e[0;32m"
+  boldgreen="\e[1;32m"
+  yellow="\e[0;33m"
+  boldyellow="\e[1;33m"
+  blue="\e[0;34m"
+  boldblue="\e[1;34m"
+  magenta="\e[0;35m"
+  boldmagenta="\e[1;35m"
+  cyan="\e[0;36m"
+  boldcyan="\e[1;36m"
+  white="\e[0;37m"
+  boldwhite="\e[1;37m"
+  endcolor="\e[0m"
+
+  # $clr_name can be a color variable (boldgreen etc.) or a
+  # "standard" color determined by an indirect name (CLR_ERROR etc.)
+  #
+  # If ${!clr_name} doesn't exist then assume it's a standard color.
+  # If ${!clr_name} does exist then check it's not a custom color mapping.
+  # Custom color mappings can be configured in options files.
+  #
+  clr_actual="${!clr_name}"
+
+  if [ -n "${clr_actual}" ]; then
+    clr_actual="${!clr_actual}"
+  else
+    case "${clr_name}" in
+      CLR_ERROR)        clr_actual="${boldred}";;
+      CLR_WARNING)      clr_actual="${boldred}";;
+      CLR_WARNING_DIM)  clr_actual="${red}";;
+
+      CLR_APPLY_PATCH)  clr_actual="${boldgreen}";;
+      CLR_AUTORECONF)   clr_actual="${boldmagenta}";;
+      CLR_BUILD)        clr_actual="${boldyellow}";;
+      CLR_TOOLCHAIN)    clr_actual="${boldmagenta}";;
+      CLR_CLEAN)        clr_actual="${boldred}";;
+      CLR_FIXCONFIG)    clr_actual="${boldyellow}";;
+      CLR_GET)          clr_actual="${boldcyan}";;
+      CLR_INFO)         clr_actual="${boldgreen}";;
+      CLR_INSTALL)      clr_actual="${boldgreen}";;
+      CLR_PATCH_DESC)   clr_actual="${boldwhite}";;
+      CLR_TARGET)       clr_actual="${boldwhite}";;
+      CLR_UNPACK)       clr_actual="${boldcyan}";;
+
+      CLR_ENDCOLOR)     clr_actual="${endcolor}";;
+
+      *)                clr_actual="${endcolor}";;
+    esac
+  fi
+
+  if [ $# -eq 2 ]; then
+    echo -en "${clr_actual}${clr_text}${endcolor}"
+  else
+    echo -en "${clr_actual}"
+  fi
+}
+
+# print build progress messages
+# param1: message color, p2: label, p3: text, p4: indent (optional)
+build_msg() {
+  local spaces
+
+  [ -n "${BUILD_INDENT}" ] && spaces="$(printf "%${BUILD_INDENT}c" " ")" || spaces=""
+
+  if [ -n "${3}" ]; then
+    echo -e "${spaces}$(print_color "${1}" "${2}")      ${3}" >&${SILENT_OUT}
+  else
+    echo -e "${spaces}$(print_color "${1}" "${2}")" >&${SILENT_OUT}
+  fi
+
+  # pad left space to create "indent" effect
+  if [ "${4}" = "indent" ]; then
+    export BUILD_INDENT=$((${BUILD_INDENT:-0}+${BUILD_INDENT_SIZE}))
+  elif [ -n "${4}" ]; then
+    die "ERROR: ${0} unexpected parameter: ${4}"
+  fi
+}
+
+# prints a warning if the file slated for removal doesn't exist
+# this allows us to continue instead of bailing out with just "rm"
+safe_remove() {
+  local path="$1"
+
+  [ -z "${path}" ] && return 0
+
+  if [ -e "${path}" -o -L "${path}" ]; then
+    rm -r "${path}"
+  elif [ -n "${PKG_NAME}" ]; then
+    print_color CLR_WARNING "safe_remove: path does not exist: [${PKG_NAME}]: ${path}\n"
+  else
+    print_color CLR_WARNING "safe_remove: path does not exist: ${path}\n"
+  fi
+}
+
+### BUILDSYSTEM HELPERS ###
+# check if a flag is enabled
+# $1: flag-name, $2: default (yes/no), $3: ingenious check (none,only-disable,only-enable)
+# set variable PKG_[FLAG]_[HOST/TARGET]_ENABLED=(yes/no)
+# return 0 if flag is enabled, otherwise 1
+flag_enabled() {
+  # make flag name upper case and replace hyphen with underscore, to use as variable name
+  local flag_name=${1^^}
+  [[ $flag_name =~ : ]] || flag_name+="_TARGET"
+  flag_name="PKG_${flag_name//[:-]/_}_ENABLED"
+
+  # check flag
+  if [ -n "${PKG_BUILD_FLAGS}" ] && listcontains "${PKG_BUILD_FLAGS}" "[+]?$1"; then
+    if [ "${3:none}" = "only-disable" ]; then
+      die "ERROR: $1 cannot enable via PKG_BUILD_FLAGS (found in $PKG_NAME)"
+    fi
+    declare ${flag_name}="yes"
+    return 0
+  elif [ "$2" = "yes" ] && ! listcontains "${PKG_BUILD_FLAGS}" "-$1"; then
+    declare ${flag_name}="yes"
+    return 0
+  else
+    if [ "${3:none}" = "only-enable" ]; then
+      die "ERROR: $1 cannot disable via PKG_BUILD_FLAGS (found in $PKG_NAME)"
+    fi
+    declare ${flag_name}="no"
+    return 1
+  fi
+}
+
+setup_pkg_config_target() {
+  export PKG_CONFIG="$TOOLCHAIN/bin/pkg-config"
+  export PKG_CONFIG_PATH=""
+  export PKG_CONFIG_LIBDIR="$SYSROOT_PREFIX/usr/lib/pkgconfig:$SYSROOT_PREFIX/usr/share/pkgconfig"
+  export PKG_CONFIG_SYSROOT_DIR="$SYSROOT_PREFIX"
+  export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+  export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+}
+
+setup_pkg_config_host() {
+  export PKG_CONFIG="$TOOLCHAIN/bin/pkg-config"
+  export PKG_CONFIG_PATH=""
+  export PKG_CONFIG_LIBDIR="$TOOLCHAIN/lib/pkgconfig:$TOOLCHAIN/share/pkgconfig"
+  export PKG_CONFIG_SYSROOT_DIR=""
+  unset PKG_CONFIG_ALLOW_SYSTEM_CFLAGS
+  unset PKG_CONFIG_ALLOW_SYSTEM_LIBS
+}
+
+setup_toolchain() {
+  if [ "$LTO_SUPPORT" = "yes" ]; then
+    if flag_enabled "lto-parallel" "no"; then
+      TARGET_CFLAGS+=" $FLAGS_OPTIM_LTO_PARALLEL $FLAGS_OPTIM_LTO_NO_FAT"
+      TARGET_CXXFLAGS+=" $FLAGS_OPTIM_LTO_PARALLEL $FLAGS_OPTIM_LTO_NO_FAT"
+      TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_LTO_COMMON $FLAGS_OPTIM_LTO_PARALLEL"
+    elif flag_enabled "lto-fat" "no"; then
+      TARGET_CFLAGS+=" $FLAGS_OPTIM_LTO_NO_PARALLEL $FLAGS_OPTIM_LTO_FAT"
+      TARGET_CXXFLAGS+=" $FLAGS_OPTIM_LTO_NO_PARALLEL $FLAGS_OPTIM_LTO_FAT"
+      TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_LTO_COMMON $FLAGS_OPTIM_LTO_NO_PARALLEL"
+    elif flag_enabled "lto" "no"; then
+      TARGET_CFLAGS+=" $FLAGS_OPTIM_LTO_NO_PARALLEL $FLAGS_OPTIM_LTO_NO_FAT"
+      TARGET_CXXFLAGS+=" $FLAGS_OPTIM_LTO_NO_PARALLEL $FLAGS_OPTIM_LTO_NO_FAT"
+      TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_LTO_COMMON $FLAGS_OPTIM_LTO_NO_PARALLEL"
+    fi
+  fi
+
+  if flag_enabled "lto-off" "no"; then
+    TARGET_CFLAGS+=" $FLAGS_OPTIM_LTO_OFF"
+    TARGET_CXXFLAGS+=" $FLAGS_OPTIM_LTO_OFF"
+    TARGET_LDFLAGS+=" $FLAGS_OPTIM_LTO_OFF"
+  fi
+
+  # gold flag
+  if flag_enabled "gold" "$GOLD_SUPPORT" "only-disable"; then
+    TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_GOLD"
+  fi
+
+  # position-independent code
+  if flag_enabled "pic" "no"; then
+    TARGET_CFLAGS+=" $CFLAGS_OPTIM_PIC"
+    TARGET_CXXFLAGS+=" $CXXFLAGS_OPTIM_PIC"
+    TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_PIC"
+  fi
+  if flag_enabled "pic:host" "no"; then
+    HOST_CFLAGS+=" $CFLAGS_OPTIM_PIC"
+    HOST_CXXFLAGS+=" $CXXFLAGS_OPTIM_PIC"
+    HOST_LDFLAGS+=" $LDFLAGS_OPTIM_PIC"
+  fi
+
+  # hardening support
+  if flag_enabled "hardening" "$HARDENING_SUPPORT"; then
+    TARGET_CFLAGS+=" $CFLAGS_OPTIM_HARDENING"
+    TARGET_CXXFLAGS+=" $CXXFLAGS_OPTIM_HARDENING"
+    TARGET_CFLAGS+=" $CPPFLAGS_OPTIM_HARDENING"
+    TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_HARDENING"
+  fi
+
+  # parallel
+  if flag_enabled "parallel" "yes"; then
+    NINJA_OPTS="$NINJA_OPTS -j$CONCURRENCY_MAKE_LEVEL"
+    export MAKEFLAGS="-j$CONCURRENCY_MAKE_LEVEL"
+  else
+    NINJA_OPTS="$NINJA_OPTS -j1"
+    export MAKEFLAGS="-j1"
+  fi
+
+  # verbose flag
+  if flag_enabled "verbose" "no"; then
+    NINJA_OPTS="$NINJA_OPTS -v"
+    export MAKEFLAGS="$MAKEFLAGS V=1 VERBOSE=1"
+  fi
+
+  case "$1" in
+    target|init)
+      export DESTIMAGE="target"
+      export CC="${TARGET_PREFIX}gcc"
+      export CXX="${TARGET_PREFIX}g++"
+      export CPP="${TARGET_PREFIX}cpp"
+      export LD="${TARGET_PREFIX}ld"
+      export AS="${TARGET_PREFIX}as"
+      export AR="${TARGET_PREFIX}ar"
+      export NM="${TARGET_PREFIX}nm"
+      export RANLIB="${TARGET_PREFIX}ranlib"
+      export OBJCOPY="${TARGET_PREFIX}objcopy"
+      export OBJDUMP="${TARGET_PREFIX}objdump"
+      export STRIP="${TARGET_PREFIX}strip"
+      export CPPFLAGS="$TARGET_CPPFLAGS"
+      export CFLAGS="$TARGET_CFLAGS"
+      export CXXFLAGS="$TARGET_CXXFLAGS"
+      export LDFLAGS="$TARGET_LDFLAGS"
+      setup_pkg_config_target
+      export CMAKE_CONF=$TOOLCHAIN/etc/cmake-$TARGET_NAME.conf
+      export CMAKE="cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF -DCMAKE_INSTALL_PREFIX=/usr"
+      if [ ! -f $CMAKE_CONF ] ; then
+        mkdir -p $TOOLCHAIN/etc
+        echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
+        echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
+        echo "SET(CMAKE_SYSTEM_PROCESSOR  $TARGET_ARCH)" >> $CMAKE_CONF
+        echo "SET(CMAKE_C_COMPILER   $CC)"  >> $CMAKE_CONF
+        echo "SET(CMAKE_CXX_COMPILER $CXX)" >> $CMAKE_CONF
+        echo "SET(CMAKE_CPP_COMPILER $CPP)" >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH  $SYSROOT_PREFIX)"   >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)" >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)"  >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)"  >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)"  >> $CMAKE_CONF
+      fi
+      export HOST_CC="$TOOLCHAIN/bin/host-gcc"
+      export HOST_CXX="$TOOLCHAIN/bin/host-g++"
+      export HOSTCC="$HOST_CC"
+      export HOSTCXX="$HOST_CXX"
+      export CC_FOR_BUILD="$HOST_CC"
+      export CXX_FOR_BUILD="$HOST_CXX"
+      export BUILD_CC="$HOST_CC"
+      export BUILD_CXX="$HOST_CXX"
+      export _python_sysroot="$SYSROOT_PREFIX"
+      export _python_prefix=/usr
+      export _python_exec_prefix=/usr
+      ;;
+    host|bootstrap)
+      export DESTIMAGE="host"
+      export AWK="gawk"
+      export CC="$TOOLCHAIN/bin/host-gcc"
+      export CXX="$TOOLCHAIN/bin/host-g++"
+      export CPP="cpp"
+      export LD="ld"
+      export AS="as"
+      export AR="ar"
+      export NM="nm"
+      export RANLIB="ranlib"
+      export OBJCOPY="objcopy"
+      export OBJDUMP="objdump"
+      export STRIP="strip"
+      export CPPFLAGS="$HOST_CPPFLAGS"
+      export CFLAGS="$HOST_CFLAGS"
+      export CXXFLAGS="$HOST_CXXFLAGS"
+      export LDFLAGS="$HOST_LDFLAGS"
+      setup_pkg_config_host
+      export CMAKE_CONF=$TOOLCHAIN/etc/cmake-$HOST_NAME.conf
+      export CMAKE="cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF -DCMAKE_INSTALL_PREFIX=$TOOLCHAIN"
+      if [ ! -f $CMAKE_CONF ] ; then
+        mkdir -p $TOOLCHAIN/etc
+        echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
+        echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
+        echo "SET(CMAKE_SYSTEM_PROCESSOR ${MACHINE_HARDWARE_NAME})" >> $CMAKE_CONF
+        echo "SET(CMAKE_C_COMPILER   $CC)"  >> $CMAKE_CONF
+        echo "SET(CMAKE_CXX_COMPILER $CXX)" >> $CMAKE_CONF
+        echo "SET(CMAKE_CPP_COMPILER $CXX)" >> $CMAKE_CONF
+        echo "SET(CMAKE_AR $AR CACHE FILEPATH "Archiver")" >> $CMAKE_CONF # hum?
+        echo "SET(CMAKE_FIND_ROOT_PATH  $TOOLCHAIN)" >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)" >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)" >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)" >> $CMAKE_CONF
+        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)" >> $CMAKE_CONF
+      fi
+      export HOST_CC="$CC"
+      export HOST_CXX="$CXX"
+      export HOSTCC="$CC"
+      export HOSTCXX="$CXX"
+      export CC_FOR_BUILD="$CC"
+      export CXX_FOR_BUILD="$CXX"
+      export BUILD_CC="$CC"
+      export BUILD_CXX="$CXX"
+      export _python_sysroot="$TOOLCHAIN"
+      export _python_prefix=/
+      export _python_exec_prefix=/
+      ;;
+  esac
+}
+
+create_meson_conf() {
+  local endian root properties
+  case "$1" in
+    target|init)    root="$SYSROOT_PREFIX/usr"
+                    ;;
+    host|bootstrap) root="$TOOLCHAIN"
+                    ;;
+  esac
+
+  properties="PKG_MESON_PROPERTIES_${1^^}"
+
+  cat > $2 <<EOF
+[binaries]
+c = '$CC'
+cpp = '$CXX'
+ar = '$AR'
+strip = '$STRIP'
+pkgconfig = '$PKG_CONFIG'
+llvm-config = '$SYSROOT_PREFIX/usr/bin/llvm-config-host'
+
+[host_machine]
+system = 'linux'
+cpu_family = '$TARGET_ARCH'
+cpu = '$TARGET_SUBARCH'
+endian = 'little'
+
+[properties]
+root = '$root'
+$(python -c "import os; print('c_args = {}'.format([x for x in os.getenv('CFLAGS').split()]))")
+$(python -c "import os; print('c_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
+$(python -c "import os; print('cpp_args = {}'.format([x for x in os.getenv('CXXFLAGS').split()]))")
+$(python -c "import os; print('cpp_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
+${!properties}
+EOF
+}
+
+# unset all PKG_* vars apart from those exported by setup_toolchain, then set default values
+reset_pkg_vars() {
+  local vars var
+
+  for var in ${!PKG_*}; do
+    if [ "${var}" = "PKG_CONFIG" ] || \
+       [ "${var}" = "PKG_CONFIG_PATH" ] || \
+       [ "${var}" = "PKG_CONFIG_LIBDIR" ] || \
+       [ "${var}" = "PKG_CONFIG_SYSROOT_DIR" ] || \
+       [ "${var}" = "PKG_CONFIG_ALLOW_SYSTEM_CFLAGS" ] || \
+       [ "${var}" = "PKG_CONFIG_ALLOW_SYSTEM_LIBS" ]; then
+       continue
+    fi
+    vars+="${var} "
+  done
+  [ -n "${vars}" ] && unset -v ${vars}
+
+  PKG_VERSION="0.0invalid"
+  PKG_REV="0"
+  PKG_ARCH="any"
+  PKG_LICENSE="unknown"
+  PKG_TOOLCHAIN="auto"
+  PKG_IS_ADDON="no"
+  PKG_PYTHON_VERSION="python2.7"
+}
+
+set_debug_depends() {
+  local pkg dep_pkg map tmp_array mpkg bpkg kvpair
+
+  _DEBUG_DEPENDS_LIST=""
+  _DEBUG_PACKAGE_LIST=""
+  if [ "${DEBUG:-no}" != "no" ]; then
+    # Convert DEBUG_GROUPS into array of groups, adding "all" if required
+    declare -A debug_group_map
+    for kvpair in ${DEBUG_GROUPS}; do
+      debug_group_map+=(["${kvpair%=*}"]="${kvpair#*=}")
+    done
+    [ -z "${debug_group_map["all"]}" ] && debug_group_map+=(["all"]="all")
+
+    # Expand $DEBUG into $_DEBUG_PACKAGE_LIST
+    for pkg in ${DEBUG//,/ }; do
+      [ "${pkg}" = "yes" ] && pkg="${DEBUG_GROUP_YES:-all}"
+      map="${debug_group_map["${pkg}"]}"
+      [ -z "${map}" ] && map="${pkg}"
+      for mpkg in ${map//,/ }; do
+        [[ ${mpkg} =~ ^[!-] ]] && bpkg="${mpkg:1}" || bpkg="${mpkg}"
+        [[ ${bpkg} =~ \+$ ]] && bpkg="${bpkg::-1}"
+        # Remove existing instances of this package
+        listcontains "${_DEBUG_PACKAGE_LIST}" "[!-]?${bpkg}[+]?" && _DEBUG_PACKAGE_LIST="$(listremoveitem "${_DEBUG_PACKAGE_LIST}" "[!-]?${bpkg}[+]?")"
+        # Add package
+        _DEBUG_PACKAGE_LIST+=" ${mpkg}"
+      done
+    done
+    # Use array word splitting to squash spaces
+    tmp_array=(${_DEBUG_PACKAGE_LIST})
+    _DEBUG_PACKAGE_LIST="${tmp_array[@]}"
+
+    # Determine dependencies for each package+
+    for pkg in ${_DEBUG_PACKAGE_LIST}; do
+      if [ "${pkg}" != "all" ] && [[ ! ${pkg} =~ ^[!-] ]]; then
+        ! listcontains "${_DEBUG_DEPENDS_LIST}" "${pkg}" && _DEBUG_DEPENDS_LIST+=" ${pkg}"
+        [[ ! ${pkg} =~ \+$ ]] && continue
+        for dep_pkg in $(get_pkg_variable ${pkg::-1} PKG_DEPENDS_TARGET); do
+          [ "${dep_pkg}" = "toolchain" ] && continue
+          [[ ${dep_pkg} =~ ^.*:host$ ]] && continue
+          ! listcontains "${_DEBUG_DEPENDS_LIST}" "${dep_pkg}" && _DEBUG_DEPENDS_LIST+=" ${dep_pkg}"
+        done
+      fi
+    done
+    tmp_array=(${_DEBUG_DEPENDS_LIST})
+    _DEBUG_DEPENDS_LIST="${tmp_array[@]}"
+  fi
+  export _DEBUG_DEPENDS_LIST _DEBUG_PACKAGE_LIST
+}
+
+# Return 0 if building with debug is enabled for the current package (or all packages).
+# Examples: DEBUG=yes  DEBUG=all  DEBUG='all,!linux'  DEBUG=kodi  DEBUG=kodi,samba
+build_with_debug() {
+  if [ "${DEBUG:-no}" != "no" -a -n "${PKG_NAME}" -a -n "${_DEBUG_DEPENDS_LIST+x}" ]; then
+    # Return 1 if this package is not to be built with debug
+    listcontains "${_DEBUG_PACKAGE_LIST}" "[!-]${PKG_NAME}[+]?" && return 1
+
+    # Build all packages with debug
+    listcontains "${_DEBUG_PACKAGE_LIST}" "all" && return 0
+
+    # Debugging is enabled for at least one package, so enable debug in the "debug" virtual package
+    [ "${PKG_NAME}" = "debug" ] && return 0
+
+    # Build addons with debug if we're building the mediacenter with debug and with dependencies
+    [ "${PKG_IS_ADDON}" = "yes" -o "${PKG_IS_ADDON}" = "embedded" ] && listcontains "${_DEBUG_DEPENDS_LIST}" "${MEDIACENTER}\+" && return 0
+
+    # Build kernel packages with debug if we're building the kernel with debug and with dependencies
+    [ "${PKG_IS_KERNEL_PKG}" = "yes" ] && listcontains "${_DEBUG_DEPENDS_LIST}" "linux\+" && return 0
+
+    # Build this package with debug if it's a resolved dependency
+    listcontains "${_DEBUG_DEPENDS_LIST}" "${PKG_NAME}" && return 0
+  fi
+
+  return 1
+}
+
+# strip
+debug_strip() {
+  if [ -z "${BUILD_WITH_DEBUG}" ]; then
+    die "ERROR: debug_strip() must not be called without configuring BUILD_WITH_DEBUG"
+  fi
+
+  if [ "${BUILD_WITH_DEBUG}" != "yes" ] && flag_enabled "strip" "yes"; then
+    find $* -type f -executable | xargs $STRIP 2>/dev/null || :
+  fi
+}
+
+init_package_cache() {
+  local _ANCHOR="@?+?@"
+  local temp_global temp_local
+
+  # If the package caches are unset, then populate them
+  if [ -z "${_CACHE_PACKAGE_LOCAL}" -o -z "${_CACHE_PACKAGE_GLOBAL}" ]; then
+    temp_global="$(mktemp)"
+    temp_local="$(mktemp)"
+
+    # cache project/device folder for packages
+    if [ -n "${DEVICE}" ]; then
+      find "${ROOT}/projects/${PROJECT}/devices/${DEVICE}/packages" -type f -name package.mk 2>/dev/null | sed "s#/package\.mk\$#${_ANCHOR}#" >> "${temp_local}"
+    fi
+
+    # cache project folder for packages
+    find "${ROOT}/projects/${PROJECT}/packages" -type f -name package.mk 2>/dev/null | sed "s#/package\.mk\$#${_ANCHOR}#" >> "${temp_local}"
+
+    # cache packages folder
+    find "${ROOT}/${PACKAGES}" -type f -name package.mk 2>/dev/null | sed "s#/package\.mk\$#${_ANCHOR}#" >> "${temp_global}"
+
+    _CACHE_PACKAGE_LOCAL="${BUILD}/.cache_package_local"
+    _CACHE_PACKAGE_GLOBAL="${BUILD}/.cache_package_global"
+    export _CACHE_PACKAGE_LOCAL _CACHE_PACKAGE_GLOBAL
+
+    # overwrite existing cache files only when they are invalid, or not yet created
+    mkdir -p "$(dirname "${_CACHE_PACKAGE_GLOBAL}")"
+    if [ -f "${_CACHE_PACKAGE_LOCAL}" ] && cmp -s "${temp_local}" "${_CACHE_PACKAGE_LOCAL}"; then
+      rm "${temp_local}"
+    else
+      mv "${temp_local}" "${_CACHE_PACKAGE_LOCAL}"
+    fi
+    if [ -f "${_CACHE_PACKAGE_GLOBAL}" ] && cmp -s "${temp_global}" "${_CACHE_PACKAGE_GLOBAL}"; then
+      rm "${temp_global}"
+    else
+      mv "${temp_global}" "${_CACHE_PACKAGE_GLOBAL}"
+    fi
+  fi
+
+  if [ -z "${_DEBUG_DEPENDS_LIST+x}" ]; then
+    set_debug_depends
+  fi
+}
+
+load_build_config() {
+  if [ -d "${1}" -a -f ${1}/.build.conf ]; then
+    source ${1}/.build.conf
+    return 0
+  fi
+  return 1
+}
+
+save_build_config() {
+  local var
+  mkdir -p ${BUILD}
+  rm -f ${BUILD}/.build.conf
+  for var in PROJECT DEVICE ARCH DEBUG BUILD_SUFFIX; do
+    echo "export ${var}=\"${!var}\"" >> ${BUILD}/.build.conf
+  done
+}
+
+check_path() {
+  local dashes="===========================" path_err_msg
+  if [ "${PWD##/usr}" != "${PWD}" ]; then
+    path_err_msg="\n $dashes$dashes$dashes"
+    path_err_msg="${path_err_msg}\n ERROR: Detected building inside /usr"
+    path_err_msg="${path_err_msg}\n $dashes$dashes$dashes"
+    path_err_msg="${path_err_msg}\n This is not supported with our buildsystem."
+    path_err_msg="${path_err_msg}\n Please use another dir (for example your \$HOME) to build ${DISTRONAME}"
+
+    die "${path_err_msg}"
+  fi
+}
+
+check_distro() {
+  local dashes="===========================" distro_err_msg
+  if [ -z "${DISTRO}" -o ! -d "${DISTRO_DIR}/${DISTRO}" ]; then
+    distro_err_msg="\n $dashes$dashes$dashes"
+    distro_err_msg="${distro_err_msg}\n ERROR: Distro not found, use a valid distro or create a new config"
+    distro_err_msg="${distro_err_msg}\n $dashes$dashes$dashes"
+    distro_err_msg="${distro_err_msg}\n\n Valid distros:"
+
+    for distros in ${DISTRO_DIR}/*; do
+      distro_err_msg="${distro_err_msg}\n - ${distros##*/}"
+    done
+    die "${distro_err_msg}"
+  fi
+}
+
+check_project() {
+  local dashes="===========================" project_err_msg
+  if [ -z "${PROJECT}" -o ! -d "${PROJECT_DIR}/${PROJECT}" ]; then
+    project_err_msg="\n $dashes$dashes$dashes"
+    project_err_msg="${project_err_msg}\n ERROR: Project not found, use a valid project or create a new config"
+    project_err_msg="${project_err_msg}\n $dashes$dashes$dashes"
+    project_err_msg="${project_err_msg}\n\n Valid projects:"
+
+    for projects in ${PROJECT_DIR}/*; do
+      project_err_msg="${project_err_msg}\n - ${projects##*/}"
+    done
+    die "${project_err_msg}"
+  fi
+}
+
+check_device() {
+  local dashes="===========================" device_err_msg
+  if [ \( -z "${DEVICE}" -a -d "${PROJECT_DIR}/${PROJECT}/devices" \) -o \
+       \( -n "${DEVICE}" -a ! -d "${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}" \) ]; then
+    device_err_msg="\n $dashes$dashes$dashes"
+    device_err_msg="${device_err_msg}\n ERROR: You need to specify a valid device for the $PROJECT project"
+    device_err_msg="${device_err_msg}\n $dashes$dashes$dashes"
+    device_err_msg="${device_err_msg}\n\n Valid devices for project: ${PROJECT}"
+
+    for device in ${PROJECT_DIR}/${PROJECT}/devices/*; do
+      device_err_msg="${device_err_msg}\n - ${device##*/}"
+    done
+    die "${device_err_msg}"
+  fi
+}
+
+check_arch() {
+  local dashes="===========================" arch_err_msg linux_config_dir
+  if [ -d "${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/linux" ]; then
+    linux_config_dir="${PROJECT_DIR}/${PROJECT}/devices/$DEVICE/linux"
+  else
+    linux_config_dir="${PROJECT_DIR}/${PROJECT}/linux"
+  fi
+
+  if [ ! -e "$linux_config_dir/linux.${TARGET_PATCH_ARCH:-$TARGET_ARCH}.conf" ] &&
+       ! ls "$linux_config_dir/"*/linux.${TARGET_PATCH_ARCH:-$TARGET_ARCH}.conf &>/dev/null; then
+    arch_err_msg="\n $dashes$dashes$dashes"
+    arch_err_msg="${arch_err_msg}\n ERROR: Architecture not found, use a valid Architecture"
+    arch_err_msg="${arch_err_msg}\n for your project or create a new config"
+    arch_err_msg="${arch_err_msg}\n $dashes$dashes$dashes"
+    arch_err_msg="${arch_err_msg}\n\n Valid Architectures for your project: ${PROJECT}"
+
+    for arch in $linux_config_dir/*.conf $linux_config_dir/*/linux.$TARGET_ARCH.conf; do
+      [[ ${arch} =~ .*\*.* ]] && continue #ignore unexpanded wildcard
+      arch_err_msg="${arch_err_msg}\n - $(basename $arch | cut -f2 -d".")"
+    done
+    die "${arch_err_msg}"
+  fi
+}
+
+check_config() {
+  check_path
+  check_distro
+  check_project
+  check_device
+  check_arch
+}
+
+do_autoreconf() {
+  export ACLOCAL_DIR=$SYSROOT_PREFIX/usr/share/aclocal
+
+  if [ -e "$TOOLCHAIN/bin/autoconf" ]; then
+    export AUTOCONF=$TOOLCHAIN/bin/autoconf
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/automake" ]; then
+    export AUTOMAKE=$TOOLCHAIN/bin/automake
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/autopoint" ]; then
+    export AUTOPOINT=$TOOLCHAIN/bin/autopoint
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/libtoolize" ]; then
+    export LIBTOOLIZE=$TOOLCHAIN/bin/libtoolize
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/intltoolize" ]; then
+    export INTLTOOLIZE=$TOOLCHAIN/bin/intltoolize
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/aclocal" ]; then
+    export ACLOCAL="$TOOLCHAIN/bin/aclocal -I $ACLOCAL_DIR"
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/autoheader" ]; then
+    export AUTOHEADER=$TOOLCHAIN/bin/autoheader
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/libtool" ]; then
+    export LIBTOOL=$TOOLCHAIN/bin/libtool
+  fi
+
+  if [ -e "$TOOLCHAIN/bin/autoreconf" -a -e "$INTLTOOLIZE" ]; then
+    mkdir -p $ACLOCAL_DIR
+    if [ -e "$LIBTOOLIZE" ]; then
+      export AUTORECONF="$TOOLCHAIN/bin/autoreconf --verbose --force --install -I $ACLOCAL_DIR"
+    else
+      export AUTORECONF="$TOOLCHAIN/bin/autoreconf --verbose --force -I $ACLOCAL_DIR"
+    fi
+    $AUTORECONF $@
+  fi
+}
+
+
+### PACKAGE HELPERS ###
+# get variable ($2) for package ($1).
+# avoid infinite recursion if required package is already loaded.
+get_pkg_variable() {
+  if [ -n "$1" -a -n "$2" ] ; then
+    if [ "$1" != "$PKG_NAME" ]; then
+      source_package "${1}"
+    fi
+    echo "${!2}"
+  fi
+}
+
+# get package's build dir
+get_build_dir() {
+  local _PKG_NAME="${1%:*}" _PKG_VERSION="$(get_pkg_version "$1")"
+  if [ -n "$_PKG_NAME" -a -n "$_PKG_VERSION" ]; then
+    echo $BUILD/${_PKG_NAME}-${_PKG_VERSION}
+  fi
+}
+
+get_pkg_version() {
+  get_pkg_variable "$1" PKG_VERSION
+}
+
+get_pkg_directory() {
+  local _PKG_ROOT_NAME=${1%:*} _ALL_DIRS _FOUND=0 _ANCHOR="@?+?@" _PKG_DIR _DIR
+
+  # Check for any available local package in preference to a global package
+  for _DIR in $(grep -F "/${_PKG_ROOT_NAME}${_ANCHOR}" "${_CACHE_PACKAGE_LOCAL}"); do
+    _DIR="${_DIR%${_ANCHOR}}"
+    # found first, set $_PKG_DIR
+    _PKG_DIR="$_DIR"
+    # keep track of dirs with package.mk for detecting multiple folders
+    _ALL_DIRS+="${_DIR}\n"
+    _FOUND=$((_FOUND+1))
+  done
+
+  # If there's no local package available, use the global package
+  if [ $_FOUND -eq 0 ]; then
+    for _DIR in $(grep -F "/${_PKG_ROOT_NAME}${_ANCHOR}" "${_CACHE_PACKAGE_GLOBAL}"); do
+      _DIR="${_DIR%${_ANCHOR}}"
+      # found first, set $_PKG_DIR
+      _PKG_DIR="$_DIR"
+      # keep track of dirs with package.mk for detecting multiple folders
+      _ALL_DIRS+="${_DIR}\n"
+      _FOUND=$((_FOUND+1))
+    done
+  fi
+
+  # _FOUND multiple packages? fail
+  if [ $_FOUND -gt 1 ]; then
+    echo "Error - multiple package folders for package ${_PKG_ROOT_NAME}:" >&2
+    echo -e "$_ALL_DIRS" >&2
+    die
+  fi
+
+  echo "$_PKG_DIR"
+}
+
+calculate_stamp() {
+  local stamp data
+
+  stamp="$PKG_DIR $PROJECT_DIR/$PROJECT/patches/$PKG_NAME"
+  [ -n "$DEVICE" ] && stamp+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/patches/$PKG_NAME"
+  [ -n "$PKG_NEED_UNPACK" ] && stamp+=" $PKG_NEED_UNPACK"
+  if [ -n "$PKG_STAMP_VAR" ]; then
+    local TMP_VAR="$(get_build_dir $PKG_NAME)/.pkg_stamp_var"
+    echo "$PKG_STAMP_VAR" > $TMP_VAR
+    stamp+=" $TMP_VAR"
+  fi
+
+  data="$(find ${stamp} -exec sha256sum {} \; 2>/dev/null | sed "s/ ${ROOT//\//\\/}\// /")"
+  [ -n "${PKG_STAMP}" ] && data+=$'\n'"$(echo "${PKG_STAMP}" | sha256sum)"
+
+  echo "${data}" | sort | sha256sum | cut -d" " -f1
+}
+
+target_has_feature() {
+  listcontains "$TARGET_FEATURES" "$1"
+}
+
+# find path for matching file or directory, searching standard directory hierarchy, using optional default
+# if a path is located it will be set in FOUND_PATH and exit code will be 0.
+find_path() {
+  local test_func="$1" search="$2" default="$3"
+  local dir match wildcard=0 ftype
+
+  # support wildcard matches
+  [[ $search =~ \* || $search =~ \? ]] && wildcard=1
+
+  [ "$test_func" = "-f" ] && ftype="file" || ftype="dir"
+
+  for dir in $PROJECT_DIR/$PROJECT/devices/$DEVICE/packages/$PKG_NAME \
+             $PROJECT_DIR/$PROJECT/devices/$DEVICE \
+             $PROJECT_DIR/$PROJECT/packages/$PKG_NAME \
+             $PROJECT_DIR/$PROJECT \
+             $DISTRO_DIR/$DISTRO/packages/$PKG_NAME \
+             $DISTRO_DIR/$DISTRO \
+             $PKG_DIR \
+             ; do
+    # ignore directories with missing DEVICE or PKG_NAME components
+    [[ $dir =~ /packages/$ ]] && continue
+    [[ $dir =~ /devices/$ ]] && continue
+    [[ $dir =~ /devices//packages/$PKG_NAME$ ]] && continue
+
+    if [ $wildcard -eq 1 ]; then
+      ls $dir/$search 1>/dev/null 2>&1 && match="$dir/$search" && break
+    else
+      [ $test_func "$dir/$search" ] && match="$dir/$search" && break
+    fi
+  done
+
+  if [ -z "$match" -a -n "$default" ]; then
+    if [[ $default =~ \* || $default =~ \? ]]; then
+      ls $default 1>/dev/null 2>&1 && match="$default"
+    else
+      [ $test_func "$default" ] && match="$default"
+    fi
+  fi
+
+  if [ -n "$match" ]; then
+    FOUND_PATH="$match"
+    [ "${VERBOSE_FIND_PATH,,}" = "yes" ] && echo "find_path: Searching for $ftype: \"$search\", found: \"$FOUND_PATH\"" >&2
+    return 0
+  else
+    unset FOUND_PATH
+    [ "${VERBOSE_FIND_PATH,,}" = "yes" ] && echo "find_path: Searching for $ftype: \"$search\" - not found" >&2
+    return 1
+  fi
+}
+
+find_file_path() {
+  find_path -f "$1" "$2"
+}
+
+find_dir_path() {
+  find_path -d "$1" "$2"
+}
+
+# p1: name of function to test for
+# return 0 if function exists, 1 if not
+pkg_call_exists() {
+  [ "$(type -t ${1})" = "function" ] && return 0 || return 1
+}
+
+# p1: name of function to execute unconditionally
+# testing the exit code value of this function is likely to break set -e fail-on-error behaviour
+pkg_call() {
+  [ -n "${PKG_NAME}" ] || die "$(print_color CLR_ERROR "FAILURE: Cannot call ${1} package function when package is not known!")"
+
+  ${1}
+}
+
+unset_functions() {
+  local target
+
+  unset -f configure_package
+
+  unset -f pre_unpack unpack post_unpack
+  unset -f pre_patch post_patch
+
+  for target in target host init bootstrap; do
+    unset -f pre_build_${target}
+    unset -f pre_configure_${target} configure_${target} post_configure_${target}
+    unset -f pre_make_${target} make_${target} post_make_${target}
+    unset -f pre_makeinstall_${target} makeinstall_${target} post_makeinstall_${target}
+  done
+
+  unset -f pre_install post_install
+
+  unset -f addon
+}
+
+# p1: name of package to be sourced
+source_package() {
+  local opwd="${PWD}"
+
+  # Don't use BUILD_WITH_DEBUG in "global" package.mk - instead, call the function
+  # build_with_debug() directly as the function depends on various package.mk
+  # variables that will be in the process of being configured. Once package.mk is
+  # fully sourced we can set this variable and use it in situations where we know the
+  # package has already been sourced.
+  unset BUILD_WITH_DEBUG
+
+  reset_pkg_vars
+  unset_functions
+
+  if [ -n "${1}" ]; then
+    [ -f "${1}" ] && PKG_DIR="$(dirname "${1}")" || PKG_DIR="$(get_pkg_directory "${1}")"
+
+    [ -n "$PKG_DIR" -a -r $PKG_DIR/package.mk ] || die "FAILURE: unable to source package - ${1}/package.mk does not exist"
+
+    cd "${ROOT}"
+    . ${PKG_DIR}/package.mk || die "FAILURE: an error occurred while sourcing ${PKG_DIR}/package.mk"
+    cd "${opwd}"
+
+    PKG_SHORTDESC="${PKG_SHORTDESC:-${PKG_NAME} (autogenerated)}"
+    PKG_LONGDESC="${PKG_LONGDESC:-${PKG_NAME} (autogenerated)}"
+
+    if [ "$PKG_IS_ADDON" = "yes" -o "$PKG_IS_ADDON" = "embedded" ] ; then
+      [ -z $PKG_SECTION ] && PKG_ADDON_ID="$PKG_NAME" || PKG_ADDON_ID="${PKG_SECTION//\//.}.$PKG_NAME"
+      [ "$PKG_ADDON_IS_STANDALONE" != "yes" ] && PKG_NEED_UNPACK="${PKG_NEED_UNPACK} $(get_pkg_directory $MEDIACENTER)"
+    fi
+
+    if [ -n "${PKG_DEPENDS_UNPACK}" ]; then
+      for _p in ${PKG_DEPENDS_UNPACK}; do
+        PKG_NEED_UNPACK+=" $(get_pkg_directory ${_p})"
+      done
+    fi
+
+    # Automatically set PKG_SOURCE_NAME unless it is already defined.
+    # PKG_SOURCE_NAME will be automatically set to a name based on
+    # the $PKG_NAME-$PKG_VERSION convention.
+    #
+    # Any $PKG_URL that references more than a single url will abort
+    # the build as these are no longer supported - use mkpkg instead.
+    if [ -n "$PKG_URL" -a -z "$PKG_SOURCE_NAME" ]; then
+      if [[ $PKG_URL =~ .*\ .* ]]; then
+        echo "Error - packages with multiple urls are no longer supported, use mkpkg."
+        echo "$PKG_URL"
+        die
+      fi
+      if [[ ${PKG_URL} =~ .git$ || ${PKG_URL} =~ ^git:// ]]; then
+        PKG_SOURCE_NAME=${PKG_NAME}-${PKG_VERSION}
+      elif [[ ${PKG_URL} =~ ^file:// ]]; then
+        PKG_SOURCE_NAME=${PKG_URL#file://}
+        # if no specific PKG_TAR_COPY_OPTS then default to excluding .git and .svn as they can be huge
+        [ -z "${PKG_TAR_COPY_OPTS+x}" ] && PKG_TAR_COPY_OPTS="--exclude=.git --exclude=.svn"
+      else
+        PKG_SOURCE_NAME="${PKG_URL##*/}"
+        case $PKG_SOURCE_NAME in
+          ${PKG_NAME}-${PKG_VERSION}.*)
+            PKG_SOURCE_NAME=$PKG_SOURCE_NAME
+            ;;
+          *.tar | *.tbz | *.tgz | *.txz | *.7z | *.zip)
+            PKG_SOURCE_NAME=${PKG_NAME}-${PKG_VERSION}.${PKG_SOURCE_NAME##*\.}
+            ;;
+          *.tar.bz2 | *.tar.gz | *.tar.xz)
+            PKG_SOURCE_NAME=${PKG_NAME}-${PKG_VERSION}.tar.${PKG_SOURCE_NAME##*\.}
+            ;;
+          *.diff | *.patch | *.diff.bz2 | *.patch.bz2 | patch-*.bz2 | *.diff.gz | *.patch.gz | patch-*.gz)
+            PKG_SOURCE_NAME=$PKG_SOURCE_NAME
+            ;;
+          *)
+            PKG_SOURCE_NAME=${PKG_NAME}-${PKG_VERSION}.${PKG_SOURCE_NAME##*\.}
+            ;;
+        esac
+      fi
+    fi
+
+    PKG_BUILD="$BUILD/${PKG_NAME}-${PKG_VERSION}"
+  fi
+
+  build_with_debug && BUILD_WITH_DEBUG="yes" || BUILD_WITH_DEBUG="no"
+
+  # Late variable binding - allow the package to now evaluate any variables
+  # that we may have initialised after sourcing the package, typically
+  # PKG_BUILD etc.
+  if [ -n "${PKG_NAME}" ]; then
+    if pkg_call_exists configure_package; then
+      pkg_call configure_package
+    fi
+  fi
+}
+
+
+### KERNEL HELPERS ###
+kernel_path() {
+  get_build_dir linux
+}
+
+kernel_version() {
+  get_pkg_version linux
+}
+
+kernel_config_path() {
+  local cfg pkg_linux_dir pkg_linux_version config_name
+
+  pkg_linux_version="$(get_pkg_version linux)"
+  pkg_linux_dir="$(get_pkg_directory linux)"
+
+  config_name="linux.${TARGET_PATCH_ARCH:-$TARGET_ARCH}.conf"
+
+  for cfg in $PROJECT_DIR/$PROJECT/devices/$DEVICE/linux/$pkg_linux_version/$config_name \
+             $PROJECT_DIR/$PROJECT/devices/$DEVICE/linux/$LINUX/$config_name \
+             $PROJECT_DIR/$PROJECT/devices/$DEVICE/linux/$config_name \
+             $PROJECT_DIR/$PROJECT/linux/$pkg_linux_version/$config_name \
+             $PROJECT_DIR/$PROJECT/linux/$LINUX/$config_name \
+             $PROJECT_DIR/$PROJECT/linux/$config_name \
+             $pkg_linux_dir/config/$pkg_linux_version/$config_name \
+             $pkg_linux_dir/config/$LINUX/$config_name \
+             $pkg_linux_dir/config/$config_name \
+             ; do
+    [[ $cfg =~ /devices//linux/ ]] && continue
+    [ -f "$cfg" ] && echo "$cfg" && return
+  done
+
+  die "ERROR: Unable to locate kernel config for ${LINUX} - looking for ${config_name}"
+}
+
+kernel_make() {
+  (
+    setup_pkg_config_host
+
+    LDFLAGS="" make CROSS_COMPILE=$TARGET_KERNEL_PREFIX \
+      ARCH="$TARGET_KERNEL_ARCH" \
+      HOSTCC="$TOOLCHAIN/bin/host-gcc" \
+      HOSTCXX="$TOOLCHAIN/bin/host-g++" \
+      HOSTCFLAGS="$HOST_CFLAGS" \
+      HOSTLDFLAGS="$HOST_LDFLAGS" \
+      HOSTCXXFLAGS="$HOST_CXXFLAGS" \
+      DEPMOD="$TOOLCHAIN/bin/depmod" \
+      "$@"
+  )
+}
+
+# get kernel module dir
+get_module_dir() {
+  if [ -n "${_CACHED_KERNEL_MODULE_DIR}" ]; then
+    echo "${_CACHED_KERNEL_MODULE_DIR}"
+  else
+    basename $(ls -d $(get_build_dir linux)/.install_pkg/usr/lib/kernel-overlays/base/lib/modules/*)
+  fi
+}
+
+# get base path to kernel modules and firmware
+get_kernel_overlay_dir() {
+  echo "usr/lib/kernel-overlays/${1:-base}"
+}
+
+# get full path to kernel module dir
+# optional parameter specifies overlay level (default is base)
+get_full_module_dir() {
+  echo "$(get_kernel_overlay_dir $1)/lib/modules/$(get_module_dir)"
+}
+
+# get full path to firmware dir
+# optional parameter specifies overlay level (default is base)
+get_full_firmware_dir() {
+  echo "$(get_kernel_overlay_dir $1)/lib/firmware"
+}
+
+fix_module_depends() {
+  # modify .modinfo section in kernel module to depends on other required modules
+  local MODULE="$1"
+  local DEPENDS="$2"
+  local OLD_DEPENDS=""
+  cp ${MODULE} ${MODULE}_orig
+  $OBJDUMP -s -j .modinfo ${MODULE}_orig | awk 'BEGIN{v=0;} /Contents/ {v=1; next;} {if (v==1) print $0;}' >new.modinfo1
+  cat new.modinfo1 | cut -c7-41 | awk '{printf($0);}' | sed 's/ //g;s/../\\\x&/g;' >new.modinfo2
+  /bin/echo -ne `cat new.modinfo2` | tr '\000' '\n' >new.modinfo3
+  cat new.modinfo3 | awk '/^depends=/ {next;} {print $0;}' | tr '\n' '\000' >new.modinfo
+  OLD_DEPENDS=$(awk '{FS="="} /depends=/ {print $2}' new.modinfo3)
+  [ -n "$OLD_DEPENDS" ] && DEPENDS="$OLD_DEPENDS,$DEPENDS"
+  /bin/echo -ne "depends=$DEPENDS\0" >>new.modinfo
+  $OBJCOPY --remove-section=.modinfo --add-section=.modinfo=new.modinfo --set-section-flags .modinfo=contents,alloc,load,readonly,data ${MODULE}_orig ${MODULE}
+  rm new.modinfo*
+}
+
+
+### ADDON HELPERS ###
+install_binary_addon() {
+  local addon_id="$1" addon_so
+
+  mkdir -p $ADDON_BUILD/$addon_id/
+  cp -R $PKG_BUILD/.install_pkg/usr/share/$MEDIACENTER/addons/$addon_id/* $ADDON_BUILD/$addon_id/
+
+  addon_so=$(xmlstarlet sel -t -v "/addon/extension/@library_linux" $ADDON_BUILD/$addon_id/addon.xml || :)
+  if [ -n "$addon_so" ]; then
+    cp -L $PKG_BUILD/.install_pkg/usr/lib/$MEDIACENTER/addons/$addon_id/$addon_so $ADDON_BUILD/$addon_id/
+    chmod +x $ADDON_BUILD/$addon_id/$addon_so
+  fi
+
+  if [ -d $PKG_BUILD/.install_pkg/usr/lib/kernel-overlays/$addon_id ] ; then
+    mkdir -p $ADDON_BUILD/$addon_id/kernel-overlay
+    cp -PR $PKG_BUILD/.install_pkg/usr/lib/kernel-overlays/$addon_id/* $ADDON_BUILD/$addon_id/kernel-overlay
+  fi
+}
+
+install_addon_source() {
+  if [ -d $PKG_DIR/source ]; then
+    cp -R $PKG_DIR/source/* "$1"
+  fi
+}
+
+install_addon_images() {
+  local dest_dir="$1"
+
+  if [ -f "$PKG_DIR/icon/icon.png" ]; then
+    mkdir -p "$dest_dir/resources"
+    cp "$PKG_DIR/icon/icon.png" "$dest_dir/resources"
+  fi
+
+  if [ -f "$DISTRO_DIR/$DISTRO/addons/fanart.png" ]; then
+    mkdir -p "$dest_dir/resources"
+    cp "$DISTRO_DIR/$DISTRO/addons/fanart.png" "$dest_dir/resources"
+  fi
+}
+
+create_addon_xml() {
+  local addon_xml addon_version addon_name provider_name requires requires_addonname requires_addonversion screenshots
+  local tmp_changelog
+
+  addon_xml="$1/addon.xml"
+
+  IFS=" "
+for i in $PKG_ADDON_REQUIRES; do
+  requires_addonname=`echo $i | cut -f1 -d ":"`
+  requires_addonversion=`echo $i | cut -f2 -d ":"`
+  requires="$requires\n    <import addon=\"$requires_addonname\" version=\"$requires_addonversion\" />"
+done
+  unset IFS
+
+  if [ ! -f "$addon_xml" ] ; then
+    cp $ROOT/config/addon/${PKG_ADDON_TYPE}.xml "$addon_xml"
+    addon_version=${PKG_ADDON_VERSION:-${ADDON_VERSION}.${PKG_REV}}
+  else
+    if  ! command -v xmlstarlet >/dev/null ; then
+      die "*** ERROR: $ADDON has addon.xml shipped, you need 'xmlstarlet' ***" "255"
+    fi
+    addon_version="${PKG_ADDON_VERSION:-$(xmlstarlet sel -t -v "/addon/@version" "$addon_xml").$PKG_REV}"
+    xmlstarlet ed --inplace -u "/addon[@version]/@version" -v "$addon_version" "$addon_xml"
+  fi
+
+  if [ -f $PKG_DIR/changelog.txt ]; then
+    tmp_changelog="$(mktemp)"
+    cat ${PKG_DIR}/changelog.txt | xmlstarlet esc >"${tmp_changelog}"
+    sed -e "/@PKG_ADDON_NEWS@/ \
+         {
+           r ${tmp_changelog}
+           d
+         }" -i "$addon_xml"
+    rm -f "${tmp_changelog}"
+  else
+    sed -e "s|@PKG_ADDON_NEWS@||g" -i "$addon_xml"
+  fi
+
+  provider_name=${PKG_MAINTAINER:-"Team CoreELEC"}
+  addon_name=${PKG_ADDON_NAME:-"$PKG_NAME"}
+
+  for f in $PKG_DIR/source/resources/screenshot-*.{jpg,png}; do
+    if [ -f "$f" ]; then
+      screenshots+="<screenshot>resources/$(basename $f)</screenshot>\n"
+    fi
+  done
+
+  sed -e "s|@PKG_ADDON_ID@|$PKG_ADDON_ID|g" \
+      -e "s|@ADDON_NAME@|$addon_name|g" \
+      -e "s|@ADDON_VERSION@|$addon_version|g" \
+      -e "s|@REQUIRES@|$requires|g" \
+      -e "s|@PKG_SHORTDESC@|$PKG_SHORTDESC|g" \
+      -e "s|@OS_VERSION@|$OS_VERSION|g" \
+      -e "s|@PKG_LONGDESC@|$PKG_LONGDESC|g" \
+      -e "s|@PKG_DISCLAIMER@|$PKG_DISCLAIMER|g" \
+      -e "s|@PROVIDER_NAME@|$provider_name|g" \
+      -e "s|@PKG_ADDON_PROVIDES@|$PKG_ADDON_PROVIDES|g" \
+      -e "s|@PKG_ADDON_SCREENSHOT@|$screenshots|g" \
+      -e "s|@PKG_ADDON_BROKEN@|$PKG_ADDON_BROKEN|g" \
+      -i "$addon_xml"
+}
+
+install_addon_files() {
+  mkdir -p "$1"
+
+  install_addon_source "$1"
+  install_addon_images "$1"
+  create_addon_xml "$1"
+}
+
+install_driver_addon_files() {
+  if [ "$#" -eq 0 ] ; then
+    die "$(print_color CLR_ERROR "no module search path defined")"
+  fi
+
+  PKG_MODULE_DIR="$INSTALL/$(get_full_module_dir $PKG_ADDON_ID)/updates/$PKG_ADDON_ID"
+  PKG_ADDON_DIR="$INSTALL/usr/share/$MEDIACENTER/addons/$PKG_ADDON_ID"
+
+  mkdir -p $PKG_MODULE_DIR
+  find $@ -name \*.ko -exec cp {} $PKG_MODULE_DIR \;
+
+  find $PKG_MODULE_DIR -name \*.ko -exec ${TARGET_KERNEL_PREFIX}strip --strip-debug {} \;
+
+  mkdir -p $PKG_ADDON_DIR
+  cp $PKG_DIR/changelog.txt $PKG_ADDON_DIR
+  install_addon_files "$PKG_ADDON_DIR"
+}
+
+
+### TARGET CONFIGURATION HELPERS ###
+add_user() {
+  # Usage: add_user "username" "password" "userid" "groupid" "description" "home" "shell"
+  mkdir -p ${INSTALL}/etc
+  touch ${INSTALL}/etc/passwd
+  if ! grep -q "^$1:" ${INSTALL}/etc/passwd; then
+    echo "$1:x:$3:$4:$5:$6:$7" >> ${INSTALL}/etc/passwd
+  fi
+
+  mkdir -p ${INSTALL}/usr/cache
+  touch ${INSTALL}/usr/cache/shadow
+  ln -sf /storage/.cache/shadow ${INSTALL}/etc/shadow 2>/dev/null || true
+
+  PASSWORD="$2"
+  if [ "$PASSWORD" = "x" ]; then
+    PASSWORD="*"
+  fi
+  if ! grep -q "^$1:" ${INSTALL}/usr/cache/shadow; then
+    echo "$1:$PASSWORD:::::::" >> ${INSTALL}/usr/cache/shadow
+  fi
+}
+
+add_group() {
+  # Usage: add_group "groupname" "groupid" ("members")
+  mkdir -p ${INSTALL}/etc
+  touch ${INSTALL}/etc/group
+  if [ -z "`grep "$1:" ${INSTALL}/etc/group`" ]; then
+    echo "$1:x:$2:$3" >> ${INSTALL}/etc/group
+  fi
+}
+
+# Usage: enable_service <unit> [target]
+enable_service() {
+  local unit="$1"
+  local unit_dir="/usr/lib/systemd/system"
+  local target="$2"
+  local target_dir=$INSTALL
+
+  [ -f "$target_dir/$unit_dir/$unit" ] || die
+  if [ -z "$target" ] ; then
+    for target in `grep '^WantedBy' $target_dir/$unit_dir/$unit | cut -f2 -d=` ; do
+      if [ -n "$target" ]; then
+        mkdir -p ${target_dir}/$unit_dir/${target}.wants
+        ln -sf ../${unit} ${target_dir}/$unit_dir/${target}.wants/
+      fi
+    done
+  fi
+  for target in `grep '^Alias' $target_dir/$unit_dir/$unit | cut -f2 -d=` ; do
+    if [ -n "$target" ]; then
+      ln -sf ${unit} ${target_dir}/$unit_dir/${target}
+    fi
+  done
+}
+
+
+### MULTI-THREADED FUNCTION HELPERS ###
+# Test MTWITHLOCKS so that these functions are a no-op during non-multithreaded builds.
+
+# Prevent concurrent modifications to a package (unpack) or
+# package:target (install/build).
+#
+# If a package is already locked and the owner is ourselves
+# then assume we already have the required lock.
+pkg_lock() {
+  [ "${MTWITHLOCKS}" != "yes" ] && return 0
+
+  local pkg="$1" task="$2" parent_pkg="$3"
+  local this_job="${MTJOBID}"
+  local lock_job lock_seq lock_task lock_pkg locked=no idwidth
+  local fail_seq
+
+  exec 98>"${THREAD_CONTROL}/locks/${pkg}.${task}"
+  while [ : ]; do
+    read -r lock_job lock_seq lock_task lock_pkg <<<$(cat "${THREAD_CONTROL}/locks/${pkg}.${task}.owner" 2>/dev/null)
+    [ -n "${lock_job}" ] && break
+    flock --wait 1 --exclusive 98 && locked=yes && break
+  done
+
+  if [ "${locked}" = "no" -a "${lock_job}/${lock_seq}" != "${this_job}/${PARALLEL_SEQ}" ]; then
+    [ "${THREADCOUNT}" = "0" ] && idwidth=${#MTMAXJOBS} || idwidth=2
+    pkg_lock_status "STALLED" "${parent_pkg}" "${task}" "$(printf "waiting on [%0*d] %s %s" ${idwidth} ${lock_job} "${lock_task}" "${lock_pkg}")"
+    flock --exclusive 98
+  fi
+
+  # As we now have the lock, if .failed still exists then a previous process must have failed
+  if [ -f "${THREAD_CONTROL}/locks/${pkg}.${task}.failed" ]; then
+    fail_seq="$(< "${THREAD_CONTROL}/locks/${pkg}.${task}.failed")"
+    print_color CLR_ERROR "FAILURE: ${pkg}.${task}.failed exists, a previous dependency process has failed (seq: ${fail_seq})\n"
+    if [ -d "${THREAD_CONTROL}/logs" ]; then
+cat <<EOF
+
+The following logs for this failure are available:
+  stdout: ${THREAD_CONTROL}/logs/${fail_seq}/stdout
+  stderr: ${THREAD_CONTROL}/logs/${fail_seq}/stderr
+
+EOF
+    fi
+    return 1
+  fi
+
+  pkg_lock_status "LOCKED" "${pkg}" "${task}"
+}
+
+# Log additional information for a locked package.
+pkg_lock_status() {
+  [ "${MTWITHLOCKS}" != "yes" ] && return 0
+
+  local status="$1" pkg="$2" task="$3" msg="$4"
+  local this_job="${MTJOBID}" line idwidth
+
+  [ "${THREADCOUNT}" = "0" ] && idwidth=${#MTMAXJOBS} || idwidth=2
+
+  (
+    flock --exclusive 94
+
+    printf -v line "%s: <%06d> [%0*d/%0*d] %-7s %-7s %-35s" \
+      "$(date +%Y-%m-%d\ %H:%M:%S.%N)" $$ ${idwidth} ${this_job} ${#MTMAXJOBS} ${PARALLEL_SEQ:-0} "${status}" "${task}" "${pkg}"
+    [ -n "${msg}" ] && line+=" (${msg})"
+
+    echo "${line}" >>"${THREAD_CONTROL}/history"
+
+    if [ "${DASHBOARD}" != "no" ]; then
+      update_dashboard "${status}" "${pkg}" "${task}" "${msg}"
+    fi
+  ) 94>"${THREAD_CONTROL}/locks/.history"
+
+  if [ "${status}" = "LOCKED" ]; then
+    echo "${PARALLEL_SEQ}" > "${THREAD_CONTROL}/locks/${pkg}.${task}.failed"
+    echo "${this_job} ${PARALLEL_SEQ} ${task} ${pkg}" >"${THREAD_CONTROL}/locks/${pkg}.${task}.owner"
+  elif [ "${status}" = "UNLOCK" ]; then
+    rm -f "${THREAD_CONTROL}/locks/${pkg}.${task}.owner" || : #
+    rm -f "${THREAD_CONTROL}/locks/${pkg}.${task}.failed" || : #
+  fi
+
+  return 0
+}
+
+update_dashboard() {
+  [ "${MTWITHLOCKS}" != "yes" ] && return 0
+
+  local status="$1" pkg="$2" task="$3" msg="$4"
+  local line sedline preamble num elapsed projdevarch
+  local boldred boldgreen boldyellow endcolor idwidth
+
+  sedline=$((MTJOBID + 2))
+
+  [ "${THREADCOUNT}" = "0" ] && idwidth=${#MTMAXJOBS} || idwidth=2
+
+  num=$(< "${THREAD_CONTROL}/status.max")
+  if [ ${num} -lt ${sedline} ]; then
+    echo ${sedline} >"${THREAD_CONTROL}/status.max"
+    for i in $(seq $((num + 1)) ${sedline}); do echo "" >>"${THREAD_CONTROL}/status"; done
+  fi
+
+  num=$(< "${THREAD_CONTROL}/progress.prev")
+  projdevarch="${PROJECT}/"
+  [ -n "${DEVICE}" ] && projdevarch+="${DEVICE}/"
+  projdevarch+="${TARGET_ARCH}"
+  [ -n "${BUILD_SUFFIX}" ] && projdevarch+=", ${BUILD_SUFFIX}"
+  TZ=UTC0 printf -v elapsed "%(%H:%M:%S)T" $(($(date +%s) - MTBUILDSTART))
+  printf -v preamble "%s Dashboard (%s) - %d of %d jobs completed, %s elapsed" "${DISTRONAME}" "${projdevarch}" $((num + 1)) ${MTMAXJOBS} "${elapsed}"
+  printf -v preamble "%b%-105s %s" "\e[2J\e[0;0H" "${preamble//\//\\/}" "$(date "+%Y-%m-%d %H:%M:%S")"
+
+  if [ "${DISABLE_COLORS}" != "yes" ]; then
+    boldred="\e[1;31m"
+    boldgreen="\e[1;32m"
+    boldyellow="\e[1;33m"
+    white="\e[0;37m"
+    endcolor="\e[0m"
+
+    case "${status}" in
+      IDLE)    color="${white}";;
+      STALLED) color="${boldyellow}";;
+      MUTEX/W) color="${boldyellow}";;
+      FAILED ) color="${boldred}";;
+      *)       color="${boldgreen}";;
+    esac
+  fi
+
+  printf -v line "[%0*d\/%0*d] %b%-7s%b %-7s %-35s" ${idwidth} ${MTJOBID} ${#MTMAXJOBS} ${PARALLEL_SEQ:-0} "${color}" "${status//\//\\/}" "${endcolor}" "${task}" "${pkg}"
+  [ -n "${msg}" ] && line+=" ${msg//\//\\/}"
+
+  sed -e "1s/.*/${preamble}/;${sedline}s/.*/${line}/" -i "${THREAD_CONTROL}/status"
+}
+
+# Thread concurrency helpers to avoid concurrency issues with some code,
+# eg. when Python installs directly into $TOOLCHAIN.
+acquire_exclusive_lock() {
+  [ "${MTWITHLOCKS}" != "yes" ] && return 0
+
+  local pkg="$1" task="$2" lockfile="${3:-global}"
+  local this_job="${MTJOBID}"
+  local lock_job lock_seq lock_task lock_pkg locked=no idwidth
+
+  exec 96>"${THREAD_CONTROL}/locks/.mutex.${lockfile}"
+  while [ : ]; do
+    read -r lock_job lock_seq lock_task lock_pkg <<<$(cat "${THREAD_CONTROL}/locks/.mutex.${lockfile}.owner" 2>/dev/null)
+    [ -n "${lock_job}" ] && break
+    flock --wait 1 --exclusive 96 && locked=yes && break
+  done
+
+  if [ "${locked}" = "no" -a "${lock_job}/${lock_seq}" != "${this_job}/${PARALLEL_SEQ}" ]; then
+    [ "${THREADCOUNT}" = "0" ] && idwidth=${#MTMAXJOBS} || idwidth=2
+    pkg_lock_status "MUTEX/W" "${pkg}" "${task}" "$(printf "mutex: %s; waiting on [%0*d] %s %s" "${lockfile}" ${idwidth} ${lock_job} "${lock_task}" "${lock_pkg}")"
+    flock --exclusive 96
+  fi
+
+  pkg_lock_status "MUTEX" "${pkg}" "${task}" "mutex: ${lockfile}"
+
+  echo "${this_job} ${PARALLEL_SEQ} ${task} ${pkg}" >"${THREAD_CONTROL}/locks/.mutex.${lockfile}.owner"
+}
+
+release_exclusive_lock() {
+  [ "${MTWITHLOCKS}" != "yes" ] && return 0
+
+  local pkg="$1" task="$2" lockfile="${3:-global}"
+
+  pkg_lock_status "ACTIVE" "${pkg}" "${task}"
+
+  rm -f "${THREAD_CONTROL}/locks/.mutex.${lockfile}.owner" || : #
+  flock --unlock 96 2>/dev/null
+}
+
+# Execute single command using mutex
+exec_thread_safe() {
+  local result
+  acquire_exclusive_lock "${PKG_NAME:exec}" "execcmd"
+  $@
+  result=$?
+  release_exclusive_lock "${PKG_NAME:exec}" "execcmd"
+  return ${result}
+}
+
+# Use distribution functions if any
+if [ -f "distributions/$DISTRO/config/functions" ]; then
+  . distributions/$DISTRO/config/functions
+fi

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>4</formatVersion>
+  <view name="system">
+    <image name="background" extra="true">
+      <tile>false</tile>
+      <linearSmooth>true</linearSmooth>
+      <path>./../background/${system.theme}.jpg</path>
+      <color>FFFFFFFF</color>
+      <pos>0.5 0.5</pos>
+      <origin>0.5 0.5</origin>
+      <minSize>1 1</minSize>
+      <zIndex>11</zIndex>
+    </image>
+    <image name="ControllerOverlay" extra="true">
+      <visible>false</visible>
+    </image>
+    <text name="systemInfo">
+      <glowColor>00000022</glowColor>
+      <zIndex>12</zIndex>
+    </text>
+    <image name="CenterFade" extra="true">
+      <color>000000B0</color>
+      <zIndex>12</zIndex>
+    </image>
+  </view>
+<!--
+  <customView name="basic,detailed,grid,Tile,Carousel,Boxes">
+    <image name="backgrounde2" extra="true">
+      <tile>false</tile>
+      <pos>0.5 0.5</pos>
+      <origin>0.5 0.5</origin>
+ <color>50505090</color>
+      <minSize>1 1</minSize>
+      <path>./../background/${system.theme}.jpg</path>
+      <zIndex>2</zIndex>
+    </image>
+  </customView> -->
+</theme>

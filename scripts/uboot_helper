@@ -1,0 +1,120 @@
+#!/usr/bin/env python
+
+import sys
+
+devices = {
+#  'project' : {
+#    'device' : {
+#      'board_name' : { 'dtb' : 'board_name.dtb', 'config' : 'board_name_defconfig' },
+#    },
+#  },
+  'Allwinner' : {
+    'A64' : {
+      'pine64' : { 'dtb' : 'sun50i-a64-pine64.dtb', 'config' : 'pine64_plus_defconfig' },
+      'pine64_plus' : { 'dtb' : 'sun50i-a64-pine64-plus.dtb', 'config' : 'pine64_plus_defconfig' },
+      'pine64_lts' : { 'dtb' : 'sun50i-a64-pine64-lts.dtb', 'config' : 'pine64-lts_defconfig' },
+      'orangepi_win' : { 'dtb' : 'sun50i-a64-orangepi-win.dtb', 'config' : 'orangepi_win_defconfig' },
+    },
+    'H3' : {
+      'bananapi_m2p' : { 'dtb' : 'sun8i-h3-bananapi-m2-plus.dtb', 'config' : 'bananapi_m2_plus_h3_defconfig' },
+      'beelink_x2' : { 'dtb' : 'sun8i-h3-beelink-x2.dtb', 'config' : 'beelink_x2_defconfig' },
+      'libretech_h3' : { 'dtb' : 'sun8i-h3-libretech-all-h3-cc.dtb', 'config' : 'libretech_all_h3_cc_h3_defconfig' },
+      'nanopi_m1' : { 'dtb' : 'sun8i-h3-nanopi-m1.dtb', 'config' : 'nanopi_m1_defconfig' },
+      'orangepi_2' : { 'dtb' : 'sun8i-h3-orangepi-2.dtb', 'config' : 'orangepi_2_defconfig' },
+      'orangepi_pc': { 'dtb': 'sun8i-h3-orangepi-pc.dtb', 'config': 'orangepi_pc_defconfig' },
+      'orangepi_pc_plus': { 'dtb': 'sun8i-h3-orangepi-pc-plus.dtb', 'config': 'orangepi_pc_plus_defconfig' },
+      'orangepi_plus2e': { 'dtb': 'sun8i-h3-orangepi-plus2e.dtb', 'config': 'orangepi_plus2e_defconfig' },
+      'orangepi_plus': { 'dtb': 'sun8i-h3-orangepi-plus.dtb', 'config': 'orangepi_plus_defconfig' },
+    },
+    'H6' : {
+      'pine_h64' : { 'dtb' : 'sun50i-h6-pine-h64.dtb', 'config' : 'pine_h64_defconfig' },
+      'orangepi_3' : { 'dtb' : 'sun50i-h6-orangepi-3.dtb', 'config' : 'orangepi_3_defconfig' },
+      'orangepi_one_plus' : { 'dtb' : 'sun50i-h6-orangepi-one-plus.dtb', 'config' : 'orangepi_one_plus_defconfig' },
+    },
+  },
+  'Rockchip' : {
+    'MiQi' : { 'rk3288' : { 'dtb' : 'rk3288-miqi.dtb', 'config' : 'miqi-rk3288_config' }, },
+    'OdroidGoAdvance' : {
+    'odroidgo2_v11' : { 'dtb' : 'rk3326-odroidgo2-linux-v11.dtb', 'config' : 'odroidgo2_defconfig' },
+    'odroidgo2' : { 'dtb' : 'rk3326-odroidgo2-linux.dtb', 'config' : 'odroidgo2_defconfig' },
+    },
+    'RG351P' : {
+    'odroidgo2_v11' : { 'dtb' : 'rk3326-odroidgo2-linux-v11.dtb', 'config' : 'odroidgo2_defconfig' },
+    'odroidgo2' : { 'dtb' : 'rk3326-odroidgo2-linux.dtb', 'config' : 'odroidgo2_defconfig' },
+    },
+    'RK3328' : {
+      'box' : { 'dtb' : 'rk3328-box.dtb', 'config' : 'evb-rk3328_defconfig' },
+      'box-trn9' : { 'dtb' : 'rk3328-box-trn9.dtb', 'config' : 'evb-rk3328_defconfig' },
+      'box-z28' : { 'dtb' : 'rk3328-box-z28.dtb', 'config' : 'evb-rk3328_defconfig' },
+      'roc-cc' : { 'dtb' : 'rk3328-roc-cc.dtb', 'config' : 'evb-rk3328_defconfig' },
+      'rock64' : { 'dtb' : 'rk3328-rock64.dtb', 'config' : 'evb-rk3328_defconfig' },
+      'rockbox' : { 'dtb' : 'rk3328-rockbox.dtb', 'config' : 'evb-rk3328_defconfig' },
+    },
+    'RK3399' : {
+      'khadas-edge' : { 'dtb' : 'rk3399-khadas-edge.dtb', 'config' : 'evb-rk3399_config' },
+      'rock960' : { 'dtb' : 'rk3399-rock960.dtb', 'config' : 'evb-rk3399_config' },
+      'rock-pi-4' : { 'dtb' : 'rk3399-rock-pi-4.dtb', 'config' : 'evb-rk3399_config' },
+      'rockpro64' : { 'dtb' : 'rk3399-rockpro64.dtb', 'config' : 'evb-rk3399_config' },
+      'sapphire' : { 'dtb' : 'rk3399-sapphire.dtb', 'config' : 'evb-rk3399_config' },
+    },
+    'TinkerBoard' : { 'rk3288' : { 'dtb' : 'rk3288-miniarm.dtb', 'config' : 'tinker-rk3288_config' }, },
+  },
+}
+
+def usage():
+  print(' '.join(['Usage:', sys.argv[0], '<project>', '<soc>', '<board-name>', 'dtb|config']))
+  print(' '.join(['      ', sys.argv[0], '<project>', '<soc>']))
+  print(' '.join(['      ', sys.argv[0], '<project>']) + '\n')
+  print('Projects:' + '\n')
+  for project in devices:
+    print('  ' + project + ':')
+    for soc in devices[project]:
+      print('    ' + soc + ':')
+      for board in devices[project][soc]:
+        print('      ' + board)
+      print('')
+    print('')
+
+# Get dtb or u-boot config for a given project, soc, and board
+# ./scripts/uboot_helper project device board_name dtb
+if len(sys.argv) == 5:
+  if sys.argv[1] in devices:
+    if sys.argv[2] in devices[sys.argv[1]]:
+      if sys.argv[3] in devices[sys.argv[1]][sys.argv[2]]:
+        if sys.argv[4] in ['dtb', 'config']:
+          print(devices[sys.argv[1]][sys.argv[2]][sys.argv[3]][sys.argv[4]])
+          sys.exit(0)
+
+# List boards supported by a given project and soc
+# ./scripts/uboot_helper project device
+elif len(sys.argv) == 3:
+  if sys.argv[1] in devices:
+    if sys.argv[2] in devices[sys.argv[1]]:
+      boards = []
+      for board in devices[sys.argv[1]][sys.argv[2]]:
+          boards.append(board)
+      print(' '.join(boards))
+  sys.exit(0)
+
+# List socs supported by a given project
+# ./scripts/uboot_helper project
+elif len(sys.argv) == 2:
+  if sys.argv[1] in ['help', 'usage']:
+    usage()
+  elif sys.argv[1] in devices:
+    socs = []
+    for soc in devices[sys.argv[1]]:
+      socs.append(soc)
+    print(' '.join(socs))
+  sys.exit(0)
+
+# List projects
+# ./scripts/uboot_helper
+elif len(sys.argv) == 1:
+  projects = []
+  for project in devices:
+    projects.append(project)
+  print(' '.join(projects))
+  sys.exit(0)
+
+usage()

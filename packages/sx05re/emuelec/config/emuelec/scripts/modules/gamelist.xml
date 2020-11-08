@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<gameList>
+	
+	<game>
+		<path>./02 - File Manager (kb).sh</path>
+		<name>02 - File Manager</name>
+		<desc>MC File Manager. A keyboard is required!</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/File Manager.png</image>
+	</game>
+	
+	
+	<game>
+		<path>./05 - install drastic.sh</path>
+		<name>05 - install drastic</name>
+		<desc>Download and install Drastic, internet is required!</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/drastic.png</image>
+	</game>
+	
+	
+	<game>
+		<path>./08 - send logs.sh</path>
+		<name>08 - send logs</name>
+		<desc>Use this to get a URL that you can share when asking for help</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/logs.png</image>
+	</game>
+	
+	
+	<game>
+		<path>./11 - Copy USB roms to device.sh</path>
+		<name>11 - Copy USB roms to device</name>
+		<desc>Easily copy ROMS from any external device to the SD/MMC where EmuELEC is installed</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/usb.png</image>
+	</game>
+	<game>
+		<path>./12 - Show last emuelec.log.sh</path>
+		<name>12 - Show last emuelec</name>
+		<desc>Display the last emuelec.log on screen to debug game launching problems</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/last.png</image>
+	</game>
+	<game>
+		<path>./13 - Launch Terminal (kb).sh</path>
+		<name>13 - Launch Terminal</name>
+		<desc>Start a terminal, a keybord is required!</desc>
+		<developer>shantigilbert </developer>
+		<publisher>Emuelec</publisher>
+		<genre>script</genre>
+		<image>./downloaded_images/terminal.png</image>
+	</game>
+</gameList>

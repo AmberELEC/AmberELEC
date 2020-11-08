@@ -1,0 +1,11 @@
+102
+- Update to 0.15.0
+- Add alsa-plugins
+
+101
+- Always restart service
+- Improve latency setting
+- Keep daemon state
+
+100
+- Initial addon

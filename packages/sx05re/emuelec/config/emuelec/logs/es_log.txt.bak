@@ -1,0 +1,221 @@
+2020-09-28 18:35:59	INFO	EmulationStation - v5.27-dev, built Sep 26 2020 - 01:42:38
+2020-09-28 18:35:59	INFO	Parsing XML file "/storage/.emulationstation/resources/mamenames.xml"...
+2020-09-28 18:35:59	INFO	Parsing XML file "/storage/.emulationstation/resources/mamebioses.xml"...
+2020-09-28 18:35:59	INFO	Parsing XML file "/storage/.emulationstation/resources/mamedevices.xml"...
+2020-09-28 18:35:59	INFO	Window::init
+2020-09-28 18:35:59	INFO	Creating window...
+2020-09-28 18:35:59	INFO	Created window successfully.
+2020-09-28 18:35:59	INFO	Checking available OpenGL extensions...
+2020-09-28 18:35:59	INFO	 ARB_texture_non_power_of_two: MISSING
+2020-09-28 18:36:00	INFO	Added known joystick OpenSimHardware OSH PB Controller (instance ID: 0, device index: 0)
+2020-09-28 18:36:00	ERROR	Resource path not found: :/splash.xml
+2020-09-28 18:36:01	INFO	Loading system config file /storage/.emulationstation/es_systems.cfg...
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/amstradcpc" is not a directory!
+2020-09-28 18:36:01	WARNING	System "amstradcpc" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atari2600" is not a directory!
+2020-09-28 18:36:01	WARNING	System "atari2600" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "arcade" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "mame" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "wonderswan" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "wonderswancolor" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "cps1" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "cps2" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atari5200" is not a directory!
+2020-09-28 18:36:01	WARNING	System "atari5200" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/coleco" is not a directory!
+2020-09-28 18:36:01	WARNING	System "colecovision" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "c128" (platform "c128" from list "c128")
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/c128" is not a directory!
+2020-09-28 18:36:01	WARNING	System "c128" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/c64" is not a directory!
+2020-09-28 18:36:01	WARNING	System "c64" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/amiga" is not a directory!
+2020-09-28 18:36:01	WARNING	System "amiga" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/amigacd32" is not a directory!
+2020-09-28 18:36:01	WARNING	System "amigacd32" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "c16" (platform "c16" from list "c16")
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/c16" is not a directory!
+2020-09-28 18:36:01	WARNING	System "c16" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "vic20" (platform "vic20" from list "vic20")
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/vic20" is not a directory!
+2020-09-28 18:36:01	WARNING	System "vic20" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atari7800" is not a directory!
+2020-09-28 18:36:01	WARNING	System "atari7800" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "pc" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/daphne" is not a directory!
+2020-09-28 18:36:01	WARNING	System "daphne" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atari800" is not a directory!
+2020-09-28 18:36:01	WARNING	System "atari800" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "msx" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "msx2" (platform "msx2" from list "msx2")
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/msx2" is not a directory!
+2020-09-28 18:36:01	WARNING	System "msx2" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/odyssey" is not a directory!
+2020-09-28 18:36:01	WARNING	System "odyssey2" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/intellivision" is not a directory!
+2020-09-28 18:36:01	WARNING	System "intellivision" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "mplayer" (platform "mplayer" from list "mplayer")
+2020-09-28 18:36:01	WARNING	System "mplayer" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/vectrex" is not a directory!
+2020-09-28 18:36:01	WARNING	System "vectrex" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/aae/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/aae/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/aae/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/aae/background.png") 
+2020-09-28 18:36:01	WARNING	System "pcengine" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/pcenginecd" is not a directory!
+2020-09-28 18:36:01	WARNING	System "pcenginecd" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/pcfx" is not a directory!
+2020-09-28 18:36:01	WARNING	System "pcfx" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/sgfx" is not a directory!
+2020-09-28 18:36:01	WARNING	System "supergrafx" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/tg16" is not a directory!
+2020-09-28 18:36:01	WARNING	System "tg16" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/tg16cd" is not a directory!
+2020-09-28 18:36:01	WARNING	System "tg16cd" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "cps3" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/acclaim/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/acclaim/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/acclaim/background.png") 
+2020-09-28 18:36:01	WARNING	System "nes" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/acclaim/background.png") 
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/nesh" is not a directory!
+2020-09-28 18:36:01	WARNING	System "nesh" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "famicom" (platform "famicom" from list "famicom")
+2020-09-28 18:36:01	WARNING	System "famicom" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/fds" is not a directory!
+2020-09-28 18:36:01	WARNING	System "fds" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "gb" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "gba" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/gbah" is not a directory!
+2020-09-28 18:36:01	WARNING	System "gbah" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atomiswave" is not a directory!
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atarist" is not a directory!
+2020-09-28 18:36:01	WARNING	System "atomiswave" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "atarist" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/pc98" is not a directory!
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/gbh" is not a directory!
+2020-09-28 18:36:01	WARNING	System "gbh" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/gbch" is not a directory!
+2020-09-28 18:36:01	WARNING	System "gbch" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/gameandwatch" is not a directory!
+2020-09-28 18:36:01	WARNING	System "pc-9800" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "gameandwatch" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "sfc" (platform "sfc" from list "sfc")
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/atarilynx" is not a directory!
+2020-09-28 18:36:01	WARNING	System "atarilynx" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/snesh" is not a directory!
+2020-09-28 18:36:01	WARNING	System "snesh" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "snes" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "sfc" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "openbor" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/videopac" is not a directory!
+2020-09-28 18:36:01	WARNING	System "videopac" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/3do" is not a directory!
+2020-09-28 18:36:01	WARNING	System "3do" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "ports" (platform "ports" from list "ports")
+2020-09-28 18:36:01	WARNING	System "fbn" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/snesmsu1" is not a directory!
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/virtualboy" is not a directory!
+2020-09-28 10:36:01	WARNING	System "snesmsu1" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "virtualboy" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/pokemini" is not a directory!
+2020-09-28 18:36:01	WARNING	System "pokemini" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "ngpc" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "sega32x" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/segacd" is not a directory!
+2020-09-28 18:36:01	WARNING	System "segacd" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "dreamcast" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/gamegearh" is not a directory!
+2020-09-28 18:36:01	WARNING	System "ggh" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "genesis" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/genh" is not a directory!
+2020-09-28 18:36:01	WARNING	System "genh" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "mastersystem" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "megadrive" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/megadrive-japan" is not a directory!
+2020-09-28 18:36:01	WARNING	System "megadrive-japan" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "n64" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "sc-3000" (platform "sc-3000" from list "sc-3000")
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/sc-3000" is not a directory!
+2020-09-28 18:36:01	WARNING	System "sc-3000" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/sg-1000" is not a directory!
+2020-09-28 18:36:01	WARNING	System "sg-1000" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/saturn" is not a directory!
+2020-09-28 18:36:01	WARNING	System "saturn" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	  Unknown platform for system "setup" (platform "setup" from list "setup")
+2020-09-28 18:36:01	WARNING	System "gbc" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "neogeo" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "ngp" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "neocd" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/x68000" is not a directory!
+2020-09-28 18:36:01	WARNING	System "x68000" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/zx81" is not a directory!
+2020-09-28 18:36:01	WARNING	System "zx81" has no games! Ignoring it.
+2020-09-28 18:36:01	INFO	Parsing XML file "/emuelec/scripts/modules/gamelist.xml"...
+2020-09-28 18:36:01	WARNING	System "psx" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/zxspectrum" is not a directory!
+2020-09-28 18:36:01	WARNING	System "zxspectrum" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/uzebox" is not a directory!
+2020-09-28 18:36:01	WARNING	System "uzebox" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "psp" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/pspminis" is not a directory!
+2020-09-28 18:36:01	WARNING	System "pspminis" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Error - folder with path "/storage/roms/naomi" is not a directory!
+2020-09-28 18:36:01	WARNING	System "naomi" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	System "gamegear" has no games! Ignoring it.
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/dataeast/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/dataeast/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/dataeast/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/dataeast/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/irem/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/irem/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/irem/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/irem/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/kaneko/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/kaneko/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/kaneko/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/kaneko/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/konami/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/konami/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/konami/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/konami/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/midway/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/midway/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/midway/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/midway/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/namco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/namco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/namco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/namco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/psikyo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/psikyo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/psikyo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/psikyo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/sega/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/sega/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/sega/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/sega/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/snk/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/snk/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/snk/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/snk/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/taito/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/taito/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/taito/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/taito/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/technos/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/technos/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/technos/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/technos/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/tecmo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/tecmo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/tecmo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/tecmo/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/visco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/visco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/visco/background.png") 
+2020-09-28 18:36:01	WARNING	Warning : could not find file "./background.png" (which resolved to "/storage/.emulationstation/themes/AlekFull-Solo-Horizontal/visco/background.png") 
+2020-09-28 18:36:02	INFO	SDL AUDIO Initialized
+2020-09-28 18:36:07	INFO	 req sound [detailed.launch]
+2020-09-28 18:36:07	INFO	   (missing)

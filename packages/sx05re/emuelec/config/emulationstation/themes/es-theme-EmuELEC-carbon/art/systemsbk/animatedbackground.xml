@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <video name="staticBackgroundVideo">
+      <size>1 1</size>
+      <pos>0 0</pos>
+      <origin>0 0</origin>
+      <path>./../background.mp4</path>
+      <color>A0A0A028</color>
+      <zIndex>19</zIndex>
+    </video>
+  </view>
+</theme>

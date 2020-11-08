@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<settings>
+  <category  label="30000">
+    <setting label="30001" type="ipaddress" id="tinc_subnet"   default="0.0.0.0"/>
+    <setting label="30002" type="number"    id="tinc_port"     default="6550"/>
+    <setting label="30003" type="text"      id="tinc_address"  default=""/>
+  </category>
+  <category  label="30004">
+    <setting label="30005" type="select"    id="tinc_loglevel" values="0|1|2|3|4|5"/>
+  </category>
+</settings>

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
+
+. /etc/profile
+
+oe_setup_addon service.pcscd
+
+mkdir -p $ADDON_HOME/config
+
+chmod a+x $ADDON_DIR/bin/*
+
+if [ ! -f "$ADDON_HOME/config/reader.conf" ]; then
+  cp $ADDON_DIR/config/reader.conf $ADDON_HOME/config/reader.conf
+fi
+
+exec pcscd.bin --foreground -c $ADDON_HOME/config/reader.conf

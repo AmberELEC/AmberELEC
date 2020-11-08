@@ -1,0 +1,14 @@
+diff --git a/src/conf/alsa.conf b/src/conf/alsa.conf
+index bb00ff40..cba5b6f2 100644
+--- a/src/conf/alsa.conf
++++ b/src/conf/alsa.conf
+@@ -10,7 +10,8 @@
+ 		files [
+ 			"/etc/alsa/conf.d"
+ 			"/etc/asound.conf"
+-			"~/.asoundrc"
++			"/run/asound.conf"
++			"/storage/.config/asound.conf"
+ 		]
+ 		errors false
+ 	}

@@ -1,0 +1,10 @@
+--- a/src/crypto/x509/root_unix.go
++++ b/src/crypto/x509/root_unix.go
+@@ -20,6 +20,7 @@
+ 	"/etc/pki/tls/certs",           // Fedora/RHEL
+ 	"/etc/openssl/certs",           // NetBSD
+ 	"/var/ssl/certs",               // AIX
++    "/etc/ssl",                     // LibreELEC
+ }
+ 
+ const (

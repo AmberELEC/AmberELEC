@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalogue>
+	<Game name="Keen 1 Special" 
+              link="KEEN1-Special.zip" 
+              description="Get your ship parts back!" 
+              picture="keen1special.png"/>
+	<Game name="Keen 1" 
+              link="keen1.zip" 
+              description="Get your ship parts back!" 
+              picture="keen1special.png"/>
+	<Game name="Keen Dreams" 
+              link="KeenDreams.zip" 
+              description="Fight against evil veggies" 
+              picture="kdreams.png"/>
+	<Game name="Keen Dreams Plus" 
+              link="KeenDreamsPlus.zip" 
+              description="More evil veggies, more levels!" 
+              picture="kdreamsplus.png"/>
+	<Game name="Keen 4" 
+              link="keen4.zip" 
+              description="Rescue the members of the High Council of Gnosticus IV!" 
+              picture="keen4special.png"/>
+	<Game name="Keen 4 Plus" 
+              link="Keen4Plus.zip" 
+              description="Rescue the members of the High Council of Gnosticus IV!" 
+              picture="keen4special.png"/>
+	<Game name="Keen 6 Demo" 
+              link="K6DEMO.zip" 
+              description="DEMO: Alien ate my Babysitter" 
+              picture="K6DEMO.png"/>
+	<Game name="Keen 7" 
+              link="Keen7.zip" 
+              description="Universe is toast Part I" 
+              picture="keen7.png"/>
+	<Game name="The Eight Accumulators" 
+              link="Eight-Accumulators.zip" 
+              description="The story continues on from the Battle of the Brains ending." 
+              picture="eightacc.png"/>
+	<Game name="Perilous Persuit" 
+              link="Perilous.zip" 
+              description="Goodbye Galaxy meets Vorticon Keen Engine" 
+              picture="perilous.png"/>
+	<Game name="Silcar 1" 
+              link="silcar1.zip" 
+              description="Nightmare Before Teatime" 
+              picture="silcar1.png"/>
+</Catalogue>
+

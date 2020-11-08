@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <view name="system">
+    <image name="BottomBar" extra="true">
+      <visible>false</visible>
+    </image>
+    <image name="BottomBar-shadow" extra="true">
+      <visible>false</visible>
+    </image>
+  </view>
+  <view name="basic, detailed, grid">
+    <image name="bottom" extra="true">
+      <visible>false</visible>
+    </image>
+    <image name="bottom-shadow" extra="true">
+      <pos>0 0.96</pos>
+    </image>
+  </view>
+  <view name="detailed">
+    <textlist name="gamelist">
+      <size>0.489 0.804</size>
+    </textlist>
+    <text name="md_description">
+      <size>0.467 0.21</size>
+    </text>
+  </view>
+  <view name="grid">
+    <imagegrid name="gamegrid">
+      <pos>0.025 0.16</pos>
+      <size>0.950 0.84</size>
+    </imagegrid>
+  </view>
+</theme>

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+
+. /etc/profile
+
+ADDON_DIR="$HOME/.kodi/addons/driver.dvb.sundtek-mediatv"
+
+logger -t Sundtek "### Sundtek driver stop ###"
+mediaclient --shutdown

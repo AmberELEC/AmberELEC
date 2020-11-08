@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <include>./animatedbackgroundsubset.xml</include>
+  <view name="system">
+    <image name="box" extra="true">
+      <path>{random:thumbnail}</path>
+      <color>FFFFFFFF</color>
+      <origin>0.5 0.5</origin>
+      <roundCorners>0.05</roundCorners>
+      <visible>true</visible>
+    </image>
+    <image name="ControllerOverlay" extra="true">
+      <visible>false</visible>
+    </image>
+  </view>
+</theme>

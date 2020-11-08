@@ -1,0 +1,8 @@
+102
+- Avoid LibreELEC Settings addon crash
+
+101
+- Fix log errors
+
+100
+- Initial release

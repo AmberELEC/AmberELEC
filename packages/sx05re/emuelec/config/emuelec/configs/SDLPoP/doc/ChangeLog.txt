@@ -1,0 +1,551 @@
+﻿Change log and history.
+For recent changes, look at GitHub: https://github.com/NagyD/SDLPoP/commits/master
+
+2012 July 28
+============
+Released disassembly of PoP1 DOS: https://forum.princed.org/viewtopic.php?p=11347#p11347
+
+2013 September 01
+=================
+I posted the room-drawing code (rewritten to C+SDL) in the forum.
+https://forum.princed.org/viewtopic.php?f=68&t=3368
+
+2013 December
+=============
+Started rewriting the further parts of the disassembly to C.
+
+2014 January 03
+===============
+Released disassembly: https://forum.princed.org/viewtopic.php?p=14291#p14291
+
+2014 January
+============
+Most rewriting is done.
+I started to find and fix the (many!) bugs.
+Most of them resulted from the mis-reading of the disassembly.
+
+2014 May 29
+===========
+Made the code compatible with GNU/Linux.
+
+2014 July 11
+============
+First public mention of the port.
+https://forum.princed.org/viewtopic.php?p=14975#p14975
+
+2014 July 21
+============
+(version 1.00)
+The first public release.
+https://forum.princed.org/viewtopic.php?f=69&t=3512
+
+2014 July 22
+============
+(version 1.01)
+Fixed bugs:
+FIXED: Game is too fast for a short time after switching rooms. (Or restarting the level)
+FIXED: Cutscenes fade too fast without COMPAT_TIMER
+FIXED: Andrew: "New rooms take quite some time to be drawn, with the screen being blank in-between"
+FIXED: If the mouse cursor leaves/enters the window, the game does as if the pressed keys were released.
+New feature:
+DONE: Hide cursor in fullscreen.
+
+2014 July 23
+============
+Fixed bugs:
+FIXED: Keys did not repeat themselves.
+	Needed for keys like "+" and "-".
+FIXED: Starting a new game after winning a previous one makes all texts in the game blue instead of white.
+
+2014 July 24
+============
+Fixed bugs:
+FIXED: When the screen is flashing, there may be black rectangles around the moving objects.
+FIXED: Can't do level 7 trick.
+
+2014 August 01
+==============
+New feature:
+DONE: Support LEVELS.DAT
+
+2014 August 04
+==============
+Fixed bugs:
+FIXED: Can't interrupt fading of title screen.
+FIXED: (Micro Palace, level 12) If kid is on the very left (in bottom row), then shadow is in wrong direction (looking left), and is constantly turning around.
+
+2014 August 05
+==============
+(version 1.02)
+(Contains all fixes listed above)
+
+2014 August 06
+==============
+FIXED: (Micro Palace, level 4) After kid enters exit door, chomper bites kid.
+FIXED: shadow is partially green when he is looking to the right
+FIXED: (Prince of Wateria, level 5 room 3) (palace) Empty potion has red bubbles.
+DONE: Support all .DAT files
+
+2014 August 07
+==============
+(version 1.03)
+(Contains all fixes listed above)
+
+2014 August 08
+==============
+(version 1.04)
+FIXED: Made compatible with 64-bit.
+
+2014 August 10
+==============
+FIXED: If color 0 of a palette was not black, then it was not transparent.
+FIXED: PNGs with alpha channel are drawn properly.
+
+2014 August 11
+==============
+(version 1.05)
+(Contains all fixes listed above)
+
+2014 August 23
+==============
+FIXED: When fighting, parry-attack-parry-attack-... sequences stop when the guard attacks.
+
+2014 August 24
+==============
+(version 1.06)
+DONE: Sound timing (slow-fall and intro needs this)
+DONE: Background color of texts in intro and ending
+FIXED: prandom(): initialize from current time
+
+2014 August 28
+==============
+(version 1.07)
+FIXED: Under Linux, the game hanged randomly, because the main timer sometimes didn't generate its event.
+FIXED: Removed the "Would play sound", "length =", "set_char_collision" and "Loading chtab" messages.
+	Those were annoying and possibly slowed the game down.
+FIXED: Level 12: If I enter the last room while the music is still "playing", then the game does not advance to level 13.
+	And quits with error: Tried to load cutscene for level 26, not in 0..15
+FIXED: Level 12->13 transition should not restore full HP or show level number.
+FIXED: Displaying text is visibly slow on some systems.
+
+2014 September 05
+=================
+FIXED: Pressing "K" on a skeleton crashes the game.
+
+2014 September 22
+=================
+(version 1.08)
+DONE: Digi sounds (only from DAT)
+
+2014 September 23
+=================
+FIXED: The game quits in the intro, when Jaffar opens the door.
+
+2014 September 25
+=================
+FIXED: When doing the level 5 trick (backing through the gate), the kid appears in the room to the *right* instead of left.
+FIXED: Level 5: If you back out from the room where the guard is originally (but the screen is not switched), the kid might fall through the floor at the level door.
+
+2014 September 28
+=================
+(version 1.09)
+(Contains all fixes listed above)
+Renamed the project to SDLPoP.
+DONE: Added version number to the window title.
+
+2014 October 11
+===============
+(version 1.10)
+FIXED: Made the game compatible with Mac OS X, based on the suggestions by StaticReturn (from the Princed forum).
+CHANGE: Now cheats are disabled by default unless the game is compiled in debug mode.
+
+2014 October 27
+===============
+CHANGE: Added a font inside the exe. So the game can start without the data/font/ folder.
+CHANGE: Changed project type to GUI. This means that the (empty) console window won't appear under Windows.
+CHANGE: Changed "SDL" to "SDLPoP" in the window title.
+
+2014 October 28
+===============
+(version 1.11)
+(Contains all changes listed above)
+
+2014 December 3
+===============
+FIXED: When doing Trick 95, the kid might bounce back from the wall a bit.
+
+2014 December 20
+================
+(version 1.12)
+FIXED: Don't quit if there is no sound device available.
+	Instead, just disable digi sound.
+	This can happen, for example, on a Raspberry PI emulator (QEMU).
+
+2015 February 13
+================
+(version 1.13)
+Added support for music.
+Fixed some memory leaks.
+
+2015 February 16
+================
+(version 1.14)
+FIXED: Changed project type to GUI in the "release" project, too.
+FIXED: Ctrl-S did not turn off mixer sounds.
+FIXED: Ctrl-S did not stop currently playing sounds.
+DONE: Toggle fullscreen with alt-enter.
+FIXED: If the game is in full screen, and I switch away (alt-tab) and back, most of the screen will be black, until it is redrawn.
+
+2015 August 3
+=============
+(version 1.15)
+
+General changes:
+DONE: Migration from SDL1 to SDL2.
+DONE: Game is now displayed at full resolution in fullscreen mode.
+DONE: Window can now be resized.
+DONE: Basic joystick support added.
+DONE: Music files (*.ogg) are now bundled with the release.
+CHANGE: Window is now displayed at 640 by 400 pixels by default.
+CHANGE: Cleaned up harmless sound load errors.
+CHANGE: Sound names are now read from file only once when sounds are loaded.
+CHANGE: During loading of DAT files, read failures are now checked and reported.
+CHANGE: More cleanly handle failures to read/write HOF file.
+CHANGE: Improved reporting for known-failing loads.
+CHANGE: Pass size of resource area instead of letting it get overridden.
+CHANGE: The screen is now updated less frequently.
+CHANGE: Tweaked timer behaviour. The game now attempts to correct for timer-related overhead somewhat, preventing screen updates lagging behind the monitor's refresh rate.
+FIXED: Flashes are now displayed with a more consistent duration.
+FIXED: Shift+L skipping cutscenes immediately is now prevented by a short delay timer.
+FIXED: Fixed bug with flashes not repainting the screen upside down in flipped mode.
+FIXED: Hardcoded font (hc_font) appeared as white rectangles.
+
+New game additions and bug fixes:
+DONE: Added quicksaving and quickloading (F6 to quicksave anywhere in a level, F9 to quickload).
+- Also quicksave/quickload when shift is pressed
+- Do not even attempt to quicksave after the kid has died
+- Deny quicksave during the feather fall effect
+- Allow quickloading from the title screen
+FIXED: Prevented index to redraw_frames_above[] going out of bounds in set_redraw2(), triggered by loose tiles dropping out of the room from the rightmost column. This caused unpredictable behaviour, depending on the compiler.
+FIXED: Fixed a bug where level doors would continue to open infinitely far when the global variable leveldoor_open has been modified due to special events or due to another level door being already open.
+FIXED: Fixed the kid being able to enter closed level doors when there is another one open.
+FIXED: Fixed a graphical bug occurring when the level start door is raised from the same room.
+FIXED: Added optional fixes for a few gameplay quirks:
+- Fix kid falling off the ledge when jumping after climbing two floors
+- Fix "teleporting" four pixels further than necessary when climbing from firm ground while not in front of a wall
+- Fix being able to survive lethal falls by jumping on top of a guard
+- Fix triggering loose floors below by bumping into the wall above
+- Enable the earlier fixes FIX_GATE_SOUNDS, FIX_TWO_COLL_BUG and FIX_INFINITE_DOWN_BUG.
+- Fix temporarily standing on thin air when standing up on a falling loose tile
+- Fix being able to press buttons through closed gates (Trick 1)
+- Fix being able to grab ledges two stories down by bumping into a wall first
+- Fix blood appearing on chompers when a skeleton is chomped
+- Fix controls not being released during the drinking animation, causing unintended movement
+- Add a way to crouch after climbing up (instead of climbing down again) by pressing down + forward
+DONE: Increase the number of supported potion types to 32
+- Quickloading is cancelled when a version string saved in QUICKSAVE.SAV does not match.
+- Added rem_min and rem_tick to the quicksaved variables. The proposed penalty for quickloading is one minute subtracted from the saved remaining time.
+FIXED: A drawing bug occurs when a loose tile is placed to the left of a potion (or sword).
+- Fix guards following through closed gates
+- Freeze time during the end level music
+- Add option for debug cheats
+
+Build changes:
+DONE: Source code of the project has been added to GitHub.
+CHANGE: Cleaned up and updated Makefile.
+CHANGE: Added CMakeLists.txt for building using a CMake-based project model.
+CHANGE: Added main.cpp and "extern C" declarations to allow compilation with a C++ compiler.
+FIXED: Resolved warnings about multi-string literals by using an enum instead.
+
+Refactorings:
+CHANGE: Lots of things have changed with the switch to SDL2. To read about game migration from SDL1 to SDL2 in general, the SDL wiki provides a good overview at https://wiki.libsdl.org/MigrationGuide
+CHANGE: The key_states[] array now has a size of SDL_NUM_SCANCODES and is indexed by SDL scancodes.
+CHANGE: Modifier keys are now handled cleanly.
+CHANGE: Removed unnecessary stuff (leftovers from the disassembly, or debug statements)
+CHANGE: Many identifiers have been changed to better ones.
+CHANGE: Added named enums for sound IDs, char_type.sword, timer IDs, colors, character frames and sequences.
+CHANGE: Replaced a number of magic numbers in the code with their enum equivalents.
+CHANGE: Sequence table deobfuscation.
+- Fix seqtbl not compiling correctly in release mode
+
+License:
+Added GPLv3 license (2015 June 27).
+
+2016 January 1
+================
+(version 1.16)
+
+DONE: Added ability to view or record replays. (See Readme.txt for information on how to use)
+DONE: Added changing options without recompiling: use SDLPoP.ini to configure various options.
+DONE: The game now prompts whether to enable game fixes and enhancements. (See Readme.txt or the forum topic for further details)
+DONE: Gameplay fix added for safe landing on spikes (Trick 65).
+DONE: Demo mode can now be used (use the command-line parameter "demo"): in this mode, only the first two levels will be playable, and quotes from magazine reviews will be displayed.
+DONE: Added ability to draw fake and invisible walls/floors. (See forum topic for details)
+DONE: Added support for 1.3-format wave sounds.
+DONE: Added support for alternate level colors. (1.3)
+DONE: Added the dialog box in the copy protection level.
+CHANGE: Changed joystick cutoff point to 30000.
+CHANGE: Added index and NULL checks to chtab reads.
+CHANGE: Improved the gameplay fix for guards following through closed gates by checking for can_guard_see_kid == 2. Also added a test level.
+CHANGE: Added collision data, Char and Opp to the list of quicksaved variables.
+CHANGE: Removed Makefile.win from the Git repository.
+CHANGE: Added !=NULL to check_param() calls.
+CHANGE: Build fixes.
+FIXED: Fixed crash upon drawing characters that have no glyphs, such as newline/carriage return.
+FIXED: The open potion now gets placed correctly in the copy protection level.
+FIXED: Fixed interrupting of fades and the speed of fading in cutscenes.
+FIXED: Changed vertical centering of text to match the original.
+FIXED: Fixed the order of numbers in the Shift+C cheat.
+FIXED: Fixed the demo quotes disappearing too soon.
+DONE: Added option to start fullscreen, change window dimensions in the INI file.
+DONE: Better INI processing & new custom gameplay options.
+FIXED: Fixed wall connections not working for fake tiles.
+DONE: New options: max hitpoints, first & last level where saving is allowed.
+DONE: Added per-level settings to INI and INI processing.
+DONE: Added support for named values in the INI file.
+DONE: Improved gamepad support.
+DONE: Added support for displaying the game with the original 4:3 aspect ratio.
+
+2017 February 5
+=================
+(version 1.17)
+
+General changes:
+CHANGE: Moved source to src/. (That is, merged the with-folders branch into master.)
+DONE: Moved OSX documentation to Readme.txt. Upgraded information there. Removed TODO text for the SDL2 port.
+DONE: Added sources and fake tiles to Readme.
+DONE: Added Markus installation method with brew install for OSX to the readme.
+CHANGE: Updated OSX make command in Readme.
+DONE: Updated forum link in Readme.
+DONE: Added some contributors and thanks to the Readme.
+DONE: Removed some old unneeded files.
+DONE: Added comments to explain the available options in SDLPoP.ini
+DONE: Add info on the "mod" command line option to doc/Readme.txt
+DONE: Allow opening DAT files from the data/ directory as well; Moved DAT files to data/ to clean up the main folder.
+CHANGE: Folders in the data/ directory no longer have the .DAT extension, so they can coexist with .DAT files.
+FIXED: Removed Dev-C++ note from Linux Makefile.
+FIXED: Use Mix_Music instead of Mix_Chunk to play music files. This reduces loading time. (contributed by @usineur)
+FIXED: Fixed Dávid's name in the header comments.
+DONE: Added an icon.
+
+Miscellaneous game additions, changes, bug fixes:
+CHANGE: Let time just run when quickloading immediately after quicksave
+FIXED: Changed the RGB/BGR hack: check whether SDL2 bug occurs before applying RGB24 workaround.
+FIXED: Fixed fake tiles randomly appeared in place of the disappearing sword.
+FIXED: Fixed crashing on certain custom DAT files.
+FIXED: Don't crash if some (or all) data files are missing.
+CHANGE: Increased sound buffer size to remove noise.
+CHANGE: Increased sound output settings to CD quality. (That is: 44100 Hz, 16-bit, Stereo.)
+FIXED: Audio: Changed 16-bit to signed. (@vanfanel wrote this is needed on the Raspberry PI.)
+FIXED: Fixed bug (and compiler warning) in redraw_at_cur_mob(). (Reported by @petervas.)
+CHANGE: Change default of use_fixes_and_enhancements to false
+FIXED: Don't repeat Alt+Enter.
+FIXED: Alt+Enter should not un-pause the game.
+CHANGE: Debug timer: display in top left corner, toggle with T
+FIXED: Added a way to enable debug cheats: use command-line parameter "debug"
+FIXED: Do not accept filenames as valid command-line parameters in check_param()
+FIXED: Reduced flickering when text is drawn.
+DONE: Added info screen shown at startup, with some explanation about SDLPoP.
+FIXED: Fixed quickload penalty being applied even after time has stopped (after Jaffar has been killed)
+FIXED: Fixed guards sometimes turning around immediately after quickloading (because is_guard_notice is not set to zero)
+FIXED: Silenced warnings being printed about image 255, after entering an exit door.
+FIXED: Fixed graphics bug with SDL 2.0.5 (contributed by @zaps166)
+DONE: Added command-line parameter --version, -v: Display SDLPoP version and quit.
+DONE: Added command-line parameter --help, -h: Display help and quit (points to the Readme).
+DONE: Added command-line parameter seed=number: Set initial random seed, for testing.
+
+Improved controller support:
+DONE: Improved controller support; migrated to SDL_GameController API (reported by @EndeavourAccuracy).
+DONE: Implemented two settings for joystick control: horizontal-only (default; idea and original implementation by @EndeavourAccuracy) and all-directional.
+CHANGE: Controller: Remapped Quit to Start (was B).
+DONE: Added haptic feedback (when the kid is hurt) for controllers with a rumble motor.
+
+Support for playing mods/custom levelsets:
+DONE: Added ability to organise mods into their own directories
+DONE: Use a custom configuration file (mod.ini) for each mod
+DONE: Allow choosing a levelset from the command line; usage: prince mod "Mod Name"
+CHANGE: Use a separate Hall of Fame file when playing a custom levelset
+CHANGE: Use a separate QUICKSAVE.SAV / PRINCE.SAV when playing a custom levelset
+
+New customization/modding features:
+DONE: CusPop option: start upside down
+DONE: CusPop option: start in blind mode (slightly buggy)
+DONE: CusPop option: set level before which the copy protection level appears
+DONE: CusPop option: set up edges of the level
+DONE: CusPop option: enable dungeon WDA in palace environment
+DONE: Allow disabling the time limit completely (by setting 'start_minutes_left' to -1 in SDLPoP.ini)
+DONE: When time is unlimited, show how much time has passed instead of how much time is remaining
+DONE: CusPop option: change the hard-coded color palette
+DONE: CusPop option: change the first level (starting level)
+DONE: CusPop option: skip title sequence
+DONE: CusPop option: set up effect of Shift+L in non-cheat mode
+DONE: CusPop option: set up cutscenes
+
+Replay improvements:
+CHANGE: Replays get saved to the replays/ directory, have more recognizable names, and are played back in reverse creation order.
+DONE: Allow changing the folder where replays are kept.
+CHANGE: The replay format was changed -- older replays will no longer work!
+CHANGE: Replay format: added magic number 0x50 0x31 0x52 ("P1R")
+CHANGE: Replay format: replaced version strings with class, version and deprecation numbers that can be used to determine whether a replay is compatible.
+CHANGE: Replay format: added the time of the recording (Unix time) to the replay format.
+CHANGE: Replay format: added the name of the program that created the replay to the replay format.
+CHANGE: Replay format: stored replay options are now split up into several sections.
+CHANGE: Replay format: use 32-bit sizes independent of platform (32 or 64 bits).
+CHANGE: Gameplay options are now stored differently in replays.
+FIXED: Incompatible replays will be skipped in the cycle order.
+FIXED: Added more informative error messages if a replay is incompatible.
+FIXED: Fixed being unable to unpause while replaying.
+FIXED: Fixed replays running out of sync when the end of a temporary effect is triggered by the music stopping (level 1 start, feather fall).
+FIXED: Fixed several bugs that could cause crashes when a replay file is loaded.
+DONE: Replay: show error message in a dialog box if replay loading failed.
+DONE: Replay: stop the replay upon reaching the Princess room.
+CHANGE: Don't play end level music while recording or replaying. (Reduces waiting time and improves reproducibility.)
+DONE: Added a save dialog for replays. This replaces the automatically generated filenames for replays. Pressing Escape discards a replay.
+DONE: Replay: start recording immediately if Ctrl+Tab pressed on the title screen.
+DONE: When trying to quickload while recording, show the 'save replay' dialog.
+FIXED: Fixed replay reproducibility across multiple levels. (Preserve the random seed to prevent going out-of-sync.)
+DONE: Press F or Shift+F to skip forward through replays (F: skip to next room, Shift+F: skip to next level).
+DONE: Added command-line option for validating replays, usage: prince validate "replays/replay.p1r"
+
+Fixes for gameplay and drawing bugs, that are also present in the original Prince of Persia for DOS:
+DONE: Added remembering guard hitpoints. (optional fix/enhancement)
+FIXED: Fixed the kid being able to glide sideways through the top sections of walls/tapestries while in freefall.
+FIXED: Fixed the kid dropping through tiles when dropping down from a tapestry.
+FIXED: Fixed the landing animation aborting when landing against a gate or tapestry+floor instead of a wall.
+FIXED: Fixed crashing from guards on level 14.
+FIXED: Improved fix for "standing on thin air" bug.
+FIXED: Fixed new falling bug caused by "glide through wall" fix, as well as a second wall glitch.
+FIXED: Fixed unintended sword strike immediately after drawing sword.
+FIXED: Fixed retreating out of a room without the room actually changing.
+FIXED: Fixed running jump through tapestry.
+DONE: Added test level for jumping through tapestry.
+FIXED: Fixed guards being pushed into walls.
+FIXED: Fixed jumping through a wall above a closed gate.
+FIXED: Alternate fix for drawing bug when gates are stacked on top of each other.
+FIXED: Alternate fix for drawing bug when climbing up to a floot with a big pillar top behind.
+FIXED: Fixed chompers not starting when grabbing a ledge.
+FIXED: Fixed offscreen guards not reappearing in adjacent rooms.
+FIXED: Fixed feather fall effect being interrupted by a level door opening.
+FIXED: Removed audible 'click' after the swinging sword sound. (contributed by @zaps166)
+FIXED: Fixed unintended movement after putting the sword away (because controls do not get released properly).
+
+Build changes, source code, refactoring:
+DONE: OSX port upgraded from SDL to SDL2. Mixer library added in makefile and documentation. Tested.
+DONE: Merged both makefiles. Now make is fully portable.
+CHANGE: Updated CMakeLists.txt
+FIXED: Removed duplicate const to avoid warnings in default gcc settings on OSX. Commented an always-true if.
+DONE: Removed unneeded libraries from Dev-C++ projects.
+DONE: Add OSX build configuration for CMake
+FIXED: config: compile with USE_MIXER undefined
+FIXED: Added extern to all variables in data.h.
+FIXED: Removed duplicate definition of timer_stopped.
+DONE: Also changed 0 to timer_0 where appropriate.
+DONE: Visual C++ (NMake) support
+CHANGE: Changed COUNT to sizeof in memset.
+DONE: Added missing color ids, using the color names of the default EGA palette
+CHANGE: Set minimum CMake version required to 2.8
+DONE: Added some comments in land().
+FIXED: Added range checks in load_frame().
+FIXED: Added newline at the end of error messages that didn't already have one.
+FIXED: Make NMakefile and unistd_win.h non-executable
+DONE: Add optimization level (O2) to Makefile, silence uninitialized warning
+DONE: Remove CMakeLists.txt in root directory
+DONE: Added optimization (-O2) to Dev-C++ release project as well.
+DONE: Add .editorconfig
+DONE: Added maximum path length macro POP_MAX_PATH set to 256
+CHANGE: Refactor so that HOF path is obtained from get_hof_path()
+CHANGE: Refactor: removed options_type (replacement: options are stored using SDL_RWops streams).
+DONE: Added new exceptions to .gitignore.
+FIXED: Ignore replay options in SDLPoP.ini if USE_REPLAY is not defined
+DONE: Added -std=gnu99 to the Dev-C++ project files.
+
+2018 March 17
+=================
+(version 1.18)
+
+FIXED: Fixed allow_triggering_any_tile hack to work with stuck-closed chompers.
+DONE: Linux: Added .desktop file and make install/uninstall.
+DONE: Added option to enable lighting.
+ADDED: You can make screenshots, both manually with a key or automatically from the command line.
+ADDED: You can also make screenshots of the whole level.
+ADDED: Whole-level screenshots can optionally show extra info, like door events.
+ADDED: You can also start level 0 (demo) and level 15 (potions) from the command line.
+ADDED: Automatically switch to keyboard or joystick/gamepad mode if there is input from that device.
+FIXED: Fixed indentation (use tabs) and alignment (use spaces).
+FIXED: Fixed compiling with MSVC and improve build scripts.
+FIXED: On Windows, use Unicode/UTF-8 (instead of the current codepage) for replay filenames and directory names.
+FIXED: Fixed the quicksave note in the splash: save = F6, load = F9.
+FIXED: Ctrl+S now also mutes music.
+FIXED: Fixed implicit-function-declaration warnings. (implemented by @Rondom)
+DONE: Use 8-bit audio samples as a workaround if using older (buggy) SDL2 versions (older than 2.0.4).
+FIXED: Removed redefinition of SDL_COMPILE_TIME_ASSERT.
+FIXED: Add (back) SDL_Joystick interface because not all joysticks are SDL_Controller compatible. (implemented by @vanfanel)
+DONE: Convert waves to mixer sounds when they are loaded, not when they are first played. (suggested by @vanfanel)
+FIXED: Updated Readme.txt - fix macOS instructions.
+DONE: Added option to force pixel perfect scaling (integer scale factors).
+FIXED: Show level number when cycling between replays with Tab.
+DONE: Added option to change scaling method (sharp, fuzzy, blurry).
+FIXED: Improved the accuracy of timers.
+DONE: The debug timer (press T while running with debug cheats on) is now drawn transparently.
+DONE: The left-to-right animation in the intro now runs at a fixed speed (instead of being CPU limited).
+DONE: Added in-game menu (press Escape or Backspace) with ability to change settings while in-game.
+CHANGE: Removed the startup prompt to enable or disable fixes/enhancements (no longer needed).
+FIXED: Fixed turning off music not working.
+DONE: Added option for disabling and enabling all customization options at once.
+DONE: Added option for changing the mods directory (where the game looks for custom levelsets).
+DONE: Added fix for hidden floors in level 12 not appearing until after the flashing stops.
+FIXED: Removed colored rectangles around hitpoints and the shadow, when using Brain's SNES graphics.
+DONE: Added most of the missing CusPop customization options.
+DONE: Added support for MIDI music.
+FIXED: Fixed teleporting to the room above by grabbing a ledge (integer overflow bug).
+FIXED: When playing back a recording, Alt+Tabbing back to SDLPoP stops the replay if Alt is released before Tab.
+
+2018 March 24
+=================
+(version 1.18.1)
+
+FIXED: Fixed the bug with the level 3 checkpoint.
+FIXED: Fixed the bug in "Fix hang on teleport bug".
+FIXED: Fixed the removed loose floor on level 3.
+
+2019 March 31
+=================
+(version 1.19)
+
+FIXED: Fix looping "sword moving" sound if the player leaves a room exactly when a guard attacks.
+FIXED: Support 8-bpp images in DAT files. For example the Pyramid mod contains some of these.
+FIXED: Improved map-making on levels with broken room links: If a room is mapped to an already used place, then put it to the bottom of the map.
+DONE: Load custom options from DOS PRINCE.EXE files.
+DONE: Added a hotkey to display SDL versions. (Ctrl-C)
+FIXED: Better support for high-DPI (Retina) displays.
+FIXED: Disable integer scaling menu item if SDL version is too old.
+DONE: Save screenshots and maps into a separate folder and add numbers to the filenames.
+FIXED: Made the exit door fix configurable.
+DONE: Added support for PC speaker sounds. Use command-line parameter "stdsnd".
+DONE: Added support for colored torch flames.
+FIXED: Torches appearing in the leftmost column are now animated. (They are actually in the rightmost column of the left-side room.)
+
+2019 October 13
+=================
+(version 1.20)
+
+FIXED: Fixed crash on Linux when the prince fell out of the level while a guard was active.
+FIXED: With start_in_blind_mode enabled, moving objects were not displayed until blind mode was toggled off+on.
+FIXED: Fix upside-down screen when using PRINCE.EXE from v1.3 or v1.4.
+FIXED: Tell Windows that SDLPoP is DPI aware to prevent unwanted stretching.
+DONE: Added customization option for loose floor delay. (Used in Neon Persia.)
+FIXED: Fix detection of "allow triggering any tile" hack.
+DONE: Enable use_custom_options by default in the INI.
+FIXED: Fix priorities of sword and spike sounds. (As in PoP 1.3.)
+	The "spiked" sound didn't interrupt the normal spikes sound when the prince ran into spikes.
+	With PoP 1.3 sounds, the "guard hurt" sound didn't play when you hit a guard directly after parrying.
+
+(no release date yet)
+=================
+(upcoming version)
+
+FIXED: Skeletons not on level 3 did not behave like skeletons.
+FIXED: Don't crash if the intro music is interrupted by Tab in PC Speaker mode.
+FIXED: Don't switch to PC Speaker mode if there is a mod name in the replay file.
+DONE: Detect guard skill customizations in PRINCE.EXE. (Used in Illusions of Persia, for example.)
+	TODO: Should we add the guard skill options to the INI, the CFG, the replays, or the settings menu?

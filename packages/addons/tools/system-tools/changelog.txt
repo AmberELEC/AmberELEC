@@ -1,0 +1,71 @@
+111
+- updated autossh to 1.4g
+- updated file to d1ff3af
+- updated htop to 3.0.0 Beta5
+- updated jq to 1.6
+- updated lm_sensors to e8afbda
+- updated patch to 2.7.6
+- updated pv to 1.6.6
+- updated smartmontools to 7.0
+- updated strace to 4.26
+- updated stress-ng to 0.09.50
+- updated unrar to 5.6.8
+
+110
+- updated and improved mc (4.8.21)
+- using more compatible "xterm" TERM definition
+- updated efibootmgr to 17
+- fixed screen
+
+109
+- added stress-ng
+
+108
+- added encfs and smartmontools
+- updated autossh to 1.4f
+- updated file to 5.33
+- updated htop to 3.0.0 Beta4
+- updated inotify-tools to 3.20.1
+- updated lm_sensors to 1c48b19
+- updated mc to 4.8.20
+- updated screen to 4.6.2
+- updated strace to 4.22
+- updated unrar to 5.6.3
+
+107
+- added dstat, htop and vim
+- updated difftools to 3.6
+- updated dtach to 0.9
+- updated fdupes to 1.6.1
+- updated file to 5.31
+- updated hd-idle to 1.05
+- updated hddtemp to 0.3-beta16
+- updated hid_mapper to 2.1.0
+- updated libmtp to 1.1.13
+- updated lm_sensors to 0d5ccf6
+- updated lshw to 2.18
+- updated mc to 4.8.19
+- updated mtpfs to fd3864d
+- updated p7zip to 16.02
+- updated strace to 4.17
+- updated unrar to 5.5.5
+
+106
+- updated screen, fix colors issue
+
+104
+- updated file package
+
+103
+- added nmon
+
+102
+- added inotify-tools, mc
+
+101
+- mrxvt can be started from KODI
+- correct mrxvt terminal type
+- make hddtemp work
+
+100
+- Initial Release

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+
+    <image name="ControllerOverlay" extra="true">
+      <tile>false</tile>
+      <pos>0.675 0.40</pos>
+      <size>0.3 0</size>
+    </image>
+  </view>
+</theme>

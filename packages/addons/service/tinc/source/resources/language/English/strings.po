@@ -1,0 +1,30 @@
+# Kodi Media Center language file
+# Addon Name: tinc
+# Addon id: service.system.tinc
+# Addon Provider: Team LibreELEC
+msgid ""
+msgstr ""
+
+msgctxt "#30000"
+msgid "Host"
+msgstr ""
+
+msgctxt "#30001"
+msgid "Subnet (private IP address)"
+msgstr ""
+
+msgctxt "#30002"
+msgid "Port"
+msgstr ""
+
+msgctxt "#30003"
+msgid "Address (public DNS name)"
+msgstr ""
+
+msgctxt "#30004"
+msgid "Debug"
+msgstr ""
+
+msgctxt "#30005"
+msgid "LogLevel"
+msgstr ""

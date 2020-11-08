@@ -1,0 +1,14 @@
+[Unit]
+Description=vdr
+After=graphical.target
+Before=kodi.service
+
+[Service]
+ExecStart=/bin/sh -c "exec sh /storage/.kodi/addons/service.multimedia.vdr-addon/bin/vdr.start"
+TimeoutStopSec=5
+Restart=always
+RestartSec=2
+StartLimitInterval=0
+
+[Install]
+WantedBy=kodi.target

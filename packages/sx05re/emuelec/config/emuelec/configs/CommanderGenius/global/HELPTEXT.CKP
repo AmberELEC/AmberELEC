@@ -1,0 +1,56 @@
+        Ÿ   Ÿ ŸŸŸŸ Ÿ   Ÿ Ÿ  Ÿ
+        ŸŸ ŸŸ Ÿ    ŸŸ  Ÿ Ÿ  Ÿ
+        ŸŸ ŸŸ ŸŸŸ  Ÿ Ÿ Ÿ Ÿ  Ÿ
+        Ÿ Ÿ Ÿ Ÿ    Ÿ  ŸŸ Ÿ  Ÿ
+        Ÿ Ÿ Ÿ ŸŸŸŸ Ÿ   Ÿ  ŸŸ
+
+
+The menu and the game are a bit different from how they used to be, we'll explain what is different and how it works here.
+
+KEY           WHAT IT DOES
+
+Arrows        Move Keen around
+
+Ctrl          Jump
+
+Alt           Use Pogo/Stop Pogo
+              (if you have one)
+
+Spacebar      Fire raygun
+              (if it has charges)
+
+You can redefine these keys in the controls menu.
+
+
+OTHER IMPORTANT KEYS
+
+Enter      Status screen
+
+F1            Help!
+
+ESC           Opens Menu
+
+USING THE NEW MENU
+
+When you use the menu, it works a lot like most menus would.
+
+The main things to know are that the Graphics, Sound and controls can be configured in the options menu. Other than that, there is the saving and loading system, currently it is limited, but eventually we will make it dynamically expand forever to allow you to save more slots.
+
+The other major change is the introduction of an in game menu, We aimed to make it as similar to Keens 4-6 as I could, but it still might not be ideal.
+
+PLAYING THE GAME
+
+There isn't much difference in the game itself, other than the multiplayer modes and some neat effects.
+
+But you will have to worry about a little bit of difference from the original games, as well as an added difficulty option, which changes certain things in the games.
+
+If you are playing a mod, you are warned, altough we have made some major steps to implementing better support for mods into our engine.
+
+Currently it loads anything except special hacks from your mods. It does not apply any changes that your patch made to the file.
+
+ —˜ Commander Keen says:
+ ™š  "Thanks Commander Genius Team,
+       for creating an interpreter
+        for all my old DOS games!"
+
+~             END OF HELP

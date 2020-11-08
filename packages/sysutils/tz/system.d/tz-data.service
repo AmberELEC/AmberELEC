@@ -1,0 +1,16 @@
+[Unit]
+Description=Setup Timezone data
+DefaultDependencies=no
+Before=systemd-udevd.service
+After=var.mount systemd-tmpfiles-setup.service
+
+[Service]
+Type=oneshot
+Environment=TIMEZONE=UTC
+EnvironmentFile=-/storage/.cache/timezone
+ExecStart=/bin/ln -sf /usr/share/zoneinfo/${TIMEZONE} /var/run/localtime
+RemainAfterExit=yes
+StartLimitInterval=0
+
+[Install]
+WantedBy=sysinit.target

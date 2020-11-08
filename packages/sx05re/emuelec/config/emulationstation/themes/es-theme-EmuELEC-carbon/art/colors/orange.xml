@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <variables>
+    <baseColor>dd8800</baseColor>
+    <gradientEndColor>803F00</gradientEndColor>
+    <centerFadeColor>ff990033</centerFadeColor>
+    <bottomBarColor>ff9900B0</bottomBarColor>
+    <glowColor>B85F0020</glowColor>
+    <systemInfoColor>FFFAFAB0</systemInfoColor>
+    <backgroundColor>251000</backgroundColor>
+    <groupColor>F39F1B</groupColor>
+    <groupSeparatorColor>CD811B</groupSeparatorColor>
+  </variables>
+</theme>

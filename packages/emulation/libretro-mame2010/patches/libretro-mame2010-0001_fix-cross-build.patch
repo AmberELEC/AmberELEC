@@ -1,0 +1,87 @@
+diff --git a/Makefile b/Makefile
+index deb8820..aa13d3b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -61,7 +61,7 @@ COBJFLAGS =
+ CPPONLYFLAGS =
+ # LDFLAGS are used generally; LDFLAGSEMULATOR are additional
+ # flags only used when linking the core emulator
+-LDFLAGS =
++LDFLAGS ?=
+ LDFLAGSEMULATOR =
+ 
+ GIT_VERSION ?= " $(shell git rev-parse --short HEAD || echo unknown)"
+@@ -104,24 +104,22 @@ ifeq ($(VRENDER),opengl)
+ 	CCOMFLAGS  += -DHAVE_OPENGL
+ endif
+ 
+-UNAME=$(shell uname -m)
+-
+-ifeq ($(firstword $(filter x86_64,$(UNAME))),x86_64)
++ifeq ($(firstword $(filter x86_64,$(ARCH))),x86_64)
+ PTR64 = 1
+ endif
+-ifeq ($(firstword $(filter amd64,$(UNAME))),amd64)
++ifeq ($(firstword $(filter amd64,$(ARCH))),amd64)
+ PTR64 = 1
+ endif
+-ifeq ($(firstword $(filter ppc64,$(UNAME))),ppc64)
++ifeq ($(firstword $(filter ppc64,$(ARCH))),ppc64)
+ PTR64 = 1
+ endif
+ ifneq (,$(findstring mingw64-w64,$(PATH)))
+ PTR64=1
+ endif
+-ifneq (,$(findstring Power,$(UNAME)))
++ifneq (,$(findstring Power,$(ARCH)))
+ BIGENDIAN=1
+ endif
+-ifneq (,$(findstring ppc,$(UNAME)))
++ifneq (,$(findstring ppc,$(ARCH)))
+ BIGENDIAN=1
+ endif
+ 
+@@ -143,14 +141,10 @@ ifeq ($(VRENDER),opengl)
+    LIBS += -lGL
+ endif
+ LDFLAGS += $(SHARED)
+-   NATIVELD = g++
+-   NATIVELDFLAGS = -Wl,--warn-common -lstdc++
+-   NATIVECC = g++
+-   NATIVECFLAGS = -std=gnu99
+-   CC_AS = gcc 
+-   CC = g++
+-   AR = @ar
+-   LD = g++ 
++   CC_AS ?= $(CC)
++   CC ?= g++
++   AR ?= @ar
++   LD ?= g++
+    CCOMFLAGS += $(PLATCFLAGS) -ffast-math  
+    LIBS += -lstdc++ -lpthread 
+ 
+@@ -345,10 +339,13 @@ else ifneq (,$(findstring rpi,$(platform)))
+ 
+ # ARM
+ else ifneq (,$(findstring armv,$(platform)))
++   ARM_ENABLED = 1
++   EXTRA_RULES = 1
+    TARGETLIB := $(TARGET_NAME)_libretro.so
+-   SHARED := -shared -Wl,--no-undefined
++   SHARED := -shared -Wl,--version-script=src/osd/retro/link.T
++   LDFLAGS += $(SHARED)
+    fpic = -fPIC
+-   CC = g++
++   CC ?= g++
+    LDFLAGS +=  $(SHARED)
+    ARM_ENABLED = 1
+    X86_SH2DRC = 0
+@@ -568,7 +565,7 @@ DEFS += -DFLAC__NO_DLL
+ 
+ # CFLAGS is defined based on C or C++ targets
+ # (remember, expansion only happens when used, so doing it here is ok)
+-CFLAGS = $(CCOMFLAGS) $(CPPONLYFLAGS)
++CFLAGS += $(CCOMFLAGS) $(CPPONLYFLAGS)
+ 
+ # we compile C-only to C89 standard with GNU extensions
+ # we compile C++ code to C++98 standard with GNU extensions

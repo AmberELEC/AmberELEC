@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="screen">
+    <image name="crt" extra="true">
+      <pos>0 0</pos>
+      <size>1 1</size>
+      <path>./crt.png</path>
+      <color>FFFFFF90</color>
+      <tile>true</tile>
+    </image>
+    <ninepatch name="crt_border" extra="true" tinyScreen="false">
+      <pos>0 0</pos>
+      <size>1 1</size>
+      <path>./crt_border.png</path>
+      <color>FFFFFF80</color>
+      <cornerSize>32 32</cornerSize>
+    </ninepatch>
+  </view>
+</theme>

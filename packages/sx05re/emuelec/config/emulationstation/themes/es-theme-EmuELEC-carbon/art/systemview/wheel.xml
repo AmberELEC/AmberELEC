@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <!-- When random box -->
+    <image name="box" extra="true">
+      <pos>0.675 0.40</pos>
+      <maxSize>0.40 0.55</maxSize>
+    </image>
+    <video name="videobox" extra="true">
+      <pos>0.675 0.40</pos>
+      <maxSize>0.40 0.55</maxSize>
+    </video>
+    <image name="logo">
+      <!-- if system2 exists, take this version -->
+      <path>./../../${system.theme}/art/system2.svg</path>
+    </image>
+    <carousel name="systemcarousel">
+      <type>vertical_wheel</type>
+      <pos>0 -0.1</pos>
+      <size>0.44 1.1</size>
+
+      <pos>0 -0.5</pos>
+      <size>0.44 1.5</size>
+
+      <origin>0 0</origin>
+      <color>00000000</color>
+      <logoScale>2</logoScale>
+      <logoSize>0.18 0.15</logoSize>
+      <logoRotation>-14</logoRotation>
+      <logoRotationOrigin>-2.9 0.2</logoRotationOrigin>
+      <logoAlignment>center</logoAlignment>
+      <maxLogoCount>5</maxLogoCount>
+      <systemInfoDelay>0.1</systemInfoDelay>
+      <zIndex>13</zIndex>
+    </carousel>
+
+   <image name="darkwheel" extra="static" tinyScreen="false">
+      <tile>false</tile>
+      <pos>0.22 0.25</pos>        
+      <size>0.43 0.36</size>
+      <origin>0.5 0.5</origin>
+      <path>./../darkwheel.png</path>      
+      <zIndex>12</zIndex>
+    </image>
+
+    <text name="systemInfo">
+      <pos>0.175 0.67</pos>
+      <size>1 0.25</size>
+      <backgroundColor>0000FF00</backgroundColor>
+      <color>${systemInfoColor}</color>
+      <glowColor>${glowColor}</glowColor>
+      <glowSize>2</glowSize>
+      <reflexion>0.20 0.0</reflexion>
+    </text>
+    <image name="CenterFade" extra="true"  tinyScreen="false">
+      <tile>false</tile>
+      <size>0.40 1</size>
+      <pos>0.2 1</pos>
+      <origin>1 1</origin>
+      <path>./../centerfade_v.png</path>
+      <color>${centerFadeColor}</color>
+      <zIndex>11</zIndex>
+    </image>
+    <image name="ControllerOverlay" extra="true">
+      <tile>false</tile>
+      <pos>0.675 0.40</pos>
+      <size>0.4 0</size>
+    </image>
+
+
+  </view>
+</theme>

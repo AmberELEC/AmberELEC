@@ -1,0 +1,46 @@
+# build directorys
+/build.*/
+/.fakeroot.*
+
+# automatically downloaded source files
+/sources/
+/.stamps/
+
+# prebuild target binarys to provide
+/target/
+
+# mkpkg temp
+mkpkg-temp
+
+# options
+/.libreelec
+
+# private working directory
+/.work/
+
+# dedicated filesystem
+/lost+found/
+
+# symlinks...
+/sources
+/.work
+
+# ccache
+/.ccache/
+
+# backup files
+*.orig
+
+# crap
+.DS_Store
+.directory
+
+repo/
+repo
+local.conf
+sx05re-kodi*.log
+
+packages/sx05re/experimental/
+
+# The device should be ignored for now.
+projects/Rockchip/devices/RG351P

@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2020 Lukas Rusak (lrusak@libreelec.tv)
+# Copyright (C) 2020-present Team CoreELEC (https://coreelec.org)
+
+if [ -z "$PROJECT" -a -z "$ARCH" ]; then
+  echo "Usage: PROJECT=<project> ARCH=<arch> $0"
+  exit 0
+fi
+
+help() {
+  echo "Usage: PROJECT=<project> ARCH=<arch> [JOBS=<num>] $0 [-a|--all]"
+  echo "Options:"
+  echo "  -a, --all: download all packages including addons"
+}
+
+case $1 in
+  -a|--all)
+  ALL_PACKAGES="true"
+  ;;
+  -h|--help)
+  help
+  exit 0
+esac
+
+if [ -z $(which parallel) ]; then
+  echo "'parallel' is not installed, packages will be download one at a time"
+  for package in $(find packages/ -name package.mk); do
+    if [ -n "$(echo $package | grep addons)" -a -z "$ALL_PACKAGES" ]; then
+      continue
+    fi
+    ./scripts/get $(basename `dirname $package`)
+  done
+else
+  [ -z "$JOBS" ] && JOBS=0
+  package_list=
+  for package in $(find packages/ -name package.mk); do
+    if [ -n "$(echo $package | grep addons)" -a -z "$ALL_PACKAGES" ]; then
+      continue
+    fi
+    package_list+=" $(basename `dirname $package`)"
+  done
+  parallel --jobs $JOBS ./scripts/get {} ::: $package_list
+fi

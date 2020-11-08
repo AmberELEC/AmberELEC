@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  
+  <customView name="Boxes,grid">
+    <imagegrid name="gamegrid">
+      <showVideoAtDelay>800</showVideoAtDelay>
+    </imagegrid>
+  </customView>
+  
+</theme>

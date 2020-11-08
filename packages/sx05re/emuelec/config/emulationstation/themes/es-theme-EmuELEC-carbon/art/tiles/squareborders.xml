@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <customView name="Tiles">
+    <gridtile name="default">
+      <backgroundCornerSize>0 0</backgroundCornerSize>
+    </gridtile>
+    <gridtile name="selected">
+      <backgroundCornerSize>0 0</backgroundCornerSize>
+    </gridtile>
+    <image name="gridtile.image">
+      <roundCorners>0</roundCorners>
+    </image>
+  </customView>
+</theme>

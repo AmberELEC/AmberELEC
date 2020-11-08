@@ -1,0 +1,2516 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: batocera-es.5.27\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-26 01:42-0700\n"
+"PO-Revision-Date: 2020-07-09 21:00+0900\n"
+"Last-Translator: mikakunin\n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "THEMES DOWNLOADER"
+msgstr ""
+
+msgid "SELECT THEMES TO INSTALL / REMOVE"
+msgstr ""
+
+msgid "BACK"
+msgstr "戻る"
+
+msgid "UPDATE"
+msgstr ""
+
+#, c-format
+msgid "'%s' ADDED TO DOWNLOAD QUEUE"
+msgstr "'%s' がダウンロード キューに追加されました"
+
+msgid "REMOVE"
+msgstr ""
+
+msgid "THEME UNINSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "AN ERROR OCCURED"
+msgstr "エラーが発生しました"
+
+msgid "INSTALL"
+msgstr "インストール"
+
+msgid "CLOSE"
+msgstr "閉じる"
+
+#, c-format
+msgid "CURRENT THEME"
+msgstr ""
+
+#, c-format
+msgid "CURRENTLY IN DOWNLOAD QUEUE"
+msgstr ""
+
+msgid "CONTENT DOWNLOADER"
+msgstr ""
+
+msgid "SELECT CONTENT TO INSTALL / REMOVE"
+msgstr ""
+
+msgid "REFRESH"
+msgstr "リフレッシュ"
+
+msgid "PLEASE WAIT"
+msgstr "お待ちください"
+
+msgid "MISC"
+msgstr ""
+
+msgid "UNINSTALL ADDED TO QUEUE"
+msgstr ""
+
+msgid "CONNECT TO NETPLAY"
+msgstr "ネットプレイのために接続する"
+
+msgid "Select the game you want to join"
+msgstr "参加したいゲームを選択"
+
+msgid "FAILED"
+msgstr "失敗"
+
+msgid "LAUNCH"
+msgstr "起動"
+
+msgid "UNAVAILABLE CORE"
+msgstr "利用できないコア"
+
+msgid "AVAILABLE GAMES"
+msgstr "起動可能なゲーム"
+
+msgid "UNAVAILABLE GAMES"
+msgstr "起動できないゲーム"
+
+msgid "NO GAME FOUND"
+msgstr "ゲームが見つかりません"
+
+msgid "FORGET A BLUETOOTH CONTROLLER"
+msgstr "BLUETOOTH コントローラーを解除"
+
+msgid "REMOVE ALL"
+msgstr "すべて削除"
+
+msgid "NO BLUETOOTH DEVICES FOUND"
+msgstr "BT コントローラーが見つかりません"
+
+msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
+msgstr "コントローラーのリンクが切れました。"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "FILTER GAMELIST BY"
+msgstr "ゲームリストのフィルタ"
+
+msgid "EDIT DYNAMIC COLLECTION FILTERS"
+msgstr "新しいダイナミックコレクションフィルターの編集"
+
+msgid "RESET ALL FILTERS"
+msgstr "全フィルタをリセット"
+
+msgid "FIND GAMES"
+msgstr "ゲームを検索"
+
+msgid "Unknown"
+msgstr "不明"
+
+msgid "YES"
+msgstr "はい"
+
+msgid "NO"
+msgstr "いいえ"
+
+msgid "SYSTEMS"
+msgstr "システム"
+
+msgid "SCRAPING IN PROGRESS"
+msgstr "情報を取得中"
+
+msgid "SYSTEM"
+msgstr "システム"
+
+msgid "subtitle text"
+msgstr "字幕テキスト"
+
+msgid "INPUT"
+msgstr "入力"
+
+msgid "search"
+msgstr "検索"
+
+msgid "SKIP"
+msgstr "スキップ"
+
+msgid "STOP"
+msgstr "停止"
+
+msgid "stop (progress saved)"
+msgstr "停止 (進行は保存)"
+
+#, c-format
+msgid "GAME %i OF %i"
+msgstr "ゲーム %i ／ %i"
+
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION."
+msgstr ""
+"システムが見つかりません！\n"
+"システム設定ファイルに 正しいパスが設定されているか、 また、 ゲームディレクト"
+"リに 最低1つのゲームが 正しい拡張子で 格納されてあることを 確認してください。"
+
+#, c-format
+msgid "%i GAME SUCCESSFULLY SCRAPED!"
+msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
+msgstr[0] "%i 個 のゲームの スクレイプに 成功しました！"
+
+#, c-format
+msgid "%i GAME SKIPPED."
+msgid_plural "%i GAMES SKIPPED."
+msgstr[0] "%i 個 のゲームを スキップしました。"
+
+msgid "SCRAPE NOW"
+msgstr "今すぐスクレイプする"
+
+msgid "SCRAPE THESE GAMES"
+msgstr "このゲームをスクレイプ"
+
+msgid "All Games"
+msgstr "全てのゲーム"
+
+msgid "Only missing medias"
+msgstr "不足しているメディアのみ"
+
+msgid "FILTER"
+msgstr "フィルター"
+
+msgid "SCRAPE THESE SYSTEMS"
+msgstr "このシステムをスクレイプ"
+
+msgid "USER DECIDES ON CONFLICTS"
+msgstr "ユーザーが手動で修正する"
+
+msgid "START"
+msgstr "スタート"
+
+msgid ""
+"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
+"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+"CONTINUE ANYWAY?"
+msgstr ""
+"警告: 選択された いくつかの システムは プラットフォーム設定が ありません。 正"
+"確な 結果と ならない場合が あります！ \n"
+"続けますか？"
+
+msgid "NO GAMES FIT THAT CRITERIA."
+msgstr "適合する ゲームが 見つかりませんでした。"
+
+msgid "SCRAPING IS RUNNING. DO YOU WANT TO STOP IT ?"
+msgstr "スクレイプが実行されています。中止しますか?"
+
+msgid "Loading..."
+msgstr "読み込み中…"
+
+msgid "FINISHED"
+msgstr "完了"
+
+msgid "go back"
+msgstr "戻る"
+
+msgid "SCREENSAVER AFTER"
+msgstr "スクリーンセーバー 時間"
+
+msgid "SCREENSAVER BEHAVIOR"
+msgstr "スクリーンセーバー動作"
+
+msgid ""
+"THE \"RANDOM VIDEO\" SCREENSAVER SHOWS VIDEOS FROM YOUR GAMELIST.\n"
+"IF YOU DON'T HAVE VIDEOS, OR IF NONE OF THEM CAN BE PLAYED AFTER A FEW "
+"ATTEMPTS, IT WILL DEFAULT TO \"BLACK\".\n"
+"MORE OPTIONS IN THE \"UI SETTINGS\" -> \"RANDOM VIDEO SCREENSAVER SETTINGS\" "
+"MENU."
+msgstr ""
+"「ランダムビデオ」スクリーンセーバーは、 あなたのゲームリストからビデオを表示"
+"します。\n"
+"ビデオがない場合、または何回か試しても ビデオを再生できない場合は、既定で"
+"「黒」に なります。\n"
+"メインメニューの [UI設定]->[スクリーンセーバー設定]-> [ランダムビデオスクリー"
+"ンセーバー設定]に その他の設定があります。"
+
+msgid "RANDOM VIDEO SCREENSAVER SETTINGS"
+msgstr "ランダムビデオスクリーンセーバー設定"
+
+msgid "SLIDESHOW SCREENSAVER SETTINGS"
+msgstr "スライドショーセーバー設定"
+
+msgid "SCREENSAVER CONTROLS"
+msgstr "スクリーンセーバー操作"
+
+msgid "VIDEO SCREENSAVER"
+msgstr "ランダムビデオスクリーンセーバー"
+
+msgid "SLIDESHOW SCREENSAVER"
+msgstr "スライドショーセーバー"
+
+msgid "INSTALL BATOCERA"
+msgstr "BATOCERAをインストール"
+
+msgid "TARGET DEVICE"
+msgstr "対象デバイス"
+
+msgid "SELECT"
+msgstr "セレクト(決定)"
+
+msgid "TARGET ARCHITECTURE"
+msgstr "対象アーキテクチャ"
+
+msgid "ARE YOU SURE ?"
+msgstr "よろしいですね？"
+
+msgid "NETWORK REQUIRED"
+msgstr "必要なネットワーク"
+
+msgid "INVALID PARAMETERS"
+msgstr "無効なパラメーター"
+
+msgid "THE BEZEL PROJECT"
+msgstr "ベゼルプロジェクト"
+
+msgid "SELECT BEZELS TO INSTALL / REMOVE"
+msgstr ""
+
+msgid "BEZELS UNINSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "fade"
+msgstr "フェード"
+
+msgid "slide"
+msgstr "横"
+
+msgid "instant"
+msgstr "簡易"
+
+msgid "System"
+msgstr "システム"
+
+msgid "Architecture"
+msgstr "アーキテクチャ"
+
+msgid "Temperature"
+msgstr "システム温度"
+
+msgid "Available memory"
+msgstr "使用可能なメモリ"
+
+msgid "Battery"
+msgstr "バッテリー"
+
+msgid "Cpu model"
+msgstr "CPU モデル"
+
+msgid "Cpu number"
+msgstr "CPU ナンバー"
+
+msgid "Cpu max frequence"
+msgstr ""
+
+msgid "Cpu feature"
+msgstr "CPU 機能"
+
+msgid "MAIN MENU"
+msgstr "メインメニュー"
+
+msgid "KODI MEDIA CENTER"
+msgstr "KODI メディアセンター"
+
+msgid "EMUELEC SETTINGS"
+msgstr ""
+
+msgid "RETROACHIEVEMENTS"
+msgstr "RetroAchievements"
+
+msgid "GAMES SETTINGS"
+msgstr "ゲーム設定"
+
+msgid "CONTROLLERS SETTINGS"
+msgstr "コントローラー設定"
+
+msgid "UI SETTINGS"
+msgstr "UI設定"
+
+msgid "GAME COLLECTION SETTINGS"
+msgstr "ゲームコレクション設定"
+
+msgid "SOUND SETTINGS"
+msgstr "音声設定"
+
+msgid "NETWORK SETTINGS"
+msgstr "ネットワーク設定"
+
+msgid "CONFIGURE INPUT"
+msgstr "コントローラー設定"
+
+msgid "EMULATOR SETTINGS"
+msgstr "エミュレーター設定"
+
+msgid "SCRAPE"
+msgstr "スクレイプ"
+
+msgid "UPDATES & DOWNLOADS"
+msgstr "アップデートとダウンロード"
+
+msgid "SYSTEM SETTINGS"
+msgstr "システム設定"
+
+msgid "INFORMATIONS"
+msgstr "情報"
+
+msgid "QUIT"
+msgstr "終了"
+
+msgid "VIDEO MODE"
+msgstr "ビデオモード"
+
+msgid "You are about to set EmuELEC resolution to:"
+msgstr ""
+
+msgid "Emulationstation will restart"
+msgstr ""
+
+msgid "Do you want to proceed ?"
+msgstr "続行しますか？"
+
+msgid "AUDIO DEVICE"
+msgstr ""
+
+msgid "ENABLE BLUETOOTH"
+msgstr ""
+
+msgid "ENABLE SSH"
+msgstr ""
+
+msgid "START AT BOOT"
+msgstr ""
+
+msgid "ENABLE RA BEZELS"
+msgstr ""
+
+msgid "ENABLE RA SPLASH"
+msgstr ""
+
+msgid "ALWAYS SHOW BOOT VIDEO"
+msgstr ""
+
+msgid "DEFAULT YOUTUBE SEARCH WORD"
+msgstr ""
+
+msgid "AUTO CONFIG ADVANCEMAME GAMEPAD"
+msgstr ""
+
+msgid "DANGER ZONE!"
+msgstr ""
+
+msgid ""
+"WARNING THIS WILL RESTART EMULATIONSTATION!\n"
+"\n"
+"AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/"
+"ee_backup_config.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT "
+"REBOOT!\n"
+"\n"
+"BACKUP CURRENT CONFIG AND RESTART?"
+msgstr ""
+
+msgid "BACKUP EMUELEC CONFIGS"
+msgstr ""
+
+msgid ""
+"WARNING: SYSTEM WILL RESET SCRIPTS AND BINARIES !\n"
+"UPDATE, DOWNLOADS, THEMES, BLUETOOTH PAIRINGS AND ROMS FOLDER WILL NOT BE "
+"AFFECTED.\n"
+"\n"
+"RESET SCRIPTS AND BINARIES TO DEFAULT AND RESTART?"
+msgstr ""
+
+msgid "RESET EMUELEC SCRIPTS AND BINARIES TO DEFAULT"
+msgstr ""
+
+msgid ""
+"WARNING: RETROARCH CONFIG WILL RESET TO DEFAULT\n"
+"\n"
+"PER-CORE CONFIGURATIONS WILL NOT BE AFFECTED BUT NO BACKUP WILL BE CREATED!\n"
+"\n"
+"RESET RETROARCH CONFIG TO DEFAULT?"
+msgstr ""
+
+msgid "RESET RETROARCH CONFIG TO DEFAULT"
+msgstr ""
+
+msgid ""
+"WARNING: ALL CONFIGURATIONS WILL BE RESET AND NO BACKUP WILL BE CREATED!\n"
+"\n"
+"IF YOU WANT TO KEEP YOUR SETTINGS MAKE A BACKUP AND SAVE IT ON AN EXTERNAL "
+"DRIVE BEFORE RUNING THIS OPTION!\n"
+"\n"
+"RESET SYSTEM TO DEFAULT CONFIG AND RESTART?"
+msgstr ""
+
+msgid "RESET SYSTEM TO DEFAULT CONFIG"
+msgstr ""
+
+msgid "SCRAPER"
+msgstr "スクレイプ"
+
+msgid "SCRAPE FROM"
+msgstr "スクレイプ元"
+
+msgid "IMAGE SOURCE"
+msgstr "イメージ ソース元"
+
+msgid "SCREENSHOT"
+msgstr "スクリーンショット"
+
+msgid "TITLE SCREENSHOT"
+msgstr "タイトルスクリーンショット"
+
+msgid "MIX V1"
+msgstr "MIX V1"
+
+msgid "MIX V2"
+msgstr "MIX V2"
+
+msgid "BOX 2D"
+msgstr "2D ボックス"
+
+msgid "BOX 3D"
+msgstr "3D ボックス"
+
+msgid "FAN ART"
+msgstr ""
+
+msgid "BOX SOURCE"
+msgstr "ボックス ソース元"
+
+msgid "NONE"
+msgstr "無し"
+
+msgid "LOGO SOURCE"
+msgstr "ロゴ ソース元"
+
+msgid "WHEEL"
+msgstr "ホイール"
+
+msgid "MARQUEE"
+msgstr "マーキー"
+
+msgid "SCRAPE RATINGS"
+msgstr "スクレイプ評価"
+
+msgid "SCRAPE VIDEOS"
+msgstr "ビデオをスクレイプ"
+
+msgid "SCRAPE FANART"
+msgstr ""
+
+msgid "SCRAPE MANUAL"
+msgstr ""
+
+msgid "USERNAME"
+msgstr "ユーザー名"
+
+msgid "PASSWORD"
+msgstr "パスワード"
+
+msgid "ARE YOU SURE YOU WANT TO CONFIGURE INPUT?"
+msgstr "本当に入力設定を行っていいですか？"
+
+msgid "SCREENSAVER SETTINGS"
+msgstr "スクリーンセーバー設定"
+
+msgid "SLIDESHOW SETTINGS"
+msgstr "スライドショー設定"
+
+msgid "RANDOM VIDEO SETTINGS"
+msgstr "ランダムビデオ設定"
+
+msgid "THIS FUNCTION IS DISABLED WHEN SCRAPING IS RUNNING"
+msgstr "この機能は、スクレイプの実行中は無効になります"
+
+msgid "CHOOSE"
+msgstr "移動選択"
+
+msgid "INFORMATION"
+msgstr "情報"
+
+msgid "VERSION"
+msgstr "バージョン"
+
+msgid "USER DISK USAGE"
+msgstr "データ使用量/容量"
+
+msgid "SYSTEM DISK USAGE"
+msgstr "システムデータ使用量/容量"
+
+msgid "DEVELOPER"
+msgstr "その他の設定"
+
+msgid "VRAM LIMIT"
+msgstr "VRAM上限"
+
+msgid "SHOW FRAMERATE"
+msgstr "フレームレート表示"
+
+msgid "VSYNC"
+msgstr "VSYNC(垂直同期)有効"
+
+msgid "OVERSCAN"
+msgstr "オーバースキャン"
+
+msgid "PRELOAD UI"
+msgstr "プレロード式 UI"
+
+msgid "THREADED LOADING"
+msgstr "スレッド読み込み"
+
+msgid "ASYNC IMAGES LOADING"
+msgstr "イメージの非同期読み込み"
+
+msgid "OPTIMIZE IMAGES VRAM USE"
+msgstr "画像表示にVRAMを使用"
+
+msgid "OPTIMIZE VIDEO VRAM USE"
+msgstr "ビデオ再生にVRAMを使用"
+
+msgid "ENABLE FILTERS"
+msgstr "フィルターを有効"
+
+msgid "SAVE METADATA ON EXIT"
+msgstr "終了時にメタデータを保存"
+
+msgid "PARSE GAMESLISTS ONLY"
+msgstr "ゲームリストのみ解析"
+
+msgid "SEARCH FOR LOCAL ART"
+msgstr "ローカルアートの検索"
+
+msgid "RESET FILE EXTENSIONS"
+msgstr "ファイル拡張子をリセット"
+
+msgid "REDETECT GAMES LANG/REGION"
+msgstr "ゲームの言語/地域を再検出"
+
+msgid "COMPLETE QUIT MENU"
+msgstr "完全終了メニュー"
+
+msgid "USE RETROARCH RGUI MENU"
+msgstr "RETROARCH RGUIメニューを使用"
+
+msgid "AUTOCONFIGURE EMULATORS CONTROLLERS"
+msgstr "エミュレーターのコントローラーの自動設定"
+
+msgid "LOG LEVEL"
+msgstr "ログレベル"
+
+msgid "CREATE A SUPPORT FILE"
+msgstr "サポートファイルを作成"
+
+msgid "CREATE A SUPPORT FILE ?"
+msgstr "サポートファイルを作成しますか ?"
+
+msgid "FILE GENERATED SUCCESSFULLY"
+msgstr "ファイルは正常に生成されました"
+
+msgid "FILE GENERATION FAILED"
+msgstr "ファイル生成に失敗しました"
+
+msgid "FORMAT A DISK"
+msgstr "ディスクをフォーマット"
+
+msgid "DOWNLOADS"
+msgstr "ダウンロード"
+
+msgid "THEMES"
+msgstr "テーマ"
+
+msgid "SOFTWARE UPDATES"
+msgstr "アップデート"
+
+msgid "CHECK FOR UPDATES"
+msgstr "アップデートを確認"
+
+msgid "UPDATE TYPE"
+msgstr "アップデート種類"
+
+msgid "APPLY UPDATE"
+msgstr "アップデートを適用"
+
+msgid "START UPDATE"
+msgstr "アップデート開始"
+
+msgid "UPDATE IS ALREADY RUNNING"
+msgstr "アップデートは既に実行中です"
+
+msgid "LANGUAGE"
+msgstr "言語"
+
+msgid "POWER SAVER MODES"
+msgstr "パワーセーブモード"
+
+msgid "KODI SETTINGS"
+msgstr "KODI 設定"
+
+msgid "ENABLE KODI"
+msgstr "KODI 有効"
+
+msgid "KODI AT START"
+msgstr "起動時に KODI 実行"
+
+msgid "START KODI WITH X"
+msgstr "X で KODI を起動する"
+
+msgid "HARDWARE"
+msgstr "ハードウェア"
+
+msgid "BRIGHTNESS"
+msgstr "明るさ"
+
+msgid "VIDEO OUTPUT"
+msgstr "ビデオ出力"
+
+msgid "A REBOOT OF THE SYSTEM IS REQUIRED TO APPLY THE NEW CONFIGURATION"
+msgstr "新しい構成を適用するには、システムの再起動が必要です"
+
+msgid "AUDIO OUTPUT"
+msgstr "オーディオ出力"
+
+msgid "RETROACHIEVEMENTS SETTINGS"
+msgstr "RetroAchievements 設定"
+
+msgid "NETPLAY SETTINGS"
+msgstr "ネットプレイ設定"
+
+msgid "MISSING BIOS"
+msgstr "不足BIOSの表示"
+
+msgid "MULTIMEDIA KEYS"
+msgstr ""
+
+msgid "AUTO"
+msgstr "自動"
+
+msgid "ON"
+msgstr "オン"
+
+msgid "OFF"
+msgstr "オフ"
+
+msgid "OVERCLOCK"
+msgstr "オーバークロック"
+
+msgid "STORAGE"
+msgstr "ストレージ"
+
+msgid "STORAGE DEVICE"
+msgstr "ストレージデバイス"
+
+msgid "BACKUP USER DATA"
+msgstr "ユーザデータバックアップ"
+
+msgid "INSTALL BATOCERA ON A NEW DISK"
+msgstr "BATOCERAを新規ディスクにインストール"
+
+msgid "ADVANCED"
+msgstr "アドバンス項目"
+
+msgid "SECURITY"
+msgstr "セキュリティ"
+
+msgid "ENFORCE SECURITY"
+msgstr "セキュリティ保護"
+
+msgid "ROOT PASSWORD"
+msgstr "ルートパスワード"
+
+msgid "You are about to set EmuELEC Language to:"
+msgstr ""
+
+msgid "LATENCY REDUCTION"
+msgstr "ちらつき軽減"
+
+msgid "RUN-AHEAD FRAMES"
+msgstr "先行フレーム"
+
+msgid "USE RUN-AHEAD FRAMES"
+msgstr "先行フレームの使用"
+
+msgid "RUN-AHEAD USE SECOND INSTANCE"
+msgstr "先行実行の2番目のインスタンス"
+
+msgid "HARDCORE MODE"
+msgstr "ハードコアモード"
+
+msgid "LEADERBOARDS"
+msgstr "リーダーボード"
+
+msgid "VERBOSE MODE"
+msgstr "詳細な処理モード"
+
+msgid "AUTOMATIC SCREENSHOT"
+msgstr "自動スクリーンショット"
+
+msgid "SHOW IN MAIN MENU"
+msgstr "メインメニューに表示"
+
+msgid "SETTINGS"
+msgstr "設定"
+
+msgid "ENABLE NETPLAY"
+msgstr "ネットプレイを有効"
+
+msgid "NICKNAME"
+msgstr "ニックネーム"
+
+msgid "PORT"
+msgstr "ポート"
+
+msgid "USE RELAY SERVER"
+msgstr "リレーサーバーを使用"
+
+msgid "GAME INDEXES"
+msgstr "ゲームインデックス"
+
+msgid "CHECK MISSING INDEXES AT STARTUP"
+msgstr "起動時に欠落インデックスを確認"
+
+msgid "REINDEX ALL GAMES"
+msgstr "すべてのゲームを再インデックス"
+
+msgid "INDEX MISSING GAMES"
+msgstr "プレイ不可ゲームのインデックス"
+
+msgid "TOOLS"
+msgstr "ツール"
+
+msgid "UPDATE GAMES LISTS"
+msgstr "ゲームリストを更新"
+
+msgid "DEFAULT SETTINGS"
+msgstr "既定の設定"
+
+msgid "GAME RATIO"
+msgstr "ゲーム比率"
+
+msgid "SMOOTH GAMES"
+msgstr "スムージング"
+
+msgid "ENABLE MAX PERFORMANCE"
+msgstr ""
+
+msgid "REWIND"
+msgstr "巻き戻し"
+
+msgid "AUTO SAVE/LOAD"
+msgstr "自動セーブ/ロード"
+
+msgid "SHADERS SET"
+msgstr "シェーダー設定"
+
+msgid "SCANLINES"
+msgstr "スキャンライン"
+
+msgid "RETRO"
+msgstr "レトロ"
+
+msgid "ENHANCED"
+msgstr "拡張"
+
+msgid "CURVATURE"
+msgstr "曲率"
+
+msgid "ZFAST"
+msgstr "ZFAST"
+
+msgid "FLATTEN-GLOW"
+msgstr "FLATTEN-GLOW"
+
+msgid "INTEGER SCALE (PIXEL PERFECT)"
+msgstr "整数スケール (ピクセルを正方形表示)"
+
+msgid "DECORATION"
+msgstr "アートワーク(ゲーム画面外背景表示)"
+
+msgid "AI GAME TRANSLATION"
+msgstr "AIゲーム翻訳"
+
+msgid "ENABLE AI SERVICE"
+msgstr "AIサービスを有効"
+
+msgid "TARGET LANGUAGE"
+msgstr "対象言語"
+
+msgid "SERVICE URL"
+msgstr "URL"
+
+msgid "PAUSE ON TRANSLATED SCREEN"
+msgstr "翻訳画面で一時停止"
+
+msgid "PER SYSTEM ADVANCED CONFIGURATION"
+msgstr "システムごとの詳細な設定"
+
+msgid "NO MISSING BIOS"
+msgstr "BIOSは全てあります"
+
+msgid "MISSING"
+msgstr "不足"
+
+msgid "INVALID"
+msgstr "無効"
+
+msgid "GAME HASHING IS RUNNING. DO YOU WANT TO STOP IT ?"
+msgstr "ゲームのハッシュ化が実行されています。 中止しますか？"
+
+msgid "REALLY UPDATE GAMES LISTS ?"
+msgstr "ゲームリストを更新しますか？"
+
+msgid "Emulator"
+msgstr "エミュレータ"
+
+msgid "Core"
+msgstr "コア"
+
+msgid "CONFIGURE A CONTROLLER"
+msgstr "ボタン配置設定"
+
+msgid ""
+"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
+"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
+"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
+"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
+"SNES CONTROLLER."
+msgstr ""
+"コントローラーのボタン設定を行います。方向キーが 1つのみの場合、方向キーを設"
+"定したあとの 他のボタン設定は、ボタンを長押ししてスキップできます。 ホット"
+"キーのための特別なボタンが ない場合、セレクトボタンに 設定してください。 すべ"
+"てのボタンを 長押しで スキップした場合、 ボタン名が スーパーファミコンを ベー"
+"スとしたものに なります。"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "BLUETOOTH コントローラのペアリング"
+
+#, c-format
+msgid "INPUT P%i"
+msgstr "コントローラー P%i"
+
+msgid "default"
+msgstr "標準"
+
+msgid "SHOW CONTROLLER ACTIVITY"
+msgstr "コントローラーアクティビティを表示"
+
+msgid "YOU MUST APPLY THE THEME BEFORE EDIT CONFIGURATION"
+msgstr "設定を編集する前にテーマを適用する必要があります"
+
+msgid "THEME CONFIGURATION"
+msgstr "テーマ設定"
+
+msgid "VIEW CUSTOMISATION"
+msgstr "カスタマイズ確認"
+
+msgid "GAMELIST VIEW STYLE"
+msgstr "ゲームリスト表示スタイル"
+
+msgid "automatic"
+msgstr "自動"
+
+msgid "basic"
+msgstr "基本"
+
+msgid "detailed"
+msgstr "詳細"
+
+msgid "DEFAULT GRID SIZE"
+msgstr "グリッドサイズ(既定)"
+
+msgid "GAMELIST THEME OPTIONS"
+msgstr "ゲームリストテーマオプション"
+
+msgid "THEME OPTIONS"
+msgstr "テーマオプション"
+
+msgid "DEFAULT VALUE"
+msgstr "デフォルト値"
+
+msgid "GAMELIST OPTIONS"
+msgstr "ゲームリストオプション"
+
+msgid "SHOW FAVORITES ON TOP"
+msgstr "お気に入りを上に表示"
+
+msgid "SHOW HIDDEN FILES"
+msgstr "隠しファイルを表示"
+
+msgid "SHOW FOLDERS"
+msgstr "フォルダを表示"
+
+msgid "always"
+msgstr "全て"
+
+msgid "never"
+msgstr "未プレイ"
+
+msgid "having multiple games"
+msgstr "複数のゲームがある"
+
+msgid "SHOW '..' PARENT FOLDER"
+msgstr "親フォルダ'..'を表示"
+
+msgid "FILE EXTENSIONS"
+msgstr "ファイル拡張子"
+
+msgid "RESET GAMELIST CUSTOMISATIONS"
+msgstr "ゲームリストカスタマイズをリセット"
+
+msgid "APPEARENCE"
+msgstr "外観"
+
+msgid "THEME SET"
+msgstr "テーマ設定"
+
+msgid "video"
+msgstr "ビデオ"
+
+msgid "grid"
+msgstr "グリッド"
+
+msgid "UI MODE"
+msgstr "UI モード"
+
+msgid ""
+"You are changing the UI to a restricted mode:\n"
+"This will hide most menu-options to prevent changes to the system.\n"
+"To unlock and return to the full UI, enter this code:"
+msgstr ""
+"UIを制限モードに変更します：\n"
+"ほとんどの設定メニューが 非表示になり、システム変更を 防止します。\n"
+"ロックを解除し完全なUIに戻るには、 次のコードを入力します:"
+
+msgid "STARTUP SETTINGS"
+msgstr "スタートアップ設定"
+
+msgid "START ON SYSTEM"
+msgstr "最初に起動するシステム"
+
+msgid "START ON GAMELIST"
+msgstr "ゲームリストで起動"
+
+msgid "SYSTEMS DISPLAYED"
+msgstr "表示するシステム"
+
+msgid "DISPLAY OPTIONS"
+msgstr "表示オプション"
+
+msgid "TRANSITION STYLE"
+msgstr "画面遷移スタイル"
+
+msgid "GAME LAUNCH TRANSITION"
+msgstr "ゲーム開始時の画面遷移"
+
+msgid "CAROUSEL TRANSITIONS"
+msgstr "メニュー回転(カルーセル)効果"
+
+msgid "QUICK SYSTEM SELECT"
+msgstr "クイックシステム選択"
+
+msgid "SHOW CLOCK"
+msgstr "時間を表示"
+
+msgid "ON-SCREEN HELP"
+msgstr "オンスクリーン ヘルプ"
+
+msgid "SHOW BATTERY STATUS"
+msgstr "バッテリー状態を表示"
+
+msgid "ON SCREEN KEYBOARD"
+msgstr "スクリーンキーボード"
+
+msgid "HIDE WHEN RUNNING A GAME"
+msgstr "ゲームの実行中は非表示にする"
+
+msgid "SHOW FILENAMES IN LISTS"
+msgstr "リストにファイル名を表示"
+
+msgid "VOLUME"
+msgstr "音量"
+
+msgid "SYSTEM VOLUME"
+msgstr "システム音量"
+
+msgid "MUSIC VOLUME"
+msgstr "メニューBGM音量"
+
+msgid "SHOW OVERLAY WHEN VOLUME CHANGES"
+msgstr "ボリュームが変化したときにオーバーレイを表示"
+
+msgid "MUSIC"
+msgstr "音楽"
+
+msgid "FRONTEND MUSIC"
+msgstr "フロントエンドBGM"
+
+msgid "DISPLAY SONG TITLES"
+msgstr "BGM名の表示"
+
+msgid "HOW MANY SECONDS FOR SONG TITLES"
+msgstr "BGM名の表示秒数"
+
+msgid "ONLY PLAY SYSTEM-SPECIFIC MUSIC FOLDER"
+msgstr "システム固有の音楽フォルダのみ再生"
+
+msgid "PLAY THEME MUSICS"
+msgstr "テーマ指定BGMを再生"
+
+msgid "LOWER MUSIC WHEN PLAYING VIDEO"
+msgstr "ビデオの再生時は音量を下げる"
+
+msgid "SOUNDS"
+msgstr "音声"
+
+msgid "ENABLE NAVIGATION SOUNDS"
+msgstr "ナビゲーションサウンドを有効"
+
+msgid "ENABLE VIDEO AUDIO"
+msgstr "ビデオ音声を有効"
+
+msgid "CONNECTED"
+msgstr "接続済み"
+
+msgid "NOT CONNECTED"
+msgstr "未接続"
+
+msgid "STATUS"
+msgstr "ステータス"
+
+msgid "IP ADDRESS"
+msgstr "IP アドレス"
+
+msgid "HOSTNAME"
+msgstr "ホスト名"
+
+msgid "ENABLE WIFI"
+msgstr "WI-FIを有効"
+
+msgid "WIFI SSID"
+msgstr "WIFI SSID"
+
+msgid "WIFI KEY"
+msgstr "WIFI キー"
+
+msgid "WIFI ENABLED"
+msgstr "WIFI が有効になりました"
+
+msgid "WIFI CONFIGURATION ERROR"
+msgstr "WIFI 設定エラー"
+
+msgid "AUTOMATIC SCRAPER"
+msgstr "自動スクレイプ"
+
+msgid "REALLY SCRAPE?"
+msgstr "スクレイプしますか?"
+
+msgid "MANUAL SCRAPER"
+msgstr "手動スクレイプ"
+
+msgid "SKIP TO NEXT SONG"
+msgstr "次の曲にスキップ"
+
+msgid "LAUNCH SCREENSAVER"
+msgstr "スクリーンセーバーを起動"
+
+msgid "RESTART EMULATIONSTATION"
+msgstr ""
+
+msgid "REALLY RESTART EMULATIONSTATION?"
+msgstr ""
+
+msgid "START RETROARCH"
+msgstr ""
+
+msgid "REALLY START RETROARCH?"
+msgstr ""
+
+msgid "REBOOT FROM NAND"
+msgstr ""
+
+msgid "REALLY REBOOT FROM NAND?"
+msgstr ""
+
+msgid "RESTART SYSTEM"
+msgstr "システムを再起動"
+
+msgid "REALLY RESTART?"
+msgstr "本当に再起動しますか？"
+
+msgid "SHUTDOWN SYSTEM"
+msgstr "システムをシャットダウン"
+
+msgid "REALLY SHUTDOWN?"
+msgstr "シャットダウンしますか？"
+
+msgid "FAST SHUTDOWN SYSTEM"
+msgstr "システムを高速にシャットダウン"
+
+msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
+msgstr "メタ情報を保存せずに シャットダウンしますか？"
+
+msgid "QUIT EMULATIONSTATION"
+msgstr "EMULATIONSTATION を終了"
+
+msgid "REALLY QUIT?"
+msgstr "本当に終了しますか？"
+
+msgid "COLORIZATION"
+msgstr "表示色"
+
+msgid "Best Guess"
+msgstr ""
+
+msgid "FULL BOOT"
+msgstr "フルブート"
+
+msgid "EMULATED WIIMOTES"
+msgstr "WIIリモートのエミュレート"
+
+msgid "CHANGE SCREEN LAYOUT"
+msgstr "スクリーンレイアウトの変更"
+
+msgid "LARGE SCREEN"
+msgstr "大画面"
+
+msgid "SIDE BY SIDE"
+msgstr "横に並べる"
+
+msgid "INTERNAL RESOLUTION"
+msgstr "解像度"
+
+msgid "BEZEL"
+msgstr ""
+
+msgid "FORMAT DEVICE"
+msgstr "フォーマット"
+
+msgid "DEVICE TO FORMAT"
+msgstr "対象ディスク"
+
+msgid "FILE SYSTEM"
+msgstr "ファイルシステム"
+
+msgid "FORMAT NOW"
+msgstr "今すぐフォーマット"
+
+msgid "SELECTED OPTIONS ARE INVALID"
+msgstr "選択したオプションは無効です"
+
+msgid "ARE YOU SURE YOU WANT TO FORMAT THIS DRIVE ?"
+msgstr "このドライブをフォーマットしますか？"
+
+msgid "MANUAL INPUT"
+msgstr "手動　入力"
+
+msgid "NO WIFI NETWORKS FOUND"
+msgstr "WIFI ネットワークが見つかりません"
+
+msgid "SEARCHING WIFI NETWORKS"
+msgstr "WIFIネットワークの検索"
+
+msgid "UPDATING EMUELEC"
+msgstr ""
+
+msgid "UPDATING BATOCERA"
+msgstr "BATOCERAアップデート"
+
+msgid "UPDATE IS READY"
+msgstr "アップデート準備完了"
+
+msgid "REBOOT SYSTEM TO APPLY"
+msgstr "システムを再起動して適用"
+
+msgid "REALLY UPDATE?"
+msgstr "アップデートしますか？"
+
+msgid "NETWORK CONNECTION NEEDED"
+msgstr "ネットワーク接続が必要です"
+
+msgid "NO UPDATE AVAILABLE"
+msgstr "アップデートはありません"
+
+msgid "NAVIGATION"
+msgstr "ナビゲーション"
+
+msgid "JUMP TO..."
+msgstr "移動(英数字)..."
+
+msgid "SORT GAMES BY"
+msgstr "ゲームのソート"
+
+msgid "OTHER FILTERS"
+msgstr "その他のフィルタ"
+
+msgid "GAME MEDIAS"
+msgstr ""
+
+msgid "VIEW GAME MANUAL"
+msgstr ""
+
+msgid "VIEW GAME MAP"
+msgstr ""
+
+msgid "COLLECTION"
+msgstr "コレクション"
+
+msgid "DELETE COLLECTION"
+msgstr "コレクションを削除"
+
+msgid "CREATE NEW DYNAMIC COLLECTION"
+msgstr "新しいダイナミックコレクションを作成"
+
+msgid "VIEW OPTIONS"
+msgstr "表示オプション"
+
+msgid "COLLECTION MANAGEMENT"
+msgstr "コレクション管理"
+
+msgid "ADD/REMOVE GAMES TO THIS GAME COLLECTION"
+msgstr "ゲームコレクションへのゲームの追加/削除"
+
+msgid "FINISH EDITING COLLECTION"
+msgstr "コレクション編集を終了"
+
+msgid "GAME OPTIONS"
+msgstr "ゲームオプション"
+
+msgid "ADVANCED SYSTEM OPTIONS"
+msgstr "システム詳細オプション"
+
+msgid "ADVANCED GAME OPTIONS"
+msgstr "ゲーム詳細オプション"
+
+msgid "EDIT FOLDER METADATA"
+msgstr "フォルダのメタ情報を編集"
+
+msgid "EDIT THIS GAME'S METADATA"
+msgstr "このゲームのメタ情報を編集"
+
+msgid "RESET FILTERS"
+msgstr ""
+
+msgid "FILTER GAMES BY TEXT"
+msgstr "文字でのゲームフィルタ"
+
+msgid "New Collection Name"
+msgstr "新しいコレクション名"
+
+msgid "COLLECTIONS TO DISPLAY"
+msgstr "表示するコレクション"
+
+msgid "GROUPED SYSTEMS"
+msgstr "システムのグループ化"
+
+msgid "CREATE CUSTOM COLLECTION"
+msgstr "マイコレクション作成"
+
+msgid "CREATE NEW CUSTOM COLLECTION FROM THEME"
+msgstr "テーマから新規マイコレクションを作成"
+
+msgid "SELECT THEME FOLDER"
+msgstr "テーマフォルダを選択"
+
+msgid "CREATE NEW EDITABLE COLLECTION"
+msgstr "新しい編集可能なコレクションを作成"
+
+msgid "OPTIONS"
+msgstr "オプション"
+
+msgid "GROUP UNTHEMED CUSTOM COLLECTIONS"
+msgstr "マイコレクションをグループ化"
+
+msgid "SORT COLLECTIONS AND SYSTEMS"
+msgstr ""
+
+msgid "ALPHABETICALLY"
+msgstr "アルファベット順"
+
+msgid "BY MANUFACTURER"
+msgstr "メーカーごと"
+
+msgid "SORT SYSTEMS"
+msgstr "各システムをソートする"
+
+msgid "SHOW SYSTEM NAME IN COLLECTIONS"
+msgstr "コレクションにシステム名を表示"
+
+msgid "SELECT COLLECTIONS"
+msgstr "コレクションを選択"
+
+msgid "ARCADE SYSTEMS"
+msgstr "アーケードシステム"
+
+msgid "AUTOMATIC GAME COLLECTIONS"
+msgstr "自動ゲームコレクション"
+
+msgid "EDITABLE COLLECTIONS"
+msgstr "編集可能なコレクション"
+
+msgid "DYNAMIC COLLECTIONS"
+msgstr "ダイナミックコレクション"
+
+msgid "CUSTOM GAME COLLECTIONS"
+msgstr "マイゲームコレクション"
+
+msgid "SWAP VIDEO AFTER (SECS)"
+msgstr "(秒)後にビデオを変更"
+
+msgid "USE OMX PLAYER FOR SCREENSAVER"
+msgstr "スクリーンセーバーにOMX PLAYERを使用"
+
+msgid "SHOW GAME INFO"
+msgstr "ゲーム情報を表示"
+
+msgid "SHOW GAME INFO ON SCREENSAVER"
+msgstr "スクリーンセーバー実行時ゲーム情報表示"
+
+msgid "USE MARQUEE AS GAME INFO"
+msgstr "ゲーム情報としてマーキーを使用"
+
+msgid "DECORATIONS"
+msgstr "デコレーション装飾"
+
+msgid "STRETCH VIDEO ON SCREENSAVER"
+msgstr "スクリーンセーバー実行時ビデオを拡大"
+
+msgid "MUTE VIDEO AUDIO"
+msgstr "ビデオ音声をミュート"
+
+msgid "EDIT METADATA"
+msgstr "メタ情報を編集"
+
+msgid "SAVE"
+msgstr "保存"
+
+msgid "CANCEL"
+msgstr "キャンセル"
+
+msgid ""
+"THIS WILL DELETE THE ACTUAL GAME FILE(S)!\n"
+"ARE YOU SURE?"
+msgstr ""
+"この操作はゲームファイルを削除します！\n"
+"実行しますか？"
+
+msgid "DELETE"
+msgstr "削除"
+
+msgid "SAVE CHANGES?"
+msgstr "変更を保存しますか？"
+
+msgid "SEARCH"
+msgstr "検索"
+
+msgid "SWAP IMAGE AFTER (SECS)"
+msgstr "(秒)後にイメージを変更"
+
+msgid "STRETCH IMAGES"
+msgstr "イメージを拡大"
+
+msgid "USE CUSTOM IMAGES"
+msgstr "イメージを使用"
+
+msgid "CUSTOM IMAGE DIR"
+msgstr "マイ画像のディレクトリ"
+
+msgid "CUSTOM IMAGE DIR RECURSIVE"
+msgstr "マイ画像を含めたディレクトリを参照"
+
+msgid "CUSTOM IMAGE FILTER"
+msgstr "マイ画像フィルタ"
+
+msgid "NO DEVICE FOUND"
+msgstr "デバイスが見つかりません"
+
+msgid "Loading system config..."
+msgstr "システム設定を読み込んでいます..."
+
+msgid "Done."
+msgstr "完了。"
+
+msgid "SAVING METADATAS. PLEASE WAIT..."
+msgstr "メタデータの保存中です。 お待ちください..."
+
+msgid "DOWNLOADING"
+msgstr "ダウンロード中"
+
+msgid "THEME INSTALLED SUCCESSFULLY"
+msgstr "テーマが正常にインストールされました"
+
+msgid "BEZELS INSTALLED SUCCESSFULLY"
+msgstr "ベゼルが正常にインストールされました"
+
+msgid "PACKAGE INSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "PACKAGE REMOVED SUCCESSFULLY"
+msgstr ""
+
+msgid "all games"
+msgstr "すべてのゲーム"
+
+msgid "last played"
+msgstr "最終プレイ"
+
+msgid "favorites"
+msgstr "お気に入り"
+
+msgid "2 players"
+msgstr "2 プレイヤー"
+
+msgid "4 players"
+msgstr "4 プレイヤー"
+
+msgid "never played"
+msgstr "未プレイ"
+
+msgid "arcade"
+msgstr "アーケード"
+
+msgid "collections"
+msgstr "コレクション"
+
+#, c-format
+msgid "Editing the '%s' Collection. Add/remove games with Y."
+msgstr "'%s' コレクションを編集。Yでゲームを追加/削除します。"
+
+#, c-format
+msgid "Finished editing the '%s' Collection."
+msgstr "'%s' コレクションの編集が完了しました。"
+
+#, c-format
+msgid "Added '%s' to '%s'"
+msgstr "'%s' を '%s' に追加しました"
+
+#, c-format
+msgid "Removed '%s' from '%s'"
+msgstr "'%s' を '%s' から削除しました"
+
+msgid "This collection is empty."
+msgstr "このコレクションは空です。"
+
+#. TRANSLATION: number of developpers / various developpers
+msgid "None"
+msgstr "使用しない"
+
+msgid "Various"
+msgstr "混在"
+
+#, c-format
+msgid "This collection contains %i game, including :%s"
+msgid_plural "This collection contains %i games, including :%s"
+msgstr[0] "このコレクションには、%i ゲームが含まれています :%s"
+
+msgid "FILENAME, ASCENDING"
+msgstr "ファイル名, 昇順"
+
+msgid "FILENAME, DESCENDING"
+msgstr "ファイル名, 降順"
+
+msgid "RATING, ASCENDING"
+msgstr "評価, 昇順"
+
+msgid "RATING, DESCENDING"
+msgstr "評価, 降順"
+
+msgid "TIMES PLAYED, ASCENDING"
+msgstr "プレイ回数, 昇順"
+
+msgid "TIMES PLAYED, DESCENDING"
+msgstr "プレイ回数, 降順"
+
+msgid "LAST PLAYED, ASCENDING"
+msgstr "最終プレイ日時, 昇順"
+
+msgid "LAST PLAYED, DESCENDING"
+msgstr "最終プレイ日時, 降順"
+
+msgid "NUMBER PLAYERS, ASCENDING"
+msgstr "プレイヤー人数、昇順"
+
+msgid "NUMBER PLAYERS, DESCENDING"
+msgstr "プレイヤー人数、降順"
+
+msgid "RELEASE DATE, ASCENDING"
+msgstr "発売日、昇順"
+
+msgid "RELEASE DATE, DESCENDING"
+msgstr "発売日、降順"
+
+msgid "GENRE, ASCENDING"
+msgstr "ジャンル, 昇順"
+
+msgid "GENRE, DESCENDING"
+msgstr "ジャンル, 降順"
+
+msgid "DEVELOPER, ASCENDING"
+msgstr "開発元、昇順"
+
+msgid "DEVELOPER, DESCENDING"
+msgstr "開発元、降順"
+
+msgid "PUBLISHER, ASCENDING"
+msgstr "発売元、昇順"
+
+msgid "PUBLISHER, DESCENDING"
+msgstr "発売元、降順"
+
+msgid "SYSTEM, ASCENDING"
+msgstr "システム、昇順"
+
+msgid "SYSTEM, DESCENDING"
+msgstr "システム、降順"
+
+msgid "FILE CREATION DATE, ASCENDING"
+msgstr "ファイル作成日、昇順"
+
+msgid "FILE CREATION DATE, DESCENDING"
+msgstr "ファイル作成日、降順"
+
+msgid "UPDATE AVAILABLE"
+msgstr "アップデート可能"
+
+msgid "HASHING GAMES"
+msgstr "ゲームのハッシュ化"
+
+msgid "Extracting"
+msgstr "抽出"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "enter game name"
+msgstr "ゲームの名前を入力"
+
+msgid "Description"
+msgstr "概要"
+
+msgid "enter description"
+msgstr "概要を入力"
+
+msgid "emulator"
+msgstr "エミュレータ"
+
+msgid "core"
+msgstr "コア"
+
+msgid "Image"
+msgstr "画像"
+
+msgid "enter path to image"
+msgstr "画像のパスを入力"
+
+msgid "Video"
+msgstr "ビデオ"
+
+msgid "enter path to video"
+msgstr "ビデオのパスを入力"
+
+msgid "Logo"
+msgstr ""
+
+msgid "enter path to logo"
+msgstr ""
+
+msgid "Box"
+msgstr ""
+
+msgid "enter path to box"
+msgstr ""
+
+msgid "Fan art"
+msgstr ""
+
+msgid "enter path to fanart"
+msgstr ""
+
+msgid "Title shot"
+msgstr ""
+
+msgid "enter path to title shot"
+msgstr ""
+
+msgid "Manual"
+msgstr ""
+
+msgid "enter path to manual"
+msgstr ""
+
+msgid "Map"
+msgstr ""
+
+msgid "enter path to map"
+msgstr ""
+
+msgid "Cartridge"
+msgstr ""
+
+msgid "enter path to cartridge"
+msgstr ""
+
+msgid "Alt BoxArt"
+msgstr ""
+
+msgid "enter path to alt boxart"
+msgstr ""
+
+msgid "Wheel"
+msgstr ""
+
+msgid "enter path to wheel"
+msgstr ""
+
+msgid "Mix"
+msgstr ""
+
+msgid "enter path to mix"
+msgstr ""
+
+msgid "Rating"
+msgstr "評価"
+
+msgid "enter rating"
+msgstr "評価を入力"
+
+msgid "Release date"
+msgstr "発売日"
+
+msgid "enter release date"
+msgstr "発売日を入力"
+
+msgid "Developer"
+msgstr "開発"
+
+msgid "enter game developer"
+msgstr "開発元を入力"
+
+msgid "Publisher"
+msgstr "販売"
+
+msgid "enter game publisher"
+msgstr "販売元を入力"
+
+msgid "Genre"
+msgstr "ジャンル"
+
+msgid "enter game genre"
+msgstr "ジャンルを入力"
+
+msgid "Arcade system"
+msgstr "アーケードシステム"
+
+msgid "enter game arcade system"
+msgstr "アーケードシステム名を入力"
+
+msgid "Players"
+msgstr "プレイヤー"
+
+msgid "enter number of players"
+msgstr "プレイヤー人数を入力"
+
+msgid "Favorite"
+msgstr "お気に入り"
+
+msgid "enter favorite"
+msgstr "お気に入りを入力"
+
+msgid "Hidden"
+msgstr "隠し項目"
+
+msgid "enter hidden"
+msgstr "非表示を入力"
+
+msgid "Kidgame"
+msgstr "子供向け"
+
+msgid "enter kidgame"
+msgstr "子供向けを入力"
+
+msgid "Play count"
+msgstr "プレイ回数"
+
+msgid "enter number of times played"
+msgstr "プレイ回数を入力する"
+
+msgid "Last played"
+msgstr "最後にプレイした日時"
+
+msgid "enter last played date"
+msgstr "最後にプレイした日時を入力"
+
+msgid "Crc32"
+msgstr "Crc32 チェックサム"
+
+msgid "Crc32 checksum"
+msgstr "Crc32 チェックサム"
+
+msgid "Md5"
+msgstr "MD5"
+
+msgid "Md5 checksum"
+msgstr "Md5チェックサム"
+
+msgid "Game time"
+msgstr "プレイ時間"
+
+msgid "how long the game has been played in total (seconds)"
+msgstr "ゲームの合計プレイ時間（秒）"
+
+msgid "Languages"
+msgstr "使用言語"
+
+msgid "Region"
+msgstr "リージョン"
+
+msgid "SCANNING BLUETOOTH"
+msgstr "BLUETOOTH 検出中"
+
+msgid "Searching controllers..."
+msgstr "コントローラーを検索しています..."
+
+msgid "BLUETOOTH SCANNING IS ALREADY RUNNING."
+msgstr "BLUETOOTH は既にスキャン実行中です。"
+
+msgid "FORMATING DEVICE"
+msgstr "デバイスのフォーマット"
+
+msgid "Formating"
+msgstr "フォーマット"
+
+msgid "A REBOOT OF THE SYSTEM IS REQUIRED TO COMPLETE THE OPERATION"
+msgstr "操作を完了するには、システムの再起動が必要です"
+
+msgid "DRIVE FORMAT IS ALREADY RUNNING."
+msgstr "ドライブのフォーマットはすでに実行中です。"
+
+msgid "FAVORITES"
+msgstr "お気に入り"
+
+msgid "GENRE"
+msgstr "ジャンル"
+
+msgid "PLAYERS"
+msgstr "プレイヤー数"
+
+msgid "PUBLISHER / DEVELOPER"
+msgstr "開発元 / 発売元"
+
+msgid "RATING"
+msgstr "評価"
+
+msgid "REGION"
+msgstr "リージョン"
+
+msgid "KIDGAME"
+msgstr "子供向け"
+
+msgid "ALREADY PLAYED"
+msgstr "プレイ済み"
+
+msgid "Full"
+msgstr "フルモード"
+
+msgid "Kiosk"
+msgstr "簡易モード"
+
+msgid "Kid"
+msgstr "子供用モード"
+
+msgid "No Entries Found"
+msgstr "エントリが見つかりません"
+
+msgid "NETPLAY"
+msgstr "ネットプレイ"
+
+msgid "RANDOM"
+msgstr "ランダム"
+
+msgid "Favorites"
+msgstr "お気に入り"
+
+msgid "LAUNCH THE GAME AS NETPLAY HOST ?"
+msgstr "ホスト(ネットプレイ)としてゲームを起動しますか？"
+
+msgid "Released"
+msgstr "発売日"
+
+msgid "Times played"
+msgstr "起動回数"
+
+msgid "Preloading UI"
+msgstr "プレロード式 UI"
+
+msgid "MENU"
+msgstr "メニュー"
+
+msgid "ERROR: EVERY SYSTEM IS HIDDEN, RE-DISPLAYING ALL OF THEM NOW"
+msgstr "エラー：すべてのシステムが非表示になり、すべてが再表示されています"
+
+msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
+msgstr "KODIメディアセンターを起動しますか？"
+
+msgid "GO TO MANUFACTURER"
+msgstr ""
+
+#, c-format
+msgid "%i COLLECTION"
+msgid_plural "%i COLLECTIONS"
+msgstr[0] "コレクション %i"
+
+#, c-format
+msgid "%i ITEM"
+msgid_plural "%i ITEMS"
+msgstr[0] "%i 個 のゲーム"
+
+#, c-format
+msgid "%i GAME"
+msgid_plural "%i GAMES"
+msgstr[0] "%i 個 のゲーム"
+
+msgid "KODI"
+msgstr "KODI"
+
+msgid "FILES"
+msgstr "ファイル"
+
+msgid "SCRAPING"
+msgstr "情報を取得中"
+
+msgid "SCRAPE FAILED"
+msgstr "スクレイプ失敗"
+
+msgid "SCRAPING FINISHED. REFRESH UPDATE GAMES LISTS TO APPLY CHANGES."
+msgstr "スクレイプが終了しました。 ゲームリストを更新して変更を適用します。"
+
+msgid "Searching"
+msgstr "検索中"
+
+msgid "NO GAMES FOUND - SKIP"
+msgstr "ゲームが見つかりません - スキップ"
+
+msgid "AN ERROR HAS OCCURED"
+msgstr "エラーが発生しました"
+
+msgid "RETRY"
+msgstr "再試行"
+
+msgid "Downloading"
+msgstr "ダウンロード中"
+
+msgid "ACCEPT RESULT"
+msgstr "了解"
+
+msgid "Collections"
+msgstr "コレクション"
+
+msgid "WELCOME"
+msgstr "ようこそ"
+
+#, c-format
+msgid "%i GAMEPAD DETECTED"
+msgid_plural "%i GAMEPADS DETECTED"
+msgstr[0] "%i パッドが検出されました"
+
+msgid "NO GAMEPADS DETECTED"
+msgstr "ゲームパッドが検出されませんでした"
+
+msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
+msgstr "ボタンを押し続けると、 コントローラの設定をします。"
+
+msgid "RESET"
+msgstr "リセット"
+
+msgid "DISCARD CHANGES"
+msgstr "変更をしない"
+
+msgid "UP"
+msgstr "上"
+
+msgid "DOWN"
+msgstr "下"
+
+msgid "LEFT"
+msgstr "左"
+
+msgid "RIGHT"
+msgstr "右"
+
+msgid "LEFT ANALOG UP"
+msgstr "左アナログST 上"
+
+msgid "LEFT ANALOG LEFT"
+msgstr "左アナログST 左"
+
+msgid "RIGHT ANALOG UP"
+msgstr "右アナログST 上"
+
+msgid "RIGHT ANALOG LEFT"
+msgstr "右アナログST 左"
+
+msgid "HOTKEY"
+msgstr "ホットキー"
+
+msgid "CONFIGURING"
+msgstr "設定中"
+
+msgid "KEYBOARD"
+msgstr "キーボード"
+
+msgid "CEC"
+msgstr "CEC"
+
+#, c-format
+msgid "GAMEPAD %i"
+msgstr "ゲームパッド %i"
+
+msgid "HOLD ANY BUTTON TO SKIP"
+msgstr "何かのボタンを押し続けるとスキップ"
+
+msgid "-NOT DEFINED-"
+msgstr "-未定義-"
+
+msgid ""
+"YOU DIDN'T CHOOSE A HOTKEY ENABLE BUTTON. THIS IS REQUIRED FOR EXITING GAMES "
+"WITH A CONTROLLER. DO YOU WANT TO USE THE SELECT BUTTON DEFAULT ? PLEASE "
+"ANSWER YES TO USE SELECT OR NO TO NOT SET A HOTKEY ENABLE BUTTON."
+msgstr ""
+"ホットキーを選択しませんでした。 コントローラーでゲームを終了するために 必要"
+"です。「セレクト」ボタンを 使用しますか？使用する場合は「はい」、 ホットキー"
+"対応ボタンを設定しない場合は 「いいえ」を選択してください。"
+
+#, c-format
+msgid "HOLD FOR %iS TO SKIP"
+msgid_plural "HOLD FOR %iS TO SKIP"
+msgstr[0] "%iS 長押しでスキップ"
+
+msgid "PRESS ANYTHING"
+msgstr "割当ボタンを押す"
+
+msgid "ALREADY TAKEN"
+msgstr "既に割り当て済み"
+
+msgid "SPACE"
+msgstr "空白"
+
+msgid "DELETE A CHAR"
+msgstr "文字を削除"
+
+msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
+msgstr "大文字,小文字,特殊記号用の SHIFT"
+
+msgid "SHIFT"
+msgstr "SHIFT(文字変更)"
+
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d 時間"
+
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d 分"
+
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d 秒"
+
+msgid "MOVE CURSOR"
+msgstr "カーソル移動"
+
+msgid "EDIT"
+msgstr "編集"
+
+msgid "CHANGE"
+msgstr "変更"
+
+#, c-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] "%d 日前"
+
+#, c-format
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] "%d 時間前"
+
+#, c-format
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] "%d 分前"
+
+#, c-format
+msgid "%d second ago"
+msgid_plural "%d seconds ago"
+msgstr[0] "%d 秒前"
+
+msgid "accept"
+msgstr "承諾"
+
+msgid "SELECT ALL"
+msgstr "すべて選択"
+
+msgid "select all"
+msgstr "すべて選択"
+
+msgid "SELECT NONE"
+msgstr "選択解除"
+
+msgid "select none"
+msgstr "選択解除"
+
+#, c-format
+msgid "%i SELECTED"
+msgid_plural "%i SELECTED"
+msgstr[0] "%i 種 選択"
+
+msgid "WORKING..."
+msgstr "処理中..."
+
+msgid "up/down"
+msgstr "上 / 下"
+
+#~ msgid "disabled"
+#~ msgstr "無効"
+
+#~ msgid "enhanced"
+#~ msgstr "エンハンス"
+
+#~ msgid "GAMELIST STYLE"
+#~ msgstr "ゲームリストスタイル"
+
+#~ msgid "THEME SYSTEMVIEW"
+#~ msgstr "システム選択表示位置"
+
+#~ msgid "WHEEL LEFT"
+#~ msgstr "左位置（回転）"
+
+#~ msgid "Wheel Right"
+#~ msgstr "右（回転）"
+
+#~ msgid "VERTICAL LEFT"
+#~ msgstr "左位置（縦選択）"
+
+#~ msgid "vertical right"
+#~ msgstr "右位置（縦選択）"
+
+#~ msgid "HORIZONTAL"
+#~ msgstr "横選択"
+
+#~ msgid "SORT CUSTOM COLLECTIONS AND SYSTEMS"
+#~ msgstr "マイコレクションとシステムを並べ替え"
+
+#~ msgid "INSTALL BEZELS"
+#~ msgstr "ベゼルのインストール"
+
+#~ msgid "UNINSTALL BEZELS"
+#~ msgstr "ベゼルのアンインストール"
+
+#~ msgid "INSTALL THE BEZEL PROJECT"
+#~ msgstr "ベゼルプロジェクトのインストール"
+
+#~ msgid "SELECT SYSTEM WHERE BEZELS WILL BE (RE)INSTALLED"
+#~ msgstr "ベゼルを（再）インストールするシステムを選択する"
+
+#~ msgid "UNINSTALL THE BEZEL PROJECT"
+#~ msgstr "ベゼルプロジェクトのアンインストール"
+
+#~ msgid "SELECT SYSTEM WHERE BEZELS WILL BE REMOVED"
+#~ msgstr "ベゼルを削除するシステムを選択する"
+
+#~ msgid "BEZELS DELETED SUCCESSFULLY"
+#~ msgstr "ベゼルが正常に削除されました"
+
+#~ msgid "SELECT THEME"
+#~ msgstr "テーマの選択"
+
+#~ msgid "Marquee"
+#~ msgstr "マーキー"
+
+#~ msgid "enter path to marquee"
+#~ msgstr "マーキーのパスを入力"
+
+#~ msgid "Thumbnail"
+#~ msgstr "サムネイル画像"
+
+#~ msgid "enter path to thumbnail"
+#~ msgstr "サムネイル画像のパスを入力"
+
+#~ msgid "favorite"
+#~ msgstr "お気に入り"
+
+#~ msgid "custom"
+#~ msgstr "カスタム"
+
+#~ msgid "Retrieving data download..."
+#~ msgstr "データを取得しています..."
+
+#~ msgid ""
+#~ "This collection contains %1$i game, including %2$s among other titles."
+#~ msgid_plural ""
+#~ "This collection contains %1$i games, including %2$s among other titles."
+#~ msgstr[0] ""
+#~ "このコレクションには、他のタイトルの中でも %2$s を含む %1$i ゲームが含まれ"
+#~ "ています。"
+
+#~ msgid "Options"
+#~ msgstr "オプション"
+
+#~ msgid "%i GAME AVAILABLE"
+#~ msgid_plural "%i GAMES AVAILABLE"
+#~ msgstr[0] "%i 個 のゲーム"
+
+#~ msgid "Path to video"
+#~ msgstr "ビデオのパス"
+
+#~ msgid "Path to marquee"
+#~ msgstr "マーキーのパス"
+
+#~ msgid "name"
+#~ msgstr "名前"
+
+#~ msgid "description"
+#~ msgstr "説明"
+
+#~ msgid "image"
+#~ msgstr "画像ファイル"
+
+#~ msgid "thumbnail"
+#~ msgstr "サムネイル"
+
+#~ msgid "marquee"
+#~ msgstr "マーキー"
+
+#~ msgid "4 STARS"
+#~ msgstr "☆４"
+
+#~ msgid "scraper"
+#~ msgstr "スクレイプ"
+
+#~ msgid "DISK USAGE"
+#~ msgstr "データ使用量"
+
+#~ msgid "AUTO UPDATES"
+#~ msgstr "自動アップデート"
+
+#~ msgid "STABLE"
+#~ msgstr "正式版"
+
+#~ msgid "BETA"
+#~ msgstr "ベータ版"
+
+#~ msgid "UNTESTED"
+#~ msgstr "未テスト"
+
+#~ msgid "FORGET BLUETOOTH CONTROLLERS"
+#~ msgstr "BLUETOOTH コントローラーを解除"
+
+#~ msgid "VIDEO"
+#~ msgstr "ビデオ"
+
+#~ msgid "Orientation"
+#~ msgstr "オリエンテーション"
+
+#~ msgid "PREVIEW BAR"
+#~ msgstr "プレビューバー"
+
+#~ msgid "ROUND BORDERS"
+#~ msgstr "ラウンドボーダー"
+
+#~ msgid "BLINKING BORDERS"
+#~ msgstr "点滅するボーダー"
+
+#~ msgid "VIDEOS"
+#~ msgstr "ビデオ"
+
+#~ msgid "LOGOS"
+#~ msgstr "ロゴ"
+
+#~ msgid "DEFAULT"
+#~ msgstr "デフォルト"
+
+#~ msgid "SELECT SYSTEMS TO DISPLAY"
+#~ msgstr "表示するシステムを選択"
+
+#~ msgid "APPLY"
+#~ msgstr "適用"
+
+#~ msgid "REVERT"
+#~ msgstr "元画像に戻す"
+
+#~ msgid "CREATE NEW CUSTOM COLLECTION"
+#~ msgstr "新規マイコレクションを作成"
+
+#~ msgid "GRID SIZE"
+#~ msgstr "グリッドサイズ"
+
+#~ msgid "ARCHITECTURE"
+#~ msgstr "アーキテクチャ"
+
+#~ msgid "VALIDATION"
+#~ msgstr "確認"
+
+#~ msgid "YES, I'M SURE"
+#~ msgstr "はい、確かです"
+
+#~ msgid "remove all"
+#~ msgstr "すべて削除"
+
+#~ msgid "STOP EDITING"
+#~ msgstr "編集を中止"
+
+#~ msgid "boxes"
+#~ msgstr "ボックス"
+
+#~ msgid "show video in boxes"
+#~ msgstr "ボックスにビデオを表示"
+
+#~ msgid "Internal"
+#~ msgstr "内部"
+
+#~ msgid "INTERNAL"
+#~ msgstr "内部"
+
+#~ msgid "MITM"
+#~ msgstr "MITM"
+
+#~ msgid "SCRAPE FAILED : THE APPLICATION HAS BEEN BLACKLISTED"
+#~ msgstr "スクレイプが失敗：アプリケーションがブラックリストに登録されました"
+
+#~ msgid "SCRAPE FAILED : SCRAP LIMIT REACHED TODAY"
+#~ msgstr "スクレイプが失敗：本日のスクレイプ制限に達しました"
+
+#~ msgid "FULL"
+#~ msgstr "全機能"
+
+#~ msgid "BLUE"
+#~ msgstr "青"
+
+#~ msgid "CRT"
+#~ msgstr "ブラウン管風"
+
+#~ msgid "ANYEXTERNAL"
+#~ msgstr "外部"
+
+#~ msgid "japanese"
+#~ msgstr "日本語"
+
+#~ msgid "MIX"
+#~ msgstr "ミクス"
+
+#~ msgid "CONFIG"
+#~ msgstr "コンフィグ"
+
+#, fuzzy
+#~| msgid "SEARCH"
+#~ msgid "SEARCHING"
+#~ msgstr "検索"
+
+#, fuzzy
+#~| msgid "HARDCORE MODE"
+#~ msgid "CORE PROVIDED"
+#~ msgstr "ハードコアモード"
+
+#~ msgid "CONTROLLER PAIRED"
+#~ msgstr "コントローラーがペアリングされました"
+
+#~ msgid "UNABLE TO PAIR CONTROLLER"
+#~ msgstr "コントローラーのペアリングができません"
+
+#~ msgid "OUTPUT DEVICE"
+#~ msgstr "出力デバイス"
+
+#, fuzzy
+#~| msgid "THEME SET"
+#~ msgid "THEMES COLORSET"
+#~ msgstr "テーマ設定"
+
+#, fuzzy
+#~| msgid "THEME SET"
+#~ msgid "THEMES SHADER"
+#~ msgstr "テーマ設定"
+
+#~ msgid "UPDATES"
+#~ msgstr "アップデート"
+
+#~ msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
+#~ msgstr "アップデートをダウンロードしました。 システムは再起動が必要です"
+
+#~ msgid "Only missing image"
+#~ msgstr "画像が無いゲームのみ"
+
+#, fuzzy
+#~ msgid "THE SYSTEM WILL NOW REBOOT"
+#~ msgstr "システムは 再起動します"
+
+#~ msgid "PRESS F4 TO QUIT AT ANY TIME."
+#~ msgstr "F4を押すと いつでも終了できます。"
+
+#~ msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
+#~ msgstr "ESCかホットキーを押すと キャンセルします。"
+
+#~ msgid "JUMP TO LETTER"
+#~ msgstr "文字に移動"
+
+#~ msgid "FAVORITES ONLY"
+#~ msgstr "お気に入りのみ"
+
+#, fuzzy
+#~ msgid "SHOW HIDDEN"
+#~ msgstr "隠した項目を表示"
+
+#~ msgid ""
+#~ "THIS WILL DELETE A FILE!\n"
+#~ "ARE YOU SURE?"
+#~ msgstr ""
+#~ "ファイルを削除します！ \n"
+#~ "よろしいですか？"
+
+#, fuzzy
+#~ msgid "enter emulator"
+#~ msgstr "エミュレータ"
+
+#, fuzzy
+#~ msgid "enter core"
+#~ msgstr "コア"
+
+#, fuzzy
+#~ msgid "Ratio"
+#~ msgstr "比率"
+
+#, fuzzy
+#~ msgid "enter ratio"
+#~ msgstr "比率を入力"
+
+#, fuzzy
+#~ msgid "Romtype"
+#~ msgstr "ROMタイプ"
+
+#, fuzzy
+#~ msgid "enter romtype"
+#~ msgstr "ROMタイプを入力"
+
+#, fuzzy
+#~ msgid "%i FAVORITE"
+#~ msgid_plural "%i FAVORITES"
+#~ msgstr[0] "%i 個のお気に入り"
+
+#~ msgid "SCROLL"
+#~ msgstr "スクロール"
+
+#~ msgid "FILENAME"
+#~ msgstr "ファイル名"
+
+#~ msgid "TIMES PLAYED"
+#~ msgstr "プレイ時間"
+
+#~ msgid "LAST PLAYED"
+#~ msgstr "最終プレイ日時"
+
+#~ msgid "NUMBER OF PLAYERS"
+#~ msgstr "プレイヤー数"
+
+#, fuzzy
+#~ msgid "SEARCH FOR"
+#~ msgstr "検索"
+
+#~ msgid "JOYSTICK 1 UP"
+#~ msgstr "方向キー 1 上"
+
+#~ msgid "JOYSTICK 1 LEFT"
+#~ msgstr "方向キー 1 左"
+
+#~ msgid "JOYSTICK 2 UP"
+#~ msgstr "方向キー 2 上"
+
+#~ msgid "JOYSTICK 2 LEFT"
+#~ msgstr "方向キー 2 左"
+
+#, fuzzy
+#~ msgid "PAGE UP"
+#~ msgstr "PAGE UP"
+
+#, fuzzy
+#~ msgid "PAGE DOWN"
+#~ msgstr "PAGE DOWN"
+
+#~ msgid "LOADING..."
+#~ msgstr "読み込み中..."
+
+#~ msgid "PLEASE WAIT..."
+#~ msgstr "お待ちください..."
+
+#, fuzzy
+#~ msgid "just now"
+#~ msgstr "今すぐ"
+
+#~ msgid "AN UPDATE IS AVAILABLE FOR BATOCERA.LINUX"
+#~ msgstr "BATOCERA.LINUXのアップデートがあります"
+
+#, fuzzy
+#~ msgid "EXTREM (1100Mhz)"
+#~ msgstr "極限 (1100Mhz)"
+
+#, fuzzy
+#~ msgid "TURBO (1000Mhz)"
+#~ msgstr "ターボ (1000Mhz)"
+
+#~ msgid "HIGH (950Mhz)"
+#~ msgstr "高 (950Mhz)"
+
+#~ msgid "HIGH (1050Mhz)"
+#~ msgstr "高 (1050Mhz)"
+
+#~ msgid "NONE (900Mhz)"
+#~ msgstr "無し (900Mhz)"
+
+#~ msgid "NONE (1200Mhz)"
+#~ msgstr "無し (1200Mhz)"
+
+#~ msgid "NONE (700Mhz)"
+#~ msgstr "無し (700Mhz)"
+
+#, fuzzy
+#~ msgid "TURBO (1050Mhz)+"
+#~ msgstr "ターボ (1050Mhz)+"
+
+#~ msgid "HDMI"
+#~ msgstr "HDMI"
+
+#~ msgid "JACK"
+#~ msgstr "音声ジャック"
+
+#~ msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
+#~ msgstr "アップデートに失敗しました。 システムは再起動が必要です"
+
+#~ msgid "unknown"
+#~ msgstr "不明"
+
+#~ msgid "NO CONTROLLERS FOUND"
+#~ msgstr "コントローラーが見つかりません"

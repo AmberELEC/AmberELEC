@@ -1,0 +1,2295 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: emulationstation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-26 01:42-0700\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "THEMES DOWNLOADER"
+msgstr ""
+
+msgid "SELECT THEMES TO INSTALL / REMOVE"
+msgstr ""
+
+msgid "BACK"
+msgstr "ATZERA"
+
+msgid "UPDATE"
+msgstr ""
+
+#, c-format
+msgid "'%s' ADDED TO DOWNLOAD QUEUE"
+msgstr ""
+
+msgid "REMOVE"
+msgstr ""
+
+msgid "THEME UNINSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "AN ERROR OCCURED"
+msgstr "ERRORE BAT GERTATU DA"
+
+msgid "INSTALL"
+msgstr ""
+
+msgid "CLOSE"
+msgstr "ITXI"
+
+#, c-format
+msgid "CURRENT THEME"
+msgstr ""
+
+#, c-format
+msgid "CURRENTLY IN DOWNLOAD QUEUE"
+msgstr ""
+
+msgid "CONTENT DOWNLOADER"
+msgstr ""
+
+msgid "SELECT CONTENT TO INSTALL / REMOVE"
+msgstr ""
+
+msgid "REFRESH"
+msgstr ""
+
+msgid "PLEASE WAIT"
+msgstr ""
+
+msgid "MISC"
+msgstr ""
+
+msgid "UNINSTALL ADDED TO QUEUE"
+msgstr ""
+
+msgid "CONNECT TO NETPLAY"
+msgstr ""
+
+msgid "Select the game you want to join"
+msgstr ""
+
+msgid "FAILED"
+msgstr ""
+
+msgid "LAUNCH"
+msgstr "ABIARAZI"
+
+msgid "UNAVAILABLE CORE"
+msgstr ""
+
+msgid "AVAILABLE GAMES"
+msgstr ""
+
+msgid "UNAVAILABLE GAMES"
+msgstr ""
+
+msgid "NO GAME FOUND"
+msgstr ""
+
+msgid "FORGET A BLUETOOTH CONTROLLER"
+msgstr ""
+
+msgid "REMOVE ALL"
+msgstr ""
+
+msgid "NO BLUETOOTH DEVICES FOUND"
+msgstr ""
+
+msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
+msgstr "AGINTEEN ESTEKAK EZABATUAK IZAN DIRA"
+
+msgid "OK"
+msgstr "ADOS"
+
+msgid "FILTER GAMELIST BY"
+msgstr ""
+
+msgid "EDIT DYNAMIC COLLECTION FILTERS"
+msgstr ""
+
+msgid "RESET ALL FILTERS"
+msgstr ""
+
+msgid "FIND GAMES"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "YES"
+msgstr "BAI"
+
+msgid "NO"
+msgstr "EZ"
+
+msgid "SYSTEMS"
+msgstr "SISTEMAK"
+
+msgid "SCRAPING IN PROGRESS"
+msgstr "DATUAK LORTZEN"
+
+msgid "SYSTEM"
+msgstr "SISTEMA"
+
+msgid "subtitle text"
+msgstr "azpititulu testua"
+
+msgid "INPUT"
+msgstr "EDITATU"
+
+msgid "search"
+msgstr "bilatu"
+
+msgid "SKIP"
+msgstr "TXANDAPASA"
+
+msgid "STOP"
+msgstr "GELDITU"
+
+msgid "stop (progress saved)"
+msgstr "gelditu (orain artekoa gordeta)"
+
+#, c-format
+msgid "GAME %i OF %i"
+msgstr "%i/%i JOKOA"
+
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION."
+msgstr ""
+
+#, c-format
+msgid "%i GAME SUCCESSFULLY SCRAPED!"
+msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
+msgstr[0] "JOKO %iEN DATUAK ONGI LORTUAK!"
+msgstr[1] "%i JOKOREN DATUAK ONGI LORTUAK!"
+
+#, c-format
+msgid "%i GAME SKIPPED."
+msgid_plural "%i GAMES SKIPPED."
+msgstr[0] "JOKO %i TXANDAPASA EGINDA"
+msgstr[1] "%i JOKO TXANDAPASA EGINDA"
+
+msgid "SCRAPE NOW"
+msgstr "DATUAK LORTU"
+
+msgid "SCRAPE THESE GAMES"
+msgstr "JOKU HAUEN DATUAK LORTU"
+
+msgid "All Games"
+msgstr "Joko guztiak"
+
+msgid "Only missing medias"
+msgstr ""
+
+msgid "FILTER"
+msgstr "IRAGAZKIAK"
+
+msgid "SCRAPE THESE SYSTEMS"
+msgstr "SISTEMA HAUEN DATUAK LORTU"
+
+msgid "USER DECIDES ON CONFLICTS"
+msgstr "ERABILTZAILEAK ERABAKI GATAZKETAN"
+
+msgid "START"
+msgstr "HASI"
+
+msgid ""
+"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
+"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+"CONTINUE ANYWAY?"
+msgstr ""
+"ABISUA: AUKERATU DITUZUN SISTEMA BATZUEK EZ DUTE PLATAFORMARIK EZARRITA. "
+"EMAITZAK NORMALEAN BAINO ZEHAZTASUN GUTXIAGOKOAK IZAN DAITEZKE!\n"
+"JARRAITU HALA ERE?"
+
+msgid "NO GAMES FIT THAT CRITERIA."
+msgstr "EZ DAGO JOKORIK IRIZPIDE HORI BETETZEN DUENIK"
+
+msgid "SCRAPING IS RUNNING. DO YOU WANT TO STOP IT ?"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "FINISHED"
+msgstr ""
+
+msgid "go back"
+msgstr ""
+
+msgid "SCREENSAVER AFTER"
+msgstr "PANTAILA BABESLEA ZENBAT SEGUNDU ONDOREN:"
+
+msgid "SCREENSAVER BEHAVIOR"
+msgstr "PANTAILA BABESLEAREN PORTAERA"
+
+msgid ""
+"THE \"RANDOM VIDEO\" SCREENSAVER SHOWS VIDEOS FROM YOUR GAMELIST.\n"
+"IF YOU DON'T HAVE VIDEOS, OR IF NONE OF THEM CAN BE PLAYED AFTER A FEW "
+"ATTEMPTS, IT WILL DEFAULT TO \"BLACK\".\n"
+"MORE OPTIONS IN THE \"UI SETTINGS\" -> \"RANDOM VIDEO SCREENSAVER SETTINGS\" "
+"MENU."
+msgstr ""
+
+msgid "RANDOM VIDEO SCREENSAVER SETTINGS"
+msgstr ""
+
+msgid "SLIDESHOW SCREENSAVER SETTINGS"
+msgstr ""
+
+msgid "SCREENSAVER CONTROLS"
+msgstr ""
+
+msgid "VIDEO SCREENSAVER"
+msgstr ""
+
+msgid "SLIDESHOW SCREENSAVER"
+msgstr ""
+
+msgid "INSTALL BATOCERA"
+msgstr ""
+
+msgid "TARGET DEVICE"
+msgstr ""
+
+msgid "SELECT"
+msgstr "AUKERATU"
+
+msgid "TARGET ARCHITECTURE"
+msgstr ""
+
+msgid "ARE YOU SURE ?"
+msgstr ""
+
+msgid "NETWORK REQUIRED"
+msgstr ""
+
+msgid "INVALID PARAMETERS"
+msgstr ""
+
+msgid "THE BEZEL PROJECT"
+msgstr ""
+
+msgid "SELECT BEZELS TO INSTALL / REMOVE"
+msgstr ""
+
+msgid "BEZELS UNINSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "fade"
+msgstr ""
+
+msgid "slide"
+msgstr ""
+
+msgid "instant"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "Architecture"
+msgstr ""
+
+msgid "Temperature"
+msgstr ""
+
+msgid "Available memory"
+msgstr ""
+
+msgid "Battery"
+msgstr ""
+
+msgid "Cpu model"
+msgstr ""
+
+msgid "Cpu number"
+msgstr ""
+
+msgid "Cpu max frequence"
+msgstr ""
+
+msgid "Cpu feature"
+msgstr ""
+
+msgid "MAIN MENU"
+msgstr "MENU NAGUSIA"
+
+msgid "KODI MEDIA CENTER"
+msgstr "KODI MEDIA CENTER-a"
+
+msgid "EMUELEC SETTINGS"
+msgstr ""
+
+msgid "RETROACHIEVEMENTS"
+msgstr "RETROACHIVEMENTS"
+
+msgid "GAMES SETTINGS"
+msgstr "JOKOEN KONFIGURAZIOAK"
+
+msgid "CONTROLLERS SETTINGS"
+msgstr "AGINTEEN KONFIGURAZIOAK"
+
+msgid "UI SETTINGS"
+msgstr "INTERFAZEAREN EZARPENAK"
+
+msgid "GAME COLLECTION SETTINGS"
+msgstr ""
+
+msgid "SOUND SETTINGS"
+msgstr "SOINU EZARPENAK"
+
+msgid "NETWORK SETTINGS"
+msgstr "SARE KONFIGURAZIOA"
+
+msgid "CONFIGURE INPUT"
+msgstr "KONTROLEN KONFIGURAZIOA"
+
+msgid "EMULATOR SETTINGS"
+msgstr ""
+
+msgid "SCRAPE"
+msgstr "DATUAK LORTU"
+
+msgid "UPDATES & DOWNLOADS"
+msgstr ""
+
+msgid "SYSTEM SETTINGS"
+msgstr "SISTEMAREN KONFIGURAZIOA"
+
+msgid "INFORMATIONS"
+msgstr ""
+
+msgid "QUIT"
+msgstr "IRTEN"
+
+msgid "VIDEO MODE"
+msgstr ""
+
+msgid "You are about to set EmuELEC resolution to:"
+msgstr ""
+
+msgid "Emulationstation will restart"
+msgstr ""
+
+msgid "Do you want to proceed ?"
+msgstr ""
+
+msgid "AUDIO DEVICE"
+msgstr ""
+
+msgid "ENABLE BLUETOOTH"
+msgstr ""
+
+msgid "ENABLE SSH"
+msgstr ""
+
+msgid "START AT BOOT"
+msgstr ""
+
+msgid "ENABLE RA BEZELS"
+msgstr ""
+
+msgid "ENABLE RA SPLASH"
+msgstr ""
+
+msgid "ALWAYS SHOW BOOT VIDEO"
+msgstr ""
+
+msgid "DEFAULT YOUTUBE SEARCH WORD"
+msgstr ""
+
+msgid "AUTO CONFIG ADVANCEMAME GAMEPAD"
+msgstr ""
+
+msgid "DANGER ZONE!"
+msgstr ""
+
+msgid ""
+"WARNING THIS WILL RESTART EMULATIONSTATION!\n"
+"\n"
+"AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/"
+"ee_backup_config.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT "
+"REBOOT!\n"
+"\n"
+"BACKUP CURRENT CONFIG AND RESTART?"
+msgstr ""
+
+msgid "BACKUP EMUELEC CONFIGS"
+msgstr ""
+
+msgid ""
+"WARNING: SYSTEM WILL RESET SCRIPTS AND BINARIES !\n"
+"UPDATE, DOWNLOADS, THEMES, BLUETOOTH PAIRINGS AND ROMS FOLDER WILL NOT BE "
+"AFFECTED.\n"
+"\n"
+"RESET SCRIPTS AND BINARIES TO DEFAULT AND RESTART?"
+msgstr ""
+
+msgid "RESET EMUELEC SCRIPTS AND BINARIES TO DEFAULT"
+msgstr ""
+
+msgid ""
+"WARNING: RETROARCH CONFIG WILL RESET TO DEFAULT\n"
+"\n"
+"PER-CORE CONFIGURATIONS WILL NOT BE AFFECTED BUT NO BACKUP WILL BE CREATED!\n"
+"\n"
+"RESET RETROARCH CONFIG TO DEFAULT?"
+msgstr ""
+
+msgid "RESET RETROARCH CONFIG TO DEFAULT"
+msgstr ""
+
+msgid ""
+"WARNING: ALL CONFIGURATIONS WILL BE RESET AND NO BACKUP WILL BE CREATED!\n"
+"\n"
+"IF YOU WANT TO KEEP YOUR SETTINGS MAKE A BACKUP AND SAVE IT ON AN EXTERNAL "
+"DRIVE BEFORE RUNING THIS OPTION!\n"
+"\n"
+"RESET SYSTEM TO DEFAULT CONFIG AND RESTART?"
+msgstr ""
+
+msgid "RESET SYSTEM TO DEFAULT CONFIG"
+msgstr ""
+
+msgid "SCRAPER"
+msgstr "DATU LORTZAILEA"
+
+msgid "SCRAPE FROM"
+msgstr "LORTU DATUAK HEMENDIK:"
+
+msgid "IMAGE SOURCE"
+msgstr ""
+
+msgid "SCREENSHOT"
+msgstr ""
+
+msgid "TITLE SCREENSHOT"
+msgstr ""
+
+msgid "MIX V1"
+msgstr ""
+
+msgid "MIX V2"
+msgstr ""
+
+msgid "BOX 2D"
+msgstr ""
+
+msgid "BOX 3D"
+msgstr ""
+
+msgid "FAN ART"
+msgstr ""
+
+msgid "BOX SOURCE"
+msgstr ""
+
+msgid "NONE"
+msgstr "BAT ERE EZ"
+
+msgid "LOGO SOURCE"
+msgstr ""
+
+msgid "WHEEL"
+msgstr ""
+
+msgid "MARQUEE"
+msgstr ""
+
+msgid "SCRAPE RATINGS"
+msgstr "LORTU PUNTUAZIOAK"
+
+msgid "SCRAPE VIDEOS"
+msgstr ""
+
+msgid "SCRAPE FANART"
+msgstr ""
+
+msgid "SCRAPE MANUAL"
+msgstr ""
+
+msgid "USERNAME"
+msgstr "ERABILTZAILE IZENA"
+
+msgid "PASSWORD"
+msgstr "PASAHITZA"
+
+msgid "ARE YOU SURE YOU WANT TO CONFIGURE INPUT?"
+msgstr ""
+
+msgid "SCREENSAVER SETTINGS"
+msgstr ""
+
+msgid "SLIDESHOW SETTINGS"
+msgstr ""
+
+msgid "RANDOM VIDEO SETTINGS"
+msgstr ""
+
+msgid "THIS FUNCTION IS DISABLED WHEN SCRAPING IS RUNNING"
+msgstr ""
+
+msgid "CHOOSE"
+msgstr "HAUTATU"
+
+msgid "INFORMATION"
+msgstr ""
+
+msgid "VERSION"
+msgstr "BERTSIOA"
+
+msgid "USER DISK USAGE"
+msgstr ""
+
+msgid "SYSTEM DISK USAGE"
+msgstr ""
+
+msgid "DEVELOPER"
+msgstr "GARATZAILEA"
+
+msgid "VRAM LIMIT"
+msgstr ""
+
+msgid "SHOW FRAMERATE"
+msgstr "ERAKUTSI FRAMERATEA"
+
+msgid "VSYNC"
+msgstr ""
+
+msgid "OVERSCAN"
+msgstr "OVERSCAN"
+
+msgid "PRELOAD UI"
+msgstr ""
+
+msgid "THREADED LOADING"
+msgstr ""
+
+msgid "ASYNC IMAGES LOADING"
+msgstr ""
+
+msgid "OPTIMIZE IMAGES VRAM USE"
+msgstr ""
+
+msgid "OPTIMIZE VIDEO VRAM USE"
+msgstr ""
+
+msgid "ENABLE FILTERS"
+msgstr ""
+
+msgid "SAVE METADATA ON EXIT"
+msgstr ""
+
+msgid "PARSE GAMESLISTS ONLY"
+msgstr ""
+
+msgid "SEARCH FOR LOCAL ART"
+msgstr ""
+
+msgid "RESET FILE EXTENSIONS"
+msgstr ""
+
+msgid "REDETECT GAMES LANG/REGION"
+msgstr ""
+
+msgid "COMPLETE QUIT MENU"
+msgstr ""
+
+msgid "USE RETROARCH RGUI MENU"
+msgstr ""
+
+msgid "AUTOCONFIGURE EMULATORS CONTROLLERS"
+msgstr ""
+
+msgid "LOG LEVEL"
+msgstr ""
+
+msgid "CREATE A SUPPORT FILE"
+msgstr ""
+
+msgid "CREATE A SUPPORT FILE ?"
+msgstr ""
+
+msgid "FILE GENERATED SUCCESSFULLY"
+msgstr ""
+
+msgid "FILE GENERATION FAILED"
+msgstr ""
+
+msgid "FORMAT A DISK"
+msgstr ""
+
+msgid "DOWNLOADS"
+msgstr ""
+
+msgid "THEMES"
+msgstr ""
+
+msgid "SOFTWARE UPDATES"
+msgstr ""
+
+msgid "CHECK FOR UPDATES"
+msgstr ""
+
+msgid "UPDATE TYPE"
+msgstr ""
+
+msgid "APPLY UPDATE"
+msgstr ""
+
+msgid "START UPDATE"
+msgstr "EGUNERAKETA HASI"
+
+msgid "UPDATE IS ALREADY RUNNING"
+msgstr ""
+
+msgid "LANGUAGE"
+msgstr "HIZKUNTZA"
+
+msgid "POWER SAVER MODES"
+msgstr ""
+
+msgid "KODI SETTINGS"
+msgstr "KODI-ren KONFIGURAZIOA"
+
+msgid "ENABLE KODI"
+msgstr "KODI AKTIBATU"
+
+msgid "KODI AT START"
+msgstr "HASI KODI ABIARAZTEAN"
+
+msgid "START KODI WITH X"
+msgstr "X SAKATU KODI ABIARAZTEKO"
+
+msgid "HARDWARE"
+msgstr ""
+
+msgid "BRIGHTNESS"
+msgstr ""
+
+msgid "VIDEO OUTPUT"
+msgstr ""
+
+msgid "A REBOOT OF THE SYSTEM IS REQUIRED TO APPLY THE NEW CONFIGURATION"
+msgstr ""
+
+msgid "AUDIO OUTPUT"
+msgstr ""
+
+msgid "RETROACHIEVEMENTS SETTINGS"
+msgstr "RETROACHIVEMENTS EZARPENAK"
+
+msgid "NETPLAY SETTINGS"
+msgstr ""
+
+msgid "MISSING BIOS"
+msgstr ""
+
+msgid "MULTIMEDIA KEYS"
+msgstr ""
+
+msgid "AUTO"
+msgstr "AUTO"
+
+msgid "ON"
+msgstr ""
+
+msgid "OFF"
+msgstr ""
+
+msgid "OVERCLOCK"
+msgstr "OVERCLOCK"
+
+msgid "STORAGE"
+msgstr ""
+
+msgid "STORAGE DEVICE"
+msgstr "MEMORIA"
+
+msgid "BACKUP USER DATA"
+msgstr ""
+
+msgid "INSTALL BATOCERA ON A NEW DISK"
+msgstr ""
+
+msgid "ADVANCED"
+msgstr "AURRERATUA"
+
+msgid "SECURITY"
+msgstr "SEGURTASUNA"
+
+msgid "ENFORCE SECURITY"
+msgstr "ZIURTATU SEGURTASUNA"
+
+msgid "ROOT PASSWORD"
+msgstr "ROOT PASAHITZA"
+
+msgid "You are about to set EmuELEC Language to:"
+msgstr ""
+
+msgid "LATENCY REDUCTION"
+msgstr ""
+
+msgid "RUN-AHEAD FRAMES"
+msgstr ""
+
+msgid "USE RUN-AHEAD FRAMES"
+msgstr ""
+
+msgid "RUN-AHEAD USE SECOND INSTANCE"
+msgstr ""
+
+msgid "HARDCORE MODE"
+msgstr "HARDCORE MODUA"
+
+msgid "LEADERBOARDS"
+msgstr ""
+
+msgid "VERBOSE MODE"
+msgstr ""
+
+msgid "AUTOMATIC SCREENSHOT"
+msgstr ""
+
+msgid "SHOW IN MAIN MENU"
+msgstr ""
+
+msgid "SETTINGS"
+msgstr ""
+
+msgid "ENABLE NETPLAY"
+msgstr ""
+
+msgid "NICKNAME"
+msgstr ""
+
+msgid "PORT"
+msgstr ""
+
+msgid "USE RELAY SERVER"
+msgstr ""
+
+msgid "GAME INDEXES"
+msgstr ""
+
+msgid "CHECK MISSING INDEXES AT STARTUP"
+msgstr ""
+
+msgid "REINDEX ALL GAMES"
+msgstr ""
+
+msgid "INDEX MISSING GAMES"
+msgstr ""
+
+msgid "TOOLS"
+msgstr ""
+
+msgid "UPDATE GAMES LISTS"
+msgstr "EGUNERATU JOKO ZERRENDAK"
+
+msgid "DEFAULT SETTINGS"
+msgstr ""
+
+msgid "GAME RATIO"
+msgstr "JOKOAREN RATIOA"
+
+msgid "SMOOTH GAMES"
+msgstr "JOKUAK LEUNDU"
+
+msgid "ENABLE MAX PERFORMANCE"
+msgstr ""
+
+msgid "REWIND"
+msgstr "ATZERA ERAMAN"
+
+msgid "AUTO SAVE/LOAD"
+msgstr "AUTO GORDE/KARGATU"
+
+msgid "SHADERS SET"
+msgstr "EZARRI SHADER-ak"
+
+msgid "SCANLINES"
+msgstr "SCANLINE-ak"
+
+msgid "RETRO"
+msgstr "RETRO"
+
+msgid "ENHANCED"
+msgstr ""
+
+msgid "CURVATURE"
+msgstr ""
+
+msgid "ZFAST"
+msgstr ""
+
+msgid "FLATTEN-GLOW"
+msgstr ""
+
+msgid "INTEGER SCALE (PIXEL PERFECT)"
+msgstr ""
+
+msgid "DECORATION"
+msgstr ""
+
+msgid "AI GAME TRANSLATION"
+msgstr ""
+
+msgid "ENABLE AI SERVICE"
+msgstr ""
+
+msgid "TARGET LANGUAGE"
+msgstr ""
+
+msgid "SERVICE URL"
+msgstr ""
+
+msgid "PAUSE ON TRANSLATED SCREEN"
+msgstr ""
+
+msgid "PER SYSTEM ADVANCED CONFIGURATION"
+msgstr ""
+
+msgid "NO MISSING BIOS"
+msgstr ""
+
+msgid "MISSING"
+msgstr ""
+
+msgid "INVALID"
+msgstr ""
+
+msgid "GAME HASHING IS RUNNING. DO YOU WANT TO STOP IT ?"
+msgstr ""
+
+msgid "REALLY UPDATE GAMES LISTS ?"
+msgstr "ZIUR JOKO ZERRENDAK EGUNERATU NAHI DITUZULA?"
+
+msgid "Emulator"
+msgstr "Emulatzaile"
+
+msgid "Core"
+msgstr "Nukleoa"
+
+msgid "CONFIGURE A CONTROLLER"
+msgstr "AGINTE BAT KONFIGURATU"
+
+msgid ""
+"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
+"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
+"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
+"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
+"SNES CONTROLLER."
+msgstr ""
+"AGINTE BAT KONFIGURATZERA ZOAZ. JOYSTICK BAT SOILIK BADUZU NORABIDEAK "
+"KONFIGURATU ETA AHAZTU BESTE KONFIGURAZIOA BOTO BAT SAKATU ETA MANTENDUZ. EZ "
+"BADUZU BOTOI BEREZIRIK HOTKEY-arentzat ERABILI EZAZU SELECT BOTOIA. ZURE "
+"AGINTEAN EXISTITZEN EZ DIREN BOTOIEI EZ EGIN KASURIK BOTOI BAT SAKATU ETA "
+"MANTENDUZ."
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "BLUETOOTH AGINTE BAT PAREKATU"
+
+#, c-format
+msgid "INPUT P%i"
+msgstr "P%i SARRERA"
+
+msgid "default"
+msgstr ""
+
+msgid "SHOW CONTROLLER ACTIVITY"
+msgstr ""
+
+msgid "YOU MUST APPLY THE THEME BEFORE EDIT CONFIGURATION"
+msgstr ""
+
+msgid "THEME CONFIGURATION"
+msgstr ""
+
+msgid "VIEW CUSTOMISATION"
+msgstr ""
+
+msgid "GAMELIST VIEW STYLE"
+msgstr ""
+
+msgid "automatic"
+msgstr ""
+
+msgid "basic"
+msgstr ""
+
+msgid "detailed"
+msgstr ""
+
+msgid "DEFAULT GRID SIZE"
+msgstr ""
+
+msgid "GAMELIST THEME OPTIONS"
+msgstr ""
+
+msgid "THEME OPTIONS"
+msgstr ""
+
+msgid "DEFAULT VALUE"
+msgstr ""
+
+msgid "GAMELIST OPTIONS"
+msgstr ""
+
+msgid "SHOW FAVORITES ON TOP"
+msgstr ""
+
+msgid "SHOW HIDDEN FILES"
+msgstr ""
+
+msgid "SHOW FOLDERS"
+msgstr ""
+
+msgid "always"
+msgstr ""
+
+msgid "never"
+msgstr "inoiz"
+
+msgid "having multiple games"
+msgstr ""
+
+msgid "SHOW '..' PARENT FOLDER"
+msgstr ""
+
+msgid "FILE EXTENSIONS"
+msgstr ""
+
+msgid "RESET GAMELIST CUSTOMISATIONS"
+msgstr ""
+
+msgid "APPEARENCE"
+msgstr ""
+
+msgid "THEME SET"
+msgstr "GAIA"
+
+msgid "video"
+msgstr ""
+
+msgid "grid"
+msgstr ""
+
+msgid "UI MODE"
+msgstr ""
+
+msgid ""
+"You are changing the UI to a restricted mode:\n"
+"This will hide most menu-options to prevent changes to the system.\n"
+"To unlock and return to the full UI, enter this code:"
+msgstr ""
+
+msgid "STARTUP SETTINGS"
+msgstr ""
+
+msgid "START ON SYSTEM"
+msgstr ""
+
+msgid "START ON GAMELIST"
+msgstr ""
+
+msgid "SYSTEMS DISPLAYED"
+msgstr ""
+
+msgid "DISPLAY OPTIONS"
+msgstr ""
+
+msgid "TRANSITION STYLE"
+msgstr "TRANTSIZIO MOTA"
+
+msgid "GAME LAUNCH TRANSITION"
+msgstr ""
+
+msgid "CAROUSEL TRANSITIONS"
+msgstr ""
+
+msgid "QUICK SYSTEM SELECT"
+msgstr "SISTEMA AUKERATZE AZKARRA"
+
+msgid "SHOW CLOCK"
+msgstr ""
+
+msgid "ON-SCREEN HELP"
+msgstr "LAGUNTZA PANTAILAN"
+
+msgid "SHOW BATTERY STATUS"
+msgstr ""
+
+msgid "ON SCREEN KEYBOARD"
+msgstr "PANTAILAKO TEKLATUA"
+
+msgid "HIDE WHEN RUNNING A GAME"
+msgstr ""
+
+msgid "SHOW FILENAMES IN LISTS"
+msgstr ""
+
+msgid "VOLUME"
+msgstr ""
+
+msgid "SYSTEM VOLUME"
+msgstr "SISTEMAREN BOLUMENA"
+
+msgid "MUSIC VOLUME"
+msgstr ""
+
+msgid "SHOW OVERLAY WHEN VOLUME CHANGES"
+msgstr ""
+
+msgid "MUSIC"
+msgstr ""
+
+msgid "FRONTEND MUSIC"
+msgstr "ATZEKO MUSIKA"
+
+msgid "DISPLAY SONG TITLES"
+msgstr ""
+
+msgid "HOW MANY SECONDS FOR SONG TITLES"
+msgstr ""
+
+msgid "ONLY PLAY SYSTEM-SPECIFIC MUSIC FOLDER"
+msgstr ""
+
+msgid "PLAY THEME MUSICS"
+msgstr ""
+
+msgid "LOWER MUSIC WHEN PLAYING VIDEO"
+msgstr ""
+
+msgid "SOUNDS"
+msgstr ""
+
+msgid "ENABLE NAVIGATION SOUNDS"
+msgstr ""
+
+msgid "ENABLE VIDEO AUDIO"
+msgstr ""
+
+msgid "CONNECTED"
+msgstr "KONEKTATUTA"
+
+msgid "NOT CONNECTED"
+msgstr "KONEKTATU GABE"
+
+msgid "STATUS"
+msgstr "EGOERA"
+
+msgid "IP ADDRESS"
+msgstr "IP HELBIDEA"
+
+msgid "HOSTNAME"
+msgstr "GAILUAREN IZENA"
+
+msgid "ENABLE WIFI"
+msgstr "WIFI-a AKTIBATU"
+
+msgid "WIFI SSID"
+msgstr "WIFI SSID-a"
+
+msgid "WIFI KEY"
+msgstr "WIFI GAKOA"
+
+msgid "WIFI ENABLED"
+msgstr "WIFI-a AKTIBATUTA"
+
+msgid "WIFI CONFIGURATION ERROR"
+msgstr "WIFI KONFIGURAZIO ERROREA"
+
+msgid "AUTOMATIC SCRAPER"
+msgstr ""
+
+msgid "REALLY SCRAPE?"
+msgstr ""
+
+msgid "MANUAL SCRAPER"
+msgstr ""
+
+msgid "SKIP TO NEXT SONG"
+msgstr ""
+
+msgid "LAUNCH SCREENSAVER"
+msgstr ""
+
+msgid "RESTART EMULATIONSTATION"
+msgstr ""
+
+msgid "REALLY RESTART EMULATIONSTATION?"
+msgstr ""
+
+msgid "START RETROARCH"
+msgstr ""
+
+msgid "REALLY START RETROARCH?"
+msgstr ""
+
+msgid "REBOOT FROM NAND"
+msgstr ""
+
+msgid "REALLY REBOOT FROM NAND?"
+msgstr ""
+
+msgid "RESTART SYSTEM"
+msgstr "SISTEMA BERRABIARAZI"
+
+msgid "REALLY RESTART?"
+msgstr "BERRABIARAZI?"
+
+msgid "SHUTDOWN SYSTEM"
+msgstr "ITZALI SISTEMA"
+
+msgid "REALLY SHUTDOWN?"
+msgstr "ITZALI?"
+
+msgid "FAST SHUTDOWN SYSTEM"
+msgstr "SISTEMAREN ITZALTZE AZKARRA"
+
+msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
+msgstr "BENETAN METADATUAK GORDE GABE ITZALI?"
+
+msgid "QUIT EMULATIONSTATION"
+msgstr ""
+
+msgid "REALLY QUIT?"
+msgstr ""
+
+msgid "COLORIZATION"
+msgstr ""
+
+msgid "Best Guess"
+msgstr ""
+
+msgid "FULL BOOT"
+msgstr ""
+
+msgid "EMULATED WIIMOTES"
+msgstr ""
+
+msgid "CHANGE SCREEN LAYOUT"
+msgstr ""
+
+msgid "LARGE SCREEN"
+msgstr ""
+
+msgid "SIDE BY SIDE"
+msgstr ""
+
+msgid "INTERNAL RESOLUTION"
+msgstr ""
+
+msgid "BEZEL"
+msgstr ""
+
+msgid "FORMAT DEVICE"
+msgstr ""
+
+msgid "DEVICE TO FORMAT"
+msgstr ""
+
+msgid "FILE SYSTEM"
+msgstr ""
+
+msgid "FORMAT NOW"
+msgstr ""
+
+msgid "SELECTED OPTIONS ARE INVALID"
+msgstr ""
+
+msgid "ARE YOU SURE YOU WANT TO FORMAT THIS DRIVE ?"
+msgstr ""
+
+msgid "MANUAL INPUT"
+msgstr ""
+
+msgid "NO WIFI NETWORKS FOUND"
+msgstr ""
+
+msgid "SEARCHING WIFI NETWORKS"
+msgstr ""
+
+msgid "UPDATING EMUELEC"
+msgstr ""
+
+msgid "UPDATING BATOCERA"
+msgstr ""
+
+msgid "UPDATE IS READY"
+msgstr ""
+
+msgid "REBOOT SYSTEM TO APPLY"
+msgstr ""
+
+msgid "REALLY UPDATE?"
+msgstr "ZIUR EGUNERATU NAHI DUZULA?"
+
+msgid "NETWORK CONNECTION NEEDED"
+msgstr "SARE KONEXIO BAT BEHARREZKOA DA"
+
+msgid "NO UPDATE AVAILABLE"
+msgstr "EZ DAGO EGUNERAKETARIK ERABILGARRI"
+
+msgid "NAVIGATION"
+msgstr ""
+
+msgid "JUMP TO..."
+msgstr ""
+
+msgid "SORT GAMES BY"
+msgstr "JOKUAN ORDENATU:"
+
+msgid "OTHER FILTERS"
+msgstr ""
+
+msgid "GAME MEDIAS"
+msgstr ""
+
+msgid "VIEW GAME MANUAL"
+msgstr ""
+
+msgid "VIEW GAME MAP"
+msgstr ""
+
+msgid "COLLECTION"
+msgstr ""
+
+msgid "DELETE COLLECTION"
+msgstr ""
+
+msgid "CREATE NEW DYNAMIC COLLECTION"
+msgstr ""
+
+msgid "VIEW OPTIONS"
+msgstr ""
+
+msgid "COLLECTION MANAGEMENT"
+msgstr ""
+
+msgid "ADD/REMOVE GAMES TO THIS GAME COLLECTION"
+msgstr ""
+
+msgid "FINISH EDITING COLLECTION"
+msgstr ""
+
+msgid "GAME OPTIONS"
+msgstr ""
+
+msgid "ADVANCED SYSTEM OPTIONS"
+msgstr ""
+
+msgid "ADVANCED GAME OPTIONS"
+msgstr ""
+
+msgid "EDIT FOLDER METADATA"
+msgstr ""
+
+msgid "EDIT THIS GAME'S METADATA"
+msgstr "JOKU HONEN DATUAK EDITATU"
+
+msgid "RESET FILTERS"
+msgstr ""
+
+msgid "FILTER GAMES BY TEXT"
+msgstr ""
+
+msgid "New Collection Name"
+msgstr ""
+
+msgid "COLLECTIONS TO DISPLAY"
+msgstr ""
+
+msgid "GROUPED SYSTEMS"
+msgstr ""
+
+msgid "CREATE CUSTOM COLLECTION"
+msgstr ""
+
+msgid "CREATE NEW CUSTOM COLLECTION FROM THEME"
+msgstr ""
+
+msgid "SELECT THEME FOLDER"
+msgstr ""
+
+msgid "CREATE NEW EDITABLE COLLECTION"
+msgstr ""
+
+msgid "OPTIONS"
+msgstr "AUKERAK"
+
+msgid "GROUP UNTHEMED CUSTOM COLLECTIONS"
+msgstr ""
+
+msgid "SORT COLLECTIONS AND SYSTEMS"
+msgstr ""
+
+msgid "ALPHABETICALLY"
+msgstr ""
+
+msgid "BY MANUFACTURER"
+msgstr ""
+
+msgid "SORT SYSTEMS"
+msgstr ""
+
+msgid "SHOW SYSTEM NAME IN COLLECTIONS"
+msgstr ""
+
+msgid "SELECT COLLECTIONS"
+msgstr ""
+
+msgid "ARCADE SYSTEMS"
+msgstr ""
+
+msgid "AUTOMATIC GAME COLLECTIONS"
+msgstr ""
+
+msgid "EDITABLE COLLECTIONS"
+msgstr ""
+
+msgid "DYNAMIC COLLECTIONS"
+msgstr ""
+
+msgid "CUSTOM GAME COLLECTIONS"
+msgstr ""
+
+msgid "SWAP VIDEO AFTER (SECS)"
+msgstr ""
+
+msgid "USE OMX PLAYER FOR SCREENSAVER"
+msgstr ""
+
+msgid "SHOW GAME INFO"
+msgstr ""
+
+msgid "SHOW GAME INFO ON SCREENSAVER"
+msgstr ""
+
+msgid "USE MARQUEE AS GAME INFO"
+msgstr ""
+
+msgid "DECORATIONS"
+msgstr ""
+
+msgid "STRETCH VIDEO ON SCREENSAVER"
+msgstr ""
+
+msgid "MUTE VIDEO AUDIO"
+msgstr ""
+
+msgid "EDIT METADATA"
+msgstr "DATUAK EDITATU"
+
+msgid "SAVE"
+msgstr "GORDE"
+
+msgid "CANCEL"
+msgstr "EZEZTATU"
+
+msgid ""
+"THIS WILL DELETE THE ACTUAL GAME FILE(S)!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "DELETE"
+msgstr "EZABATU"
+
+msgid "SAVE CHANGES?"
+msgstr "ALDAKETAK GORDE?"
+
+msgid "SEARCH"
+msgstr "BILATU"
+
+msgid "SWAP IMAGE AFTER (SECS)"
+msgstr ""
+
+msgid "STRETCH IMAGES"
+msgstr ""
+
+msgid "USE CUSTOM IMAGES"
+msgstr ""
+
+msgid "CUSTOM IMAGE DIR"
+msgstr ""
+
+msgid "CUSTOM IMAGE DIR RECURSIVE"
+msgstr ""
+
+msgid "CUSTOM IMAGE FILTER"
+msgstr ""
+
+msgid "NO DEVICE FOUND"
+msgstr ""
+
+msgid "Loading system config..."
+msgstr ""
+
+msgid "Done."
+msgstr ""
+
+msgid "SAVING METADATAS. PLEASE WAIT..."
+msgstr ""
+
+msgid "DOWNLOADING"
+msgstr ""
+
+msgid "THEME INSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "BEZELS INSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "PACKAGE INSTALLED SUCCESSFULLY"
+msgstr ""
+
+msgid "PACKAGE REMOVED SUCCESSFULLY"
+msgstr ""
+
+msgid "all games"
+msgstr ""
+
+msgid "last played"
+msgstr ""
+
+msgid "favorites"
+msgstr ""
+
+msgid "2 players"
+msgstr ""
+
+msgid "4 players"
+msgstr ""
+
+msgid "never played"
+msgstr ""
+
+msgid "arcade"
+msgstr ""
+
+msgid "collections"
+msgstr ""
+
+#, c-format
+msgid "Editing the '%s' Collection. Add/remove games with Y."
+msgstr ""
+
+#, c-format
+msgid "Finished editing the '%s' Collection."
+msgstr ""
+
+#, c-format
+msgid "Added '%s' to '%s'"
+msgstr ""
+
+#, c-format
+msgid "Removed '%s' from '%s'"
+msgstr ""
+
+msgid "This collection is empty."
+msgstr ""
+
+#. TRANSLATION: number of developpers / various developpers
+msgid "None"
+msgstr ""
+
+msgid "Various"
+msgstr ""
+
+#, c-format
+msgid "This collection contains %i game, including :%s"
+msgid_plural "This collection contains %i games, including :%s"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "FILENAME, ASCENDING"
+msgstr "FITXATEGI IZENA, IGOTZEN"
+
+msgid "FILENAME, DESCENDING"
+msgstr "FITXATEGI IZENA, JAISTEN"
+
+msgid "RATING, ASCENDING"
+msgstr "PUNTUAZIOA, IGOTZEN"
+
+msgid "RATING, DESCENDING"
+msgstr "PUNTUAZIOA, JAISTEN"
+
+msgid "TIMES PLAYED, ASCENDING"
+msgstr "ZENBAT ALDIZ JOKATUA, IGOTZEN"
+
+msgid "TIMES PLAYED, DESCENDING"
+msgstr "ZENBAT ALDIZ JOKATUA, JAISTEN"
+
+msgid "LAST PLAYED, ASCENDING"
+msgstr "AZKEN ALDIZ JOKATUA, IGOTZEN"
+
+msgid "LAST PLAYED, DESCENDING"
+msgstr "AZKEN ALDIZ JOKATUA, JAISTEN"
+
+msgid "NUMBER PLAYERS, ASCENDING"
+msgstr ""
+
+msgid "NUMBER PLAYERS, DESCENDING"
+msgstr ""
+
+msgid "RELEASE DATE, ASCENDING"
+msgstr ""
+
+msgid "RELEASE DATE, DESCENDING"
+msgstr ""
+
+msgid "GENRE, ASCENDING"
+msgstr ""
+
+msgid "GENRE, DESCENDING"
+msgstr ""
+
+msgid "DEVELOPER, ASCENDING"
+msgstr ""
+
+msgid "DEVELOPER, DESCENDING"
+msgstr ""
+
+msgid "PUBLISHER, ASCENDING"
+msgstr ""
+
+msgid "PUBLISHER, DESCENDING"
+msgstr ""
+
+msgid "SYSTEM, ASCENDING"
+msgstr ""
+
+msgid "SYSTEM, DESCENDING"
+msgstr ""
+
+msgid "FILE CREATION DATE, ASCENDING"
+msgstr ""
+
+msgid "FILE CREATION DATE, DESCENDING"
+msgstr ""
+
+msgid "UPDATE AVAILABLE"
+msgstr ""
+
+msgid "HASHING GAMES"
+msgstr ""
+
+msgid "Extracting"
+msgstr ""
+
+msgid "Name"
+msgstr "Izena"
+
+msgid "enter game name"
+msgstr "jokoarean izena sartu"
+
+msgid "Description"
+msgstr "Deskribapena"
+
+msgid "enter description"
+msgstr "Sartu deskribapena"
+
+msgid "emulator"
+msgstr ""
+
+msgid "core"
+msgstr ""
+
+msgid "Image"
+msgstr "Irudia"
+
+msgid "enter path to image"
+msgstr "Sartu irudirako bidea"
+
+msgid "Video"
+msgstr ""
+
+msgid "enter path to video"
+msgstr ""
+
+msgid "Logo"
+msgstr ""
+
+msgid "enter path to logo"
+msgstr ""
+
+msgid "Box"
+msgstr ""
+
+msgid "enter path to box"
+msgstr ""
+
+msgid "Fan art"
+msgstr ""
+
+msgid "enter path to fanart"
+msgstr ""
+
+msgid "Title shot"
+msgstr ""
+
+msgid "enter path to title shot"
+msgstr ""
+
+msgid "Manual"
+msgstr ""
+
+msgid "enter path to manual"
+msgstr ""
+
+msgid "Map"
+msgstr ""
+
+msgid "enter path to map"
+msgstr ""
+
+msgid "Cartridge"
+msgstr ""
+
+msgid "enter path to cartridge"
+msgstr ""
+
+msgid "Alt BoxArt"
+msgstr ""
+
+msgid "enter path to alt boxart"
+msgstr ""
+
+msgid "Wheel"
+msgstr ""
+
+msgid "enter path to wheel"
+msgstr ""
+
+msgid "Mix"
+msgstr ""
+
+msgid "enter path to mix"
+msgstr ""
+
+msgid "Rating"
+msgstr "Puntuazioa"
+
+msgid "enter rating"
+msgstr "Sartu puntuazioa"
+
+msgid "Release date"
+msgstr "Argitaratze data"
+
+msgid "enter release date"
+msgstr "sartu argitaratze data"
+
+msgid "Developer"
+msgstr "Garatzailea"
+
+msgid "enter game developer"
+msgstr "sartu joko garatzailea"
+
+msgid "Publisher"
+msgstr "Argitaratzailea"
+
+msgid "enter game publisher"
+msgstr "sartu joko argitaratzailea"
+
+msgid "Genre"
+msgstr "Generoa"
+
+msgid "enter game genre"
+msgstr "sartu jokoaren generoa"
+
+msgid "Arcade system"
+msgstr ""
+
+msgid "enter game arcade system"
+msgstr ""
+
+msgid "Players"
+msgstr "Jokalariak"
+
+msgid "enter number of players"
+msgstr "sartu jokalari zenbatekoa"
+
+msgid "Favorite"
+msgstr "Gogokoa"
+
+msgid "enter favorite"
+msgstr "gogokoa gehitu"
+
+msgid "Hidden"
+msgstr "Ezkutatua"
+
+msgid "enter hidden"
+msgstr ""
+
+msgid "Kidgame"
+msgstr ""
+
+msgid "enter kidgame"
+msgstr ""
+
+msgid "Play count"
+msgstr "Partida zenbatekoa"
+
+msgid "enter number of times played"
+msgstr "sartu jokatutako partida zenbatekoa"
+
+msgid "Last played"
+msgstr "Azken jokatutakoa"
+
+msgid "enter last played date"
+msgstr "sartu azken jokatutako data"
+
+msgid "Crc32"
+msgstr ""
+
+msgid "Crc32 checksum"
+msgstr ""
+
+msgid "Md5"
+msgstr ""
+
+msgid "Md5 checksum"
+msgstr ""
+
+msgid "Game time"
+msgstr ""
+
+msgid "how long the game has been played in total (seconds)"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Region"
+msgstr "Herrialde"
+
+msgid "SCANNING BLUETOOTH"
+msgstr ""
+
+msgid "Searching controllers..."
+msgstr ""
+
+msgid "BLUETOOTH SCANNING IS ALREADY RUNNING."
+msgstr ""
+
+msgid "FORMATING DEVICE"
+msgstr ""
+
+msgid "Formating"
+msgstr ""
+
+msgid "A REBOOT OF THE SYSTEM IS REQUIRED TO COMPLETE THE OPERATION"
+msgstr ""
+
+msgid "DRIVE FORMAT IS ALREADY RUNNING."
+msgstr ""
+
+msgid "FAVORITES"
+msgstr ""
+
+msgid "GENRE"
+msgstr "GENEROA"
+
+msgid "PLAYERS"
+msgstr ""
+
+msgid "PUBLISHER / DEVELOPER"
+msgstr ""
+
+msgid "RATING"
+msgstr "PUNTUAZIOA"
+
+msgid "REGION"
+msgstr ""
+
+msgid "KIDGAME"
+msgstr ""
+
+msgid "ALREADY PLAYED"
+msgstr ""
+
+msgid "Full"
+msgstr ""
+
+msgid "Kiosk"
+msgstr ""
+
+msgid "Kid"
+msgstr ""
+
+msgid "No Entries Found"
+msgstr ""
+
+msgid "NETPLAY"
+msgstr ""
+
+msgid "RANDOM"
+msgstr ""
+
+msgid "Favorites"
+msgstr ""
+
+msgid "LAUNCH THE GAME AS NETPLAY HOST ?"
+msgstr ""
+
+msgid "Released"
+msgstr "Argitaratuta"
+
+msgid "Times played"
+msgstr "Zenbat aldiz jokatua"
+
+msgid "Preloading UI"
+msgstr ""
+
+msgid "MENU"
+msgstr "MENUA"
+
+msgid "ERROR: EVERY SYSTEM IS HIDDEN, RE-DISPLAYING ALL OF THEM NOW"
+msgstr ""
+
+msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
+msgstr "KODI MULTIMEDIA GUNEA ABIARAZI NAHI DUZU?"
+
+msgid "GO TO MANUFACTURER"
+msgstr ""
+
+#, c-format
+msgid "%i COLLECTION"
+msgid_plural "%i COLLECTIONS"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%i ITEM"
+msgid_plural "%i ITEMS"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%i GAME"
+msgid_plural "%i GAMES"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "KODI"
+msgstr ""
+
+msgid "FILES"
+msgstr ""
+
+msgid "SCRAPING"
+msgstr ""
+
+msgid "SCRAPE FAILED"
+msgstr ""
+
+msgid "SCRAPING FINISHED. REFRESH UPDATE GAMES LISTS TO APPLY CHANGES."
+msgstr ""
+
+msgid "Searching"
+msgstr ""
+
+msgid "NO GAMES FOUND - SKIP"
+msgstr "EZ DIRA JOKUAK AURKITU - TXANDAPASA"
+
+msgid "AN ERROR HAS OCCURED"
+msgstr ""
+
+msgid "RETRY"
+msgstr "BERRIRO SAIATU"
+
+msgid "Downloading"
+msgstr ""
+
+msgid "ACCEPT RESULT"
+msgstr "ONARTU EMAITZA"
+
+msgid "Collections"
+msgstr ""
+
+msgid "WELCOME"
+msgstr "ONGI ETORRI"
+
+#, c-format
+msgid "%i GAMEPAD DETECTED"
+msgid_plural "%i GAMEPADS DETECTED"
+msgstr[0] "AGINTE %i DETEKTATUA"
+msgstr[1] "%i AGINTE DETEKTATUAK"
+
+msgid "NO GAMEPADS DETECTED"
+msgstr "EZ DA AGINTERIK DETEKTATU"
+
+msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
+msgstr "BOTOI BAT SAKATUA MANTENDU AGINTEAN KONFIGURATZEKO."
+
+msgid "RESET"
+msgstr ""
+
+msgid "DISCARD CHANGES"
+msgstr "ALDAKETAK BAZTERTU"
+
+msgid "UP"
+msgstr "GORA"
+
+msgid "DOWN"
+msgstr "BEHERA"
+
+msgid "LEFT"
+msgstr "EZKERRA"
+
+msgid "RIGHT"
+msgstr "ESKUINA"
+
+msgid "LEFT ANALOG UP"
+msgstr ""
+
+msgid "LEFT ANALOG LEFT"
+msgstr ""
+
+msgid "RIGHT ANALOG UP"
+msgstr ""
+
+msgid "RIGHT ANALOG LEFT"
+msgstr ""
+
+msgid "HOTKEY"
+msgstr "HOTKEY"
+
+msgid "CONFIGURING"
+msgstr "KONFIGURATZEN"
+
+msgid "KEYBOARD"
+msgstr "TEKLATUA"
+
+msgid "CEC"
+msgstr ""
+
+#, c-format
+msgid "GAMEPAD %i"
+msgstr "%i AGINTEA"
+
+msgid "HOLD ANY BUTTON TO SKIP"
+msgstr "MANTENDU EDOZEIN BOTOI TXANDAPASARAKO"
+
+msgid "-NOT DEFINED-"
+msgstr "-KONFIGURATU GABE-"
+
+msgid ""
+"YOU DIDN'T CHOOSE A HOTKEY ENABLE BUTTON. THIS IS REQUIRED FOR EXITING GAMES "
+"WITH A CONTROLLER. DO YOU WANT TO USE THE SELECT BUTTON DEFAULT ? PLEASE "
+"ANSWER YES TO USE SELECT OR NO TO NOT SET A HOTKEY ENABLE BUTTON."
+msgstr ""
+
+#, c-format
+msgid "HOLD FOR %iS TO SKIP"
+msgid_plural "HOLD FOR %iS TO SKIP"
+msgstr[0] "MANTENDU %i PASATZEKO"
+msgstr[1] "MANTENDU %i PASATZEKO"
+
+msgid "PRESS ANYTHING"
+msgstr "EDOZEIN BOTOI SAKATU"
+
+msgid "ALREADY TAKEN"
+msgstr "ERABILITA"
+
+msgid "SPACE"
+msgstr "HUTSUNEA"
+
+msgid "DELETE A CHAR"
+msgstr "EZABATU HIZKIA"
+
+msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
+msgstr "SHIFT ERABILI MAIUSKULA, MINUSKULA ETA BEREZIENTZAT "
+
+msgid "SHIFT"
+msgstr "MAIUS"
+
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "MOVE CURSOR"
+msgstr "MUGITU KRUTSOREA"
+
+msgid "EDIT"
+msgstr "EDITATU"
+
+msgid "CHANGE"
+msgstr "ALDATU"
+
+#, c-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%d second ago"
+msgid_plural "%d seconds ago"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "accept"
+msgstr ""
+
+msgid "SELECT ALL"
+msgstr "DENAK"
+
+msgid "select all"
+msgstr ""
+
+msgid "SELECT NONE"
+msgstr "BAT ERE EZ"
+
+msgid "select none"
+msgstr ""
+
+#, c-format
+msgid "%i SELECTED"
+msgid_plural "%i SELECTED"
+msgstr[0] "%i AUKERATUA"
+msgstr[1] "%i AUKERATUAK"
+
+msgid "WORKING..."
+msgstr "LANEAN..."
+
+msgid "up/down"
+msgstr ""
+
+#~ msgid "Thumbnail"
+#~ msgstr "Thumbnail"
+
+#~ msgid "enter path to thumbnail"
+#~ msgstr "Sartu Thumbnail-erako bidea"
+
+#~ msgid "STOP EDITING"
+#~ msgstr "GELDITU EDIZIOA"
+
+#~ msgid "DISK USAGE"
+#~ msgstr "DISKO ERABILERA"
+
+#~ msgid "%i GAME AVAILABLE"
+#~ msgid_plural "%i GAMES AVAILABLE"
+#~ msgstr[0] "JOKO %i ERABILGARRI"
+#~ msgstr[1] "%i JOKO ERABILGARRI"
+
+#~ msgid "AUTO UPDATES"
+#~ msgstr "EGUNERAKETA AUTOMATIKOAK"
+
+#~ msgid "FORGET BLUETOOTH CONTROLLERS"
+#~ msgstr "AHAZTU BLUETOOTH AGINTEAK"
+
+#~ msgid "set hidden"
+#~ msgstr "Ezkutatua ezarri"
+
+#~ msgid "CONTROLLER PAIRED"
+#~ msgstr "AGINTEA PAREKATUA"
+
+#~ msgid "UNABLE TO PAIR CONTROLLER"
+#~ msgstr "AGINTEA PAREKATZEA EZINEZKOA"
+
+#~ msgid "OUTPUT DEVICE"
+#~ msgstr "SOINU IRTEERA"
+
+#~ msgid "UPDATES"
+#~ msgstr "EGUNERAKETAK"
+
+#~ msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
+#~ msgstr "EGUNERAKETA DESKARGATUA, SISTEMA BERRABIARAZIKO DA ORAIN"
+
+#~ msgid "Only missing image"
+#~ msgstr "Falta diren irudiak bakarrik"
+
+#~ msgid "THE SYSTEM WILL NOW REBOOT"
+#~ msgstr "SISTEMA BERRABIARAZIKO DA"
+
+#~ msgid "PRESS F4 TO QUIT AT ANY TIME."
+#~ msgstr "F4 SAKATU EDOZEIN UNETAN IRTETZEKO."
+
+#~ msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
+#~ msgstr "ESC EDO HOTKEY SAKATU EZEZTATZEKO."
+
+#~ msgid "JUMP TO LETTER"
+#~ msgstr "LETRARA JOAN"
+
+#~ msgid "FAVORITES ONLY"
+#~ msgstr "GOGOKOAK SOILIK"
+
+#~ msgid "SHOW HIDDEN"
+#~ msgstr "ERAKUTSI EZKUTUKOA"
+
+#~ msgid ""
+#~ "THIS WILL DELETE A FILE!\n"
+#~ "ARE YOU SURE?"
+#~ msgstr ""
+#~ "FITXATEGI BAT EZABATZERA ZOAZ!\n"
+#~ " ZIUR AL ZAUDE?"
+
+#~ msgid "enter emulator"
+#~ msgstr "sartu emulatzailea"
+
+#~ msgid "enter core"
+#~ msgstr "sartu nukleoa"
+
+#~ msgid "Ratio"
+#~ msgstr "Ratioa"
+
+#~ msgid "enter ratio"
+#~ msgstr "sartu ratioa"
+
+#~ msgid "enter region"
+#~ msgstr "Sartu herrialdea"
+
+#~ msgid "Romtype"
+#~ msgstr "Rom mota"
+
+#~ msgid "enter romtype"
+#~ msgstr "sartu rom mota"
+
+#~ msgid "%i FAVORITE"
+#~ msgid_plural "%i FAVORITES"
+#~ msgstr[0] "%i GOGOKOA"
+#~ msgstr[1] "%i GOGOKOAK"
+
+#~ msgid "SCROLL"
+#~ msgstr "SCROLL"
+
+#~ msgid "FILENAME"
+#~ msgstr "FITXATEGI IZENA"
+
+#~ msgid "TIMES PLAYED"
+#~ msgstr "ZENBAT ALDIZ JOLASTUTA"
+
+#~ msgid "LAST PLAYED"
+#~ msgstr "AZKEN ALDIZ JOLASTUTA"
+
+#~ msgid "NUMBER OF PLAYERS"
+#~ msgstr "JOKALARI KOPURUA"
+
+#~ msgid "SEARCH FOR"
+#~ msgstr "BILATU:"
+
+#~ msgid "JOYSTICK 1 UP"
+#~ msgstr "JOYSTICK 1 GORA"
+
+#~ msgid "JOYSTICK 1 LEFT"
+#~ msgstr "JOYSTICK 1 EZKERRA"
+
+#~ msgid "JOYSTICK 2 UP"
+#~ msgstr "JOYSTICK 2 GORA"
+
+#~ msgid "JOYSTICK 2 LEFT"
+#~ msgstr "JOYSTICK 2 EZKERRA"
+
+#~ msgid "PAGE UP"
+#~ msgstr "L1 (HUR. ORRIA)"
+
+#~ msgid "PAGE DOWN"
+#~ msgstr "R1 (AUR. ORRIA)"
+
+#~ msgid "LOADING..."
+#~ msgstr "KARGATZEN..."
+
+#~ msgid "PLEASE WAIT..."
+#~ msgstr "ITXARON MESEDEZ..."
+
+#~ msgid "just now"
+#~ msgstr "oraintxe"
+
+#~ msgid "%i sec ago"
+#~ msgid_plural "%i secs ago"
+#~ msgstr[0] "orain dela segundu %i"
+#~ msgstr[1] "orain dela %i segundu"
+
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "orain dela minutu %i"
+#~ msgstr[1] "orain dela %i minutu"
+
+#~ msgid "%i hour ago"
+#~ msgid_plural "%i hours ago"
+#~ msgstr[0] "orain dela ordu %i"
+#~ msgstr[1] "orain dela %i ordu"
+
+#~ msgid "%i day ago"
+#~ msgid_plural "%i days ago"
+#~ msgstr[0] "orain dela egun %i"
+#~ msgstr[1] "orain dela %i egun"
+
+#~ msgid "unknown"
+#~ msgstr "ezezaguna"
+
+#~ msgid "AN UPDATE IS AVAILABLE FOR BATOCERA.LINUX"
+#~ msgstr "ZURE BATOCERA.LINUX-arentzat EGUNERAKETA BAT DAGO"
+
+#~ msgid "EXTREM (1100Mhz)"
+#~ msgstr "MUTURREKO (1100Mhz)"
+
+#~ msgid "TURBO (1000Mhz)"
+#~ msgstr "TURBO (1000MHz)"
+
+#~ msgid "HIGH (950Mhz)"
+#~ msgstr "ALTUA (950Mhz)"
+
+#~ msgid "HIGH (1050Mhz)"
+#~ msgstr "ALTUA (1050Mhz)"
+
+#~ msgid "NONE (900Mhz)"
+#~ msgstr "BAT ERE EZE (900Mhz)"
+
+#~ msgid "NONE (1200Mhz)"
+#~ msgstr "BAT ERE EZ (1200Mhz)"
+
+#~ msgid "NO CONTROLLERS FOUND"
+#~ msgstr "EZ DA AGINTERIK DETEKTATU"
+
+#~ msgid "NONE (700Mhz)"
+#~ msgstr "BAT ERE EZ (700Mhz)"
+
+#~ msgid "TURBO (1050Mhz)+"
+#~ msgstr "TURBO (1050Mhz)+"
+
+#~ msgid "HDMI"
+#~ msgstr "HDMI"
+
+#~ msgid "JACK"
+#~ msgstr "JACK"
+
+#~ msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
+#~ msgstr "EGUNERAKETAK HUTS EGIN DU. SISTEMA BERRABIARAZIKO DA ORAIN"

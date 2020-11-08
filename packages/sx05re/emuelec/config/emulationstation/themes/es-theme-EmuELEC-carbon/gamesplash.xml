@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="splash">
+    <splash name="splash">
+      <backgroundColor>000000FF</backgroundColor>
+    </splash>
+    <image name="background">
+      <pos>0.5 0.5</pos>
+      <origin>0.5 0.5</origin>
+      <maxSize>1 1</maxSize>
+      <roundCorners>0</roundCorners>
+      <linearSmooth>false</linearSmooth>
+      <color>A0A0A0FF</color>
+    </image>
+    <text name="label">
+      <color>FFFFFFFF</color>
+      <fontSize>0.07</fontSize>
+      <glowColor>00000020</glowColor>
+      <glowSize>2</glowSize>
+      <glowOffset>1</glowOffset>
+    </text>
+    <image name="darken" extra="true">
+      <path>./art/white.png</path>
+      <pos>0 0.7</pos>
+      <origin>0 0</origin>
+      <size>1 0.3</size>
+      <color>00000000</color>
+      <colorEnd>000000F0</colorEnd>
+      <zIndex>8</zIndex>
+    </image>
+  </view>
+</theme>

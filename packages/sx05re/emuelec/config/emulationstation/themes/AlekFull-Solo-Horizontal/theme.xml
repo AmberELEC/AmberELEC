@@ -1,0 +1,186 @@
+<!--
+theme name:     M00DY x Alekfull - Solo Theme
+creator:		M00DY (M.J.Aman)
+ig:				https://www.instagram.com/mjaman/
+artwork: 		Alekfull (https://www.facebook.com/alekfull.arcade/)
+version         1.0
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+   <formatVersion>4</formatVersion>
+
+<feature supported="carousel">
+   <view name="system">
+      <carousel name="systemcarousel">
+        <type>horizontal</type>
+   		<pos>-2.70 -0.18</pos>
+        <logoAlignment>bottom</logoAlignment>         
+        <size>7.0 1.0</size>
+        <logoScale>2.9</logoScale>          
+        <logoSize>0.1 0.1</logoSize>
+		<zIndex>2</zIndex>
+        <color>00000000</color>
+        <maxLogoCount>3</maxLogoCount>       
+      </carousel>
+      <image name="background" extra="true">
+         <origin>0 0</origin>
+         <pos>0 0</pos>
+         <size>1 1</size>
+         <zIndex>1</zIndex>                 
+         <path>./_inc/images/background.png</path>
+      </image>                     
+      <text name="systemInfo">     
+         <pos>0.75 0.75</pos>
+         <backgroundColor>00000000</backgroundColor>
+         <color>ffffff</color>
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+	     <fontSize>0.04</fontSize>
+         <zIndex>5</zIndex>	     
+      </text>            
+   </view>
+</feature>
+
+   <view name="system">
+      <helpsystem name="help">
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.03</fontSize>     
+         <pos>0.1 0.948</pos>      
+         <textColor>ffffff</textColor>
+         <iconColor>ffffff</iconColor>
+      </helpsystem>
+   </view>  
+
+   <view name="detailed,video,basic">
+      <helpsystem name="help">
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.03</fontSize>     
+         <pos>0.009 0.955</pos>      
+         <textColor>ffffff</textColor>
+         <iconColor>ffffff</iconColor>
+      </helpsystem>
+   </view>  
+
+   <view name="basic,detailed,video">
+      <textlist name="gamelist">      
+         <selectorColor>7a4545</selectorColor>
+         <selectedColor>ffffff</selectedColor>
+         <primaryColor>ffffff</primaryColor>
+         <secondaryColor>8bfeff</secondaryColor>
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.05</fontSize>
+         <forceUppercase>1</forceUppercase>
+         <scrollSound>./_inc/sounds/Move.wav</scrollSound>
+         <zIndex>3</zIndex>                          
+      </textlist>
+   </view> 
+   
+   <view name="detailed,video">
+      <textlist name="gamelist">                          
+         <pos>0.025 0.025</pos>
+         <size>0.38 0.9</size>
+         <alignment>left</alignment>                       
+      </textlist>
+   </view>
+   
+   <view name="basic">
+      <textlist name="gamelist">                          
+         <pos>0.2 0.19</pos>
+         <size>.6 0.74</size>
+         <alignment>left</alignment>                       
+      </textlist>
+   </view>
+   
+   <view name="basic">
+      <image name="background" extra="true">
+         <origin>0 0</origin>
+         <pos>0 0</pos>
+         <size>1 1</size>        
+         <path>./_inc/images/background_basic.png</path>
+         <zIndex>1</zIndex>          
+      </image>                
+   </view> 
+    
+   <view name="detailed,video">
+      <image name="background" extra="true">
+         <origin>0 0</origin>
+         <pos>0 0</pos>
+         <size>1 1</size>        
+         <path>./_inc/images/background_video.png</path>
+         <zIndex>1</zIndex>         
+      </image>                
+   </view>     
+   
+   <view name="detailed">
+      <image name="md_image">
+         <origin>0.5 0.5</origin>
+         <pos>0.75 0.50</pos>
+         <maxSize>0.45 0.45</maxSize>
+         <zIndex>2</zIndex>         
+      </image>      
+   </view>
+
+   <view name="video">   
+      <video name="md_video">
+         <origin>0.5 0.5</origin>
+         <pos>0.748 0.5</pos>
+         <maxSize>0.5 0.5</maxSize>
+         <delay>3</delay>
+         <zIndex>2</zIndex>         
+         <showSnapshotNoVideo>true</showSnapshotNoVideo>
+         <showSnapshotDelay>true</showSnapshotDelay>
+      </video>             
+   </view>
+   
+<!--   <view name="detailed,video">
+      <text name="md_lbl_releasedate, md_lbl_players, md_lbl_rating, md_rating, md_players, md_releasedate">
+         <fontPath>./_inc/fonts/bitcrusher condensed bd.ttf</fontPath>
+         <fontSize>0.034</fontSize>
+      </text>
+      <text name="md_lbl_rating">
+         <origin>0.5 0.5</origin>
+         <pos>0.850 0.35</pos>
+         <size>0.6 0.6</size>
+         <color>ffffff</color>
+         <zIndex>2</zIndex>
+      </text>   
+      <rating name="md_rating">
+         <origin>0.5 0.5</origin>       
+         <pos>0.83 0.35</pos>
+         <size>0.05 0.05</size>
+         <zIndex>2</zIndex>
+         <filledPath>./_inc/images/star_full.png</filledPath>
+         <unfilledPath>./_inc/images/star_hollow.png</unfilledPath>
+      </rating>
+      <text name="md_lbl_players">
+         <origin>0.5 0.5</origin>
+         <pos>0.850 0.27</pos>
+         <size>0.6 0.6</size>
+         <color>ffffff</color>
+         <zIndex>2</zIndex> 
+      </text>
+      <text name="md_players">
+         <origin>0.5 0.5</origin>
+         <pos>0.930 0.27</pos>
+         <size>0.6 0.6</size>
+         <color>ffffff</color>
+         <zIndex>2</zIndex>
+      </text>
+      <text name="md_lbl_releasedate">
+         <origin>0.5 0.5</origin>
+         <pos>0.850 0.31</pos>
+         <size>0.6 0.6</size>
+         <color>ffffff</color>
+         <zIndex>2</zIndex>                  
+      </text>
+      <datetime name="md_releasedate">
+         <origin>0.5 0.5</origin>
+         <pos>0.930 0.31</pos>
+         <size>0.6 0.6</size>
+         <color>ffffff</color>
+         <zIndex>2</zIndex>         
+      </datetime>
+      
+   </view>-->
+   
+</theme>

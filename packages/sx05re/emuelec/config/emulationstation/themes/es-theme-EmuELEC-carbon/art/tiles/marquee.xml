@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <customView name="Tiles">
+    <gridtile name="default">
+      <imageColor>A0A0A0FF</imageColor>
+    </gridtile>
+    <image name="gridtile.marquee">
+      <color>FFFFFFD0</color>
+      <pos>0.5 0.5</pos>
+      <origin>0.5 0.5</origin>
+      <size>0.50 0.50</size>
+    </image>
+    <image name="gridtile.marquee:selected">
+      <color>FFFFFFFF</color>
+      <size>0.65 0.65</size>
+    </image>
+    <image name="gridtile.marquee:videoplaying">
+      <color>FFFFFFA0</color>
+      <pos>0.5 0.17</pos>
+      <size>0.50 0.25</size>
+    </image>
+    <text name="gridtile.text">
+      <pos>0 0</pos>
+      <size>1 1</size>
+      <fontSize>0.040</fontSize>
+      <padding>0.1 0</padding>
+    </text>
+  </customView>
+</theme>

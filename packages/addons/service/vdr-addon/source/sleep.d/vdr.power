@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+
+. /etc/profile
+
+oe_setup_addon service.multimedia.vdr-addon
+
+SERVICE="service.multimedia.vdr-addon.service"
+
+case "$1" in
+  pre)
+    if systemctl is-active "$SERVICE" &>/dev/null ; then
+      systemctl stop "$SERVICE"
+      for module in $REMOVE_MODULES ; do
+        rmmod $module
+      done
+    fi
+    ;;
+  post)
+    if systemctl is-enabled "$SERVICE" &>/dev/null ; then
+      for module in $REMOVE_MODULES ; do
+        modprobe $module
+      done
+      systemctl start "$SERVICE"
+    fi
+    ;;
+esac
+

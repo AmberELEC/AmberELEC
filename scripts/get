@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
+
+. config/options "${1}"
+
+if [ -z "${1}" ]; then
+  for i in $(find "${PACKAGES}/" -type f -name "package.mk"); do
+    GET_PKG=$(grep "^PKG_NAME=" "${i}" | sed -e "s,\",,g" -e "s,PKG_NAME=,,")
+    "${SCRIPTS}"/get "${GET_PKG}"
+  done
+fi
+
+# Avoid concurrent processing of the same package
+lock_source_dir() {
+  exec 99<"${SOURCES}/${1}"
+  if ! flock --nonblock --exclusive 99; then
+    echo "Project/Device ${DEVICE:-${PROJECT}} waiting, to avoid concurrent processing of ${1}..."
+    flock --exclusive 99
+  fi
+}
+
+if [ -n "${PKG_URL}" -a -n "${PKG_SOURCE_NAME}" ]; then
+  mkdir -p "${SOURCES}/${1}"
+
+  PACKAGE="${SOURCES}/${1}/${PKG_SOURCE_NAME}"
+
+  STAMP_URL="${PACKAGE}.url"
+  STAMP_SHA="${PACKAGE}.sha256"
+
+  # determine get handler based on protocol and/or filename
+  case "${PKG_URL}" in
+    git://*|*.git)
+      get_handler="git";;
+    file://*)
+      get_handler="file";;
+    *)
+      get_handler="archive";;
+  esac
+
+  if ! listcontains "${GET_HANDLER_SUPPORT}" "${get_handler}"; then
+    die "ERROR: get handler \"${get_handler}\" is not supported, unable to get package ${1} - aborting!"
+  else
+    get_handler="${SCRIPTS}/get_${get_handler}"
+    if [ ! -f "${get_handler}" ]; then
+      die "ERROR: get handler \"${get_handler}\" does not exist, unable to get package ${1} - aborting!"
+    fi
+
+    . "${get_handler}"
+  fi
+fi
+
+exit 0

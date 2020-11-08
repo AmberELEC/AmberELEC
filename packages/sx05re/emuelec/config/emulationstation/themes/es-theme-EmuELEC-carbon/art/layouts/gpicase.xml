@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme defaultView="Tiles">
+  <formatVersion>7</formatVersion>
+  <view name="menu">
+    <menuText name="menutext">
+      <fontSize>0.0415</fontSize>
+    </menuText>
+    <menuTextSmall name="menutextsmall">
+      <fontSize>0.03</fontSize>
+    </menuTextSmall>
+  </view>
+  <view name="system">
+    <carousel name="systemcarousel">
+      <color>FFFFFF00</color>
+      <colorEnd>FFFFFF00</colorEnd>
+  <!--    <pos>0 0.40</pos>
+      <size>1 0.45</size>
+      <maxLogoCount>1</maxLogoCount>
+      <logoSize>0.25 0.15</logoSize>
+      <logoScale>2.6</logoScale>-->
+    </carousel>
+    <text name="systemInfo">
+      <pos>0.05 0.83</pos>
+      <size>0.95 0.05</size>
+      <backgroundColor>00000000</backgroundColor>
+      <color>A2A2A2</color>
+      <fontSize>0.044</fontSize>
+      <alignment>center</alignment>
+    </text>
+    <image name="CenterFade" extra="true">
+      <tile>false</tile>
+      <size>1 0.5</size>
+      <pos>0.5 0.6</pos>
+    </image>
+    <clock name="clock">
+      <textColor>A2A2A2FF</textColor>
+      <fontSize>0.048</fontSize>
+      <pos>0.86 0.03</pos>
+    </clock>
+    <image name="ControllerOverlay" extra="true">
+      <pos>0.5 0.25</pos>
+      <size>0.4 0</size>
+    </image>
+    <image name="carousel-shadow" extra="true">
+      <visible>false</visible>
+    </image>
+    <image name="carousel-inner" extra="true">
+      <visible>false</visible>
+    </image>
+  </view>
+  <view name="system, basic, detailed, grid">
+    <helpsystem name="help">
+      <fontSize>0.026</fontSize>
+    </helpsystem>
+  </view>
+  <view name="grid">
+    <imagegrid name="gamegrid">
+      <autoLayout>1 1</autoLayout>
+      <size>0.950 0.78</size>
+      <padding>0.03 0.06 0.03 0.04</padding>
+      <margin>0.010 0.03</margin>
+      <scrollDirection>horizontal</scrollDirection>
+      <centerSelection>true</centerSelection>
+      <scrollLoop>true</scrollLoop>
+    </imagegrid>
+    <gridtile name="selected">
+      <backgroundColor>00000000</backgroundColor>
+      <backgroundCenterColor>00000000</backgroundCenterColor>
+      <backgroundEdgeColor>00000000</backgroundEdgeColor>
+    </gridtile>
+    <text name="gridtile">
+     
+      <fontSize>0.039</fontSize>
+    </text>
+  </view>
+  <customView name="Carousel,Boxes,Tiles,grid">
+    <ninepatch name="gridtile.background:selected">
+      <animateColorTime>0</animateColorTime>
+    </ninepatch>
+  </customView>
+
+
+ <customView name="Tiles">
+    <imagegrid name="gamegrid">
+      <pos>0 0.15</pos>
+      <size>1 0.80</size>
+      <padding>0 0</padding>
+      <margin>0 0</margin>
+      <scrollDirection>horizontal</scrollDirection>
+    </imagegrid>
+
+    <imagegrid ifHelpPrompts="false" name="gamegrid">
+      <size>1 0.85</size>
+    </imagegrid>
+
+    <gridtile name="default">
+      <backgroundCornerSize>0 0</backgroundCornerSize>
+    </gridtile>
+    <gridtile name="selected">
+      <backgroundCornerSize>0 0</backgroundCornerSize>
+    </gridtile>
+    <image name="gridtile.image">
+      <roundCorners>0</roundCorners>
+    </image>
+  </customView>
+
+</theme>
