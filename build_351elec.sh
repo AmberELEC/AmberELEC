@@ -42,4 +42,4 @@ rm -rf projects/Rockchip/devices/RG351P
 cp -rf projects/Rockchip/devices/${BUILD} projects/Rockchip/devices/RG351P
 
 echo "Building.."
-make release
+make image
