@@ -22,9 +22,9 @@ function additional_packages () {
   git checkout projects/Rockchip/options
   if [ "$1" == "emulators" ]
   then
-    sed -i 's/#ADDITIONAL_PACKAGES#/dtc emuelec dosbox-sdl2 fba4arm mupen64plus-nx PPSSPPSDL amiberry advancemame hatarisa hatari/g' projects/Rockchip/options
+    sed -i 's/@ADDITIONAL_PACKAGES@/dtc emuelec dosbox-sdl2 fba4arm mupen64plus-nx PPSSPPSDL amiberry advancemame hatarisa hatari/g' projects/Rockchip/options
   else
-    sed -i 's/#ADDITIONAL_PACKAGES#/dtc emuelec/g' projects/Rockchip/options
+    sed -i 's/@ADDITIONAL_PACKAGES@/dtc emuelec/g' projects/Rockchip/options
   fi
 }
 
