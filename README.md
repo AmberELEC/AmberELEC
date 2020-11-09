@@ -4,9 +4,9 @@ A fork of EmuELEC for the Anbernic RG351P
 
 Based on [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC) and [Lakka](https://github.com/libretro/Lakka-LibreELEC) with tidbits from [Batocera](https://github.com/batocera-linux/batocera.linux).
 
-This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.
+This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 32GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32).
 
-To build use:  
+Building a firmware with the Anbernic kernel (AK) requires first building the lualiliu kernel (LI).  The lualiliu kernel build does not boot yet.
 
 ```
 sudo apt update && sudo apt upgrade
@@ -14,17 +14,16 @@ sudo apt-get install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-
 git clone https://github.com/fewtarius/351ELEC.git 351ELEC    
 cd 351ELEC
 git checkout master  
-PROJECT=Rockchip DEVICE=RG351P ARCH=arm make image
+./build_351elec.sh {LI or AK}
 ```
+The resulting image will be located in 351ELEC/target.  Use 'dd' or your favorite image writer to write it to a microSD.
 
 If you want to build the addon: 
 ```
 cd 351ELEC
 ./emuelec-addon.sh
 ```
-resulting zip files will be inside EmuELEC/repo
-
-**Remember to use the proper DTB for your device!**
+Resulting zip files will be inside 351ELEC/repo
 
 **License**
 
