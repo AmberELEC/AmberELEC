@@ -4,7 +4,7 @@ A fork of EmuELEC for the Anbernic RG351P
 
 Based on [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC) and [Lakka](https://github.com/libretro/Lakka-LibreELEC) with tidbits from [Batocera](https://github.com/batocera-linux/batocera.linux).
 
-This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 32GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32).
+This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 16GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32).
 
 Building a firmware with the Anbernic kernel (AK) requires first building the lualiliu kernel (LI).  The lualiliu kernel build does not boot yet.
 
