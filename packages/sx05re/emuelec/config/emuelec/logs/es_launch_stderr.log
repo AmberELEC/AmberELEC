@@ -1,4 +1,0 @@
-Connection failure: Connection refused
-pa_context_connect() failed: Connection refused
-/emuelec/configs/jslisten.cfg: line 1: [Generic]: command not found
-killall: jslisten: no process killed

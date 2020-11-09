@@ -30,11 +30,33 @@ fi
 #/storage/.cache/services/bluez.conf
 #fi
 
-# copy default bezel to /storage/roms/bezel if it doesn't exists
+# copy bezel if it doesn't exists
 if [ ! -f "/storage/roms/bezels/default.cfg" ]; then 
-mkdir -p /storage/roms/bezels/
+mkbezels/
 cp -rf /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/
 fi
+
+# Create game directories if they don't exist..
+# Temporary hack to be replaced with emuelec-dirs.conf
+
+for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800          \
+	   atari800 atarijaguar atarilynx atarist atomiswave bios c128 c16        \
+	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound       \
+	   downloads famicom fbneo fds gameandwatch gamegear gb gba gbc           \
+	   genesis gw mame mastersystem megadrive megadrive-japan msx msx2        \
+	   n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor pcengine       \
+	   pcenginecd pcfx psp psx saturn sc-3000 scummvm sega32x segacd sfc      \
+	   sg-1000 sgfx snes tg16 tg16cd uzebox vectrex vic20 videopac virtualboy \
+	   wonderswan wonderswancolor x68000 zx81 zxspectrum ports ports/VVVVVV   \
+	   ports/quake ports/diablo ports/doom ports/doom2 ports/cannonball       \
+	   ports/CaveStory ports/reminiscence ports/xrick ports/opentyrian
+do
+  if [ ! -d "/storage/roms/${dir}" ]; then
+    mkdir -p "/storage/roms/${dir}"
+    chown root:root "/storage/roms/${dir}"
+    chmod 0777 "/storage/roms/${dir}"
+  fi
+done
 
 # Restore config if backup exists
 BACKUPFILE="/storage/downloads/ee_backup_config.zip"

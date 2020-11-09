@@ -1,4 +1,0 @@
-Set-Audio: Using audio device hw:
-Set-Audio: neither the PulseAudio module module-alsa-card or module-alsa-sink was found. Nothing to unload
-Set-Audio: SDL2 set environment variable SDL_AUDIODRIVER=alsa
-Kill combo set to 0+6 from /tmp/joypads/OpenSimHardware OSH PB Controller.cfg Dev: js0

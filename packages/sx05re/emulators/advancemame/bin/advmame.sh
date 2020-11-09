@@ -33,11 +33,10 @@ fi
 	echo "device_video_modeline 1920x1080_60.00 153.234 1920 1968 2121 2168 1080 1127 1130 1178 +hsync +vsync" >> $CONFIG_DIR/advmame.rc
 	;;
 esac
+fi
 
 AUTOGP=$(get_ee_setting advmame_auto_gamepad)
 [[ "${AUTOGP}" != "0" ]] && /emuelec/scripts/set_advmame_joy.sh
-
-fi
 
 ARG=$(echo basename $1 | sed 's/\.[^.]*$//')
 ARG="$(echo $1 | sed 's=.*/==;s/\.[^.]*$//')"         
