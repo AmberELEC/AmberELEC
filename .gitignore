@@ -47,3 +47,5 @@ packages/sx05re/experimental/
 
 # The device should be ignored for now.
 projects/Rockchip/devices/RG351P
+
+release/
