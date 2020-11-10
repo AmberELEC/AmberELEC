@@ -22,3 +22,6 @@ distclean:
 
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
+
+world:
+	./build.sh world

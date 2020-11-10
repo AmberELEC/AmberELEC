@@ -127,5 +127,10 @@ case "$DEFE" in
 	;;
 esac
 
+# write logs to tmpfs not the sdcard
+rm -rf /storage/.config/emuelec/logs
+mkdir /tmp/logs
+ln -s /tmp/logs /storage/.config/emuelec/logs
+
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after

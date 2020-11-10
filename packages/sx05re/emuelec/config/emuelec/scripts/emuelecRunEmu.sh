@@ -19,12 +19,12 @@
 #	fi
 #fi 
 
-if [[ "$EE_DEVICE" != "OdroidGoAdvance" ]] || [[ "$EE_DEVICE" != "RG351P" ]]; then
+#if [[ "$EE_DEVICE" != "OdroidGoAdvance" ]] || [[ "$EE_DEVICE" != "RG351P" ]]; then
 # clear terminal window
 	clear > /dev/tty
 	clear > /dev/tty0
 	clear > /dev/tty1
-fi
+#fi
 
 arguments="$@"
 
@@ -42,7 +42,7 @@ LOGEMU="No"
 VERBOSE=""
 LOGSDIR="/emuelec/logs"
 EMUELECLOG="$LOGSDIR/emuelec.log"
-TBASH="/usr/bin/bash"
+TBASH="nice -19 /usr/bin/bash"
 JSLISTENCONF="/emuelec/configs/jslisten.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"

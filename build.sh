@@ -83,11 +83,11 @@ RESET
 
 if [ "${BUILD}" == "RG351P-LI" ]
 then
-  additional_packages emulators
+  additional_packages
   RG351P-LI image
 elif [ "${BUILD}" == "RG351P-AK" ]
 then
-  additional_packages emulators
+  additional_packages
   RG351P-AK image
 elif [ "${BUILD}" == "WORLD" ]
 then
