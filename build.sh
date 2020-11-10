@@ -31,7 +31,7 @@ function RG351P-LI () {
   echo "Setting build device directory to ${BUILD}"
   rm -rf projects/Rockchip/devices/RG351P
   cp -rf projects/Rockchip/devices/RG351P-LI projects/Rockchip/devices/RG351P
-  make $1
+  make $1 || exit 1
   if [ -d "release/RG351P-LI" ]
   then
     rm -rf "release/RG351P-LI"
@@ -51,7 +51,7 @@ function RG351P-AK () {
   rm -rf packages/virtual/linux-firmware
   rm -rf projects/Rockchip/devices/RG351P
   cp -rf projects/Rockchip/devices/RG351P-AK projects/Rockchip/devices/RG351P
-  make $1
+  make $1 || exit 1
   if [ -d "release/RG351P-AK" ]
   then
     rm -rf "release/RG351P-AK"

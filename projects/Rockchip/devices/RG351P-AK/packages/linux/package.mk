@@ -25,11 +25,11 @@ makeinstall_target() {
 
   cp anbernic-kernel/kernel arch/${TARGET_KERNEL_ARCH}/boot/${KERNEL_TARGET}
 
-  #cp anbernic-kernel/rk3326-odroidgo2-linux.dts arch/${TARGET_KERNEL_ARCH}/boot/dts
-  #cp anbernic-kernel/rk3326-odroidgo2-linux-v11.dts arch/${TARGET_KERNEL_ARCH}/boot/dts
-
   mkdir -p $INSTALL/usr/lib/kernel-overlays/base/lib/modules
   cp -rf anbernic-kernel/usr/lib/kernel-overlays/base/lib/modules/* $INSTALL/usr/lib/kernel-overlays/base/lib/modules
+
+  mkdir -p $INSTALL/usr/lib/kernel-overlays/base/lib/firmware
+  cp -rf anbernic-kernel/usr/lib/kernel-overlays/base/lib/firmware/* $INSTALL/usr/lib/kernel-overlays/base/lib/firmware
 
   mkdir -p $INSTALL/usr/share/bootloader
   cp -rf anbernic-kernel/usr/share/bootloader/* $INSTALL/usr/share/bootloader

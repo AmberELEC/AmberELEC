@@ -1,0 +1,20 @@
+--- a/es-app/src/guis/GuiMenu.cpp.orig	2020-11-10 11:11:29.572711541 -0500
++++ b/es-app/src/guis/GuiMenu.cpp	2020-11-10 11:13:18.277124839 -0500
+@@ -26,7 +26,7 @@ GuiMenu::GuiMenu(Window* window) : GuiCo
+ 	bool isFullUI = UIModeController::getInstance()->isUIModeFull();
+ 
+ 	if (isFullUI)
+-	    addEntry("EmuELEC", 0x777777FF, true, [this] { openEmuELECSettings(); }); /* < emuelec */
++	    addEntry("351ELEC", 0x777777FF, true, [this] { openEmuELECSettings(); }); /* < emuelec */
+ 	
+ 	if (isFullUI)
+ 		addEntry("SCRAPER", 0x777777FF, true, [this] { openScraperSettings(); });
+@@ -55,7 +55,7 @@ GuiMenu::GuiMenu(Window* window) : GuiCo
+ /* < emuelec */
+ void GuiMenu::openEmuELECSettings()
+ {
+-	auto s = new GuiSettings(mWindow, "EmuELEC Settings");
++	auto s = new GuiSettings(mWindow, "351ELEC Settings");
+ 	Window* window = mWindow;
+ 	std::string a;
+ 	    auto bgm_enabled = std::make_shared<SwitchComponent>(mWindow);

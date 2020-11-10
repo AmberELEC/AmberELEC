@@ -14,9 +14,10 @@ sudo apt-get install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-
 git clone https://github.com/fewtarius/351ELEC.git 351ELEC    
 cd 351ELEC
 git checkout master  
-./build_351elec.sh {LI or AK}
+make world
 ```
-The resulting image will be located in 351ELEC/target.  Use 'dd' or your favorite image writer to write it to a microSD.
+
+The resulting image will be located in 351ELEC/target.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
 
 If you want to build the addon: 
 ```

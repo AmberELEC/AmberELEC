@@ -2,7 +2,6 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-#PKG_VERSION="6ca01d5882a1517b941d7d6ff80a37b64c372e92"
 PKG_VERSION="9f33a82b49dfbc45614fc61487dec75987472ae2"
 PKG_REV="1"
 PKG_ARCH="any"
@@ -15,13 +14,30 @@ PKG_LONGDESC="PPSSPP Standalone"
 GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+lto"
 
-PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=ON \
-                        -DARMV7=ON \
-                        -DUSING_FBDEV=ON \
-                        -DUSING_EGL=ON \
-                        -DUSING_GLES2=ON \
-                        -DUSING_X11_VULKAN=OFF \
-                        -DUSE_DISCORD=OFF"
+# -DUSE_SYSTEM_FFMPEG=ON
+
+PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
+			-DUSE_FFMPEG=ON \
+			-DUSING_FBDEV=ON \
+			-DUSE_WAYLAND_WSI=OFF \
+			-DUSING_EGL=OFF \
+			-DUSING_GLES2=ON \
+			-DUSE_DISCORD=OFF \
+			-DUSING_X11_VULKAN=OFF \
+			-DARM_NO_VULKAN=ON \
+			-DBUILD_SHARED_LIBS=OFF \
+			-DANDROID=OFF \
+			-DWIN32=OFF \
+			-DAPPLE=OFF \
+			-DCMAKE_CROSSCOMPILING=ON \
+			-DVULKAN=OFF \
+			-DUSING_QT_UI=OFF \
+			-DUNITTEST=OFF \
+			-DSIMULATOR=OFF \
+			-DHEADLESS=OFF \
+			-fpermissive \
+			-Wno-dev "
+
 
 pre_configure_target() {
 if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
@@ -38,10 +54,10 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
-    cp $PKG_DIR/ppsspp.sh $INSTALL/usr/bin/ppsspp.sh
-    cp `find . -name "PPSSPPSDL" | xargs echo` $INSTALL/usr/bin/PPSSPPSDL
-    ln -sf /storage/.config/ppsspp/assets $INSTALL/usr/bin/assets
-    mkdir -p $INSTALL/usr/config/ppsspp/
-    cp -r `find . -name "assets" | xargs echo` $INSTALL/usr/config/ppsspp/
-    cp -rf $PKG_DIR/config/* $INSTALL/usr/config/ppsspp/
+  cp $PKG_DIR/ppsspp.sh $INSTALL/usr/bin/ppsspp.sh
+  cp `find . -name "PPSSPPSDL" | xargs echo` $INSTALL/usr/bin/PPSSPPSDL
+  ln -sf /storage/.config/ppsspp/assets $INSTALL/usr/bin/assets
+  mkdir -p $INSTALL/usr/config/ppsspp/
+  cp -r `find . -name "assets" | xargs echo` $INSTALL/usr/config/ppsspp/
+  cp -rf $PKG_DIR/config/* $INSTALL/usr/config/ppsspp/
 } 
