@@ -21,6 +21,6 @@ if [ ! -L ${RR_DOSBOX_HOME} ]; then
 fi
 
 # Run the emulator
-dosbox "$@" > /emuelec/logs/dosbox.log 2>&1
+nice -n -19 dosbox "$@" > /emuelec/logs/dosbox.log 2>&1
 
 set_audio default

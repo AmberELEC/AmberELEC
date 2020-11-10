@@ -63,14 +63,14 @@ if [ `echo $1 | grep -i .zip | wc -l` -eq 1 ]; then
     # Add game files as floppy 1 & 2 to .hatari-temp.cfg & start hatari
     echo -e $ARGS >> "$HATARI_TMP_CONFIG"
     echo -e "\nAssigned floppy drives:" $ARGS "\n" >> "$HATARI_LOG"
-    hatari --configfile "$HATARI_TMP_CONFIG" >> $HATARI_LOG 2>&1
+    nice -n -19 hatari --configfile "$HATARI_TMP_CONFIG" >> $HATARI_LOG 2>&1
 
 # Check for .cfg config file
 elif [ `echo $1 | grep -i .cfg | wc -l` -eq 1 ]; then
-  hatari --configfile "$1" >> $HATARI_LOG 2>&1
+  nice -n -19 hatari --configfile "$1" >> $HATARI_LOG 2>&1
 # All other files
 else
-  hatari --configfile "$HATARI_TMP_CONFIG" --disk-a "$1" >> $HATARI_LOG 2>&1
+  nice -n -19 hatari --configfile "$HATARI_TMP_CONFIG" --disk-a "$1" >> $HATARI_LOG 2>&1
 fi
 # Remove temporary dir
 rm -rf "$HATARI_TMP_DIR"

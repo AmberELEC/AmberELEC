@@ -11,7 +11,7 @@ BINDIR="/usr/bin"
 GAME="$(echo $2 | sed 's=.*/==;s/\.[^.]*$//')" 
 
 create_rvm(){
-	$BINDIR/residualvm --list-targets | tail -n +3 | cut -d " " -f 1 | while read line; do
+	nice -n -19 $BINDIR/residualvm --list-targets | tail -n +3 | cut -d " " -f 1 | while read line; do
     id=($line);
     touch "${CONFIG_DIR}/games/$id.rvm"
 	done 
@@ -28,7 +28,7 @@ fi
 
 case $1 in
 "add") 
-$BINDIR/residualvm --add --path="/storage/roms/residualvm" --recursive
+nice -n -19 $BINDIR/residualvm --add --path="/storage/roms/residualvm" --recursive
 ;;
 "create") 
 create_rvm
@@ -36,7 +36,7 @@ create_rvm
 *) 
 set_audio "fluidsynth"
 [[ ! -f "/ee_s905" ]] && /storage/.config/emuelec/bin/fbfix
-$BINDIR/residualvm --fullscreen --joystick=0 $EXTRA "$GAME"
+nice -n -19 $BINDIR/residualvm --fullscreen --joystick=0 $EXTRA "$GAME"
 set_audio "pulseaudio"
 ;;
 esac 

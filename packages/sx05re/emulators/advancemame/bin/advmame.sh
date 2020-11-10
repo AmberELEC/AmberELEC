@@ -41,4 +41,4 @@ AUTOGP=$(get_ee_setting advmame_auto_gamepad)
 ARG=$(echo basename $1 | sed 's/\.[^.]*$//')
 ARG="$(echo $1 | sed 's=.*/==;s/\.[^.]*$//')"         
 
-SDL_AUDIODRIVER=alsa /usr/bin/advmame $ARG -quiet
+SDL_AUDIODRIVER=alsa nice -n -19 /usr/bin/advmame $ARG -quiet

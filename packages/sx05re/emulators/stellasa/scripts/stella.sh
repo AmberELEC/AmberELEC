@@ -4,4 +4,4 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 export SDL_AUDIODRIVER=alsa          
-/usr/bin/stella "${1}"
+nice -n -19 /usr/bin/stella "${1}"

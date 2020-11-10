@@ -42,7 +42,7 @@ LOGEMU="No"
 VERBOSE=""
 LOGSDIR="/emuelec/logs"
 EMUELECLOG="$LOGSDIR/emuelec.log"
-TBASH="nice -19 /usr/bin/bash"
+TBASH="/usr/bin/bash"
 JSLISTENCONF="/emuelec/configs/jslisten.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
@@ -247,7 +247,7 @@ case ${PLATFORM} in
 		;;
 	"neocd")
 		if [ "$EMU" = "fbneo" ]; then
-		RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
+		RUNTHIS='nice -n -19 /usr/bin/retroarch $VERBOSE -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
 		fi
 		;;
 	"mplayer")
@@ -264,7 +264,7 @@ if [[ ${PLATFORM} == "ports" ]]; then
 	PORTSCRIPT="${arguments##*-SC}"  # read from -SC onwards
 fi
 
-RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
+RUNTHIS='nice -n -19 /usr/bin/retroarch $VERBOSE -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
 CONTROLLERCONFIG="${arguments#*--controllers=*}"
 CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
 CORE=${EMU%%_*}

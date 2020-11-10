@@ -73,7 +73,7 @@ if [ `echo $1 | grep -i .zip | wc -l` -eq 1 ]; then
     AMIBERRY_SET_CONF "$1"
 
     # Add amiberry.uae conf & start amiberry with WHDLoad
-    amiberry -f "$AMIBERRY_TMP_CONFIG" --autoload "$1" >> $AMIBERRY_LOG 2>&1
+    nice -n -19 amiberry -f "$AMIBERRY_TMP_CONFIG" --autoload "$1" >> $AMIBERRY_LOG 2>&1
 
   else
     # .zip file detected
@@ -99,7 +99,7 @@ if [ `echo $1 | grep -i .zip | wc -l` -eq 1 ]; then
     echo -e ";" >> "$AMIBERRY_TMP_CONFIG"
     echo -e $ARGS >> "$AMIBERRY_TMP_CONFIG"
     echo -e "\nAssigned floppy drives:" $ARGS "\n" >> "$AMIBERRY_LOG"
-    amiberry -f "$AMIBERRY_TMP_CONFIG" >> $AMIBERRY_LOG 2>&1
+    nice -n -19 amiberry -f "$AMIBERRY_TMP_CONFIG" >> $AMIBERRY_LOG 2>&1
   fi
 
 # Check for WHDload files (.lha)
@@ -112,7 +112,7 @@ elif [ `echo $1 | grep -i .lha | wc -l` -eq 1 ]; then
   AMIBERRY_SET_CONF "$1"
 
   # Add amiberry.uae conf & start amiberry with WHDLoad
-  amiberry -f "$AMIBERRY_TMP_CONFIG" --autoload "$1" >> $AMIBERRY_LOG 2>&1
+  nice -n -19 amiberry -f "$AMIBERRY_TMP_CONFIG" --autoload "$1" >> $AMIBERRY_LOG 2>&1
 
 # Check for .uae config file
 elif [ `echo $1 | grep -i .uae | wc -l` -eq 1 ]; then
@@ -121,7 +121,7 @@ elif [ `echo $1 | grep -i .uae | wc -l` -eq 1 ]; then
   echo "Loading an .uae file..." >> $AMIBERRY_LOG
 
   # Load .uae config file
-  amiberry -f "$1" >> $AMIBERRY_LOG 2>&1
+  nice -n -19 amiberry -f "$1" >> $AMIBERRY_LOG 2>&1
 
 # All other files (.adf .adz .ipf)
 else
@@ -138,7 +138,7 @@ else
   echo -e ";" >> "$AMIBERRY_TMP_CONFIG"
   echo -e "\nfloppy0=$1" >> "$AMIBERRY_TMP_CONFIG"
   echo -e "\nAssigned floppy drive:\nfloppy0=$1\n" >> "$AMIBERRY_LOG"
-  amiberry -f "$AMIBERRY_TMP_CONFIG" >> $AMIBERRY_LOG 2>&1
+  nice -n -19 amiberry -f "$AMIBERRY_TMP_CONFIG" >> $AMIBERRY_LOG 2>&1
 fi
 
 # Remove temporary dir

@@ -28,7 +28,7 @@ echo $pakname
 
 # Run OpenBOR in the config folder
     cd /storage/.config/openbor/
-	SDL_AUDIODRIVER=alsa OpenBOR
+	SDL_AUDIODRIVER=alsa nice -n -19 OpenBOR
 
 # Delete Pak from temp folder
 	rm -rf /storage/.config/openbor/Paks/*
