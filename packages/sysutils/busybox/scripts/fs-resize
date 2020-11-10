@@ -56,7 +56,7 @@ if [ -e /storage/.please_resize_me ] ; then
     StartProgress spinner "Creating FAT32 partition..." "parted -s -a optimal -m $DISK mkpart primary fat32 2147MB 100% &>/dev/null"
     partprobe &>/dev/null
     StartProgress spinner "Formatting FAT32 partition..." "mkfs.vfat -n GAMES ${DISK}p3 &>/dev/null"
-    StartProgress countdown "Rebooting in 15s...     " 15 "NOW"
+    StartProgress countdown "Rebooting in 10s...     " 10 "NOW"
   fi
 fi
 reboot -f &>/dev/null

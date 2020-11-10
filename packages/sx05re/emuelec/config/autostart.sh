@@ -132,5 +132,8 @@ rm -rf /storage/.config/emuelec/logs
 mkdir /tmp/logs
 ln -s /tmp/logs /storage/.config/emuelec/logs
 
+# default to ondemand performance in EmulationStation
+normperf
+
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after
