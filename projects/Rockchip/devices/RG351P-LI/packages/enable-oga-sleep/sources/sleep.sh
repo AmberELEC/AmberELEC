@@ -4,6 +4,8 @@ OGA=$(cat /proc/device-tree/compatible)
 
 case $1 in
    pre)
+    # Store system brightness
+    cat /sys/class/backlight/backlight/brightness > /storage/.brightness
     # unload esp8090 WiFi module
 [[ "${OGA}" == *"v11"* ]] && modprobe -r esp8089
     # Store sound state. Try to avoid having max volume after resume
@@ -21,6 +23,8 @@ case $1 in
 	modprobe -i dwc2
 	# re-load WiFi module
 [[ "${OGA}" == *"v11"* ]] &&  modprobe esp8089
+    # Restore system brightness
+    cat /storage/.brightness > /sys/class/backlight/backlight/brightness
     # re-detect and reapply sound, brightness and hp state
     systemctl start odroidgoa-headphones.service
 	;;

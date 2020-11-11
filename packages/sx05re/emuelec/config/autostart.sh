@@ -135,5 +135,14 @@ ln -s /tmp/logs /storage/.config/emuelec/logs
 # default to ondemand performance in EmulationStation
 normperf
 
+# Restore last saved brightness
+if [ -e /storage/.brightness ]
+then
+  cat /storage/.brightness > /sys/class/backlight/backlight/brightness
+else
+  echo 50 >/sys/class/backlight/backlight/brightness
+  echo 50 >/storage/.brightness
+fi
+
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after

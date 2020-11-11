@@ -17,8 +17,7 @@
   GREETING0="##############################################"
   GREETING1="#                 351ELEC                    #"
   GREETING2="#      A fork of EmuELEC for the RG351P      #"
-  GREETING3="#             Based on EmuELEC               #"
-  GREETING4="##############################################"
+  GREETING3="##############################################"
 
 # Root password to integrate in the target system
   ROOT_PASSWORD="351elec"
