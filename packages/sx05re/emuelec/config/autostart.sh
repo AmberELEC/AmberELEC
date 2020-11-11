@@ -140,8 +140,8 @@ if [ -e /storage/.brightness ]
 then
   cat /storage/.brightness > /sys/class/backlight/backlight/brightness
 else
-  echo 50 >/sys/class/backlight/backlight/brightness
-  echo 50 >/storage/.brightness
+  echo 75 >/sys/class/backlight/backlight/brightness
+  echo 75 >/storage/.brightness
 fi
 
 # run custom_start ending scripts
