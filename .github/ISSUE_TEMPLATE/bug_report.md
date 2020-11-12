@@ -6,6 +6,8 @@ labels: ''
 assignees: ''
 
 ---
+**Getting started**
+Before opening an issue, be sure to check the release notes of the version that you are using and recent commits.  Be sure to fill out the template completely, accurately, and with as much detail as possible.  Issues without sufficient detail will be rejected and closed.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
