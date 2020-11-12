@@ -13,3 +13,14 @@
         PLATFORM_DEFINES += -marm
         ifneq (,$(findstring softfloat,$(platform)))
                 PLATFORM_DEFINES += -mfloat-abi=softfp
+@@ -84,8 +85,8 @@
+                PLATFORM_DEFINES += -mfloat-abi=hard
+        endif
+        ifneq (,$(findstring neon,$(platform)))
+-               FLAGS += -mfpu=neon
+-               ASFLAGS += -mfpu=neon
++               #FLAGS += -mfpu=neon
++               #ASFLAGS += -mfpu=neon
+                HAVE_NEON = 1
+        endif
+        PLATFORM_DEFINES += -DARM

@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="retroarch"
-PKG_VERSION="ccbff758b46556407d1b9931a72cfcc46201276d"
+PKG_VERSION="75abb44975da762c37a617a91baed31be8da8a76"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"
@@ -31,7 +31,7 @@ if [ ${PROJECT} = "Amlogic-ng" ]; then
   PKG_PATCH_DIRS="${PROJECT}"
 fi
 
-if [ "$DEVICE" == "OdroidGoAdvance" ]  || [ "$DEVICE" == "RG351P" ]; then
+if [ "$DEVICE" == "RG351P" ]; then
 PKG_DEPENDS_TARGET+=" libdrm librga"
 fi
 
@@ -45,8 +45,7 @@ pre_configure_target() {
 export CFLAGS="`echo $CFLAGS | sed -e "s|-O.|-O2|g"`"
 
 TARGET_CONFIGURE_OPTS=""
-PKG_CONFIGURE_OPTS_TARGET="--enable-neon \
-                           --disable-qt \
+PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
                            --enable-alsa \
                            --enable-udev \
                            --disable-opengl1 \
@@ -63,7 +62,7 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-neon \
                            --enable-sdl2 \
                            --enable-ffmpeg"
 
-if [ "$DEVICE" == "OdroidGoAdvance" ]  || [ "$DEVICE" == "RG351P" ]; then
+if [ "$DEVICE" == "RG351P" ]; then
 PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                            --enable-kms \
                            --disable-mali_fbdev \
@@ -71,6 +70,10 @@ PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
 else
 PKG_CONFIGURE_OPTS_TARGET+=" --disable-kms \
                            --enable-mali_fbdev"
+fi
+
+if [ $ARCH == "arm" ]; then
+PKG_CONFIGURE_OPTS_TARGET+=" --enable-neon"
 fi
 
 cd $PKG_BUILD
@@ -89,6 +92,12 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
   mkdir -p $INSTALL/etc
     cp $PKG_BUILD/retroarch $INSTALL/usr/bin
+
+if [[ "$ARCH" == "arm" ]] && [[ "$EMUELEC_ADDON" != "Yes" ]]; then
+    patchelf --set-interpreter /emuelec/lib32/ld-linux-armhf.so.3 $INSTALL/usr/bin/retroarch
+    mv $INSTALL/usr/bin/retroarch $INSTALL/usr/bin/retroarch32
+fi
+
     cp $PKG_BUILD/retroarch.cfg $INSTALL/etc
   mkdir -p $INSTALL/usr/share/video_filters
     cp $PKG_BUILD/gfx/video_filters/*.so $INSTALL/usr/share/video_filters
@@ -132,7 +141,7 @@ makeinstall_target() {
   sed -i -e "s/# video_gpu_screenshot = true/video_gpu_screenshot = false/" $INSTALL/etc/retroarch.cfg
   sed -i -e "s/# video_fullscreen = false/video_fullscreen = true/" $INSTALL/etc/retroarch.cfg
 
-if [ "$DEVICE" == "OdroidGoAdvance" ]  || [ "$DEVICE" == "RG351P" ]; then
+if [ "$DEVICE" == "RG351P" ]; then
     echo "xmb_layout = 2" >> $INSTALL/etc/retroarch.cfg
     echo "menu_widget_scale_auto = false" >> $INSTALL/etc/retroarch.cfg
     echo "menu_widget_scale_factor = 2.00" >> $INSTALL/etc/retroarch.cfg

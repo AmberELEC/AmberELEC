@@ -7,7 +7,7 @@
 export DISTRO=351ELEC
 export PROJECT=Rockchip
 export DEVICE=RG351P
-export ARCH=arm
+#export ARCH=arm
 
 if [ ! "${1^^}" == "WORLD" ] && [ ! "${1^^}" == "RESET" ]
 then

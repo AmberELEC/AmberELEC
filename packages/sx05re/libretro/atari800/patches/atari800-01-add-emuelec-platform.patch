@@ -17,14 +17,14 @@
 +	-falign-functions=1 -falign-jumps=1 -falign-loops=1 \
 +	-fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops \
 +	-fmerge-all-constants -fno-math-errno \
-+	-marm -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
++	#-marm -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
 +	CXXFLAGS += $(CFLAGS)
 +	CPPFLAGS += $(CFLAGS)
 +	ASFLAGS += $(CFLAGS)
 +	HAVE_NEON = 1
 +	CFLAGS += -march=armv8-a
 +	LDFLAGS += -static-libgcc
-+	CFLAGS += -DDEFAULT_CFG_NAME="\"/.config/emuelec/configs/atari800.cfg\""
++	CFLAGS += -DDEFAULT_CFG_NAME="\"/storage/.config/emuelec/configs/atari800.cfg\""
 +#######################################
 +
 +

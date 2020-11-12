@@ -41,11 +41,7 @@ make_target() {
     CXXFLAGS="$CXXFLAGS -DARM"
   fi
   
-  if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then 
-    make -C libretro platform=classic_armv8_a35
-   else
-   make -C libretro
-   fi
+  make -C libretro
 }
 
 makeinstall_target() {

@@ -170,5 +170,3 @@ bsdsocket_emu=false
 
 gfx_center_vertical=smart
 gfx_center_horizontal=smart
-gfx_center_vertical=smart
-gfx_center_horizontal=smart

@@ -25,10 +25,6 @@ if [[ "$TARGET_FPU" =~ "neon" ]]; then
 	PKG_MAKE_OPTS_TARGET+=" HAVE_NEON=1"
 fi
 
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
-	PKG_MAKE_OPTS_TARGET+=" platform=classic_armv8_a35"
-fi
-
 }
 
 makeinstall_target() {
