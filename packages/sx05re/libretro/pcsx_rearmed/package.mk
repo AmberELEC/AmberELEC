@@ -34,7 +34,7 @@ mkdir -p ${INSTALL}${INSTALLTO}
 
 if [ "${ARCH}" = "aarch64" ]; then
     mkdir -p ${INSTALL}/usr/bin
-    mkdir -p ${INSTALL}/usr/config/emuelec/lib32
+    mkdir -p ${INSTALL}/usr/lib32
     LIBS="ld-2.*.so \
 		libarmmem-v7l.* \
 		librt.so* \
@@ -78,7 +78,7 @@ if [ "${ARCH}" = "aarch64" ]; then
 	if [ "$PROJECT" == "Amlogic" ]; then
 		LIBS+=" libMali.so"
 	fi
-	if [ "$DEVICE" == "" ]; then
+	if [ "$DEVICE" == "OdroidGoAdvance" ]; then
 		LIBS+=" libdrm.so* \
 		librga.so \
 		libpng*.so.* \
@@ -88,36 +88,13 @@ if [ "${ARCH}" = "aarch64" ]; then
 	fi
     for lib in ${LIBS}
     do 
-      find $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/config/emuelec/lib32 \;
+      find $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
-    
-    if [ "$DEVICE" == "RG351P" ]; then
-	ln -sf libmali.so $INSTALL/usr/config/emuelec/lib32/libMali.so
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libgbm.so
-    fi
 
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libMali.so.0
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libEGL.so
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libEGL.so.1
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libEGL.so.1.0.0
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLES_CM.so.1
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv1_CM.so
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv1_CM.so.1
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv1_CM.so.1.0.1
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv1_CM.so.1.1
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv2.so
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv2.so.2
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv2.so.2.0
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv2.so.2.0.0
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv3.so
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv3.so.3
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv3.so.3.0
-    ln -sf libMali.so $INSTALL/usr/config/emuelec/lib32/libGLESv3.so.3.0.0
-    
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
     patchelf --set-interpreter /emuelec/lib32/ld-linux-armhf.so.3 ${INSTALL}/usr/bin/retroarch32
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/pcsx_rearmed-*/.install_pkg/usr/lib/libretro/pcsx_rearmed_libretro.so ${INSTALL}${INSTALLTO}
-    chmod -f +x ${INSTALL}/usr/config/emuelec/lib32/* || :
+    chmod -f +x ${INSTALL}/usr/lib32/* || :
 else
     cp pcsx_rearmed_libretro.so ${INSTALL}${INSTALLTO}
 fi

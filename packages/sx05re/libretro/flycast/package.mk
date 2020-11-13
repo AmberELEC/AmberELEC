@@ -64,9 +64,14 @@ else
     ;;  
   esac
 fi
-
-#PKG_MAKE_OPTS_TARGET+=" platform=classic_armv8_a35" 
-PKG_MAKE_OPTS_TARGET+=" platform=arm64"
+  
+ if [ "$DEVICE" == "RG351P" ]; then
+	if [ "$ARCH" == "arm" ]; then
+	PKG_MAKE_OPTS_TARGET+=" platform=classic_armv8_a35"
+	else
+	PKG_MAKE_OPTS_TARGET+=" platform=arm64"
+	fi
+ fi 
 }
 
 makeinstall_target() {

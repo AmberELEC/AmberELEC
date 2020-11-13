@@ -4,7 +4,7 @@
 PKG_NAME="mali-bifrost"
 PKG_VERSION="f226e982386287a4df669e2832d9ddd613d4153b"
 PKG_SHA256="cec41b7383b64fbb9fee891c9bcfaa979cb8d8b943d131a471c7fac7e16b393e"
-PKG_ARCH="aarch64"
+PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
 PKG_SITE="https://github.com/rockchip-linux/libmali"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
@@ -15,67 +15,63 @@ PKG_TOOLCHAIN="manual"
 post_makeinstall_target() {
 	# remove all the extra blobs, we only need one
 	rm -rf $INSTALL/usr
-	
-	# Install 64bit libs for packages that require them
 	mkdir -p $INSTALL/usr/lib/
-	cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
-
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libEGL.so
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libEGL.so.1
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libgbm.so
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libGLESv2.so
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libGLESv2.so.2
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libGLESv3.so
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libGLESv3.so.3
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libGLESv1_CM.so.1
-	ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/libGLES_CM.so.1
-
-	cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
-	cp $PKG_BUILD/include/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
-	
-	mkdir -p $SYSROOT_PREFIX/usr/lib
-	
-	cp -PR $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
-	
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libEGL.so
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libEGL.so.1
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libgbm.so
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv2.so
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv2.so.2
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv3.so
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv3.so.3
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv1_CM.so.1
-	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLES_CM.so.1
-
-        # Install 32bit libs for packages that require them
-        mkdir -p $INSTALL/usr/lib32/
-        cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib32/libmali.so
-
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libEGL.so
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libEGL.so.1
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libgbm.so
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv2.so
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv2.so.2
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv3.so
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv3.so.3
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv1_CM.so.1
-        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLES_CM.so.1
+        mkdir -p $SYSROOT_PREFIX/usr/lib
+	mkdir -p $TOOLCHAIN/usr/lib/pkgconfig
 
         cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
         cp $PKG_BUILD/include/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
 
-        mkdir -p $SYSROOT_PREFIX/usr/lib32
+        if [ $TARGET_ARCH == 'aarch64' ]
+	then
+     		mkdir -p $INSTALL/usr/lib32/
+        	mkdir -p $SYSROOT_PREFIX/usr/lib32
 
-        cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
+		cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
+		cp -PR $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
 
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libEGL.so
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libEGL.so.1
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libgbm.so
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv2.so
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv2.so.2
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv3.so
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv3.so.3
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv1_CM.so.1
-        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLES_CM.so.1
+        	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib32/libmali.so
+        	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib32/libmali.so
 
+		cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
+		cp $PKG_BUILD/include/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
+
+                for lib in libEGL.so \
+                           libEGL.so.1 \
+                           libgbm.so \
+                           libGLESv2.so \
+                           libGLESv2.so.2 \
+                           libGLESv3.so \
+                           libGLESv3.so.3 \
+                           libGLESv1_CM.so.1 \
+                           libGLES_CM.so.1
+		do
+			ln -sf libmali.so $INSTALL/usr/lib/${lib}
+			ln -sf libmali.so $INSTALL/usr/lib32/${lib}
+        		ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/${lib}
+        		ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/${lib}
+        	done
+	
+	else
+        	mkdir -p $INSTALL/usr/lib/
+        	mkdir -p $SYSROOT_PREFIX/usr/lib
+	
+        	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
+        	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
+
+        	for lib in libEGL.so \
+			   libEGL.so.1 \
+			   libgbm.so \
+			   libGLESv2.so \
+			   libGLESv2.so.2 \
+			   libGLESv3.so \
+			   libGLESv3.so.3 \
+			   libGLESv1_CM.so.1 \
+			   libGLES_CM.so.1
+        	do
+        		ln -sf libmali.so $INSTALL/usr/lib/${lib}
+        		ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/${lib}
+        	done
+
+	fi
 }

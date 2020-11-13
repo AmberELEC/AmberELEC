@@ -15,9 +15,21 @@ PKG_LONGDESC="Optimized/rewritten Nintendo 64 emulator made specifically for Lib
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-lto"
 
-PKG_PATCH_DIRS="emuelec-aarch64"
-PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
-#PKG_MAKE_OPTS_TARGET=" platform=classic_armv8_a35"
+if [[ "$ARCH" == "arm" ]]; then
+	PKG_PATCH_DIRS="${ARCH}"
+	PKG_MAKE_OPTS_TARGET=" platform=${PROJECT}"
+	
+	if [ "${DEVICE}" == "RG351P" ]; then
+		PKG_MAKE_OPTS_TARGET=" platform=Odroidgoa"
+	fi
+else
+	PKG_PATCH_DIRS="emuelec-aarch64"
+	PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
+	
+	if [ "${DEVICE}" == "RG351P" ]; then  #todo add odroidgoadvance to 64bits
+		PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
+	fi
+fi
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro

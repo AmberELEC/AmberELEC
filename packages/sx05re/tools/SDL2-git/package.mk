@@ -2,8 +2,7 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="SDL2-git"
-PKG_VERSION="2.0.9" # 2.0.9 Do not update!
-PKG_SHA256="255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
+PKG_VERSION="2.0.10"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
@@ -61,11 +60,7 @@ pre_configure_target(){
                          -DVIDEO_OPENGLES=ON \
                          -DVIDEO_VULKAN=OFF \
                          -DPULSEAUDIO=ON"
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
 PKG_CMAKE_OPTS_TARGET="$PKG_CMAKE_OPTS_TARGET -DVIDEO_KMSDRM=ON"
-else
-PKG_CMAKE_OPTS_TARGET="$PKG_CMAKE_OPTS_TARGET -DVIDEO_MALI=ON -DVIDEO_KMSDRM=OFF"
-fi
 }
 
 post_makeinstall_target() {
