@@ -16,6 +16,7 @@ post_makeinstall_target() {
 	# remove all the extra blobs, we only need one
 	rm -rf $INSTALL/usr
 	
+	# Install 64bit libs for packages that require them
 	mkdir -p $INSTALL/usr/lib/
 	cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
 
@@ -45,4 +46,36 @@ post_makeinstall_target() {
 	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv3.so.3
 	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv1_CM.so.1
 	ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/libGLES_CM.so.1
+
+        # Install 32bit libs for packages that require them
+        mkdir -p $INSTALL/usr/lib32/
+        cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib32/libmali.so
+
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libEGL.so
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libEGL.so.1
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libgbm.so
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv2.so
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv2.so.2
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv3.so
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv3.so.3
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLESv1_CM.so.1
+        ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/libGLES_CM.so.1
+
+        cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
+        cp $PKG_BUILD/include/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
+
+        mkdir -p $SYSROOT_PREFIX/usr/lib32
+
+        cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
+
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libEGL.so
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libEGL.so.1
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libgbm.so
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv2.so
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv2.so.2
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv3.so
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv3.so.3
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLESv1_CM.so.1
+        ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/libGLES_CM.so.1
+
 }

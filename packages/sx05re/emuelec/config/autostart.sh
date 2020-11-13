@@ -23,12 +23,12 @@ if [ ! -L "$CONFIG_DIR" ]; then
 ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
-#BTENABLED=$(get_ee_setting ee_bluetooth.enabled)
+# Automatic updates
+rsync -av --delete --exclude=custom_start.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
+cp /usr/config/autostart.sh /storage/.config/autostart.sh
 
-#if [[ "$BTENABLED" != "1" ]]; then
-#systemctl stop bluetooth
-#/storage/.cache/services/bluez.conf
-#fi
+# Apply some kernel tuning
+sysctl vm.swappiness=1
 
 # copy bezel if it doesn't exists
 if [ ! -f "/storage/roms/bezels/default.cfg" ]; then 

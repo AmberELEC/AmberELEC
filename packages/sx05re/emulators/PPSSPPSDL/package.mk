@@ -2,10 +2,10 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="668fca01a8906ec61811613537f89220f47c7d97"
+PKG_VERSION="087de849bdc74205dd00d8e6e11ba17a591213ab"
 PKG_REV="1"
 PKG_ARCH="any"
-PKG_LICENSE="MAME"
+PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
 PKG_DEPENDS_TARGET="toolchain ffmpeg libzip libpng SDL2-git zlib zip"
@@ -14,39 +14,34 @@ PKG_LONGDESC="PPSSPP Standalone"
 GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+lto"
 
+PPSSPP_CONF_OPTS = -DUSE_FFMPEG=ON -DUSING_FBDEV=ON -DUSE_WAYLAND_WSI=OFF \
+		   -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Linux -DUSE_DISCORD=OFF \
+		   -DUSING_X11_VULKAN=OFF -DARM_NO_VULKAN=ON -DBUILD_SHARED_LIBS=OFF
+
 PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
                        -DUSE_SYSTEM_FFMPEG=ON \
                        -DUSING_FBDEV=ON \
                        -DUSE_WAYLAND_WSI=OFF \
-                       -DUSING_EGL=OFF \
-                       -DUSING_GLES2=ON \
-                       -DUSE_DISCORD=OFF \
+		       -DCMAKE_BUILD_TYPE=Release \
+		       -DCMAKE_SYSTEM_NAME=Linux \
+		       -DUSING_GLES2=ON \
                        -DUSING_X11_VULKAN=OFF \
-                       -DARM_NO_VULKAN=ON \
+		       -DARM_NO_VULKAN=ON \
                        -DBUILD_SHARED_LIBS=OFF \
-                       -DANDROID=OFF \
-                       -DWIN32=OFF \
-                       -DAPPLE=OFF \
-                       -DCMAKE_CROSSCOMPILING=ON \
-                       -DVULKAN=OFF \
-                       -DUSING_QT_UI=OFF \
-                       -DUNITTEST=OFF \
-                       -DSIMULATOR=OFF \
-                       -DHEADLESS=OFF \
-                       -fpermissive \
-                       -Wno-dev "
-
-if [ $ARCH == "aarch64" ]; then
-PKG_CMAKE_OPTS_TARGET+=" -DARM64=ON"
-else
-PKG_CMAKE_OPTS_TARGET+=" -DARMV7=ON"
-fi
-
+		       -DANDROID=OFF \
+		       -DWIN32=OFF \
+		       -DAPPLE=OFF \
+		       -DCMAKE_CROSSCOMPILING=ON \
+		       -DVULKAN=OFF \
+		       -DUSING_EGL=OFF \
+		       -DUSING_QT_UI=OFF \
+		       -DUNITTEST=OFF \
+		       -DSIMULATOR=OFF \
+		       -DHEADLESS=OFF \
+                       -fpermissive"
 
 pre_configure_target() {
-if [ "$DEVICE" == "RG351P" ]; then
-	sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
-fi
+  sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
 }
 
 pre_make_target() {
@@ -64,4 +59,4 @@ makeinstall_target() {
     mkdir -p $INSTALL/usr/config/ppsspp/
     cp -r `find . -name "assets" | xargs echo` $INSTALL/usr/config/ppsspp/
     cp -rf $PKG_DIR/config/* $INSTALL/usr/config/ppsspp/
-} 
+}

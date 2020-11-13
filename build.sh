@@ -101,7 +101,7 @@ elif [ "${BUILD}" == "RESET" ]
 then
   RESET
 else
-  echo "Pass the project to build (LI,AL,WORLD) as an argument on the command line. [${BUILD}]"
+  echo "Pass the project to build (LI,AK,WORLD) as an argument on the command line. [${BUILD}]"
   exit 1
 fi
 
