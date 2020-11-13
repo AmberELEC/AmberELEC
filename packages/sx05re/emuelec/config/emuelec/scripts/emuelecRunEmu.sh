@@ -290,45 +290,44 @@ set_ee_setting "netplay.client.ip" "disable"
 set_ee_setting "netplay.client.port" "disable"
 
 if [[ ${NETPLAY} != "No" ]]; then
-NETPLAY_NICK=$(get_ee_setting netplay.nickname)
-[[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="Anonymous"
-NETPLAY="$(echo ${NETPLAY} | sed "s|--nick|--nick \"${NETPLAY_NICK}\"|")"
+  NETPLAY_NICK=$(get_ee_setting netplay.nickname)
+  [[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="Anonymous"
+  NETPLAY="$(echo ${NETPLAY} | sed "s|--nick|--nick \"${NETPLAY_NICK}\"|")"
 
-RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --config|")
+  RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --config|")
 
-if [[ "${NETPLAY}" == *"connect"* ]]; then
+    if [[ "${NETPLAY}" == *"connect"* ]]; then
 	NETPLAY_PORT="${arguments##*--port }"  # read from -netplayport  onwards
 	NETPLAY_PORT="${NETPLAY_PORT%% *}"  # until a space is found
 	NETPLAY_IP="${arguments##*--connect }"  # read from -netplayip  onwards
 	NETPLAY_IP="${NETPLAY_IP%% *}"  # until a space is found
 	set_ee_setting "netplay.client.ip" "${NETPLAY_IP}"
 	set_ee_setting "netplay.client.port" "${NETPLAY_PORT}"
-fi
+    fi
 
-fi
+  fi
 # End netplay
-
+fi
 
 if [[ ${PLATFORM} == "ports" ]]; then
-	SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
+  SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
 else
-	SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
+  SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
 fi
 
 echo $SHADERSET
 
 if [[ ${SHADERSET} != 0 ]]; then
-RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|")
+  RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|")
 fi
 
 # we check is maxperf is set 
 if [ $(get_ee_setting "maxperf" "${PLATFORM}" "${ROMNAME##*/}") == "0" ]; then
-	normperf
+  normperf
 else
-	maxperf
+  maxperf
 fi
 
-fi
 
 # Clear the log file
 echo "EmuELEC Run Log" > $EMUELECLOG
