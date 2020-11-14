@@ -135,6 +135,13 @@ ln -s /tmp/logs /storage/.config/emuelec/logs
 # default to ondemand performance in EmulationStation
 normperf
 
+# Enable the PWM for rumble
+
+echo 0 > /sys/class/pwm/pwmchip0/export
+echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
+echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+
 # Restore last saved brightness
 if [ -e /storage/.brightness ]
 then

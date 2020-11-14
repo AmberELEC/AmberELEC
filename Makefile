@@ -23,5 +23,14 @@ distclean:
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
+ak:
+	./scripts/build_distro ak
+
+li:
+	./scripts/build_distro li
+
 world:
-	./build.sh world
+	./scripts/build_distro world
+
+reset:
+	./scripts/build_distro reset

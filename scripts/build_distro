@@ -7,7 +7,6 @@
 export DISTRO=351ELEC
 export PROJECT=Rockchip
 export DEVICE=RG351P
-#export ARCH=arm
 
 if [ ! "${1^^}" == "WORLD" ] && [ ! "${1^^}" == "RESET" ]
 then
@@ -92,8 +91,6 @@ elif [ "${BUILD}" == "WORLD" ]
 then
   # Temporary build world loop, replace with a virtual package.
   additional_packages
-  RG351P-LI image
-  additional_packages emulators
   RG351P-LI image
   additional_packages emulators
   RG351P-AK image
