@@ -21,6 +21,7 @@ ln -fs /storage/roms/daphne/roms $INSTALL/usr/config/emuelec/configs/hypseus/rom
 ln -fs /storage/roms/daphne/sound $INSTALL/usr/config/emuelec/configs/hypseus/sound
 ln -fs /usr/share/daphne/fonts $INSTALL/usr/config/emuelec/configs/hypseus/fonts
 ln -fs /usr/share/daphne/pics $INSTALL/usr/config/emuelec/configs/hypseus/pics
+cp -a ${PKG_DIR}/config/*           ${INSTALL}/usr/config/hypseus
 cp $PKG_BUILD/doc/hypinput.ini $INSTALL/usr/config/emuelec/configs/hypseus/
 }
 

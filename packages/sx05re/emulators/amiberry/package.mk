@@ -54,7 +54,7 @@ makeinstall_target() {
   # mkdir -p ${INSTALL}/usr/config/amiberry/controller
 
   # Copy ressources
-  cp -a ${PKG_DIR}/config/*           ${INSTALL}/usr/config/amiberry/
+  cp -ra ${PKG_DIR}/config/*           ${INSTALL}/usr/config/amiberry/
   cp -a data                          ${INSTALL}/usr/config/amiberry/
   cp -a savestates                    ${INSTALL}/usr/config/amiberry/
   cp -a screenshots                   ${INSTALL}/usr/config/amiberry/
