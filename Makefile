@@ -34,3 +34,6 @@ world:
 
 reset:
 	./scripts/build_distro reset
+
+update:
+	./scripts/package_bump
