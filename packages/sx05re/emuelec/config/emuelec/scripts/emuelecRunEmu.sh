@@ -27,6 +27,15 @@ fi
 
 arguments="$@"
 
+# Is userland 32bit or 64bit?
+TEST=$(ldd /usr/bin/emulationstation | grep 64)
+if [ $? == 0 ]
+then
+  MYARCH="aarch64"
+else
+  MYARCH="arm"
+fi
+
 #set audio device out according to emuelec.conf
 AUDIO_DEVICE="hw:$(get_ee_setting ee_audio_device)"
 [ $AUDIO_DEVICE = "hw:" ] &&  AUDIO_DEVICE="hw:0,0"
@@ -149,7 +158,7 @@ case ${PLATFORM} in
 		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
-	"dreamcast")
+	"ereamcast")
 		if [ "$EMU" = "REICASTSA" ]; then
 		set_kill_keys "reicast"
 		sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
@@ -272,8 +281,12 @@ fi
 RABIN="retroarch"
 if [[ "${PLATFORM}" == "psx" ]] || [[ "${PLATFORM}" == "n64" ]]; then
     if [[ "$CORE" == "pcsx_rearmed" ]] || [[ "$CORE" == "parallel_n64" ]]; then
-        RABIN="retroarch32" 
-        LD_LIBRARY_PATH="/emuelec/lib32:$LD_LIBRARY_PATH"
+	if [ "${MYARCH}" == "arm" ]
+	then
+          RABIN="retroarch"
+	else
+	  RABIN="retroarch32"
+	fi
     fi
 fi
 
@@ -344,8 +357,10 @@ echo "1st Argument: $1" >> $EMUELECLOG
 echo "2nd Argument: $2" >> $EMUELECLOG
 echo "3rd Argument: $3" >> $EMUELECLOG 
 echo "4th Argument: $4" >> $EMUELECLOG 
-echo "Full arguments: $arguments" >> $EMUELECLOG 
+echo "Full Arguments: $arguments" >> $EMUELECLOG 
 echo "Run Command is:" >> $EMUELECLOG 
+echo "My Architecture: $MYARCH" >> $EMUELECLOG
+echo "My Retroarch: $RABIN" >> $EMUELECLOG
 eval echo ${RUNTHIS} >> $EMUELECLOG 
 
 if [[ "$KILLTHIS" != "none" ]]; then
@@ -394,6 +409,9 @@ fi
 
 # Return to default mode
 ${TBASH} /emuelec/scripts/setres.sh
+
+# Return to the default performance scaling
+normperf
 
 # reset audio to default
 set_audio default
