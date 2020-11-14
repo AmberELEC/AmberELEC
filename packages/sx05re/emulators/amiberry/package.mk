@@ -33,13 +33,14 @@ pre_configure_target() {
       ;;
   esac
  
-#if [ "$DEVICE" == "OdroidGoAdvance" ]; then
-#  if [ $ARCH == "arm" ]; then
-#    AMIBERRY_PLATFORM="RK3326"
-#  else 
-    AMIBERRY_PLATFORM="pi64"
-#  fi
-#fi
+if [ "$DEVICE" == "RG351P" ]; then
+if [ $ARCH == "arm" ]; then
+AMIBERRY_PLATFORM="RK3326"
+else 
+AMIBERRY_PLATFORM="pi64"
+fi
+
+fi
 
 sed -i "s|AS     = as|AS     \?= as|" Makefile
 PKG_MAKE_OPTS_TARGET+=" all PLATFORM=${AMIBERRY_PLATFORM} SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config"
