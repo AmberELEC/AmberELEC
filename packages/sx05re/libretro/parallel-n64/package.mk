@@ -26,12 +26,14 @@ else
 	PKG_PATCH_DIRS="emuelec-aarch64"
 	PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
 	
-	if [ "${DEVICE}" == "RG351P" ]; then  #todo add odroidgoadvance to 64bits
-		PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
-	fi
 fi
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp parallel_n64_libretro.so $INSTALL/usr/lib/libretro/
+  if [[ "${DEVICE}" == "RG351P" ]] && [[ "$ARCH" == "aarch64" ]]
+  then
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${LIBREELEC_VERSION}/parallel-n64-*/.install_pkg/usr/lib/libretro/parallel_n64_libretro.so ${INSTALL}/usr/lib/libretro/
+  else
+    cp parallel_n64_libretro.so $INSTALL/usr/lib/libretro/
+  fi
 }

@@ -31,11 +31,11 @@ function RG351P-LI () {
   rm -rf projects/Rockchip/devices/RG351P
   cp -rf projects/Rockchip/devices/RG351P-LI projects/Rockchip/devices/RG351P
   make $1 || exit 1
-  if [ -d "release/RG351P-LI" ]
+  if [ -d "release/${ARCH}/RG351P-LI" ]
   then
-    rm -rf "release/RG351P-LI"
+    rm -rf "release/${ARCH}/RG351P-LI"
   fi
-  mv target release/RG351P-LI
+  mv target release/${ARCH}/RG351P-LI
   mkdir target
   RESET
 }
@@ -51,11 +51,11 @@ function RG351P-AK () {
   rm -rf projects/Rockchip/devices/RG351P
   cp -rf projects/Rockchip/devices/RG351P-AK projects/Rockchip/devices/RG351P
   make $1 || exit 1
-  if [ -d "release/RG351P-AK" ]
+  if [ -d "release/${ARCH}/RG351P-AK" ]
   then
-    rm -rf "release/RG351P-AK"
+    rm -rf "release/${ARCH}/RG351P-AK"
   fi
-  mv target release/RG351P-AK
+  mv target release/${ARCH}/RG351P-AK
   mkdir target
   RESET
 }
@@ -80,6 +80,7 @@ done
 
 RESET
 additional_packages
+mkdir release/${ARCH} 2>/dev/null
 
 if [ "${BUILD}" == "RG351P-LI" ]
 then

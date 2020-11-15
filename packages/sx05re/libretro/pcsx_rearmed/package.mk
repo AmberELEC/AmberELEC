@@ -24,11 +24,6 @@ makeinstall_target() {
 
 VERSION=${LIBREELEC_VERSION}
 INSTALLTO="/usr/lib/libretro/"
-PROJECT_ALT=${PROJECT}
-
-if [ "$DEVICE" == "RG351P" ]; then
-PROJECT_ALT=${DEVICE}
-fi
 
 mkdir -p ${INSTALL}${INSTALLTO}
 
@@ -74,26 +69,21 @@ if [ "${ARCH}" = "aarch64" ]; then
 		libsystemd.so* \
 		libdl.so.2 \
 		libdl-*.so \
-		libMali.*.so"
-	if [ "$PROJECT" == "Amlogic" ]; then
-		LIBS+=" libMali.so"
-	fi
-	if [ "$DEVICE" == "OdroidGoAdvance" ]; then
-		LIBS+=" libdrm.so* \
+		libMali.*.so \
+		libdrm.so* \
 		librga.so \
 		libpng*.so.* \
 		librockchip_mpp.so* \
 		libxkbcommon.so* \
 		libmali.so"
-	fi
+
     for lib in ${LIBS}
     do 
-      find $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
+      find $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
-
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
-    patchelf --set-interpreter /emuelec/lib32/ld-linux-armhf.so.3 ${INSTALL}/usr/bin/retroarch32
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${PROJECT_ALT}.arm-${VERSION}/pcsx_rearmed-*/.install_pkg/usr/lib/libretro/pcsx_rearmed_libretro.so ${INSTALL}${INSTALLTO}
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
+    patchelf --set-interpreter /usr/lib32/ld-linux-armhf.so.3 ${INSTALL}/usr/bin/retroarch32
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/pcsx_rearmed-*/.install_pkg/usr/lib/libretro/pcsx_rearmed_libretro.so ${INSTALL}${INSTALLTO}
     chmod -f +x ${INSTALL}/usr/lib32/* || :
 else
     cp pcsx_rearmed_libretro.so ${INSTALL}${INSTALLTO}

@@ -158,7 +158,7 @@ case ${PLATFORM} in
 		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
-	"ereamcast")
+	"dreamcast")
 		if [ "$EMU" = "REICASTSA" ]; then
 		set_kill_keys "reicast"
 		sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
@@ -280,7 +280,7 @@ fi
 # Check if we need retroarch 32 bits or 64 bits
 RABIN="retroarch"
 if [[ "${PLATFORM}" == "psx" ]] || [[ "${PLATFORM}" == "n64" ]]; then
-    if [[ "$CORE" == "pcsx_rearmed" ]] || [[ "$CORE" == "parallel_n64" ]]; then
+    if [[ "${CORE}" == "pcsx_rearmed" ]] || [[ "${CORE}" == "parallel_n64" ]]; then
 	if [ "${MYARCH}" == "arm" ]
 	then
           RABIN="retroarch"
@@ -357,6 +357,7 @@ echo "1st Argument: $1" >> $EMUELECLOG
 echo "2nd Argument: $2" >> $EMUELECLOG
 echo "3rd Argument: $3" >> $EMUELECLOG 
 echo "4th Argument: $4" >> $EMUELECLOG 
+echo "My Core is: ${CORE}" >> $EMUELECLOG
 echo "Full Arguments: $arguments" >> $EMUELECLOG 
 echo "Run Command is:" >> $EMUELECLOG 
 echo "My Architecture: $MYARCH" >> $EMUELECLOG
@@ -383,10 +384,22 @@ fi
 # Execute the command and try to output the results to the log file if it was not disabled.
 if [[ $LOGEMU == "Yes" ]]; then
    echo "Emulator Output is:" >> $EMUELECLOG
-   eval ${RUNTHIS} >> $EMUELECLOG 2>&1
+   LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
+   if [ "${MYARCH}" == "arm" ] && [ "${RUNTHIS}" == "retroarch32" ]
+   then
+     LD_LIBRARY_CONFIG=/usr/lib32:${LD_LIBRARY_CONFIG} eval ${RUNTHIS} >> $EMUELECLOG 2>&1
+   else
+     eval ${RUNTHIS} >> $EMUELECLOG 2>&1
+   fi
    ret_error=$?
 else
    echo "Emulator log was dissabled" >> $EMUELECLOG
+      if [ "${MYARCH}" == "arm" ] && [ "${RUNTHIS}" == "retroarch32" ]
+   then
+     LD_LIBRARY_CONFIG=/usr/lib32:${LD_LIBRARY_CONFIG} eval ${RUNTHIS}
+   else
+     eval ${RUNTHIS}
+   fi
    eval ${RUNTHIS}
    ret_error=$?
 fi 
