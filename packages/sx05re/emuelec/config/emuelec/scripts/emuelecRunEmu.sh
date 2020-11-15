@@ -285,6 +285,7 @@ if [[ "${PLATFORM}" == "psx" ]] || [[ "${PLATFORM}" == "n64" ]]; then
 	then
           RABIN="retroarch"
 	else
+	  export LD_LIBRARY_PATH="/usr/lib32"
 	  RABIN="retroarch32"
 	fi
     fi
@@ -384,21 +385,11 @@ fi
 # Execute the command and try to output the results to the log file if it was not disabled.
 if [[ $LOGEMU == "Yes" ]]; then
    echo "Emulator Output is:" >> $EMUELECLOG
-   if [ "${MYARCH}" == "arm" ] && [ "${RUNTHIS}" == "retroarch32" ]
-   then
-     LD_LIBRARY_CONFIG=/usr/lib32:${LD_LIBRARY_CONFIG} eval ${RUNTHIS} >> $EMUELECLOG 2>&1
-   else
-     eval ${RUNTHIS} >> $EMUELECLOG 2>&1
-   fi
+   eval ${RUNTHIS} >> $EMUELECLOG 2>&1
    ret_error=$?
 else
    echo "Emulator log was dissabled" >> $EMUELECLOG
-      if [ "${MYARCH}" == "arm" ] && [ "${RUNTHIS}" == "retroarch32" ]
-   then
-     LD_LIBRARY_CONFIG=/usr/lib32:${LD_LIBRARY_CONFIG} eval ${RUNTHIS}
-   else
-     eval ${RUNTHIS}
-   fi
+   eval ${RUNTHIS}
    eval ${RUNTHIS}
    ret_error=$?
 fi 
