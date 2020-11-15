@@ -384,7 +384,6 @@ fi
 # Execute the command and try to output the results to the log file if it was not disabled.
 if [[ $LOGEMU == "Yes" ]]; then
    echo "Emulator Output is:" >> $EMUELECLOG
-   LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
    if [ "${MYARCH}" == "arm" ] && [ "${RUNTHIS}" == "retroarch32" ]
    then
      LD_LIBRARY_CONFIG=/usr/lib32:${LD_LIBRARY_CONFIG} eval ${RUNTHIS} >> $EMUELECLOG 2>&1
