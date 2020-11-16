@@ -18,7 +18,7 @@ PKG_TOOLCHAIN="make"
 
 # Thanks to magicseb  Reicast SA now WORKS :D
 PKG_EXPERIMENTAL="munt quasi88 xmil np2kai hypseus"
-PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL fba4arm reicastsa amiberry hatarisa fba4arm openbor dosbox-sdl2 mupen64plus mupen64plus-nx scummvmsa residualvm"
+PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL pcsx_rearmed parallel-n64 fba4arm reicastsa amiberry hatarisa fba4arm openbor dosbox-sdl2 mupen64plus mupen64plus-nx scummvmsa residualvm emuelec-ports"
 PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders Skyscraper MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL emuelec-ports"
@@ -31,7 +31,7 @@ if [ "$PROJECT" == "Amlogic-ng" ]; then
 PKG_DEPENDS_TARGET+=" $LIBRETRO_S922X_CORES mame2016"
 fi
 
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
+if [ "$DEVICE" == "RG351P" ]; then
     PKG_DEPENDS_TARGET+=" kmscon odroidgoa-utils rs97-commander-sdl2"
     
     #we disable some cores that are not working or work poorly on OGA
@@ -147,10 +147,10 @@ if [ "${PROJECT}" != "Amlogic-ng" ]; then
     done
 fi
   # Remove scripts from OdroidGoAdvance build
-	if [[ ${DEVICE} == "OdroidGoAdvance" ]] || [[ ${DEVICE} == "RG351P" ]]; then 
+	if [[ ${DEVICE} == "RG351P" ]]; then 
 	for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
-xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/emuelec/scripts/modules/gamelist.xml ||:
-	rm "$INSTALL/usr/config/emuelec/scripts/modules/${i}.sh" ||: 2>/dev/null
+xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/emuelec/scripts/modules/gamelist.xml 2>/dev/null ||:
+	rm "$INSTALL/usr/config/emuelec/scripts/modules/${i}.sh" 2>/dev/null ||:
 	done
 	fi 
   

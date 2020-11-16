@@ -1,5 +1,6 @@
---- a/es-app/src/ApiSystem.cpp.orig	2020-11-11 11:19:54.750042621 -0500
-+++ b/es-app/src/ApiSystem.cpp	2020-11-11 11:23:34.010935745 -0500
+diff -rupN emuelec-emulationstation-2afe6efec4e09176882d98323bda5d3f664870a7.orig/es-app/src/ApiSystem.cpp emuelec-emulationstation-2afe6efec4e09176882d98323bda5d3f664870a7/es-app/src/ApiSystem.cpp
+--- emuelec-emulationstation-2afe6efec4e09176882d98323bda5d3f664870a7.orig/es-app/src/ApiSystem.cpp	2020-11-12 18:22:26.719272587 -0500
++++ emuelec-emulationstation-2afe6efec4e09176882d98323bda5d3f664870a7/es-app/src/ApiSystem.cpp	2020-11-16 08:49:04.936071691 -0500
 @@ -1052,21 +1052,6 @@ bool ApiSystem::getBrighness(int& value)
  	char buffer[BACKLIGHT_BUFFER_SIZE + 1];
  	ssize_t count;
@@ -63,7 +64,7 @@
 +        if (fd < 0)
 +                return;
 +
-+        sprintf(buffer, "%d", (uint32_t)value);
++        sprintf(buffer, "%d", (int)value);
 +
 +        count = write(fd, buffer, strlen(buffer));
 +        if (count < 0)
@@ -74,3 +75,4 @@
  #endif
  }
  
+Binary files emuelec-emulationstation-2afe6efec4e09176882d98323bda5d3f664870a7.orig/.git/index and emuelec-emulationstation-2afe6efec4e09176882d98323bda5d3f664870a7/.git/index differ
