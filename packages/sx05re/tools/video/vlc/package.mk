@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="vlc"
 PKG_VERSION="3.0.11.1"
@@ -139,8 +140,4 @@ post_makeinstall_target() {
   rm -fr $INSTALL/usr/share/kde4
   rm -f $INSTALL/usr/bin/rvlc
   rm -f $INSTALL/usr/bin/vlc-wrapper
-
-  mkdir -p $INSTALL/usr/config
-    mv -f $INSTALL/usr/lib/vlc $INSTALL/usr/config
-    ln -sf /storage/.config/vlc $INSTALL/usr/lib/vlc
 }

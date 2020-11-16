@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
 
 ###
 ### Simple script to build 351ELEC using the Anbernic kernel or the lualiliu kernel.

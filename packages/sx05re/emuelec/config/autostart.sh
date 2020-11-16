@@ -27,6 +27,8 @@ fi
 rsync -av --delete --exclude=custom_start.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
 cp /usr/config/autostart.sh /storage/.config/autostart.sh
 cp /usr/config/EE_VERSION /storage/.config
+# Release specific updates
+cp /usr/config/emulationstation/scripts/dldrastic.sh /storage/.config/emulationstation/scripts/dldrastic.sh
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1

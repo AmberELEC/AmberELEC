@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="mali-bifrost"
 PKG_VERSION="f226e982386287a4df669e2832d9ddd613d4153b"
