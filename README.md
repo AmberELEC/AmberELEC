@@ -6,6 +6,7 @@ Based on (forked from) [EmuELEC](https://github.com/EmuELEC/EmuELEC) 3.9 which i
 
 This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 16GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32).
 
+## Building from Source
 Building a firmware with the Anbernic kernel (AK) requires first building the lualiliu kernel (LI).  The lualiliu kernel build does not boot yet.
 
 ```
@@ -19,14 +20,16 @@ make world
 
 The resulting image will be located in 351ELEC/target.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
 
-If you want to build the addon: 
-```
-cd 351ELEC
-./emuelec-addon.sh
-```
-Resulting zip files will be inside 351ELEC/repo
+## Installation
+Download the release image, and use 'dd' or your favorite image writer to write the distribution to a microSD. Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
 
-**License**
+## Getting Help
+
+For general questions, visit our discord: https://discord.gg/95qjspWn
+
+For issues and feature requests, use one of the templates on the issues tab.  The more information you provide, the easier it will be to assist.  Issues opened without using the form will be closed.  Please do not use the issue tracker for technical support, or your issue will be closed.
+
+## License
 
 351ELEC is based on EmuELEC which is based on CoreELEC which in turn is licensed under the GPLv2 (and GPLv2-or-later), all original files created by the 351ELEC team are licensed as GPLv2-or-later and marked as such.
 
@@ -36,7 +39,7 @@ I will also add this from the CoreELEC readme, adapted to EmuELEC, and now to 35
 
 As 351ELEC includes code from many upstream projects it includes many copyright owners. 351ELEC makes NO claim of copyright on any upstream code. Patches to upstream code have the same license as the upstream project, unless specified otherwise. For a complete copyright list please checkout the source code to examine license headers. Unless expressly stated otherwise all code submitted to the 351ELEC project (in any form) is licensed under GPLv2-or-later. You are absolutely free to retain copyright. To retain copyright simply add a copyright header to each submitted code page. If you submit code that is not your own work it is your responsibility to place a header stating the copyright.
 
-**Branding**
+## Branding
 
 All 351ELEC related logos, videos, images and branding in general are the sole property of 351ELEC and they are all Copyrighted by the 351ELEC team and are not to be included in any commercial application whatsoever without the proper authorization, (yes, this includes 351ELEC bundled with ROMS for donations!).
 
