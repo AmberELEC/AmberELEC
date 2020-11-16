@@ -16,15 +16,6 @@ else
   BUILD=$(echo ${1^^})
 fi
 
-function additional_packages () {
-  if [ "$1" == "emulators" ]
-  then
-    sed -i 's/@ADDITIONAL_PACKAGES@/dtc emuelec mupen64plus dosbox-sdl2 fba4arm mupen64plus-nx PPSSPPSDL amiberry advancemame hatarisa hatari/g' projects/Rockchip/options
-  else
-    sed -i 's/@ADDITIONAL_PACKAGES@/dtc emuelec/g' projects/Rockchip/options
-  fi
-}
-
 function RG351P-LI () {
   echo "Checking out the latest Linux kernel packages for building."
   echo "Setting build device directory to ${BUILD}"
@@ -79,7 +70,6 @@ do
 done
 
 RESET
-additional_packages
 mkdir release/${ARCH} 2>/dev/null
 
 if [ "${BUILD}" == "RG351P-LI" ]
@@ -91,9 +81,7 @@ then
 elif [ "${BUILD}" == "WORLD" ]
 then
   # Temporary build world loop, replace with a virtual package.
-  additional_packages
   RG351P-LI image
-  additional_packages emulators
   RG351P-AK image
 elif [ "${BUILD}" == "RESET" ]
 then
