@@ -8,10 +8,36 @@
 
 # This whole file has become very hacky, I am sure there is a better way to do all of this, but for now, this works.
 
+
+BTENABLED=$(get_ee_setting ee_bluetooth.enabled)
+
+if [[ "$BTENABLED" == "1" ]]; then
+	# We don't need the BT agent while running games
+	NPID=$(pgrep -f batocera-bluetooth-agent)
+
+	if [[ ! -z "$NPID" ]]; then
+		kill "$NPID"
+	fi
+fi 
+
+# clear terminal window
+	clear > /dev/tty
+	clear > /dev/tty0
+	clear > /dev/tty1
+
 arguments="$@"
 
+# Is userland 32bit or 64bit?
+TEST=$(ldd /usr/bin/emulationstation | grep 64)
+if [ $? == 0 ]
+then
+  MYARCH="aarch64"
+else
+  MYARCH="arm"
+fi
+
 #set audio device out according to emuelec.conf
-AUDIO_DEVICE="hw:$(get_ee_setting audio_device)"
+AUDIO_DEVICE="hw:$(get_ee_setting ee_audio_device)"
 [ $AUDIO_DEVICE = "hw:" ] &&  AUDIO_DEVICE="hw:0,0"
 sed -i "s|pcm \"hw:.*|pcm \"${AUDIO_DEVICE}\"|" /storage/.config/asound.conf
 
@@ -23,16 +49,28 @@ CFG="/storage/.emulationstation/es_settings.cfg"
 LOGEMU="No"
 VERBOSE=""
 LOGSDIR="/emuelec/logs"
-EMUELECLOG="$LOGSDIR/emuelec.log"
-EMU=$(get_es_setting string EmuELEC_${1}_CORE)
 TBASH="/usr/bin/bash"
 JSLISTENCONF="/emuelec/configs/jslisten.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
+NETPLAY="No"
+
+
+if [ $(get_es_setting string LogLevel) == "minimal" ]; then 
+    EMUELECLOG="/dev/null"
+    echo "Logging has been dissabled, enable it in Main Menu > System Settings > Developer > Log Level"
+else
+    EMUELECLOG="$LOGSDIR/emuelec.log"
+fi
+
 set_kill_keys() {
+	
+# If jslisten is running we kill it first so that it can reload the config file. 
+killall jslisten
+
 	KILLTHIS=${1}
-    sed -i '/program=.*/d' ${JSLISTENCONF}
-	echo "program=\"/usr/bin/killall ${1}\"" >> ${JSLISTENCONF}
+	sed -i "2s|program=.*|program=\"/usr/bin/killall ${1}\"|" ${JSLISTENCONF}
+	
 	}
 
 # Make sure the /emuelec/logs directory exists
@@ -40,17 +78,42 @@ if [[ ! -d "$LOGSDIR" ]]; then
 mkdir -p "$LOGSDIR"
 fi
 
+# Extract the platform name from the arguments
+PLATFORM="${arguments##*-P}"  # read from -P onwards
+PLATFORM="${PLATFORM%% *}"  # until a space is found
 
-# Extract the platform from the arguments in order to show the correct bezel/splash
-if [[ "$arguments" == *"-P"* ]]; then
-	PLATFORM="${arguments##*-P}"  # read from -P onwards
-	PLATFORM="${PLATFORM%% *}"  # until a space is found
+CORE="${arguments##*--core=}"  # read from --core= onwards
+CORE="${CORE%% *}"  # until a space is found
+EMULATOR="${arguments##*--emulator=}"  # read from --emulator= onwards
+EMULATOR="${EMULATOR%% *}"  # until a space is found
+
+ROMNAME="$1"
+BASEROMNAME=${ROMNAME##*/}
+GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
+
+if [[ $EMULATOR = "libretro" ]]; then
+	EMU="${CORE}_libretro"
+	LIBRETRO="yes"
 else
-# if no -P was set, read the first argument as platform
-	PLATFORM="$1"
+	EMU="${CORE}"
 fi
 
-[ "$1" = "LIBRETRO" ] && ROMNAME="$3" || ROMNAME="$2"
+# check if we started as host for a game
+if [[ "$arguments" == *"--host"* ]]; then
+NETPLAY="${arguments##*--host}"  # read from --host onwards
+NETPLAY="${NETPLAY%%--nick*}"  # until --nick is found
+NETPLAY="--host $NETPLAY --nick"
+fi
+
+# check if we are trying to connect to a client on netplay
+if [[ "$arguments" == *"--connect"* ]]; then
+NETPLAY="${arguments##*--connect}"  # read from --connect onwards
+NETPLAY="${NETPLAY%%--nick*}"  # until --nick is found
+NETPLAY="--connect $NETPLAY --nick"
+fi
+
+
+[[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
 
 # JSLISTEN setup so that we can kill running ALL emulators using hotkey+start
 /storage/.emulationstation/scripts/configscripts/z_getkillkeys.sh
@@ -59,50 +122,45 @@ fi
 KILLDEV=${ee_evdev}
 KILLTHIS="none"
 
-# remove Libretro_ from the core name
-EMU=$(echo "$EMU" | sed "s|Libretro_||")
-
 # if there wasn't a --NOLOG included in the arguments, enable the emulator log output. TODO: this should be handled in ES menu
 if [[ $arguments != *"--NOLOG"* ]]; then
 LOGEMU="Yes"
 VERBOSE="-v"
 fi
 
-# if the emulator is in es_settings this is the line that will run 
-RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/${EMU}_libretro.so --config ${RATMPCONF} "${ROMNAME}"'
+# Show splash screen if enabled
+SPL=$(get_ee_setting ee_splash.enabled)
+[ "$SPL" -eq "1" ] && ${TBASH} /emuelec/scripts/show_splash.sh "$PLATFORM" "${ROMNAME}"
 
-# very WIP {
 
-BEZ=$(get_ee_setting bezels.enabled)
-[ "$BEZ" == "1" ] && ${TBASH} /emuelec/scripts/bezels.sh "$PLATFORM" "${ROMNAME}" || ${TBASH} /emuelec/scripts/bezels.sh "default"
-SPL=$(get_ee_setting splash.enabled)
-[ "$SPL" == "1" ] && ${TBASH} /emuelec/scripts/show_splash.sh "$PLATFORM" "${ROMNAME}" || ${TBASH} /emuelec/scripts/show_splash.sh "default" 
-
-# } very WIP 
+if [ -z ${LIBRETRO} ]; then
 
 # Read the first argument in order to set the right emulator
-case $1 in
-"HATARI")
-	if [ "$EMU" = "HATARISA" ]; then
-	set_kill_keys "hatari"
-	RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
-	fi
-	;;
-"OPENBOR")
-	set_kill_keys "OpenBOR"
-	RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
-	;;
-"RETROPIE")
-    set_kill_keys "fbterm"
-	RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
-	EMUELECLOG="$LOGSDIR/ee_script.log"
-	;;
-"LIBRETRO")
-	RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/$2_libretro.so --config ${RATMPCONF} "${ROMNAME}"'
+case ${PLATFORM} in
+	"atari2600")
+		if [ "$EMU" = "STELLASA" ]; then
+		set_kill_keys "stella"
+		RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
+		fi
 		;;
-"REICAST")
-    if [ "$EMU" = "REICASTSA" ]; then
-    set_kill_keys "reicast"
+	"atarist")
+		if [ "$EMU" = "HATARISA" ]; then
+		set_kill_keys "hatari"
+		RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
+		fi
+		;;
+	"openbor")
+		set_kill_keys "OpenBOR"
+		RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
+		;;
+	"setup")
+	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "kmscon" || set_kill_keys "fbterm"
+		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
+		EMUELECLOG="$LOGSDIR/ee_script.log"
+		;;
+	"dreamcast")
+		if [ "$EMU" = "REICASTSA" ]; then
+		set_kill_keys "reicast"
 		sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
 		RUNTHIS='${TBASH} /emuelec/bin/reicast.sh "${ROMNAME}"'
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
@@ -116,116 +174,240 @@ case $1 in
 		cp -rf /storage/.config/reicast/emu_old.cfg /storage/.config/reicast/emu.cfg
 		fi
 		;;
-"MAME"|"ARCADE")
-	if [ "$EMU" = "AdvanceMame" ]; then
-	set_kill_keys "advmame"
-	RUNTHIS='${TBASH} /usr/bin/advmame.sh "${ROMNAME}"'
-	fi
-	;;
-"DRASTIC")
-	set_kill_keys "drastic"
-	RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
+	"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
+		if [ "$EMU" = "AdvanceMame" ]; then
+		set_kill_keys "advmame"
+		RUNTHIS='${TBASH} /usr/bin/advmame.sh "${ROMNAME}"'
+		fi
 		;;
-"N64")
-    if [ "$EMU" = "M64P" ]; then
-    set_kill_keys "mupen64plus"
-	RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
-	fi
-	;;
-"AMIGA")
-    if [ "$EMU" = "AMIBERRY" ]; then
-    set_kill_keys "amiberry"
-	RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
-	fi
-	;;
-"SCUMMVM")
-	RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} "${ROMNAME}"'
-	;;
-"DOSBOX")
-    if [ "$EMU" = "DOSBOXSDL2" ]; then
-    set_kill_keys "dosbox"
-	RUNTHIS='${TBASH} /usr/bin/dosbox.start "${ROMNAME}"'
-	fi
-	;;		
-"PSP")
-	if [ "$EMU" = "PPSSPPSA" ]; then
-	#PPSSPP can run at 32BPP but only with buffered rendering, some games need non-buffered and the only way they work is if I set it to 16BPP
-	# /emuelec/scripts/setres.sh 16 # This was only needed for S912, but PPSSPP does not work on S912 
-	set_kill_keys "ppsspp"
-	RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
-	fi
-	;;
-"NEOCD")
-	if [ "$EMU" = "fbneo" ]; then
-	RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
-	fi
-	;;
-esac
+	"nds")
+		set_kill_keys "drastic"
+		RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
+			;;
+	"n64")
+		if [ "$EMU" = "M64P" ]; then
+		set_kill_keys "mupen64plus"
+		RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
+		fi
+		;;
+	"amiga"|"amigacd32")
+		if [ "$EMU" = "AMIBERRY" ]; then
+		RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
+		fi
+		;;
+	"residualvm")
+		if [[ "${ROMNAME}" == *".sh" ]]; then
+		set_kill_keys "fbterm"
+		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
+		EMUELECLOG="$LOGSDIR/ee_script.log"
+		else
+		set_kill_keys "residualvm"
+		RUNTHIS='${TBASH} /usr/bin/residualvm.sh sa "${ROMNAME}"'
+		fi
+		;;
+	"scummvm")
+		if [[ "${ROMNAME}" == *".sh" ]]; then
+		set_kill_keys "fbterm"
+		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
+		EMUELECLOG="$LOGSDIR/ee_script.log"
+		else
+		if [ "$EMU" = "SCUMMVMSA" ]; then
+		set_kill_keys "scummvm"
+		RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
+		else
+		RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
+		fi
+		fi
+		;;
+	"daphne")
+		if [ "$EMU" = "HYPSEUS" ]; then
+		set_kill_keys "hypseus"
+		RUNTHIS='${TBASH} /storage/.config/emuelec/scripts/hypseus.start.sh "${ROMNAME}"'
+		fi
+		;;
+	"wii"|"gamecube")
+		if [ "$EMU" = "dolphin" ]; then
+		set_kill_keys "dolphin-emu-nogui"
+		RUNTHIS='${TBASH} /storage/.config/emuelec/bin/dolphin.sh "${ROMNAME}"'
+		fi
+		;;
+	"pc")
+		if [ "$EMU" = "DOSBOXSDL2" ]; then
+		set_kill_keys "dosbox"
+		RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
+		fi
+		if [ "$EMU" = "DOSBOX-X" ]; then
+		set_kill_keys "dosbox-x"
+		RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
+		fi
+		;;		
+	"psp"|"pspminis")
+		if [ "$EMU" = "PPSSPPSDL" ]; then
+		#PPSSPP can run at 32BPP but only with buffered rendering, some games need non-buffered and the only way they work is if I set it to 16BPP
+		# /emuelec/scripts/setres.sh 16 # This was only needed for S912, but PPSSPP does not work on S912 
+		set_kill_keys "PPSSPPSDL"
+		RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
+		elif [ "$EMU" = "ppsspp-go2" ]; then
+                set_kill_keys "PPSSPPSDL"
+                RUNTHIS='${TBASH} /usr/bin/ppsspp-go2.sh "${ROMNAME}"'
+		fi
+		;;
+	"neocd")
+		if [ "$EMU" = "fbneo" ]; then
+		RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
+		fi
+		;;
+	"mplayer")
+		set_kill_keys "${EMU}"
+		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh mplayer_video "${ROMNAME}" "${EMU}"'
+		;;
+	"pico8")
+		set_kill_keys "pico8_dyn"
+		RUNTHIS='${TBASH} /emuelec/scripts/pico8.sh "${ROMNAME}"'
+			;;
+	esac
+else
+# We are running a Libretro emulator set all the settings that we chose on ES
 
-# If we are running a Libretro emulator set all the settings that we chose on ES
-if [[ ${RUNTHIS} == *"libretro"* ]]; then
-CORE=${EMU}
-[ -z ${CORE} ] && CORE=${2}
-echo ${CORE}
-SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}")
+# Workaround for Atomiswave
+if [[ ${PLATFORM} == "atomiswave" ]]; then
+	rm ${ROMNAME}.nvmem*
+fi
+
+if [[ ${PLATFORM} == "ports" ]]; then
+	PORTCORE="${arguments##*-C}"  # read from -C onwards
+	EMU="${PORTCORE%% *}_libretro"  # until a space is found
+	PORTSCRIPT="${arguments##*-SC}"  # read from -SC onwards
+fi
+
+# Check if we need retroarch 32 bits or 64 bits
+RABIN="retroarch"
+if [[ "${PLATFORM}" == "psx" ]] || [[ "${PLATFORM}" == "n64" ]]; then
+    if [[ "${CORE}" == "pcsx_rearmed" ]] || [[ "${CORE}" == "parallel_n64" ]]; then
+	if [ "${MYARCH}" == "arm" ]
+	then
+          RABIN="retroarch"
+	else
+	  export LD_LIBRARY_PATH="/usr/lib32"
+	  RABIN="retroarch32"
+	fi
+    fi
+fi
+
+RUNTHIS='/usr/bin/${RABIN} $VERBOSE -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
+CONTROLLERCONFIG="${arguments#*--controllers=*}"
+CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
+CORE=${EMU%%_*}
+
+
+# Netplay
+
+# make sure the ip and port are blank
+set_ee_setting "netplay.client.ip" "disable"
+set_ee_setting "netplay.client.port" "disable"
+
+if [[ ${NETPLAY} != "No" ]]; then
+  NETPLAY_NICK=$(get_ee_setting netplay.nickname)
+  [[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="Anonymous"
+  NETPLAY="$(echo ${NETPLAY} | sed "s|--nick|--nick \"${NETPLAY_NICK}\"|")"
+
+  RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --config|")
+
+    if [[ "${NETPLAY}" == *"connect"* ]]; then
+	NETPLAY_PORT="${arguments##*--port }"  # read from -netplayport  onwards
+	NETPLAY_PORT="${NETPLAY_PORT%% *}"  # until a space is found
+	NETPLAY_IP="${arguments##*--connect }"  # read from -netplayip  onwards
+	NETPLAY_IP="${NETPLAY_IP%% *}"  # until a space is found
+	set_ee_setting "netplay.client.ip" "${NETPLAY_IP}"
+	set_ee_setting "netplay.client.port" "${NETPLAY_PORT}"
+    fi
+
+  fi
+# End netplay
+fi
+
+if [[ ${PLATFORM} == "ports" ]]; then
+  SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
+else
+  SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
+fi
+
 echo $SHADERSET
 
 if [[ ${SHADERSET} != 0 ]]; then
-RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|")
+  RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|")
 fi
 
+# we check is maxperf is set 
+if [ $(get_ee_setting "maxperf" "${PLATFORM}" "${ROMNAME##*/}") == "0" ]; then
+  normperf
+else
+  maxperf
 fi
+
+
 # Clear the log file
 echo "EmuELEC Run Log" > $EMUELECLOG
+cat /etc/motd >> $EMUELECLOG
+
+[[ "${NETPLAY}" == *"connect"* ]] && echo "Netplay client!" >> $EMUELECLOG
 
 # Write the command to the log file.
 echo "PLATFORM: $PLATFORM" >> $EMUELECLOG
 echo "ROM NAME: ${ROMNAME}" >> $EMUELECLOG
+echo "BASE ROM NAME: ${ROMNAME##*/}" >> $EMUELECLOG
 echo "USING CONFIG: ${RATMPCONF}" >> $EMUELECLOG
 echo "1st Argument: $1" >> $EMUELECLOG 
 echo "2nd Argument: $2" >> $EMUELECLOG
 echo "3rd Argument: $3" >> $EMUELECLOG 
 echo "4th Argument: $4" >> $EMUELECLOG 
+echo "My Core is: ${CORE}" >> $EMUELECLOG
+echo "Full Arguments: $arguments" >> $EMUELECLOG 
 echo "Run Command is:" >> $EMUELECLOG 
-eval echo  ${RUNTHIS} >> $EMUELECLOG 
+echo "My Architecture: $MYARCH" >> $EMUELECLOG
+echo "My Retroarch: $RABIN" >> $EMUELECLOG
+eval echo ${RUNTHIS} >> $EMUELECLOG 
 
 if [[ "$KILLTHIS" != "none" ]]; then
 
 # We need to make sure there are at least 2 buttons setup (hotkey plus another) if not then do not load jslisten
-	KKBUTTON1=$(sed -n "s|^button1=\(.*\)|\1|p" "${JSLISTENCONF}")
-	KKBUTTON2=$(sed -n "s|^button2=\(.*\)|\1|p" "${JSLISTENCONF}")
+	KKBUTTON1=$(sed -n "3s|^button1=\(.*\)|\1|p" "${JSLISTENCONF}")
+	KKBUTTON2=$(sed -n "4s|^button2=\(.*\)|\1|p" "${JSLISTENCONF}")
 	if [ ! -z $KKBUTTON1 ] && [ ! -z $KKBUTTON2 ]; then
 		if [ ${KILLDEV} == "auto" ]; then
-			/emuelec/bin/jslisten &>> ${EMUELECLOG} &
+			/emuelec/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 		else
-			/emuelec/bin/jslisten --device /dev/input/${KILLDEV} &>> ${EMUELECLOG} &
+			/emuelec/bin/jslisten --mode hold --device /dev/input/${KILLDEV} &>> ${EMUELECLOG} &
 		fi
 	fi
 fi
 
 # Only run fbfix on N2
-[[ ! -f "/ee_s905" ]] && /storage/.config/emuelec/bin/fbfix
+[[ "$EE_DEVICE" == "Amlogic-ng" ]] && /storage/.config/emuelec/bin/fbfix
 
-# Exceute the command and try to output the results to the log file if it was not dissabled.
+# Execute the command and try to output the results to the log file if it was not disabled.
 if [[ $LOGEMU == "Yes" ]]; then
    echo "Emulator Output is:" >> $EMUELECLOG
    eval ${RUNTHIS} >> $EMUELECLOG 2>&1
+   ret_error=$?
 else
    echo "Emulator log was dissabled" >> $EMUELECLOG
    eval ${RUNTHIS}
+   eval ${RUNTHIS}
+   ret_error=$?
 fi 
 
 # Only run fbfix on N2
-[[ ! -f "/ee_s905" ]] && /storage/.config/emuelec/bin/fbfix
+[[ "$EE_DEVICE" == "Amlogic-ng" ]] && /storage/.config/emuelec/bin/fbfix
 
 # Show exit splash
 ${TBASH} /emuelec/scripts/show_splash.sh exit
 
-# Kill jslisten, we don't need to but just to make sure 
-killall jslisten
+# Kill jslisten, we don't need to but just to make sure, dot not kill if using OdroidGoAdvance
+[[ "$EE_DEVICE" != "RG351P" ]] && killall jslisten
 
 # Just for good measure lets make a symlink to Retroarch logs if it exists
-if [[ -f "/storage/.config/retroarch/retroarch.log" ]]; then
+if [[ -f "/storage/.config/retroarch/retroarch.log" ]] && [[ ! -e "${LOGSDIR}/retroarch.log" ]]; then
 	ln -sf /storage/.config/retroarch/retroarch.log ${LOGSDIR}/retroarch.log
 fi
 
@@ -234,5 +416,43 @@ fi
 # Return to default mode
 ${TBASH} /emuelec/scripts/setres.sh
 
+# Return to the default performance scaling
+normperf
+
 # reset audio to default
 set_audio default
+
+# remove emu.cfg if platform was reicast
+[ -f /storage/.config/reicast/emu.cfg ] && rm /storage/.config/reicast/emu.cfg
+
+if [[ "$BTENABLED" == "1" ]]; then
+	# Restart the bluetooth agent
+	NPID=$(pgrep -f batocera-bluetooth-agent)
+	if [[ -z "$NPID" ]]; then
+	(systemd-run batocera-bluetooth-agent) || :
+	fi
+fi
+
+if [[ "$ret_error" != "0" ]]; then
+echo "exit $ret_error" >> $EMUELECLOG
+
+# Check for missing bios if needed
+REQUIRESBIOS=(atari5200 atari800 atari7800 atarilynx colecovision amiga amigacd32 o2em intellivision pcengine pcenginecd pcfx fds segacd saturn dreamcast naomi atomiswave x68000 neogeo neogeocd msx msx2 sc-3000)
+
+(for e in "${REQUIRESBIOS[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RB=0 || RB=1	
+if [ $RB == 0 ]; then
+
+CBPLATFORM="${PLATFORM}"
+[[ "${CBPLATFORM}" == "msx2" ]] && CBPLATFORM="msx"
+[[ "${CBPLATFORM}" == "pcenginecd" ]] && CBPLATFORM="pcengine"
+[[ "${CBPLATFORM}" == "amigacd32" ]] && CBPLATFORM="amiga"
+
+ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG}"
+
+fi #require bios ends
+
+	exit 1
+else
+echo "exit 0" >> $EMUELECLOG
+	exit 0
+fi

@@ -18,7 +18,7 @@ PKG_TOOLCHAIN="make"
 
 # Thanks to magicseb  Reicast SA now WORKS :D
 PKG_EXPERIMENTAL="munt quasi88 xmil np2kai hypseus"
-PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL fba4arm reicastsa amiberry hatarisa fba4arm openbor dosbox-sdl2 mupen64plus mupen64plus-nx scummvmsa residualvm"
+PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL ppsspp-go2 fba4arm reicastsa amiberry hatarisa fba4arm openbor dosbox-sdl2 mupen64plus mupen64plus-nx scummvmsa residualvm"
 PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders Skyscraper MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL emuelec-ports"

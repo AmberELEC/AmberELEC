@@ -1,0 +1,30 @@
+diff -rupN PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c.orig/ext/glew/GL/glxew.h PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c/ext/glew/GL/glxew.h
+--- PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c.orig/ext/glew/GL/glxew.h	2020-11-13 06:51:52.099064710 -0500
++++ PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c/ext/glew/GL/glxew.h	2020-11-13 06:54:52.071933309 -0500
+@@ -95,9 +95,12 @@
+ #define __GLX_glx_h__
+ #define __glx_h__
+ 
++#if defined(VK_USE_PLATFORM_XLIB_KHR)
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
+ #include <X11/Xmd.h>
++#endif
++
+ #include <GL/glew.h>
+ 
+ #ifdef __cplusplus
+diff -rupN PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c.orig/SDL/odroid.cpp PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c/SDL/odroid.cpp
+--- PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c.orig/SDL/odroid.cpp	2020-11-13 06:51:51.987064177 -0500
++++ PPSSPPSDL-c85bdbfdc7bccaf082ff668404a53f69739b0e3c/SDL/odroid.cpp	2020-11-13 06:55:02.171982576 -0500
+@@ -5,8 +5,10 @@
+ #define GL_GLEXT_PROTOTYPES
+ #include <GLES2/gl2.h>
+ 
++#if defined(VK_USE_PLATFORM_XLIB_KHR)
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
++#endif
+ 
+ #include <stdlib.h>
+ #include <stdio.h>

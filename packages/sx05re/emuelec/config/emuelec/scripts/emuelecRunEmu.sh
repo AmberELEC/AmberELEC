@@ -247,6 +247,9 @@ case ${PLATFORM} in
 		# /emuelec/scripts/setres.sh 16 # This was only needed for S912, but PPSSPP does not work on S912 
 		set_kill_keys "PPSSPPSDL"
 		RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
+		elif [ "$EMU" = "ppsspp-go2" ]; then
+                set_kill_keys "PPSSPPSDL"
+                RUNTHIS='${TBASH} /usr/bin/ppsspp-go2.sh "${ROMNAME}"'
 		fi
 		;;
 	"neocd")
