@@ -1,0 +1,33 @@
+diff -rupN mgba-20f007cf02f8412dfd4bc6d1d09ddac3f78e10b1.orig/src/platform/libretro/libretro.c mgba-20f007cf02f8412dfd4bc6d1d09ddac3f78e10b1/src/platform/libretro/libretro.c
+--- mgba-20f007cf02f8412dfd4bc6d1d09ddac3f78e10b1.orig/src/platform/libretro/libretro.c	2020-11-17 06:13:33.040510072 -0500
++++ mgba-20f007cf02f8412dfd4bc6d1d09ddac3f78e10b1/src/platform/libretro/libretro.c	2020-11-17 06:17:01.021499025 -0500
+@@ -1364,17 +1364,18 @@ void retro_run(void) {
+ 	blip_read_samples(core->getAudioChannel(core, 1), samples + 1, SAMPLES, true);
+ 	audioCallback(samples, produced);
+ */
+-
+-	if (rumbleCallback) {
+-		if (rumbleUp) {
+-			rumbleCallback(0, RETRO_RUMBLE_STRONG, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
+-			rumbleCallback(0, RETRO_RUMBLE_WEAK, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
+-		} else {
+-			rumbleCallback(0, RETRO_RUMBLE_STRONG, 0);
+-			rumbleCallback(0, RETRO_RUMBLE_WEAK, 0);
+-		}
+-		rumbleUp = 0;
+-		rumbleDown = 0;
++        if (rumbleCallback) {
++            if (rumbleUp) {
++                system("echo 10 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++                rumbleCallback(0, RETRO_RUMBLE_STRONG, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
++                rumbleCallback(0, RETRO_RUMBLE_WEAK, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
++            } else {
++                system("echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++                rumbleCallback(0, RETRO_RUMBLE_STRONG, 0);
++                rumbleCallback(0, RETRO_RUMBLE_WEAK, 0);
++            }
++            rumbleUp = 0;
++            rumbleDown = 0;
+ 	}
+ }
+ 
