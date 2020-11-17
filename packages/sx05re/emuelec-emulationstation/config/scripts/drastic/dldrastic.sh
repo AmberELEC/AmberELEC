@@ -41,7 +41,7 @@ fi
 		-s '//systemList/system[last()]' -t elem -n 'fullname' -v 'Nintendo DS'\
 		-s '//systemList/system[last()]' -t elem -n 'path' -v '/storage/roms/nds'\
 		-s '//systemList/system[last()]' -t elem -n 'extension' -v '.nds .zip .NDS .ZIP'\
-		-s '//systemList/system[last()]' -t elem -n 'command' -v "${INSTALL_PATH}/${MYARCH}$START_SCRIPT %ROM%"\
+		-s '//systemList/system[last()]' -t elem -n 'command' -v "/emuelec/scripts/$START_SCRIPT %ROM%"\
 		-s '//systemList/system[last()]' -t elem -n 'platform' -v 'nds'\
 		-s '//systemList/system[last()]' -t elem -n 'theme' -v 'nds'\
 		$CFG
@@ -72,5 +72,5 @@ then
 fi
 mkdir ${INSTALL_PATH}/${MYARCH}/drastic/config
 cp /usr/config/emulationstation/scripts/drastic/config/drastic.cfg ${INSTALL_PATH}/${MYARCH}/drastic/config
-ln -sf ${INSTALL_PATH}/${START_SCRIPT} /storage/.config/emulationstation/scripts/drastic.sh
+ln -sf ${INSTALL_PATH}/${START_SCRIPT} /storage/.config/emuelec/scripts/drastic.sh
 echo "Done, restart ES"
