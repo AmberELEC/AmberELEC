@@ -110,7 +110,8 @@ function install_theme() {
 			reponame=$(repo_name "$url")
 			gitname=$(git_name "$url")
 			cd "$CONFIGDIR"
-			filezip="${url}/archive/master.zip"
+			branch=$(curl https://api.github.com/repos/"$reponame"/"$gitname" | grep -m1 "default_branch" | sed -e 's#^.*: "##' -e 's#",.*$##')
+			filezip="${url}/archive/${branch}.zip"
 			# get size to download (hack to get it from github)
 			size=$(curl -sfL https://api.github.com/repos/"$reponame"/"$gitname" | grep size | head -1 | tr -dc '[:digit:]')
 			size=$((size / 1024 ))
