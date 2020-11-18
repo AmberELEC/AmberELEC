@@ -393,7 +393,6 @@ if [[ $LOGEMU == "Yes" ]]; then
 else
    echo "Emulator log was dissabled" >> $EMUELECLOG
    eval ${RUNTHIS}
-   eval ${RUNTHIS}
    ret_error=$?
 fi 
 
