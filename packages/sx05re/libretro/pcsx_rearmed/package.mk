@@ -75,6 +75,8 @@ if [ "${ARCH}" = "aarch64" ]; then
 		libpng*.so.* \
 		librockchip_mpp.so* \
 		libxkbcommon.so* \
+		libresolv*.so.* \
+		libnss_dns*.so.* \
 		libmali.so"
 
     for lib in ${LIBS}
