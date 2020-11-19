@@ -48,7 +48,7 @@ set_audio alsa
 CFG="/storage/.emulationstation/es_settings.cfg"
 LOGEMU="No"
 VERBOSE=""
-LOGSDIR="/emuelec/logs"
+LOGSDIR="/tmp/logs"
 TBASH="/usr/bin/bash"
 JSLISTENCONF="/emuelec/configs/jslisten.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
@@ -161,15 +161,15 @@ case ${PLATFORM} in
 	"dreamcast")
 		if [ "$EMU" = "REICASTSA" ]; then
 		set_kill_keys "reicast"
-		sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
-		RUNTHIS='${TBASH} /emuelec/bin/reicast.sh "${ROMNAME}"'
+		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
+		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
 		cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
 		fi
 		if [ "$EMU" = "REICASTSA_OLD" ]; then
 		set_kill_keys "reicast_old"
-		sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast_old\"|" /emuelec/bin/reicast.sh
-		RUNTHIS='${TBASH} /emuelec/bin/reicast.sh "${ROMNAME}"'
+		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast_old\"|" /emuelec/bin/reicast.sh
+		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
 		cp -rf /storage/.config/reicast/emu_old.cfg /storage/.config/reicast/emu.cfg
 		fi
@@ -223,12 +223,6 @@ case ${PLATFORM} in
 		if [ "$EMU" = "HYPSEUS" ]; then
 		set_kill_keys "hypseus"
 		RUNTHIS='${TBASH} /storage/.config/emuelec/scripts/hypseus.start.sh "${ROMNAME}"'
-		fi
-		;;
-	"wii"|"gamecube")
-		if [ "$EMU" = "dolphin" ]; then
-		set_kill_keys "dolphin-emu-nogui"
-		RUNTHIS='${TBASH} /storage/.config/emuelec/bin/dolphin.sh "${ROMNAME}"'
 		fi
 		;;
 	"pc")
@@ -372,9 +366,9 @@ if [[ "$KILLTHIS" != "none" ]]; then
 	KKBUTTON2=$(sed -n "4s|^button2=\(.*\)|\1|p" "${JSLISTENCONF}")
 	if [ ! -z $KKBUTTON1 ] && [ ! -z $KKBUTTON2 ]; then
 		if [ ${KILLDEV} == "auto" ]; then
-			/emuelec/bin/jslisten --mode hold &>> ${EMUELECLOG} &
+			/usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 		else
-			/emuelec/bin/jslisten --mode hold --device /dev/input/${KILLDEV} &>> ${EMUELECLOG} &
+			/usr/bin/jslisten --mode hold --device /dev/input/${KILLDEV} &>> ${EMUELECLOG} &
 		fi
 	fi
 fi
@@ -392,9 +386,6 @@ else
    eval ${RUNTHIS}
    ret_error=$?
 fi 
-
-# Only run fbfix on N2
-[[ "$EE_DEVICE" == "Amlogic-ng" ]] && /storage/.config/emuelec/bin/fbfix
 
 # Show exit splash
 ${TBASH} /emuelec/scripts/show_splash.sh exit

@@ -25,10 +25,12 @@ fi
 
 # Automatic updates
 rsync -av --delete --exclude=custom_start.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
+rsync -av --delete /usr/config/emuelec/bin/ /storage/.config/emuelec/bin
 cp /usr/config/autostart.sh /storage/.config/autostart.sh
 cp /usr/config/EE_VERSION /storage/.config
 # Release specific updates
 cp /usr/config/emulationstation/scripts/dldrastic.sh /storage/.config/emulationstation/scripts/dldrastic.sh
+cp /usr/config/emuelec/configs/jslisten.cfg /storage/.config/emuelec/configs/jslisten.cfg
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1

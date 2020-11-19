@@ -1,0 +1,58 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
+MIN=0
+MAX=100
+STEP=5
+
+if [ ! -f /sys/class/backlight/backlight/brightness ]
+then
+  echo "ERROR: There is no BRIGHTNESS object to manage."
+  exit 1
+fi
+
+stepUp() {
+  getBrightness
+  MYBRIGHTNESS=$?
+  if (( ${MYBRIGHTNESS} < ${MAX} ))
+  then
+    NEWBRIGHTNESS=$((${MYBRIGHTNESS}+${STEP}))
+  else
+    NEWBRIGHTNESS=${MAX}
+  fi
+  echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
+  echo "${NEWBRIGHTNESS}" > /storage/.brightness
+}
+
+stepDown() {
+  getBrightness
+  MYBRIGHTNESS=$?
+  if (( ${MYBRIGHTNESS} > ${MIN} ))
+  then
+    NEWBRIGHTNESS=$((${MYBRIGHTNESS}-${STEP}))
+  else
+    NEWBRIGHTNESS=${MIN}
+  fi
+  echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
+  echo "${NEWBRIGHTNESS}" > /storage/.brightness
+}
+
+getBrightness() {
+  local BRIGHTNESS=$(cat /sys/class/backlight/backlight/brightness)
+  return ${BRIGHTNESS}
+}
+
+
+case ${1} in
+        "up")
+	  stepUp ${BRIGHTNESS}
+        ;;
+        "down")
+          stepDown ${BRIGHTNESS}
+        ;;
+        *)
+	  getBrightness
+	  echo $?
+	;;
+esac
