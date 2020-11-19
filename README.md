@@ -25,7 +25,7 @@ Download the release image, and use 'dd' or your favorite image writer to write 
 
 ## Getting Help
 
-For general questions, visit our discord: https://discord.gg/95qjspWn
+For general questions, visit our discord: https://discord.gg/bmXtCt88Tz
 
 For issues and feature requests, use one of the templates on the issues tab.  The more information you provide, the easier it will be to assist.  Issues opened without using the form will be closed.  Please do not use the issue tracker for technical support, or your issue will be closed.
 
