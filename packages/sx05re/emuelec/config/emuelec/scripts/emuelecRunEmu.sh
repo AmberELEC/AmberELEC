@@ -71,7 +71,7 @@ killall jslisten
 	KILLTHIS=${1}
 	sed -i "2s|program=.*|program=\"/usr/bin/killall ${1}\"|" ${JSLISTENCONF}
 	
-	}
+}
 
 # Make sure the /emuelec/logs directory exists
 if [[ ! -d "$LOGSDIR" ]]; then
@@ -116,8 +116,7 @@ fi
 [[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
 
 # JSLISTEN setup so that we can kill running ALL emulators using hotkey+start
-/storage/.emulationstation/scripts/configscripts/z_getkillkeys.sh
-. ${JSLISTENCONF}
+#/storage/.emulationstation/scripts/configscripts/z_getkillkeys.sh
 
 KILLDEV=${ee_evdev}
 KILLTHIS="none"
@@ -360,7 +359,6 @@ echo "My Retroarch: $RABIN" >> $EMUELECLOG
 eval echo ${RUNTHIS} >> $EMUELECLOG 
 
 if [[ "$KILLTHIS" != "none" ]]; then
-
 # We need to make sure there are at least 2 buttons setup (hotkey plus another) if not then do not load jslisten
 	KKBUTTON1=$(sed -n "3s|^button1=\(.*\)|\1|p" "${JSLISTENCONF}")
 	KKBUTTON2=$(sed -n "4s|^button2=\(.*\)|\1|p" "${JSLISTENCONF}")
@@ -371,6 +369,13 @@ if [[ "$KILLTHIS" != "none" ]]; then
 			/usr/bin/jslisten --mode hold --device /dev/input/${KILLDEV} &>> ${EMUELECLOG} &
 		fi
 	fi
+fi
+
+# Until I can rewrite this script completely, test for jslisten and start it if it wasn't started..
+LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
+if [ ! $? == 0 ]
+then
+  /usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 fi
 
 # Only run fbfix on N2
