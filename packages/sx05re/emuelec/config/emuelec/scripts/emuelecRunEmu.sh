@@ -64,13 +64,10 @@ else
 fi
 
 set_kill_keys() {
-	
-# If jslisten is running we kill it first so that it can reload the config file. 
-killall jslisten
-
+	# If jslisten is running we kill it first so that it can reload the config file. 
+	killall jslisten
 	KILLTHIS=${1}
 	sed -i "2s|program=.*|program=\"/usr/bin/killall ${1}\"|" ${JSLISTENCONF}
-	
 }
 
 # Make sure the /emuelec/logs directory exists
@@ -116,9 +113,10 @@ fi
 [[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
 
 # JSLISTEN setup so that we can kill running ALL emulators using hotkey+start
-#/storage/.emulationstation/scripts/configscripts/z_getkillkeys.sh
+/storage/.emulationstation/scripts/configscripts/z_getkillkeys.sh
+EVDEV=$(grep ee_evdev ${JSLISTENCONF} | sed -e 's#^.*="##' -e 's#".*$##' | head -n 1)
 
-KILLDEV=${ee_evdev}
+KILLDEV=${EVDEV}
 KILLTHIS="none"
 
 # if there wasn't a --NOLOG included in the arguments, enable the emulator log output. TODO: this should be handled in ES menu
@@ -364,8 +362,10 @@ if [[ "$KILLTHIS" != "none" ]]; then
 	KKBUTTON2=$(sed -n "4s|^button2=\(.*\)|\1|p" "${JSLISTENCONF}")
 	if [ ! -z $KKBUTTON1 ] && [ ! -z $KKBUTTON2 ]; then
 		if [ ${KILLDEV} == "auto" ]; then
+			echo "Starting jslisten (auto)" &>> ${EMUELECLOG}
 			/usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 		else
+			echo "Starting jslisten (${KILLDEV})" &>> ${EMUELECLOG}
 			/usr/bin/jslisten --mode hold --device /dev/input/${KILLDEV} &>> ${EMUELECLOG} &
 		fi
 	fi
@@ -375,11 +375,9 @@ fi
 LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
 if [ ! $? == 0 ]
 then
+  echo "Starting jslisten" &>> ${EMUELECLOG}
   /usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 fi
-
-# Only run fbfix on N2
-[[ "$EE_DEVICE" == "Amlogic-ng" ]] && /storage/.config/emuelec/bin/fbfix
 
 # Execute the command and try to output the results to the log file if it was not disabled.
 if [[ $LOGEMU == "Yes" ]]; then

@@ -23,9 +23,6 @@ PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders Skyscraper MC SDL_GameControllerD
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL emuelec-ports"
 
-# Removed cores for space and/or performance
-# PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET mame2015 fba4arm $LIBRETRO_EXTRA_CORES xow libretro-bash-launcher dosbox-x mba.mini.plus scraper nestopiaCV bermuda reicastsa_old stellasa"
-
 # These packages are only meant for S922x, S905x2 and A311D devices as they run poorly on S905, S912, etc"
 if [ "$PROJECT" == "Amlogic-ng" ]; then
 PKG_DEPENDS_TARGET+=" $LIBRETRO_S922X_CORES mame2016"
@@ -73,7 +70,7 @@ makeinstall_target() {
       echo "s905" > $INSTALL/ee_s905
   fi
   
-  if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
+  if [ "$DEVICE" == "RG351P" ]; then
       echo "$DEVICE" > $INSTALL/ee_arch
   else
       echo "$PROJECT" > $INSTALL/ee_arch
@@ -132,7 +129,7 @@ cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
 CORESFILE="$INSTALL/usr/config/emulationstation/es_systems.cfg"
 
 if [ "${PROJECT}" != "Amlogic-ng" ]; then
-    if [[ ${DEVICE} == "OdroidGoAdvance" ]] || [[ ${DEVICE} == "RG351P" ]]; then
+    if [[ ${DEVICE} == "RG351P" ]]; then
         remove_cores="mesen-s quicknes REICASTSA_OLD REICASTSA mame2016"
     elif [ "${PROJECT}" == "Amlogic" ]; then
         remove_cores="mesen-s quicknes mame2016"
