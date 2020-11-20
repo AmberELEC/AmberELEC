@@ -77,6 +77,7 @@ if [ "${ARCH}" = "aarch64" ]; then
 		libxkbcommon.so* \
 		libresolv*.so.* \
 		libnss_dns*.so.* \
+		libpthread.so.* \
 		libmali.so"
 
     for lib in ${LIBS}
