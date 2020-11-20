@@ -409,6 +409,9 @@ ${TBASH} /emuelec/scripts/setres.sh
 # Return to the default performance scaling
 normperf
 
+# Disable hotkeys
+killall jslisten
+
 # reset audio to default
 set_audio default
 

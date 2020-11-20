@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020 Fewtarius
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -18,29 +19,31 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="fuse-libretro"
-PKG_VERSION="c2f03e6f08f3e2a03d7888fe756e0beb7979f983"
-PKG_SHA256="cdc8e2cfa8b7fb488dd5cc6baaeec1119af4f24885ee01fe83347d63f52a66d9"
+PKG_NAME="TIC-80"
+PKG_VERSION="54c45a9dc1b6967ed17d9bc9f1b232002f505708"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
-PKG_SITE="https://github.com/libretro/fuse-libretro"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_SITE="https://github.com/nesbox/TIC-80"
+PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
-PKG_SHORTDESC="A port of the Fuse Unix Spectrum Emulator to libretro "
-PKG_LONGDESC="A port of the Fuse Unix Spectrum Emulator to libretro "
+PKG_SHORTDESC="Tic80"
+PKG_LONGDESC="TIC-80 emulator"
+GET_HANDLER_SUPPORT="git"
+PKG_BUILD_FLAGS="+pic"
 
 PKG_IS_ADDON="no"
-PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
-make_target() {
-  make -f Makefile.libretro
-}
+PKG_CMAKE_OPTS_TARGET="-DBUILD_PLAYER=OFF \
+                       -DBUILD_SOKOL=OFF \
+                       -DBUILD_SDL=OFF \
+                       -DBUILD_DEMO_CARTS=OFF \
+                       -DBUILD_LIBRETRO=ON"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp fuse_libretro.so $INSTALL/usr/lib/libretro/
+  cp $PKG_BUILD/.$TARGET_NAME/lib/tic80_libretro.so $INSTALL/usr/lib/libretro/tic80_libretro.so
 }
