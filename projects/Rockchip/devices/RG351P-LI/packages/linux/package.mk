@@ -15,38 +15,11 @@ PKG_STAMP="$KERNEL_TARGET $KERNEL_MAKE_EXTRACMD"
 
 PKG_PATCH_DIRS="$LINUX"
 
-case "$LINUX" in
-  rockchip-4.4)
-    PKG_VERSION="aa8bacf821e5c8ae6dd8cae8d64011c741659945"
-    PKG_SHA256="a2760fe89a15aa7be142fd25fb08ebd357c5d855c41f1612cf47c6e89de39bb3"
-    PKG_URL="https://github.com/rockchip-linux/kernel/archive/$PKG_VERSION.tar.gz"
-    PKG_SOURCE_NAME="linux-$LINUX-$PKG_VERSION.tar.gz"
-    ;;
-  odroid-go-a-4.4)
-    PKG_VERSION="597b7316fd30b7721afc9be7930931af97c13452"
-    PKG_SHA256="9554495577762780fd277def18dea60101f79153d76db41cd02c100059fe35cf"
-    PKG_URL="https://github.com/hardkernel/linux/archive/$PKG_VERSION.tar.gz"
-    PKG_SOURCE_NAME="linux-$LINUX-$PKG_VERSION.tar.gz"
-    ;;
-  RG351P-4.4)
-    PKG_VERSION="718abd7245ab07d144e03826d7b0f161ab66bed2"
-    PKG_SHA256="4874108ff9f2f13b9cbc31136075192a8976c8feca8204d8a294a4e6a9f9d61b"
-    PKG_URL="https://github.com//lualiliu/RG351P-linux/archive/$PKG_VERSION.tar.gz"
-    PKG_SOURCE_NAME="RG351P-linux-$PKG_VERSION.tar.gz"
-    ;;    
-  raspberrypi)
-    PKG_VERSION="3c235dcfe80a7c7ba360219e4a3ecb256f294376" # 4.19.83
-    PKG_SHA256="23a222d8864107b296b3bf580106421899964af879bb7f1c440e875e565fd6f3"
-    PKG_URL="https://github.com/raspberrypi/linux/archive/$PKG_VERSION.tar.gz"
-    PKG_SOURCE_NAME="linux-$LINUX-$PKG_VERSION.tar.gz"
-    ;;
-  *)
-    PKG_VERSION="5.1.16"
-    PKG_SHA256="8a3e55be3e788700836db6f75875b4d3b824a581d1eacfc2fcd29ed4e727ba3e"
-    PKG_URL="https://www.kernel.org/pub/linux/kernel/v5.x/$PKG_NAME-$PKG_VERSION.tar.xz"
-    PKG_PATCH_DIRS="default"
-    ;;
-esac
+
+PKG_VERSION="718abd7245ab07d144e03826d7b0f161ab66bed2"
+PKG_SHA256="4874108ff9f2f13b9cbc31136075192a8976c8feca8204d8a294a4e6a9f9d61b"
+PKG_URL="https://github.com//lualiliu/RG351P-linux/archive/$PKG_VERSION.tar.gz"
+PKG_SOURCE_NAME="RG351P-linux-$PKG_VERSION.tar.gz"
 
 PKG_KERNEL_CFG_FILE=$(kernel_config_path) || die
 

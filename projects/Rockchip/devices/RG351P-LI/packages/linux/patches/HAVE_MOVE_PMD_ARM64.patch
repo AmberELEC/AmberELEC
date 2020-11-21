@@ -1,0 +1,106 @@
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -46,6 +46,7 @@
+ 	select GENERIC_TIME_VSYSCALL
+ 	select HANDLE_DOMAIN_IRQ
+ 	select HARDIRQS_SW_RESEND
++	select HAVE_MOVE_PMD
+ 	select HAVE_ALIGNED_STRUCT_PAGE if SLUB
+ 	select HAVE_ARCH_AUDITSYSCALL
+ 	select HAVE_ARCH_BITREVERSE
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index e1e540ffa979..b70c952ac838 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -535,6 +535,11 @@ config HAVE_IRQ_TIME_ACCOUNTING
+ 	  Archs need to ensure they use a high enough resolution clock to
+ 	  support irq time accounting and then call enable_sched_clock_irqtime().
+ 
++config HAVE_MOVE_PMD
++	bool
++	help
++	  Archs that select this are able to move page tables at the PMD level.
++
+ config HAVE_ARCH_TRANSPARENT_HUGEPAGE
+ 	bool
+ 
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 7c9ab747f19d..2591e512373a 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -176,6 +176,50 @@
+ }
+ 
+ #define LATENCY_LIMIT	(64 * PAGE_SIZE)
++
++static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
++		  unsigned long new_addr, unsigned long old_end,
++		  pmd_t *old_pmd, pmd_t *new_pmd)
++{
++	spinlock_t *old_ptl, *new_ptl;
++	struct mm_struct *mm = vma->vm_mm;
++	pmd_t pmd;
++
++	if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
++	    || old_end - old_addr < PMD_SIZE)
++		return false;
++
++	/*
++	 * The destination pmd shouldn't be established, free_pgtables()
++	 * should have release it.
++	 */
++	if (WARN_ON(!pmd_none(*new_pmd)))
++		return false;
++
++	/*
++	 * We don't have to worry about the ordering of src and dst
++	 * ptlocks because exclusive mmap_sem prevents deadlock.
++	 */
++	old_ptl = pmd_lock(vma->vm_mm, old_pmd);
++	new_ptl = pmd_lockptr(mm, new_pmd);
++	if (new_ptl != old_ptl)
++		spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
++
++	/* Clear the pmd */
++	pmd = *old_pmd;
++	pmd_clear(old_pmd);
++
++	VM_BUG_ON(!pmd_none(*new_pmd));
++
++	/* Set the new pmd */
++	set_pmd_at(mm, new_addr, new_pmd, pmd);
++	flush_tlb_range(vma, old_addr, old_addr + PMD_SIZE);
++	if (new_ptl != old_ptl)
++		spin_unlock(new_ptl);
++	spin_unlock(old_ptl);
++
++	return true;
++}
+ 
+ unsigned long move_page_tables(struct vm_area_struct *vma,
+ 		unsigned long old_addr, struct vm_area_struct *new_vma,
+@@ -220,6 +264,23 @@
+ 						    old_pmd, new_pmd);
+ 				if (need_rmap_locks)
+ 					anon_vma_unlock_write(vma->anon_vma);
++			} else if (extent == PMD_SIZE) {
++#ifdef CONFIG_HAVE_MOVE_PMD
++			/*
++			 * If the extent is PMD-sized, try to speed the move by
++			 * moving at the PMD level if possible.
++			 */
++			bool moved;
++
++			if (need_rmap_locks)
++				anon_vma_lock_write(vma->anon_vma);
++			moved = move_normal_pmd(vma, old_addr, new_addr,
++					old_end, old_pmd, new_pmd);
++			if (need_rmap_locks)
++				anon_vma_unlock_write(vma->anon_vma);
++			if (moved)
++				continue;
++#endif
+ 			}
+ 			if (err > 0) {
+ 				continue;

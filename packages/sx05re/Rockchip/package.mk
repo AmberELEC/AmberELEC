@@ -10,10 +10,6 @@ PKG_DEPENDS_TARGET="toolchain emuelec"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
-	mkdir -p $INSTALL/usr/share/bootloader
-	cp boot.ini $INSTALL/usr/share/bootloader
-fi
-
+  mkdir -p $INSTALL/usr/share/bootloader
+  cp boot.ini $INSTALL/usr/share/bootloader
 }

@@ -15,8 +15,8 @@ if [ -f "$RELEASE_DIR/3rdparty/bootloader/trust.img" ]; then
 fi
 
 if [ -f "$RELEASE_DIR/3rdparty/bootloader/boot.ini" ]; then
-echo "image: copying boot.ini to root"
-mcopy "$RELEASE_DIR/3rdparty/bootloader/boot.ini" ::
+  echo "image: copying boot.ini to root"
+  cp "$RELEASE_DIR/3rdparty/bootloader/boot.ini" "${LE_TMP}"
 fi
 
 mkdir -p "${LE_TMP}/extlinux"

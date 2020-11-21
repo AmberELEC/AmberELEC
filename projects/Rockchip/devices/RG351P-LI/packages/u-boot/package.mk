@@ -6,7 +6,7 @@ PKG_NAME="u-boot"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.denx.de/wiki/U-Boot"
-PKG_DEPENDS_TARGET="toolchain swig:host"
+PKG_DEPENDS_TARGET="toolchain swig:host rkbin"
 PKG_LONGDESC="Das U-Boot is a cross-platform bootloader for embedded systems."
 
 PKG_IS_KERNEL_PKG="yes"
@@ -17,29 +17,10 @@ PKG_STAMP="$UBOOT_SYSTEM"
 PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 [ -n "$DEVICE" ] && PKG_NEED_UNPACK+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/bootloader"
 
-case "$PROJECT" in
-  Rockchip)
-  if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
-  	# This is specific for the Rk3326 on the Odroid-Go Advance
-    PKG_VERSION="e7b255b54c42c8a805dee7a9409a8838cfa13586"
-    PKG_SHA256="a3c9d17c363cdedb43ec34f3965594d82bf499cc1d70334610afe477adcdf9b6"
-    PKG_URL="https://github.com/hardkernel/u-boot/archive/$PKG_VERSION.tar.gz"
-    PKG_PATCH_DIRS="OdroidGoAdvance"
-  else
-    PKG_VERSION="8659d08d2b589693d121c1298484e861b7dafc4f"
-    PKG_SHA256="3f9f2bbd0c28be6d7d6eb909823fee5728da023aca0ce37aef3c8f67d1179ec1"
-    PKG_URL="https://github.com/rockchip-linux/u-boot/archive/$PKG_VERSION.tar.gz"
-    PKG_PATCH_DIRS="rockchip"
-  fi
-    PKG_DEPENDS_TARGET+=" rkbin"
-    PKG_NEED_UNPACK+=" $(get_pkg_directory rkbin)"
-    ;;
-  *)
-    PKG_VERSION="2019.04"
-    PKG_SHA256="76b7772d156b3ddd7644c8a1736081e55b78828537ff714065d21dbade229bef"
-    PKG_URL="http://ftp.denx.de/pub/u-boot/u-boot-$PKG_VERSION.tar.bz2"
-    ;;
-esac
+PKG_VERSION="533d602e342547a91b6b3815cdcefcd477e2b63b"
+#PKG_SHA256="a3c9d17c363cdedb43ec34f3965594d82bf499cc1d70334610afe477adcdf9b6"
+PKG_URL="https://github.com/hardkernel/u-boot/archive/$PKG_VERSION.tar.gz"
+PKG_PATCH_DIRS="RG351P"
 
 post_patch() {
   if [ -n "$UBOOT_SYSTEM" ] && find_file_path bootloader/config; then
@@ -64,7 +45,7 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/share/bootloader
+    mkdir -p $INSTALL/usr/share/bootloader
 
     # Only install u-boot.img et al when building a board specific image
     if [ -n "$UBOOT_SYSTEM" ]; then
