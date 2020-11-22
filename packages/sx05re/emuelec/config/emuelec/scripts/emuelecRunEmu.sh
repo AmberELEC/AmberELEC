@@ -409,9 +409,6 @@ ${TBASH} /emuelec/scripts/setres.sh
 # Return to the default performance scaling
 normperf
 
-# Disable hotkeys
-killall jslisten
-
 # reset audio to default
 set_audio default
 
@@ -444,8 +441,19 @@ ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG
 
 fi #require bios ends
 
+# Set the kill command to kmscon
+LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
+if [ $? == 0 ]
+then
+  killall jslisten
+  set_kill_keys "killall kmscon"
+  echo "Starting jslisten" &>> ${EMUELECLOG}
+  /usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
+fi
+
 	exit 1
 else
+killall jslisten
 echo "exit 0" >> $EMUELECLOG
 	exit 0
 fi

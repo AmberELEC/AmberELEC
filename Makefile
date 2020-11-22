@@ -15,7 +15,7 @@ noobs:
 	./scripts/image noobs
 
 clean:
-	rm -rf $(BUILD_DIRS)/* $(BUILD_DIRS)/.stamps
+	rm -rf $(BUILD_DIRS)
 
 distclean:
 	rm -rf ./.ccache ./$(BUILD_DIRS)

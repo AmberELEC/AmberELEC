@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="mgba"
-PKG_VERSION="43bc47742f5c642559d259d461cd16278f89e604"
+PKG_VERSION="545a76f876af47671c8089b1ee09bf1d4a55f47e"
 #PKG_SHA256="bcb0370625ecc85d906ed5e267abba2ea35c8ba8b6b5b68839e95709131b00a9"
 PKG_REV="1"
 PKG_ARCH="any"
