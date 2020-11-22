@@ -54,7 +54,7 @@ function RG351P-AK () {
 }
 
 function RESET () {
-  git checkout projects/Rockchip/options
+  #git checkout projects/Rockchip/options
   git checkout packages/linux
   git checkout packages/linux-driver-addons
   git checkout packages/linux-drivers

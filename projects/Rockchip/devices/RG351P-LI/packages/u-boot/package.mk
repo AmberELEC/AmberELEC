@@ -20,7 +20,6 @@ PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 PKG_VERSION="533d602e342547a91b6b3815cdcefcd477e2b63b"
 #PKG_SHA256="a3c9d17c363cdedb43ec34f3965594d82bf499cc1d70334610afe477adcdf9b6"
 PKG_URL="https://github.com/hardkernel/u-boot/archive/$PKG_VERSION.tar.gz"
-PKG_PATCH_DIRS="RG351P"
 
 post_patch() {
   if [ -n "$UBOOT_SYSTEM" ] && find_file_path bootloader/config; then

@@ -38,26 +38,32 @@
     OPENGLES="mali-bifrost"
 
   # kernel serial console
-    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0 systemd.show_status=0"
+    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0"
     
     LINUX="RG351P-4.4"
     UBOOT_SYSTEM="odroidgo2"
 
+  # additional packages to install
+    ADDITIONAL_PACKAGES="dtc emuelec"
+
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
   # e.g. FIRMWARE="dvb-firmware misc-firmware wlan-firmware"
-    FIRMWARE="wlan-firmware misc-firmware" #rockchip-firmware dvb-firmware
-    
+    FIRMWARE="misc-firmware wlan-firmware dvb-firmware" #rockchip-firmware
+
   # additional drivers to install:
   # for a list of additional drivers see packages/linux-drivers
   # Space separated list is supported,
   # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-  ADDITIONAL_DRIVERS="RTL8812AU" #RTL8192CU RTL8192DU RTL8192EU RTL8188EU RTL8812AU RTL8821CU"
+    ADDITIONAL_DRIVERS="RTL8188EU RTL8814AU RTL8192DU RTL8812AU" #RTL8821CU RTL8192CU RTL8192EU
+
+  # build and install driver addons (yes / no)
+    DRIVER_ADDONS_SUPPORT="no"
   
   # driver addons to install:
   # for a list of additinoal drivers see packages/linux-driver-addons
   # Space separated list is supported,
-    DRIVER_ADDONS="" #dvb-latest"
+    DRIVER_ADDONS="" #dvb-latest
 
   # debug tty path
     DEBUG_TTY="/dev/ttyFIQ0"
