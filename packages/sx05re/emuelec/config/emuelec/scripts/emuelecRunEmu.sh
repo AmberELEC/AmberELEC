@@ -274,8 +274,10 @@ if [[ "${PLATFORM}" == "psx" ]] || [[ "${PLATFORM}" == "n64" ]]; then
     if [[ "${CORE}" == "pcsx_rearmed" ]] || [[ "${CORE}" == "parallel_n64" ]]; then
 	if [ "${MYARCH}" == "arm" ]
 	then
+	  set_kill_keys "retroarch"
           RABIN="retroarch"
 	else
+	  set_kill_keys "retroarch32"
 	  export LD_LIBRARY_PATH="/usr/lib32"
 	  RABIN="retroarch32"
 	fi
