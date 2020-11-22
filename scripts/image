@@ -207,11 +207,11 @@ if [ -n "${DEVICE}" -a -d "${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/filesyste
 fi
 
 # Run depmod for base overlay modules
-#MODVER=$(basename $(ls -d ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/*))
-#find ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/ -name *.ko | \
-#  sed -e "s,${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/,," \
-#    > ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/modules.order
-#${TOOLCHAIN}/bin/depmod -b ${INSTALL}/usr/lib/kernel-overlays/base -a -e -F "${BUILD}/linux-$(kernel_version)/System.map" ${MODVER} 2>&1
+MODVER=$(basename $(ls -d ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/*))
+find ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/ -name *.ko | \
+  sed -e "s,${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/,," \
+    > ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/modules.order
+${TOOLCHAIN}/bin/depmod -b ${INSTALL}/usr/lib/kernel-overlays/base -a -e -F "${BUILD}/linux-$(kernel_version)/System.map" ${MODVER} 2>&1
 
 # Strip kernel modules
 for MOD in $(find ${INSTALL}/usr/lib/kernel-overlays/ -type f -name *.ko); do
