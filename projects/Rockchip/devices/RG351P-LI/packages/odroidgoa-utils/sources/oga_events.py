@@ -6,7 +6,7 @@ import time
 from subprocess import check_output
 
 pwrkey = evdev.InputDevice("/dev/input/event0")
-odroidgo2_joypad = evdev.InputDevice("/dev/input/by-path/platform-odroidgo2-joypad-event-joystick")
+odroidgo2_joypad = evdev.InputDevice("/dev/input/by-path/platform-ff300000.usb-usb-0:1.2:1.0-event-joystick")
 
 need_to_swallow_pwr_key = False # After a resume, we swallow the pwr input that triggered the resume
 
@@ -27,7 +27,7 @@ class Joypad:
     f5 = 708
 
 def runcmd(cmd, *args, **kw):
-    print(f">>> {cmd}")
+    #print(f">>> {cmd}")
     check_output(cmd, *args, **kw)
 
 async def handle_event(device):
@@ -48,7 +48,7 @@ async def handle_event(device):
 
         elif device.name.find('odroidgo2') != -1:
             keys = odroidgo2_joypad.active_keys()
-            print(keys)
+            #print(keys)
             if event.value == 1 and Joypad.f5 in keys:
                 if event.code == Joypad.up:
                     runcmd("/emuelec/scripts/odroidgoa_utils.sh vol +", shell=True)
@@ -61,8 +61,8 @@ async def handle_event(device):
                 elif event.code == Joypad.r1:
                     runcmd("/emuelec/scripts/odroidgoa_utils.sh toggleaudio", shell=True)
 
-        if event.code != 0:
-            print(device.name, event)
+        #if event.code != 0:
+            #print(device.name, event)
 
 def run():
     asyncio.ensure_future(handle_event(pwrkey))

@@ -14,7 +14,6 @@ PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/emuelec/scripts
-	#cp * $INSTALL/usr/config/emuelec/scripts
         cp headphone_sense.sh $INSTALL/usr/config/emuelec/scripts
         cp odroidgoa_utils.sh $INSTALL/usr/config/emuelec/scripts
         #cp oga_events.py $INSTALL/usr/config/emuelec/scripts
