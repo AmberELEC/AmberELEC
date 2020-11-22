@@ -30,10 +30,10 @@ setenv kernel_addr_r "0x02008000"
 
 gpio toggle a15
 
-if test ${hwrev} = 'v11'; then
-  sysboot mmc 1:1 any ${scriptaddr} /extlinux/rk3326-odroidgo2-linux-v11.dtb.conf
+if test \${hwrev} = 'v11'; then
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-odroidgo2-linux-v11.dtb.conf
 else
-  sysboot mmc 1:1 any ${scriptaddr} /extlinux/rk3326-odroidgo2-linux.dtb.conf
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-odroidgo2-linux.dtb.conf
 fi
 
 EOF
