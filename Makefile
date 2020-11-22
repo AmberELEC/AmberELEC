@@ -1,6 +1,6 @@
 BUILD_DIRS=build.*
 
-all: release
+all: clean world
 
 system:
 	./scripts/image
@@ -23,17 +23,13 @@ distclean:
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
-ak:
-	./scripts/build_distro ak
+world: arm aarch64
 
-li:
-	./scripts/build_distro li
+arm:
+	ARCH=arm ./scripts/build_distro
 
-world:
-	./scripts/build_distro world
-
-reset:
-	./scripts/build_distro reset
+aarch64:
+	ARCH=aarch64 ./scripts/build_distro
 
 update:
 	./scripts/package_bump
