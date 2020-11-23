@@ -51,8 +51,8 @@ fi
 makeinstall_target() {
    
     if [ "$PROJECT" == "Amlogic-ng" ]; then
-    mkdir -p $INSTALL/usr/config/emuelec/bin
-    cp $PKG_BUILD/fbfix/fbfix $INSTALL/usr/config/emuelec/bin
+    mkdir -p $INSTALL/usr/bin
+    cp $PKG_BUILD/fbfix/fbfix $INSTALL/usr/bin
     fi
 
   mkdir -p $INSTALL/usr/config/

@@ -19,6 +19,6 @@ LDFLAGS="$LDFLAGS -lSDL2"
 }
 
 makeinstall_target() {
-mkdir -p $INSTALL/config/emuelec/bin
-cp $PKG_BUILD/.${TARGET_NAME}/hcl $INSTALL/config/emuelec/bin
+mkdir -p $INSTALL/usr/local/bin
+cp $PKG_BUILD/.${TARGET_NAME}/hcl $INSTALL/usr/local/bin
 }

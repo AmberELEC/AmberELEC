@@ -15,8 +15,8 @@ PKG_TOOLCHAIN="make"
 PKG_GIT_BRANCH="sdl2"
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/config/emuelec/bin
-  cp opentyrian $INSTALL/usr/config/emuelec/bin
+  mkdir -p $INSTALL/usr/local/bin
+  cp opentyrian $INSTALL/usr/local/bin
   
   mkdir -p $INSTALL/usr/config/opentyrian
   cp -r $PKG_DIR/config/* $INSTALL/usr/config/opentyrian
