@@ -7,7 +7,7 @@ Based on (forked from) [EmuELEC](https://github.com/EmuELEC/EmuELEC) 3.9 which i
 This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 16GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32).
 
 ## Building from Source
-Building a firmware with the Anbernic kernel (AK) requires first building the lualiliu kernel (LI).  The lualiliu kernel build does not boot yet.
+Building 351ELEC from source is a relatively simple process utilizing the scripts in the repository.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.
 
 ```
 sudo apt update && sudo apt upgrade
