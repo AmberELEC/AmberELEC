@@ -24,8 +24,9 @@ makeinstall_target() {
 mkdir -p $INSTALL/usr/local/bin
 mkdir -p $INSTALL/usr/config/emuelec/ports
 
-cp -rf $PKG_DIR/scripts/* $INSTALL/usr/local/bin
-cp -rf $PKG_BUILD/scripts/* $INSTALL/usr/local/bin
+cp -rf $PKG_BUILD/scripts/*sh $INSTALL/usr/local/bin
+cp -rf $PKG_DIR/scripts/* $INSTALL/usr/config/emuelec/ports
+cp -rf $PKG_BUILD/scripts/*xml $INSTALL/usr/config/emuelec/ports
 
 # Remove duplicate newlines just to be tidy
 for file in "$INSTALL/usr/local/bin/*.sh"; do
