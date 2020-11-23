@@ -14,7 +14,8 @@ PKG_TOOLCHAIN="cmake"
 GET_HANDLER_SUPPORT="git"
 
 makeinstall_target() {
-mkdir -p $INSTALL/usr/config/emuelec/bin
-cp $PKG_BUILD/.${TARGET_NAME}/hode $INSTALL/usr/config/emuelec/bin
-cp $PKG_BUILD/hode.ini $INSTALL/usr/config/emuelec/bin
+mkdir -p $INSTALL/usr/local/bin
+mkdir -p $INSTALL/usr/config/emuelec/hode
+cp $PKG_BUILD/.${TARGET_NAME}/hode $INSTALL/usr/local/bin
+cp $PKG_BUILD/hode.ini $INSTALL/usr/config/emuelec/hode
 }

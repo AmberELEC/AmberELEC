@@ -42,7 +42,7 @@ Commander Keen:
   audio: "alsa"
   commands:
     - '[[ ! -L "/storage/.CommanderGenius" ]] && ln -sf /emuelec/configs/CommanderGenius /storage/.CommanderGenius'
-    - /emuelec/bin/${PORT}
+    - /usr/local/bin/${PORT}
 
 Diablo:
   description: Diablo build for modern operating systems - Diablo is an action role-playing hack and slash video game developed by Blizzard North and released by Blizzard Entertainment in early January 1997.
@@ -60,7 +60,7 @@ Diablo:
     - mkdir -p /storage/.local/share/diasurgical/devilution/
     - ln -sf /storage/roms/ports/diablo/diabdat.mpq /storage/.local/share/diasurgical/devilution/diabdat.mpq
     - fi
-    - cd /emuelec/bin/
+    - cd /usr/local/bin/
     - ./${PORT} >> $EE_LOG 2>&1
 
 Dinothawr:

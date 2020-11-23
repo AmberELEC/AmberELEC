@@ -14,10 +14,6 @@ PKG_SHORTDESC="VVVVVV License: https://github.com/TerryCavanagh/VVVVVV/blob/mast
 PKG_LONGDESC="VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?"
 PKG_TOOLCHAIN="cmake"
 
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
-PKG_PATCH_DIRS="OdroidGoAdvance"
-fi
-
 PKG_CMAKE_OPTS_TARGET=" desktop_version"
 
 pre_configure_target() {
@@ -25,6 +21,6 @@ sed -i "s/fullscreen = false/fullscreen = true/" "$PKG_BUILD/desktop_version/src
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/config/emuelec/bin
-  cp VVVVVV $INSTALL/usr/config/emuelec/bin
+  mkdir -p $INSTALL/usr/local/bin
+  cp VVVVVV $INSTALL/usr/local/bin
 }
