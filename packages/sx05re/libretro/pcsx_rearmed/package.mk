@@ -76,7 +76,7 @@ if [ "${ARCH}" = "aarch64" ]; then
 		librockchip_mpp.so* \
 		libxkbcommon.so* \
 		libresolv*.so.* \
-		libnss_dns*.so.* \
+		libnss_dns-*.so* \
 		libpthread.so.* \
 		libmali.so"
 
