@@ -1,0 +1,12 @@
+diff -rupN PPSSPPSDL-087de849bdc74205dd00d8e6e11ba17a591213ab.orig/SDL/SDLMain.cpp PPSSPPSDL-087de849bdc74205dd00d8e6e11ba17a591213ab/SDL/SDLMain.cpp
+--- PPSSPPSDL-087de849bdc74205dd00d8e6e11ba17a591213ab.orig/SDL/SDLMain.cpp	2020-11-23 11:24:47.893402871 -0500
++++ PPSSPPSDL-087de849bdc74205dd00d8e6e11ba17a591213ab/SDL/SDLMain.cpp	2020-11-24 18:51:47.519039601 -0500
+@@ -610,7 +610,7 @@ int main(int argc, char *argv[]) {
+ 	if (set_yres > 0) {
+ 		pixel_yres = set_yres;
+ 	}
+-	float dpi_scale = 1.0f;
++	float dpi_scale = 2.0f;
+ 	if (set_dpi > 0) {
+ 		dpi_scale = set_dpi;
+ 	}

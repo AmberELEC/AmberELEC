@@ -24,7 +24,7 @@ ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
 # Automatic updates
-rsync -av --delete --exclude=custom_start.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
+rsync -av --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
 rsync -av --delete /usr/config/emuelec/bin/ /storage/.config/emuelec/bin
 cp /usr/config/autostart.sh /storage/.config/autostart.sh
 cp /usr/config/EE_VERSION /storage/.config
