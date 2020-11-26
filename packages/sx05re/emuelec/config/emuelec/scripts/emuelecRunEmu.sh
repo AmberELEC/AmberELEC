@@ -2,6 +2,7 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 # Source predefined functions and variables
 . /etc/profile
@@ -130,6 +131,45 @@ fi
 SPL=$(get_ee_setting ee_splash.enabled)
 [ "$SPL" -eq "1" ] && ${TBASH} /emuelec/scripts/show_splash.sh "$PLATFORM" "${ROMNAME}"
 
+message_stream () {
+  local MESSAGE=$1
+  local DELAY=$2
+  LOADBUFFER=0
+  for (( i=0; i<${#MESSAGE}; i++ ))
+  do
+    CHAR="${MESSAGE:$i:1}"
+    if [ "${CHAR}" == "m" ] && [ "${LOADBUFFER}" -eq 1 ]
+    then
+      echo -ne "${BUFFER}${CHAR}" >/dev/console
+      unset BUFFER
+      LOADBUFFER=0
+    elif [ "${CHAR}" == "\\" ] || [ "${LOADBUFFER}" -eq 1 ]
+    then
+      BUFFER="$BUFFER${CHAR}"
+      LOADBUFFER=1
+    else
+      echo -n "${CHAR}" >/dev/console
+    fi
+    sleep $DELAY
+  done
+}
+
+MYBOOT="
+
+### WELCOME TO \e[31m351\e[39mELEC - VERSION $(cat /storage/.config/EE_VERSION)
+$(awk '/MemFree/ {printf $2}' /proc/meminfo) BYTES FREE
+
+READY."
+
+MYSTART="
+LOAD \"${ROMNAME##*/}\""
+MYLOADING="
+LOADING..."
+
+clear >/dev/console;
+message_stream "${MYBOOT}" 0;
+message_stream "${MYSTART}" .02;
+message_stream "${MYLOADING}" 0
 
 if [ -z ${LIBRETRO} ]; then
 
@@ -382,6 +422,8 @@ then
   /usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 fi
 
+clear >/dev/console
+
 # Execute the command and try to output the results to the log file if it was not disabled.
 if [[ $LOGEMU == "Yes" ]]; then
    echo "Emulator Output is:" >> $EMUELECLOG
@@ -443,7 +485,7 @@ CBPLATFORM="${PLATFORM}"
 ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG}"
 
 fi #require bios ends
-
+clear > /dev/console
 # Set the kill command to kmscon
 LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
 if [ $? == 0 ]
