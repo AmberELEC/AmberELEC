@@ -33,7 +33,7 @@ MEDITATION=$(echo $* | md5sum | awk '{print $1}')
 ERROR="
 \e[31m
 ###########################################################
-# Software Failure. Check Log Files for more information. #
+# Software Failure. Check Log Files For More Information. #
 #           Guru Meditation #${MEDITATION:0:17}            #
 ###########################################################
 \e[39m"
