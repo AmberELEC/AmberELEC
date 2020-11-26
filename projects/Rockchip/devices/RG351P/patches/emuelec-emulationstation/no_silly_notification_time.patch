@@ -7,7 +7,7 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  
 +        auto notification_time = std::make_shared<SliderComponent>(mWindow, 2.f, 120.f, 2.f, "s");
 +        notification_time->setValue(Settings::getInstance()->getInt("notification.display_time"));
-+        s->addWithLabel(_("POPUP NOTIFICATION DISPLAY TIMEOUT"), notification_time);
++        s->addWithLabel(_("POPUP NOTIFICATION TIMEOUT"), notification_time);
 +        s->addSaveFunc([notification_time] {
 +                Settings::getInstance()->setInt("notification.display_time", (int)Math::round(notification_time->getValue()));
 +        });
