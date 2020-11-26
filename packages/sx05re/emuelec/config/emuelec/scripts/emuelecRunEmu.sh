@@ -6,6 +6,7 @@
 
 # Source predefined functions and variables
 . /etc/profile
+. /etc/os-release
 
 # This whole file has become very hacky, I am sure there is a better way to do all of this, but for now, this works.
 
@@ -129,47 +130,7 @@ fi
 
 # Show splash screen if enabled
 SPL=$(get_ee_setting ee_splash.enabled)
-[ "$SPL" -eq "1" ] && ${TBASH} /emuelec/scripts/show_splash.sh "$PLATFORM" "${ROMNAME}"
-
-message_stream () {
-  local MESSAGE=$1
-  local DELAY=$2
-  LOADBUFFER=0
-  for (( i=0; i<${#MESSAGE}; i++ ))
-  do
-    CHAR="${MESSAGE:$i:1}"
-    if [ "${CHAR}" == "m" ] && [ "${LOADBUFFER}" -eq 1 ]
-    then
-      echo -ne "${BUFFER}${CHAR}" >/dev/console
-      unset BUFFER
-      LOADBUFFER=0
-    elif [ "${CHAR}" == "\\" ] || [ "${LOADBUFFER}" -eq 1 ]
-    then
-      BUFFER="$BUFFER${CHAR}"
-      LOADBUFFER=1
-    else
-      echo -n "${CHAR}" >/dev/console
-    fi
-    sleep $DELAY
-  done
-}
-
-MYBOOT="
-
-### WELCOME TO \e[31m351\e[39mELEC - VERSION $(cat /storage/.config/EE_VERSION)
-$(awk '/MemFree/ {printf $2}' /proc/meminfo) BYTES FREE
-
-READY."
-
-MYSTART="
-LOAD \"${ROMNAME##*/}\""
-MYLOADING="
-LOADING..."
-
-clear >/dev/console;
-message_stream "${MYBOOT}" 0;
-message_stream "${MYSTART}" .02;
-message_stream "${MYLOADING}" 0
+[ "$SPL" -eq "1" ] && ${TBASH} /emuelec/scripts/show_splash.sh "${ROMNAME}"
 
 if [ -z ${LIBRETRO} ]; then
 
@@ -193,7 +154,7 @@ case ${PLATFORM} in
 		;;
 	"setup")
 	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "kmscon" || set_kill_keys "fbterm"
-		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
+		RUNTHIS='${TBASH} /emuelec/scripts/error.sh "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
 	"dreamcast")
@@ -236,7 +197,7 @@ case ${PLATFORM} in
 	"residualvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
 		set_kill_keys "fbterm"
-		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
+		RUNTHIS='${TBASH} /emuelec/scripts/error.sh "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
 		set_kill_keys "residualvm"
@@ -246,7 +207,7 @@ case ${PLATFORM} in
 	"scummvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
 		set_kill_keys "fbterm"
-		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh "${ROMNAME}"'
+		RUNTHIS='${TBASH} /emuelec/scripts/error.sh "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
 		if [ "$EMU" = "SCUMMVMSA" ]; then
@@ -288,7 +249,7 @@ case ${PLATFORM} in
 		;;
 	"mplayer")
 		set_kill_keys "${EMU}"
-		RUNTHIS='${TBASH} /emuelec/scripts/fbterm.sh mplayer_video "${ROMNAME}" "${EMU}"'
+		RUNTHIS='${TBASH} /emuelec/scripts/error.sh mplayer_video "${ROMNAME}" "${EMU}"'
 		;;
 	"pico8")
 		set_kill_keys "pico8_dyn"
