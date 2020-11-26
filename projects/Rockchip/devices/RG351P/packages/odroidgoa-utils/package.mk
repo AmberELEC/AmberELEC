@@ -20,6 +20,6 @@ makeinstall_target() {
 }
 
 post_install() {  
-	enable_service odroidgoa-hotkeys.service
+	#enable_service odroidgoa-hotkeys.service
 	enable_service odroidgoa-headphones.service
 }
