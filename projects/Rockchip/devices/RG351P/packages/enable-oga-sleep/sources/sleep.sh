@@ -16,7 +16,7 @@ case $1 in
     # Restore pre-sleep sound state
     alsactl restore -f /tmp/asound.state
     # workaround until dwc2 is fixed
-    grep dwc2 $(modprobe) && modprobe -r dwc2
+    (echo $(lsmod 2>/dev/null) | grep dwc2 >/dev/null) && modprobe -r dwc2
     modprobe -i dwc2
     # Restore system brightness
     cat /storage/.brightness > /sys/class/backlight/backlight/brightness
