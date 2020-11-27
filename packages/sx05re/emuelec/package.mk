@@ -118,6 +118,8 @@ cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   #enable_service emuelec-disable_small_cores.service
 # Thanks to vpeter we can now have bash :) 
   rm -f $INSTALL/usr/bin/{sh,bash,busybox,sort}
+  cp $PKG_DIR/sources/autostart.sh $INSTALL/usr/bin
+  cp $PKG_DIR/sources/shutdown.sh $INSTALL/usr/bin
   cp $(get_build_dir busybox)/.install_pkg/usr/bin/busybox $INSTALL/usr/bin
   cp $(get_build_dir bash)/.install_pkg/usr/bin/bash $INSTALL/usr/bin
   cp $(get_build_dir coreutils)/.install_pkg/usr/bin/sort $INSTALL/usr/bin

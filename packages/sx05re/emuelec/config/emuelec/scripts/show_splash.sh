@@ -10,15 +10,24 @@
 
 ROMNAME="$1"
 
-if [ "$ROMNAME" == "intro" ] || [ "$ROMNAME" == "exit" ]; then
+if [ "$ROMNAME" == "shutdown" ]
+then
+  clear >/dev/console
+  echo -ne "\033[10;26H" >/dev/console
+  message_stream "GAME OVER" .05
+  sleep .5
+  exit 0
+fi
+
+if [ "$ROMNAME" == "intro" ] || [ "$ROMNAME" == "exit" ]
+then
         SPLASH="/storage/.config/splash/splash-1080.png"
 else
-
   MYGAME=${ROMNAME^^}
   MYBOOT="
 
         ### WELCOME TO \e[31m351\e[39mELEC - VERSION $(cat /storage/.config/EE_VERSION) ###
-        1024000 BYTE RAM SYSTEM  $(awk '/MemFree/ {printf $2}' /proc/meminfo) BYTES FREE
+        $(awk '/MemTotal/ {printf $2}' /proc/meminfo)K BYTE RAM SYSTEM $(awk '/MemFree/ {printf $2}' /proc/meminfo)K BYTES FREE
 
 "
 
@@ -61,7 +70,8 @@ esac
 
 [[ "${PLATFORM}" != "intro" ]] && VIDEO=0 || VIDEO=$(get_ee_setting ee_bootvideo.enabled)
 
-if [[ -f "/storage/.config/emuelec/configs/novideo" ]] && [[ ${VIDEO} != "1" ]]; then
+if [[ -f "/storage/.config/emuelec/configs/novideo" ]] && [[ ${VIDEO} != "1" ]]
+then
         if [ "$PLATFORM" != "intro" ]; then
                 ffplay -fs -autoexit ${SIZE} "${SPLASH}" > /dev/null 2>&1
         fi
