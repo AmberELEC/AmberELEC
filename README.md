@@ -1,10 +1,12 @@
 # 351ELEC
-  
+
 A fork of EmuELEC for the Anbernic RG351P
 
-Based on (forked from) [EmuELEC](https://github.com/EmuELEC/EmuELEC) 3.9 which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC) and [Lakka](https://github.com/libretro/Lakka-LibreELEC) with tidbits from [Batocera](https://github.com/batocera-linux/batocera.linux).
+Forked from [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC) and [Lakka](https://github.com/libretro/Lakka-LibreELEC) with tidbits from [Batocera](https://github.com/batocera-linux/batocera.linux).
 
-This fork is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 16GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32).
+This distribution is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 16GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32) on first boot.
+
+351ELEC is a 64bit distribution that is tailored for the RG351P handheld.  The latest stable releases are available on GitHub.
 
 ## Building from Source
 Building 351ELEC from source is a relatively simple process utilizing the scripts in the repository.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.
@@ -14,11 +16,34 @@ sudo apt update && sudo apt upgrade
 sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync
 git clone https://github.com/fewtarius/351ELEC.git 351ELEC    
 cd 351ELEC
-git checkout master  
 make world
 ```
 
-The resulting image will be located in 351ELEC/target.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
+Make world will build both 32bit and 64bit images which will be located in 351ELEC/release.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
+
+Other useful commands:
+
+### Clean the Build Directories
+
+The following command will delete all of the compiled data that is used to build the distribution.
+
+```
+make clean
+```
+
+### Build 32bit Only
+
+```
+make arm
+```
+
+### Build 64bit Only
+
+If you are building the 64bit distribution, you will need to have a 32bit world to utilize for multilib.
+
+```
+make aarch64
+```
 
 ## Installation
 Download the release image, and use 'dd' or your favorite image writer to write the distribution to a microSD. Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
