@@ -5,4 +5,4 @@
 
 ARG=${1//[\\]/}
 export SDL_AUDIODRIVER=alsa          
-nice -n -19 PPSSPPSDL --fullscreen "$ARG"
+nice -n -19 PPSSPPSDL --fullscreen --dpi "$ARG"
