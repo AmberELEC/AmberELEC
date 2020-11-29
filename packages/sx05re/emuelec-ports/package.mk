@@ -16,20 +16,10 @@ PKG_TOOLCHAIN="manual"
 # Not Enabled yet: bermuda hodesdl hydracastlelabyrinth eduke
 
 makeinstall_target() {
-mkdir -p $INSTALL/usr/local/bin
-python3 port_builder.py ports.yaml $INSTALL/usr/local/bin
 mkdir -p $INSTALL/usr/config/emuelec/ports
+python3 port_builder.py ports.yaml $INSTALL/usr/config/emuelec/ports
 mv $INSTALL/usr/local/bin/gamelist.xml $INSTALL/usr/config/emuelec/ports
 cp -rf $PKG_BUILD/images $INSTALL/usr/config/emuelec/ports
-
-#Temporary
-IFS=''
-ls $INSTALL/usr/local/bin/*sh |
-while read data
-do
-    data=$(echo "${data}" | sed "s#${INSTALL}##")
-    ln -sf "$data" $INSTALL/usr/config/emuelec/ports
-done
 
 # Remove duplicate newlines just to be tidy
 for file in "$INSTALL/usr/local/bin/*.sh"; do

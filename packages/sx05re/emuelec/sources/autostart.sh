@@ -24,13 +24,20 @@ ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
 # Automatic updates
-rsync -av --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
-rsync -av --delete /usr/config/emuelec/bin/ /storage/.config/emuelec/bin
+rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
+rsync -a --delete /usr/config/emuelec/bin/ /storage/.config/emuelec/bin
 cp /usr/config/autostart.sh /storage/.config/autostart.sh
 cp /usr/config/EE_VERSION /storage/.config
 # Release specific updates
-cp /usr/config/emulationstation/scripts/dldrastic.sh /storage/.config/emulationstation/scripts/dldrastic.sh
 cp /usr/config/emuelec/configs/jslisten.cfg /storage/.config/emuelec/configs/jslisten.cfg
+
+# Move ports to the FAT volume
+rsync -a --exclude gamelist.xml /usr/config/emuelec/ports/* /storage/roms/ports
+if [ ! -e "/storage/roms/ports/gamelist.xml" ]
+then
+  cp /usr/config/emuelec/ports/gamelist.xml /storage/roms/ports
+fi
+rm -rf /usr/config/emuelec/ports
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1
