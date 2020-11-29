@@ -13,7 +13,7 @@
 	
 	
 	<game>
-		<path>./install drastic.sh</path>
+		<path>./Install Drastic.sh</path>
 		<name>Install Drastic</name>
 		<desc>Download and install Drastic, internet is required!</desc>
 		<developer>fewtarius </developer>
@@ -24,7 +24,7 @@
 	
 	
 	<game>
-		<path>./copy games to device.sh</path>
+		<path>./Copy Games to Device.sh</path>
 		<name>Copy USB games to device</name>
 		<desc>Easily copy games from any external device to the SD/MMC where EmuELEC is installed</desc>
 		<developer>shantigilbert </developer>

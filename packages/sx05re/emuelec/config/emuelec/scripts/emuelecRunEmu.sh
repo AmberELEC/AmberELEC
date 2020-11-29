@@ -255,6 +255,10 @@ case ${PLATFORM} in
 		set_kill_keys "pico8_dyn"
 		RUNTHIS='${TBASH} /emuelec/scripts/pico8.sh "${ROMNAME}"'
 			;;
+	"shell")
+		set_kill_keys "bash"
+		RUNTHIS='${TBASH} "${ROMNAME}"'
+			;;
 	esac
 else
 # We are running a Libretro emulator set all the settings that we chose on ES
