@@ -18,11 +18,10 @@ PKG_TOOLCHAIN="manual"
 makeinstall_target() {
 mkdir -p $INSTALL/usr/config/emuelec/ports
 python3 port_builder.py ports.yaml $INSTALL/usr/config/emuelec/ports
-mv $INSTALL/usr/local/bin/gamelist.xml $INSTALL/usr/config/emuelec/ports
 cp -rf $PKG_BUILD/images $INSTALL/usr/config/emuelec/ports
 
 # Remove duplicate newlines just to be tidy
-for file in "$INSTALL/usr/local/bin/*.sh"; do
+for file in "$INSTALL/usr/config/emuelec/ports/*.sh"; do
 sed  -i '$!N; /^\(.*\)\n\1$/!P; D' $file
 done
 
