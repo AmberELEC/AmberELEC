@@ -18,7 +18,7 @@ else
   LINK="https://github.com/Retro-Arena/binaries/raw/master/odroid-xu4/drastic.tar.gz"
 fi
 
-message_stream "Installing Drastic for ${MYARCH}..."
+message_stream "Installing Drastic for ${MYARCH}..." .02
 INSTALL_PATH="/storage/drastic"
 BINARY="drastic"
 LINKDEST="${INSTALL_PATH}/${MYARCH}/drastic.tar.gz"
@@ -75,6 +75,6 @@ then
   rm -f /storage/.config/emulationstation/scripts/drastic.sh
 fi
 mkdir ${INSTALL_PATH}/${MYARCH}/drastic/config
-cp /usr/config/emulationstation/scripts/drastic/config/drastic.cfg ${INSTALL_PATH}/${MYARCH}/drastic/config
+cp /usr/config/emulationstation/scripts/drastic/config/drastic.cfg ${INSTALL_PATH}/${MYARCH}/drastic/config 2>/dev/null ||:
 ln -sf ${INSTALL_PATH}/${START_SCRIPT} /storage/.config/emuelec/scripts/drastic.sh
 echo "Done, restart ES"

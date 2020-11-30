@@ -56,7 +56,7 @@ makeinstall_target() {
     fi
 
     mkdir -p $INSTALL/usr/config/
-    rsync -av --exclude ports $PKG_DIR/config/* $INSTALL/usr/config/
+    rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
     #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
     ln -sf /storage/.config/emuelec $INSTALL/emuelec
     find $INSTALL/usr/config/emuelec/ -type f -exec chmod o+x {} \;
