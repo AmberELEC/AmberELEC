@@ -18,7 +18,6 @@ else
   LINK="https://github.com/Retro-Arena/binaries/raw/master/odroid-xu4/drastic.tar.gz"
 fi
 
-message_stream "Installing Drastic for ${MYARCH}..." .02
 INSTALL_PATH="/storage/drastic"
 BINARY="drastic"
 LINKDEST="${INSTALL_PATH}/${MYARCH}/drastic.tar.gz"
