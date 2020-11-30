@@ -41,4 +41,7 @@ PKG_LONGDESC="Root package used to build and create complete image"
 # OEM packages
 [ "$OEM_SUPPORT" = "yes" ] && PKG_DEPENDS_TARGET+=" oem"
 
+# htop
+[ "$HTOP_TOOL" = "yes" ] && PKG_DEPENDS_TARGET+=" htop"
+
 true

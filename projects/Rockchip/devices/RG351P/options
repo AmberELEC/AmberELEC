@@ -219,3 +219,6 @@
 
   # IR remote keymaps supported in default config
   IR_REMOTE_KEYMAPS=""
+
+  # htop tool (yes / no)
+  HTOP_TOOL="yes"
