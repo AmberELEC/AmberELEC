@@ -42,7 +42,7 @@ Commander Keen:
   audio: "alsa"
   commands:
     - '[[ ! -L "/storage/.CommanderGenius" ]] && ln -sf /emuelec/configs/CommanderGenius /storage/.CommanderGenius'
-    - /usr/local/bin/${PORT}
+    - /storage/roms/ports/${PORT}
 
 Diablo:
   description: Diablo build for modern operating systems - Diablo is an action role-playing hack and slash video game developed by Blizzard North and released by Blizzard Entertainment in early January 1997.
@@ -60,7 +60,7 @@ Diablo:
     - mkdir -p /storage/.local/share/diasurgical/devilution/
     - ln -sf /storage/roms/ports/diablo/diabdat.mpq /storage/.local/share/diasurgical/devilution/diabdat.mpq
     - fi
-    - cd /usr/local/bin/
+    - cd /storage/ports
     - ./${PORT} >> $EE_LOG 2>&1
 
 Dinothawr:
@@ -156,6 +156,30 @@ Rick Dangerous:
   check_bios: RickDangerous
   commands:
     - /emuelec/scripts/emuelecRunEmu.sh "/storage/roms/ports/xrick/data.zip" -Pports "${2}" -Cxrick "-SC${0}"
+
+Pico-8:
+  description: PICO-8 is a fantasy console for making, sharing and playing tiny games and other computer programs.
+  rating: 0.8
+  release_date: 20150801T000000
+  developer: Lexaloffle Games
+  publisher: Lexaloffle Games
+
+  port_exe: "pico8_dyn"
+  audio: "alsa"
+  commands:
+    - if [ ! -d "/storage/roms/pico-8" ]
+    - then
+    -   mkdir -p "/storage/roms/pico-8"
+    - fi
+    - cp /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/roms/ports/pico-8/sdl_controllers.txt
+    - unset MYARCH
+    - TEST=$(ldd /usr/bin/emulationstation | grep 64)
+    - if [ $? == 0 ]
+    - then
+    -   patchelf --set-interpreter /usr/lib32/ld-linux-armhf.so.3 /storage/roms/ports/pico-8/pico8_dyn
+    -   export LD_LIBRARY_PATH=/usr/lib32
+    - fi
+    - /storage/roms/ports/pico-8/pico8_dyn -splore -home -root_path /storage/roms/pico-8 -joystick 0
 
 Prince of Persia:
   description: SDLPoP is an open-source port of Prince of Persia that runs natively on Windows and Linux. It is based on a disassembly of the DOS version.

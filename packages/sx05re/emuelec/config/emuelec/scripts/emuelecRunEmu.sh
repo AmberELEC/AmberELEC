@@ -207,7 +207,7 @@ case ${PLATFORM} in
 	"scummvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
 		set_kill_keys "fbterm"
-		RUNTHIS='${TBASH} /emuelec/scripts/error.sh "${ROMNAME}"'
+		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
 		if [ "$EMU" = "SCUMMVMSA" ]; then

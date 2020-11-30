@@ -6,13 +6,7 @@
 # Source predefined functions and variables
 . /etc/profile
 
-# DO NOT modify this file, if you need to use autostart please use /storage/.config/custom_start.sh 
-
-# Enable these 3 following lines to add a small boost in performance mostly for s912 devices but might work for others, but remember to keep an eye on the temp!
-# echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-# echo "performance" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-# echo 5 > /sys/class/mpgpu/cur_freq
-umount /var/media/GAMES
+(mount | grep [r]oms) && umount /storage/roms
 mount -o umask=000 -t vfat /dev/mmcblk0p3 /storage/roms
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
@@ -61,7 +55,8 @@ for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800        
 	   sg-1000 sgfx snes tg16 tg16cd uzebox vectrex vic20 videopac virtualboy \
 	   wonderswan wonderswancolor x68000 zx81 zxspectrum ports ports/VVVVVV   \
 	   ports/quake ports/diablo ports/doom ports/doom2 ports/cannonball       \
-	   ports/CaveStory ports/reminiscence ports/xrick ports/opentyrian
+	   ports/CaveStory ports/reminiscence ports/xrick ports/opentyrian        \
+           ports/pico-8
 do
   if [ ! -d "/storage/roms/${dir}" ]; then
     mkdir -p "/storage/roms/${dir}"
