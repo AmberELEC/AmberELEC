@@ -154,7 +154,7 @@ case ${PLATFORM} in
 		;;
 	"setup")
 	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "kmscon" || set_kill_keys "fbterm"
-		RUNTHIS='${TBASH} /emuelec/scripts/error.sh "${ROMNAME}"'
+		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
 	"dreamcast")
@@ -197,7 +197,7 @@ case ${PLATFORM} in
 	"residualvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
 		set_kill_keys "fbterm"
-		RUNTHIS='${TBASH} /emuelec/scripts/error.sh "${ROMNAME}"'
+		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
 		set_kill_keys "residualvm"
@@ -249,12 +249,8 @@ case ${PLATFORM} in
 		;;
 	"mplayer")
 		set_kill_keys "${EMU}"
-		RUNTHIS='${TBASH} /emuelec/scripts/error.sh mplayer_video "${ROMNAME}" "${EMU}"'
+		RUNTHIS='${TBASH} mplayer_video "${ROMNAME}" "${EMU}"'
 		;;
-	"pico8")
-		set_kill_keys "pico8_dyn"
-		RUNTHIS='${TBASH} /emuelec/scripts/pico8.sh "${ROMNAME}"'
-			;;
 	"shell")
 		set_kill_keys "bash"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
