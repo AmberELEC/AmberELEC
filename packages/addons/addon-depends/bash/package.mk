@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2016-2020 Team LibreELEC
+# Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 
 PKG_NAME="bash"
-PKG_VERSION="4.3.46"
-PKG_SHA256="fc7131bbc3139db143ec9fe03fd4e6bd3636bdf53e6956065b261f034b6af74b"
+PKG_VERSION="4.4.18"
+PKG_SHA256="604d9eec5e4ed5fd2180ee44dd756ddca92e0b6aa4217bbab2b6227380317f23"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/bash/bash.html"
 PKG_URL="ftp://ftp.cwru.edu/pub/$PKG_NAME/$PKG_NAME-$PKG_VERSION.tar.gz"
