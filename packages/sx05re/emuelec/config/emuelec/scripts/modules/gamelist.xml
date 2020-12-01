@@ -22,14 +22,24 @@
 		<image>./downloaded_images/drastic.png</image>
 	</game>
 	
+        <game>
+                <path>./Start Retroarch.sh</path>
+                <name>Start 32bit RetroArch</name>
+                <desc>Run 32bit RetroArch<desc>
+                <developer>fewtarius</developer>
+                <publisher>351ELEC</publisher>
+                <genre>script</genre>
+                <image>./downloaded_images/retroarch.png</image>
+        </game>
+
+        <game>
+                <path>./Start Retroarch 64.sh</path>
+                <name>Start 64bit RetroArch</name>
+                <desc>Run 64bit RetroArch<desc>
+                <developer>fewtarius</developer>
+                <publisher>351ELEC</publisher>
+                <genre>script</genre>
+                <image>./downloaded_images/retroarch.png</image>
+        </game>
 	
-	<game>
-		<path>./Copy Games to Device.sh</path>
-		<name>Copy USB games to device</name>
-		<desc>Easily copy games from any external device to the SD/MMC where EmuELEC is installed</desc>
-		<developer>shantigilbert </developer>
-		<publisher>Emuelec</publisher>
-		<genre>script</genre>
-		<image>./downloaded_images/usb.png</image>
-	</game>
 </gameList>
