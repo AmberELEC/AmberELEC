@@ -8,7 +8,7 @@
 		<developer>shantigilbert </developer>
 		<publisher>Emuelec</publisher>
 		<genre>script</genre>
-		<image>./downloaded_images/File Manager.png</image>
+		<image>./downloaded_images/filemanager.png</image>
 	</game>
 	
 	
@@ -23,9 +23,9 @@
 	</game>
 	
         <game>
-                <path>./Start Retroarch.sh</path>
+                <path>./Start 32bit Retroarch.sh</path>
                 <name>Start 32bit RetroArch</name>
-                <desc>Run 32bit RetroArch<desc>
+                <desc>Run 32bit RetroArch</desc>
                 <developer>fewtarius</developer>
                 <publisher>351ELEC</publisher>
                 <genre>script</genre>
@@ -33,9 +33,9 @@
         </game>
 
         <game>
-                <path>./Start Retroarch 64.sh</path>
+                <path>./Start 64bit Retroarch.sh</path>
                 <name>Start 64bit RetroArch</name>
-                <desc>Run 64bit RetroArch<desc>
+                <desc>Run 64bit RetroArch</desc>
                 <developer>fewtarius</developer>
                 <publisher>351ELEC</publisher>
                 <genre>script</genre>
