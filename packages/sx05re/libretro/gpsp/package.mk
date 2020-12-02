@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="gpsp"
-PKG_VERSION="856af16ba64951d99a6a9aa84b1a10dc1540a868"
-PKG_SHA256="c001a860ec04a732ad49e036d699981c2c512d3205a346936994fa95824f4d63"
+PKG_VERSION="78f7c59d5f7d5381c1c4c97367a87cbd68216d18"
+PKG_SHA256="d4f6d74ccbd8c74c2099bc5a24811f69fef82a4a8fd9f9d88a6e328fb88e7e7b"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
