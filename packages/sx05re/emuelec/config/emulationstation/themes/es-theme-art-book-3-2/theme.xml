@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+theme name:     Art Book 3:2
+author:         Anthony
+license:        creative commons CC-BY-NC-SA
+-->
+<theme>
+   <formatVersion>4</formatVersion>
+
+   <view name="system,basic,detailed,video">
+      <helpsystem name="help">
+         <pos>1 1</pos>
+      </helpsystem>
+      <image name="logo">
+         <path>./_inc/systems/${system.theme}.svg</path>
+      </image>
+      <text name="logoText">
+         <fontPath>./_inc/fonts/ChangaOne-Italic.ttf</fontPath>
+         <forceUppercase>true</forceUppercase>
+         <lineSpacing>1</lineSpacing>
+      </text>
+      <image name="background" extra="true">
+         <origin>0 0</origin>
+         <pos>0 0</pos>
+         <size>1 1</size>
+         <color>111111</color>
+         <path>./_inc/images/space.png</path>
+         <tile>true</tile>
+         <zIndex>1</zIndex>
+      </image>
+      <text name="logoText">
+         <color>ffffff</color>
+      </text>
+   </view>
+
+   <view name="system">
+      <carousel name="systemcarousel">
+         <origin>0 0</origin>
+         <pos>0 0</pos>
+         <type>horizontal</type>
+         <color>111111</color>
+         <size>1 1</size>
+         <logoSize>0.55 0.425</logoSize>
+         <maxLogoCount>1</maxLogoCount>
+      </carousel>
+      <text name="systemInfo">
+         <origin>0 0</origin>
+         <pos>0 0.8</pos>
+         <backgroundColor>111111</backgroundColor>
+         <color>666666</color>
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.05</fontSize>
+      </text>
+      <text name="logoText">
+         <fontSize>0.15</fontSize>
+      </text>
+   </view>
+
+   <view name="basic,detailed,video">
+      <image name="logo">
+         <origin>0.5 0.5</origin>
+         <pos>0.5 0.155</pos>
+         <maxSize>0.4 0.15</maxSize>
+      </image>
+      <text name="logoText">
+         <pos>0.05 0.1</pos>
+         <size>0.9 0.075</size>
+         <alignment>center</alignment>
+         <fontSize>0.06</fontSize>
+      </text>
+      <textlist name="gamelist">
+         <pos>0.05 0.325</pos>
+         <size>0.9 0.64</size>
+         <alignment>center</alignment>
+         <lineSpacing>1.81</lineSpacing>
+         <selectorColor>333333ff</selectorColor>
+         <selectedColor>ffffff</selectedColor>
+         <primaryColor>999999</primaryColor>
+         <secondaryColor>999999</secondaryColor>
+         <fontSize>0.04</fontSize>
+         <scrollSound>./_inc/sounds/select.wav</scrollSound>
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <horizontalMargin>0.016</horizontalMargin>
+      </textlist>
+   </view>
+
+   <view name="detailed,video">
+      <text name="md_lbl_rating,md_lbl_developer,md_developer,md_lbl_publisher,md_publisher,md_lbl_playcount,md_playcount,md_lbl_lastplayed,md_lbl_players,md_players,md_lbl_releasedate,md_lbl_genre,md_genre,md_description">
+         <pos>1 1</pos>
+      </text>
+      <datetime name="md_lastplayed,md_releasedate">
+         <pos>1 1</pos>
+      </datetime>
+      <rating name="md_rating">
+         <pos>1 1</pos>
+      </rating>
+      <textlist name="gamelist">
+         <pos>0.05 0.325</pos>
+         <size>0.425 0.64</size>
+         <alignment>left</alignment>
+      </textlist>
+      <image name="md_image">
+         <origin>0.5 0.5</origin>
+         <pos>0.7375 0.570</pos>
+         <maxSize>0.4 0.45</maxSize>
+      </image>
+      <image name="md_media_bezel" extra="true">
+         <origin>0 0</origin>
+         <pos>0.525 0.325</pos>
+         <size>0.425 0.4875</size>
+         <color>333333</color>
+         <path>./_inc/images/space.png</path>
+         <tile>true</tile>
+      </image>
+      <image name="md_media_screen" extra="true">
+         <origin>0 0</origin>
+         <pos>0.5375 0.34375</pos>
+         <size>0.4 0.45</size>
+         <color>000000</color>
+         <path>./_inc/images/space.png</path>
+         <tile>true</tile>
+      </image>
+      <image name="help-favorite" extra="true">
+         <origin>0 0</origin>
+         <pos>0.5416666666666667 0.85</pos>
+         <size>0.1875 0.05</size>
+         <path>./_inc/images/help-favorite.svg</path>
+      </image>
+      <image name="help-launch" extra="true">
+         <origin>0 0</origin>
+         <pos>0.7666666666666667 0.85</pos>
+         <size>0.1666666666666667 0.05</size>
+         <path>./_inc/images/help-launch.svg</path>
+      </image>
+   </view>
+
+   <view name="video">
+      <image name="md_marquee">
+         <origin>0 0</origin>
+         <pos>1 1</pos>
+      </image>
+      <image name="md_image">
+         <origin>0 0</origin>
+         <pos>1 1</pos>
+      </image>
+      <video name="md_video">
+         <origin>0.5 0.5</origin>
+         <pos>0.7375 0.570</pos>
+         <maxSize>0.4 0.45</maxSize>
+         <delay>0.0</delay>
+         <showSnapshotNoVideo>true</showSnapshotNoVideo>
+      </video>
+   </view>
+
+   <view name="menu">
+      <menuText name="menutitle">
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.05</fontSize>
+         <color>ffffff</color>
+      </menuText>
+      <menuText name="menufooter">
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.04</fontSize>
+         <color>666666</color>
+      </menuText>
+      <menuText name="menutext">
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+         <fontSize>0.05</fontSize>
+         <color>444444</color>
+         <separatorColor>222222</separatorColor>
+         <selectorColor>555555</selectorColor>
+         <selectedColor>FFFFFF</selectedColor>
+      </menuText>
+      <menuBackground name="menubg">
+         <color>111111</color>
+      </menuBackground>
+   </view>
+
+   <view name="screen">
+      <text name="clock">
+         <origin>0 0</origin>
+         <pos>0.020833333333333 0.034375</pos>
+         <size>0.1666666666666667 0.03125</size>
+         <fontSize>0.03125</fontSize>
+         <alignment>left</alignment>
+         <verticalAlignment>center</verticalAlignment>
+         <color>444444</color>
+         <fontPath>./_inc/fonts/Cabin-Bold.ttf</fontPath>
+      </text>
+      <batteryIndicator name="batteryIndicator">
+         <color>444444</color>
+      </batteryIndicator>
+      <controllerActivity name="controllerActivity">
+         <pos>1 1</pos>
+      </controllerActivity>
+   </view>
+
+</theme>

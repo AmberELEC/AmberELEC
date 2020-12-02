@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="menu, system, basic, detailed, video, grid">
+    <helpsystem name="help">
+      <iconUpDown>./icons/help-icon-psx-updown.png</iconUpDown>
+      <iconLeftRight>./icons/help-icon-psx-leftright.png</iconLeftRight>
+      <iconUpDownLeftRight>./icons/help-icon-psx-all.png</iconUpDownLeftRight>
+      <iconA>./icons/help-icon-psx-a.png</iconA>
+      <iconB>./icons/help-icon-psx-b.png</iconB>
+      <iconX>./icons/help-icon-psx-x.png</iconX>
+      <iconY>./icons/help-icon-psx-y.png</iconY>
+      <iconL>./icons/help-icon-psx-l.png</iconL>
+      <iconR>./icons/help-icon-psx-r.png</iconR>
+      <iconStart>./icons/help-icon-psx-start.png</iconStart>
+      <iconSelect>./icons/help-icon-psx-select.png</iconSelect>
+    </helpsystem>
+  </view>
+</theme>

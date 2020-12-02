@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<theme>
-  <formatVersion>7</formatVersion>
-  <customView name="Boxes">
-    <imagegrid name="gamegrid">
-      <autoLayout>4 3</autoLayout>
-    </imagegrid>
-  </customView>
-</theme>
