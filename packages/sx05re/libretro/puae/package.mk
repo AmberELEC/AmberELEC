@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="puae"
-PKG_VERSION="6bcad0b3f3fd19b4c4d35a4befd7bc9535f7410b"
-PKG_SHA256="ab9b4d8027043dfa4b1f20b217fee3290379c953b91a6d393fa94c55bb262a7b"
+PKG_VERSION="abb13532433bb0e74d79fff859d937034344532d"
+PKG_SHA256="270dc1d3d79ed3d97df56147788584fa95180e9c38b9700bc1a0d34ca2e3cd2f"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

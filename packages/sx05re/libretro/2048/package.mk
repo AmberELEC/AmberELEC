@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="2048"
-PKG_VERSION="57d43274dfc00cf3f32fe78032a6769c90890399"
-PKG_SHA256="a0661c4d64a0e5d1853b954e352b2105dd351230f03c61d54e929244c7b36443"
+PKG_VERSION="6e91356b9a901410017184a0d7772e40a92332a6"
+PKG_SHA256="814fc0a89f6bd6771002096d4a426e7c005b0f62d9e175a32339614f8382180d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
