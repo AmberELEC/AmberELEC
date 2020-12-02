@@ -23,7 +23,7 @@ if [[ "$ARCH" == "arm" ]]; then
 		PKG_MAKE_OPTS_TARGET=" platform=Odroidgoa"
 	fi
 else
-	PKG_PATCH_DIRS="emuelec-aarch64"
+	PKG_PATCH_DIRS="aarch64"
 	PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
 	
 fi
