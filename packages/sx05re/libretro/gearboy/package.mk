@@ -1,6 +1,22 @@
+################################################################################
+#
+#  Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
+#
+#  This Program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2, or (at your option)
+#  any later version.
+#
+#  This Program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#
+################################################################################
+
 PKG_NAME="gearboy"
-PKG_VERSION="1784054a5ac805f6f4409d14c8b2e4dd0ab2ed30"
-PKG_SHA256="60944d2a8a75594ff08c7a1cb48ee11cc17c882dfb234acf7f31a6158a25213a"
+PKG_VERSION="308d7f7e6baaa24d881c37082f19fb6a6d2a83fb"
+PKG_SHA256="a860dda890dca0bccd8a8a97aebbb4e7a392f7020e1997c331e71149b79425bf"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

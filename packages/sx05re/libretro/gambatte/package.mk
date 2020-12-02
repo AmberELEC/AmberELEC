@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="gambatte"
-PKG_VERSION="dd1cf9fdbadbdceee50ff0600321251c823c3ca5"
-PKG_SHA256="25e27bcfc0a023e6f959d52cb2942d01ca177eb6a59311373b69bfbd3898e007"
+PKG_VERSION="a85e4b515d9e609e87d5b469a9129c50b8b21fe7"
+PKG_SHA256="395cacbfd91516502c67dc43a602172b263195c7762b8300cd94840169cda21f"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
