@@ -1,7 +1,7 @@
 diff -rupN pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028.orig/frontend/libretro.c pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028/frontend/libretro.c
 --- pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028.orig/frontend/libretro.c	2020-11-14 05:24:47.393610340 -0500
-+++ pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028/frontend/libretro.c	2020-11-14 05:25:42.077845720 -0500
-@@ -486,14 +486,28 @@ void pl_timing_prepare(int is_pal)
++++ pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028/frontend/libretro.c	2020-12-01 19:34:56.617170400 -0500
+@@ -486,14 +486,33 @@ void pl_timing_prepare(int is_pal)
  
  void plat_trigger_vibrate(int pad, int low, int high)
  {
@@ -11,25 +11,32 @@ diff -rupN pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028.orig/frontend/l
  
 -   if (in_enable_vibration)
 -   {
+-      rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
+-      rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
+-   }
 +    /* if (in_enable_vibration)
 +    {
 +       rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
 +       rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
 +    } */
 +
++    FILE *fp;
 +    if (in_enable_vibration)
 +    {
 +      if(high <= 0x80)
 +      {
-+        system("echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++        fprintf(fp, "1000000");
++        fclose(fp);
 +      }
 +      else
 +      {
-+        system("echo 10 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++        fprintf(fp, "10");
++        fclose(fp);
 +      }
-       rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
-       rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
--   }
++      //rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
++      //rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
 +    }
  }
  
