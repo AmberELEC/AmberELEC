@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="menu, system, basic, detailed, video, grid">
+    <helpsystem name="help">
+      <iconUpDown>./icons/help-icon-snesalt-updown.png</iconUpDown>
+      <iconLeftRight>./icons/help-icon-snesalt-leftright.png</iconLeftRight>
+      <iconUpDownLeftRight>./icons/help-icon-snesalt-all.png</iconUpDownLeftRight>
+      <iconA>./icons/help-icon-snesalt-a.png</iconA>
+      <iconB>./icons/help-icon-snesalt-b.png</iconB>
+      <iconX>./icons/help-icon-snesalt-x.png</iconX>
+      <iconY>./icons/help-icon-snesalt-y.png</iconY>
+      <iconL>./icons/help-icon-snesalt-l.png</iconL>
+      <iconR>./icons/help-icon-snesalt-r.png</iconR>
+      <iconStart>./icons/help-icon-snesalt-start.png</iconStart>
+      <iconSelect>./icons/help-icon-snesalt-select.png</iconSelect>
+    </helpsystem>
+  </view>
+</theme>

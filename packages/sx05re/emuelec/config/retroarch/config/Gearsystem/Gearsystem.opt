@@ -1,0 +1,5 @@
+gearsystem_mapper = "Auto"
+gearsystem_region = "Auto"
+gearsystem_system = "Auto"
+gearsystem_timing = "Auto"
+gearsystem_up_down_allowed = "Disabled"

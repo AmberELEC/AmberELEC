@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="svg3518" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <ellipse style="fill-opacity: 1; stroke-width: 1.591; stroke-opacity: 1; fill: rgb(255, 255, 255);" id="path4402" cx="519.627" cy="127.938" rx="80.373" ry="72.03"/>
+    <path style="fill-rule: evenodd; stroke-width: 1.41487px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; fill: rgb(255, 255, 255);" d="M 0 86.802 L 50.985 86.802 L 50.985 193.83 L 82.167 193.83 L 82.167 87.222 L 132.732 87.222 L 132.732 60.678 L 0 60.678 Z" id="path3537"/>
+    <path style="fill-rule: evenodd; stroke-width: 1.41487px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; fill: rgb(255, 255, 255);" d="M 306.123 86.802 L 357.108 86.802 L 357.108 193.83 L 388.29 193.83 L 388.29 87.222 L 438.855 87.222 L 438.855 60.678 L 306.123 60.678 Z" id="path3537-1"/>
+    <rect style="stroke-width: 1.41487; fill: rgb(255, 255, 255);" id="rect3554" width="31.602" height="131.046" x="265.041" y="61.521"/>
+    <ellipse style="fill-opacity: 1; stroke-width: 1.41487; stroke-opacity: 1; fill: rgb(255, 255, 255);" id="path3558" cx="284.955" cy="698.276" rx="24.651" ry="24.018" transform="matrix(1, 0, 0, 0.999999, -5.379181, -674.257129)"/>
+    <path style="fill-opacity: 1; fill-rule: evenodd; stroke-width: 1.41487px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; fill: rgb(255, 255, 255);" d="M 96.072 193.83 L 139.473 193.83 C 144.111 149.784 168.738 100.218 197.622 77.112 L 177.816 43.401 Z" id="path3560"/>
+    <path style="fill-opacity: 1; fill-rule: evenodd; stroke-width: 1.41487px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; fill: rgb(255, 255, 255);" d="M 174.024 192.987 C 172.47 152.76 183.609 110.001 204.786 89.331 L 261.249 192.987 Z" id="path3562"/>
+    <path style="fill-opacity: 1; fill-rule: evenodd; stroke-width: 1.41487px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; fill: rgb(255, 255, 255);" d="M 198.465 76.689 L 203.943 87.222 C 207.759 82.176 228.387 58.422 243.552 49.299 C 226.239 53.163 212.403 65.619 198.465 76.689 Z" id="path3564"/>
+    <ellipse style="fill-opacity: 1; stroke-width: 1.46703; stroke-opacity: 1; fill: rgb(20, 20, 20);" id="path4404" cx="519.165" cy="128.547" rx="47.649" ry="47.502"/>
+  </g>
+</svg>

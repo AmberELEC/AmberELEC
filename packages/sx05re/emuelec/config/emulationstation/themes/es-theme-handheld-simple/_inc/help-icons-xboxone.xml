@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="menu, system, basic, detailed, video, grid">
+    <helpsystem name="help">
+      <iconUpDown>./icons/help-icon-xboxone-updown.png</iconUpDown>
+      <iconLeftRight>./icons/help-icon-xboxone-leftright.png</iconLeftRight>
+      <iconUpDownLeftRight>./icons/help-icon-xboxone-all.png</iconUpDownLeftRight>
+      <iconA>./icons/help-icon-xboxone-a.png</iconA>
+      <iconB>./icons/help-icon-xboxone-b.png</iconB>
+      <iconX>./icons/help-icon-xboxone-x.png</iconX>
+      <iconY>./icons/help-icon-xboxone-y.png</iconY>
+      <iconL>./icons/help-icon-xboxone-l.png</iconL>
+      <iconR>./icons/help-icon-xboxone-r.png</iconR>
+      <iconStart>./icons/help-icon-xboxone-start.png</iconStart>
+      <iconSelect>./icons/help-icon-xboxone-select.png</iconSelect>
+    </helpsystem>
+  </view>
+</theme>

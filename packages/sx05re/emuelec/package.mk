@@ -29,7 +29,7 @@ PKG_DEPENDS_TARGET+=" $LIBRETRO_S922X_CORES mame2016"
 fi
 
 if [ "$DEVICE" == "RG351P" ]; then
-    PKG_DEPENDS_TARGET+=" kmscon odroidgoa-utils rs97-commander-sdl2"
+    PKG_DEPENDS_TARGET+=" odroidgoa-utils rs97-commander-sdl2"
     
     #we disable some cores that are not working or work poorly on OGA
     for discore in mesen-s virtualjaguar quicknes reicastsa_old reicastsa MC; do
