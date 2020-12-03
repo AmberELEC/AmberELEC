@@ -51,5 +51,15 @@
                 <genre>script</genre>
                 <image>./downloaded_images/retroarch.png</image>
         </game>
+
+        <game>
+                <path>./Upgrade Configs.sh</path>
+                <name>Upgrade Configs</name>
+                <desc>Update configurations to release versions. ** DATA DESTRUCTIVE **</desc>
+                <developer>fewtarius</developer>
+                <publisher>351ELEC</publisher>
+                <genre>script</genre>
+                <image>./downloaded_images/update.png</image>
+        </game>
 	
 </gameList>
