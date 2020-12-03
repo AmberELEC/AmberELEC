@@ -153,7 +153,7 @@ case ${PLATFORM} in
 		RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 	"setup")
-	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "kmscon" || set_kill_keys "fbterm"
+	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "\$\$" || set_kill_keys "fbterm"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
@@ -447,12 +447,11 @@ ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG
 
 fi #require bios ends
 clear > /dev/console
-# Set the kill command to kmscon
 LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
 if [ $? == 0 ]
 then
   killall jslisten
-  set_kill_keys "killall kmscon"
+  set_kill_keys "killall \$\$"
   echo "Starting jslisten" &>> ${EMUELECLOG}
   /usr/bin/jslisten --mode hold &>> ${EMUELECLOG} &
 fi
