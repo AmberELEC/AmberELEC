@@ -27,7 +27,13 @@ then
 fi
 mkdir -p release/${ARCH}/RG351P
 
-make image
+if [ "${ARCH}" == "aarch64" ]
+then
+  make image
+else
+  make system
+fi
+
 if [ ! $? == 0 ]
 then
   echo "Build failed..exiting."
