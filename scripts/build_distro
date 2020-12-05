@@ -21,12 +21,6 @@ then
   mkdir target
 fi
 
-if [ -d "release/${ARCH}/RG351P" ]
-then
-  rm -rf "release/${ARCH}/RG351P"
-fi
-mkdir -p release/${ARCH}/RG351P
-
 if [ "${ARCH}" == "aarch64" ]
 then
   make image
@@ -42,5 +36,10 @@ fi
 
 if [ "${ARCH}" == "aarch64" ]
 then
+  if [ -d "release/${ARCH}/RG351P" ]
+  then
+    rm -rf "release/${ARCH}/RG351P"
+  fi
+  mkdir -p release/${ARCH}/RG351P
   mv target/* "release/${ARCH}/RG351P/"
 fi
