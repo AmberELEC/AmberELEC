@@ -462,7 +462,10 @@ systems = {
 										   { "md5": "32736f17079d0b2b7024407c39bd3050", "file": "bios/scph5502.bin"   } ] },
 
 	# Ports
-	"Diablo": { "name": "Diablo 1 (devilutionx) ", "biosFiles": [ { "md5": "68f049866b44688a7af65ba766bef75a", "file": "ports/diablo/diabdat.mpq" } ] },
+	"Diablo": { "name": "Diablo 1 (devilutionx) ", "biosFiles": [
+		{ "md5": "68f049866b44688a7af65ba766bef75a", "file": "ports/diablo/diabdat.mpq" }, # Original retail release
+		{ "md5": "011bc6518e6166206231080a4440b373", "file": "ports/diablo/diabdat.mpq" }, # GOG release
+	] },
 	
 	"Dinothawr": { "name": "Dinothawr", "biosFiles": [ { "md5": "", "file": "ports/dinothawr/level_3-3.tmx" },
                                                        { "md5": "", "file": "ports/dinothawr/level_7-2.tmx" },
