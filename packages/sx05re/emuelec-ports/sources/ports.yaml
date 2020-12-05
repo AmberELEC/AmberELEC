@@ -60,8 +60,8 @@ Diablo:
     - mkdir -p /storage/.local/share/diasurgical/devilution/
     - ln -sf /storage/roms/ports/diablo/diabdat.mpq /storage/.local/share/diasurgical/devilution/diabdat.mpq
     - fi
-    - cd /storage/ports
-    - ./${PORT} >> $EE_LOG 2>&1
+    - cd /storage/roms/ports
+    - ${PORT} >> $EE_LOG 2>&1
 
 Dinothawr:
   description: Dinothawr is a block pushing puzzle game on slippery surfaces. Our hero is a dinosaur whose friends are trapped in ice. Through puzzles it is your task to free the dinos from their ice prison.
