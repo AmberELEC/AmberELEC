@@ -22,7 +22,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/drivers/ne
 +	reset. Usually the dongle loads OK if
 +	reset is bypassed
 +*/
-+static int vnd_reset = 1;	//	reset by default
++static int vnd_reset = 0;	//	do not reset by default
 +module_param(vnd_reset,int,0660);
 +
  static inline int firmware_running(struct mt7601u_dev *dev)
