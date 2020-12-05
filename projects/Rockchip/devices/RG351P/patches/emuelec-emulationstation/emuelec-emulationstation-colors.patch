@@ -1,0 +1,23 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-core/src/Splash.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-core/src/Splash.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-core/src/Splash.cpp	2020-11-24 13:29:37.951587402 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-core/src/Splash.cpp	2020-12-05 07:31:59.749539482 -0500
+@@ -83,7 +83,7 @@ Splash::Splash(Window* window, const std
+ 	else
+ 		mText.setColor(0xFFFFFFFF);
+ #ifdef _ENABLEEMUELEC
+-		mText.setColor(0x51468700);
++		mText.setColor(0xFFFFFF00);
+ #endif
+ 	mText.setHorizontalAlignment(ALIGN_CENTER);
+ 	mText.setFont(font);
+@@ -172,8 +172,8 @@ Splash::Splash(Window* window, const std
+ 		mActiveProgressbar.setColorShift(0xDF1010FF);
+ 		mActiveProgressbar.setColorShiftEnd(0x4F0000FF);
+ #ifdef _ENABLEEMUELEC
+-		mActiveProgressbar.setColorShift(0xA8A2D0FF);
+-		mActiveProgressbar.setColorShiftEnd(0x514687FF);
++		mActiveProgressbar.setColorShift(0xFFFFFFFF);
++		mActiveProgressbar.setColorShiftEnd(0xFFFFFFFF);
+ #endif
+ 	}
+ 
