@@ -22,7 +22,7 @@ rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emu
 cp /usr/config/EE_VERSION /storage/.config
 
 # Deprecated, remove soon
-cp /usr/config/autostart.sh /storage/.config/autostart.sh
+#cp /usr/config/autostart.sh /storage/.config/autostart.sh
 
 # Copy in any new PPSSPP INIs from git
 cp /usr/config/ppsspp/PSP/SYSTEM/*.ini .config/ppsspp/SYSTEM
@@ -80,7 +80,7 @@ if [ -f ${BACKUPFILE} ]; then
 fi
 
 # Check if we have unsynched update files
-/usr/config/emuelec/scripts/force_update.sh
+#/usr/config/emuelec/scripts/force_update.sh
 
 # Set video mode, this has to be done before starting ES
 DEFE=$(get_ee_setting ee_videomode)
