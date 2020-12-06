@@ -72,11 +72,14 @@ do
 done
 
 # Restore config if backup exists
-BACKUPFILE="/storage/downloads/ee_backup_config.zip"
+BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
 
-if [ -f ${BACKUPFILE} ]; then 
-	unzip -o ${BACKUPFILE} -d /
-	rm ${BACKUPFILE}
+if [ -e "/storage/roms/backup/.restore" ]
+then
+  if [ -f ${BACKUPFILE} ]; then 
+    unzip -o ${BACKUPFILE} -d /
+    rm ${BACKUPFILE}
+  fi
 fi
 
 # Check if we have unsynched update files

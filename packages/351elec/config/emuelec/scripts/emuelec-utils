@@ -25,8 +25,8 @@ function audio() {
 }
 
 function clearconfig() {
-	BACKUPFILE="/storage/downloads/ee_backup_config.zip"
-	mkdir -p "/storage/downloads/"
+        BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
+        mkdir -p "/storage/roms/backup"
 
 	case "${1}" in
 	"EMUS")
@@ -54,35 +54,32 @@ function clearconfig() {
 }
 
 function ee_backup() {
-	BACKUPFILE="/storage/downloads/ee_backup_config.zip"
-	mkdir -p "/storage/downloads/"
+        BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
+        mkdir -p "/storage/roms/backup"
 
-	case "${1}" in
-	"restore")
-		systemctl stop emustation
-		unzip -o ${BACKUPFILE} -d /
-		sleep 3
-		systemctl start emustation
-	;;
-	"backup")
-		[ -f "${BACKUPFILE}" ] && rm "${BACKUPFILE}"
-		[ -z "$2" ] && systemctl stop emustation
-		zip ${BACKUPFILE} /storage/.local/share/VVVVVV/* \
-					  /storage/.cache/bluetooth/* \
-					  /storage/.cache/connman* \
-					  /emuelec/configs/emuoptions.conf \
-					  /emuelec/configs/emuelec.conf \
-					  /storage/.emulationstation/es_*.cfg \
-					  /tmp/joypads/* \
-					  /storage/.config/retroarch/*.cfg \
-					  /storage/.config/ppsspp/* \
-					  /storage/.config/retroarch/config/* \
-					  /storage/.emulationstation/scripts/drastic/config/* \
-					  /storage/.emulationstation/scripts/drastic/*.dsv
-		sleep 3
-		[ -z "$2" ] && systemctl start emustation
-	;;
-	esac
+        case "${1}" in
+        "restore")
+                systemctl stop emustation
+                unzip -o ${BACKUPFILE} -d /
+                sleep 3
+                systemctl start emustation
+        ;;
+        "backup")
+                [ -f "${BACKUPFILE}" ] && rm "${BACKUPFILE}"
+                [ -z "$2" ] && systemctl stop emustation
+                zip -9 -r ${BACKUPFILE} \
+                          /storage/.cache/bluetooth/* \
+                          /storage/.cache/connman* \
+                          /emuelec/configs/emuoptions.conf \
+                          /emuelec/configs/emuelec.conf \
+                          /storage/.emulationstation/es_*.cfg \
+                          /tmp/joypads/* \
+                          /storage/.config/ppsspp/* \
+                          /storage/.config/retroarch/* \
+                          /storage/.emulationstation/scripts/*
+                [ -z "$2" ] && systemctl start emustation
+        ;;
+        esac
 }
 
 function setemu(){

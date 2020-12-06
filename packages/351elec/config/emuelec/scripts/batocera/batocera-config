@@ -265,21 +265,6 @@ if [ "$command" == "module" ];then
 	exit 0
 fi
 
-if [ "$command" == "canupdate" ];then
-
-available=$(updatecheck.sh canupdate)
-echo "$available"
-	if [[ "$available" != "no" ]]; then
-		exit 0
-	fi
-	exit 12
-fi
-
-if [ "$command" == "update" ];then
-	emuelec-upgrade
-	exit $?
-fi
-
 if [[ "$command" == "wifi" ]]; then
         ssid="$3"
         psk="$4"

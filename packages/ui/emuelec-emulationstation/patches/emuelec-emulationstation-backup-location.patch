@@ -1,0 +1,64 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-11-24 13:29:37.943586866 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-06 09:52:35.710850210 -0500
+@@ -425,7 +425,7 @@ void GuiMenu::openEmuELECSettings()
+ 	GuiSettings *danger_zone = new GuiSettings(mWindow, _("DANGER ZONE!").c_str());
+ 	// backup configs
+ 	row.makeAcceptInputHandler([window] {
+-		window->pushGui(new GuiMsgBox(window, _("WARNING THIS WILL RESTART EMULATIONSTATION!\n\nAFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/ee_backup_config.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\nBACKUP CURRENT CONFIG AND RESTART?"), _("YES"),
++		window->pushGui(new GuiMsgBox(window, _("WARNING THIS WILL RESTART EMULATIONSTATION!\n\nAFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/roms/backup/351ELEC_BACKUP.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\nBACKUP CURRENT CONFIG AND RESTART?"), _("YES"),
+ 				[] { 
+ 				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils backup backup", "", nullptr);
+ 				}, _("NO"), nullptr));
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/locale/emulationstation2.pot emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/locale/emulationstation2.pot
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/locale/emulationstation2.pot	2020-11-24 13:29:37.959587939 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/locale/emulationstation2.pot	2020-12-06 09:52:08.786178638 -0500
+@@ -2124,7 +2124,7 @@ msgstr ""
+ 
+ msgid ""
+ "WARNING THIS WILL RESTART EMULATIONSTATION!\n\n"
+-"AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/ee_backup_config.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\n"
++"AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/roms/backup/351ELEC_BACKUP.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\n"
+ "BACKUP CURRENT CONFIG AND RESTART?"
+ msgstr ""
+ 
+@@ -2168,4 +2168,4 @@ msgid "REALLY REBOOT FROM NAND?"
+ msgstr ""
+ 
+ msgid "REBOOT FROM NAND"
+-msgstr ""
+\ No newline at end of file
++msgstr ""
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/locale/lang/es/LC_MESSAGES/emulationstation2.po emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/locale/lang/es/LC_MESSAGES/emulationstation2.po
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/locale/lang/es/LC_MESSAGES/emulationstation2.po	2020-11-24 13:29:37.959587939 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/locale/lang/es/LC_MESSAGES/emulationstation2.po	2020-12-06 09:51:36.785373262 -0500
+@@ -2457,7 +2457,7 @@ msgid ""
+ "WARNING THIS WILL RESTART EMULATIONSTATION!\n"
+ "\n"
+ "AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/"
+-"ee_backup_config.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT "
++"351ELEC_BACKUP.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT "
+ "REBOOT!\n"
+ "\n"
+ "BACKUP CURRENT CONFIG AND RESTART?"
+@@ -2465,7 +2465,7 @@ msgstr ""
+ "ADVERTENCIA ESTO REINICIARA EMULATIONSTATION!\n"
+ "\n"
+ "CUANDO EL SCRIPT TERMINE RECUERDA COPIAR EL ARCHIVO /storage/downloads/"
+-"ee_backup_config.zip A UN LUGAR SEGURO O SERA ELIMINADO EN EL SIGUIENTE "
++"351ELEC_BACKUP.zip A UN LUGAR SEGURO O SERA ELIMINADO EN EL SIGUIENTE "
+ "REINICIO\n"
+ "\n"
+ "¿RESPALDAR TUS CONFIGURACIONES Y REINICIAR?"
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/locale/lang/zh_CN/LC_MESSAGES/emulationstation2.po emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/locale/lang/zh_CN/LC_MESSAGES/emulationstation2.po
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/locale/lang/zh_CN/LC_MESSAGES/emulationstation2.po	2020-11-24 13:29:37.959587939 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/locale/lang/zh_CN/LC_MESSAGES/emulationstation2.po	2020-12-06 09:51:36.781373161 -0500
+@@ -2225,7 +2225,7 @@ msgstr "总是显示开机视频"
+ 
+ msgid ""
+ "WARNING THIS WILL RESTART EMULATIONSTATION!\n\n"
+-"AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/ee_backup_config.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\n"
++"AFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/downloads/351ELEC_BACKUP.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\n"
+ "BACKUP CURRENT CONFIG AND RESTART?"
+ msgstr ""
+ 

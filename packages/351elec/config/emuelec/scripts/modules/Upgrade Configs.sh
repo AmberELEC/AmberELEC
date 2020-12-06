@@ -2,6 +2,9 @@
 
 . /etc/profile
 
+message_stream "Backing up your existing configuration" .02
+emuelec-utils ee_backup backup script
+
 message_stream "Updating RetroArch configuration" .02
 rsync -av /usr/config/retroarch/* /storage/.config/retroarch/
 
