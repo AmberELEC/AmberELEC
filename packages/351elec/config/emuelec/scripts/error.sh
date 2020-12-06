@@ -22,12 +22,13 @@ clear >/dev/console
 message_stream "${ERROR}" 0
 if [ -n "$1" ]
 then
-message_stream "
-\e[31mERROR: $1
-" 0
-message_stream "DETAIL:
-$2" 0
-sleep 5
+  message_stream "\n\e[31mERROR: $1\n" 0
+  message_stream "DETAIL:\n$2" 0
+  cat <<EOF > /tmp/logs/error.log
+$1
+$2
+EOF
+  sleep 5
 fi
 sleep 3
 clear >/dev/console
