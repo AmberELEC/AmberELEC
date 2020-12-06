@@ -225,16 +225,22 @@ case ${PLATFORM} in
 		fi
 		;;
 	"pc")
-		if [ "$EMU" = "DOSBOXSDL2" ]; then
-		set_kill_keys "dosbox"
-		RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
+		if [[ "${ROMNAME}" == *".sh" ]]; then
+			set_kill_keys "fbterm"
+			RUNTHIS='${TBASH} "${ROMNAME}"'
+			EMUELECLOG="$LOGSDIR/ee_script.log"
+		else
+			if [ "$EMU" = "DOSBOXSDL2" ]; then
+				set_kill_keys "dosbox"
+				RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
+			fi
+			if [ "$EMU" = "DOSBOX-X" ]; then
+				set_kill_keys "dosbox-x"
+				RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
+			fi
 		fi
-		if [ "$EMU" = "DOSBOX-X" ]; then
-		set_kill_keys "dosbox-x"
-		RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
-		fi
-		;;		
-	"psp"|"pspminis")
+		;;
+"psp"|"pspminis")
 		if [ "$EMU" = "PPSSPPSDL" ]; then
 		#PPSSPP can run at 32BPP but only with buffered rendering, some games need non-buffered and the only way they work is if I set it to 16BPP
 		# /emuelec/scripts/setres.sh 16 # This was only needed for S912, but PPSSPP does not work on S912 
