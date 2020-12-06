@@ -1,7 +1,7 @@
 diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts
---- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-11-23 09:52:24.593689725 -0500
-+++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-11-23 10:07:42.792116647 -0500
-@@ -1,1094 +1,3853 @@
+--- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-12-05 18:21:51.610770278 -0500
++++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-12-05 18:23:55.937231809 -0500
+@@ -1,1094 +1,3868 @@
 -// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 -/*
 - * Copyright (c) 2019 Hardkernel Co., Ltd
@@ -446,6 +446,16 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			clock-latency-ns = <0x9c40>;
 +		};
 +
++		opp-1512000000 {
++			opp-hz = <0x00 0x5a1f4a00>;
++			opp-microvolt = <0x149970 0x149970 0x149970>;
++			opp-microvolt-L0 = <0x149970 0x149970 0x149970>;
++			opp-microvolt-L1 = <0x149970 0x149970 0x149970>;
++			opp-microvolt-L2 = <0x13d620 0x13d620 0x149970>;
++			opp-microvolt-L3 = <0x1312d0 0x1312d0 0x149970>;
++			clock-latency-ns = <0x9c40>;
++		};
++
 +	};
 +
 +	arm-pmu {
@@ -664,6 +674,11 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -		rockchip,irq-mode-enable = <0>;
 -		rockchip,baudrate = <115200>;  /* Only 115200 and 1500000 */
 -		interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_LOW>;
++		opp-1512000000 {
++			opp-hz = <0x00 0x5a1f4a00>;
++			opp-microvolt = <0xf4240>;
++		};
++
 +		opp-1008000000 {
 +			opp-hz = <0x00 0x3c14dc00>;
 +			opp-microvolt = <0xe7ef0>;
@@ -1750,13 +1765,9 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			#dma-cells = <0x01>;
 +			peripherals-req-type-burst;
 +			phandle = <0x2b>;
- 		};
- 	};
- 
--/*
--	rk_headset {
--		compatible = "rockchip_headset";
--		headset_gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
++		};
++	};
++
 +	thermal-zones {
 +		phandle = <0xf7>;
 +
@@ -1950,9 +1961,13 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				status = "disabled";
 +				phandle = <0x8b>;
 +			};
-+		};
-+	};
-+
+ 		};
+ 	};
+ 
+-/*
+-	rk_headset {
+-		compatible = "rockchip_headset";
+-		headset_gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
 +	video-phy@ff2e0000 {
 +		compatible = "rockchip,px30-video-phy";
 +		reg = <0x00 0xff2e0000 0x00 0x10000 0x00 0xff450000 0x00 0x10000>;
@@ -2302,9 +2317,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		#size-cells = <0x00>;
 +		status = "okay";
 +		phandle = <0x10a>;
- 
--&cpu0_opp_table {
--	rockchip,avs = <1>;
++
 +		ports {
 +			#address-cells = <0x01>;
 +			#size-cells = <0x00>;
@@ -2323,18 +2336,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			};
 +		};
  
--	/* bin scaling clock 1.296MHz */
--	rockchip,bin-scaling-sel = <
--		0               13
--		1               13
--	>;
--
--	/delete-node/ opp-408000000;
--	/delete-node/ opp-600000000;
--	/delete-node/ opp-816000000;
--	/delete-node/ opp-1416000000;
--	/delete-node/ opp-1512000000;
--};
+-&cpu0_opp_table {
+-	rockchip,avs = <1>;
 +		panel@0 {
 +			compatible = "elida,kd35t133\0simple-panel-dsi";
 +			reg = <0x00>;
@@ -2379,8 +2382,17 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		};
 +	};
  
--&display_subsystem {
--	status = "okay";
+-	/* bin scaling clock 1.296MHz */
+-	rockchip,bin-scaling-sel = <
+-		0               13
+-		1               13
+-	>;
+-
+-	/delete-node/ opp-408000000;
+-	/delete-node/ opp-600000000;
+-	/delete-node/ opp-816000000;
+-	/delete-node/ opp-1416000000;
+-	/delete-node/ opp-1512000000;
 -};
 +	vop@ff460000 {
 +		compatible = "rockchip,px30-vop-big";
@@ -2395,17 +2407,26 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		status = "okay";
 +		phandle = <0x10b>;
  
--&dsi {
+-&display_subsystem {
 -	status = "okay";
+-};
 +		port {
 +			#address-cells = <0x01>;
 +			#size-cells = <0x00>;
 +			phandle = <0x10>;
-+
+ 
+-&dsi {
+-	status = "okay";
 +			endpoint@0 {
 +				reg = <0x00>;
 +				remote-endpoint = <0xa2>;
 +				phandle = <0x12>;
++			};
++
++			endpoint@1 {
++				reg = <0x01>;
++				remote-endpoint = <0xa3>;
++				phandle = <0x13>;
 +			};
  
 -	panel@0 {
@@ -2514,12 +2535,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -				vsync-active = <0>;
 -				de-active = <0>;
 -				pixelclk-active = <0>;
-+			endpoint@1 {
-+				reg = <0x01>;
-+				remote-endpoint = <0xa3>;
-+				phandle = <0x13>;
-+			};
-+
 +			endpoint@2 {
 +				reg = <0x02>;
 +				remote-endpoint = <0xa4>;
@@ -2597,11 +2612,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		status = "disabled";
 +		phandle = <0x10e>;
 +	};
- 
--&dmc_opp_table {
--	/delete-node/ opp-194000000;
--	/delete-node/ opp-328000000;
--	/delete-node/ opp-450000000;
++
 +	iommu@ff490800 {
 +		compatible = "rockchip,iommu";
 +		reg = <0x00 0xff490800 0x00 0x100>;
@@ -2615,7 +2626,11 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		status = "okay";
 +		phandle = <0xa6>;
 +	};
-+
+ 
+-&dmc_opp_table {
+-	/delete-node/ opp-194000000;
+-	/delete-node/ opp-328000000;
+-	/delete-node/ opp-450000000;
 +	rk_isp@ff4a0000 {
 +		compatible = "rockchip,px30-isp\0rockchip,isp";
 +		reg = <0x00 0xff4a0000 0x00 0x8000>;
@@ -2732,6 +2747,30 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		reg = <0x00 0xff540000 0x00 0x20>;
 +		phandle = <0x15>;
 +	};
++
++	qos@ff540080 {
++		compatible = "syscon";
++		reg = <0x00 0xff540080 0x00 0x20>;
++		phandle = <0x16>;
++	};
++
++	qos@ff548000 {
++		compatible = "syscon";
++		reg = <0x00 0xff548000 0x00 0x20>;
++		phandle = <0x23>;
++	};
++
++	qos@ff548080 {
++		compatible = "syscon";
++		reg = <0x00 0xff548080 0x00 0x20>;
++		phandle = <0x24>;
++	};
++
++	qos@ff548100 {
++		compatible = "syscon";
++		reg = <0x00 0xff548100 0x00 0x20>;
++		phandle = <0x25>;
++	};
  
 -&i2c0 {
 -	status = "okay";
@@ -2768,43 +2807,19 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -		vcc7-supply = <&vccsys>;
 -		vcc8-supply = <&vccsys>;
 -		vcc9-supply = <&dcdc_boost>;
-+	qos@ff540080 {
-+		compatible = "syscon";
-+		reg = <0x00 0xff540080 0x00 0x20>;
-+		phandle = <0x16>;
-+	};
-+
-+	qos@ff548000 {
-+		compatible = "syscon";
-+		reg = <0x00 0xff548000 0x00 0x20>;
-+		phandle = <0x23>;
-+	};
-+
-+	qos@ff548080 {
-+		compatible = "syscon";
-+		reg = <0x00 0xff548080 0x00 0x20>;
-+		phandle = <0x24>;
-+	};
-+
-+	qos@ff548100 {
-+		compatible = "syscon";
-+		reg = <0x00 0xff548100 0x00 0x20>;
-+		phandle = <0x25>;
-+	};
-+
 +	qos@ff548180 {
 +		compatible = "syscon";
 +		reg = <0x00 0xff548180 0x00 0x20>;
 +		phandle = <0x26>;
 +	};
- 
--		pwrkey {
++
 +	qos@ff548200 {
 +		compatible = "syscon";
 +		reg = <0x00 0xff548200 0x00 0x20>;
 +		phandle = <0x27>;
 +	};
-+
+ 
+-		pwrkey {
 +	qos@ff550000 {
 +		compatible = "syscon";
 +		reg = <0x00 0xff550000 0x00 0x20>;
@@ -2942,15 +2957,13 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			#interrupt-cells = <0x02>;
 +			phandle = <0x5c>;
 +		};
- 
--		pinctrl_rk8xx: pinctrl_rk8xx {
++
 +		gpio1@ff250000 {
 +			compatible = "rockchip,gpio-bank";
 +			reg = <0x00 0xff250000 0x00 0x100>;
 +			interrupts = <0x00 0x04 0x04>;
 +			clocks = <0x02 0x15c>;
- 			gpio-controller;
--			#gpio-cells = <2>;
++			gpio-controller;
 +			#gpio-cells = <0x02>;
 +			interrupt-controller;
 +			#interrupt-cells = <0x02>;
@@ -2968,13 +2981,15 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			#interrupt-cells = <0x02>;
 +			phandle = <0x66>;
 +		};
-+
+ 
+-		pinctrl_rk8xx: pinctrl_rk8xx {
 +		gpio3@ff270000 {
 +			compatible = "rockchip,gpio-bank";
 +			reg = <0x00 0xff270000 0x00 0x100>;
 +			interrupts = <0x00 0x06 0x04>;
 +			clocks = <0x02 0x15e>;
-+			gpio-controller;
+ 			gpio-controller;
+-			#gpio-cells = <2>;
 +			#gpio-cells = <0x02>;
 +			interrupt-controller;
 +			#interrupt-cells = <0x02>;
@@ -3105,23 +3120,23 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				phandle = <0x6a>;
  			};
 +		};
++
++		i2c3 {
  
 -			rk817_gt_gpio2: rk817_gt_gpio2 {
 -				pins = "gpio_gt";
 -				function = "pin_fun1";
-+		i2c3 {
-+
 +			i2c3-xfer {
 +				rockchip,pins = <0x01 0x0c 0x04 0xb0 0x01 0x0d 0x04 0xb0>;
 +				phandle = <0x6b>;
  			};
 +		};
-+
-+		tsadc {
  
 -			rk817_pin_ts: rk817_pin_ts {
 -				pins = "gpio_ts";
 -				function = "pin_fun0";
++		tsadc {
++
 +			tsadc-otp-gpio {
 +				rockchip,pins = <0x00 0x06 0x00 0xb1>;
 +				phandle = <0x86>;
@@ -3313,57 +3328,50 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			uart3m0-rts-gpio {
 +				rockchip,pins = <0x00 0x13 0x00 0xb1>;
 +				phandle = <0x122>;
-+			};
-+		};
-+
-+		uart3-m1 {
-+
-+			uart3m1-xfer {
-+				rockchip,pins = <0x01 0x0e 0x02 0xb2 0x01 0x0f 0x02 0xb2>;
-+				phandle = <0x52>;
  			};
++		};
  
 -			vccio_sd: LDO_REG5 {
 -				regulator-always-on;
 -				regulator-boot-on;
 -				regulator-min-microvolt = <1800000>;
 -				regulator-max-microvolt = <3300000>;
-+			uart3m1-cts {
-+				rockchip,pins = <0x01 0x0c 0x02 0xb1>;
-+				phandle = <0x53>;
-+			};
++		uart3-m1 {
  
 -				regulator-name = "vccio_sd";
 -				regulator-state-mem {
 -					regulator-on-in-suspend;
 -					regulator-suspend-microvolt = <3300000>;
 -				};
-+			uart3m1-rts {
-+				rockchip,pins = <0x01 0x0d 0x02 0xb1>;
-+				phandle = <0x54>;
++			uart3m1-xfer {
++				rockchip,pins = <0x01 0x0e 0x02 0xb2 0x01 0x0f 0x02 0xb2>;
++				phandle = <0x52>;
  			};
  
 -			vcc_sd: LDO_REG6 {
 -				regulator-min-microvolt = <3300000>;
 -				regulator-max-microvolt = <3300000>;
 -				regulator-boot-on;
-+			uart3m1-rts-gpio {
-+				rockchip,pins = <0x01 0x0d 0x00 0xb1>;
-+				phandle = <0x123>;
++			uart3m1-cts {
++				rockchip,pins = <0x01 0x0c 0x02 0xb1>;
++				phandle = <0x53>;
 +			};
-+		};
  
 -				regulator-name = "vcc_sd";
 -				regulator-state-mem {
 -					regulator-on-in-suspend;
 -					regulator-suspend-microvolt = <3300000>;
-+		uart4 {
++			uart3m1-rts {
++				rockchip,pins = <0x01 0x0d 0x02 0xb1>;
++				phandle = <0x54>;
++			};
  
 -				};
-+			uart4-xfer {
-+				rockchip,pins = <0x01 0x1c 0x02 0xb2 0x01 0x1d 0x02 0xb2>;
-+				phandle = <0x55>;
++			uart3m1-rts-gpio {
++				rockchip,pins = <0x01 0x0d 0x00 0xb1>;
++				phandle = <0x123>;
  			};
++		};
  
 -			/* Rev 0.2 LCD Backlight Power */
 -			vcc_backlight: LDO_REG7 {
@@ -3374,9 +3382,11 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -					regulator-off-in-suspend;
 -					regulator-suspend-microvolt = <3300000>;
 -				};
-+			uart4-cts {
-+				rockchip,pins = <0x01 0x1e 0x02 0xb1>;
-+				phandle = <0x56>;
++		uart4 {
++
++			uart4-xfer {
++				rockchip,pins = <0x01 0x1c 0x02 0xb2 0x01 0x1d 0x02 0xb2>;
++				phandle = <0x55>;
  			};
  
 -			/* Rev 0.2 LCD IO Power */
@@ -3388,23 +3398,28 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -					regulator-off-in-suspend;
 -					regulator-suspend-microvolt = <2800000>;
 -				};
-+			uart4-rts {
-+				rockchip,pins = <0x01 0x1f 0x02 0xb1>;
-+				phandle = <0x57>;
++			uart4-cts {
++				rockchip,pins = <0x01 0x1e 0x02 0xb1>;
++				phandle = <0x56>;
  			};
-+		};
  
 -			/* Rev 0.2 CAM Power - Disabled by default */
 -			vcc_cam: LDO_REG9 {
 -				regulator-min-microvolt = <3000000>;
 -				regulator-max-microvolt = <3000000>;
-+		uart5 {
++			uart4-rts {
++				rockchip,pins = <0x01 0x1f 0x02 0xb1>;
++				phandle = <0x57>;
++			};
++		};
  
 -				regulator-name = "vcc_cam";
 -				regulator-state-mem {
 -					regulator-off-in-suspend;
 -					regulator-suspend-microvolt = <3000000>;
 -				};
++		uart5 {
++
 +			uart5-xfer {
 +				rockchip,pins = <0x03 0x02 0x04 0xb2 0x03 0x01 0x04 0xb2>;
 +				phandle = <0x58>;
@@ -3456,16 +3471,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x01 0x0c 0x03 0xb3>;
 +				phandle = <0x6f>;
 +			};
-+
-+			spi0-clk-hs {
-+				rockchip,pins = <0x01 0x0f 0x03 0xb4>;
-+				phandle = <0x70>;
-+			};
-+
-+			spi0-miso-hs {
-+				rockchip,pins = <0x01 0x0d 0x03 0xb4>;
-+				phandle = <0x71>;
-+			};
  
 -			/* KPL605475 Battery Spec */
 -			/*
@@ -3489,6 +3494,16 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -			monitor_sec = <5>;
 -			virtual_power = <0>;
 -			sample_res = <10>;
++			spi0-clk-hs {
++				rockchip,pins = <0x01 0x0f 0x03 0xb4>;
++				phandle = <0x70>;
++			};
++
++			spi0-miso-hs {
++				rockchip,pins = <0x01 0x0d 0x03 0xb4>;
++				phandle = <0x71>;
++			};
++
 +			spi0-mosi-hs {
 +				rockchip,pins = <0x01 0x0c 0x03 0xb4>;
 +				phandle = <0x72>;
@@ -3776,17 +3791,12 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x02 0x12 0x01 0xb1>;
 +				phandle = <0x3c>;
 +			};
- 
--&mipi_dphy_rx0 {
--	status = "okay";
++
 +			i2s1-2ch-lrck {
 +				rockchip,pins = <0x02 0x11 0x01 0xb1>;
 +				phandle = <0x3d>;
 +			};
- 
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
++
 +			i2s1-2ch-sdi {
 +				rockchip,pins = <0x02 0x15 0x01 0xb1>;
 +				phandle = <0x3e>;
@@ -3797,27 +3807,19 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				phandle = <0x3f>;
 +			};
 +		};
- 
--		port@0 {
--			reg = <0>;
++
 +		i2s2 {
- 
--			#address-cells = <1>;
--			#size-cells = <0>;
++
 +			i2s2-2ch-mclk {
 +				rockchip,pins = <0x03 0x01 0x02 0xb1>;
 +				phandle = <0x12f>;
 +			};
- 
--			ov5647_in: endpoint@1 {
--				reg = <1>;
++
 +			i2s2-2ch-sclk {
 +				rockchip,pins = <0x03 0x02 0x02 0xb1>;
 +				phandle = <0x40>;
 +			};
- 
--				remote-endpoint = <&ov5647_out>;
--				data-lanes = <1 2>;
++
 +			i2s2-2ch-lrck {
 +				rockchip,pins = <0x03 0x03 0x02 0xb1>;
 +				phandle = <0x41>;
@@ -3831,50 +3833,57 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			i2s2-2ch-sdo {
 +				rockchip,pins = <0x03 0x07 0x02 0xb1>;
 +				phandle = <0x43>;
- 			};
- 		};
- 
--		port@1 {
--			reg = <1>;
++			};
++		};
++
 +		sdmmc {
  
--			dphy_rx0_out: endpoint@0 {
--				remote-endpoint = <&isp0_mipi_in>;
+-&mipi_dphy_rx0 {
+-	status = "okay";
 +			sdmmc-clk {
 +				rockchip,pins = <0x01 0x1e 0x01 0xb6>;
 +				phandle = <0x8f>;
 +			};
-+
+ 
+-	ports {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
 +			sdmmc-cmd {
 +				rockchip,pins = <0x01 0x1f 0x01 0xb4>;
 +				phandle = <0x90>;
 +			};
-+
+ 
+-		port@0 {
+-			reg = <0>;
 +			sdmmc-det {
 +				rockchip,pins = <0x00 0x03 0x01 0xb4>;
 +				phandle = <0x91>;
 +			};
-+
+ 
+-			#address-cells = <1>;
+-			#size-cells = <0>;
 +			sdmmc-bus1 {
 +				rockchip,pins = <0x01 0x1a 0x01 0xb4>;
 +				phandle = <0x130>;
 +			};
-+
+ 
+-			ov5647_in: endpoint@1 {
+-				reg = <1>;
 +			sdmmc-bus4 {
 +				rockchip,pins = <0x01 0x1a 0x01 0xb4 0x01 0x1b 0x01 0xb4 0x01 0x1c 0x01 0xb4 0x01 0x1d 0x01 0xb4>;
 +				phandle = <0x92>;
 +			};
-+
+ 
+-				remote-endpoint = <&ov5647_out>;
+-				data-lanes = <1 2>;
 +			sdmmc-gpio {
 +				rockchip,pins = <0x01 0x1a 0x00 0xb3 0x01 0x1b 0x00 0xb3 0x01 0x1c 0x00 0xb3 0x01 0x1d 0x00 0xb3 0x01 0x1e 0x00 0xb3 0x01 0x1f 0x00 0xb3>;
 +				phandle = <0x131>;
  			};
  		};
--	};
--};
  
--&rkisp1 {
--	status = "okay";
+-		port@1 {
+-			reg = <1>;
 +		sdio {
 +
 +			sdio-clk {
@@ -3886,6 +3895,55 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x01 0x14 0x01 0xb2>;
 +				phandle = <0x95>;
 +			};
++
++			sdio-bus4 {
++				rockchip,pins = <0x01 0x16 0x01 0xb2 0x01 0x17 0x01 0xb2 0x01 0x18 0x01 0xb2 0x01 0x19 0x01 0xb2>;
++				phandle = <0x94>;
++			};
+ 
+-			dphy_rx0_out: endpoint@0 {
+-				remote-endpoint = <&isp0_mipi_in>;
++			sdio-gpio {
++				rockchip,pins = <0x01 0x16 0x00 0xb2 0x01 0x17 0x00 0xb2 0x01 0x18 0x00 0xb2 0x01 0x19 0x00 0xb2 0x01 0x14 0x00 0xb2 0x01 0x15 0x00 0xb2>;
++				phandle = <0x132>;
+ 			};
+ 		};
+-	};
+-};
+ 
+-&rkisp1 {
+-	status = "okay";
++		emmc {
++
++			emmc-clk {
++				rockchip,pins = <0x01 0x09 0x02 0xb6>;
++				phandle = <0x133>;
++			};
++
++			emmc-cmd {
++				rockchip,pins = <0x01 0x0a 0x02 0xb4>;
++				phandle = <0x134>;
++			};
++
++			emmc-pwren {
++				rockchip,pins = <0x01 0x08 0x02 0xb1>;
++				phandle = <0x135>;
++			};
++
++			emmc-rstnout {
++				rockchip,pins = <0x01 0x0b 0x02 0xb1>;
++				phandle = <0x136>;
++			};
++
++			emmc-bus1 {
++				rockchip,pins = <0x01 0x00 0x02 0xb4>;
++				phandle = <0x137>;
++			};
++
++			emmc-bus4 {
++				rockchip,pins = <0x01 0x00 0x02 0xb4 0x01 0x01 0x02 0xb4 0x01 0x02 0x02 0xb4 0x01 0x03 0x02 0xb4>;
++				phandle = <0x138>;
++			};
  
 -	port {
 -		#address-cells = <1>;
@@ -3895,14 +3953,9 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -		isp0_mipi_in: endpoint@0 {
 -			reg = <0>;
 -			remote-endpoint = <&dphy_rx0_out>;
-+			sdio-bus4 {
-+				rockchip,pins = <0x01 0x16 0x01 0xb2 0x01 0x17 0x01 0xb2 0x01 0x18 0x01 0xb2 0x01 0x19 0x01 0xb2>;
-+				phandle = <0x94>;
-+			};
-+
-+			sdio-gpio {
-+				rockchip,pins = <0x01 0x16 0x00 0xb2 0x01 0x17 0x00 0xb2 0x01 0x18 0x00 0xb2 0x01 0x19 0x00 0xb2 0x01 0x14 0x00 0xb2 0x01 0x15 0x00 0xb2>;
-+				phandle = <0x132>;
++			emmc-bus8 {
++				rockchip,pins = <0x01 0x00 0x02 0xb4 0x01 0x01 0x02 0xb4 0x01 0x02 0x02 0xb4 0x01 0x03 0x02 0xb4 0x01 0x04 0x02 0xb4 0x01 0x05 0x02 0xb4 0x01 0x06 0x02 0xb4 0x01 0x07 0x02 0xb4>;
++				phandle = <0x139>;
 +			};
  		};
 -	};
@@ -3911,7 +3964,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -&spi0 {
 -	status = "disabled";
 -};
-+		emmc {
++		flash {
  
 -&pmu_io_domains {
 -	/* PMU GRF Register Voltage select control */
@@ -3922,44 +3975,44 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -	/* GPIO0_B/GPIO0_C, Flash */
 -	pmuio2-supply = <&vcc3v3_pmu>;
 -};
-+			emmc-clk {
-+				rockchip,pins = <0x01 0x09 0x02 0xb6>;
-+				phandle = <0x133>;
++			flash-cs0 {
++				rockchip,pins = <0x01 0x08 0x01 0xb1>;
++				phandle = <0x13a>;
 +			};
  
 -/* LCD Backlight PWM */
 -&pwm1 {
 -	status = "okay";
 -};
-+			emmc-cmd {
-+				rockchip,pins = <0x01 0x0a 0x02 0xb4>;
-+				phandle = <0x134>;
++			flash-rdy {
++				rockchip,pins = <0x01 0x09 0x01 0xb1>;
++				phandle = <0x13b>;
 +			};
  
 -&rk_rga {
 -	status = "okay";
 -};
-+			emmc-pwren {
-+				rockchip,pins = <0x01 0x08 0x02 0xb1>;
-+				phandle = <0x135>;
++			flash-dqs {
++				rockchip,pins = <0x01 0x0a 0x01 0xb1>;
++				phandle = <0x13c>;
 +			};
  
 -&rockchip_suspend {
 -	status = "okay";
 -	rockchip,sleep-debug-en = <1>;
 -};
-+			emmc-rstnout {
-+				rockchip,pins = <0x01 0x0b 0x02 0xb1>;
-+				phandle = <0x136>;
++			flash-ale {
++				rockchip,pins = <0x01 0x0b 0x01 0xb1>;
++				phandle = <0x13d>;
 +			};
  
 -&saradc {
 -	status = "okay";
 -	vref-supply = <&vcc1v8_soc>;
 -};
-+			emmc-bus1 {
-+				rockchip,pins = <0x01 0x00 0x02 0xb4>;
-+				phandle = <0x137>;
++			flash-cle {
++				rockchip,pins = <0x01 0x0c 0x01 0xb1>;
++				phandle = <0x13e>;
 +			};
  
 -&sdmmc {
@@ -3978,9 +4031,9 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -	vmmc-supply = <&vcc_sd>;
 -	status = "okay";
 -};
-+			emmc-bus4 {
-+				rockchip,pins = <0x01 0x00 0x02 0xb4 0x01 0x01 0x02 0xb4 0x01 0x02 0x02 0xb4 0x01 0x03 0x02 0xb4>;
-+				phandle = <0x138>;
++			flash-wrn {
++				rockchip,pins = <0x01 0x0d 0x01 0xb1>;
++				phandle = <0x13f>;
 +			};
  
 -&tsadc {
@@ -3989,39 +4042,39 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -	pinctrl-1 = <&tsadc_otp_out>;
 -	status = "okay";
 -};
-+			emmc-bus8 {
-+				rockchip,pins = <0x01 0x00 0x02 0xb4 0x01 0x01 0x02 0xb4 0x01 0x02 0x02 0xb4 0x01 0x03 0x02 0xb4 0x01 0x04 0x02 0xb4 0x01 0x05 0x02 0xb4 0x01 0x06 0x02 0xb4 0x01 0x07 0x02 0xb4>;
-+				phandle = <0x139>;
++			flash-csl {
++				rockchip,pins = <0x01 0x0e 0x01 0xb1>;
++				phandle = <0x140>;
 +			};
-+		};
  
 -&u2phy {
 -	status = "okay";
-+		flash {
++			flash-rdn {
++				rockchip,pins = <0x01 0x0f 0x01 0xb1>;
++				phandle = <0x141>;
++			};
  
 -	u2phy_host: host-port {
 -		status = "okay";
 -	};
-+			flash-cs0 {
-+				rockchip,pins = <0x01 0x08 0x01 0xb1>;
-+				phandle = <0x13a>;
++			flash-bus8 {
++				rockchip,pins = <0x01 0x00 0x01 0xb7 0x01 0x01 0x01 0xb7 0x01 0x02 0x01 0xb7 0x01 0x03 0x01 0xb7 0x01 0x04 0x01 0xb7 0x01 0x05 0x01 0xb7 0x01 0x06 0x01 0xb7 0x01 0x07 0x01 0xb7>;
++				phandle = <0x142>;
 +			};
++		};
  
 -	u2phy_otg: otg-port {
 -		status = "disabled";
 -	};
 -};
-+			flash-rdy {
-+				rockchip,pins = <0x01 0x09 0x01 0xb1>;
-+				phandle = <0x13b>;
-+			};
++		lcdc {
  
 -&usb20_otg {
 -	status = "okay";
 -};
-+			flash-dqs {
-+				rockchip,pins = <0x01 0x0a 0x01 0xb1>;
-+				phandle = <0x13c>;
++			lcdc-m0-rgb-pins {
++				rockchip,pins = <0x03 0x00 0x01 0xb6 0x03 0x01 0x01 0xb6 0x03 0x02 0x01 0xb6 0x03 0x03 0x01 0xb6 0x03 0x04 0x01 0xb6 0x03 0x05 0x01 0xb6 0x03 0x06 0x01 0xb6 0x03 0x07 0x01 0xb6 0x03 0x08 0x01 0xb6 0x03 0x09 0x01 0xb6 0x03 0x0a 0x01 0xb6 0x03 0x0b 0x01 0xb6 0x03 0x0c 0x01 0xb6 0x03 0x0d 0x01 0xb6 0x03 0x0e 0x01 0xb6 0x03 0x0f 0x01 0xb6 0x03 0x10 0x01 0xb6 0x03 0x11 0x01 0xb6 0x03 0x12 0x01 0xb6 0x03 0x13 0x01 0xb6 0x03 0x14 0x01 0xb6 0x03 0x15 0x01 0xb6 0x03 0x16 0x01 0xb6 0x03 0x17 0x01 0xb6 0x03 0x18 0x01 0xb6 0x03 0x19 0x01 0xb6 0x03 0x1a 0x01 0xb6 0x03 0x1b 0x01 0xb6>;
++				phandle = <0x143>;
 +			};
  
 -/*
@@ -4033,80 +4086,36 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -	pinctrl-0 = <&uart1_xfer &uart1_cts>;
 -	status = "okay";
 -};
-+			flash-ale {
-+				rockchip,pins = <0x01 0x0b 0x01 0xb1>;
-+				phandle = <0x13d>;
++			lcdc-m0-sleep-pins {
++				rockchip,pins = <0x03 0x00 0x00 0xb1 0x03 0x01 0x00 0xb1 0x03 0x02 0x00 0xb1 0x03 0x03 0x00 0xb1 0x03 0x04 0x00 0xb1 0x03 0x05 0x00 0xb1 0x03 0x06 0x00 0xb1 0x03 0x07 0x00 0xb1 0x03 0x08 0x00 0xb1 0x03 0x09 0x00 0xb1 0x03 0x0a 0x00 0xb1 0x03 0x0b 0x00 0xb1 0x03 0x0c 0x00 0xb1 0x03 0x0d 0x00 0xb1 0x03 0x0e 0x00 0xb1 0x03 0x0f 0x00 0xb1 0x03 0x10 0x00 0xb1 0x03 0x11 0x00 0xb1 0x03 0x12 0x00 0xb1 0x03 0x13 0x00 0xb1 0x03 0x14 0x00 0xb1 0x03 0x15 0x00 0xb1 0x03 0x16 0x00 0xb1 0x03 0x17 0x00 0xb1 0x03 0x18 0x00 0xb1 0x03 0x19 0x00 0xb1 0x03 0x1a 0x00 0xb1 0x03 0x1b 0x00 0xb1>;
++				phandle = <0x144>;
 +			};
  
 -&vip_mmu {
 -	status = "okay";
 -};
-+			flash-cle {
-+				rockchip,pins = <0x01 0x0c 0x01 0xb1>;
-+				phandle = <0x13e>;
++			lcdc-m1-rgb-pins {
++				rockchip,pins = <0x03 0x00 0x01 0xb6 0x03 0x04 0x01 0xb6 0x03 0x06 0x01 0xb6 0x03 0x0a 0x01 0xb6 0x03 0x0b 0x01 0xb6 0x03 0x0d 0x01 0xb6 0x03 0x10 0x01 0xb6 0x03 0x11 0x01 0xb6 0x03 0x12 0x01 0xb6 0x03 0x13 0x01 0xb6 0x03 0x14 0x01 0xb6 0x03 0x15 0x01 0xb6 0x03 0x16 0x01 0xb6 0x03 0x17 0x01 0xb6 0x03 0x18 0x01 0xb6 0x03 0x19 0x01 0xb6 0x03 0x1a 0x01 0xb6 0x03 0x1b 0x01 0xb6>;
++				phandle = <0x4d>;
 +			};
  
 -&vopb {
 -	status = "okay";
 -};
-+			flash-wrn {
-+				rockchip,pins = <0x01 0x0d 0x01 0xb1>;
-+				phandle = <0x13f>;
-+			};
- 
--&vopb_mmu {
--	status = "okay";
--};
-+			flash-csl {
-+				rockchip,pins = <0x01 0x0e 0x01 0xb1>;
-+				phandle = <0x140>;
-+			};
- 
--&vpu_combo {
--	status = "okay";
--};
-+			flash-rdn {
-+				rockchip,pins = <0x01 0x0f 0x01 0xb1>;
-+				phandle = <0x141>;
-+			};
- 
--&pinctrl {
--/*
--	headphone {
--		//High : HeadPhone remove, Low : HeadPhone insert
--		hp_det: hp-det {
--			rockchip,pins = <2 RK_PC6 RK_FUNC_GPIO &pcfg_pull_down>;
-+			flash-bus8 {
-+				rockchip,pins = <0x01 0x00 0x01 0xb7 0x01 0x01 0x01 0xb7 0x01 0x02 0x01 0xb7 0x01 0x03 0x01 0xb7 0x01 0x04 0x01 0xb7 0x01 0x05 0x01 0xb7 0x01 0x06 0x01 0xb7 0x01 0x07 0x01 0xb7>;
-+				phandle = <0x142>;
-+			};
-+		};
-+
-+		lcdc {
-+
-+			lcdc-m0-rgb-pins {
-+				rockchip,pins = <0x03 0x00 0x01 0xb6 0x03 0x01 0x01 0xb6 0x03 0x02 0x01 0xb6 0x03 0x03 0x01 0xb6 0x03 0x04 0x01 0xb6 0x03 0x05 0x01 0xb6 0x03 0x06 0x01 0xb6 0x03 0x07 0x01 0xb6 0x03 0x08 0x01 0xb6 0x03 0x09 0x01 0xb6 0x03 0x0a 0x01 0xb6 0x03 0x0b 0x01 0xb6 0x03 0x0c 0x01 0xb6 0x03 0x0d 0x01 0xb6 0x03 0x0e 0x01 0xb6 0x03 0x0f 0x01 0xb6 0x03 0x10 0x01 0xb6 0x03 0x11 0x01 0xb6 0x03 0x12 0x01 0xb6 0x03 0x13 0x01 0xb6 0x03 0x14 0x01 0xb6 0x03 0x15 0x01 0xb6 0x03 0x16 0x01 0xb6 0x03 0x17 0x01 0xb6 0x03 0x18 0x01 0xb6 0x03 0x19 0x01 0xb6 0x03 0x1a 0x01 0xb6 0x03 0x1b 0x01 0xb6>;
-+				phandle = <0x143>;
-+			};
-+
-+			lcdc-m0-sleep-pins {
-+				rockchip,pins = <0x03 0x00 0x00 0xb1 0x03 0x01 0x00 0xb1 0x03 0x02 0x00 0xb1 0x03 0x03 0x00 0xb1 0x03 0x04 0x00 0xb1 0x03 0x05 0x00 0xb1 0x03 0x06 0x00 0xb1 0x03 0x07 0x00 0xb1 0x03 0x08 0x00 0xb1 0x03 0x09 0x00 0xb1 0x03 0x0a 0x00 0xb1 0x03 0x0b 0x00 0xb1 0x03 0x0c 0x00 0xb1 0x03 0x0d 0x00 0xb1 0x03 0x0e 0x00 0xb1 0x03 0x0f 0x00 0xb1 0x03 0x10 0x00 0xb1 0x03 0x11 0x00 0xb1 0x03 0x12 0x00 0xb1 0x03 0x13 0x00 0xb1 0x03 0x14 0x00 0xb1 0x03 0x15 0x00 0xb1 0x03 0x16 0x00 0xb1 0x03 0x17 0x00 0xb1 0x03 0x18 0x00 0xb1 0x03 0x19 0x00 0xb1 0x03 0x1a 0x00 0xb1 0x03 0x1b 0x00 0xb1>;
-+				phandle = <0x144>;
-+			};
-+
-+			lcdc-m1-rgb-pins {
-+				rockchip,pins = <0x03 0x00 0x01 0xb6 0x03 0x04 0x01 0xb6 0x03 0x06 0x01 0xb6 0x03 0x0a 0x01 0xb6 0x03 0x0b 0x01 0xb6 0x03 0x0d 0x01 0xb6 0x03 0x10 0x01 0xb6 0x03 0x11 0x01 0xb6 0x03 0x12 0x01 0xb6 0x03 0x13 0x01 0xb6 0x03 0x14 0x01 0xb6 0x03 0x15 0x01 0xb6 0x03 0x16 0x01 0xb6 0x03 0x17 0x01 0xb6 0x03 0x18 0x01 0xb6 0x03 0x19 0x01 0xb6 0x03 0x1a 0x01 0xb6 0x03 0x1b 0x01 0xb6>;
-+				phandle = <0x4d>;
-+			};
-+
 +			lcdc-m1-sleep-pins {
 +				rockchip,pins = <0x03 0x00 0x00 0xb1 0x03 0x04 0x00 0xb1 0x03 0x06 0x00 0xb1 0x03 0x0a 0x00 0xb1 0x03 0x0b 0x00 0xb1 0x03 0x0d 0x00 0xb1 0x03 0x10 0x00 0xb1 0x03 0x11 0x00 0xb1 0x03 0x12 0x00 0xb1 0x03 0x13 0x00 0xb1 0x03 0x14 0x00 0xb1 0x03 0x15 0x00 0xb1 0x03 0x16 0x00 0xb1 0x03 0x17 0x00 0xb1 0x03 0x18 0x00 0xb1 0x03 0x19 0x00 0xb1 0x03 0x1a 0x00 0xb1 0x03 0x1b 0x00 0xb1>;
 +				phandle = <0x4e>;
 +			};
 +		};
-+
+ 
+-&vopb_mmu {
+-	status = "okay";
+-};
 +		pwm0 {
-+
+ 
+-&vpu_combo {
+-	status = "okay";
+-};
 +			pwm0-pin {
 +				rockchip,pins = <0x00 0x0f 0x01 0xb1>;
 +				phandle = <0x7b>;
@@ -4114,7 +4123,13 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		};
 +
 +		pwm1 {
-+
+ 
+-&pinctrl {
+-/*
+-	headphone {
+-		//High : HeadPhone remove, Low : HeadPhone insert
+-		hp_det: hp-det {
+-			rockchip,pins = <2 RK_PC6 RK_FUNC_GPIO &pcfg_pull_down>;
 +			pwm1-pin {
 +				rockchip,pins = <0x00 0x10 0x01 0xb1>;
 +				phandle = <0x7c>;
@@ -4135,30 +4150,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x00 0x11 0x01 0xb1>;
 +				phandle = <0x7e>;
 +			};
-+		};
-+
-+		pwm4 {
-+
-+			pwm4-pin {
-+				rockchip,pins = <0x03 0x12 0x03 0xb1>;
-+				phandle = <0x7f>;
-+			};
-+		};
-+
-+		pwm5 {
-+
-+			pwm5-pin {
-+				rockchip,pins = <0x03 0x13 0x03 0xb1>;
-+				phandle = <0x80>;
-+			};
-+		};
-+
-+		pwm6 {
-+
-+			pwm6-pin {
-+				rockchip,pins = <0x03 0x14 0x03 0xb1>;
-+				phandle = <0x81>;
-+			};
  		};
 -	};
 -*/
@@ -4169,6 +4160,40 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -			rockchip,pins =
 -				<0 RK_PB2 RK_FUNC_GPIO &pcfg_pull_up>,
 -				<0 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
++		pwm4 {
++
++			pwm4-pin {
++				rockchip,pins = <0x03 0x12 0x03 0xb1>;
++				phandle = <0x7f>;
++			};
+ 		};
+ 
+-		/* ODROID-GO2 : PMIC_SLEEP(GPIO0.PA4) */
+-		soc_slppin_gpio: soc_slppin_gpio {
+-			rockchip,pins =
+-				<0 RK_PA4 RK_FUNC_GPIO &pcfg_output_low>;
++		pwm5 {
++
++			pwm5-pin {
++				rockchip,pins = <0x03 0x13 0x03 0xb1>;
++				phandle = <0x80>;
++			};
+ 		};
+ 
+-		soc_slppin_slp: soc_slppin_slp {
+-			rockchip,pins =
+-				<0 RK_PA4 RK_FUNC_1 &pcfg_pull_none>;
++		pwm6 {
++
++			pwm6-pin {
++				rockchip,pins = <0x03 0x14 0x03 0xb1>;
++				phandle = <0x81>;
++			};
+ 		};
+ 
+-		soc_slppin_rst: soc_slppin_rst {
+-			rockchip,pins =
+-				<0 RK_PA4 RK_FUNC_2 &pcfg_pull_none>;
 +		pwm7 {
 +
 +			pwm7-pin {
@@ -4239,12 +4264,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x03 0x16 0x03 0xb1 0x03 0x17 0x03 0xb1>;
 +				phandle = <0x149>;
 +			};
- 		};
- 
--		/* ODROID-GO2 : PMIC_SLEEP(GPIO0.PA4) */
--		soc_slppin_gpio: soc_slppin_gpio {
--			rockchip,pins =
--				<0 RK_PA4 RK_FUNC_GPIO &pcfg_output_low>;
++		};
++
 +		isp {
 +
 +			isp-prelight {
@@ -4274,22 +4295,16 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x00 0x04 0x02 0xb1>;
 +				phandle = <0x62>;
 +			};
- 		};
- 
--		soc_slppin_slp: soc_slppin_slp {
--			rockchip,pins =
--				<0 RK_PA4 RK_FUNC_1 &pcfg_pull_none>;
++		};
++
 +		leds {
 +
 +			led-pins {
 +				rockchip,pins = <0x00 0x11 0x00 0xb1>;
 +				phandle = <0xbc>;
 +			};
- 		};
- 
--		soc_slppin_rst: soc_slppin_rst {
--			rockchip,pins =
--				<0 RK_PA4 RK_FUNC_2 &pcfg_pull_none>;
++		};
++
 +		btns {
 +
 +			btn-pins {
@@ -4765,9 +4780,9 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +	};
 +};
 diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts
---- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-11-23 09:52:24.593689725 -0500
-+++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-11-23 10:07:59.992012096 -0500
-@@ -1,1070 +1,3875 @@
+--- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-12-05 18:21:51.610770278 -0500
++++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-12-05 18:24:53.842378154 -0500
+@@ -1,1070 +1,3890 @@
 -// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 -/*
 - * Copyright (c) 2020 Hardkernel Co., Ltd
@@ -5390,6 +5405,16 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			clock-latency-ns = <0x9c40>;
 +		};
 +
++		opp-1512000000 {
++			opp-hz = <0x00 0x5a1f4a00>;
++			opp-microvolt = <0x149970 0x149970 0x149970>;
++			opp-microvolt-L0 = <0x149970 0x149970 0x149970>;
++			opp-microvolt-L1 = <0x149970 0x149970 0x149970>;
++			opp-microvolt-L2 = <0x13d620 0x13d620 0x149970>;
++			opp-microvolt-L3 = <0x1312d0 0x1312d0 0x149970>;
++			clock-latency-ns = <0x9c40>;
++		};
++
 +	};
 +
 +	arm-pmu {
@@ -5440,6 +5465,11 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		compatible = "operating-points-v2";
 +		opp-shared;
 +		phandle = <0x0d>;
++
++		opp-1512000000 {
++			opp-hz = <0x00 0x5a1f4a00>;
++			opp-microvolt = <0xf4240>;
++		};
 +
 +		opp-1008000000 {
 +			opp-hz = <0x00 0x3c14dc00>;
@@ -5670,7 +5700,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		reset-names = "tx-m\0rx-m";
 +		rockchip,cru = <0x02>;
 +		rockchip,grf = <0x2f>;
-+		pinctrl-names = "default";
+ 		pinctrl-names = "default";
+-		pinctrl-0 = <&uart2m1_xfer>;
 +		pinctrl-0 = <0x30 0x31 0x32 0x33 0x34 0x35 0x36 0x37 0x38 0x39 0x3a 0x3b>;
 +		status = "disabled";
 +		phandle = <0xce>;
@@ -5686,8 +5717,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		dma-names = "tx\0rx";
 +		resets = <0x02 0x86 0x02 0x85>;
 +		reset-names = "reset-m\0reset-h";
- 		pinctrl-names = "default";
--		pinctrl-0 = <&uart2m1_xfer>;
++		pinctrl-names = "default";
 +		pinctrl-0 = <0x3c 0x3d 0x3e 0x3f>;
  		status = "okay";
 +		#sound-dai-cells = <0x00>;
@@ -6541,13 +6571,9 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			#dma-cells = <0x01>;
 +			peripherals-req-type-burst;
 +			phandle = <0x2b>;
- 		};
- 	};
- 
--/*
--	rk_headset {
--		compatible = "rockchip_headset";
--		headset_gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
++		};
++	};
++
 +	thermal-zones {
 +		phandle = <0xf8>;
 +
@@ -6659,7 +6685,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		cpu-leakage@17 {
 +			reg = <0x17 0x01>;
 +			phandle = <0x07>;
-+		};
+ 		};
 +
 +		performance@1e {
 +			reg = <0x1e 0x01>;
@@ -6678,8 +6704,12 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		assigned-clocks = <0x02 0x04>;
 +		assigned-clock-rates = <0x3dfd2400>;
 +		phandle = <0x02>;
-+	};
-+
+ 	};
+ 
+-/*
+-	rk_headset {
+-		compatible = "rockchip_headset";
+-		headset_gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
 +	cpu-boost@ff2b8000 {
 +		compatible = "syscon";
 +		reg = <0x00 0xff2b8000 0x00 0x1000>;
@@ -6998,7 +7028,11 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			opp-microvolt-L2 = <0xee098>;
 +			opp-microvolt-L3 = <0xe7ef0>;
 +		};
-+
+ 
+-&bus_apll {
+-	bus-supply = <&vdd_logic>;
+-	status = "okay";
+-};
 +		opp-480000000 {
 +			opp-hz = <0x00 0x1c9c3800>;
 +			opp-microvolt = <0x112a88>;
@@ -7008,9 +7042,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			opp-microvolt-L3 = <0xf4240>;
 +		};
  
--&bus_apll {
--	bus-supply = <&vdd_logic>;
--	status = "okay";
+-&cpu0 {
+-	cpu-supply = <&vdd_arm>;
 -};
 +		opp-520000000 {
 +			opp-hz = <0x00 0x1efe9200>;
@@ -7022,9 +7055,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		};
 +	};
  
--&cpu0 {
--	cpu-supply = <&vdd_arm>;
--};
+-&cpu0_opp_table {
+-	rockchip,avs = <1>;
 +	hevc_service@ff440000 {
 +		compatible = "rockchip,hevc_sub";
 +		iommu_enabled = <0x01>;
@@ -7035,20 +7067,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		iommus = <0x98>;
 +		allocator = <0x01>;
 +		phandle = <0x9b>;
-+	};
- 
--&cpu0_opp_table {
--	rockchip,avs = <1>;
-+	vpu_service@ff442000 {
-+		compatible = "rockchip,vpu_sub";
-+		iommu_enabled = <0x01>;
-+		reg = <0x00 0xff442000 0x00 0x800>;
-+		interrupts = <0x00 0x50 0x04 0x00 0x4f 0x04>;
-+		interrupt-names = "irq_enc\0irq_dec";
-+		dev_mode = <0x00>;
-+		iommus = <0x99>;
-+		allocator = <0x01>;
-+		phandle = <0x9a>;
 +	};
  
 -	/* bin scaling clock 1.296MHz */
@@ -7062,6 +7080,21 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -	/delete-node/ opp-816000000;
 -	/delete-node/ opp-1416000000;
 -	/delete-node/ opp-1512000000;
+-};
++	vpu_service@ff442000 {
++		compatible = "rockchip,vpu_sub";
++		iommu_enabled = <0x01>;
++		reg = <0x00 0xff442000 0x00 0x800>;
++		interrupts = <0x00 0x50 0x04 0x00 0x4f 0x04>;
++		interrupt-names = "irq_enc\0irq_dec";
++		dev_mode = <0x00>;
++		iommus = <0x99>;
++		allocator = <0x01>;
++		phandle = <0x9a>;
++	};
+ 
+-&display_subsystem {
+-	status = "okay";
 -};
 +	vpu_combo {
 +		compatible = "rockchip,vpu_combo";
@@ -7079,9 +7112,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		phandle = <0x10a>;
 +	};
  
--&display_subsystem {
+-&dsi {
 -	status = "okay";
--};
 +	iommu@ff440440 {
 +		compatible = "rockchip,iommu";
 +		reg = <0x00 0xff440440 0x00 0x40 0x00 0xff440480 0x00 0x40>;
@@ -7092,20 +7124,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		power-domains = <0x8a 0x0b>;
 +		#iommu-cells = <0x00>;
 +		phandle = <0x98>;
-+	};
- 
--&dsi {
--	status = "okay";
-+	iommu@ff442800 {
-+		compatible = "rockchip,iommu";
-+		reg = <0x00 0xff442800 0x00 0x100>;
-+		interrupts = <0x00 0x51 0x04>;
-+		interrupt-names = "vpu_mmu";
-+		clocks = <0x02 0xaf 0x02 0xf4>;
-+		clock-names = "aclk\0hclk";
-+		power-domains = <0x8a 0x0b>;
-+		#iommu-cells = <0x00>;
-+		phandle = <0x99>;
 +	};
  
 -	panel@0 {
@@ -7214,6 +7232,18 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -				vsync-active = <0>;
 -				de-active = <0>;
 -				pixelclk-active = <0>;
++	iommu@ff442800 {
++		compatible = "rockchip,iommu";
++		reg = <0x00 0xff442800 0x00 0x100>;
++		interrupts = <0x00 0x51 0x04>;
++		interrupt-names = "vpu_mmu";
++		clocks = <0x02 0xaf 0x02 0xf4>;
++		clock-names = "aclk\0hclk";
++		power-domains = <0x8a 0x0b>;
++		#iommu-cells = <0x00>;
++		phandle = <0x99>;
++	};
++
 +	dsi@ff450000 {
 +		compatible = "rockchip,px30-mipi-dsi";
 +		reg = <0x00 0xff450000 0x00 0x10000>;
@@ -7458,6 +7488,21 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		status = "disabled";
 +		phandle = <0x110>;
 +	};
++
++	rkisp1@ff4a0000 {
++		compatible = "rockchip,rk3326-rkisp1";
++		reg = <0x00 0xff4a0000 0x00 0x8000>;
++		interrupts = <0x00 0x46 0x04 0x00 0x49 0x04 0x00 0x4a 0x04>;
++		interrupt-names = "isp_irq\0mi_irq\0mipi_irq";
++		clocks = <0x02 0xb4 0x02 0xfa 0x02 0x33 0x02 0x15f>;
++		clock-names = "aclk_isp\0hclk_isp\0clk_isp\0pclk_isp";
++		devfreq = <0xab>;
++		power-domains = <0x8a 0x0d>;
++		iommus = <0xaa>;
++		rockchip,grf = <0x2f>;
++		status = "okay";
++		phandle = <0x111>;
++	};
  
 -&i2c0 {
 -	status = "okay";
@@ -7494,21 +7539,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -		vcc7-supply = <&vccsys>;
 -		vcc8-supply = <&vccsys>;
 -		vcc9-supply = <&dcdc_boost>;
-+	rkisp1@ff4a0000 {
-+		compatible = "rockchip,rk3326-rkisp1";
-+		reg = <0x00 0xff4a0000 0x00 0x8000>;
-+		interrupts = <0x00 0x46 0x04 0x00 0x49 0x04 0x00 0x4a 0x04>;
-+		interrupt-names = "isp_irq\0mi_irq\0mipi_irq";
-+		clocks = <0x02 0xb4 0x02 0xfa 0x02 0x33 0x02 0x15f>;
-+		clock-names = "aclk_isp\0hclk_isp\0clk_isp\0pclk_isp";
-+		devfreq = <0xab>;
-+		power-domains = <0x8a 0x0d>;
-+		iommus = <0xaa>;
-+		rockchip,grf = <0x2f>;
-+		status = "okay";
-+		phandle = <0x111>;
-+	};
-+
 +	iommu@ff4a8000 {
 +		compatible = "rockchip,iommu";
 +		reg = <0x00 0xff4a8000 0x00 0x100>;
@@ -7600,14 +7630,14 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		reg = <0x00 0xff548180 0x00 0x20>;
 +		phandle = <0x26>;
 +	};
-+
+ 
+-		pwrkey {
 +	qos@ff548200 {
 +		compatible = "syscon";
 +		reg = <0x00 0xff548200 0x00 0x20>;
 +		phandle = <0x27>;
 +	};
- 
--		pwrkey {
++
 +	qos@ff550000 {
 +		compatible = "syscon";
 +		reg = <0x00 0xff550000 0x00 0x20>;
@@ -7793,12 +7823,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			bias-pull-down;
 +			phandle = <0x116>;
 +		};
- 
--			rk817_ts_gpio1: rk817_ts_gpio1 {
--				pins = "gpio_ts";
--				function = "pin_fun1";
--				/* output-low; */
--				/* input-enable; */
++
 +		pcfg-pull-none {
 +			bias-disable;
 +			phandle = <0xb1>;
@@ -7890,23 +7915,22 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			i2c0-xfer {
 +				rockchip,pins = <0x00 0x08 0x01 0xb0 0x00 0x09 0x01 0xb0>;
 +				phandle = <0x5b>;
- 			};
++			};
 +		};
 +
 +		i2c1 {
- 
--			rk817_gt_gpio2: rk817_gt_gpio2 {
--				pins = "gpio_gt";
--				function = "pin_fun1";
++
 +			i2c1-xfer {
 +				rockchip,pins = <0x00 0x12 0x01 0xb0 0x00 0x13 0x01 0xb0>;
 +				phandle = <0x69>;
- 			};
++			};
 +		};
  
--			rk817_pin_ts: rk817_pin_ts {
+-			rk817_ts_gpio1: rk817_ts_gpio1 {
 -				pins = "gpio_ts";
--				function = "pin_fun0";
+-				function = "pin_fun1";
+-				/* output-low; */
+-				/* input-enable; */
 +		i2c2 {
 +
 +			i2c2-xfer {
@@ -7914,60 +7938,66 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				phandle = <0x6a>;
  			};
 +		};
-+
-+		i2c3 {
  
--			rk817_pin_gt: rk817_pin_gt {
+-			rk817_gt_gpio2: rk817_gt_gpio2 {
 -				pins = "gpio_gt";
--				function = "pin_fun0";
+-				function = "pin_fun1";
++		i2c3 {
++
 +			i2c3-xfer {
 +				rockchip,pins = <0x01 0x0c 0x04 0xb0 0x01 0x0d 0x04 0xb0>;
 +				phandle = <0x6b>;
  			};
 +		};
-+
-+		tsadc {
  
--			rk817_slppin_null: rk817_slppin_null {
--				pins = "gpio_slp";
+-			rk817_pin_ts: rk817_pin_ts {
+-				pins = "gpio_ts";
 -				function = "pin_fun0";
++		tsadc {
++
 +			tsadc-otp-gpio {
 +				rockchip,pins = <0x00 0x06 0x00 0xb1>;
 +				phandle = <0x86>;
  			};
  
--			rk817_slppin_slp: rk817_slppin_slp {
--				pins = "gpio_slp";
--				function = "pin_fun1";
+-			rk817_pin_gt: rk817_pin_gt {
+-				pins = "gpio_gt";
+-				function = "pin_fun0";
 +			tsadc-otp-out {
 +				rockchip,pins = <0x00 0x06 0x01 0xb1>;
 +				phandle = <0x87>;
  			};
 +		};
- 
--			rk817_slppin_pwrdn: rk817_slppin_pwrdn {
--				pins = "gpio_slp";
--				function = "pin_fun2";
-+		uart0 {
 +
++		uart0 {
+ 
+-			rk817_slppin_null: rk817_slppin_null {
+-				pins = "gpio_slp";
+-				function = "pin_fun0";
 +			uart0-xfer {
 +				rockchip,pins = <0x00 0x0a 0x01 0xb2 0x00 0x0b 0x01 0xb2>;
 +				phandle = <0x2c>;
-+			};
-+
+ 			};
+ 
+-			rk817_slppin_slp: rk817_slppin_slp {
+-				pins = "gpio_slp";
+-				function = "pin_fun1";
 +			uart0-cts {
 +				rockchip,pins = <0x00 0x0c 0x01 0xb1>;
 +				phandle = <0x2d>;
  			};
  
--			rk817_slppin_rst: rk817_slppin_rst {
+-			rk817_slppin_pwrdn: rk817_slppin_pwrdn {
 -				pins = "gpio_slp";
--				function = "pin_fun3";
+-				function = "pin_fun2";
 +			uart0-rts {
 +				rockchip,pins = <0x00 0x0d 0x01 0xb1>;
 +				phandle = <0x2e>;
-+			};
-+
+ 			};
+ 
+-			rk817_slppin_rst: rk817_slppin_rst {
+-				pins = "gpio_slp";
+-				function = "pin_fun3";
 +			uart0-rts-gpio {
 +				rockchip,pins = <0x00 0x0d 0x00 0xb1>;
 +				phandle = <0x11d>;
@@ -8158,15 +8188,8 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +			uart3m1-rts-gpio {
 +				rockchip,pins = <0x01 0x0d 0x00 0xb1>;
 +				phandle = <0x124>;
-+			};
-+		};
-+
-+		uart4 {
-+
-+			uart4-xfer {
-+				rockchip,pins = <0x01 0x1c 0x02 0xb2 0x01 0x1d 0x02 0xb2>;
-+				phandle = <0x55>;
  			};
++		};
  
 -			/* Rev 0.2 LCD Backlight Power */
 -			vcc_backlight: LDO_REG7 {
@@ -8177,9 +8200,11 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -					regulator-off-in-suspend;
 -					regulator-suspend-microvolt = <3300000>;
 -				};
-+			uart4-cts {
-+				rockchip,pins = <0x01 0x1e 0x02 0xb1>;
-+				phandle = <0x56>;
++		uart4 {
++
++			uart4-xfer {
++				rockchip,pins = <0x01 0x1c 0x02 0xb2 0x01 0x1d 0x02 0xb2>;
++				phandle = <0x55>;
  			};
  
 -			/* Rev 0.2 LCD IO Power */
@@ -8191,11 +8216,10 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -					regulator-off-in-suspend;
 -					regulator-suspend-microvolt = <2800000>;
 -				};
-+			uart4-rts {
-+				rockchip,pins = <0x01 0x1f 0x02 0xb1>;
-+				phandle = <0x57>;
++			uart4-cts {
++				rockchip,pins = <0x01 0x1e 0x02 0xb1>;
++				phandle = <0x56>;
  			};
-+		};
  
 -			/* Rev 1.1 WIFI Power */
 -			vcc_wifi: LDO_REG9 {
@@ -8203,13 +8227,19 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -				regulator-boot-on;
 -				regulator-min-microvolt = <3300000>;
 -				regulator-max-microvolt = <3300000>;
-+		uart5 {
++			uart4-rts {
++				rockchip,pins = <0x01 0x1f 0x02 0xb1>;
++				phandle = <0x57>;
++			};
++		};
  
 -				regulator-name = "vcc_wifi";
 -				regulator-state-mem {
 -					regulator-off-in-suspend;
 -					regulator-suspend-microvolt = <3300000>;
 -				};
++		uart5 {
++
 +			uart5-xfer {
 +				rockchip,pins = <0x03 0x02 0x04 0xb2 0x03 0x01 0x04 0xb2>;
 +				phandle = <0x58>;
@@ -8241,6 +8271,21 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -			3760 3774 3788 3802 3816 3834 3853
 -			3877 3908 3946 3975 4018 4071 4106>;
 +		spi0 {
++
++			spi0-clk {
++				rockchip,pins = <0x01 0x0f 0x03 0xb3>;
++				phandle = <0x6c>;
++			};
++
++			spi0-csn {
++				rockchip,pins = <0x01 0x0e 0x03 0xb3>;
++				phandle = <0x6d>;
++			};
++
++			spi0-miso {
++				rockchip,pins = <0x01 0x0d 0x03 0xb3>;
++				phandle = <0x6e>;
++			};
  
 -			/* KPL605475 Battery Spec */
 -			/*
@@ -8264,21 +8309,6 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 -			monitor_sec = <5>;
 -			virtual_power = <0>;
 -			sample_res = <10>;
-+			spi0-clk {
-+				rockchip,pins = <0x01 0x0f 0x03 0xb3>;
-+				phandle = <0x6c>;
-+			};
-+
-+			spi0-csn {
-+				rockchip,pins = <0x01 0x0e 0x03 0xb3>;
-+				phandle = <0x6d>;
-+			};
-+
-+			spi0-miso {
-+				rockchip,pins = <0x01 0x0d 0x03 0xb3>;
-+				phandle = <0x6e>;
-+			};
-+
 +			spi0-mosi {
 +				rockchip,pins = <0x01 0x0c 0x03 0xb3>;
 +				phandle = <0x6f>;
@@ -8344,13 +8374,13 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x03 0x0f 0x04 0xb4>;
 +				phandle = <0x78>;
 +			};
- 
--			extcon = <&u2phy>;
++
 +			spi1-miso-hs {
 +				rockchip,pins = <0x03 0x0e 0x04 0xb4>;
 +				phandle = <0x79>;
 +			};
-+
+ 
+-			extcon = <&u2phy>;
 +			spi1-mosi-hs {
 +				rockchip,pins = <0x03 0x0c 0x04 0xb4>;
 +				phandle = <0x7a>;
@@ -8633,13 +8663,13 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +				rockchip,pins = <0x02 0x12 0x01 0xb1>;
 +				phandle = <0x3c>;
 +			};
- 
--	u2phy_host: host-port {
++
 +			i2s1-2ch-lrck {
 +				rockchip,pins = <0x02 0x11 0x01 0xb1>;
 +				phandle = <0x3d>;
 +			};
-+
+ 
+-	u2phy_host: host-port {
 +			i2s1-2ch-sdi {
 +				rockchip,pins = <0x02 0x15 0x01 0xb1>;
 +				phandle = <0x3e>;
@@ -9551,34 +9581,3 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		vcc_host = "/vcc_host";
 +	};
 +};
-diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/drivers/input/joystick/odroidgo2-joypad.c RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/drivers/input/joystick/odroidgo2-joypad.c
---- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/drivers/input/joystick/odroidgo2-joypad.c	2020-11-23 09:52:23.605695706 -0500
-+++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/drivers/input/joystick/odroidgo2-joypad.c	2020-11-23 10:03:23.629691588 -0500
-@@ -646,6 +646,8 @@ static int joypad_input_setup(struct dev
- 	struct input_polled_dev *poll_dev;
- 	struct input_dev *input;
- 	int nbtn, error;
-+	u32 joypad_revision = 0;
-+	u32 joypad_product = 0;
- 
- 	poll_dev = devm_input_allocate_polled_device(dev);
- 	if (!poll_dev) {
-@@ -661,13 +663,15 @@ static int joypad_input_setup(struct dev
- 
- 	input = poll_dev->input;
- 
--	input->name = DRV_NAME;
-+	device_property_read_string(dev, "joypad-name", &input->name);
- 	input->phys = DRV_NAME"/input0";
- 
-+	device_property_read_u32(dev, "joypad-revision", &joypad_revision);
-+	device_property_read_u32(dev, "joypad-product", &joypad_product);
- 	input->id.bustype = BUS_HOST;
- 	input->id.vendor  = 0x0001;
--	input->id.product = 0x0001;
--	input->id.version = 0x0101;
-+	input->id.product = (u16)joypad_product;
-+	input->id.version = (u16)joypad_revision;
- 
- 	/* IIO ADC key setup (0 mv ~ 1800 mv) * adc->scale */
- 	__set_bit(EV_ABS, input->evbit);

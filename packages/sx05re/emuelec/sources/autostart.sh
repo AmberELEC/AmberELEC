@@ -19,9 +19,13 @@ fi
 
 # Automatic updates
 rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
-rsync -a --delete /usr/config/emuelec/bin/ /storage/.config/emuelec/bin
-cp /usr/config/autostart.sh /storage/.config/autostart.sh
 cp /usr/config/EE_VERSION /storage/.config
+
+# Deprecated, remove soon
+cp /usr/config/autostart.sh /storage/.config/autostart.sh
+
+# Copy in any new PPSSPP INIs from git
+cp /usr/config/ppsspp/PSP/SYSTEM/*.ini .config/ppsspp/SYSTEM
 # Release specific updates
 cp /usr/config/emuelec/configs/jslisten.cfg /storage/.config/emuelec/configs/jslisten.cfg
 
@@ -32,6 +36,8 @@ then
   cp /usr/config/emuelec/ports/gamelist.xml /storage/roms/ports
 fi
 rm -rf /usr/config/emuelec/ports
+
+# End Automatic updates
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1
