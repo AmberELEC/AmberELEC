@@ -384,7 +384,7 @@ msgstr "SALIR"
 msgid "VIDEO MODE"
 msgstr "MODO DE VIDEO"
 
-msgid "You are about to set EmuELEC resolution to:"
+msgid "You are about to set 351ELEC resolution to:"
 msgstr ""
 
 msgid "Emulationstation will restart"
@@ -761,8 +761,8 @@ msgstr "REFORZAR SEGURIDAD"
 msgid "ROOT PASSWORD"
 msgstr "CONTRASEÑA ROOT"
 
-msgid "You are about to set EmuELEC Language to:"
-msgstr "Estas a punto de cambiar el lenguaje de EmuELEC a:"
+msgid "You are about to set 351ELEC Language to:"
+msgstr "Estas a punto de cambiar el lenguaje de 351ELEC a:"
 
 msgid "LATENCY REDUCTION"
 msgstr "REDUCCIÓN DE LATENCIA"
@@ -2280,8 +2280,8 @@ msgstr "ARRIBA/ABAJO"
 #~ msgid "SCRAPE FAILED : SCRAP LIMIT REACHED TODAY"
 #~ msgstr "SCRAPEO FALLIDO : LIMITE DE SCRAPEO ALCANZADO"
 
-#~ msgid "You are about to set EmuELEC resolution to"
-#~ msgstr "Estas a punto de cambiar la resolusion de EmuELEC a"
+#~ msgid "You are about to set 351ELEC resolution to"
+#~ msgstr "Estas a punto de cambiar la resolusion de 351ELEC a"
 
 #~ msgid "MIX"
 #~ msgstr "MEZCLA"

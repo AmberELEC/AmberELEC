@@ -379,7 +379,7 @@ msgstr "QUITAR"
 msgid "VIDEO MODE"
 msgstr "MÒDE VIDÈO"
 
-msgid "You are about to set EmuELEC resolution to:"
+msgid "You are about to set 351ELEC resolution to:"
 msgstr ""
 
 msgid "Emulationstation will restart"
@@ -738,7 +738,7 @@ msgstr "ENFORTIR LA SEGURETAT"
 msgid "ROOT PASSWORD"
 msgstr "SENHAL ROOT"
 
-msgid "You are about to set EmuELEC Language to:"
+msgid "You are about to set 351ELEC Language to:"
 msgstr ""
 
 msgid "LATENCY REDUCTION"

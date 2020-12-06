@@ -385,7 +385,7 @@ msgstr "BEENDEN"
 msgid "VIDEO MODE"
 msgstr "VIDEO-MODUS"
 
-msgid "You are about to set EmuELEC resolution to:"
+msgid "You are about to set 351ELEC resolution to:"
 msgstr ""
 
 msgid "Emulationstation will restart"
@@ -746,7 +746,7 @@ msgstr "ERZWINGE SICHERHEIT"
 msgid "ROOT PASSWORD"
 msgstr "ROOT PASSWORT"
 
-msgid "You are about to set EmuELEC Language to:"
+msgid "You are about to set 351ELEC Language to:"
 msgstr ""
 
 msgid "LATENCY REDUCTION"

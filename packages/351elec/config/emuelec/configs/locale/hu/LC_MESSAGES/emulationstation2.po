@@ -373,7 +373,7 @@ msgstr "KILÉPÉS"
 msgid "VIDEO MODE"
 msgstr ""
 
-msgid "You are about to set EmuELEC resolution to:"
+msgid "You are about to set 351ELEC resolution to:"
 msgstr ""
 
 msgid "Emulationstation will restart"
@@ -732,7 +732,7 @@ msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
 msgid "ROOT PASSWORD"
 msgstr "ROOT JELSZÓ"
 
-msgid "You are about to set EmuELEC Language to:"
+msgid "You are about to set 351ELEC Language to:"
 msgstr ""
 
 msgid "LATENCY REDUCTION"
