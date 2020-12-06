@@ -24,7 +24,7 @@ sed -i "s|#include <slang.h>|#include <$SYSROOT_PREFIX/usr/include/slang.h>|" $P
 }
 
 pre_make_target() {
-VERSION="EmuELEC-v$(cat $ROOT/packages/sx05re/emuelec/config/EE_VERSION)-${PKG_VERSION:0:7}"
+VERSION="EmuELEC-v$(cat $ROOT/packages/351elec/config/EE_VERSION)-${PKG_VERSION:0:7}"
 echo $VERSION > $PKG_BUILD/.version
 }
 
