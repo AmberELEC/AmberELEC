@@ -22,7 +22,7 @@ GET_HANDLER_SUPPORT="git"
 
 
 # themes for Emulationstation
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-ComicBook"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET"
 
 post_makeinstall_target() {
 
