@@ -61,5 +61,14 @@
                 <genre>script</genre>
                 <image>./downloaded_images/update.png</image>
         </game>
-	
+
+        <game>
+                <path>./Restore Configs.sh</path>
+                <name>Restore Configs</name>
+                <desc>Restores upgraded configs to their previous versions. ** DATA DESTRUCTIVE **</desc>
+                <developer>fewtarius</developer>
+                <publisher>351ELEC</publisher>
+                <genre>script</genre>
+                <image>./downloaded_images/update.png</image>
+        </game>	
 </gameList>
