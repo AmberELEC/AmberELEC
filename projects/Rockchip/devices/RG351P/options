@@ -44,7 +44,7 @@
     UBOOT_SYSTEM="odroidgo2"
 
   # additional packages to install
-    ADDITIONAL_PACKAGES="dtc emuelec"
+    ADDITIONAL_PACKAGES="dtc 351elec"
 
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
