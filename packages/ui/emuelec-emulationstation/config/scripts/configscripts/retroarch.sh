@@ -26,18 +26,6 @@ function onstart_retroarch_joystick() {
     iniConfig " = " "\"" "/tmp/tempconfig.cfg"
     iniSet "input_device" "$DEVICE_NAME"
     iniSet "input_driver" "$input_joypad_driver"
-
-    v=${DEVICE_GUID:8:8}
-    part1=$(echo ${v:6:2}${v:4:2}${v:2:2}${v:0:2})
-    v=${DEVICE_GUID:16:8}
-    part2=$(echo ${v:6:2}${v:4:2}${v:2:2}${v:0:2})
-   
-    input_vendor=$(echo $((16#${part1:4})))
-    input_product=$(echo $((16#${part2:4})))
-
-    iniSet "input_vendor_id" "${input_vendor}"
-    iniSet "input_product_id" "${input_product}"
-    
 }
 
 function onstart_retroarch_keyboard() {
@@ -372,7 +360,7 @@ function onend_retroarch_joystick() {
     # remove hotkeys if there is no hotkey enable button
     if ! grep -q "input_enable_hotkey" /tmp/tempconfig.cfg; then
         local key
-        for key in input_hold_fast_forward input_rewind input_fps_toggle input_volume_up input_volume_down input_state_slot_decrease input_state_slot_increase input_reset input_menu_toggle input_load_state input_save_state input_exit_emulator; do
+        for key in input_state_slot_decrease input_state_slot_increase input_reset input_menu_toggle input_load_state input_save_state input_exit_emulator; do
             sed -i "/$key/d" /tmp/tempconfig.cfg
         done
     fi
@@ -390,7 +378,6 @@ function onend_retroarch_joystick() {
     if [[ -f "$dir/$file" ]]; then
         mv "$dir/$file" "$dir/$file.bak"
     fi
-    sed -i '/^[[:space:]]*$/d' "/tmp/tempconfig.cfg"
     mv "/tmp/tempconfig.cfg" "$dir/$file"
 }
 
@@ -414,10 +401,5 @@ function onend_retroarch_keyboard() {
         iniSet "input_shader_next" ""
         iniSet "input_shader_prev" ""
         iniSet "input_rewind" ""
-        iniSet "input_hold_fast_forward" ""
-        iniSet "input_rewind" ""
-        iniSet "input_fps_toggle" ""
-        iniSet "input_volume_up" ""
-        iniSet "input_volume_down" ""
     fi
 }
