@@ -137,19 +137,19 @@ if [ -z ${LIBRETRO} ]; then
 # Read the first argument in order to set the right emulator
 case ${PLATFORM} in
 	"atari2600")
+		set_kill_keys "stella retroarch"
 		if [ "$EMU" = "STELLASA" ]; then
-		set_kill_keys "stella"
 		RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
 		fi
 		;;
 	"atarist")
+		set_kill_keys "hatari retroarch"
 		if [ "$EMU" = "HATARISA" ]; then
-		set_kill_keys "hatari"
 		RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
 		fi
 		;;
 	"openbor")
-		set_kill_keys "OpenBOR"
+		set_kill_keys "OpenBOR retroarch"
 		RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 	"setup")
@@ -158,15 +158,14 @@ case ${PLATFORM} in
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
 	"dreamcast")
+		set_kill_keys "reicast retroarch"
 		if [ "$EMU" = "REICASTSA" ]; then
-		set_kill_keys "reicast"
 		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
 		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
 		cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
 		fi
 		if [ "$EMU" = "REICASTSA_OLD" ]; then
-		set_kill_keys "reicast_old"
 		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast_old\"|" /emuelec/bin/reicast.sh
 		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
@@ -174,29 +173,30 @@ case ${PLATFORM} in
 		fi
 		;;
 	"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
+		set_kill_keys "advmame retroarch"
 		if [ "$EMU" = "AdvanceMame" ]; then
-		set_kill_keys "advmame"
 		RUNTHIS='${TBASH} /usr/bin/advmame.sh "${ROMNAME}"'
 		fi
 		;;
 	"nds")
-		set_kill_keys "drastic"
+		set_kill_keys "drastic retroarch"
 		RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
 			;;
 	"n64")
+		set_kill_keys "mupen64plus retroarch"
 		if [ "$EMU" = "M64P" ]; then
-		set_kill_keys "mupen64plus"
 		RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
 		fi
 		;;
 	"amiga"|"amigacd32")
+                set_kill_keys "amiberry retroarch"
 		if [ "$EMU" = "AMIBERRY" ]; then
 		RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
 		fi
 		;;
 	"residualvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
-		set_kill_keys "fbterm"
+		set_kill_keys "residualvm retroarch"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
@@ -206,27 +206,26 @@ case ${PLATFORM} in
 		;;
 	"scummvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
-		set_kill_keys "fbterm"
+		set_kill_keys "scummvm scummvmsa retroarch"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
-		if [ "$EMU" = "SCUMMVMSA" ]; then
-		set_kill_keys "scummvm"
-		RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
-		else
-		RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
-		fi
+		  if [ "$EMU" = "SCUMMVMSA" ]; then
+		    RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
+		  else
+		    RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
+		  fi
 		fi
 		;;
 	"daphne")
 		if [ "$EMU" = "HYPSEUS" ]; then
-		set_kill_keys "hypseus"
+		set_kill_keys "hypseus retroarch"
 		RUNTHIS='${TBASH} /storage/.config/emuelec/scripts/hypseus.start.sh "${ROMNAME}"'
 		fi
 		;;
 	"pc")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
-			set_kill_keys "fbterm"
+			set_kill_keys "bash fbterm retroarch"
 			RUNTHIS='${TBASH} "${ROMNAME}"'
 			EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
@@ -241,10 +240,10 @@ case ${PLATFORM} in
 		fi
 		;;
 "psp"|"pspminis")
+		set_kill_keys "PPSSPPSDL retroarch"
 		if [ "$EMU" = "PPSSPPSDL" ]; then
 		#PPSSPP can run at 32BPP but only with buffered rendering, some games need non-buffered and the only way they work is if I set it to 16BPP
 		# /emuelec/scripts/setres.sh 16 # This was only needed for S912, but PPSSPP does not work on S912 
-		set_kill_keys "PPSSPPSDL"
 		RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
 		fi
 		;;
@@ -313,6 +312,7 @@ if [[ ${NETPLAY} != "No" ]]; then
 
     if [[ "${NETPLAY}" == *"connect"* ]]; then
 	NETPLAY_PORT="${arguments##*--port }"  # read from -netplayport  onwards
+		set_kill_keys "PPSSPPSDL retroarch"
 	NETPLAY_PORT="${NETPLAY_PORT%% *}"  # until a space is found
 	NETPLAY_IP="${arguments##*--connect }"  # read from -netplayip  onwards
 	NETPLAY_IP="${NETPLAY_IP%% *}"  # until a space is found
