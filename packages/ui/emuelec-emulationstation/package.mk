@@ -30,23 +30,22 @@ makeinstall_target() {
 	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/lib/locale
 	
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
-    cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
-    
+	cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
+
 	mkdir -p $INSTALL/usr/lib/python2.7
 	cp -rf $PKG_DIR/bluez/* $INSTALL/usr/lib/python2.7
 	
-    mkdir -p $INSTALL/usr/bin
-    ln -sf /storage/.config/emulationstation/resources $INSTALL/usr/bin/resources
-    cp -rf $PKG_BUILD/emulationstation $INSTALL/usr/bin
-    cp -PR "$(get_build_dir glibc)/.$TARGET_NAME/locale/localedef" $INSTALL/usr/bin
+	mkdir -p $INSTALL/usr/bin
+	ln -sf /storage/.config/emulationstation/resources $INSTALL/usr/bin/resources
+	cp -rf $PKG_BUILD/emulationstation $INSTALL/usr/bin
+	cp -PR "$(get_build_dir glibc)/.$TARGET_NAME/locale/localedef" $INSTALL/usr/bin
 
 	mkdir -p $INSTALL/etc/emulationstation/
 	ln -sf /storage/.config/emulationstation/themes $INSTALL/etc/emulationstation/
-   
-	mkdir -p $INSTALL/usr/config/emulationstation
-	cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation
-	cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
 
+        cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
+        cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation  
+ 
 	chmod +x $INSTALL/usr/config/emulationstation/scripts/*
 	chmod +x $INSTALL/usr/config/emulationstation/scripts/configscripts/*
 	find $INSTALL/usr/config/emulationstation/scripts/ -type f -exec chmod o+x {} \; 
@@ -61,4 +60,6 @@ post_install() {
 	enable_service emustation.service
 	mkdir -p $INSTALL/usr/share
 	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/share/locale
+	mkdir -p $INSTALL/usr/config/emulationstation/resources
+        cp -rf $PKG_DIR/config/resources/* $INSTALL/usr/config/emulationstation/resources/
 }

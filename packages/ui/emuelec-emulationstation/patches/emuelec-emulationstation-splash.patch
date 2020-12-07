@@ -1,0 +1,13 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-core/src/Splash.h emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-core/src/Splash.h
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-core/src/Splash.h	2020-11-24 13:29:37.951587402 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-core/src/Splash.h	2020-12-07 07:01:30.416494847 -0500
+@@ -10,9 +10,6 @@ class TextureResource;
+ #if WIN32
+ #define DEFAULT_SPLASH_IMAGE ":/splash.svg"
+ #define OLD_SPLASH_LAYOUT true
+-#elifdef _ENABLEEMUELEC
+-#define DEFAULT_SPLASH_IMAGE ":/splash_emuelec.svg"
+-#define OLD_SPLASH_LAYOUT true
+ #else
+ #define DEFAULT_SPLASH_IMAGE ":/logo.png"
+ #define OLD_SPLASH_LAYOUT false

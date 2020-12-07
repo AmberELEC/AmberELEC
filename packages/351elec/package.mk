@@ -85,6 +85,13 @@ makeinstall_target() {
     ln -sf "/storage/.config/emuelec/scripts/$FI" $INSTALL/usr/bin/
   done
 
+  FILES=$INSTALL/usr/config/emuelec/scripts/batocera/*
+  for f in $FILES
+    do
+    FI=$(basename $f)
+    ln -sf "/storage/.config/emuelec/scripts/$FI" $INSTALL/usr/bin/
+  done
+
   mkdir -p $INSTALL/usr/share/retroarch-overlays
     cp -r $PKG_DIR/overlay/* $INSTALL/usr/share/retroarch-overlays
   
@@ -125,7 +132,6 @@ cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   cp $(get_build_dir bash)/.install_pkg/usr/bin/bash $INSTALL/usr/bin
   cp $(get_build_dir coreutils)/.install_pkg/usr/bin/sort $INSTALL/usr/bin
   ln -sf bash $INSTALL/usr/bin/sh
- 
   echo "chmod 4755 $INSTALL/usr/bin/bash" >> $FAKEROOT_SCRIPT
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
