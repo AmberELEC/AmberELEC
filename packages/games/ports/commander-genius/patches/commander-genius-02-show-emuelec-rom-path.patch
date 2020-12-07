@@ -1,14 +1,14 @@
---- a/src/engine/CGameLauncher.cpp
-+++ b/src/engine/CGameLauncher.cpp
-@@ -218,9 +218,8 @@
+diff -rupN commander-genius-15d6860c1ac727dac400c679ac6ebd6cffa3a6cf.orig/src/engine/CGameLauncher.cpp commander-genius-15d6860c1ac727dac400c679ac6ebd6cffa3a6cf/src/engine/CGameLauncher.cpp
+--- commander-genius-15d6860c1ac727dac400c679ac6ebd6cffa3a6cf.orig/src/engine/CGameLauncher.cpp	2020-12-07 16:26:58.123929933 -0500
++++ commander-genius-15d6860c1ac727dac400c679ac6ebd6cffa3a6cf/src/engine/CGameLauncher.cpp	2020-12-07 16:28:24.066100946 -0500
+@@ -217,9 +217,7 @@ bool CGameLauncher::setupMenu()
  
          ss << "No games detected!\n";
          ss << "You can copy some into:\n";
 -        ss << "\"" << searchPathGames << "\",\n";
--        ss << "or download using \"+ More\" button.\n";
--
+-        ss << "or download using \"+ More\" button\n";
+-        ss << "on the next page.\n";
 +        ss << "\"/storage/roms/ports/cgenius/games\",\n";
-+        
+ 
          std::string msg(ss.str());
  
-         showMessageBox(msg);
