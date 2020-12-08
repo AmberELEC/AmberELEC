@@ -225,18 +225,18 @@ case ${PLATFORM} in
 		;;
     "pc")
         if [[ "${ROMNAME}" == *".sh" ]]; then
-        set_kill_keys "fbterm"
-        RUNTHIS='${TBASH} "${ROMNAME}"'
-        EMUELECLOG="$LOGSDIR/ee_script.log"
-        else
-        if [ "$EMU" = "DOSBOXSDL2" ]; then
-        set_kill_keys "dosbox"
-        RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${ROMNAME}"'
-        fi
-        if [ "$EMU" = "DOSBOX-X" ]; then
-        set_kill_keys "dosbox-x"
-        RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${ROMNAME}"'
-        fi
+			set_kill_keys "fbterm"
+			RUNTHIS='${TBASH} "${ROMNAME}"'
+			EMUELECLOG="$LOGSDIR/ee_script.log"
+		else
+			if [ "$EMU" = "DOSBOXSDL2" ]; then
+				set_kill_keys "dosbox"
+				RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${ROMNAME}"'
+			fi
+			if [ "$EMU" = "DOSBOX-X" ]; then
+				set_kill_keys "dosbox-x"
+				RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${ROMNAME}"'
+			fi
         fi
 		;;
 "psp"|"pspminis")
