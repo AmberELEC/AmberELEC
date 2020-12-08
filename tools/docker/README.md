@@ -9,9 +9,8 @@ _(You've likely already done this if you're reading this from a local repo...)_
 ## Build the container
 
  - `cd 351ELEC`
- - `docker build --pull -t 351elec tools/docker/bionic`
+ - `docker build --pull -t 351elec-build tools/docker/ubuntu-focal`
 
 ## Build image inside container
 
- - `docker run -v "$(pwd)":/home/docker -w /home/docker -h docker-351elec -it 351elec`
- - `make`
+ - `docker run --rm -v "$(pwd)":/var/351elec-build -w /var/351elec-build 351elec-build make`
