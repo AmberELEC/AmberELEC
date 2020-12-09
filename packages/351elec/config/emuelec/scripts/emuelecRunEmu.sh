@@ -216,6 +216,11 @@ case ${PLATFORM} in
 		set_kill_keys "scummvm"
 		RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		else
+		  if [ "$EMU" = "SCUMMVMSA" ]; then
+		    RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
+		  else
+		    RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
+		  fi
 		RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
 		fi
 		;;

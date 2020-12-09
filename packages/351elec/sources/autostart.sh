@@ -164,3 +164,11 @@ clear
 
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after
+
+
+#This function is used to prepare the enviornment for dosbox configs, such as remappings and .conf files - Xargon
+dosbox_prepare(){
+	cp -r /usr/config/remappings/DOSBox-SVN /storage/remappings/DOSBox-SVN #moving the DOSBox-SVN folder, is already being done in other parts of the script? If so please delete - Xargon
+	#TODO: I have to evaluate what to do with the .conf files - Xargon
+	#TODO: I have to symlink some .confs, for example JAZZ.EXE and JAZZH95.EXE is basically the same game and should have the same .confs - Xargon
+}
