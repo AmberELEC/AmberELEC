@@ -5,7 +5,7 @@
 
 PKG_NAME="poppler"
 PKG_VERSION="5d3e71c8215997a96d2ade7272217087f7e59fe2"
-#PKG_SHA256=""
+PKG_SHA256="01575e4c1510c657839e742cfeabdcbd8d99dd9e9cc3dff74748643a3e7ab7d9"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/freedesktop/poppler"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"

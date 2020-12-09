@@ -3,7 +3,7 @@
 
 PKG_NAME="scummvmsa"
 PKG_VERSION="51bb9305a3c614d283bcab0eb735a47b4fae1e7c"
-#PKG_SHA256="029401898c5c6afe85f2f930538ddf598b06e1d776b1d61cfc5bd41a5169ca93"
+PKG_SHA256="bc32c81cd06cbbcfd55797c472b90bd51b2dcdea2a240a97cd943297a593d1c9"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
