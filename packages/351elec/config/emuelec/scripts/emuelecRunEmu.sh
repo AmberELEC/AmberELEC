@@ -114,7 +114,7 @@ fi
 
 # If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
 if [[ "${ROMNAME}" == *".sh" ]]; then
-	set_kill_keys "fbterm"
+	set_kill_keys "bash"
 	EMUELECLOG="$LOGSDIR/ee_script.log"
 	"${ROMNAME}"
 	exit 0
@@ -145,54 +145,46 @@ if [ -z ${LIBRETRO} ]; then
 case ${PLATFORM} in
 	"atari2600")
 		if [ "$EMU" = "STELLASA" ]; then
-		set_kill_keys "stella"
+		set_kill_keys "stella retroarch"
 		RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
 		fi
 		;;
 	"atarist")
 		if [ "$EMU" = "HATARISA" ]; then
-		set_kill_keys "hatari"
+		set_kill_keys "hatari retroarch"
 		RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
 		fi
 		;;
 	"openbor")
-		set_kill_keys "OpenBOR"
+		set_kill_keys "OpenBOR retroarch"
 		RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 	"setup")
-	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "\$\$" || set_kill_keys "fbterm"
+	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "\$\$" || set_kill_keys "bash"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
 	"dreamcast")
+		set_kill_keys "reicast retroarch"
 		if [ "$EMU" = "REICASTSA" ]; then
-		set_kill_keys "reicast"
 		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast\"|" /emuelec/bin/reicast.sh
 		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
 		cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
 		fi
-		if [ "$EMU" = "REICASTSA_OLD" ]; then
-		set_kill_keys "reicast_old"
-		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast_old\"|" /emuelec/bin/reicast.sh
-		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
-		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
-		cp -rf /storage/.config/reicast/emu_old.cfg /storage/.config/reicast/emu.cfg
-		fi
-		;;
 	"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
+		set_kill_keys "advmame retroarch"
 		if [ "$EMU" = "AdvanceMame" ]; then
-		set_kill_keys "advmame"
 		RUNTHIS='${TBASH} /usr/bin/advmame.sh "${ROMNAME}"'
 		fi
 		;;
 	"nds")
-		set_kill_keys "drastic"
+		set_kill_keys "drastic retroarch"
 		RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
 			;;
 	"n64")
 		if [ "$EMU" = "M64P" ]; then
-		set_kill_keys "mupen64plus"
+		set_kill_keys "mupen64plus retroarch"
 		RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
 		fi
 		;;
@@ -203,17 +195,16 @@ case ${PLATFORM} in
 		;;
 	"residualvm")
 		if [[ "${ROMNAME}" == *".sh" ]]; then
-		set_kill_keys "fbterm"
+		set_kill_keys "residualvm retroarch"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
-		set_kill_keys "residualvm"
 		RUNTHIS='${TBASH} /usr/bin/residualvm.sh sa "${ROMNAME}"'
 		fi
 		;;
 	"scummvm")
 		if [ "$EMU" = "SCUMMVMSA" ]; then
-		set_kill_keys "scummvm"
+		set_kill_keys "scummvm retroarch"
 		RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		else
 		  if [ "$EMU" = "SCUMMVMSA" ]; then
@@ -225,26 +216,25 @@ case ${PLATFORM} in
 		fi
 		;;
 	"daphne")
+		set_kill_keys "hypseus retroarch"
 		if [ "$EMU" = "HYPSEUS" ]; then
-		set_kill_keys "hypseus"
 		RUNTHIS='${TBASH} /storage/.config/emuelec/scripts/hypseus.start.sh "${ROMNAME}"'
 		fi
 		;;
 	"pc")
+		set_kill_keys "dosbox dosbox-x retroarch"
 		if [ "$EMU" = "DOSBOXSDL2" ]; then
-		set_kill_keys "dosbox"
 		RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
 		fi
 		if [ "$EMU" = "DOSBOX-X" ]; then
-		set_kill_keys "dosbox-x"
 		RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
 		fi
 		;;		
 	"psp"|"pspminis")
+		set_kill_keys "PPSSPPSDL retroarch"
 		if [ "$EMU" = "PPSSPPSDL" ]; then
 		#PPSSPP can run at 32BPP but only with buffered rendering, some games need non-buffered and the only way they work is if I set it to 16BPP
 		# /emuelec/scripts/setres.sh 16 # This was only needed for S912, but PPSSPP does not work on S912 
-		set_kill_keys "PPSSPPSDL"
 		RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
 		fi
 		;;
