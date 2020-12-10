@@ -112,6 +112,13 @@ NETPLAY="${NETPLAY%%--nick*}"  # until --nick is found
 NETPLAY="--connect $NETPLAY --nick"
 fi
 
+# If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
+if [[ "${ROMNAME}" == *".sh" ]]; then
+	set_kill_keys "bash"
+	EMUELECLOG="$LOGSDIR/ee_script.log"
+	"${ROMNAME}"
+	exit 0
+fi
 
 [[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
 
@@ -137,14 +144,14 @@ if [ -z ${LIBRETRO} ]; then
 # Read the first argument in order to set the right emulator
 case ${PLATFORM} in
 	"atari2600")
-		set_kill_keys "stella retroarch"
 		if [ "$EMU" = "STELLASA" ]; then
+		set_kill_keys "stella retroarch"
 		RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
 		fi
 		;;
 	"atarist")
-		set_kill_keys "hatari retroarch"
 		if [ "$EMU" = "HATARISA" ]; then
+		set_kill_keys "hatari retroarch"
 		RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
 		fi
 		;;
@@ -153,7 +160,7 @@ case ${PLATFORM} in
 		RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 	"setup")
-	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "\$\$" || set_kill_keys "fbterm"
+	[[ "$EE_DEVICE" == "RG351P" ]] && set_kill_keys "\$\$" || set_kill_keys "bash"
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		;;
@@ -165,13 +172,6 @@ case ${PLATFORM} in
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
 		cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
 		fi
-		if [ "$EMU" = "REICASTSA_OLD" ]; then
-		#sed -i "s|REICASTBIN=.*|REICASTBIN=\"/usr/bin/reicast_old\"|" /emuelec/bin/reicast.sh
-		RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
-		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
-		cp -rf /storage/.config/reicast/emu_old.cfg /storage/.config/reicast/emu.cfg
-		fi
-		;;
 	"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
 		set_kill_keys "advmame retroarch"
 		if [ "$EMU" = "AdvanceMame" ]; then
@@ -183,13 +183,12 @@ case ${PLATFORM} in
 		RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
 			;;
 	"n64")
-		set_kill_keys "mupen64plus retroarch"
 		if [ "$EMU" = "M64P" ]; then
+		set_kill_keys "mupen64plus retroarch"
 		RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
 		fi
 		;;
 	"amiga"|"amigacd32")
-                set_kill_keys "amiberry retroarch"
 		if [ "$EMU" = "AMIBERRY" ]; then
 		RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
 		fi
@@ -200,46 +199,38 @@ case ${PLATFORM} in
 		RUNTHIS='${TBASH} "${ROMNAME}"'
 		EMUELECLOG="$LOGSDIR/ee_script.log"
 		else
-		set_kill_keys "residualvm"
 		RUNTHIS='${TBASH} /usr/bin/residualvm.sh sa "${ROMNAME}"'
 		fi
 		;;
 	"scummvm")
-		if [[ "${ROMNAME}" == *".sh" ]]; then
-		set_kill_keys "scummvm scummvmsa retroarch"
-		RUNTHIS='${TBASH} "${ROMNAME}"'
-		EMUELECLOG="$LOGSDIR/ee_script.log"
+		if [ "$EMU" = "SCUMMVMSA" ]; then
+		set_kill_keys "scummvm retroarch"
+		RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		else
 		  if [ "$EMU" = "SCUMMVMSA" ]; then
 		    RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		  else
 		    RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
 		  fi
+		RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
 		fi
 		;;
 	"daphne")
-		if [ "$EMU" = "HYPSEUS" ]; then
 		set_kill_keys "hypseus retroarch"
+		if [ "$EMU" = "HYPSEUS" ]; then
 		RUNTHIS='${TBASH} /storage/.config/emuelec/scripts/hypseus.start.sh "${ROMNAME}"'
 		fi
 		;;
 	"pc")
-		if [[ "${ROMNAME}" == *".sh" ]]; then
-			set_kill_keys "bash fbterm retroarch"
-			RUNTHIS='${TBASH} "${ROMNAME}"'
-			EMUELECLOG="$LOGSDIR/ee_script.log"
-		else
-			if [ "$EMU" = "DOSBOXSDL2" ]; then
-				set_kill_keys "dosbox"
-				RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
-			fi
-			if [ "$EMU" = "DOSBOX-X" ]; then
-				set_kill_keys "dosbox-x"
-				RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
-			fi
+		set_kill_keys "dosbox dosbox-x retroarch"
+		if [ "$EMU" = "DOSBOXSDL2" ]; then
+		RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
 		fi
-		;;
-"psp"|"pspminis")
+		if [ "$EMU" = "DOSBOX-X" ]; then
+		RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
+		fi
+		;;		
+	"psp"|"pspminis")
 		set_kill_keys "PPSSPPSDL retroarch"
 		if [ "$EMU" = "PPSSPPSDL" ]; then
 		#PPSSPP can run at 32BPP but only with buffered rendering, some games need non-buffered and the only way they work is if I set it to 16BPP
@@ -312,7 +303,6 @@ if [[ ${NETPLAY} != "No" ]]; then
 
     if [[ "${NETPLAY}" == *"connect"* ]]; then
 	NETPLAY_PORT="${arguments##*--port }"  # read from -netplayport  onwards
-		set_kill_keys "PPSSPPSDL retroarch"
 	NETPLAY_PORT="${NETPLAY_PORT%% *}"  # until a space is found
 	NETPLAY_IP="${arguments##*--connect }"  # read from -netplayip  onwards
 	NETPLAY_IP="${NETPLAY_IP%% *}"  # until a space is found
