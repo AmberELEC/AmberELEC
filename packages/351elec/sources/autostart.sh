@@ -62,7 +62,7 @@ for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800        
 	   wonderswan wonderswancolor x68000 zx81 zxspectrum ports ports/VVVVVV   \
 	   ports/quake ports/diablo ports/doom ports/doom2 ports/cannonball       \
 	   ports/CaveStory ports/reminiscence ports/xrick ports/opentyrian        \
-           ports/pico-8
+           ports/pico-8 ports/cgenius ports/cgenius/games
 do
   if [ ! -d "/storage/roms/${dir}" ]; then
     mkdir -p "/storage/roms/${dir}"
