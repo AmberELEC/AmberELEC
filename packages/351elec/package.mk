@@ -103,6 +103,8 @@ makeinstall_target() {
 
 # Move plymouth-lite bin to show splash screen
 cp $(get_build_dir plymouth-lite)/.install_init/usr/bin/ply-image $INSTALL/usr/bin
+
+	dosbox_prepare()
 }
 
 post_install() {
