@@ -23,7 +23,7 @@ cat >$INSTALL/usr/share/bootloader/boot.ini <<EOF
 ODROIDGO2-UBOOT-CONFIG
 
 setenv fdt_addr_r "0x01f00000"
-setenv dtb_name "rk3326-rg351p-linux.dtb"
+setenv dtb_name "rk3326-odroidgo2-linux.dtb"
 setenv loadaddr "${PKG_LOAD_ADDR}"
 setenv scriptaddr "0x00500000"
 setenv kernel_addr_r "0x02008000"

@@ -16,7 +16,7 @@
 # setup build defaults
 ################################################################################
 
-  # Project CFLAGS
+  # Project FLAGS
     PROJECT_CFLAGS=""
 
   # SquashFS compression method (gzip / lzo / xz)

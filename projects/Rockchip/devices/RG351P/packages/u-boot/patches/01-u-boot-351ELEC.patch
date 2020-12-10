@@ -1,6 +1,6 @@
 diff -rupN u-boot-e7b255b54c42c8a805dee7a9409a8838cfa13586.orig/board/rockchip/odroidgo2/odroidgo2.c u-boot-e7b255b54c42c8a805dee7a9409a8838cfa13586/board/rockchip/odroidgo2/odroidgo2.c
---- a/board/rockchip/odroidgo2/odroidgo2.c	2020-11-21 06:20:02.807164746 -0500
-+++ b/board/rockchip/odroidgo2/odroidgo2.c	2020-11-21 06:21:16.512742672 -0500
+--- a/board/rockchip/odroidgoa/odroidgoa.c	2020-11-21 06:20:02.807164746 -0500
++++ b/board/rockchip/odroidgoa/odroidgoa.c	2020-11-21 06:21:16.512742672 -0500
 @@ -132,10 +132,10 @@ void board_check_mandatory_files(void)
  	}
  

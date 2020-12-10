@@ -1,6 +1,6 @@
 diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts
 --- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-12-05 18:21:51.610770278 -0500
-+++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-12-05 18:23:55.937231809 -0500
++++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux.dts	2020-12-09 20:14:30.453538205 -0500
 @@ -1,1094 +1,3868 @@
 -// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 -/*
@@ -392,7 +392,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		rockchip,evb-irdrop = <0x61a8>;
 +		nvmem-cells = <0x07 0x08>;
 +		nvmem-cell-names = "cpu_leakage\0performance";
-+		rockchip,bin-scaling-sel = <0x00 0x0d 0x01 0x0d>;
++		rockchip,bin-scaling-sel = <0x00 0x0d 0x01 0x0f>;
 +		rockchip,pvtm-voltage-sel = <0x00 0xc350 0x00 0xc351 0xd2f0 0x01 0xd2f1 0xea60 0x02 0xea61 0x1869f 0x03>;
 +		rockchip,pvtm-freq = <0x639c0>;
 +		rockchip,pvtm-volt = <0xf4240>;
@@ -4781,7 +4781,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +};
 diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts
 --- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-12-05 18:21:51.610770278 -0500
-+++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-12-05 18:24:53.842378154 -0500
++++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-odroidgo2-linux-v11.dts	2020-12-09 20:14:42.010661451 -0500
 @@ -1,1070 +1,3890 @@
 -// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 -/*
@@ -5351,7 +5351,7 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		rockchip,evb-irdrop = <0x61a8>;
 +		nvmem-cells = <0x07 0x08>;
 +		nvmem-cell-names = "cpu_leakage\0performance";
-+		rockchip,bin-scaling-sel = <0x00 0x0d 0x01 0x0d>;
++		rockchip,bin-scaling-sel = <0x00 0x0d 0x01 0x0f>;
 +		rockchip,pvtm-voltage-sel = <0x00 0xc350 0x00 0xc351 0xd2f0 0x01 0xd2f1 0xea60 0x02 0xea61 0x1869f 0x03>;
 +		rockchip,pvtm-freq = <0x639c0>;
 +		rockchip,pvtm-volt = <0xf4240>;
@@ -9581,3 +9581,75 @@ diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64
 +		vcc_host = "/vcc_host";
 +	};
 +};
+diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/drivers/input/joystick/odroidgo2-joypad.c RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/drivers/input/joystick/odroidgo2-joypad.c
+--- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/drivers/input/joystick/odroidgo2-joypad.c	2020-12-05 18:21:52.182781604 -0500
++++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/drivers/input/joystick/odroidgo2-joypad.c	2020-12-09 20:13:44.528929130 -0500
+@@ -387,10 +387,10 @@ static struct attribute_group joypad_att
+ 
+ /*----------------------------------------------------------------------------*/
+ /*----------------------------------------------------------------------------*/
+-static void joypad_gpio_check(struct input_polled_dev *poll_dev)
++static int joypad_gpio_check(struct input_polled_dev *poll_dev)
+ {
+ 	struct joypad *joypad = poll_dev->private;
+-	int nbtn, value;
++	int nbtn, value, changed = 0;
+ 
+ 	for (nbtn = 0; nbtn < joypad->bt_gpio_count; nbtn++) {
+ 		struct bt_gpio *gpio = &joypad->gpios[nbtn];
+@@ -406,16 +406,17 @@ static void joypad_gpio_check(struct inp
+ 				gpio->linux_code,
+ 				(value == gpio->active_level) ? 1 : 0);
+ 			gpio->old_value = value;
++			changed = 1;
+ 		}
+ 	}
+-	input_sync(poll_dev->input);
++	return changed;
+ }
+ 
+ /*----------------------------------------------------------------------------*/
+-static void joypad_adc_check(struct input_polled_dev *poll_dev)
++static int joypad_adc_check(struct input_polled_dev *poll_dev)
+ {
+ 	struct joypad *joypad = poll_dev->private;
+-	int nbtn, value;
++	int nbtn, value, changed = 0;
+ 
+ 	for (nbtn = 0; nbtn < joypad->bt_adc_count; nbtn++) {
+ 		struct bt_adc *adc = &joypad->adcs[nbtn];
+@@ -442,25 +443,31 @@ static void joypad_adc_check(struct inpu
+ 			// adc-x value is default inverted(h/w)
+ 			input_report_abs(poll_dev->input,
+ 				adc->report_type, value * (-1));
++			changed = 1;
+ 		}
+ 		else
+ 		{
+ 			input_report_abs(poll_dev->input,
+ 				adc->report_type, value);
++			changed = 1;
+ 		}
+ 		adc->old_value = value;
+ 	}
+-	input_sync(poll_dev->input);
++	return changed;
+ }
+ 
+ /*----------------------------------------------------------------------------*/
+ static void joypad_poll(struct input_polled_dev *poll_dev)
+ {
+ 	struct joypad *joypad = poll_dev->private;
++	int changed;
+ 
+ 	if (joypad->enable) {
+-		joypad_adc_check(poll_dev);
+-		joypad_gpio_check(poll_dev);
++		changed = joypad_adc_check(poll_dev);
++		changed |= joypad_gpio_check(poll_dev);
++		if (changed) {
++			input_sync(poll_dev->input);
++		}
+ 	}
+ 	if (poll_dev->poll_interval != joypad->poll_interval) {
+ 		mutex_lock(&joypad->lock);
