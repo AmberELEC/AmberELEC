@@ -71,4 +71,14 @@
                 <genre>script</genre>
                 <image>./downloaded_images/update.png</image>
         </game>	
+        <game>
+                <path>./Symlink Configs.sh</path>
+                <name>Symlink Configs</name>
+                <desc>Move some configs to GAMES partition. ** DATA DESTRUCTIVE **</desc>
+                <developer>Claudio de Oliveira</developer>
+                <publisher>351ELEC</publisher>
+                <genre>script</genre>
+                <image>./downloaded_images/symlinkconfigs.png</image>
+        </game>	
+
 </gameList>
