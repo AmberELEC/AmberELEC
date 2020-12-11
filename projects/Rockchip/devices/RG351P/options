@@ -30,8 +30,7 @@
 
   # Additional kernel make parameters (for example to specify the u-boot loadaddress)
     KERNEL_MAKE_EXTRACMD=""
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-odroidgo2-linux.dtb"
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-odroidgo2-linux-v11.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351p-linux.dtb"
     
   # Mali GPU family
     MALI_FAMILY="g31"
@@ -41,7 +40,7 @@
     EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0 systemd.show_status=0"
     
     LINUX="RG351P-4.4"
-    UBOOT_SYSTEM="odroidgoa"
+    UBOOT_SYSTEM="rg351p"
 
   # additional packages to install
     ADDITIONAL_PACKAGES="dtc 351elec"

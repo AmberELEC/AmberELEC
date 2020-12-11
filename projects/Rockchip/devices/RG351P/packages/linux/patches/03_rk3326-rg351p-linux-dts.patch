@@ -1,0 +1,21 @@
+diff -rupN RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts
+--- RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2020-12-05 18:21:51.610770278 -0500
++++ RG351P-linux-718abd7245ab07d144e03826d7b0f161ab66bed2/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2020-12-10 21:00:37.540804919 -0500
+@@ -149,14 +149,14 @@
+ 	/* bin scaling clock 1.296MHz */
+ 	rockchip,bin-scaling-sel = <
+ 		0               13
+-		1               13
++		1               15
+ 	>;
+ 
+-	/delete-node/ opp-408000000;
++	/* /delete-node/ opp-408000000;
+ 	/delete-node/ opp-600000000;
+ 	/delete-node/ opp-816000000;
+ 	/delete-node/ opp-1416000000;
+-	/delete-node/ opp-1512000000;
++	/delete-node/ opp-1512000000; */
+ };
+ 
+ &display_subsystem {
