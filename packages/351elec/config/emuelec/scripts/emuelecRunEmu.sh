@@ -172,6 +172,7 @@ case ${PLATFORM} in
 		LOGEMU="No" # ReicastSA outputs a LOT of text, only enable for debugging.
 		cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
 		fi
+		;;
 	"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
 		set_kill_keys "advmame retroarch"
 		if [ "$EMU" = "AdvanceMame" ]; then

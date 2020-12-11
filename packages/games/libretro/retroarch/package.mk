@@ -42,7 +42,7 @@ fi
 
 pre_configure_target() {
 # Retroarch does not like -O3 for CHD loading with cheevos
-export CFLAGS="`echo $CFLAGS | sed -e "s|-O.|-O2|g"`"
+#export CFLAGS="`echo $CFLAGS | sed -e "s|-O.|-O2|g"`"
 
 TARGET_CONFIGURE_OPTS=""
 PKG_CONFIGURE_OPTS_TARGET="--disable-qt \

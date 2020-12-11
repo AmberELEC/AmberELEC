@@ -19,7 +19,8 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
-export CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-O3|g"`
+#export CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-O3|g"`
+
 sed -i "s|#include <slang.h>|#include <$SYSROOT_PREFIX/usr/include/slang.h>|" $PKG_BUILD/configure.ac
 }
 
