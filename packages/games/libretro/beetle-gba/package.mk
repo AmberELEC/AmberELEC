@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-gba"
-PKG_VERSION="5fccbb2be361c60a176a033f5a6f735c1cea783b"
-PKG_SHA256="cbae1b0d158126d83142f1f17e697ef96b157bf2069c3c9a89b3c001da3f339f"
+PKG_VERSION="5dc23a3e302bd11efe997ae92e282e7d603c5813"
+PKG_SHA256="bc711802fdac5a66d1208447a1265aec737832bbb360ec2ea21a8af2216c2e67"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

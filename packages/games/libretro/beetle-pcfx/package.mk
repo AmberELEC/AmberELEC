@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-pcfx"
-PKG_VERSION="5b05b198c95a838798dbb57a25a4b8046b8ff34b"
-PKG_SHA256="5568bf3c947869f1b6c5f591a84de125e59061388782039acf294c78df75220e"
+PKG_VERSION="f9db75c4e37840af0334a36a651017f037f7c6d3"
+PKG_SHA256="7ef832b383a9b70109fee035a1973aa6fa55606df4998bef37fb7ee0a57def44"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
