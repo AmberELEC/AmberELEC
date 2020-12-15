@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-wswan"
-PKG_VERSION="98ff3de818ff158c22bd7c3ad61f2bb37d8bcb1f"
-PKG_SHA256="51267b6b8186d8afc91bb131459bf67e7a8d1066b1e53a512905a71a78381161"
+PKG_VERSION="3e746767d47cf5273d9f40ea8ad1bdac977b615b"
+PKG_SHA256="3937849fef38a24fdbd3092133b4178b2682637fe1d006924141ebb45ff7bba9"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

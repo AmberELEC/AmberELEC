@@ -19,7 +19,7 @@ cd 351ELEC
 make world
 ```
 
-Make world will build both 32bit and 64bit images which will be located in 351ELEC/release.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
+Make world will build both 32bit and 64bit userlands and generate a 64bit image which will be located in 351ELEC/release.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
 
 Other useful commands:
 
@@ -32,6 +32,7 @@ make clean
 ```
 
 ### Build 32bit Only
+Building 32bit provides the userland for the 64bit build.  32bit images are no longer created.
 
 ```
 make arm

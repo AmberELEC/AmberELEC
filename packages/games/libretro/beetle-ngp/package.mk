@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-ngp"
-PKG_VERSION="dfe869398a5ab0912917397daf3b91c4db484db9"
-PKG_SHA256="19e2bb11ba1f6a5c4b5ffc0fb9bd32b93a59fc54bf4d6d408fd496f314828154"
+PKG_VERSION="b306e802cc6285d1c179bf29f3d75f7ee10c7d89"
+PKG_SHA256="9bb212c8192c995425579ec1aa2c5b792047b03630fbd3b7c95d57ee279a322e"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
