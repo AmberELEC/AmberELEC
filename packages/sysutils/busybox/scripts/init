@@ -63,12 +63,6 @@ MACHINE_UID="$(awk '/^Serial/{s='0000000' $3; print substr(s, length(s) - 7)}' /
 # Enable GPIO 77 for power LED manipulation
 echo 77 > /sys/class/gpio/export
 
-# Enable PWM for rumble and turn rumble off during startup.
-#echo 0 > /sys/class/pwm/pwmchip0/export
-#echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
-#echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
-#echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
-
 # script functions
 progress() {
   if test "$PROGRESS" = "yes"; then
