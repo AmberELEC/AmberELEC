@@ -21,6 +21,7 @@ PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
 		       -DCMAKE_BUILD_TYPE=Release \
 		       -DCMAKE_SYSTEM_NAME=Linux \
 		       -DUSING_GLES2=ON \
+                       -DVULKAN=OFF \
                        -DUSING_X11_VULKAN=OFF \
 		       -DARM_NO_VULKAN=ON \
                        -DBUILD_SHARED_LIBS=OFF \
