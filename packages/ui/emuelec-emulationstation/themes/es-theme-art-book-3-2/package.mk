@@ -2,7 +2,7 @@
 # Copyright (C) 2020 Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
 
-PKG_NAME="es-theme-artbook"
+PKG_NAME="es-theme-art-book-3-2"
 PKG_VERSION="main"
 #PKG_SHA256=""
 PKG_REV="1"
