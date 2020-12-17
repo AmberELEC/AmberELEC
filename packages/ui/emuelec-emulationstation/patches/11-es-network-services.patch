@@ -1,0 +1,94 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-11-24 13:29:37.943586866 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 11:59:44.988143734 -0500
+@@ -304,46 +304,6 @@ void GuiMenu::openEmuELECSettings()
+ 			}
+ 		});
+ 		
+-       auto bluetoothd_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool btbaseEnabled = SystemConf::getInstance()->get("ee_bluetooth.enabled") == "1";
+-		bluetoothd_enabled->setState(btbaseEnabled);
+-		s->addWithLabel(_("ENABLE BLUETOOTH"), bluetoothd_enabled);
+-		s->addSaveFunc([bluetoothd_enabled] {
+-			if (bluetoothd_enabled->changed()) {
+-			if (bluetoothd_enabled->getState() == false) {
+-				runSystemCommand("systemctl stop bluetooth", "", nullptr); 
+-				runSystemCommand("rm /storage/.cache/services/bluez.conf", "", nullptr); 
+-			} else { 
+-				runSystemCommand("mkdir -p /storage/.cache/services/", "", nullptr);
+-				runSystemCommand("touch /storage/.cache/services/bluez.conf", "", nullptr);
+-				runSystemCommand("systemctl start bluetooth", "", nullptr);
+-			}
+-                bool bluetoothenabled = bluetoothd_enabled->getState();
+-                SystemConf::getInstance()->set("ee_bluetooth.enabled", bluetoothenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			}
+-		});
+-
+-       auto sshd_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool baseEnabled = SystemConf::getInstance()->get("ee_ssh.enabled") == "1";
+-		sshd_enabled->setState(baseEnabled);
+-		s->addWithLabel(_("ENABLE SSH"), sshd_enabled);
+-		s->addSaveFunc([sshd_enabled] {
+-			if (sshd_enabled->changed()) {
+-			if (sshd_enabled->getState() == false) {
+-				runSystemCommand("systemctl stop sshd", "", nullptr); 
+-				runSystemCommand("rm /storage/.cache/services/sshd.conf", "", nullptr); 
+-			} else { 
+-				runSystemCommand("mkdir -p /storage/.cache/services/", "", nullptr);
+-				runSystemCommand("touch /storage/.cache/services/sshd.conf", "", nullptr);
+-				runSystemCommand("systemctl start sshd", "", nullptr);
+-			}
+-                bool sshenabled = sshd_enabled->getState();
+-                SystemConf::getInstance()->set("ee_ssh.enabled", sshenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			}
+-		});
+-			
+ 		auto emuelec_boot_def = std::make_shared< OptionListComponent<std::string> >(mWindow, "START AT BOOT", false);
+ 		std::vector<std::string> devices;
+ 		devices.push_back("Emulationstation");
+@@ -3391,6 +3351,42 @@ void GuiMenu::openNetworkSettings_batoce
+ #endif
+ #endif
+ 
++       auto bluetoothd_enabled = std::make_shared<SwitchComponent>(mWindow);
++                bool btbaseEnabled = SystemConf::getInstance()->get("ee_bluetooth.enabled") == "1";
++                bluetoothd_enabled->setState(btbaseEnabled);
++                s->addWithLabel(_("ENABLE BLUETOOTH"), bluetoothd_enabled);
++                s->addSaveFunc([bluetoothd_enabled] {
++                        if (bluetoothd_enabled->getState() == false) {
++                                runSystemCommand("systemctl stop bluetooth", "", nullptr);
++                                runSystemCommand("rm /storage/.cache/services/bluez.conf", "", nullptr);
++                        } else {
++                                runSystemCommand("mkdir -p /storage/.cache/services/", "", nullptr);
++                                runSystemCommand("touch /storage/.cache/services/bluez.conf", "", nullptr);
++                                runSystemCommand("systemctl start bluetooth", "", nullptr);
++                        }
++                bool bluetoothenabled = bluetoothd_enabled->getState();
++                SystemConf::getInstance()->set("ee_bluetooth.enabled", bluetoothenabled ? "1" : "0");
++                                SystemConf::getInstance()->saveSystemConf();
++                });
++
++       auto sshd_enabled = std::make_shared<SwitchComponent>(mWindow);
++                bool baseEnabled = SystemConf::getInstance()->get("ee_ssh.enabled") == "1";
++                sshd_enabled->setState(baseEnabled);
++                s->addWithLabel(_("ENABLE SSH"), sshd_enabled);
++                s->addSaveFunc([sshd_enabled] {
++                        if (sshd_enabled->getState() == false) {
++                                runSystemCommand("systemctl stop sshd", "", nullptr);
++                                runSystemCommand("rm /storage/.cache/services/sshd.conf", "", nullptr);
++                        } else {
++                                runSystemCommand("mkdir -p /storage/.cache/services/", "", nullptr);
++                                runSystemCommand("touch /storage/.cache/services/sshd.conf", "", nullptr);
++                                runSystemCommand("systemctl start sshd", "", nullptr);
++                        }
++                bool sshenabled = sshd_enabled->getState();
++                SystemConf::getInstance()->set("ee_ssh.enabled", sshenabled ? "1" : "0");
++                                SystemConf::getInstance()->saveSystemConf();
++                });
++
+ 	// Wifi enable
+ 	auto enable_wifi = std::make_shared<SwitchComponent>(mWindow);	
+ 	enable_wifi->setState(baseWifiEnabled);
+Binary files emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/.git/index and emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/.git/index differ

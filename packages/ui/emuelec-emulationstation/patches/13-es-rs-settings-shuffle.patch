@@ -1,0 +1,67 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-17 17:11:43.858850814 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:02:56.789545584 -0500
+@@ -319,36 +319,6 @@ void GuiMenu::openEmuELECSettings()
+ 			}
+ 		});
+ 
+-       auto fps_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool fpsEnabled = SystemConf::getInstance()->get("global.showFPS") == "1";
+-		fps_enabled->setState(fpsEnabled);
+-		s->addWithLabel(_("SHOW RETROARCH FPS"), fps_enabled);
+-		s->addSaveFunc([fps_enabled] {
+-			bool fpsenabled = fps_enabled->getState();
+-                SystemConf::getInstance()->set("global.showFPS", fpsenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			});       
+-/*
+-       auto bezels_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool bezelsEnabled = SystemConf::getInstance()->get("global.bezel") == "1";
+-		bezels_enabled->setState(bezelsEnabled);
+-		s->addWithLabel(_("ENABLE RA BEZELS"), bezels_enabled);
+-		s->addSaveFunc([bezels_enabled] {
+-			bool bezelsenabled = bezels_enabled->getState();
+-                SystemConf::getInstance()->set("global.bezel", bezelsenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			});	
+-*/       
+-       auto splash_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool splashEnabled = SystemConf::getInstance()->get("ee_splash.enabled") == "1";
+-		splash_enabled->setState(splashEnabled);
+-		s->addWithLabel(_("ENABLE GAME SPLASH"), splash_enabled);
+-		s->addSaveFunc([splash_enabled] {
+-                bool splashenabled = splash_enabled->getState();
+-                SystemConf::getInstance()->set("ee_splash.enabled", splashenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			});
+-
+ 	auto enable_bootvideo = std::make_shared<SwitchComponent>(mWindow);
+ 	bool bootEnabled = SystemConf::getInstance()->get("ee_bootvideo.enabled") == "1";
+ 	enable_bootvideo->setState(bootEnabled);
+@@ -1855,6 +1825,26 @@ void GuiMenu::openGamesSettings_batocera
+ 	smoothing_enabled->addRange({ { _("AUTO"), "auto" },{ _("ON") , "1" },{ _("OFF") , "0" } }, SystemConf::getInstance()->get("global.smooth"));
+ 	s->addWithLabel(_("SMOOTH GAMES"), smoothing_enabled);
+ 	s->addSaveFunc([smoothing_enabled] { SystemConf::getInstance()->set("global.smooth", smoothing_enabled->getSelected()); });
++
++       auto fps_enabled = std::make_shared<SwitchComponent>(mWindow);
++                bool fpsEnabled = SystemConf::getInstance()->get("global.showFPS") == "1";
++                fps_enabled->setState(fpsEnabled);
++                s->addWithLabel(_("SHOW RETROARCH FPS"), fps_enabled);
++                s->addSaveFunc([fps_enabled] {
++                        bool fpsenabled = fps_enabled->getState();
++                SystemConf::getInstance()->set("global.showFPS", fpsenabled ? "1" : "0");
++                                SystemConf::getInstance()->saveSystemConf();
++                        });
++
++       auto splash_enabled = std::make_shared<SwitchComponent>(mWindow);
++                bool splashEnabled = SystemConf::getInstance()->get("ee_splash.enabled") == "1";
++                splash_enabled->setState(splashEnabled);
++                s->addWithLabel(_("ENABLE GAME SPLASH"), splash_enabled);
++                s->addSaveFunc([splash_enabled] {
++                bool splashenabled = splash_enabled->getState();
++                SystemConf::getInstance()->set("ee_splash.enabled", splashenabled ? "1" : "0");
++                                SystemConf::getInstance()->saveSystemConf();
++                        });
+ 	
+ #ifdef _ENABLEEMUELEC
+ 	// bezel

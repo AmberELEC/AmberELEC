@@ -1,0 +1,169 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:18:18.504861182 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:26:16.207463167 -0500
+@@ -109,10 +109,7 @@ GuiMenu::GuiMenu(Window *window, bool an
+ 	}, "iconKodi");	
+ #endif
+ 
+-#ifdef _ENABLEEMUELEC
+-	if (isFullUI)
+-		addEntry(_("351ELEC SETTINGS").c_str(), true, [this] { openEmuELECSettings(); }, "iconEmuelec"); /* < emuelec */
+-#endif
++	addEntry(_("SYSTEM SETTINGS").c_str(), true, [this] { openSystemSettings_batocera(); }, "iconSystem");
+ 
+ 	if (isFullUI &&
+ 		ApiSystem::getInstance()->isScriptingSupported(ApiSystem::RETROACHIVEMENTS) &&
+@@ -161,7 +158,11 @@ GuiMenu::GuiMenu(Window *window, bool an
+ 
+ 		addEntry(_("SCRAPE").c_str(), true, [this] { openScraperSettings(); }, "iconScraper");		
+ 		addEntry(_("DOWNLOADS"), true, [this] { openUpdatesSettings(); }, "iconUpdates");
+-		addEntry(_("SYSTEM SETTINGS").c_str(), true, [this] { openSystemSettings_batocera(); }, "iconSystem");
++
++#ifdef _ENABLEEMUELEC
++		if (isFullUI)
++			addEntry(_("EMULATIONSTATION SETTINGS").c_str(), true, [this] { openEmuELECSettings(); }, "iconEmuelec");
++#endif
+ 	}
+ 	else
+ 	{
+@@ -204,7 +205,7 @@ if (!isKidUI) {
+ /* < emuelec */
+ void GuiMenu::openEmuELECSettings()
+ {
+-	auto s = new GuiSettings(mWindow, "351ELEC Settings");
++	auto s = new GuiSettings(mWindow, "EmulationStation Settings");
+ 
+ 	Window* window = mWindow;
+ 	std::string a;
+@@ -330,62 +331,7 @@ void GuiMenu::openEmuELECSettings()
+ 		SystemConf::getInstance()->saveSystemConf();
+ 	});
+ 
+-	if (UIModeController::getInstance()->isUIModeFull())
+-	{
+-	
+-	
+-	//Danger zone options
+-		s->addEntry(_("DANGER ZONE!"), true, [this]
+-		{
+-	Window* window = mWindow;
+-	ComponentListRow row;
+-	GuiSettings *danger_zone = new GuiSettings(mWindow, _("DANGER ZONE!").c_str());
+-	// backup configs
+-	row.makeAcceptInputHandler([window] {
+-		window->pushGui(new GuiMsgBox(window, _("WARNING THIS WILL RESTART EMULATIONSTATION!\n\nAFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/roms/backup/351ELEC_BACKUP.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\nBACKUP CURRENT CONFIG AND RESTART?"), _("YES"),
+-				[] { 
+-				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils backup backup", "", nullptr);
+-				}, _("NO"), nullptr));
+-	});
+-	row.addElement(std::make_shared<TextComponent>(window, _("BACKUP EMUELEC CONFIGS"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+-	danger_zone->addRow(row);
+-	row.elements.clear();
+-	// emus config
+-	row.makeAcceptInputHandler([window] {
+-		window->pushGui(new GuiMsgBox(window, _("WARNING: SYSTEM WILL RESET SCRIPTS AND BINARIES !\nUPDATE, DOWNLOADS, THEMES, BLUETOOTH PAIRINGS AND ROMS FOLDER WILL NOT BE AFFECTED.\n\nRESET SCRIPTS AND BINARIES TO DEFAULT AND RESTART?"), _("YES"),
+-				[] { 
+-				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils clearconfig EMUS", "", nullptr);
+-				}, _("NO"), nullptr));
+-	});
+-	row.addElement(std::make_shared<TextComponent>(window, _("RESET EMUELEC SCRIPTS AND BINARIES TO DEFAULT"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+-	danger_zone->addRow(row);
+-	row.elements.clear();
+-	// retroarch config
+-	row.makeAcceptInputHandler([window] {
+-		window->pushGui(new GuiMsgBox(window, _("WARNING: RETROARCH CONFIG WILL RESET TO DEFAULT\n\nPER-CORE CONFIGURATIONS WILL NOT BE AFFECTED BUT NO BACKUP WILL BE CREATED!\n\nRESET RETROARCH CONFIG TO DEFAULT?"), _("YES"),
+-				[] { 
+-				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils clearconfig retroarch", "", nullptr);
+-				}, _("NO"), nullptr));
+-	});
+-	row.addElement(std::make_shared<TextComponent>(window, _("RESET RETROARCH CONFIG TO DEFAULT"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+-	danger_zone->addRow(row);
+-	row.elements.clear();
+-	// all configs
+-	row.makeAcceptInputHandler([window] {
+-		window->pushGui(new GuiMsgBox(window, _("WARNING: ALL CONFIGURATIONS WILL BE RESET AND NO BACKUP WILL BE CREATED!\n\nIF YOU WANT TO KEEP YOUR SETTINGS MAKE A BACKUP AND SAVE IT ON AN EXTERNAL DRIVE BEFORE RUNING THIS OPTION!\n\nRESET SYSTEM TO DEFAULT CONFIG AND RESTART?"), _("YES"),
+-				[] { 
+-				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils clearconfig ALL", "", nullptr);
+-				}, _("NO"), nullptr));
+-	});
+-	row.addElement(std::make_shared<TextComponent>(window, _("RESET SYSTEM TO DEFAULT CONFIG"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
+-	danger_zone->addRow(row);
+-	row.elements.clear();
+-			
+-			mWindow->pushGui(danger_zone);
+-		});
+-	
+ 	mWindow->pushGui(s);
+- }
+ }
+ /*  emuelec >*/
+ #endif
+@@ -1597,6 +1543,60 @@ void GuiMenu::openSystemSettings_batocer
+ 	if (isFullUI)
+ 		s->addEntry(_("DEVELOPER"), true, [this] { openDeveloperSettings(); });
+ 
++	if (UIModeController::getInstance()->isUIModeFull())
++	{
++	
++	
++	//Danger zone options
++		s->addEntry(_("DANGER ZONE!"), true, [this]
++		{
++	Window* window = mWindow;
++	ComponentListRow row;
++	GuiSettings *danger_zone = new GuiSettings(mWindow, _("DANGER ZONE!").c_str());
++	// backup configs
++	row.makeAcceptInputHandler([window] {
++		window->pushGui(new GuiMsgBox(window, _("WARNING THIS WILL RESTART EMULATIONSTATION!\n\nAFTER THE SCRIPT IS DONE REMEMBER TO COPY THE FILE /storage/roms/backup/351ELEC_BACKUP.zip TO SOME PLACE SAFE OR IT WILL BE DELETED ON NEXT REBOOT!\n\nBACKUP CURRENT CONFIG AND RESTART?"), _("YES"),
++				[] { 
++				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils backup backup", "", nullptr);
++				}, _("NO"), nullptr));
++	});
++	row.addElement(std::make_shared<TextComponent>(window, _("BACKUP EMUELEC CONFIGS"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
++	danger_zone->addRow(row);
++	row.elements.clear();
++	// emus config
++	row.makeAcceptInputHandler([window] {
++		window->pushGui(new GuiMsgBox(window, _("WARNING: SYSTEM WILL RESET SCRIPTS AND BINARIES !\nUPDATE, DOWNLOADS, THEMES, BLUETOOTH PAIRINGS AND ROMS FOLDER WILL NOT BE AFFECTED.\n\nRESET SCRIPTS AND BINARIES TO DEFAULT AND RESTART?"), _("YES"),
++				[] { 
++				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils clearconfig EMUS", "", nullptr);
++				}, _("NO"), nullptr));
++	});
++	row.addElement(std::make_shared<TextComponent>(window, _("RESET EMUELEC SCRIPTS AND BINARIES TO DEFAULT"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
++	danger_zone->addRow(row);
++	row.elements.clear();
++	// retroarch config
++	row.makeAcceptInputHandler([window] {
++		window->pushGui(new GuiMsgBox(window, _("WARNING: RETROARCH CONFIG WILL RESET TO DEFAULT\n\nPER-CORE CONFIGURATIONS WILL NOT BE AFFECTED BUT NO BACKUP WILL BE CREATED!\n\nRESET RETROARCH CONFIG TO DEFAULT?"), _("YES"),
++				[] { 
++				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils clearconfig retroarch", "", nullptr);
++				}, _("NO"), nullptr));
++	});
++	row.addElement(std::make_shared<TextComponent>(window, _("RESET RETROARCH CONFIG TO DEFAULT"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
++	danger_zone->addRow(row);
++	row.elements.clear();
++	// all configs
++	row.makeAcceptInputHandler([window] {
++		window->pushGui(new GuiMsgBox(window, _("WARNING: ALL CONFIGURATIONS WILL BE RESET AND NO BACKUP WILL BE CREATED!\n\nIF YOU WANT TO KEEP YOUR SETTINGS MAKE A BACKUP AND SAVE IT ON AN EXTERNAL DRIVE BEFORE RUNING THIS OPTION!\n\nRESET SYSTEM TO DEFAULT CONFIG AND RESTART?"), _("YES"),
++				[] { 
++				runSystemCommand("systemd-run /emuelec/scripts/emuelec-utils clearconfig ALL", "", nullptr);
++				}, _("NO"), nullptr));
++	});
++	row.addElement(std::make_shared<TextComponent>(window, _("RESET SYSTEM TO DEFAULT CONFIG"), Font::get(FONT_SIZE_MEDIUM), 0x777777FF), true);
++	danger_zone->addRow(row);
++	row.elements.clear();
++			
++			mWindow->pushGui(danger_zone);
++		});
++
+ 	auto pthis = this;
+ 	s->onFinalize([s, pthis, window]
+ 	{
+@@ -1606,6 +1606,7 @@ void GuiMenu::openSystemSettings_batocer
+ 			window->pushGui(new GuiMenu(window, false));
+ 		}
+ 	});
++	}
+ 
+ 	mWindow->pushGui(s);
+ }
