@@ -1,6 +1,6 @@
 diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
---- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:18:18.504861182 -0500
-+++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:26:16.207463167 -0500
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:51:53.017710123 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:52:30.870281699 -0500
 @@ -109,10 +109,7 @@ GuiMenu::GuiMenu(Window *window, bool an
  	}, "iconKodi");	
  #endif
@@ -35,7 +35,7 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  
  	Window* window = mWindow;
  	std::string a;
-@@ -330,62 +331,7 @@ void GuiMenu::openEmuELECSettings()
+@@ -330,62 +331,10 @@ void GuiMenu::openEmuELECSettings()
  		SystemConf::getInstance()->saveSystemConf();
  	});
  
@@ -93,15 +93,21 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
 -			mWindow->pushGui(danger_zone);
 -		});
 -	
++        // Developer options
++        s->addEntry(_("DEVELOPER"), true, [this] { openDeveloperSettings(); });
++
  	mWindow->pushGui(s);
 - }
  }
  /*  emuelec >*/
  #endif
-@@ -1597,6 +1543,60 @@ void GuiMenu::openSystemSettings_batocer
- 	if (isFullUI)
- 		s->addEntry(_("DEVELOPER"), true, [this] { openDeveloperSettings(); });
+@@ -1593,9 +1542,59 @@ void GuiMenu::openSystemSettings_batocer
  
+ 	});
+ 
+-	// Developer options
+-	if (isFullUI)
+-		s->addEntry(_("DEVELOPER"), true, [this] { openDeveloperSettings(); });
 +	if (UIModeController::getInstance()->isUIModeFull())
 +	{
 +	
@@ -155,11 +161,10 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
 +			
 +			mWindow->pushGui(danger_zone);
 +		});
-+
+ 
  	auto pthis = this;
  	s->onFinalize([s, pthis, window]
- 	{
-@@ -1606,6 +1606,7 @@ void GuiMenu::openSystemSettings_batocer
+@@ -1606,6 +1605,7 @@ void GuiMenu::openSystemSettings_batocer
  			window->pushGui(new GuiMenu(window, false));
  		}
  	});
