@@ -1,67 +1,61 @@
 # 351ELEC
 
-A fork of EmuELEC for the Anbernic RG351P
+An open source firmware for the Anbernic RG351P.
 
-Forked from [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC) and [Lakka](https://github.com/libretro/Lakka-LibreELEC) with tidbits from [Batocera](https://github.com/batocera-linux/batocera.linux).
+## Features
 
-This distribution is only intended to be used with the Anbernic RG351P and is not compatible with other devices.  It requires a 16GB microSD minimum.  It will create a boot partition, a storage partition, and a games partition (FAT32) on first boot.
+* A 64bit Firmware optimized for the RK3326 CPU and 320x480 display found in the RG351P.
+* Fully Open Source with a wonderful community of users and contributors.
+* An up-to-date and fresh user interface
+* Optimized defaults allowing you to pick up and play
+* Native support for Rumble
+* A FAT32 games partition easilly accessible from Linux, Windows and MacOS.
 
-351ELEC is a 64bit distribution that is tailored for the RG351P handheld.  The latest stable releases are available on GitHub.
-
-## Building from Source
-Building 351ELEC from source is a relatively simple process utilizing the scripts in the repository.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.
-
-```
-sudo apt update && sudo apt upgrade
-sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync
-git clone https://github.com/fewtarius/351ELEC.git 351ELEC    
-cd 351ELEC
-make world
-```
-
-Make world will build both 32bit and 64bit userlands and generate a 64bit image which will be located in 351ELEC/release.  Use 'dd' or your favorite image writer to write it to a microSD.  Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
-
-Other useful commands:
-
-### Clean the Build Directories
-
-The following command will delete all of the compiled data that is used to build the distribution.
-
-```
-make clean
-```
-
-### Build 32bit Only
-Building 32bit provides the userland for the 64bit build.  32bit images are no longer created.
-
-```
-make arm
-```
-
-### Build 64bit Only
-
-If you are building the 64bit distribution, you will need to have a 32bit world to utilize for multilib.
-
-```
-make aarch64
-```
+351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P and is not compatible with other devices.
 
 ## Installation
-Download the release image, and use 'dd' or your favorite image writer to write the distribution to a microSD. Note: The first boot after partitioning will take a minute or two, subsequent boots are much faster.
+
+351ELEC minimally requires an 8GB MicroSD, however the experience will be limited.  For an optimal configuration 32GB or more is recommended.
+
+To install the most recent stable release, start by downloading the latest 351ELEC-RG351P.aarch64-{version}.img.gz from the Releases section.
+
+* Decompress the image
+* Write the image to a microSD using your favorite image writer
+
+On the first boot, 351ELEC will expand the storage and games partitions and then reboot to configure the firmware.  It's normal for this process to take a minute or two.  After setting up for the first time, subsequent boots will be much faster.
+
+For access to nightly builds with the most recent bleeding edge changes, visit #releases-nightly on discord.
 
 ## Getting Help
 
-For general questions, visit our discord: https://discord.gg/bmXtCt88Tz
+If you have general questions or if you need help, join us on Discord: https://discord.gg/bmXtCt88Tz
 
-For issues and feature requests, use one of the templates on the issues tab.  The more information you provide, the easier it will be to assist.  Issues opened without using the form will be closed.  Please do not use the issue tracker for technical support, or your issue will be closed.
+For bug reports and feature requests, use one of the templates on the issues tab.  The more information you provide, the easier it will be to assist.  Please note that issues opened without using a form will be closed.  Please do not use the issue tracker for technical support, or your issue will be closed.
+
+## Building from Source
+Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
+
+```
+sudo apt update && sudo apt upgrade
+
+sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync
+
+git clone https://github.com/fewtarius/351ELEC.git 351ELEC  
+
+cd 351ELEC
+
+make clean
+
+make world
+```
+
+The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in 351ELEC/release.  Follow the installation steps to write your image to a microSD.
 
 ## License
 
-351ELEC is based on EmuELEC which is based on CoreELEC which in turn is licensed under the GPLv2 (and GPLv2-or-later), all original files created by the 351ELEC team are licensed as GPLv2-or-later and marked as such.
+351ELEC is a fork of EmuELEC which is based on CoreELEC which in turn is licensed under the GPLv2 (and GPLv2-or-later), all original files created by the 351ELEC team are licensed as GPLv2-or-later and marked as such.
 
-However, like EmuELEC the distro includes many non-commercial emulators/libraries/cores/binaries and as such, **it cannot be sold, bundled, offered, included, or anything similar, in any commercial product/application including but not limited to: Android Devices, Smart-TVs, TV-boxes, Hand-held Devices, Computers, SBCs, or anything else that can run EmuELEC.** with those emulators/libraries/cores/binaries included.
-
-I will also add this from the CoreELEC readme, adapted to EmuELEC, and now to 351ELEC:
+This firmware includes many non-commercial emulators/libraries/cores/binaries and as such, **it cannot be sold, bundled, offered, included, or anything similar, in any commercial product/application including but not limited to: Android Devices, Smart-TVs, TV-boxes, Hand-held Devices, Computers, SBCs, or anything else that can run 351ELEC.** with those emulators/libraries/cores/binaries included.
 
 As 351ELEC includes code from many upstream projects it includes many copyright owners. 351ELEC makes NO claim of copyright on any upstream code. Patches to upstream code have the same license as the upstream project, unless specified otherwise. For a complete copyright list please checkout the source code to examine license headers. Unless expressly stated otherwise all code submitted to the 351ELEC project (in any form) is licensed under GPLv2-or-later. You are absolutely free to retain copyright. To retain copyright simply add a copyright header to each submitted code page. If you submit code that is not your own work it is your responsibility to place a header stating the copyright.
 
@@ -70,5 +64,3 @@ As 351ELEC includes code from many upstream projects it includes many copyright 
 All 351ELEC related logos, videos, images and branding in general are the sole property of 351ELEC and they are all Copyrighted by the 351ELEC team and are not to be included in any commercial application whatsoever without the proper authorization, (yes, this includes 351ELEC bundled with ROMS for donations!).
 
 You are however granted permission to include/modify them in your forks/projects as long as they are completely open-source, freely available (as in [but not limited to] not under a bunch of "click this sponsored ad to get the link!"), and do not infringe on any copyright laws, even if you receive donations for such project (we are not against donations for honest people!), we only ask that you give us the proper credit and if possible a link to this repo.
-
-Happy retrogaming! 
