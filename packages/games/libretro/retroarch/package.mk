@@ -100,7 +100,11 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/share/audio_filters
     cp $PKG_BUILD/libretro-common/audio/dsp_filters/*.so $INSTALL/usr/share/audio_filters
     cp $PKG_BUILD/libretro-common/audio/dsp_filters/*.dsp $INSTALL/usr/share/audio_filters
-  
+
+   # General configuration
+   mkdir -p $INSTALL/usr/config/retroarch/
+   cp -rf $PKG_DIR/sources/* $INSTALL/usr/config/retroarch/ 
+ 
 }
 
 post_install() {  
