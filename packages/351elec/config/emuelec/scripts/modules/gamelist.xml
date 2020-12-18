@@ -53,22 +53,13 @@
         </game>
 
         <game>
-                <path>./Upgrade Configs.sh</path>
-                <name>Upgrade Configs</name>
-                <desc>Update configurations to release versions. ** DATA DESTRUCTIVE **</desc>
+                <path>./Delete RetroArch Overrides.sh</path>
+                <name>Delete RetroArch Overrides</name>
+                <desc>Removes the RetroArch Overrides implemented in 1.0.4 ** DATA DESTRUCTIVE **</desc>
                 <developer>fewtarius</developer>
                 <publisher>351ELEC</publisher>
                 <genre>script</genre>
                 <image>./downloaded_images/update.png</image>
         </game>
 
-        <game>
-                <path>./Restore Configs.sh</path>
-                <name>Restore Configs</name>
-                <desc>Restores upgraded configs to their previous versions. ** DATA DESTRUCTIVE **</desc>
-                <developer>fewtarius</developer>
-                <publisher>351ELEC</publisher>
-                <genre>script</genre>
-                <image>./downloaded_images/update.png</image>
-        </game>	
 </gameList>
