@@ -111,6 +111,7 @@ group_platform
 function clean_settings() {
 # IMPORTANT: Every setting we change should be removed from retroarch.cfg before we do any changes.
 	sed -i '/video_scale_integer =/d' ${RACONF}
+        sed -i '/video_ctx_integer =/d' ${RACONF}
 	sed -i '/video_shader =/d' ${RACONF}
 	sed -i '/video_shader_enable =/d' ${RACONF}
 	sed -i '/video_smooth =/d' ${RACONF}
@@ -153,6 +154,7 @@ function default_settings() {
 # IMPORTANT: Every setting we change should have a default value here
 	clean_settings
 	echo 'video_scale_integer = "false"' >> ${RACONF}
+	echo 'video_ctx_integer = "false"' >> ${RACONF}
 	echo 'video_shader = ""' >> ${RACONF}
 	echo 'video_shader_enable = "false"' >> ${RACONF}
 	echo 'video_smooth = "false"' >> ${RACONF} 
@@ -393,7 +395,7 @@ set_setting ${1} ${EES}
 
 clean_settings
 
-for s in ratio smooth shaderset rewind autosave integerscale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
+for s in ratio smooth shaderset rewind autosave integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
 get_setting $s
 [ -z "${EES}" ] || SETF=1
 done
