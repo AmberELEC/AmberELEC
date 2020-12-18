@@ -1,0 +1,23 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-17 19:04:06.881726413 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 19:07:07.164853579 -0500
+@@ -1909,11 +1909,17 @@ void GuiMenu::openGamesSettings_batocera
+ #endif
+ 
+ 	// Integer scale
+-	auto integerscale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("INTEGER SCALE (PIXEL PERFECT)"));
++	auto integerscale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("INTEGER SCALE (FOR HANDHELDS/ARCADE)"));
+ 	integerscale_enabled->addRange({ { _("AUTO"), "auto" },{ _("ON") , "1" },{ _("OFF") , "0" } }, SystemConf::getInstance()->get("global.integerscale"));
+-	s->addWithLabel(_("INTEGER SCALE (PIXEL PERFECT)"), integerscale_enabled);
++	s->addWithLabel(_("INTEGER SCALE (FOR HANDHELDS/ARCADE)"), integerscale_enabled);
+ 	s->addSaveFunc([integerscale_enabled] { SystemConf::getInstance()->set("global.integerscale", integerscale_enabled->getSelected()); });
+ 
++        // RGA scale
++        auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALE (FOR CONSOLES)"));
++        rgascale_enabled->addRange({ { _("AUTO"), "auto" },{ _("ON") , "1" },{ _("OFF") , "0" } }, SystemConf::getInstance()->get("global.rgascale"));
++        s->addWithLabel(_("RGA SCALE (FOR CONSOLES)"), rgascale_enabled);
++        s->addSaveFunc([rgascale_enabled] { SystemConf::getInstance()->set("global.rgascale", rgascale_enabled->getSelected()); });
++
+ #ifndef _ENABLEEMUELEC
+ 	// decorations
+ 	if (ApiSystem::getInstance()->isScriptingSupported(ApiSystem::DECORATIONS))

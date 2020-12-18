@@ -218,6 +218,9 @@ case ${1} in
 	"integerscale")
 		[ "${2}" == "1" ] && echo 'video_scale_integer = "true"' >> ${RACONF} || echo 'video_scale_integer = "false"' >> ${RACONF} 
 	;;
+        "rgascale")
+                [ "${2}" == "1" ] && echo 'video_ctx_scaling = "true"' >> ${RACONF} || echo 'video_ctx_scaling = "false"' >> ${RACONF}
+        ;;
 	"shaderset")
 		if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then 
 			echo 'video_shader_enable = "false"' >> ${RACONF}
