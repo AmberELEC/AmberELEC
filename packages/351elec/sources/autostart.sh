@@ -21,11 +21,12 @@ fi
 rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
 cp /usr/config/EE_VERSION /storage/.config
 
-# Deprecated, remove soon
-#cp /usr/config/autostart.sh /storage/.config/autostart.sh
-
 # Copy in any new PPSSPP INIs from git
-cp /usr/config/ppsspp/PSP/SYSTEM/*.ini .config/ppsspp/SYSTEM
+rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini .config/ppsspp/SYSTEM
+
+# Copy remappings
+rsync --ignore-existing -raz /usr/config/remappings /storage/remappings
+
 # Release specific updates
 cp /usr/config/emuelec/configs/jslisten.cfg /storage/.config/emuelec/configs/jslisten.cfg
 
