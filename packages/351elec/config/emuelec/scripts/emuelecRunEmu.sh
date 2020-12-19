@@ -59,7 +59,7 @@ RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 NETPLAY="No"
 
 
-if [ $(get_es_setting string LogLevel) == "minimal" ]; then 
+if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then 
     EMUELECLOG="/dev/null"
     echo "Logging has been dissabled, enable it in Main Menu > System Settings > Developer > Log Level"
 else
@@ -135,9 +135,6 @@ LOGEMU="Yes"
 VERBOSE="-v"
 fi
 
-# Show splash screen if enabled
-SPL=$(get_ee_setting ee_splash.enabled)
-[ "$SPL" -eq "1" ] && ${TBASH} /emuelec/scripts/show_splash.sh "${ROMNAME}"
 
 if [ -z ${LIBRETRO} ]; then
 
@@ -315,25 +312,31 @@ if [[ ${NETPLAY} != "No" ]]; then
 # End netplay
 fi
 
+
 if [[ ${PLATFORM} == "ports" ]]; then
-  SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
+  SHADERSET=$(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}") &
 else
-  SHADERSET=$(/storage/.config/emuelec/scripts/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}")
+  SHADERSET=$(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}") &
 fi
 
-echo $SHADERSET
-
 if [[ ${SHADERSET} != 0 ]]; then
-  RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|")
+  RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|") &
 fi
 
 # we check is maxperf is set 
 if [ $(get_ee_setting "maxperf" "${PLATFORM}" "${ROMNAME##*/}") == "0" ]; then
-  normperf
+  normperf &
 else
-  maxperf
+  maxperf &
 fi
 
+clear > /dev/console
+
+# Show splash screen if enabled
+SPL=$(get_ee_setting ee_splash.enabled)
+[ "$SPL" -eq "1" ] && (${TBASH} /emuelec/scripts/show_splash.sh "${ROMNAME}") &
+
+wait
 
 # Clear the log file
 echo "EmuELEC Run Log" > $EMUELECLOG
@@ -443,7 +446,7 @@ CBPLATFORM="${PLATFORM}"
 ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG}"
 
 fi #require bios ends
-clear > /dev/console
+
 LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
 if [ $? == 0 ]
 then
