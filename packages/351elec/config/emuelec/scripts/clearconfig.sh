@@ -13,7 +13,7 @@ case $1 in
   find /storage -mindepth 1 \( ! -regex '^/storage/.config/emulationstation/themes.*' -a ! -regex '^/storage/.update.*' -a ! -regex '^/storage/download.*' -a ! -regex '^/storage/roms.*' \) -delete
   mkdir /storage/.config/
   sync
-  rsync -av /usr/config/* /storage/.config/
+  rsync -av /usr/config/* /storage
   sync
   systemctl reboot
   ;;
@@ -22,7 +22,7 @@ case $1 in
   find /storage -mindepth 1 \( ! -regex '^/storage/.update.*' -a ! -regex '^/storage/roms.*' \) -delete
   mkdir /storage/.config/
   sync
-  rsync -av /usr/config/* /storage/.config/
+  rsync -av /usr/config/* /storage
   sync
   systemctl reboot
   ;;
