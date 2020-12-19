@@ -58,7 +58,7 @@ for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800        
 	   dreamcast famicom fbneo fds gameandwatch gamegear gb gba gbc           \
 	   genesis gw mame mastersystem megadrive megadrive-japan msx msx2        \
 	   n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor pcengine       \
-	   pcenginecd pcfx psp psx saturn sc-3000 scummvm sega32x segacd sfc      \
+	   pc pcenginecd pcfx psp psx saturn sc-3000 scummvm sega32x segacd sfc   \
 	   sg-1000 sgfx snes tg16 tg16cd uzebox vectrex vic20 videopac virtualboy \
 	   wonderswan wonderswancolor x68000 zx81 zxspectrum ports ports/VVVVVV   \
 	   ports/quake ports/diablo ports/doom ports/doom2 ports/cannonball       \
