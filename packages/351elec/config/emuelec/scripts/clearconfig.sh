@@ -2,6 +2,7 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
 IDENTITYFILE="/storage/roms/backup/identity.tar.gz"
