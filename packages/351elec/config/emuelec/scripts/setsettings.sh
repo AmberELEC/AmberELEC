@@ -28,7 +28,14 @@ SETF=0
 SHADERSET=0
 
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
-cp ${SOURCERACONF} ${RACONF}
+cp -f ${SOURCERACONF} ${RACONF}
+
+function doexit() {
+# copy back temp config to retroarch config 
+cp -f ${RACONF} ${SOURCERACONF}
+rm ${RACONF}
+exit 0
+}
 
 function group_platform() {
 case ${1} in 
@@ -206,7 +213,7 @@ case ${1} in
 		[ "${2}" == "1" ] && echo 'video_smooth = "true"' >> ${RACONF} || echo 'video_smooth = "false"' >> ${RACONF} 
 	;;
 	"rewind")
-		(for e in "${NOREWIND[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && (cp ${RACONF} ${SOURCERACONF} && exit 0); done) && RE=0 || RE=1
+		(for e in "${NOREWIND[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && doexit; done) && RE=0 || RE=1
 			if [ $RE == 1 ] && [ "${2}" == "1" ]; then
 				echo 'rewind_enable = "true"' >> ${RACONF}
 			else
@@ -239,7 +246,7 @@ case ${1} in
 		fi
 	;;
 	"runahead")
-	(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && (cp ${RACONF} ${SOURCERACONF} && exit 0); done) && RA=0 || RA=1	
+	(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && doexit; done) && RA=0 || RA=1	
     if [ $RA == 1 ]; then
 		if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then 
 			echo 'run_ahead_enabled = "false"' >> ${RACONF}
@@ -251,7 +258,7 @@ case ${1} in
 	fi
 	;;
 	"secondinstance")
-	(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && (cp ${RACONF} ${SOURCERACONF} && exit 0); done) && RA=0 || RA=1	
+	(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && doexit; done) && RA=0 || RA=1	
     if [ $RA == 1 ]; then
 		[ "${2}" == "1" ] && echo 'run_ahead_secondary_instance = "true"' >> ${RACONF} || echo 'run_ahead_secondary_instance = "false"' >> ${RACONF} 
 	fi
@@ -486,17 +493,17 @@ done
 EE_DEVICE=$(cat /ee_arch)
 get_setting "retroarch.menu_driver"
 
-if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
-[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && EES="xmb"
-else
-[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && EES="ozone"
-fi
+#if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
+#[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && EES="xmb"
+#else
+#[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && EES="ozone"
+#fi
 
-sed -i "/menu_driver =/d" ${RACONF}
-echo "menu_driver = ${EES}" >> ${RACONF}
+#sed -i "/menu_driver =/d" ${RACONF}
+#echo "menu_driver = ${EES}" >> ${RACONF}
 
 # Show bezel if enabled
 get_setting "bezel"
 [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && ${TBASH} /emuelec/scripts/bezels.sh "default" || ${TBASH} /emuelec/scripts/bezels.sh "$PLATFORM" "${ROM}"
 
-cp ${RACONF} ${SOURCERACONF}
+doexit

@@ -21,7 +21,7 @@ done
 if [ $FOUND = 1 ]; then
         # Update jslisten.cfg with the corresponding keys
         EE_GAMEPAD="/tmp/joypads/$file2"
-        KEY1=$(cat "$EE_GAMEPAD" | grep -E 'input_l3_btn' | cut -d '"' -f2)
+        KEY1=$(cat "$EE_GAMEPAD" | grep -E 'input_l2_btn' | cut -d '"' -f2)
         KEY2=$(cat "$EE_GAMEPAD" | grep -E 'hotkey_btn' | cut -d '"' -f2)
         KEY3=$(cat "$EE_GAMEPAD" | grep -E 'input_exit_emulator_btn' | cut -d '"' -f2)
         sed -i "3s|button1=.*|button1=${KEY1}|" ${EE_CFG}
