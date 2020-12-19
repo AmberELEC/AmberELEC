@@ -22,7 +22,7 @@ rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emu
 cp /usr/config/EE_VERSION /storage/.config
 
 # Copy in any new PPSSPP INIs from git
-rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini .config/ppsspp/SYSTEM
+rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.config/ppsspp/PSP/SYSTEM
 
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
@@ -73,25 +73,29 @@ do
 done
 
 # Restore config if backup exists
-BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
+BPATH="/storage/roms/backup/"
+BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
 
-if [ -e "/storage/roms/backup/.restore" ]
+if [ -e "${BPATH}/.restore" ]
 then
-  if [ -f "${BACKUPFILE}" ]; then 
+  if [ -f "${BACKUPFILE}" ]; then
+    message_stream "Restoring backup..." .02
     unzip -o ${BACKUPFILE} -d /
     rm ${BACKUPFILE}
+    systemctl reboot
   fi
 fi
 
 # Restore identity if it exists from a factory reset
-IDENTITYFILE="/storage/roms/backup/identity.tar.gz"
+IDENTITYFILE="${BPATH}/identity.tar.gz"
 
 if [ -e "${IDENTITYFILE}" ]
 then
   cd /
-  tar -xzf ${IDENTITYFILE}
+  tar -xvzf ${IDENTITYFILE} >${BPATH}/restore.log
   rm ${IDENTITYFILE}
-  cd -
+  message_stream "Identity restored...rebooting..." .02
+  systemctl reboot
 fi
 
 # Check if we have unsynched update files
