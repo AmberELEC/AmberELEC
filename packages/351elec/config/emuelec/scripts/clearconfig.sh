@@ -4,6 +4,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
+IDENTITYFILE="/storage/roms/backup/identity.tar.gz"
 mkdir -p "/storage/roms/backup/"
 
 case $1 in
@@ -17,6 +18,8 @@ case $1 in
   ;;
 "ALL")
   systemctl stop emustation
+  cd /
+  tar -czf ${IDENTITYFILE} /storage/.ssh /storage/.config/emuelec/configs/emuelec.conf /storage/.cache/shadow /storage/.cache/ssh
   find /storage -mindepth 1 \( ! -regex '^/storage/.update.*' -a ! -regex '^/storage/roms.*' \) -delete
   mkdir /storage/.config/
   sync

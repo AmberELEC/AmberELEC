@@ -25,7 +25,7 @@ cp /usr/config/EE_VERSION /storage/.config
 rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini .config/ppsspp/SYSTEM
 
 # Copy remappings
-rsync --ignore-existing -raz /usr/config/remappings /storage/remappings
+rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
 
 # Release specific updates
 cp /usr/config/emuelec/configs/jslisten.cfg /storage/.config/emuelec/configs/jslisten.cfg
@@ -77,10 +77,21 @@ BACKUPFILE="/storage/roms/backup/351ELEC_BACKUP.zip"
 
 if [ -e "/storage/roms/backup/.restore" ]
 then
-  if [ -f ${BACKUPFILE} ]; then 
+  if [ -f "${BACKUPFILE}" ]; then 
     unzip -o ${BACKUPFILE} -d /
     rm ${BACKUPFILE}
   fi
+fi
+
+# Restore identity if it exists from a factory reset
+IDENTITYFILE="/storage/roms/backup/identity.tar.gz"
+
+if [ -e "${IDENTITYFILE}" ]
+then
+  cd /
+  tar -xzf ${IDENTITYFILE}
+  rm ${IDENTITYFILE}
+  cd -
 fi
 
 # Check if we have unsynched update files
