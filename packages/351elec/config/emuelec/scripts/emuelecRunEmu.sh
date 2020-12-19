@@ -447,6 +447,8 @@ ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG
 
 fi #require bios ends
 
+clear > /dev/console
+
 LISTENTEST=$(ps -ef | grep [j]slis >/dev/null 2>&1)
 if [ $? == 0 ]
 then
