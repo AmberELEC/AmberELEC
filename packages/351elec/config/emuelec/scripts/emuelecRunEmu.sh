@@ -112,14 +112,6 @@ NETPLAY="${NETPLAY%%--nick*}"  # until --nick is found
 NETPLAY="--connect $NETPLAY --nick"
 fi
 
-# If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
-if [[ "${ROMNAME}" == *".sh" ]]; then
-	set_kill_keys "bash"
-	EMUELECLOG="$LOGSDIR/ee_script.log"
-	"${ROMNAME}"
-	exit 0
-fi
-
 [[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
 
 # JSLISTEN setup so that we can kill running ALL emulators using hotkey+start
@@ -337,6 +329,14 @@ SPL=$(get_ee_setting ee_splash.enabled)
 [ "$SPL" -eq "1" ] && (${TBASH} /emuelec/scripts/show_splash.sh "${ROMNAME}") &
 
 wait
+
+# If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
+if [[ "${ROMNAME}" == *".sh" ]]; then
+        set_kill_keys "bash"
+        EMUELECLOG="$LOGSDIR/ee_script.log"
+        "${ROMNAME}"
+        exit 0
+fi
 
 # Clear the log file
 echo "EmuELEC Run Log" > $EMUELECLOG
