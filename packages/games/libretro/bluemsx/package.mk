@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="bluemsx"
-PKG_VERSION="1d441d908e73cf0fa7f52c42686f6c9e8cd254ed"
-PKG_SHA256="3f7dff40af70d11efe05d500beb5409dbd00e007f6c896051390af5922b42fa4"
+PKG_VERSION="c69115bb20036d6fcf439a314f7958802dee75fd"
+PKG_SHA256="c59d47372d4266dd0da12d78a868a9878b8d9d6f8c94c0bd0f5592bfcf1a2e67"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

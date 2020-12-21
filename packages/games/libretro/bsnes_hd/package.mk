@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,7 +20,7 @@
 ################################################################################
 
 PKG_NAME="bsnes_hd"
-PKG_VERSION="b68d72b359d10cea96d92ec44630289d15df7a30"
+PKG_VERSION="76f508f731110705179b8be133bb6189b92fa078"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
