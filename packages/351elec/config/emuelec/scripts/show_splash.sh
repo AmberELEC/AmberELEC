@@ -23,6 +23,10 @@ if [ "$ROMNAME" == "intro" ] || [ "$ROMNAME" == "exit" ]
 then
         SPLASH="/storage/.config/splash/splash-1080.png"
 else
+  if [ "$(get_ee_setting ee_splash.enabled)" == "0" ]
+  then
+    exit 0
+  fi
   MYGAME=${ROMNAME^^}
   MYBOOT="
 

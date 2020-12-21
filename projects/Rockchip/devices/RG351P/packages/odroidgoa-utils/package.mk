@@ -13,13 +13,15 @@ PKG_LONGDESC="Support scripts for the ODROID-GO Advance"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/emuelec/scripts
-        cp headphone_sense.sh $INSTALL/usr/config/emuelec/scripts
-        cp odroidgoa_utils.sh $INSTALL/usr/config/emuelec/scripts
+	mkdir -p $INSTALL/usr/bin
+        cp headphone_sense.sh $INSTALL/usr/bin
+	cp battery.sh $INSTALL/usr/bin
+        cp odroidgoa_utils.sh $INSTALL/usr/config/bin
         #cp oga_events.py $INSTALL/usr/config/emuelec/scripts
 }
 
 post_install() {  
 	#enable_service odroidgoa-hotkeys.service
 	enable_service odroidgoa-headphones.service
+	enable_service battery.service
 }
