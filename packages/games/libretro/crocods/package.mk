@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="crocods"
-PKG_VERSION="8d8443cd68093dab195e38973374159c8daefa96"
-PKG_SHA256="e37d8aa1701957dd54b39673c88d25b334177b8de7ff57463255b2e036600352"
+PKG_VERSION="82381357974b55d8d29475a1afb8e399371cbd2c"
+PKG_SHA256="297f5b47aa51ad366c7b6f1c5e825277a5cad443299e8d746ba5f06f2f00fb4e"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MIT"
