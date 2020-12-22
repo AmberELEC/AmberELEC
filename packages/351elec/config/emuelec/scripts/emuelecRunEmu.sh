@@ -35,6 +35,7 @@ if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then
     LOG=false
 else
     LOG=true
+	VERBOSE=true
 fi
 
 arguments="$@"
@@ -424,7 +425,7 @@ then
 fi
 
 if [[ ${SHADERSET} != 0 ]]; then
-	RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|") &
+	RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${SHADERSET} --config|")
 fi
 
 clear_screen
