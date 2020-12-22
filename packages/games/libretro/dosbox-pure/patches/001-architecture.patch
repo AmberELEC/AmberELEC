@@ -1,0 +1,64 @@
+diff -rupN dosbox-pure-1502730ed7078e0f91e3dc82608dd5d7755c63b3.orig/Makefile dosbox-pure-1502730ed7078e0f91e3dc82608dd5d7755c63b3.new/Makefile
+--- dosbox-pure-1502730ed7078e0f91e3dc82608dd5d7755c63b3.orig/Makefile	2020-12-21 15:54:48.048434777 -0500
++++ dosbox-pure-1502730ed7078e0f91e3dc82608dd5d7755c63b3.new/Makefile	2020-12-21 16:39:16.054834521 -0500
+@@ -18,7 +18,7 @@
+ 
+ ISWIN      := $(findstring :,$(firstword $(subst \, ,$(subst /, ,$(abspath .)))))
+ PIPETONULL := $(if $(ISWIN),>nul 2>nul,>/dev/null 2>/dev/null)
+-PROCCPU    := $(shell $(if $(ISWIN),GenuineIntel Intel sse sse2,cat /proc/cpuinfo))
++#PROCCPU    := $(shell $(if $(ISWIN),GenuineIntel Intel sse sse2,cat /proc/cpuinfo))
+ 
+ SOURCES := \
+ 	*.cpp       \
+@@ -29,48 +29,19 @@ SOURCES := \
+ SOURCES_EXCLUDE := \
+ 	src/hardware/opl.cpp
+ 
+-ifneq ($(and $(filter ARMv7,$(PROCCPU)),$(filter neon,$(PROCCPU))),)
+-  CPUFLAGS := -mcpu=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard -ffast-math
+-else
+-  CPUFLAGS :=
+-endif
+-
+ # Explicitly use gcc 9 to avoid buggy assembly genetation of gcc 10
+ # On armv7l, gcc 10.2 on the file core_dynrec.cpp generates assembly that wrongfully passes NULL to the runcode function
+ # resulting in a segfault crash. It can be observed by writing block->cache.start to stdout twice where it is NULL at first
+ # and then the actual value thereafter. This affects upstream SVN DOSBox as well as this core.
+-CXX := g++-9
++#CXX := g++-9
+ 
+ OUTNAME := dosbox_pure_libretro.so
+ 
+-ifeq ($(BUILD),DEBUG)
+-  BUILDDIR := debug
+-  CFLAGS   := -DDEBUG -D_DEBUG -g -O0
+-  LDFLAGS  :=
+-else ifeq ($(BUILD),PROFILE)
+-  BUILDDIR := profile
+-  CFLAGS   := -DNDEBUG -O2
+-  LDFLAGS  := 
+-else ifeq ($(BUILD),RELEASEDBG)
+-  BUILDDIR := releasedbg
+-  CFLAGS   := -DNDEBUG -ggdb -O2
+-  LDFLAGS  := -ggdb -O2
+-else ifeq ($(BUILD),ASAN)
+-  BUILDDIR := asan
+-  CFLAGS   := -DDEBUG -D_DEBUG -g -O0 -fsanitize=address -fno-omit-frame-pointer
+-  LDFLAGS  := -fsanitize=address -g -O0
+-else
+-  BUILD    := RELEASE
+-  BUILDDIR := release
+-  CFLAGS   := -DNDEBUG -O2 -s -fno-ident
+-  LDFLAGS  := -O2 -s -Wl,--strip-all -fno-ident
+-endif
+-
+-CFLAGS  += $(CPUFLAGS) -fpic -fomit-frame-pointer -fno-exceptions -fno-non-call-exceptions -Wno-psabi -Wno-address-of-packed-member -Wno-format
++CFLAGS  += -fpic -fomit-frame-pointer -fno-exceptions -fno-non-call-exceptions -Wno-psabi -Wno-address-of-packed-member -Wno-format
+ CFLAGS  += -fvisibility=hidden -ffunction-sections -fdata-sections
+ CFLAGS  += -pthread -D__LIBRETRO__ -Iinclude
+ 
+-LDFLAGS += $(CPUFLAGS) -lpthread -Wl,--gc-sections -shared
++LDFLAGS += -lpthread -Wl,--gc-sections -shared
+ #LDFLAGS += -static-libstdc++ -static-libgcc #adds 1MB to output
+ 
+ .PHONY: all clean

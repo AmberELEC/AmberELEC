@@ -35,9 +35,6 @@ fi
 esac
 fi
 
-AUTOGP=$(get_ee_setting advmame_auto_gamepad)
-[[ "${AUTOGP}" != "0" ]] && /emuelec/scripts/set_advmame_joy.sh
-
 ARG=$(echo basename $1 | sed 's/\.[^.]*$//')
 ARG="$(echo $1 | sed 's=.*/==;s/\.[^.]*$//')"         
 
