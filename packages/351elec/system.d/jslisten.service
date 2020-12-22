@@ -1,0 +1,12 @@
+[Unit]
+Description=hotkey service
+Before=emulationstation.service
+After=graphical.target
+
+[Service]
+Environment=HOME=/storage
+ExecStart=/usr/bin/jslisten --mode hold
+Restart=on-failure
+
+[Install]
+WantedBy=jslisten.target
