@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,7 +20,7 @@
 ################################################################################
 
 PKG_NAME="dosbox"
-PKG_VERSION="e4ed503b14ed59d5d745396ef1cc7d52cf912328"
+PKG_VERSION="665d16d4edaeb8b1d6170c4bcf3747d20b03d032"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
