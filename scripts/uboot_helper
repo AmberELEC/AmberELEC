@@ -35,7 +35,7 @@ devices = {
   'Rockchip' : {
     'MiQi' : { 'rk3288' : { 'dtb' : 'rk3288-miqi.dtb', 'config' : 'miqi-rk3288_config' }, },
     'RG351P' : {
-    'rg351p' : { 'dtb' : 'rk3326-rg351p-linux.dtb', 'config' : 'odroidgoa_defconfig' },
+    'rg351p' : { 'dtb' : 'rk3326-rg351p-linux.dtb', 'config' : 'odroidgo2_defconfig' },
     },
     'RK3328' : {
       'box' : { 'dtb' : 'rk3328-box.dtb', 'config' : 'evb-rk3328_defconfig' },

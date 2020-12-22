@@ -213,7 +213,7 @@ EOF
 		aplay "/usr/share/sounds/Mallet.wav"
 	    fi
 	fi
-    elif [[ "${arch}" =~ "OdroidGoAdvance" ]]
+    elif [[ "${arch}" =~ "RG351P" ]]
     then
 	case "${mode}" in
 	    "auto"|"speakers")
@@ -263,6 +263,20 @@ if [ "$command" == "module" ];then
 		[ "$?" ] || exit 1
         fi
 	exit 0
+fi
+
+if [ "$command" == "canupdate" ];then
+	available=$(updatecheck canupdate)
+	echo "$available"
+	if [[ "$available" != "no" ]]; then
+		exit 0
+	fi
+	exit 12
+fi
+
+if [ "$command" == "update" ];then
+	351elec-upgrade
+	exit $?
 fi
 
 if [[ "$command" == "wifi" ]]; then

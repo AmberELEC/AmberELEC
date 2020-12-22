@@ -17,7 +17,7 @@ PKG_STAMP="$UBOOT_SYSTEM"
 PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 [ -n "$DEVICE" ] && PKG_NEED_UNPACK+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/bootloader"
 
-PKG_VERSION="a1b59905a4554055f35196e17301bf83cbe41b5f"
+PKG_VERSION="e7b255b54c42c8a805dee7a9409a8838cfa13586"
 #PKG_SHA256="a3c9d17c363cdedb43ec34f3965594d82bf499cc1d70334610afe477adcdf9b6"
 PKG_URL="https://github.com/hardkernel/u-boot/archive/$PKG_VERSION.tar.gz"
 
@@ -45,6 +45,8 @@ make_target() {
 
 makeinstall_target() {
     mkdir -p $INSTALL/usr/share/bootloader
+
+    cp logo.bmp $INSTALL/usr/share/bootloader/logo.bmp
 
     # Only install u-boot.img et al when building a board specific image
     if [ -n "$UBOOT_SYSTEM" ]; then

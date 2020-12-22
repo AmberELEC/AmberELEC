@@ -8,9 +8,18 @@
 while true
 do
   CAP=$(cat /sys/class/power_supply/battery/capacity)
+  STAT=$(cat /sys/class/power_supply/battery/status)
+  if [ "${STAT}" == "Discharging" ]
+  then
+    echo out >/sys/class/gpio/gpio77/direction
+  else
+    echo in >/sys/class/gpio/gpio77/direction
+  fi
   if (( ${CAP} <= 25 ))
   then
     echo 1 >/sys/class/gpio/gpio77/value
+  else
+    echo 0 >/sys/class/gpio/gpio77/value
   fi
   sleep 30
 done

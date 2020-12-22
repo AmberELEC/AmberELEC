@@ -1,6 +1,6 @@
-diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp
---- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:51:53.017710123 -0500
-+++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd/es-app/src/guis/GuiMenu.cpp	2020-12-17 18:52:30.870281699 -0500
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-22 14:26:46.249338105 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/guis/GuiMenu.cpp	2020-12-22 14:27:50.058753272 -0500
 @@ -109,10 +109,7 @@ GuiMenu::GuiMenu(Window *window, bool an
  	}, "iconKodi");	
  #endif
@@ -13,20 +13,19 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  
  	if (isFullUI &&
  		ApiSystem::getInstance()->isScriptingSupported(ApiSystem::RETROACHIVEMENTS) &&
-@@ -161,7 +158,11 @@ GuiMenu::GuiMenu(Window *window, bool an
+@@ -161,7 +158,10 @@ GuiMenu::GuiMenu(Window *window, bool an
  
  		addEntry(_("SCRAPE").c_str(), true, [this] { openScraperSettings(); }, "iconScraper");		
- 		addEntry(_("DOWNLOADS"), true, [this] { openUpdatesSettings(); }, "iconUpdates");
+ 		addEntry(_("UPDATES & DOWNLOADS"), true, [this] { openUpdatesSettings(); }, "iconUpdates");
 -		addEntry(_("SYSTEM SETTINGS").c_str(), true, [this] { openSystemSettings_batocera(); }, "iconSystem");
-+
 +#ifdef _ENABLEEMUELEC
-+		if (isFullUI)
-+			addEntry(_("EMULATIONSTATION SETTINGS").c_str(), true, [this] { openEmuELECSettings(); }, "iconEmuelec");
++               if (isFullUI)
++                       addEntry(_("EMULATIONSTATION SETTINGS").c_str(), true, [this] { openEmuELECSettings(); }, "iconEmuelec");
 +#endif
  	}
  	else
  	{
-@@ -204,7 +205,7 @@ if (!isKidUI) {
+@@ -204,7 +204,7 @@ if (!isKidUI) {
  /* < emuelec */
  void GuiMenu::openEmuELECSettings()
  {
@@ -35,7 +34,7 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  
  	Window* window = mWindow;
  	std::string a;
-@@ -330,62 +331,10 @@ void GuiMenu::openEmuELECSettings()
+@@ -330,62 +330,10 @@ void GuiMenu::openEmuELECSettings()
  		SystemConf::getInstance()->saveSystemConf();
  	});
  
@@ -101,7 +100,7 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  }
  /*  emuelec >*/
  #endif
-@@ -1593,9 +1542,59 @@ void GuiMenu::openSystemSettings_batocer
+@@ -1636,9 +1584,59 @@ void GuiMenu::openSystemSettings_batocer
  
  	});
  
@@ -164,7 +163,7 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  
  	auto pthis = this;
  	s->onFinalize([s, pthis, window]
-@@ -1606,6 +1605,7 @@ void GuiMenu::openSystemSettings_batocer
+@@ -1649,6 +1647,7 @@ void GuiMenu::openSystemSettings_batocer
  			window->pushGui(new GuiMenu(window, false));
  		}
  	});
@@ -172,3 +171,70 @@ diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.ori
  
  	mWindow->pushGui(s);
  }
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp.orig emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/guis/GuiMenu.cpp.orig
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp.orig	2020-12-22 14:26:46.245338017 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/guis/GuiMenu.cpp.orig	2020-12-22 14:26:54.693525394 -0500
+@@ -319,36 +319,6 @@ void GuiMenu::openEmuELECSettings()
+ 			}
+ 		});
+ 
+-       auto fps_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool fpsEnabled = SystemConf::getInstance()->get("global.showFPS") == "1";
+-		fps_enabled->setState(fpsEnabled);
+-		s->addWithLabel(_("SHOW RETROARCH FPS"), fps_enabled);
+-		s->addSaveFunc([fps_enabled] {
+-			bool fpsenabled = fps_enabled->getState();
+-                SystemConf::getInstance()->set("global.showFPS", fpsenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			});       
+-/*
+-       auto bezels_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool bezelsEnabled = SystemConf::getInstance()->get("global.bezel") == "1";
+-		bezels_enabled->setState(bezelsEnabled);
+-		s->addWithLabel(_("ENABLE RA BEZELS"), bezels_enabled);
+-		s->addSaveFunc([bezels_enabled] {
+-			bool bezelsenabled = bezels_enabled->getState();
+-                SystemConf::getInstance()->set("global.bezel", bezelsenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			});	
+-*/       
+-       auto splash_enabled = std::make_shared<SwitchComponent>(mWindow);
+-		bool splashEnabled = SystemConf::getInstance()->get("ee_splash.enabled") == "1";
+-		splash_enabled->setState(splashEnabled);
+-		s->addWithLabel(_("ENABLE GAME SPLASH"), splash_enabled);
+-		s->addSaveFunc([splash_enabled] {
+-                bool splashenabled = splash_enabled->getState();
+-                SystemConf::getInstance()->set("ee_splash.enabled", splashenabled ? "1" : "0");
+-				SystemConf::getInstance()->saveSystemConf();
+-			});
+-
+ 	auto enable_bootvideo = std::make_shared<SwitchComponent>(mWindow);
+ 	bool bootEnabled = SystemConf::getInstance()->get("ee_bootvideo.enabled") == "1";
+ 	enable_bootvideo->setState(bootEnabled);
+@@ -1898,6 +1868,26 @@ void GuiMenu::openGamesSettings_batocera
+ 	smoothing_enabled->addRange({ { _("AUTO"), "auto" },{ _("ON") , "1" },{ _("OFF") , "0" } }, SystemConf::getInstance()->get("global.smooth"));
+ 	s->addWithLabel(_("SMOOTH GAMES"), smoothing_enabled);
+ 	s->addSaveFunc([smoothing_enabled] { SystemConf::getInstance()->set("global.smooth", smoothing_enabled->getSelected()); });
++
++       auto fps_enabled = std::make_shared<SwitchComponent>(mWindow);
++                bool fpsEnabled = SystemConf::getInstance()->get("global.showFPS") == "1";
++                fps_enabled->setState(fpsEnabled);
++                s->addWithLabel(_("SHOW RETROARCH FPS"), fps_enabled);
++                s->addSaveFunc([fps_enabled] {
++                        bool fpsenabled = fps_enabled->getState();
++                SystemConf::getInstance()->set("global.showFPS", fpsenabled ? "1" : "0");
++                                SystemConf::getInstance()->saveSystemConf();
++                        });
++
++       auto splash_enabled = std::make_shared<SwitchComponent>(mWindow);
++                bool splashEnabled = SystemConf::getInstance()->get("ee_splash.enabled") == "1";
++                splash_enabled->setState(splashEnabled);
++                s->addWithLabel(_("ENABLE GAME SPLASH"), splash_enabled);
++                s->addSaveFunc([splash_enabled] {
++                bool splashenabled = splash_enabled->getState();
++                SystemConf::getInstance()->set("ee_splash.enabled", splashenabled ? "1" : "0");
++                                SystemConf::getInstance()->saveSystemConf();
++                        });
+ 	
+ #ifdef _ENABLEEMUELEC
+ 	// bezel

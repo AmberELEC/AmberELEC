@@ -1,0 +1,131 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
+. /etc/profile
+
+### Modifiable variables
+USTAGE="/storage/roms/update"
+API="https://api.github.com/repos/fewtarius/351elec"
+REPO="https://github.com/fewtarius/351ELEC"
+PREFIX="351ELEC-RG351P.aarch64"
+MYVERSION=$(cat /storage/.config/EE_VERSION)
+VERBOSE=true
+
+### Functions Library
+
+if [ -e "${USTAGE}/update.log" ]
+then
+  rm "${USTAGE}/update.log"
+fi
+
+function log () {
+  echo "$(date): $1" | tee -a "${USTAGE}/update.log"
+}
+
+function online_status() {
+  GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
+  if [[ ${GW} =~ [0-9] ]]
+  then
+    echo true
+  else
+    echo false
+  fi
+}
+
+### Main
+
+systemctl stop emustation
+
+clear >/dev/console
+/usr/bin/show_splash.sh "$0"
+clear >/dev/console
+
+if [ ! -d "${USTAGE}" ]
+then
+  mkdir -p "${USTAGE}"
+fi
+
+message_stream "Starting \e[31m351\e[39mELEC Update - Checking For Updates\n" .02
+
+NETWORKING=$(online_status)
+if [ "${NETWORKING}" == true ]
+then
+  $VERBOSE && log "Network connection detected"
+  message_stream "\n\nChecking for updates..." .02
+  TAG=$(curl -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
+  UFILE="${PREFIX}-${TAG}.tar"
+else
+  $VERBOSE && log "No network connection detected"
+  if [ -e "${USTAGE}/${UFILE}" ]
+  then
+    $VERBOSE && log "Local update package found"
+    TAG=$(echo ${UFILE} | awk 'BEGIN {FS="-"}; {split($3, a, /.tar/); print a[1]}')
+  fi
+fi
+
+if [ "${MYVERSION}" == "${TAG}" ]
+then
+  $VERBOSE && log "No update available ${MYVERSION} = ${TAG}"
+  message_stream "\n\nVersion ${TAG} is already installed, nothing to do..." .02
+  sleep 4
+  clear >/dev/console
+  systemctl start emustation
+  exit 0
+else
+  $VERBOSE && log "Update available ${MYVERSION} -> ${TAG}"
+fi
+
+if [ ! -e "${USTAGE}/${UFILE}" ] && [ ! -e "${USTAGE}/${UFILE}.sha256" ]
+then
+  if [ "${NETWORKING}" == true ]
+  then
+    $VERBOSE && log "Downloading ${UFILE} from {REPO}/releases/download/${TAG}"
+    message_stream "\n\nDownloading ${UFILE}..." .02
+    curl -Lo "${USTAGE}/${UFILE}" "${REPO}/releases/download/${TAG}/${UFILE}" >>${USTAGE}/update.log 2>&1
+    curl -Lo "${USTAGE}/${UFILE}.sha256" "${REPO}/releases/download/${TAG}/${UFILE}.sha256"  >>${USTAGE}/update.log 2>&1
+  else
+    $VERBOSE && log "No network connection available"
+    message_stream "\n\nNetwork connection not detected, cannot continue..." .02
+    exit 0
+  fi
+else
+  $VERBOSE && log "Local update found"
+  message_stream "\n\nLocal update found..." .02
+fi
+
+$VERBOSE && log "Verifying ${UFILE}"
+message_stream "\nVerifying package..." .02
+MYSUM=$(sha256sum ${USTAGE}/${UFILE} | awk '{print $1}')
+DLSUM=$(cat ${USTAGE}/${UFILE}.sha256 | awk '{print $1}')
+
+if [ ! "${MYSUM}" == "${DLSUM}" ]
+then
+  $VERBOSE && log "Verification failed: ${MYSUM} == ${DLSUM}"
+  message_stream "\nVerification failed, not updating..." .02
+  sleep 4
+  clear >/dev/console
+  systemctl start emustation
+  exit 1
+else
+  message_stream "\nVerification successful..." .02
+fi
+
+$VERBOSE && log "Mounting /flash read/write"
+mount -o remount,rw /flash >>${USTAGE}/update.log 2>&1
+
+if [ ! -d "/storage/.update" ]
+then
+  mkdir "/storage/.update"
+fi
+
+$VERBOSE && log "Staging update"
+message_stream "\nStaging update..." .02
+cp -f ${USTAGE}/${UFILE} /storage/.update >>${USTAGE}/update.log 2>&1
+
+$VERBOSE && log "Syncing..."
+message_stream "\n\nRebooting..." .02
+sync
+$VERBOSE && log "Rebooting..."
+reboot
+

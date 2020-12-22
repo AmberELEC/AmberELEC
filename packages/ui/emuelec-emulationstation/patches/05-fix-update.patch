@@ -1,0 +1,14 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/ApiSystem.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/ApiSystem.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/ApiSystem.cpp	2020-12-22 15:12:19.308139013 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/ApiSystem.cpp	2020-12-22 15:14:30.910805584 -0500
+@@ -176,8 +176,8 @@ std::pair<std::string, int> ApiSystem::u
+ 	LOG(LogDebug) << "ApiSystem::updateSystem";
+ 
+ #ifdef _ENABLEEMUELEC	
+-	std::string updatecommand = "emuelec-upgrade";
+-	std::string updatelog = "/storage/.config/emuelec/logs/emuelec-upgrade.log";
++	std::string updatecommand = "351elec-upgrade";
++	std::string updatelog = "/storage/.config/emuelec/logs/351elec-upgrade.log";
+ #else
+ 	std::string updatecommand = "batocera-upgrade";
+ 	std::string updatelog = "/userdata/system/logs/batocera-upgrade.log";

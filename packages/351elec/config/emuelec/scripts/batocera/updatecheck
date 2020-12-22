@@ -1,0 +1,47 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
+
+### Modifiable variables
+USTAGE="/storage/roms/update"
+API="https://api.github.com/repos/fewtarius/351elec"
+REPO="https://github.com/fewtarius/351ELEC"
+PREFIX="351ELEC-RG351P.aarch64"
+MYVERSION=$(cat /storage/.config/EE_VERSION)
+VERBOSE=true
+
+### Functions Library
+
+function online_status() {
+  GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
+  if [[ ${GW} =~ [0-9] ]]
+  then
+    echo true
+  else
+    echo false
+  fi
+}
+
+### Main
+
+NETWORKING=$(online_status)
+if [ "${NETWORKING}" == true ]
+then
+  TAG=$(curl -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
+  UFILE="${PREFIX}-${TAG}.tar"
+else
+  if [ -e "${USTAGE}/${UFILE}" ]
+  then
+    TAG=$(echo ${UFILE} | awk 'BEGIN {FS="-"}; {split($3, a, /.tar/); print a[1]}')
+  fi
+fi
+
+if [ "${MYVERSION}" == "${TAG}" ]
+then
+  echo no
+  exit 1
+else
+  echo yes
+  exit 0
+fi

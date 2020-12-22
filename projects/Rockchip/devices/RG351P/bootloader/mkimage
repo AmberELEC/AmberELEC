@@ -18,6 +18,10 @@ if [ -f "$RELEASE_DIR/3rdparty/bootloader/boot.ini" ]; then
   cp "$RELEASE_DIR/3rdparty/bootloader/boot.ini" "${LE_TMP}/boot.ini"
 fi
 
+if [ -f "$RELEASE_DIR/3rdparty/bootloader/logo.bmp" ]; then
+  cp "$RELEASE_DIR/3rdparty/bootloader/logo.bmp" "${LE_TMP}/logo.bmp"
+fi
+
 mkdir -p "${LE_TMP}/extlinux"
 
 # copy device trees to part1
@@ -34,7 +38,4 @@ EOF
 done
  mcopy -so "${LE_TMP}/boot.ini" ::
  mcopy -so "${LE_TMP}/extlinux" ::
-
-
-
-
+ mcopy -so "${LE_TMP}/logo.bmp" ::
