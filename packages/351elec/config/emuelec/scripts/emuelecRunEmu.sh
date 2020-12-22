@@ -434,6 +434,7 @@ if [[ "${ROMNAME}" == *".sh" ]]; then
 	$VERBOSE && log "Executing shell script ${ROMNAME}"
 	jslisten set "bash"
 	"${ROMNAME}"
+        ret_error=$?
 else
 	$VERBOSE && log "Executing $(eval echo ${RUNTHIS})" 
 	eval ${RUNTHIS}
