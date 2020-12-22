@@ -19,6 +19,7 @@ BTENABLED=$(get_ee_setting ee_bluetooth.enabled)
 CFG="/storage/.emulationstation/es_settings.cfg"
 VERBOSE=false
 LOGSDIR="/tmp/logs"
+LOGFILE="emuelec.log"
 TBASH="/usr/bin/bash"
 JSLISTENCONF="/emuelec/configs/jslisten.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
@@ -36,6 +37,7 @@ else
     LOG=true
 fi
 
+arguments="$@"
 PLATFORM="${arguments##*-P}"  # read from -P onwards
 PLATFORM="${PLATFORM%% *}"  # until a space is found
 CORE="${arguments##*--core=}"  # read from --core= onwards
@@ -89,11 +91,11 @@ set_ee_setting "netplay.client.port" "disable"
 function loginit() {
 	if [ ${LOG} == true ]
 	then
-		if [ -e ${LOGSDIR}/${MYNAME}.log ]
+		if [ -e ${LOGSDIR}/${LOGFILE} ]
 		then
-			rm -f ${LOGSDIR}/${MYNAME}.log
+			rm -f ${LOGSDIR}/${LOGFILE}
 		fi
-cat <<EOF >${LOGSDIR}/${MYNAME}.log
+		cat <<EOF >${LOGSDIR}/${LOGFILE}
 Emulation Run Log - Started at $(date)
 
 ARG1: $1 
@@ -110,6 +112,7 @@ ARCHITECTURE: $MYARCH
 RETROARCH: $RABIN
 
 EOF
+	fi
 }
 
 function log() {
@@ -119,7 +122,7 @@ function log() {
 		then
 			mkdir -p "$LOGSDIR"
 		fi
-		echo "${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${MYNAME}.log
+		echo "${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
 	else
 		echo "${MYNAME}: $1"
 	fi
@@ -140,9 +143,6 @@ function quit() {
 function clear_screen() {
 	$VERBOSE && log "Clearing screen"
 	clear >/dev/console
-	clear > /dev/tty
-	clear > /dev/tty0
-	clear > /dev/tty1
 }
 
 function bluetooth() {
@@ -199,15 +199,17 @@ function jslisten() {
 	then
 		systemctl stop jslisten
 	elif [ "$1" == "start" ]
+	then
 		systemctl start jslisten
 	fi
 }
 
 ### Main Screen Turn On
 
+loginit "$1" "$2" "$3" "$4"
 clear_screen
 bluetooth disable
-MYARCH=getarch()
+MYARCH=$(getarch)
 jslisten stop
 
 ### Per emulator/core configurations
@@ -319,7 +321,7 @@ if [ -z ${LIBRETRO} ]; then
 			jslisten set "retroarch"
 			if [ "$EMU" = "fbneo" ]
 			then
-				RUNTHIS='/usr/bin/retroarch $VERBOSE -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
+				RUNTHIS='/usr/bin/retroarch -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
 			fi
 		;;
 		"mplayer")
@@ -367,7 +369,7 @@ else
 		fi
 	fi
 
-	RUNTHIS='/usr/bin/${RABIN} $VERBOSE -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
+	RUNTHIS='/usr/bin/${RABIN} -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
 	CONTROLLERCONFIG="${arguments#*--controllers=*}"
 	CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
 	CORE=${EMU%%_*}
@@ -391,6 +393,8 @@ else
 
 	fi
 fi
+
+$VERBOSE && log "RUNTHIS: ${RUNTHIS}"
 
 if [ -e "${SHADERTMP}" ]
 then
@@ -432,7 +436,7 @@ if [[ "${ROMNAME}" == *".sh" ]]; then
 	jslisten set "bash"
 	"${ROMNAME}"
 else
-	$VERBOSE && log "Executing ${RUNTHIS}" 
+	$VERBOSE && log "Executing $(eval echo ${RUNTHIS})" 
 	eval ${RUNTHIS}
 	ret_error=$?
 fi
@@ -446,5 +450,18 @@ if [ "${ret_error}" == "0" ]
 then
 	quit 0
 else
+	log "exiting with $ret_error"
+
+	# Check for missing bios if needed
+	REQUIRESBIOS=(atari5200 atari800 atari7800 atarilynx colecovision amiga amigacd32 o2em intellivision pcengine pcenginecd pcfx fds segacd saturn dreamcast naomi atomiswave x68000 neogeo neogeocd msx msx2 sc-3000)
+
+	(for e in "${REQUIRESBIOS[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RB=0 || RB=1	
+	if [ $RB == 0 ]; then
+		CBPLATFORM="${PLATFORM}"
+		[[ "${CBPLATFORM}" == "msx2" ]] && CBPLATFORM="msx"
+		[[ "${CBPLATFORM}" == "pcenginecd" ]] && CBPLATFORM="pcengine"
+		[[ "${CBPLATFORM}" == "amigacd32" ]] && CBPLATFORM="amiga"
+		ee_check_bios "${CBPLATFORM}" "${CORE}" "${EMULATOR}" "${ROMNAME}" "${EMUELECLOG}"
+	fi
 	quit 1
 fi
