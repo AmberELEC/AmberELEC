@@ -88,6 +88,19 @@ set_ee_setting "netplay.client.port" "disable"
 
 ### Function Library
 
+function log() {
+	if [ ${LOG} == true ]
+	then
+		if [[ ! -d "$LOGSDIR" ]]
+		then
+			mkdir -p "$LOGSDIR"
+		fi
+		echo "${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
+	else
+		echo "${MYNAME}: $1"
+	fi
+}
+
 function loginit() {
 	if [ ${LOG} == true ]
 	then
@@ -107,24 +120,10 @@ PLATFORM: $PLATFORM
 ROM NAME: ${ROMNAME}
 BASE ROM NAME: ${ROMNAME##*/}
 USING CONFIG: ${RATMPCONF}
-CORE: ${CORE}
-ARCHITECTURE: $MYARCH
-RETROARCH: $RABIN
 
 EOF
-	fi
-}
-
-function log() {
-	if [ ${LOG} == true ]
-	then
-		if [[ ! -d "$LOGSDIR" ]]
-		then
-			mkdir -p "$LOGSDIR"
-		fi
-		echo "${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
 	else
-		echo "${MYNAME}: $1"
+		log "Emulation Run Log - Started at $(date)"
 	fi
 }
 
@@ -171,9 +170,9 @@ function getarch() {
 	local TEST=$(ldd /usr/bin/emulationstation | grep 64)
 	if [ $? == 0 ]
 	then
-		return "aarch64"
+		echo "aarch64"
 	else
-		return "arm"
+		echo "arm"
 	fi
 }
 
@@ -190,6 +189,8 @@ function setaudio() {
 
 function jslisten() {
 	$VERBOSE && log "JSLISTEN: COMMAND: $1 ARGUMENT: $2"
+	GETKILLKEYS=$(/storage/.config/emulationstation/scripts/configscripts/z_getkillkeys.sh)
+	$VERBOSE && log "${GETKILLKEYS}"
 	if [ "$1" == "set" ]
 	then
 		systemctl stop jslisten
@@ -393,8 +394,6 @@ else
 
 	fi
 fi
-
-$VERBOSE && log "RUNTHIS: ${RUNTHIS}"
 
 if [ -e "${SHADERTMP}" ]
 then
