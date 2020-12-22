@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
+# Maintenance 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
 
 PKG_NAME="duckstation"
-PKG_VERSION="ca84925ff8ba301fdcf077cf12e3dc937008ee85"
-PKG_SHA256="cc7195f5f1185b86e9bebfd25b73a32e4d69c0b26e06e66c08d4304d9d3fa7c7"
+PKG_VERSION="095bc280cbcd39f3bb0ceaf9ecd379f7459c65e6"
+PKG_SHA256="bbc59c4acc792c3013f9a20ad11874e94aa71ddf8159652932dd18f1b4acb4f9"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/stenzek/duckstation"

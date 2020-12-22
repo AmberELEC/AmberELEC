@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="fbalpha2012"
-PKG_VERSION="fa97cd2784a337f8ac774c2ce8a136aee69b5f43"
-PKG_SHA256="427834c2a9415b2f62da90c1e7e81295e16c18c7bc861915922b67bd8ce1ab17"
+PKG_VERSION="2530e0160c69af0adfde6a521d256e6974fcd619"
+PKG_SHA256="79d544d8a8d9cbde20160c0ab5f652e73bc654280c0050971a751dc9c3e78eb3"
 PKG_ARCH="any"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/fbalpha2012"

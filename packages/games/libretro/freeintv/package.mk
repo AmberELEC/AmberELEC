@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="freeintv"
-PKG_VERSION="9244fd8a4f332b7f14a10373f7bb057087c7594c"
-PKG_SHA256="441b3748ca9823514423f6674ab7944665785b373f517831852b8367a9e12daf"
+PKG_VERSION="b528c6c9593cbe1e87ea79b68fc8ee9775ca0030"
+PKG_SHA256="38a646b1239014b51b9c18ccc1922bf25fd6bbd80112f072d5dd6a65d8162226"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
