@@ -3,7 +3,7 @@
 
 PKG_NAME="duckstation"
 PKG_VERSION="ca84925ff8ba301fdcf077cf12e3dc937008ee85"
-PKG_SHA256="6bcd81596a78ef92c5558e038ed3f6c4e9a544c19cead9f887a667ea00d97c45"
+PKG_SHA256="cc7195f5f1185b86e9bebfd25b73a32e4d69c0b26e06e66c08d4304d9d3fa7c7"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/stenzek/duckstation"

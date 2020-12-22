@@ -16,8 +16,8 @@ makeinstall_target() {
 	mkdir -p $INSTALL/usr/bin
         cp headphone_sense.sh $INSTALL/usr/bin
 	cp battery.sh $INSTALL/usr/bin
-        cp odroidgoa_utils.sh $INSTALL/usr/config/bin
-        #cp oga_events.py $INSTALL/usr/config/emuelec/scripts
+        cp odroidgoa_utils.sh $INSTALL/usr/bin
+        #cp oga_events.py $INSTALL/usr/bin
 }
 
 post_install() {  
