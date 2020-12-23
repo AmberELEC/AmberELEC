@@ -213,7 +213,7 @@ EOF
 		aplay "/usr/share/sounds/Mallet.wav"
 	    fi
 	fi
-    elif [[ "${arch}" =~ "RG351P" ]]
+    elif [[ "${arch}" =~ "OdroidGoAdvance" ]]
     then
 	case "${mode}" in
 	    "auto"|"speakers")
