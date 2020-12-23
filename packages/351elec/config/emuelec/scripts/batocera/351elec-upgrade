@@ -111,21 +111,9 @@ else
   message_stream "\nVerification successful..." .02
 fi
 
-$VERBOSE && log "Mounting /flash read/write"
-mount -o remount,rw /flash >>${USTAGE}/update.log 2>&1
-
-if [ ! -d "/storage/.update" ]
-then
-  mkdir "/storage/.update"
-fi
-
-$VERBOSE && log "Staging update"
-message_stream "\nStaging update..." .02
-cp -f ${USTAGE}/${UFILE} /storage/.update >>${USTAGE}/update.log 2>&1
-
 $VERBOSE && log "Syncing..."
-message_stream "\n\nRebooting..." .02
+message_stream "\n\nRebooting to continue update..." .02
 sync
-$VERBOSE && log "Rebooting..."
+$VERBOSE && log "rebooting.."
 reboot
 
