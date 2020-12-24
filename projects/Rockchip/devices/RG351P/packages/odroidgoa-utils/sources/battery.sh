@@ -38,10 +38,10 @@ do
         sleep .5
       done
       continue
-    elif (( ${CAP} <= 25 ))
+    elif (( ${CAP} <= 20 ))
     then
       set_led red
-    elif (( ${CAP} <= 50 ))
+    elif (( ${CAP} <= 30 ))
     then
       set_led yellow
     else
