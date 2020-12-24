@@ -10,10 +10,3 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="A network communication layer on top of UDP (User Datagram Protocol)."
 PKG_TOOLCHAIN="autotools"
 
-makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib
-  cp $PKG_BUILD/.$ARCH*-libreelec-linux-gnueabi/.libs/libenet.so.7.0.5 $INSTALL/usr/lib
-  ln -sf /usr/lib/libenet.so.7.0.5 $INSTALL/usr/lib/libenet.so.7
-  ln -sf /usr/lib/libenet.so.7.0.5 $INSTALL/usr/lib/libenet.so
-}
-

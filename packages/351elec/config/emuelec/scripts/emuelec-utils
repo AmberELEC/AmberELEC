@@ -34,7 +34,7 @@ function clearconfig() {
 	"EMUS")
 		systemctl stop emustation
 		/emuelec/scripts/ee_backup.sh b no
-		tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/emuelec/configs/emuelec.conf /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
+		tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/emuelec/configs/emuelec.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
 		find /storage -mindepth 1 \( ! -regex '^/storage/.config/emulationstation/themes.*' -a ! -regex '^/storage/.update.*' -a ! -regex '^/storage/download.*' -a ! -regex '^/storage/roms.*' \) -delete
 		mkdir /storage/.config/
 		sync
@@ -48,7 +48,7 @@ function clearconfig() {
 	"ALL")
 		systemctl stop emustation
 		cd /
-		tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/emuelec/configs/emuelec.conf /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
+		tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/emuelec/configs/emuelec.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
 		find /storage -mindepth 1 \( ! -regex '^/storage/.update.*' -a ! -regex '^/storage/roms.*' \) -delete
 		mkdir /storage/.config/
 		sync
