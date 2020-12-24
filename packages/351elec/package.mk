@@ -20,9 +20,9 @@ PKG_TOOLCHAIN="make"
 # Thanks to magicseb  Reicast SA now WORKS :D
 PKG_EXPERIMENTAL="munt quasi88 xmil np2kai hypseus"
 PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL ppsspp-ini tgbdual TIC-80 pcsx_rearmed parallel-n64 fba4arm reicastsa amiberry uae4arm puae hatarisa fba4arm openbor dosbox-sdl2 mupen64plus mupen64plus-nx scummvmsa residualvm duckstation"
-PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders Skyscraper MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten"
+PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders Skyscraper MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
-PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports"
+PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
 
 # These packages are only meant for S922x, S905x2 and A311D devices as they run poorly on S905, S912, etc"
 if [ "$PROJECT" == "Amlogic-ng" ]; then

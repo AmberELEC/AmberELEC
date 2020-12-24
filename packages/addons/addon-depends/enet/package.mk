@@ -2,17 +2,18 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="enet"
-PKG_VERSION="e33ca1d"
-PKG_SHA256="0ba5547de2c4c7fc79d367179a9bc92a7ac27e9258dd50fb277cd8761afaf9b0"
+PKG_VERSION="2cc0e7c78045fe2275e7959eb7b9992fe4fd038d"
+PKG_SITE="https://github.com/lsalzman/enet"
+PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_LICENSE=""
-PKG_SITE="https://github.com/cgutman/enet/"
-PKG_URL="https://github.com/cgutman/enet/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="A network communication layer on top of UDP (User Datagram Protocol)."
 PKG_TOOLCHAIN="autotools"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"
-
-post_makeinstall_target() {
-  rm -r $INSTALL
+makeinstall_target() {
+  mkdir -p $INSTALL/usr/lib
+  cp $PKG_BUILD/.$ARCH*-libreelec-linux-gnueabi/.libs/libenet.so.7.0.5 $INSTALL/usr/lib
+  ln -sf /usr/lib/libenet.so.7.0.5 $INSTALL/usr/lib/libenet.so.7
+  ln -sf /usr/lib/libenet.so.7.0.5 $INSTALL/usr/lib/libenet.so
 }
+

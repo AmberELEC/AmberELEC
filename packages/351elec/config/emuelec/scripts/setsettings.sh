@@ -94,7 +94,7 @@ case ${1} in
 	PLATFORM="megadrive"
 	;;
 	"sega32x")
-	PLATFORM+"sega32x"
+	PLATFORM="sega32x"
 	;;
 	"gamegear"|"ggh")
 	PLATFORM="gamegear"

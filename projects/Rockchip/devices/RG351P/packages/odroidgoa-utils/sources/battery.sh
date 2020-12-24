@@ -5,22 +5,51 @@
 # Simple script to watc the battery capacity and
 # turn the power LED red when it reaches 25%
 
+function set_led() {
+  case $1 in
+    red)
+      echo out >/sys/class/gpio/gpio77/direction
+      echo 1 >/sys/class/gpio/gpio77/value
+    ;;
+    green)
+      echo out >/sys/class/gpio/gpio77/direction
+      echo 0 >/sys/class/gpio/gpio77/value
+    ;;
+    yellow)
+      echo in >/sys/class/gpio/gpio77/direction
+    ;;
+  esac
+}
+
+
 while true
 do
   CAP=$(cat /sys/class/power_supply/battery/capacity)
   STAT=$(cat /sys/class/power_supply/battery/status)
-  if [ "${STAT}" == "Discharging" ]
+  if [ ${STAT} == "Discharging" ]
   then
-    echo out >/sys/class/gpio/gpio77/direction
-  else
-    echo in >/sys/class/gpio/gpio77/direction
-  fi
-  if (( ${CAP} <= 25 ))
+    if (( ${CAP} <= 10 ))
+    then
+      for ctr in $(seq 1 1 5)
+      do
+        set_led yellow
+        sleep .5
+        set_led red
+        sleep .5
+      done
+      continue
+    elif (( ${CAP} <= 25 ))
+    then
+      set_led red
+    elif (( ${CAP} <= 50 ))
+    then
+      set_led yellow
+    else
+      set_led green
+    fi
+  elif (( ${CAP} >= 95 ))
   then
-    echo 1 >/sys/class/gpio/gpio77/value
-  else
-    echo 0 >/sys/class/gpio/gpio77/value
+    set_led green
   fi
-  sleep 30
+  sleep 15
 done
-
