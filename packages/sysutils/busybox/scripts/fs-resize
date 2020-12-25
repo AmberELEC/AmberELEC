@@ -55,7 +55,7 @@ if [ -e /storage/.please_resize_me ] ; then
     StartProgress spinner "Resizing file system... " "resize2fs $PART &>/dev/null"
     StartProgress spinner "Creating EXFAT partition..." "parted -s -a optimal -m $DISK mkpart primary ntfs 3300MB 100% &>/dev/null"
     partprobe &>/dev/null
-    StartProgress spinner "Formatting EXFAT partition..." "mkfs.exfat -n GAMES ${DISK}p3 &>/dev/null"
+    StartProgress spinner "Formatting EXFAT partition..." "mkexfatfs -n GAMES ${DISK}p3 &>/dev/null"
     StartProgress countdown "Rebooting in 10s...     " 10 "NOW"
   fi
 fi

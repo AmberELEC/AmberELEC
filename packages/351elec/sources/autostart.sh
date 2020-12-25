@@ -7,7 +7,7 @@
 . /etc/profile
 
 (mount | grep [r]oms) && umount /storage/roms
-mount -o umask=000 -t vfat /dev/mmcblk0p3 /storage/roms
+mount -o umask=000 -t exfat /dev/mmcblk0p3 /storage/roms
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
 CONFIG_DIR="/storage/.emulationstation"
