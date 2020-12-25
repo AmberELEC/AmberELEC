@@ -98,9 +98,6 @@ then
   systemctl reboot
 fi
 
-# Check if we have unsynched update files
-#/usr/config/emuelec/scripts/force_update.sh
-
 # Set video mode, this has to be done before starting ES
 DEFE=$(get_ee_setting ee_videomode)
 
@@ -135,7 +132,35 @@ case "$DEFE" in
 	;;
 esac
 
-# Show splash creen 
+# Migrate game data to the games partition
+GAMEDATA="/storage/roms/gamedata"
+if [ ! -d "${GAMEDATA}" ]
+then
+  mkdir -p "${GAMEDATA}"
+fi
+
+for GAME in ppsspp dosbox scummvm retroarch amiberry hatari openbor opentyrian residualvm
+do
+  if [ ! -L "/storage/.config/${GAME}" ]
+  then
+    mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
+    ln -s "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
+  fi
+done
+
+if [ ! -L "${GAMEDATA}/drastic" ]
+then
+  mv "/storage/drastic" "${GAMEDATA}/drastic"
+  ln -s "${GAMEDATA}/drastic" "/storage/.config/drastic"
+fi
+
+if [ ! -L "${GAMEDATA}/remappings" ]
+then
+  mv "/storage/remappings" "${GAMEDATA}/remappings"
+  ln -s "${GAMEDATA}/remappings" "/storage/.config/remappings"
+fi
+
+# Show splash Screen 
 /emuelec/scripts/show_splash.sh intro
 
 
@@ -155,7 +180,7 @@ case "$DEFE" in
 *)
 	rm /var/lock/start.games
 	touch /var/lock/start.games
-    systemctl start emustation
+	systemctl start emustation
 	;;
 esac
 
