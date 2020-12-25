@@ -143,26 +143,46 @@ for GAME in ppsspp dosbox scummvm retroarch amiberry hatari openbor opentyrian r
 do
   if [ ! -L "/storage/.config/${GAME}" ]
   then
-    mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
-    ln -s "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
+    if [ ! -d "${GAMEDATA}/${GAME}" ]
+    then
+      mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
+      ln -s "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
+    else
+      rm -rf "/storage/.config/${GAME}"
+      ln -s "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
+    fi
   fi
 done
 
-if [ ! -L "${GAMEDATA}/drastic" ]
+if [ ! -L "/storage/drastic" ]
 then
-  mv "/storage/drastic" "${GAMEDATA}/drastic"
-  ln -s "${GAMEDATA}/drastic" "/storage/.config/drastic"
+  if [ ! -d "${GAMEDATA}/drastic" ]
+  then
+    if [ -d "/storage/drastic" ]
+    then 
+      mv "/storage/drastic" "${GAMEDATA}/drastic"
+      ln -s "${GAMEDATA}/drastic" "/storage/drastic"
+    fi
+  else
+    rm -rf "/storage/drastic"
+    ln -s "${GAMEDATA}/drastic" "/storage/drastic"
+  fi
 fi
 
-if [ ! -L "${GAMEDATA}/remappings" ]
+if [ ! -L "/storage/remappings" ]
 then
-  mv "/storage/remappings" "${GAMEDATA}/remappings"
-  ln -s "${GAMEDATA}/remappings" "/storage/.config/remappings"
+  if [ ! -d "${GAMEDATA}/remappings" ]
+  then
+    mv "/storage/remappings" "${GAMEDATA}/remappings"
+    ln -s "${GAMEDATA}/remappings" "/storage/.config/remappings"
+  else
+    rm -rf "/storage/remappings"
+    ln -s "${GAMEDATA}/remappings" "/storage/.config/remappings"
+  fi
 fi
 
 # Show splash Screen 
 /emuelec/scripts/show_splash.sh intro
-
 
 # run custom_start before FE scripts
 /storage/.config/custom_start.sh before
