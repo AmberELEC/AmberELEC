@@ -90,7 +90,7 @@ mkdir -p "${LE_TMP}/extlinux"
 mkdir -p $INSTALL/usr/share/bootloader/extlinux
 
 LINUX_DTS_DIR=$(get_build_dir linux)/.install_pkg/usr/share/bootloader
-  for dtb in $LINUX_DTS_DIR/*.dtb; do
+  for dtb in $(find $LINUX_DTS_DIR -name "*.dtb")
 cat << EOF > "${LE_TMP}/extlinux/$(basename ${dtb}).conf"
 LABEL ${DISTRO}
   LINUX /${KERNEL_NAME}

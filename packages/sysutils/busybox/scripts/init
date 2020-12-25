@@ -779,8 +779,9 @@ check_update() {
   fi
 
   if [ -d $UPDATE_DIR/.tmp ]; then
-    echo "Failed update detected - performing recovery."
-    echo ""
+    # This isn't really a failed update, it's just a failure to clean up after updating.
+    #echo "Failed update detected - performing recovery."
+    #echo ""
     do_cleanup
     StartProgress countdown "Normal startup in 10s... " 10 "NOW"
     return 0
