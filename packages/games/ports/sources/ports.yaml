@@ -122,7 +122,8 @@ OpenTyrian:
   commands:
     - '## on "Amlogic" project we need to remove asound.conf or else OpenTyrian will have no sound.'
     - '[[ "$EE_DEVICE" == "Amlogic" ]] && mv /storage/.config/asound.conf /storage/.config/asound2.conf'
-    - ${PORT} -t /storage/roms/ports/opentyrian >> $EE_LOG 2>&1
+    - LOG_FILE=/storage/roms/ports/opentyrian/log.txt
+    - ${PORT} -t /storage/roms/ports/opentyrian >> $LOG_FILE 2>&1
   commands_end:
     - '[[ "$EE_DEVICE" == "Amlogic" ]] && mv /storage/.config/asound2.conf /storage/.config/asound.conf'
 
