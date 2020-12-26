@@ -146,44 +146,54 @@ fi
 
 for GAME in ppsspp dosbox scummvm retroarch amiberry hatari openbor opentyrian residualvm
 do
-  if [ ! -L "/storage/.config/${GAME}" ]
+  # Migrate or copy fresh data
+  if [ ! -d "${GAMEDATA}/${GAME}" ]
   then
-    if [ ! -d "${GAMEDATA}/${GAME}" ]
+    if [ -d "/storage/.config/${GAME}" ]
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
-      ln -s "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
     else
-      rm -rf "/storage/.config/${GAME}"
-      ln -s "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
+      cp -rf "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
     fi
+  fi
+
+  # Link the original location to the new data location
+  if [ ! -L "/storage/.config/${GAME}" ]
+  then
+    ln -sf "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
   fi
 done
 
+# Covers drastic
+if [ ! -d "${GAMEDATA}/drastic" ]
+then
+  if [ -d "/storage/drastic" ]
+  then
+    mv "/storage/drastic" "${GAMEDATA}/drastic"
+  else
+    mkdir "${GAMEDATA}/drastic"
+  fi
+fi
+
 if [ ! -L "/storage/drastic" ]
 then
-  if [ ! -d "${GAMEDATA}/drastic" ]
+  ln -sf "${GAMEDATA}/drastic" "/storage/drastic"
+fi
+
+# Controller remaps
+if [ ! -d "${GAMEDATA}/remappings" ]
+then
+  if [ -d "/storage/remappings" ]
   then
-    if [ -d "/storage/drastic" ]
-    then 
-      mv "/storage/drastic" "${GAMEDATA}/drastic"
-      ln -s "${GAMEDATA}/drastic" "/storage/drastic"
-    fi
+    mv "/storage/remappings" "${GAMEDATA}/remappings"
   else
-    rm -rf "/storage/drastic"
-    ln -s "${GAMEDATA}/drastic" "/storage/drastic"
+    cp -rf "/usr/config/remappings" "${GAMEDATA}/remappings"
   fi
 fi
 
 if [ ! -L "/storage/remappings" ]
 then
-  if [ ! -d "${GAMEDATA}/remappings" ]
-  then
-    mv "/storage/remappings" "${GAMEDATA}/remappings"
-    ln -s "${GAMEDATA}/remappings" "/storage/.config/remappings"
-  else
-    rm -rf "/storage/remappings"
-    ln -s "${GAMEDATA}/remappings" "/storage/.config/remappings"
-  fi
+   ln -sf "${GAMEDATA}/remappings" "/storage/remappings"
 fi
 
 # Show splash Screen 
