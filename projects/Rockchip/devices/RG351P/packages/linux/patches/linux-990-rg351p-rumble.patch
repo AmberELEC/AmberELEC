@@ -59,14 +59,14 @@
 +	struct rg351p_device *devinfo = *(struct rg351p_device**)data;
 +	u64 weak, strong, intensity;
 +
-+	/* Map intensity from 0 to 100000 */
++	/* Map intensity from 0 to 1000 */
 +	strong = effect->u.rumble.strong_magnitude;
 +	weak = effect->u.rumble.weak_magnitude;
 +	intensity = (weak + 2 * strong) / 3;
-+	intensity = (100000 * intensity) >> 16;
++	intensity = (1000 * intensity) >> 16;
 +
 +	if (devinfo->pwmdev)
-+		pwm_config(devinfo->pwmdev, 100000 - intensity, 100000);
++		pwm_config(devinfo->pwmdev, 1000 - intensity, 1000);
 +
 +	return 0;
 +}
@@ -120,7 +120,7 @@
 +		intdev->pwmdev = NULL;
 +	}
 +	else if (intdev->pwmdev) {
-+		pwm_config(intdev->pwmdev, 100000, 100000);
++		pwm_config(intdev->pwmdev, 1000, 1000);
 +		pwm_enable(intdev->pwmdev);
 +		hid_info(hid, "rumble-pwm device intialized, rumble feedback ready\n");
 +	}
