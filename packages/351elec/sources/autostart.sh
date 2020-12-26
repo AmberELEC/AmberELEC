@@ -6,6 +6,11 @@
 # Source predefined functions and variables
 . /etc/profile
 
+if [ ! -d "/storage/roms" ]
+then
+  mkdir /storage/roms
+fi
+
 (mount | grep [r]oms) && umount /storage/roms
 mount -o umask=000 -t exfat /dev/mmcblk0p3 /storage/roms
 
