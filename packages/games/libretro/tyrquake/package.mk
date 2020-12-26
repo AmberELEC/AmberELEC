@@ -19,12 +19,12 @@
 ################################################################################
 
 PKG_NAME="tyrquake"
-PKG_VERSION="7c6419be16e8fb77971a0e1288ad1772e5db260c"
-PKG_SHA256="eb54b4564e8e7aeb0e8fea55d339dc43bb4d46aac246341915dfacb4acf7abee"
+PKG_VERSION="7f175ba5c51c65e815a239ff32fb4aae6564c0a7"
+PKG_SHA256="5d10f411126ba0bdf2174098500989c7cfffb4632c083cac101e6b71f28d61eb"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/tiduscrying/tyrquake"
+PKG_SITE="https://github.com/libretro/tyrquake"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
