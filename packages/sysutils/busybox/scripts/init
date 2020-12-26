@@ -783,8 +783,10 @@ check_update() {
     #echo "Failed update detected - performing recovery."
     #echo ""
     do_cleanup
-    StartProgress countdown "Normal startup in 10s... " 10 "NOW"
-    return 0
+    StartProgress countdown "Reboot in 10... " 10 "NOW"
+    sync
+    reboot
+    #return 0
   fi
 
   mkdir -p $UPDATE_DIR/.tmp &>/dev/null

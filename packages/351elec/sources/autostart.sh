@@ -11,8 +11,11 @@ then
   mkdir /storage/roms
 fi
 
-(mount | grep [r]oms) && umount /storage/roms
-mount -o umask=000 -t exfat /dev/mmcblk0p3 /storage/roms
+if [ ! "$(mount 2>/dev/null| grep [r]oms)" ]
+then
+  rm -rf /storage/roms/*
+  mount -o umask=000 -t exfat /dev/mmcblk0p3 /storage/roms
+fi
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
 CONFIG_DIR="/storage/.emulationstation"
