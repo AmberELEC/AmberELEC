@@ -1,0 +1,29 @@
+diff -rupN emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/guis/GuiMenu.cpp
+--- emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.orig/es-app/src/guis/GuiMenu.cpp	2020-12-26 06:29:09.992330270 -0500
++++ emuelec-emulationstation-f89564df948baebf7a0e1f6a6f9ef88557bc84cd.new/es-app/src/guis/GuiMenu.cpp	2020-12-26 06:30:58.648583365 -0500
+@@ -1203,25 +1203,6 @@ void GuiMenu::openSystemSettings_batocer
+ 	language_choice->add("正體中文", 	     "zh_TW", language == "zh_TW");
+ 	s->addWithLabel(_("LANGUAGE"), language_choice);
+ 
+-	// power saver
+-	auto power_saver = std::make_shared< OptionListComponent<std::string> >(mWindow, _("POWER SAVER MODES"), false);
+-	std::vector<std::string> modes;
+-	modes.push_back("disabled");
+-	modes.push_back("default");
+-	modes.push_back("enhanced");
+-	modes.push_back("instant");
+-	for (auto it = modes.cbegin(); it != modes.cend(); it++)
+-		power_saver->add(_(it->c_str()), *it, Settings::getInstance()->getString("PowerSaverMode") == *it);
+-	s->addWithLabel(_("POWER SAVER MODES"), power_saver);
+-	s->addSaveFunc([this, power_saver] {
+-		if (Settings::getInstance()->getString("PowerSaverMode") != "instant" && power_saver->getSelected() == "instant") 
+-		{						
+-			Settings::getInstance()->setBool("EnableSounds", false);
+-		}
+-		Settings::getInstance()->setString("PowerSaverMode", power_saver->getSelected());
+-		PowerSaver::init();
+-	});
+-
+ 	// UI RESTRICTIONS
+ 	auto UImodeSelection = std::make_shared< OptionListComponent<std::string> >(mWindow, _("UI MODE"), false);
+ 	std::vector<std::string> UImodes = UIModeController::getInstance()->getUIModes();
