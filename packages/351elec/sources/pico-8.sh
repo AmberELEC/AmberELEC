@@ -5,6 +5,13 @@
 # Source predefined functions and variables
 . /etc/profile
 
+if [ ! -z "${1}" ]
+then
+  RUN="-run ${1}"
+else
+  RUN="-splore"
+fi
+
 if [ ! -d "/storage/roms/gamedata/pico-8" ]
 then
   mkdir -p "/storage/roms/gamedata/pico-8"
@@ -21,7 +28,7 @@ then
   export LD_LIBRARY_PATH=/usr/lib32
 fi
 
-/storage/roms/gamedata/pico-8/pico8_dyn -splore -home -root_path /storage/gamedata/pico-8 -joystick 0
+/storage/roms/gamedata/pico-8/pico8_dyn -home -root_path /storage/gamedata/pico-8 -joystick 0 ${RUN}
 
 ret_error=$?
 
