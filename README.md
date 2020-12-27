@@ -8,7 +8,6 @@ An open source firmware for the Anbernic RG351P.
 * Fully Open Source with a wonderful community of users and contributors.
 * An up-to-date and fresh user interface
 * Optimized defaults allowing you to pick up and play
-* Native support for Rumble
 * A FAT32 games partition easilly accessible from Linux, Windows and MacOS.
 
 351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P and is not compatible with other devices.
