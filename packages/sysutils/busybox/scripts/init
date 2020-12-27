@@ -751,9 +751,10 @@ do_cleanup() {
   [ -f "$UPDATE_IMG_GZ" ] && rm -f "$UPDATE_IMG_GZ" &>/dev/null
   [ -f "$UPDATE_IMG" ] && rm -f "$UPDATE_IMG" &>/dev/null
 
-  rm -rf $UPDATE_ROOT/.tmp &>/dev/null
   rm -rf $UPDATE_ROOT/[0-9a-zA-Z]* &>/dev/null
+  rm -f  $UPDATE_ROOT/* &>/dev/null
   rm -f  $UPDATE_ROOT/.nocheck $UPDATE_ROOT/.nocompat &>/dev/null
+  rm -rf $UPDATE_ROOT/.tmp &>/dev/null
 
   sync
 
@@ -783,7 +784,7 @@ check_update() {
     #echo "Failed update detected - performing recovery."
     #echo ""
     do_cleanup
-    StartProgress countdown "Reboot in 10... " 10 "NOW"
+    StartProgress countdown "Reboot in 5... " 5 "NOW"
     sync
     reboot
     #return 0

@@ -9,7 +9,7 @@
 
 # IMPORTANT: This script should not return (echo) anything other than the shader if its set
 
-RETROARCHIVEMENTS=(atari2600 atari7800 atarilynx colecovision gamegear gb gba gbc mastersystem megadrive msx n64 neogeo nes ngp pcengine pokemini psx sega32x segacd sg-1000 snes vectrex virtualboy wonderswan)
+RETROARCHIVEMENTS=(atari2600 atari7800 atarilynx colecovision gamegear gb gba gbc mastersystem megadrive msx n64 neogeo nes ngp pcengine pokemini psx sega32x segacd sg-1000 snes tic80 vectrex virtualboy wonderswan)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
@@ -113,6 +113,9 @@ case ${1} in
 	;;
 	"psx")
 	PLATFORM="psx"
+	;;
+	"tic80")
+	PLATFORM="tic80"
 	;;
 esac
 

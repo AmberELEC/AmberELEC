@@ -258,6 +258,10 @@ if [ -z ${LIBRETRO} ]; then
 			jslisten set "drastic retroarch"
 			RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
 		;;
+		"pico-8")
+			jslisten set "pico8_dyn"
+			RUNTHIS='${TBASH} /usr/bin/pico-8.sh'
+		;;
 		"n64")
 			jslisten set "mupen64plus retroarch"
 			if [ "$EMU" = "M64P" ]

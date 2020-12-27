@@ -66,12 +66,12 @@ for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800        
 	   dreamcast famicom fbneo fds gameandwatch gamegear gb gba gbc           \
 	   genesis gw mame mastersystem megadrive megadrive-japan msx msx2        \
 	   n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor pcengine       \
-	   pc pcenginecd pcfx psp psx saturn sc-3000 scummvm sega32x segacd sfc   \
-	   sg-1000 sgfx snes tg16 tg16cd uzebox vectrex vic20 videopac virtualboy \
-	   wonderswan wonderswancolor x68000 zx81 zxspectrum ports ports/VVVVVV   \
-	   ports/quake ports/diablo ports/doom ports/doom2 ports/cannonball       \
-	   ports/CaveStory ports/reminiscence ports/xrick ports/opentyrian        \
-           ports/pico-8 ports/cgenius ports/cgenius/games
+	   pc pcenginecd pcfx pico-8 psp psx saturn sc-3000 scummvm sega32x       \
+	   segacd sfc sg-1000 sgfx snes tg16 tg16cd tic-80 uzebox vectrex vic20   \
+	   videopac virtualboy wonderswan wonderswancolor x68000 zx81 zxspectrum  \
+           ports ports/VVVVVV ports/quake ports/diablo ports/doom ports/doom2     \
+	   ports/cannonball ports/CaveStory ports/reminiscence ports/xrick        \
+           ports/opentyrian ports/cgenius ports/cgenius/games
 do
   if [ ! -d "/storage/roms/${dir}" ]; then
     mkdir -p "/storage/roms/${dir}"
@@ -79,6 +79,9 @@ do
     chmod 0777 "/storage/roms/${dir}"
   fi
 done
+
+# Copy pico-8
+cp "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh"
 
 # Restore config if backup exists
 BPATH="/storage/roms/backup/"
@@ -197,6 +200,16 @@ fi
 if [ ! -L "/storage/remappings" ]
 then
    ln -sf "${GAMEDATA}/remappings" "/storage/remappings"
+fi
+
+# Migrate pico-8 binaries if they exist
+if [ -e "/storage/roms/ports/pico-8/pico8_dyn" ]
+then
+  if [ ! -d "${GAMEDATA}/pico-8" ]
+  then
+    mkdir -p "${GAMEDATA}/pico-8"
+  fi
+  mv "/storage/roms/ports/pico-8/"* "${GAMEDATA}/pico-8"
 fi
 
 # Show splash Screen 
