@@ -437,7 +437,6 @@ clear_screen
 # If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
 if [[ "${ROMNAME}" == *".sh" ]]; then
 	$VERBOSE && log "Executing shell script ${ROMNAME}"
-	jslisten set "bash"
 	"${ROMNAME}"
         ret_error=$?
 else
