@@ -17,10 +17,13 @@ clear >/dev/console
 message_stream "Installing Half Life..." .02
 
 cd ${INSTALLPATH}/${PORTNAME}
-for bin in client_arm64.so controls.png hl_arm64.so libxash.so libxashmenu64.so xash3d "Copy Contents into valve folder.zip"
+for bin in client_arm64.so controls.png hl_arm64.so libxash.so libxashmenu64.so xash3d "Copy%20Contents%20into%20valve%20folder.zip"
 do
   curl -Lo ${bin} "https://github.com/krishenriksen/Half-Life-rg351p/raw/main/Half-Life/${bin}"
 done
+
+unzip -o "Copy%20Contents%20into%20valve%20folder.zip"
+mv 'Copy Contents into valve folder' 'dependencies'
 
 ### Create the start script
 cat <<EOF >${INSTALLPATH}/"Half Life.sh"
@@ -34,9 +37,7 @@ then
   echo "Unable to find game data.  Please copy to ${INSTALLPATH}/${PORTNAME}/valve" >>/tmp/logs/emuelec.log
   exit 1
 else
-  cd valve
-  unzip -o ../"Copy Contents into valve folder.zip"
-  cd ..
+  rsync -av dependencies/* valve
   ./xash3d -fullscreen -console -sdl_joy_old_api
 fi
 
