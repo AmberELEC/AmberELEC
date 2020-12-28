@@ -37,7 +37,7 @@ else
   fi
 fi
 
-if [ "${MYVERSION}" == "${TAG}" ]
+if [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
 then
   echo no
   exit 1
