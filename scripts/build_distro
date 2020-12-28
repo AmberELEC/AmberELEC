@@ -24,8 +24,13 @@ fi
 if [ "${ARCH}" == "aarch64" ]
 then
   make image
-else
-  make system
+elif [ "${ARCH}" == "arm" ]
+then
+  scripts/build retroarch
+  scripts/build pcsx_rearmed
+  scripts/install retroarch
+  scripts/install pcsx_rearmed
+  #make system
 fi
 
 if [ ! $? == 0 ]

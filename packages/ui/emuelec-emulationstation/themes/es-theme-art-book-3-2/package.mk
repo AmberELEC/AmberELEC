@@ -3,13 +3,13 @@
 # Copyright (C) 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
 
 PKG_NAME="es-theme-art-book-3-2"
-PKG_VERSION="main"
-#PKG_SHA256=""
 PKG_REV="1"
+PKG_VERSION="3e2bf487054a322cf4f27bba4a354800dd47a2a1"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
 PKG_SITE="https://github.com/anthonycaccese/es-theme-art-book-3-2"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="$PKG_SITE.git"
+GET_HANDLER_SUPPORT="git"
 PKG_SHORTDESC="ArtBook"
 PKG_LONGDESC="Art Book - 351ELEC default theme"
 PKG_TOOLCHAIN="manual"

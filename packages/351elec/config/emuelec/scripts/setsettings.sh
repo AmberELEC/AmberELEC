@@ -217,7 +217,7 @@ case ${1} in
 	;;
 	"rewind")
 	(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
-			if [ $RE == 1 ] && [ "${2}" == "1" ]; then
+			if [ $RA == 1 ] && [ "${2}" == "1" ]; then
 				echo 'rewind_enable = "true"' >> ${RACONF}
 			else
 				echo 'rewind_enable = "false"' >> ${RACONF} 
