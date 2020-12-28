@@ -22,6 +22,8 @@ LOGSDIR="/tmp/logs"
 LOGFILE="emuelec.log"
 TBASH="/usr/bin/bash"
 JSLISTENCONF="/emuelec/configs/jslisten.cfg"
+JSLISTENSTDCONF="/emuelec/configs/jslisten_std.cfg"
+JSLISTENMPVCONF="/emuelec/configs/jslisten_mpv.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 NETPLAY="No"
@@ -195,6 +197,12 @@ function jslisten() {
 	if [ "$1" == "set" ]
 	then
 		systemctl stop jslisten
+		if [ "$2" == "mpv" ]
+		then
+			cp ${JSLISTENMPVCONF} ${JSLISTENCONF}
+		else
+			cp ${JSLISTENSTDCONF} ${JSLISTENCONF}
+		fi
 		sed -i "2s|program=.*|program=\"/usr/bin/killall ${2}\"|" ${JSLISTENCONF}
 		systemctl start jslisten
 	elif [ "$1" == "stop" ]
@@ -331,8 +339,8 @@ if [ -z ${LIBRETRO} ]; then
 			fi
 		;;
 		"mplayer")
-			jslisten set "${EMU}"
-			RUNTHIS='${TBASH} mplayer_video "${ROMNAME}" "${EMU}"'
+			jslisten set "mpv"
+			RUNTHIS='${TBASH} /usr/bin/mpv_video.sh "${ROMNAME}"'
 		;;
 		"shell")
 			jslisten set "bash"
