@@ -107,4 +107,3 @@ fi
 echo "UPDATE" > /storage/.config/boot.hint
 
 sync
-reboot

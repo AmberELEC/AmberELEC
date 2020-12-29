@@ -163,6 +163,7 @@ do
   # Link the original location to the new data location
   if [ ! -L "/storage/.config/${GAME}" ]
   then
+    rm -rf "/storage/.config/${GAME}" 2>/dev/null
     ln -sf "${GAMEDATA}/${GAME}" "/storage/.config/${GAME}"
   fi
 done
@@ -180,6 +181,7 @@ fi
 
 if [ ! -L "/storage/drastic" ]
 then
+  rm -rf "/storage/drastic" 2>/dev/null
   ln -sf "${GAMEDATA}/drastic" "/storage/drastic"
 fi
 
@@ -196,17 +198,19 @@ fi
 
 if [ ! -L "/storage/remappings" ]
 then
+   rm -rf "/storage/remappings" 2>/dev/null
    ln -sf "${GAMEDATA}/remappings" "/storage/remappings"
 fi
 
 # Migrate pico-8 binaries if they exist
 if [ -e "/storage/roms/ports/pico-8/pico8_dyn" ]
 then
-  if [ ! -d "${GAMEDATA}/pico-8" ]
+  if [ ! -d "/storage/roms/pico-8" ]
   then
-    mkdir -p "${GAMEDATA}/pico-8"
+    mkdir -p "/storage/roms/pico-8"
   fi
-  mv "/storage/roms/ports/pico-8/"* "${GAMEDATA}/pico-8"
+  mv "/storage/roms/ports/pico-8/"* "/storage/roms/pico-8"
+  rm -rf "/storage/roms/ports/pico-8"
 fi
 
 # Show splash Screen 
