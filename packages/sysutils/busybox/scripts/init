@@ -385,6 +385,7 @@ update_partition() {
     StartProgress spinner "Updating $1... "
       result="$(dd if="$UPDATE_DIR/$2" of="$3" 2>&1)"
       StopProgress "done"
+      sync
     echo "${result}"
   fi
 }
@@ -1004,7 +1005,10 @@ check_update() {
   umount /sysroot
   update_file "System" "$UPDATE_SYSTEM" "/flash/$IMAGE_SYSTEM"
   update_bootloader
+  sync
+  StartProgress countdown "Update complete. Reboot in 10s... " 10 "NOW"
   do_cleanup
+  sync
   do_reboot
 }
 

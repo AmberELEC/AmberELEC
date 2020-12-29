@@ -28,10 +28,11 @@ elif [ "${ARCH}" == "arm" ]
 then
   # Only build the 32bit packages that we need rather than the whole image
   # to speed up the build process and save disk space.
-  scripts/build retroarch
-  scripts/build pcsx_rearmed
-  scripts/install retroarch
-  scripts/install pcsx_rearmed
+  for package in gcc retroarch pcsx_rearmed parallel-n64
+  do
+    scripts/build ${package}
+    scripts/install ${package}
+  done
 fi
 
 if [ ! $? == 0 ]
