@@ -21,9 +21,6 @@ VERBOSE=false
 LOGSDIR="/tmp/logs"
 LOGFILE="emuelec.log"
 TBASH="/usr/bin/bash"
-JSLISTENCONF="/emuelec/configs/jslisten.cfg"
-JSLISTENSTDCONF="/emuelec/configs/jslisten_std.cfg"
-JSLISTENMPVCONF="/emuelec/configs/jslisten_mpv.cfg"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 NETPLAY="No"
@@ -188,30 +185,6 @@ function setaudio() {
 	fi
 	sed -i "s|pcm \"hw:.*|pcm \"${AUDIO_DEVICE}\"|" /storage/.config/asound.conf
 	set_audio alsa
-}
-
-function jslisten() {
-	$VERBOSE && log "JSLISTEN: COMMAND: $1 ARGUMENT: $2"
-	GETKILLKEYS=$(/storage/.config/emulationstation/scripts/configscripts/z_getkillkeys.sh)
-	$VERBOSE && log "${GETKILLKEYS}"
-	if [ "$1" == "set" ]
-	then
-		systemctl stop jslisten
-		if [ "$2" == "mpv" ]
-		then
-			cp ${JSLISTENMPVCONF} ${JSLISTENCONF}
-		else
-			cp ${JSLISTENSTDCONF} ${JSLISTENCONF}
-		fi
-		sed -i "2s|program=.*|program=\"/usr/bin/killall ${2}\"|" ${JSLISTENCONF}
-		systemctl start jslisten
-	elif [ "$1" == "stop" ]
-	then
-		systemctl stop jslisten
-	elif [ "$1" == "start" ]
-	then
-		systemctl start jslisten
-	fi
 }
 
 ### Main Screen Turn On

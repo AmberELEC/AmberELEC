@@ -35,9 +35,6 @@ rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.confi
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
 
-# Release specific updates
-cp /usr/config/emuelec/configs/jslisten.cfg /storage/.config/emuelec/configs/jslisten.cfg
-
 # Move ports to the FAT volume
 rsync -a --exclude gamelist.xml /usr/config/emuelec/ports/* /storage/roms/ports
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]

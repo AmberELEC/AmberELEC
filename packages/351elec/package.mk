@@ -89,7 +89,7 @@ makeinstall_target() {
   for f in $FILES
     do
     FI=$(basename $f)
-    ln -sf "/storage/.config/emuelec/scripts/$FI" $INSTALL/usr/bin/
+    ln -sf "/storage/.config/emuelec/scripts/batocera/$FI" $INSTALL/usr/bin/
   done
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays
