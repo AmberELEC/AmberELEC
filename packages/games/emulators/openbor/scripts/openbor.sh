@@ -1,36 +1,19 @@
-#!/bin/sh
-
+#!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present RedWolfTech
+# Copyright (C) 2020-present Fewtarius
 
-# OpenBOR only works with Pak files, if you have an extracted game you will need to create a pak first.
-# If master.cfg does not work, sound is weird or controller not working, you will need to use a keyboard to set your gamepad
-# after you set up your gamne, copy the /storage/.config/openbor/Saves/{gamename}.cfg file to /storage/.config/openbor/master.cfg
-# master.cfg will only be copied the first time you run that particular game.
+OPENBOR="/storage/openbor"
+# Create symlink to game .pak in proper location
+if [ ! -d "${OPENBOR}/Paks" ]
+then
+  mkdir ${OPENBOR}/Paks
+fi
 
-/emuelec/scripts/setres.sh 16
+ln -sf "${1}" /storage/openbor/Paks/Game.pak
 
-pakname=$(basename "$1")
-pakname="${pakname%.*}"
+# Run retroarch PSP core and start OpenBOR engine
+/usr/bin/retroarch -L /tmp/cores/ppsspp_libretro.so /storage/openbor/EBOOT.PBP
 
-echo $pakname
-# Make sure the folders exists
-	mkdir -p /storage/.config/openbor/Paks
-	mkdir -p /storage/.config/openbor/Saves
-
-# copy pak to Paks folder
-	cp "$1" /storage/.config/openbor/Paks
-
-# only copy master.cfg if its the first time running the pak
-	if [ ! -f "/storage/.config/openbor/Saves/${pakname}.cfg" ]; then
-		cp "/storage/.config/openbor/master.cfg" "/storage/.config/openbor/Saves/${pakname}.cfg"
-	fi
-
-# Run OpenBOR in the config folder
-    cd /storage/.config/openbor/
-	SDL_AUDIODRIVER=alsa nice -n -19 OpenBOR
-
-# Delete Pak from temp folder
-	rm -rf /storage/.config/openbor/Paks/*
-
-/emuelec/scripts/setres.sh
+# Remove symlink to game .pak when done
+rm -f /storage/openbor/Paks/Game.pak

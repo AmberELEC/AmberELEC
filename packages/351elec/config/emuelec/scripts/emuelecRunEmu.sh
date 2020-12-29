@@ -215,7 +215,7 @@ if [ -z ${LIBRETRO} ]; then
 		;;
 		"openbor")
 				jslisten set "OpenBOR retroarch"
-				RUNTHIS='${TBASH} /usr/bin/openborpsp.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 		"setup")
 				RUNTHIS='${TBASH} "${ROMNAME}"'

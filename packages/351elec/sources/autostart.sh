@@ -35,6 +35,9 @@ rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.confi
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
 
+# Copy OpenBOR
+rsync --ignore-existing -raz /usr/config/openbor /storage
+
 # Move ports to the FAT volume
 rsync -a --exclude gamelist.xml /usr/config/emuelec/ports/* /storage/roms/ports
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
