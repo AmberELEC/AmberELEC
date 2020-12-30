@@ -4,11 +4,11 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="openbor"
-PKG_VERSION="v6391"
-PKG_SHA256="b5c5edb0fdd0dc882a25156cf7fea734a9136ed8b347db446b3efc84a9f599ce"
+PKG_VERSION="4432"
+PKG_SHA256="1c9a8a93584a9e0abda7aa11340d9b794a32b95d7b10c078460d13d68cc317d5"
 PKG_ARCH="any"
-PKG_SITE="https://github.com/DCurrent/openbor/releases"
-PKG_URL="$PKG_SITE/download/$PKG_VERSION/OpenBOR.v3.0.Build.6391.tar.7z"
+PKG_SITE="http://downloads.sf.net/sourceforge/$PKG_NAME"
+PKG_URL="$PKG_SITE/OpenBOR_v3.0_Build_4432.rar"
 PKG_DEPENDS_TARGET="toolchain p7zip:host"
 PKG_SHORTDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups, shooters, and more! "
 PKG_LONGDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups, shooters, and more! "
@@ -21,12 +21,12 @@ PKG_TOOLCHAIN="manual"
 
 make_target() {
   cd $PKG_BUILD
-  7zr x $SOURCES/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}.7z
+  unrar x $SOURCES/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}.rar
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/config/openbor
-  cp -rf $PKG_BUILD/"OpenBOR v3.0 Build 6391"/PSP/OpenBOR/* $INSTALL/usr/config/openbor
+  cp -rf $PKG_BUILD/PSP/OpenBOR/* $INSTALL/usr/config/openbor
   mkdir -p $INSTALL/usr/config/openbor/Saves
   cp -rf $PKG_DIR/config/Saves/* $INSTALL/usr/config/openbor/Saves
   mkdir -p $INSTALL/usr/bin
