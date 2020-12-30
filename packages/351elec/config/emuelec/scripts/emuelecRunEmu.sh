@@ -241,7 +241,7 @@ if [ -z ${LIBRETRO} ]; then
 		;;
 		"pico-8")
 			jslisten set "pico8_dyn"
-			RUNTHIS='${TBASH} /usr/bin/pico-8.sh'
+			RUNTHIS='${TBASH} /usr/bin/pico-8.sh "${ROMNAME}"'
 		;;
 		"n64")
 			jslisten set "mupen64plus retroarch"
