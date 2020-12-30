@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
-PKG_NAME="emuelec-emulationstation"
-PKG_VERSION="f89564df948baebf7a0e1f6a6f9ef88557bc84cd"
-PKG_GIT_CLONE_BRANCH="EmuELEC"
+PKG_NAME="351elec-emulationstation"
+PKG_VERSION="7d6372dfe876c4a2c594c8baa7787b53cf64d6d2"
+PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/EmuELEC/emuelec-emulationstation"
+PKG_SITE="https://github.com/fewtarius/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2-git freetype curl freeimage vlc bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip"
 PKG_SECTION="emuelec"
