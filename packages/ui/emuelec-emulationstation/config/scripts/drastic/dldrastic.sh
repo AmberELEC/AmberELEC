@@ -43,6 +43,9 @@ fi
 		-s '//systemList/system[last()]' -t elem -n 'name' -v 'nds'\
 		-s '//systemList/system[last()]' -t elem -n 'fullname' -v 'Nintendo DS'\
 		-s '//systemList/system[last()]' -t elem -n 'path' -v '/storage/roms/nds'\
+		-s '//systemList/system[last()]' -t elem -n 'manufacturer' -v 'Nintendo'\
+		-s '//systemList/system[last()]' -t elem -n 'release' -v '2005'\
+		-s '//systemList/system[last()]' -t elem -n 'hardware' -v 'portable'\
 		-s '//systemList/system[last()]' -t elem -n 'extension' -v '.nds .zip .NDS .ZIP'\
 		-s '//systemList/system[last()]' -t elem -n 'command' -v "/emuelec/scripts/$START_SCRIPT %ROM%"\
 		-s '//systemList/system[last()]' -t elem -n 'platform' -v 'nds'\
