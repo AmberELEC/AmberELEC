@@ -15,7 +15,7 @@
 DISTRO="351ELEC"
 CONFIGDIR="/storage/roms/community"
 PACKAGELIST="https://raw.githubusercontent.com/fewtarius/351ELEC/main/metadata/community.cfg"
-LOCALPACKAGELIST="/storage/community.cfg"
+LOCALPACKAGELIST="/storage/.config/community.cfg"
 
 # Community Package List Schema
 #
