@@ -65,11 +65,11 @@ for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800        
 	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound       \
 	   dreamcast famicom fbneo fds gameandwatch gamegear gb gba gbc           \
 	   genesis gw intellivision mame mastersystem megadrive megadrive-japan   \
-	   msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor       \
-	   pcengine pc pcenginecd pcfx pico-8 psp psx saturn sc-3000 scummvm      \
-	   sega32x segacd sfc sg-1000 sgfx snes tg16 tg16cd tic-80 uzebox vectrex \
-	   vic20 videopac virtualboy wonderswan wonderswancolor x68000 zx81       \
-	   zxspectrum ports ports/VVVVVV ports/quake ports/diablo ports/doom      \
+	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey       \
+           openbor pcengine pc pcenginecd pcfx pico-8 psp psx saturn sc-3000      \
+	   scummvm sega32x segacd sfc sg-1000 sgfx snes tg16 tg16cd tic-80 uzebox \
+	   vectrex vic20 videopac virtualboy wonderswan wonderswancolor x68000    \
+	   zx81 zxspectrum ports ports/VVVVVV ports/quake ports/diablo ports/doom \
 	   ports/doom2 ports/cannonball ports/CaveStory ports/reminiscence        \
 	   ports/xrick ports/opentyrian ports/cgenius ports/cgenius/games
 do
