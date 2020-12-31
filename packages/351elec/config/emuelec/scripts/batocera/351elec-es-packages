@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Batocera
 # Copyright (C) 2020-present Fewtarius
@@ -7,8 +7,8 @@
 # Download and install community supported binary packages
 #
 # Usage:
-# 351elec-es-package 'list' or 'install <package>' 
-# 
+# 351elec-es-package 'list' or 'install <package>'
+#
 # If you don't provide a <package>, the list of packages will be downloaded and sent back to you.
 #
 
@@ -92,10 +92,9 @@ function list_packages() {
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	while IFS=$'|' read name url ; do
-		[ x"${name}" == "x" ] && continue 
+		[ x"${name}" == "x" ] && continue
 		ia=$(check_url "${url}")
-		filename=$(git_name "${url}")
-		[ -d "${CONFIGDIR}"/"${filename}" ] && ia="[I]"
+		[ -d "${CONFIGDIR}"/"${name}" ] && ia="[I]"
 		echo "${ia} ${name} - ${url}"
 	done < "${tmp}"
 	[[ -e "${tmp}" ]] && rm "${tmp}"
@@ -130,7 +129,7 @@ function install_package() {
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	while IFS=$'|' read name url ; do
-		[ x"${name}" != x"${package}" ] && continue 
+		[ x"${name}" != x"${package}" ] && continue
 		ia=$(check_url "${url}")
 		if [ x"${ia}" != x"[A]" ]; then
 			echo "Error - invalid package URL ${url}"
@@ -143,7 +142,7 @@ function install_package() {
 				echo "Unzipping ${filename} package files >>> 99%"
 				if [ -d "${CONFIGDIR}/${filename}" ]
 				then
-					rm -rf "${CONFIGDIR}/${filename}" 
+					rm -rf "${CONFIGDIR}/${filename}"
 				fi
 				unzip "${filename}" >/dev/null 2>&1
 				rm "${filename}"
@@ -207,13 +206,13 @@ package="$2"
 if ! [ -d "${CONFIGDIR}" ]; then
 	echo "Error - package directory ${CONFIGDIR} is not valid."
 	exit 1
-fi 
+fi
 if [ x"${command}" == "xlist" ]; then
 	list_packages
 elif [ x"${command}" == "xinstall" ]; then
 	[ x"${package}" != "x" ] && install_package ${package} || usage
 elif [ x"${command}" == "xremove" ]; then
 	[ x"${package}" != "x" ] && remove_package ${package} || usage
-else 
-	usage	
+else
+	usage
 fi
