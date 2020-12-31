@@ -19,9 +19,10 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
+### Don't update, newer commits have issues.
 PKG_NAME="common-shaders"
-PKG_VERSION="7ab98be403804fe45c71e616c75716eff471bf9c"
-PKG_SHA256="e4195a83627a1da26f817e998ac05f00f45e81d62caa50bdeeb9f4ffcf42ca45"
+PKG_VERSION="b7cdc50258908e8f1906f8fc13a2fac4a9796dc6"
+PKG_SHA256="9cf8ac14e3f971b29421d556cf65b4234468f350d15b466abc635b7cec9ab6fa"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
