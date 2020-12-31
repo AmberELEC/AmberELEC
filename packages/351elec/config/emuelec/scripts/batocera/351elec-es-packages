@@ -19,9 +19,9 @@ LOCALPACKAGELIST="/storage/.config/community.cfg"
 
 # Community Package List Schema
 #
-# {PACKAGE NAME}|{PACKAGE URL}
+# {PACKAGE NAME}|{PACKAGE URL}|{SHA256SUM}
 #
-# Half_Life|https://github.com/blah/half-life-1231.zip
+# Half_Life|https://github.com/blah/half-life-1231.zip|d06489dcf04c602ddacc6f80b2809e6d25fd6298c461966e666e19d3188e04be
 #
 # packages.cfg must be a plain text pipe delimited file.
 
@@ -91,7 +91,7 @@ function list_packages() {
 		curl -sfL "${PACKAGELIST}" -o "${tmp}" || exit 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
-	while IFS=$'|' read name url ; do
+	while IFS=$'|' read name url shasum; do
 		[ x"${name}" == "x" ] && continue
 		ia=$(check_url "${url}")
 		[ -d "${CONFIGDIR}"/"${name}" ] && ia="[I]"
@@ -128,7 +128,7 @@ function install_package() {
 		curl -sfL "${PACKAGELIST}" -o "${tmp}" || exit 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
-	while IFS=$'|' read name url ; do
+	while IFS=$'|' read name url shasum; do
 		[ x"${name}" != x"${package}" ] && continue
 		ia=$(check_url "${url}")
 		if [ x"${ia}" != x"[A]" ]; then
@@ -139,21 +139,29 @@ function install_package() {
 			filename=$(echo ${url} | sed "s#^.*/##")
 			curl -sfL "${url}" -o "${filename}" || exit 1
 			if [ -f "${filename}" ]; then
-				echo "Unzipping ${filename} package files >>> 99%"
-				if [ -d "${CONFIGDIR}/${filename}" ]
+				echo "Verifying package checksum"
+				dldsum=$(sha256sum ${filename} | awk '{print $1}')
+				if [ ! "${shasum}" == "${dldsum}" ]
 				then
-					rm -rf "${CONFIGDIR}/${filename}"
-				fi
-				unzip "${filename}" >/dev/null 2>&1
-				rm "${filename}"
-				echo "Installing ${filename} package"
-				./${package}/install.sh
-				if [ $? == 0 ]
-				then
-				  success_installed=1
-				else
-				  echo "Error - Installation failed."
+				  echo "Error - Checksum does not match."
 				  success_installed=0
+				else
+				  echo "Unzipping ${filename} package files >>> 99%"
+				  if [ -d "${CONFIGDIR}/${filename}" ]
+				  then
+				    rm -rf "${CONFIGDIR}/${filename}"
+				  fi
+				  unzip "${filename}" >/dev/null 2>&1
+				  rm "${filename}"
+				  echo "Installing ${filename} package"
+				  ./${package}/install.sh
+				  if [ $? == 0 ]
+				  then
+				    success_installed=1
+				  else
+				    echo "Error - Installation failed."
+				    success_installed=0
+				  fi
 				fi
 			else
 				echo "Error - ${package} zip file could not be downloaded from ${url}"
@@ -166,7 +174,7 @@ function install_package() {
 		echo "${package} is now installed >>> 100%"
 		exit 0
 	else
-		echo "Error - ${package} could not be found"
+		echo "Error - ${package} could not be installed"
 		exit 1
 	fi
 }
