@@ -57,7 +57,7 @@ CONFS=$SYSTEM_ROOT/usr/share/bootloader/extlinux/*.conf
 for all_conf in $CONFS; do
   conf="$(basename ${all_conf})"
   echo "Updating ${conf}..."
-  cp -p $SYSTEM_ROOT/usr/share/bootloader/extlinux/${conf} $BOOT_ROOT/extlinux/${conf}
+  cp -p $SYSTEM_ROOT/usr/share/bootloader/extlinux/${conf} $BOOT_ROOT/extlinux/${conf} &>/dev/null
   sed -e "s/@BOOT_UUID@/$BOOT_UUID/" \
       -e "s/@DISK_UUID@/$DISK_UUID/" \
       -i $BOOT_ROOT/extlinux/${conf}
@@ -65,14 +65,14 @@ done
 
 if [ -f $SYSTEM_ROOT/usr/share/bootloader/boot.ini ]; then
   echo "Updating boot.ini..."
-  cp -p $SYSTEM_ROOT/usr/share/bootloader/boot.ini $BOOT_ROOT/boot.ini
+  cp -p $SYSTEM_ROOT/usr/share/bootloader/boot.ini $BOOT_ROOT/boot.ini &>/dev/null
 fi
 
 # update device tree
   for all_dtb in $SYSTEM_ROOT/usr/share/bootloader/*.dtb; do
     dtb=$(basename $all_dtb)
       echo -n "Updating $dtb... "
-      cp -p $SYSTEM_ROOT/usr/share/bootloader/$dtb $BOOT_ROOT
+      cp -p $SYSTEM_ROOT/usr/share/bootloader/$dtb $BOOT_ROOT &>/dev/null
       echo "done"
   done
 
@@ -95,13 +95,13 @@ fi
 
   if [ -f $SYSTEM_ROOT/usr/share/bootloader/logo.bmp ]; then
     echo -n "Updating uboot logo... "
-    cp -p $SYSTEM_ROOT/usr/share/bootloader/logo.bmp $BOOT_ROOT
+    cp -p $SYSTEM_ROOT/usr/share/bootloader/logo.bmp $BOOT_ROOT &>/dev/null
     echo "done"
   fi
 
 # mount $BOOT_ROOT r/o
   sync
-  mount -o remount,ro $BOOT_ROOT
+  mount -o remount,ro $BOOT_ROOT &>/dev/null
   
 # Leave a hint that we just did an update
 echo "UPDATE" > /storage/.config/boot.hint
