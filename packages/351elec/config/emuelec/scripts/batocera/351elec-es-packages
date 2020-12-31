@@ -4,7 +4,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 #
-# Download and install community supported binary packages
+# Download and install packages supported binary packages
 #
 # Usage:
 # 351elec-es-package 'list' or 'install <package>'
@@ -13,9 +13,9 @@
 #
 
 DISTRO="351ELEC"
-CONFIGDIR="/storage/roms/community"
-PACKAGELIST="https://raw.githubusercontent.com/fewtarius/351ELEC/main/metadata/community.cfg"
-LOCALPACKAGELIST="/storage/.config/community.cfg"
+CONFIGDIR="/storage/.config/packages"
+PACKAGELIST="https://raw.githubusercontent.com/fewtarius/351ELEC/main/metadata/packages.cfg"
+LOCALPACKAGELIST="/storage/.config/packages.cfg"
 
 # Community Package List Schema
 #
@@ -50,7 +50,7 @@ fi
 ###############################
 #
 function usage() {
-	echo "$0 - downloads and installs community supported packages in ${DISTRO}"
+	echo "$0 - downloads and installs packages supported packages in ${DISTRO}"
 	echo " "
 	echo "It accepts two modes: 'list' and 'install <package>'"
 	echo "- 'list' for the list of packages available online, and if they are"
