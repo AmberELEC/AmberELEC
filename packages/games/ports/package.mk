@@ -8,11 +8,9 @@ PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain patchelf jinja2:host pyyaml:host commander-genius devilutionX sdlpop VVVVVV opentyrian"
+PKG_DEPENDS_TARGET="toolchain bermuda hodesdl hydracastlelabyrinth eduke jinja2:host pyyaml:host commander-genius devilutionX sdlpop VVVVVV opentyrian"
 PKG_SHORTDESC="Ports Meta Package"
 PKG_TOOLCHAIN="manual"
-
-# Not Enabled yet: bermuda hodesdl hydracastlelabyrinth eduke
 
 makeinstall_target() {
 mkdir -p $INSTALL/usr/config/emuelec/ports
