@@ -39,6 +39,7 @@ if [ -e /storage/.please_resize_me ] ; then
   if [ ! -z "$DISK" -a ! -z "$PART" ] ; then
     umount $PART
 
+    clear >/dev/console
     echo "PARTITION RESIZING IN PROGRESS"
     echo ""
     echo "Please do not reboot or turn off your @DISTRONAME@ device!"

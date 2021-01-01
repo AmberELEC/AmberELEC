@@ -823,6 +823,7 @@ check_update() {
   mkdir -p $UPDATE_DIR/.tmp &>/dev/null
   sync
 
+  clear >/dev/console
   echo "UPDATE IN PROGRESS"
   echo ""
   echo "Please do not reboot or turn off your @DISTRONAME@ device!"
