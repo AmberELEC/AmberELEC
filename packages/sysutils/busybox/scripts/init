@@ -680,6 +680,35 @@ mount_storage() {
   fi
 }
 
+mount_games() {
+  if /usr/bin/busybox mountpoint -q /storage ; then
+    progress "Mounting games"
+    if [ ! -d "/storage/roms" ]
+    then
+      /usr/bin/busybox mkdir -p /storage/roms &>/dev/null
+    fi
+    mount -t vfat /dev/mmcblk0p3 /storage/roms &>/dev/null
+
+    if [ -d "/storage/.update" ]
+    then
+      /usr/bin/busybox rm -rf /storage/.update &>/dev/null
+      /usr/bin/busybox mkdir -p /storage/.update &>/dev/null
+    fi
+
+    if [ ! -d "/storage/roms/update" ]
+    then
+      /usr/bin/busybox mkdir -p /storage/roms/update &>/dev/null
+    fi
+
+    /usr/bin/busybox mountpoint -q /storage/roms &>/dev/null
+    if [ $? == "0" ]
+    then
+      /usr/bin/busybox mkdir -p "$UPDATE_ROOT" &>/dev/null
+      mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+    fi
+  fi
+}
+
 # Make last bootloader label (installer, live, run etc.) as the new default
 update_bootmenu() {
   local crnt_default
@@ -794,6 +823,7 @@ check_update() {
   mkdir -p $UPDATE_DIR/.tmp &>/dev/null
   sync
 
+  clear >/dev/console
   echo "UPDATE IN PROGRESS"
   echo ""
   echo "Please do not reboot or turn off your @DISTRONAME@ device!"
@@ -1249,6 +1279,7 @@ for BOOT_STEP in \
     load_splash \
     mount_sysroot \
     mount_storage \
+    mount_games \
     check_update \
     prepare_sysroot \
     check_amlogic_dtb; do
