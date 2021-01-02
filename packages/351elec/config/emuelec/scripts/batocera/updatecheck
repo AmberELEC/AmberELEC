@@ -75,7 +75,7 @@ then
   exit 0
 elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
 then
-  echo "No Updates Available"
+  echo "NO UPDATE AVAILABLE"
   exit 1
 else
   echo "${TAG} STABLE" 
