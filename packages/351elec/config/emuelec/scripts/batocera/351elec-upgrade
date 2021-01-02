@@ -6,18 +6,53 @@
 
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-API="https://api.github.com/repos/fewtarius/351elec"
-REPO="https://github.com/fewtarius/351ELEC"
 PREFIX="351ELEC-RG351P.aarch64"
 MYVERSION=$(cat /storage/.config/EE_VERSION)
 VERBOSE=true
+BAND=$(get_ee_setting updates.type)
 
 ### Functions Library
+
+if [ "${BAND}" == "nightly" ]
+then
+  REPO="https://updates.351elec.org/releases/nightly"
+  PROVIDER="https"
+elif [ "${BAND}" == "rc" ]
+then
+  REPO="https://updates.351elec.org/releases/rc"
+  PROVIDER="https"
+else
+  API="https://api.github.com/repos/fewtarius/351elec"
+  REPO="https://github.com/fewtarius/351ELEC"
+  PROVIDER="git"
+fi
 
 if [ -e "${USTAGE}/update.log" ]
 then
   rm "${USTAGE}/update.log"
 fi
+
+function getlatest() {
+  if [ "${PROVIDER}" == "https" ]
+  then
+    ### Clean this up later.
+    LATEST=$(curl -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1) 
+    TAG=$(curl -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
+    REPO="${REPO}/${LATEST}/aarch64/RG351P"
+    UFILE="${PREFIX}-${TAG}.tar"
+  elif [ "${PROVIDER}" == "git" ]
+  then
+    TAG=$(curl -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
+    REPO="${REPO}/releases/download/${TAG}"
+    UFILE="${PREFIX}-${TAG}.tar"
+  fi
+cat <<EOF
+LATEST $LATEST
+TAG $TAG
+REPO $REPO
+UFILE $UFILE
+EOF
+}
 
 function log () {
   echo "$(date): $1" | tee -a "${USTAGE}/update.log"
@@ -31,6 +66,14 @@ function online_status() {
   else
     echo false
   fi
+}
+
+function hash() {
+  while true
+  do
+    echo -n "#" >/dev/console
+    sleep 1
+  done
 }
 
 ### Main
@@ -52,9 +95,8 @@ NETWORKING=$(online_status)
 if [ "${NETWORKING}" == true ]
 then
   $VERBOSE && log "Network connection detected"
-  message_stream "\n\nChecking for updates..." .02
-  TAG=$(curl -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
-  UFILE="${PREFIX}-${TAG}.tar"
+  message_stream "\n\nChecking for updates in the ${BAND} band..." .02
+  getlatest
 else
   $VERBOSE && log "No network connection detected"
   if [ -e "${USTAGE}/${UFILE}" ]
@@ -64,7 +106,14 @@ else
   fi
 fi
 
-if [ "${MYVERSION}" == "${TAG}" ]
+if [ "${BAND}" == "stable" ] && [ "${MYVERSION}" == "${TAG}" ]
+then
+  UPDATE=false
+else
+  UPDATE=true
+fi
+
+if [ "${UPDATE}" == false ]
 then
   $VERBOSE && log "No update available ${MYVERSION} = ${TAG}"
   message_stream "\n\nVersion ${TAG} is already installed, nothing to do..." .02
@@ -74,16 +123,26 @@ then
   exit 0
 else
   $VERBOSE && log "Update available ${MYVERSION} -> ${TAG}"
+  
 fi
 
 if [ ! -e "${USTAGE}/${UFILE}" ] && [ ! -e "${USTAGE}/${UFILE}.sha256" ]
 then
   if [ "${NETWORKING}" == true ]
   then
-    $VERBOSE && log "Downloading ${UFILE} from {REPO}/releases/download/${TAG}"
-    message_stream "\n\nDownloading ${UFILE}..." .02
-    curl -Lo "${USTAGE}/${UFILE}" "${REPO}/releases/download/${TAG}/${UFILE}" >>${USTAGE}/update.log 2>&1
-    curl -Lo "${USTAGE}/${UFILE}.sha256" "${REPO}/releases/download/${TAG}/${UFILE}.sha256"  >>${USTAGE}/update.log 2>&1
+    $VERBOSE && log "Fetching ${UFILE} from ${REPO}"
+
+    message_stream "\n\nFetching ${UFILE}...\n" .02
+    hash &
+    CHILD_PID=$!
+    curl -Lo "${USTAGE}/${UFILE}" "${REPO}/${UFILE}" &>>${USTAGE}/update.log
+    kill ${CHILD_PID}
+    message_stream "\n\nFetching Checksum...\n" .02
+    hash &
+    CHILD_PID=$!
+    curl -Lo "${USTAGE}/${UFILE}.sha256" "${REPO}/${UFILE}.sha256"  &>>${USTAGE}/update.log
+    kill ${CHILD_PID}
+    message_stream "\n" .02
   else
     $VERBOSE && log "No network connection available"
     message_stream "\n\nNetwork connection not detected, cannot continue..." .02
@@ -115,5 +174,5 @@ $VERBOSE && log "Syncing..."
 message_stream "\n\nRebooting to continue update..." .02
 sync
 $VERBOSE && log "rebooting.."
-reboot
+#reboot
 
