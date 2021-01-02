@@ -71,13 +71,13 @@ fi
 
 if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
 then
-  echo yes
+  echo "${TAG} ${BAND^^}"
   exit 0
 elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
 then
-  echo no
+  echo "No Updates Available"
   exit 1
 else
-  echo yes
+  echo "${TAG} STABLE" 
   exit 0
 fi
