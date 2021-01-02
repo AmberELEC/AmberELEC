@@ -46,12 +46,6 @@ function getlatest() {
     REPO="${REPO}/releases/download/${TAG}"
     UFILE="${PREFIX}-${TAG}.tar"
   fi
-cat <<EOF
-LATEST $LATEST
-TAG $TAG
-REPO $REPO
-UFILE $UFILE
-EOF
 }
 
 function log () {
@@ -174,5 +168,5 @@ $VERBOSE && log "Syncing..."
 message_stream "\n\nRebooting to continue update..." .02
 sync
 $VERBOSE && log "rebooting.."
-#reboot
+reboot
 

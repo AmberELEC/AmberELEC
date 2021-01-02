@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
+. /etc/profile
 
 ### Modifiable variables
 USTAGE="/storage/roms/update"
@@ -10,8 +11,23 @@ REPO="https://github.com/fewtarius/351ELEC"
 PREFIX="351ELEC-RG351P.aarch64"
 MYVERSION=$(cat /storage/.config/EE_VERSION)
 VERBOSE=true
+BAND=$(get_ee_setting updates.type)
 
 ### Functions Library
+
+if [ "${BAND}" == "nightly" ]
+then
+  REPO="https://updates.351elec.org/releases/nightly"
+  PROVIDER="https"
+elif [ "${BAND}" == "rc" ]
+then
+  REPO="https://updates.351elec.org/releases/rc"
+  PROVIDER="https"
+else
+  API="https://api.github.com/repos/fewtarius/351elec"
+  REPO="https://github.com/fewtarius/351ELEC"
+  PROVIDER="git"
+fi
 
 function online_status() {
   GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
@@ -23,12 +39,28 @@ function online_status() {
   fi
 }
 
+function getlatest() {
+  if [ "${PROVIDER}" == "https" ]
+  then
+    ### Clean this up later.
+    LATEST=$(curl -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
+    TAG=$(curl -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
+    REPO="${REPO}/${LATEST}/aarch64/RG351P"
+    UFILE="${PREFIX}-${TAG}.tar"
+  elif [ "${PROVIDER}" == "git" ]
+  then
+    TAG=$(curl -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
+    REPO="${REPO}/releases/download/${TAG}"
+    UFILE="${PREFIX}-${TAG}.tar"
+  fi
+}
+
 ### Main
 
 NETWORKING=$(online_status)
 if [ "${NETWORKING}" == true ]
 then
-  TAG=$(curl -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
+  getlatest
   UFILE="${PREFIX}-${TAG}.tar"
 else
   if [ -e "${USTAGE}/${UFILE}" ]
@@ -37,7 +69,11 @@ else
   fi
 fi
 
-if [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
+if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
+then
+  echo yes
+  exit 0
+elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
 then
   echo no
   exit 1
