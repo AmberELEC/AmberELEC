@@ -6,4 +6,6 @@
 source /emuelec/scripts/env.sh
 source /etc/profile
 
+jslisten set "killall PPSSPPSDL"
+
 /usr/bin/PPSSPPSDL

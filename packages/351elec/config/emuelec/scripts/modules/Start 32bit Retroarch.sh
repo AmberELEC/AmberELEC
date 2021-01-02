@@ -6,6 +6,8 @@
 source /emuelec/scripts/env.sh
 source /etc/profile
 
+jslisten set "killall retroarch32"
+
 # Is userland 32bit or 64bit?
 TEST=$(ldd /usr/bin/emulationstation | grep 64)
 if [ $? == 0 ]
