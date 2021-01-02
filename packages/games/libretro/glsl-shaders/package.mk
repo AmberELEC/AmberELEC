@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="glsl-shaders"
-PKG_VERSION="0c9412571f35defe8bb7292b137c192032727119"
-PKG_SHA256="315a45790763ce1c2c94be6da251a2b0a74a915957993d6f61ebfe383b214e96"
+PKG_VERSION="bd6cc0c83858d52c214a25950555c6df151d02a0"
+PKG_SHA256="30f19c1c52fa3a60465c3a6b7b919d39a9c8df66f377b94548f995207402a18d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

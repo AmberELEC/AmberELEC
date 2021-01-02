@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="hatari"
-PKG_VERSION="f8c35958ec1c93c32d41d61fa4903b2f5daec78c"
-PKG_SHA256="22b1b1f57b737acf2f3b3f8abd959cf073f9cf5e7c2504f585b89b72185ef1be"
+PKG_VERSION="664ac30180064b7f616330d8ac16adf3dd78be12"
+PKG_SHA256="83f50d91c60566a9287d722c1b37e7b93ed81a67779c332368036d25f2d358bc"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
