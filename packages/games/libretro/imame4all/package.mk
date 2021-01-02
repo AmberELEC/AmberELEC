@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="imame4all"
-PKG_VERSION="e5d4a934c60adc6d42a3f87319312aad89595a15"
-PKG_SHA256="64fc5f84cca91a2761c771fdd3c8d359eea4f24cbbcb00bf53cb4cbc6f42560e"
+PKG_VERSION="9d399c16f515dcf7377f48bcf400fe658a0ed420"
+PKG_SHA256="8c83fbd1799ea4f0f6ece1d14ad3ac1b653ebdca63ff083a1465ed8f8b83234c"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"
