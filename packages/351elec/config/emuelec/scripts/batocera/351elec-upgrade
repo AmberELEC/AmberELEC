@@ -89,7 +89,7 @@ NETWORKING=$(online_status)
 if [ "${NETWORKING}" == true ]
 then
   $VERBOSE && log "Network connection detected"
-  message_stream "\n\nChecking for updates in the ${BAND} band..." .02
+  message_stream "\n\nChecking for updates in the ${BAND} channel..." .02
   getlatest
 else
   $VERBOSE && log "No network connection detected"
