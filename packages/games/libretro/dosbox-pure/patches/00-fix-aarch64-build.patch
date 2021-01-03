@@ -1,33 +1,35 @@
-diff -rupN dosbox-pure-a23d793ffbb89a4471fcf192fcbfffa5b04c745e.orig/Makefile dosbox-pure-a23d793ffbb89a4471fcf192fcbfffa5b04c745e.new/Makefile
---- dosbox-pure-a23d793ffbb89a4471fcf192fcbfffa5b04c745e.orig/Makefile	2020-12-28 20:14:11.147561757 -0500
-+++ dosbox-pure-a23d793ffbb89a4471fcf192fcbfffa5b04c745e.new/Makefile	2020-12-28 20:42:27.635227311 -0500
-@@ -19,7 +19,7 @@
- ISWIN      := $(findstring :,$(firstword $(subst \, ,$(subst /, ,$(abspath .)))))
- ISMAC      := $(wildcard /Applications)
+diff -rupN dosbox-pure.orig/Makefile dosbox-pure.new/Makefile
+--- dosbox-pure.orig/Makefile	2021-01-03 07:44:04.447056755 -0500
++++ dosbox-pure.new/Makefile	2021-01-03 07:46:35.016193086 -0500
+@@ -25,7 +25,7 @@ ISMAC      := $(wildcard /Applications)
+ endif
+ 
  PIPETONULL := $(if $(ISWIN),>nul 2>nul,>/dev/null 2>/dev/null)
 -PROCCPU    := $(shell $(if $(ISWIN),GenuineIntel Intel sse sse2,cat /proc/cpuinfo))
 +#PROCCPU    := $(shell $(if $(ISWIN),GenuineIntel Intel sse sse2,cat /proc/cpuinfo))
  
  SOURCES := \
  	*.cpp       \
-@@ -27,60 +27,20 @@ SOURCES := \
+@@ -33,60 +33,24 @@ SOURCES := \
  	src/*/*.cpp \
  	src/*/*/*.cpp
  
 -ifneq ($(ISWIN),)
 -  OUTNAME := dosbox_pure_libretro.dll
--  CXX     := g++
+-  CXX     ?= g++
 -  LDFLAGS :=  -Wl,--gc-sections
 -else ifneq ($(ISMAC),)
 -  OUTNAME := dosbox_pure_libretro.dylib
--  CXX     := clang++
+-  CXX     ?= clang++
 -  LDFLAGS :=  -Wl,-dead_strip
 -else
 -  OUTNAME := dosbox_pure_libretro.so
--  CXX     := g++
+-  CXX     ?= g++
 -  LDFLAGS :=  -Wl,--gc-sections
 -endif
--
++BUILD    := RELEASE
++BUILDDIR := release
+ 
 -ifneq ($(and $(filter ARMv7,$(PROCCPU)),$(filter neon,$(PROCCPU))),)
 -  CPUFLAGS := -mcpu=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard -ffast-math
 -  ifneq ($(findstring version 10,$(shell g++ -v 2>&1)),)
@@ -40,7 +42,15 @@ diff -rupN dosbox-pure-a23d793ffbb89a4471fcf192fcbfffa5b04c745e.orig/Makefile do
 -else
 -  CPUFLAGS :=
 -endif
--
++CPUFLAGS := -mtune=cortex-a35 -mcpu=cortex-a35 -march=armv8-a+crc+fp+simd
++ 
++OUTNAME := dosbox_pure_libretro.so
++
++BUILD    := RELEASE
++BUILDDIR := release
++CFLAGS   := -DNDEBUG -O2 -fno-ident
++LDFLAGS  += -O2 -fno-ident
+ 
 -ifeq ($(BUILD),DEBUG)
 -  BUILDDIR := debug
 -  CFLAGS   := -DDEBUG -D_DEBUG -g -O0
@@ -61,23 +71,17 @@ diff -rupN dosbox-pure-a23d793ffbb89a4471fcf192fcbfffa5b04c745e.orig/Makefile do
 -  CFLAGS   := -DNDEBUG -O2 -fno-ident
 -  LDFLAGS  += -O2 -fno-ident
 -endif
-+CPUFLAGS := -mtune=cortex-a35 -mcpu=cortex-a35 -march=armv8-a+crc+fp+simd
- 
+-
 -CFLAGS  += $(CPUFLAGS) -std=c++11 -fpic -fomit-frame-pointer -fno-exceptions -fno-non-call-exceptions -Wno-address-of-packed-member -Wno-format -Wno-switch
-+OUTNAME := dosbox_pure_libretro.so
-+
-+BUILD    := RELEASE
-+BUILDDIR := release
-+CFLAGS   := -DNDEBUG -O2 -fno-ident
-+LDFLAGS  += -O2 -fno-ident
-+
 +CFLAGS  += $(CPUFLAGS) -fpic -fomit-frame-pointer -fno-exceptions -fno-non-call-exceptions -Wno-psabi -Wno-format
  CFLAGS  += -fvisibility=hidden -ffunction-sections -fdata-sections
  CFLAGS  += -pthread -D__LIBRETRO__ -Iinclude
- 
+-
 -LDFLAGS += $(CPUFLAGS) -lpthread -shared
 -#LDFLAGS += -static-libstdc++ -static-libgcc #adds 1MB to output
++ 
 +LDFLAGS += $(CPUFLAGS) -lpthread -Wl,--gc-sections -shared
++ 
  
  .PHONY: all clean
  all: $(OUTNAME)

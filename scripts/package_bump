@@ -82,7 +82,7 @@ case $1 in
       esac
     fi
     # Get list of cores, which are used with Lakka:
-    OPTIONS_FILE="distributions/Sx05RE/options"
+    OPTIONS_FILE="distributions/351ELEC/options"
     [ -f "$OPTIONS_FILE" ] && source "$OPTIONS_FILE" || { echo "$OPTIONS_FILE: not found! Aborting." ; exit 1 ; }
     [ -z "$LIBRETRO_CORES" ] && { echo "LIBRETRO_CORES: empty. Aborting!" ; exit 1 ; }
     # List of core retroarch packages

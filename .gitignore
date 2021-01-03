@@ -46,3 +46,5 @@ sx05re-kodi*.log
 packages/sx05re/experimental/
 
 release/
+
+.lastbuild
