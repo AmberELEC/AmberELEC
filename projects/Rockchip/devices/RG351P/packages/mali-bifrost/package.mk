@@ -18,9 +18,9 @@ post_makeinstall_target() {
 	mkdir -p $INSTALL/usr/lib/
         mkdir -p $SYSROOT_PREFIX/usr/lib
 
-
 	cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
 	cp $PKG_BUILD/include/GBM/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
+	mv -f $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
 
         if [ $TARGET_ARCH == 'aarch64' ]
 	then
@@ -35,7 +35,6 @@ post_makeinstall_target() {
                            libgbm.so \
                            libGLESv2.so \
                            libGLESv2.so.2 \
-                           libGLESv3.so \
                            libGLESv3.so.3 \
                            libGLESv1_CM.so.1 \
                            libGLES_CM.so.1
@@ -45,14 +44,14 @@ post_makeinstall_target() {
         		ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/${lib}
         		ln -sf $SYSROOT_PREFIX/usr/lib32/libmali.so $SYSROOT_PREFIX/usr/lib32/${lib}
         	done
-	
 	else
         	mkdir -p $INSTALL/usr/lib/
         	mkdir -p $SYSROOT_PREFIX/usr/lib
 
 	        cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
 	        cp $PKG_BUILD/include/GBM/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
-	
+		mv -f $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
+
         	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
         	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
 
@@ -61,7 +60,6 @@ post_makeinstall_target() {
 			   libgbm.so \
 			   libGLESv2.so \
 			   libGLESv2.so.2 \
-			   libGLESv3.so \
 			   libGLESv3.so.3 \
 			   libGLESv1_CM.so.1 \
 			   libGLES_CM.so.1
@@ -69,7 +67,7 @@ post_makeinstall_target() {
         		ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/${lib}
         		ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so $SYSROOT_PREFIX/usr/lib/${lib}
         	done
-
 	fi
 
+	ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libGLESv3.so
 }
