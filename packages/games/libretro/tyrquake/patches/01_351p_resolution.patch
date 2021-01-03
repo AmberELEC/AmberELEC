@@ -1,0 +1,12 @@
+diff --git a/common/libretro_core_options.h b/common/libretro_core_options.h
+index e15b3a3..2d0f7ef 100644
+--- a/common/libretro_core_options.h
++++ b/common/libretro_core_options.h
+@@ -42,6 +42,7 @@ struct retro_core_option_definition option_defs_us[] = {
+          { "400x224",   NULL },
+          { "400x240",   NULL },
+          { "480x272",   NULL },
++         { "480x320",   NULL },
+          { "512x224",   NULL },
+          { "512x240",   NULL },
+          { "512x384",   NULL },
