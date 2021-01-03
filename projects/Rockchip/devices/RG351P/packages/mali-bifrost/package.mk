@@ -23,7 +23,7 @@ makeinstall_target() {
         if [ $TARGET_ARCH == 'aarch64' ]
 	then
      		mkdir -p $INSTALL/usr/lib32/
-        	mkdir -p $SYSROOT_PREFIX/usr/lib32
+        	mkdir -p $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib32
 
 		cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so.1
 		ln -sf /usr/lib/libmali.so.1 $INSTALL/usr/lib/libmali.so
