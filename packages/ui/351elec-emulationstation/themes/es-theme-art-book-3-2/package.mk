@@ -4,7 +4,7 @@
 
 PKG_NAME="es-theme-art-book-3-2"
 PKG_REV="1"
-PKG_VERSION="fff778aa2f9b9424da8597fcefff352b13ba4a92"
+PKG_VERSION="6aa60ba2b5db0314733bbe6221b5962fd113b23a"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
 PKG_SITE="https://github.com/anthonycaccese/es-theme-art-book-3-2"
