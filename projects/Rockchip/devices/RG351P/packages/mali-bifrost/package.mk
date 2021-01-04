@@ -27,8 +27,10 @@ post_makeinstall_target() {
      		mkdir -p $INSTALL/usr/lib32/
         	mkdir -p $SYSROOT_PREFIX/usr/lib32
 
-		cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
-		cp -PR $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
+		cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so.1
+		cp -PR $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so.1
+		ln -sf /usr/lib/libmali.so.1 $INSTALL/usr/lib/libmali.so
+		ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so.1 $SYSROOT_PREFIX/usr/lib/libmali.so
 
                 for lib in libEGL.so \
                            libEGL.so.1 \
@@ -54,6 +56,8 @@ post_makeinstall_target() {
 
         	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
         	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
+		ln -sf /usr/lib/libmali.so.1 $INSTALL/usr/lib/libmali.so
+                ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so.1 $SYSROOT_PREFIX/usr/lib/libmali.so
 
         	for lib in libEGL.so \
 			   libEGL.so.1 \
