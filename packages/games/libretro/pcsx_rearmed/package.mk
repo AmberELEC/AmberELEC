@@ -32,8 +32,7 @@ if [ "${ARCH}" = "aarch64" ]; then
     mkdir -p ${INSTALL}/usr/lib32
     LIBS="ld-2.*.so \
 		libarmmem-v7l.* \
-		librt.so* \
-		librt-*.so \
+		librt*.so \
 		libass.so* \
 		libasound.so* \
 		libopenal.so* \
@@ -78,7 +77,7 @@ if [ "${ARCH}" = "aarch64" ]; then
 		libresolv*.so.* \
 		libnss_dns-*.so* \
 		libpthread.so.* \
-		libmali.so"
+		libmali*.so*"
 
     for lib in ${LIBS}
     do 

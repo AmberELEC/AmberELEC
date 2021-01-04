@@ -54,8 +54,8 @@ post_makeinstall_target() {
 	        cp $PKG_BUILD/include/GBM/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
 		ln -sf $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
 
-        	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
-        	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
+        	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so.1
+        	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so.1
 		ln -sf /usr/lib/libmali.so.1 $INSTALL/usr/lib/libmali.so
                 ln -sf $SYSROOT_PREFIX/usr/lib/libmali.so.1 $SYSROOT_PREFIX/usr/lib/libmali.so
 
