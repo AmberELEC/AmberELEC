@@ -20,7 +20,7 @@ post_makeinstall_target() {
 
 	cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
 	cp $PKG_BUILD/include/GBM/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
-	mv -f $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
+	ln -sf $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
 
         if [ $TARGET_ARCH == 'aarch64' ]
 	then
@@ -50,7 +50,7 @@ post_makeinstall_target() {
 
 	        cp -pr $PKG_BUILD/include $SYSROOT_PREFIX/usr
 	        cp $PKG_BUILD/include/GBM/gbm.h $SYSROOT_PREFIX/usr/include/gbm.h
-		mv -f $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
+		ln -sf $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
 
         	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so
         	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so
