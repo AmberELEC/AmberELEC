@@ -63,7 +63,7 @@ fi
 for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800          \
 	   atari800 atarijaguar atarilynx atarist atomiswave bios c128 c16        \
 	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound       \
-	   dreamcast famicom fbneo fds gameandwatch gamegear gb gba gbc           \
+	   dreamcast eduke famicom fbneo fds gameandwatch gamegear gb gba gbc     \
 	   genesis gw intellivision mame mastersystem megadrive megadrive-japan   \
 	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey       \
            openbor pcengine pc pcenginecd pcfx pico-8 psp psx saturn sc-3000      \

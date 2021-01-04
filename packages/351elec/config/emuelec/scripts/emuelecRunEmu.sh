@@ -316,7 +316,6 @@ if [ -z ${LIBRETRO} ]; then
 			RUNTHIS='${TBASH} /usr/bin/mpv_video.sh "${ROMNAME}"'
 		;;
 		"shell")
-			jslisten set "bash"
 			RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
 		esac

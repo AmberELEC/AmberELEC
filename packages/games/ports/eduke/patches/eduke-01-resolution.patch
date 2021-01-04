@@ -1,0 +1,14 @@
+diff -rupN eduke.orig/source/build/include/build.h eduke.new/source/build/include/build.h
+--- eduke.orig/source/build/include/build.h	2021-01-04 08:21:17.059591283 -0500
++++ eduke.new/source/build/include/build.h	2021-01-04 08:21:33.191675787 -0500
+@@ -61,8 +61,8 @@ enum rendmode_t {
+ 
+ # define MAXXDIM 7680
+ # define MAXYDIM 3200
+-# define MINXDIM 640
+-# define MINYDIM 480
++# define MINXDIM 480
++# define MINYDIM 320
+ 
+ // additional space beyond wall, in walltypes:
+ # define M32_FIXME_WALLS 512
