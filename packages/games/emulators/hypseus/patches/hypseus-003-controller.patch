@@ -60,7 +60,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +    {0, 0}, // test mode
 +    {0, 0}, // reset cpu
 +    {0, 0}, // take screenshot
-+    {0, 0}, // Quit DAPHNE
++    {0, 7}, // Quit DAPHNE
 +    {0, 0}, // pause game
 +    {0, 0}, // toggle console (TODO)
 +    {0, 0}  // Tilt/Slam switch
