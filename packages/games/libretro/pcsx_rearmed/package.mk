@@ -2,8 +2,8 @@
 # Copyright (C) 2020 Trond Haugland (trondah@gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="3aa64bba481bc15f82e607e8b04f48fdb58b5118"
-PKG_SHA256="7b61013a4fc3c55cfa242c0129eda39b99abd943247a395a2233136e81179dc1"
+PKG_VERSION="bde5ee93147e22965118455b8397d4b28ed7743d"
+#PKG_SHA256="7b61013a4fc3c55cfa242c0129eda39b99abd943247a395a2233136e81179dc1"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -32,7 +32,7 @@ if [ "${ARCH}" = "aarch64" ]; then
     mkdir -p ${INSTALL}/usr/lib32
     LIBS="ld-2.*.so \
 		libarmmem-v7l.* \
-		librt*.so \
+		librt*.so* \
 		libass.so* \
 		libasound.so* \
 		libopenal.so* \

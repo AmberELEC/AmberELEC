@@ -154,7 +154,7 @@
   UDEVIL="yes"
 
   # build and install exFAT fuse support (yes / no)
-  EXFAT="no"
+  EXFAT="yes"
 
   # build and install NTFS-3G fuse support (yes / no)
   NTFS3G="yes"

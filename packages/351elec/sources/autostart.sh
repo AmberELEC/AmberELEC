@@ -11,10 +11,25 @@ then
   mkdir /storage/roms
 fi
 
+FSTYPE=$(blkid --match-tag "TYPE" /dev/mmcblk0p3 --output value)
+UPDATE_ROOT=/storage/.update
+
 if [ ! "$(mount 2>/dev/null| grep [r]oms)" ]
 then
   rm -rf /storage/roms/*
-  mount -o umask=000 -t vfat /dev/mmcblk0p3 /storage/roms
+  mount -o umask=000 -t ${FSTYPE} /dev/mmcblk0p3 /storage/roms
+fi
+
+if [ ! -d "/storage/roms/update" ]
+then
+  mkdir -p /storage/roms/update &>/dev/null
+fi
+
+mountpoint -q /storage/roms &>/dev/null
+if [ $? == "0" ]
+then
+  mkdir -p "$UPDATE_ROOT" &>/dev/null
+  mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
 fi
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
@@ -61,7 +76,7 @@ fi
 # Temporary hack to be replaced with emuelec-dirs.conf
 
 for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800          \
-	   atari800 atarijaguar atarilynx atarist atomiswave bios c128 c16        \
+	   atari800 atarilynx atarist atomiswave bios c128 c16                    \
 	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound       \
 	   dreamcast eduke famicom fbneo fds gameandwatch gamegear gb gba gbc     \
 	   genesis gw intellivision mame mastersystem megadrive megadrive-japan   \

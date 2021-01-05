@@ -122,13 +122,21 @@ pre_make_target() {
     sed -i "s|CONFIG_EXTRA_FIRMWARE=.*|CONFIG_EXTRA_FIRMWARE=\"${FW_LIST}\"|" $PKG_BUILD/.config
   fi
 
-  # Add EXFat
-  cd $PKG_BUILD
+  # Add EXFat, kinda gross but I don't want it as a module.
+  PREEXF=`pwd`
+  cd $PKG_BUILD/fs
   git clone https://github.com/arter97/exfat-linux.git
+  cd exfat-linux
+  git checkout old
+  cd $PKG_BUILD/fs
+  if [ -d "exfat" ]
+  then
+    rm -rf exfat
+  fi
   mv exfat-linux exfat
-  sed -i '#source "fs/fat/Kconfig"#a source "fs/exfat/Kconfig"' Kconfig
-  sed -i '#obj-$(CONFIG_FAT_FS)            += fat/#a obj-$(CONFIG_EXFAT_FS)  += exfat/' Makefile
-  cd -
+  sed -i '/source "fs\/fat\/Kconfig"/a source "fs\/exfat\/Kconfig"' Kconfig
+  sed -i '/obj-$(CONFIG_FAT_FS).*+= fat\//a obj-$(CONFIG_EXFAT_FS)\t\t+= exfat\/' Makefile
+  cd ${PREEXF}
 
   kernel_make oldconfig
 
