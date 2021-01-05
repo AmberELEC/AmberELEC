@@ -11,25 +11,24 @@ then
   mkdir /storage/roms
 fi
 
-FSTYPE=$(blkid --match-tag "TYPE" /dev/mmcblk0p3 --output value)
 UPDATE_ROOT=/storage/.update
 
-if [ ! "$(mount 2>/dev/null| grep [r]oms)" ]
+if [ ! "$(/usr/bin/mount 2>/dev/null| grep [r]oms)" ]
 then
   rm -rf /storage/roms/*
-  mount -o umask=000 -t ${FSTYPE} /dev/mmcblk0p3 /storage/roms
+  /usr/bin/mount -o umask=000 /dev/mmcblk0p3 /storage/roms
 fi
 
 if [ ! -d "/storage/roms/update" ]
 then
-  mkdir -p /storage/roms/update &>/dev/null
+  /usr/bin/mkdir -p /storage/roms/update &>/dev/null
 fi
 
-mountpoint -q /storage/roms &>/dev/null
+/usr/bin/mountpoint -q /storage/roms &>/dev/null
 if [ $? == "0" ]
 then
-  mkdir -p "$UPDATE_ROOT" &>/dev/null
-  mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+  /usr/bin/mkdir -p "$UPDATE_ROOT" &>/dev/null
+  /usr/bin/mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
 fi
 
 # It seems some slow SDcards have a problem creating the symlink on time :/

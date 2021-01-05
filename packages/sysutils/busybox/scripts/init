@@ -687,8 +687,8 @@ mount_games() {
     then
       /usr/bin/busybox mkdir -p /storage/roms &>/dev/null
     fi
-    FSTYPE=$(blkid --match-tag "TYPE" /dev/mmcblk0p3 --output value)
-    mount -t ${FSTYPE} /dev/mmcblk0p3 /storage/roms &>/dev/null
+
+    mount /dev/mmcblk0p3 /storage/roms &>/dev/console
 
     if [ -d "/storage/.update" ]
     then
