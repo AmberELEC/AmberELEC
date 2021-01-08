@@ -6,7 +6,7 @@
 # Source predefined functions and variables
 . /etc/profile
 
-# run custom_start before_start FE scripts
+# run custom_start before_start before mount so that it can override the default mount behavior
 /storage/.config/custom_start.sh before_start
 
 if [ ! -d "/storage/roms" ]
