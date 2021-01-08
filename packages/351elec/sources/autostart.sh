@@ -6,6 +6,9 @@
 # Source predefined functions and variables
 . /etc/profile
 
+# run custom_start before_start FE scripts
+/storage/.config/custom_start.sh before_start
+
 if [ ! -d "/storage/roms" ]
 then
   mkdir /storage/roms
