@@ -31,58 +31,56 @@ if [ "${ARCH}" = "aarch64" ]; then
     mkdir -p ${INSTALL}/usr/bin
     mkdir -p ${INSTALL}/usr/lib32
     LIBS="ld-2.*.so \
-		libarmmem-v7l.* \
-		librt*.so* \
-		libass.so* \
-		libasound.so* \
-		libopenal.so* \
-		libpulse.so* \
-		libpulseco*.so* \
-		libfreetype.so* \
-		libpthread*.so* \
+		ld-linux-armhf* \
+		libarmmem-v7l* \
+		librt* \
+		libass* \
+		libasound* \
+		libopenal* \
+		libpulse* \
+		libfreetype* \
+		libpthread* \
 		libudev.so* \
-		libusb-1.0.so* \
-		libSDL2-2.0.so* \
-		libavcodec.so* \
-		libavformat.so* \
-		libavutil.so.56* \
-		libswscale.so.5* \
-		libswresample.so.3* \
-		libstdc++.so.6* \
-		libm.so* \
-		libm-2.*.so \
-		libgcc_s.so* \
-		libc.so* \
-		libc-*.so \
-		ld-linux-armhf.so* \
-		libfontconfig.so* \
-		libexpat.so* \
-		libbz2.so* \
-		libz.so* \
+		libusb-1.0* \
+		libSDL2-2.0* \
+		libavcodec* \
+		libavformat* \
+		libavutil* \
+		libswscale* \
+		libswresample* \
+		libstdc++* \
+		libm* \
+		libgcc_s* \
+		libc* \
+		libfontconfig* \
+		libexpat* \
+		libbz2* \
+		libz* \
 		libpulsecommon-12* \
-		libdbus-1.so* \
-		libdav1d.so* \
-		libspeex.so* \
-		libssl.so* \
-		libcrypt*.so* \
-		libsystemd.so* \
-		libdl.so.2 \
-		libdl-*.so \
-		libMali.*.so \
-		libdrm.so* \
-		librga.so \
-		libpng*.so.* \
-		librockchip_mpp.so* \
-		libxkbcommon.so* \
-		libresolv*.so.* \
-		libnss_dns-*.so* \
-		libpthread.so.* \
-		libmali*.so*"
+		libdbus-1* \
+		libdav1d* \
+		libspeex* \
+		libssl* \
+		libcrypt* \
+		libsystemd* \
+		libdl* \
+		libMali* \
+		libdrm* \
+		librga* \
+		libpng* \
+		librockchip_mpp* \
+		libxkbcommon* \
+		libresolv* \
+		libnss_dns* \
+		libpthread* \
+		libmali*"
 
     for lib in ${LIBS}
     do 
       find $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
+    rm -f ${INSTALL}/usr/lib32/libmali.so
+    ln -sf /usr/lib32/libmali.so.1 ${INSTALL}/usr/lib32/libmali.so
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
     patchelf --set-interpreter /usr/lib32/ld-linux-armhf.so.3 ${INSTALL}/usr/bin/retroarch32
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/pcsx_rearmed-*/.install_pkg/usr/lib/libretro/pcsx_rearmed_libretro.so ${INSTALL}${INSTALLTO}

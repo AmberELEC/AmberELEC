@@ -37,6 +37,7 @@ post_makeinstall_target() {
                            libgbm.so \
                            libGLESv2.so \
                            libGLESv2.so.2 \
+                           libGLESv3.so \
                            libGLESv3.so.3 \
                            libGLESv1_CM.so.1 \
                            libGLES_CM.so.1
@@ -64,6 +65,7 @@ post_makeinstall_target() {
 			   libgbm.so \
 			   libGLESv2.so \
 			   libGLESv2.so.2 \
+                           libGLESv3.so \
 			   libGLESv3.so.3 \
 			   libGLESv1_CM.so.1 \
 			   libGLES_CM.so.1
