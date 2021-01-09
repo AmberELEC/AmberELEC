@@ -36,7 +36,7 @@ function getlatest() {
   if [ "${PROVIDER}" == "https" ]
   then
     ### Clean this up later.
-    LATEST=$(curl -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1) 
+    LATEST=$(curl -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
     TAG=$(curl -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
     REPO="${REPO}/${LATEST}/aarch64/RG351P"
     UFILE="${PREFIX}-${TAG}.tar"
@@ -100,7 +100,11 @@ else
   fi
 fi
 
-if [ "${BAND}" == "stable" ] && [ "${MYVERSION}" == "${TAG}" ]
+
+if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
+then
+  UPDATE=true
+elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
 then
   UPDATE=false
 else
@@ -110,14 +114,14 @@ fi
 if [ "${UPDATE}" == false ]
 then
   $VERBOSE && log "No update available ${MYVERSION} = ${TAG}"
-  message_stream "\n\nVersion ${TAG} is already installed, nothing to do..." .02
+  message_stream "\n\nNo update is available, nothing to do..." .02
   sleep 4
   clear >/dev/console
   systemctl start emustation
   exit 0
 else
   $VERBOSE && log "Update available ${MYVERSION} -> ${TAG}"
-  
+
 fi
 
 if [ ! -e "${USTAGE}/${UFILE}" ] && [ ! -e "${USTAGE}/${UFILE}.sha256" ]
@@ -169,4 +173,3 @@ message_stream "\n\nRebooting to continue update..." .02
 sync
 $VERBOSE && log "rebooting.."
 reboot
-
