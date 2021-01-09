@@ -223,7 +223,7 @@ mount_folder() {
   mkdir -p /dev/bind_tmp
   mount_common "$target" "/dev/bind_tmp" "rw,noatime"
   mount_common "/dev/bind_tmp/coreelec_$(basename $2)" "$2" "bind"
-  umount /dev/bind_tmp
+  umount /dev/bind_tmp &>/dev/null
 
   [ "$2" = "/flash" ] && mount -o remount,ro /flash
   [ -z "$(ls -A /dev/bind_tmp)" ] && rm -rf /dev/bind_tmp
@@ -506,11 +506,11 @@ do_reboot() {
 
   # unmount filesystems
   if /usr/bin/busybox mountpoint -q /flash ; then
-    /usr/bin/busybox umount /flash
+    /usr/bin/busybox umount /flash &>/dev/null
   fi
 
   if /usr/bin/busybox mountpoint -q /storage ; then
-    /usr/bin/busybox umount /storage
+    /usr/bin/busybox umount /storage &>/dev/null
   fi
 
   usleep 2000000
@@ -657,7 +657,7 @@ mount_storage() {
 
       mount_part "$disk" "/storage" "rw,noatime"
       mkdir -p /storage/$OVERLAY_DIR
-      umount /storage
+      umount /storage &>/dev/null
 
       # split $disk into $target,$options so we can append $OVERLAY_DIR
       options="${disk#*,}"
@@ -1041,7 +1041,7 @@ check_update() {
   else
     update_file "Kernel" "$UPDATE_KERNEL" "/flash/$IMAGE_KERNEL"
   fi
-  umount /sysroot
+  umount /sysroot &>/dev/null
   update_file "System" "$UPDATE_SYSTEM" "/flash/$IMAGE_SYSTEM"
   update_bootloader
   sync
