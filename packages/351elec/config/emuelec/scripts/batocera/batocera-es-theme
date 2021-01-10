@@ -60,7 +60,7 @@ function list_themes() {
 	if [ -f $LOCALTHEMESLIST ]; then
 		cp -f "$LOCALTHEMESLIST" "$tmp"
 	else
-		curl -sfL "$THEMESLIST" -o "$tmp" || exit 1
+		curl -H 'Cache-Control: no-cache' -sfL "$THEMESLIST" -o "$tmp" || exit 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	while IFS=$' \t' read name url ; do
@@ -98,7 +98,7 @@ function install_theme() {
 	if [ -f $LOCALTHEMESLIST ]; then
 		cp -f "$LOCALTHEMESLIST" "$tmp"
 	else
-		curl -sfL "$THEMESLIST" -o "$tmp" || exit 1
+		curl -H 'Cache-Control: no-cache' -sfL "$THEMESLIST" -o "$tmp" || exit 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	while IFS=$' \t' read name url ; do
@@ -111,16 +111,16 @@ function install_theme() {
 			reponame=$(repo_name "$url")
 			gitname=$(git_name "$url")
 			cd "$CONFIGDIR"
-                        branch=$(curl "https://api.github.com/repos/$reponame/$gitname" 2>/dev/null| grep -m1 "default_branch" | sed -e 's#^.*: "##' -e 's#",.*$##')
+                        branch=$(curl -H 'Cache-Control: no-cache' -L "https://api.github.com/repos/$reponame/$gitname" 2>/dev/null| grep -m1 "default_branch" | sed -e 's#^.*: "##' -e 's#",.*$##')
                         filezip="${url}/archive/${branch}.zip"
 			# get size to download (hack to get it from github)
-			size=$(curl -sfL "https://api.github.com/repos/$reponame/$gitname" 2>/dev/null| grep size | head -1 | tr -dc '[:digit:]')
+			size=$(curl -H 'Cache-Control: no-cache' -sfL "https://api.github.com/repos/$reponame/$gitname" 2>/dev/null| grep size | head -1 | tr -dc '[:digit:]')
 			size=$((size / 1024 ))
 			test $? -eq 0 || exit 1
 			touch "$gitname.zip"
 			getPer "$CONFIGDIR"/"$gitname.zip" "${size}" &
 			GETPERPID=$!
-			curl -sfL "${filezip}" -o "$gitname.zip" || exit 1
+			curl -H 'Cache-Control: no-cache' -sfL "${filezip}" -o "$gitname.zip" || exit 1
 			kill -9 "${GETPERPID}" >/dev/null 2>/dev/null
 			GETPERPID=
 			if [ -f "$gitname.zip" ]; then

@@ -76,7 +76,7 @@ function list() {
 	if [ -f $LOCALBEZELSLIST ]; then
 		cp -f "$LOCALBEZELSLIST" "${tmp}"
 	else
-		curl -sfL "$BEZELSLIST" -o "${tmp}" || return 1
+		curl -H 'Cache-Control: no-cache' -sfL "$BEZELSLIST" -o "${tmp}" || return 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	
@@ -124,7 +124,7 @@ function install() {
 	if [ -f $LOCALBEZELSLIST ]; then
 		cp -f "$LOCALBEZELSLIST" "${tmp}"
 	else
-		curl -sfL "$BEZELSLIST" -o "${tmp}" || return 1
+		curl -H 'Cache-Control: no-cache' -sfL "$BEZELSLIST" -o "${tmp}" || return 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	
@@ -179,7 +179,7 @@ function install() {
 	cd "${tmp}"
 	echo "Downloading bezels for system ${systemtoinstall}"
 	[ $DEBUG -eq 1 ] && echo "DEBUG: URL: ${url} OUT: ${gitname}.zip GITNAME: $gitname GITSYSTEM: $gitsystem"
-	curl -sfL "${url}/archive/master.zip" -o "${gitname}.zip"
+	curl -H 'Cache-Control: no-cache' -sfL "${url}/archive/master.zip" -o "${gitname}.zip"
 	# error while downloading ?
 	if [[ "$?" -ne 0 || ! -f "${gitname}.zip" ]]; then
 		echo "Error - ${gitname} zip file could not be downloaded from ${url}"

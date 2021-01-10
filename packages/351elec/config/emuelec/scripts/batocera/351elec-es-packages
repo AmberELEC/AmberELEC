@@ -88,7 +88,7 @@ function list_packages() {
 	if [ -f ${LOCALPACKAGELIST} ]; then
 		cp -f "${LOCALPACKAGELIST}" "${tmp}"
 	else
-		curl -sfL "${PACKAGELIST}" -o "${tmp}" || exit 1
+		curl -H 'Cache-Control: no-cache' -sfL "${PACKAGELIST}" -o "${tmp}" || exit 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	while IFS=$'|' read name url shasum; do
@@ -125,7 +125,7 @@ function install_package() {
 	if [ -f ${LOCALPACKAGELIST} ]; then
 		cp -f "${LOCALPACKAGELIST}" "${tmp}"
 	else
-		curl -sfL "${PACKAGELIST}" -o "${tmp}" || exit 1
+		curl -H 'Cache-Control: no-cache' -sfL "${PACKAGELIST}" -o "${tmp}" || exit 1
 		sed -i 's/\r$//' "${tmp}"
 	fi
 	while IFS=$'|' read name url shasum; do
@@ -137,7 +137,7 @@ function install_package() {
 		else
 			cd ${CONFIGDIR}
 			filename=$(echo ${url} | sed "s#^.*/##")
-			curl -sfL "${url}" -o "${filename}" || exit 1
+			curl -H 'Cache-Control: no-cache' -sfL "${url}" -o "${filename}" || exit 1
 			if [ -f "${filename}" ]; then
 				echo "Verifying package checksum"
 				dldsum=$(sha256sum ${filename} | awk '{print $1}')

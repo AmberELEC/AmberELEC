@@ -32,7 +32,7 @@ function usage() {
 function process() {
 	fn=$(date +"%s")
 	tmpfile=/tmp/ra_$fn
-	curl -m "$TIMEOUT" -o $tmpfile https://retroachievements.org/user/$USER 2>/dev/null
+	curl -H 'Cache-Control: no-cache' -m "$TIMEOUT" -o $tmpfile https://retroachievements.org/user/$USER 2>/dev/null
 	if [ x"$?" != x0 ]; then
 		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 		echo "<retroachievements>"
@@ -53,7 +53,7 @@ function process() {
 		# Workaround: use the line below
 		UserPic="https://retroachievements.org/UserPic/$USER".png
 		pic=""
-		curl -m "$TIMEOUT" -f -s "$UserPic" >/dev/null 2>/dev/null
+		curl -H 'Cache-Control: no-cache' -m "$TIMEOUT" -f -s "$UserPic" >/dev/null 2>/dev/null
 		if [ x"$?" == x0 ]; then
 			pic="  <userpic>$UserPic</userpic>\n"
 		fi
