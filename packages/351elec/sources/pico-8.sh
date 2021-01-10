@@ -28,7 +28,7 @@ then
   export LD_LIBRARY_PATH=/usr/lib32
 fi
 
-/storage/roms/pico-8/pico8_dyn -home -root_path /storage/roms/pico-8 -joystick 0 ${RUN}
+/storage/roms/pico-8/pico8_dyn -home -root_path /storage/roms/pico-8 -joystick 0 "${RUN}"
 
 ret_error=$?
 
