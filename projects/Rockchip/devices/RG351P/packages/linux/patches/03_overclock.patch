@@ -11,7 +11,7 @@ diff -rupN RG351P-linux.orig/arch/arm64/boot/dts/rockchip/Makefile RG351P-linux.
  subdir-y	:= $(dts-dirs)
 diff -rupN RG351P-linux.orig/arch/arm64/boot/dts/rockchip/px30.dtsi RG351P-linux.new/arch/arm64/boot/dts/rockchip/px30.dtsi
 --- RG351P-linux.orig/arch/arm64/boot/dts/rockchip/px30.dtsi	2020-12-31 15:05:34.739405339 -0500
-+++ RG351P-linux.new/arch/arm64/boot/dts/rockchip/px30.dtsi	2021-01-10 17:49:43.474964338 -0500
++++ RG351P-linux.new/arch/arm64/boot/dts/rockchip/px30.dtsi	2021-01-10 20:16:53.720371221 -0500
 @@ -111,10 +111,6 @@
  		rockchip,temp-hysteresis = <5000>;
  		rockchip,low-temp = <0>;
@@ -23,10 +23,25 @@ diff -rupN RG351P-linux.orig/arch/arm64/boot/dts/rockchip/px30.dtsi RG351P-linux
  
  		clocks = <&cru PLL_APLL>;
  		rockchip,avs-scale = <4>;
+@@ -1354,10 +1350,10 @@
+ 		rockchip,temp-hysteresis = <5000>;
+ 		rockchip,low-temp = <0>;
+ 		rockchip,low-temp-min-volt = <1000000>;
+-		rockchip,low-temp-adjust-volt = <
+-			/* MHz    MHz    uV */
+-			0      480     50000
+-		>;
++		//rockchip,low-temp-adjust-volt = <
++		//	/* MHz    MHz    uV */
++		//	0      480     50000
++		//>;
+ 
+ 		rockchip,max-volt = <1175000>;
+ 		rockchip,evb-irdrop = <25000>;
 diff -rupN RG351P-linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts RG351P-linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts
 --- RG351P-linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts	1969-12-31 19:00:00.000000000 -0500
-+++ RG351P-linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts	2021-01-10 18:17:24.905843298 -0500
-@@ -0,0 +1,882 @@
++++ RG351P-linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts	2021-01-10 20:18:28.499861251 -0500
+@@ -0,0 +1,905 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2020 Anbernic
@@ -183,11 +198,22 @@ diff -rupN RG351P-linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc
 +		3	20
 +	>;
 +
-+	/* /delete-node/ opp-408000000;
++	/delete-node/ opp-408000000;
 +	/delete-node/ opp-600000000;
 +	/delete-node/ opp-816000000;
++	/delete-node/ opp-1248000000;
 +	/delete-node/ opp-1416000000;
-+	/delete-node/ opp-1512000000; */
++	/delete-node/ opp-1512000000;
++	opp-1368000000 {
++		opp-hz = /bits/ 64 <1368000000>;
++		opp-microvolt = <1350000 1350000 1350000>;
++		opp-microvolt-L0 = <1350000 1350000 1350000>;
++		opp-microvolt-L1 = <1350000 1350000 1350000>;
++		opp-microvolt-L2 = <1300000 1300000 1350000>;
++		opp-microvolt-L3 = <1250000 1250000 1350000>;
++		clock-latency-ns = <40000>;
++	};
++
 +};
 +
 +&display_subsystem {
@@ -321,6 +347,18 @@ diff -rupN RG351P-linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc
 +&dmc {
 +	center-supply = <&vdd_logic>;
 +	status = "okay";
++
++	system-status-freq = <
++		/*system status         freq(KHz)*/
++		SYS_STATUS_NORMAL       528000
++		SYS_STATUS_REBOOT       450000
++		SYS_STATUS_SUSPEND      194000
++		SYS_STATUS_VIDEO_1080P  450000
++		SYS_STATUS_BOOST        850000
++		SYS_STATUS_ISP          850000
++		SYS_STATUS_PERFORMANCE  850000
++	>;
++
 +};
 +
 +&dmc_opp_table {
