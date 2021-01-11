@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="mali-bifrost"
 PKG_VERSION="43b24f4a2c7cda2144210e6ca6c62eaaf8a29497"
@@ -10,11 +11,8 @@ PKG_SITE="https://github.com/rockchip-linux/libmali"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libdrm"
 PKG_LONGDESC="The Mali GPU library used in Rockchip Platform for Odroidgo Advance"
-PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-	# remove all the extra blobs, we only need one
-	rm -rf $INSTALL/usr
 	mkdir -p $INSTALL/usr/lib/
         mkdir -p $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib
 
