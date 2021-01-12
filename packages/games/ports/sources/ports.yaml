@@ -69,6 +69,17 @@ Diablo:
     - ln -sf /storage/roms/ports/diablo/diabdat.mpq /storage/.local/share/diasurgical/devilution/diabdat.mpq
     - fi
     - cd /storage/roms/ports
+    - grep "Phone Book" /storage/.local/share/diasurgical/devilution/diablo.ini &>/dev/null
+    - if [ ! "$?" == 0 ]
+    - then
+    -  cat <<EOF >>/storage/.local/share/diasurgical/devilution/diablo.ini
+    - [Phone Book]
+    - Entry1="PLACEHOLDER"
+    - Password1="PLACEHOLDER"
+    - EOF
+    - else
+    -   sed -i 's#^Entry1.*$#Entry1="'$(cat /storage/ip.txt)'"#' /storage/.local/share/diasurgical/devilution/diablo.ini
+    - fi
     - ${PORT} &>>/tmp/logs/emuelec.log
     - jslisten stop
 

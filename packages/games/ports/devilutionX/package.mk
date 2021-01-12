@@ -9,13 +9,13 @@ PKG_ARCH="any"
 PKG_LICENSE="unlicense"
 PKG_SITE="https://github.com/diasurgical/devilutionX"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain SDL2-git SDL2_mixer SDL2_ttf"
+PKG_DEPENDS_TARGET="toolchain SDL2-git SDL2_mixer SDL2_ttf libsodium"
 PKG_LONGDESC="Diablo build for modern operating systems "
 PKG_TOOLCHAIN="cmake-make"
 GET_HANDLER_SUPPORT="git"
 
 pre_configure_target() {
-PKG_CMAKE_OPTS_TARGET=" -DNONET=ON -DCMAKE_BUILD_TYPE="Release" -DASAN=OFF -DUBSAN=OFF -DDEBUG=OFF -DLTO=ON -DDIST=OFF -DFASTER=OFF -DPREFILL_PLAYER_NAME=ON"
+PKG_CMAKE_OPTS_TARGET=" -DNONET=OFF -DCMAKE_BUILD_TYPE="Release" -DASAN=OFF -DUBSAN=OFF -DDEBUG=OFF -DLTO=ON -DDIST=OFF -DFASTER=OFF -DPREFILL_PLAYER_NAME=ON"
 sed -i "s|;-static-libstdc++>|;-lstdc++>|" $PKG_BUILD/CMakeLists.txt
 }
 

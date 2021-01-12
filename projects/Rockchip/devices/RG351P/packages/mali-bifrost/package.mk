@@ -12,64 +12,47 @@ PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libdrm"
 PKG_LONGDESC="The Mali GPU library used in Rockchip Platform for Odroidgo Advance"
 
-makeinstall_target() {
-	mkdir -p $INSTALL/usr/lib/
-        mkdir -p $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib
+if [ $ARCH == "aarch64" ]
+then
+  ARCHDIR="aarch64-linux-gnu"
+else
+  ARCHDIR="arm-linux-gnueabihf"
+fi
 
-	cp -pr $PKG_BUILD/include $TOOLCHAIN/$TARGET_NAME/sysroot/usr
-	cp $PKG_BUILD/include/GBM/gbm.h $TOOLCHAIN/$TARGET_NAME/sysroot/usr/include/gbm.h
-	ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/include/KHR/mali_khrplatform.h $TOOLCHAIN/$TARGET_NAME/sysroot/usr/include/KHR/khrplatform.h
+post_makeinstall_target() {
 
-        if [ $TARGET_ARCH == 'aarch64' ]
-	then
-     		mkdir -p $INSTALL/usr/lib32/
-        	mkdir -p $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib32
+	for lib in $INSTALL/usr/lib/libmali.so.1 \
+		   $INSTALL/usr/lib/libmali.so \
+		   $INSTALL/usr/lib/libmali.so.1.9.0 \
+		   $SYSROOT_PREFIX/usr/lib/libmali.so.1 \
+		   $SYSROOT_PREFIX/usr/lib/libmali.so \
+		   $SYSROOT_PREFIX/usr/lib/libmali.so.1.9.0
+	do
+		rm -f ${lib}
+	done
 
-		cp $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so.1
-		cp -PR $PKG_BUILD/lib/aarch64-linux-gnu/libmali-bifrost-g31-rxp0-gbm.so $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so.1
-		ln -sf /usr/lib/libmali.so.1 $INSTALL/usr/lib/libmali.so
-		ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so.1 $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so
+	cp -f $PKG_BUILD/lib/$ARCHDIR/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so.1.9.0
+	cp -f $PKG_BUILD/lib/$ARCHDIR/libmali-bifrost-g31-rxp0-gbm.so $SYSROOT_PREFIX/usr/lib/libmali.so.1.9.0
+	ln -sf $SYSROOT_PREFIX/usr/include/KHR/mali_khrplatform.h $SYSROOT_PREFIX/usr/include/KHR/khrplatform.h
 
-                for lib in libEGL.so \
-                           libEGL.so.1 \
-                           libgbm.so \
-                           libGLESv2.so \
-                           libGLESv2.so.2 \
-                           libGLESv3.so \
-                           libGLESv3.so.3 \
-                           libGLESv1_CM.so.1 \
-                           libGLES_CM.so.1
-		do
-			ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/${lib}
-			ln -sf /usr/lib32/libmali.so $INSTALL/usr/lib32/${lib}
-        		ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/${lib}
-        		ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib32/libmali.so $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib32/${lib}
-        	done
-	else
-        	mkdir -p $INSTALL/usr/lib/
-        	mkdir -p $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib
+	ln -sf libmali.so.1.9.0 $SYSROOT_PREFIX/usr/lib/libmali.so.1
+	ln -sf libmali.so.1.9.0 $INSTALL/usr/lib/libmali.so.1
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libmali.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libmali.so
 
-	        cp -pr $PKG_BUILD/include $TOOLCHAIN/$TARGET_NAME/sysroot/usr
-	        cp $PKG_BUILD/include/GBM/gbm.h $TOOLCHAIN/$TARGET_NAME/sysroot/usr/include/gbm.h
-		ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/include/KHR/mali_khrplatform.h $TOOLCHAIN/$TARGET_NAME/sysroot/usr/include/KHR/khrplatform.h
-
-        	cp $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $INSTALL/usr/lib/libmali.so.1
-        	cp -PR $PKG_BUILD/lib/arm-linux-gnueabihf/libmali-bifrost-g31-rxp0-gbm.so $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so.1
-		ln -sf /usr/lib/libmali.so.1 $INSTALL/usr/lib/libmali.so
-                ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so.1 $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so
-
-        	for lib in libEGL.so \
-			   libEGL.so.1 \
-			   libgbm.so \
-			   libGLESv2.so \
-			   libGLESv2.so.2 \
-                           libGLESv3.so \
-			   libGLESv3.so.3 \
-			   libGLESv1_CM.so.1 \
-			   libGLES_CM.so.1
-        	do
-        		ln -sf /usr/lib/libmali.so $INSTALL/usr/lib/${lib}
-        		ln -sf $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/libmali.so $TOOLCHAIN/$TARGET_NAME/sysroot/usr/lib/${lib}
-        	done
-	fi
+	for lib in libmali-bifrost-g31-rxp0-gbm.so \
+	  	   libGLESv1_CM.so.1 \
+		   libGLESv1_CM.so \
+		   libGLESv2.so.2 \
+		   libGLESv2.so \
+		   libGLESv3.so.3 \
+		   libGLESv3.so \
+		   libMaliOpenCL.so.1 \
+		   libMaliOpenCL.so 
+	do
+		rm -f $INSTALL/usr/lib/${lib}
+		ln -sf libmali.so $INSTALL/usr/lib/${lib}
+		rm -f $SYSROOT_PREFIX/usr/lib/${lib}
+		ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/${lib}
+	done
 }
