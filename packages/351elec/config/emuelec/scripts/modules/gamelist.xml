@@ -52,14 +52,4 @@
                 <image>./downloaded_images/retroarch.png</image>
         </game>
 
-        <game>
-                <path>./Delete RetroArch Overrides.sh</path>
-                <name>Delete RetroArch Overrides</name>
-                <desc>Removes the RetroArch Overrides implemented in 1.0.4 ** DATA DESTRUCTIVE **</desc>
-                <developer>fewtarius</developer>
-                <publisher>351ELEC</publisher>
-                <genre>script</genre>
-                <image>./downloaded_images/update.png</image>
-        </game>
-
 </gameList>
