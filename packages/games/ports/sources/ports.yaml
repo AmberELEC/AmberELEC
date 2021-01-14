@@ -69,6 +69,8 @@ Diablo:
     - ln -sf /storage/roms/ports/diablo/diabdat.mpq /storage/.local/share/diasurgical/devilution/diabdat.mpq
     - fi
     - cd /storage/roms/ports
+    - emuelec-utils devilutionx_server "$(get_ee_setting diablo.server)"
+    - emuelec-utils devilutionx_password "$(get_ee_setting diablo.password)"
     - ${PORT} &>>/tmp/logs/emuelec.log
     - jslisten stop
 
