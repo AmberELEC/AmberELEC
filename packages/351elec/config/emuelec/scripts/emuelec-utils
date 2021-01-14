@@ -31,20 +31,20 @@ function devilutionx_setup() {
 		mkdir -p /storage/.local/share/diasurgical/devilution &>/dev/null ||:
 		cat <<EOF >>/storage/.local/share/diasurgical/devilution/diablo.ini
 [Phone Book]
-Entry1=""
-Password1=""
+Entry1=
+Password1=
 EOF
 	fi
 }
 
 function devilutionx_server() {
 	devilutionx_setup
-	sed -i 's#^Entry1.*$#Entry1="'$1'"#' /storage/.local/share/diasurgical/devilution/diablo.ini &>/dev/null
+	sed -i 's#^Entry1.*$#Entry1='$1'#' /storage/.local/share/diasurgical/devilution/diablo.ini &>/dev/null
 }
 
 function devilutionx_password() {
 	devilutionx_setup
-        sed -i 's#^Password1.*$#Password1="'$1'"#' /storage/.local/share/diasurgical/devilution/diablo.ini &>/dev/null
+        sed -i 's#^Password1.*$#Password1='$1'#' /storage/.local/share/diasurgical/devilution/diablo.ini &>/dev/null
 }
 
 function clearconfig() {
