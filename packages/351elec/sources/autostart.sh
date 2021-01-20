@@ -264,7 +264,13 @@ normperf
 # Restore last saved brightness
 if [ -e /storage/.brightness ]
 then
-  cat /storage/.brightness > /sys/class/backlight/backlight/brightness
+  BRIGHTNESS=$(cat /storage/.brightness)
+  if [[ "${BRIGHTNESS}" -lt 15 ]]
+  then
+    BRIGHTNESS=15
+  fi
+  echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
+  echo ${BRIGHTNESS} >/storage/.brightness
 else
   echo 75 >/sys/class/backlight/backlight/brightness
   echo 75 >/storage/.brightness
