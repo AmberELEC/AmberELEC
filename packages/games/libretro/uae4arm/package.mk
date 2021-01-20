@@ -22,7 +22,7 @@ PKG_NAME="uae4arm"
 PKG_VERSION="bfb7b9707da392625bb2a2527b10df5b16ccb8b8"
 PKG_SHA256="da4bd85bc05446a2c90a4e250948acc459b22eed648b7bd32f1feb1648b46a3a"
 PKG_REV="1"
-PKG_ARCH="arm"
+PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/uae4arm-libretro"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
@@ -36,16 +36,23 @@ PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 PKG_BUILD_FLAGS="-lto"
+VERSION=${LIBREELEC_VERSION}
 
 make_target() {
-   CFLAGS="$CFLAGS -DARM -marm"
-  if [[ "$TARGET_FPU" =~ "neon" ]]; then
-    CFLAGS="-D__NEON_OPT"
+  if [ "${ARCH}" != "aarch64" ]; then
+    CFLAGS="$CFLAGS -DARM -marm"
+    if [[ "$TARGET_FPU" =~ "neon" ]]; then
+      CFLAGS="-D__NEON_OPT"
+    fi
+    make HAVE_NEON=1 USE_PICASSO96=1
   fi
-  make HAVE_NEON=1 USE_PICASSO96=1
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp uae4arm_libretro.so $INSTALL/usr/lib/libretro/
+  if [ "${ARCH}" != "aarch64" ]; then
+    cp uae4arm_libretro.so $INSTALL/usr/lib/libretro/
+  else
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/uae4arm-*/.install_pkg/usr/lib/libretro/uae4arm_libretro.so $INSTALL/usr/lib/libretro/
+  fi
 }

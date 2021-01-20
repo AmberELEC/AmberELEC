@@ -28,7 +28,7 @@ elif [ "${ARCH}" == "arm" ]
 then
   # Only build the 32bit packages that we need rather than the whole image
   # to speed up the build process and save disk space.
-  for package in gcc retroarch pcsx_rearmed parallel-n64
+  for package in gcc retroarch pcsx_rearmed parallel-n64 uae4arm
   do
     scripts/build ${package}
     scripts/install ${package}
