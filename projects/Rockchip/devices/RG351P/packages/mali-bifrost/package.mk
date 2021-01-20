@@ -24,9 +24,13 @@ post_makeinstall_target() {
 	for lib in $INSTALL/usr/lib/libmali.so.1 \
 		   $INSTALL/usr/lib/libmali.so \
 		   $INSTALL/usr/lib/libmali.so.1.9.0 \
+		   $INSTALL/usr/lib/libgbm.so.1 \
+		   $INSTALL/usr/lib/libgbm.so \
 		   $SYSROOT_PREFIX/usr/lib/libmali.so.1 \
 		   $SYSROOT_PREFIX/usr/lib/libmali.so \
-		   $SYSROOT_PREFIX/usr/lib/libmali.so.1.9.0
+		   $SYSROOT_PREFIX/usr/lib/libmali.so.1.9.0 \
+		   $SYSROOT_PREFIX/usr/lib/libgbm.so.1 \
+		   $SYSROOT_PREFIX/usr/lib/libgbm.so
 	do
 		rm -f ${lib}
 	done
@@ -39,6 +43,11 @@ post_makeinstall_target() {
 	ln -sf libmali.so.1.9.0 $INSTALL/usr/lib/libmali.so.1
 	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libmali.so
 	ln -sf libmali.so.1 $INSTALL/usr/lib/libmali.so
+
+        ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libgbm.so.1
+        ln -sf libgbm.so.1 $SYSROOT_PREFIX/usr/lib/libgbm.so
+        ln -sf libmali.so.1 $INSTALL/usr/lib/libgbm.so.1
+        ln -sf libgbm.so.1 $INSTALL/usr/lib/libgbm.so
 
 	for lib in libmali-bifrost-g31-rxp0-gbm.so \
 	  	   libGLESv1_CM.so.1 \

@@ -15,19 +15,6 @@
 	</game>
 
 	<game>
-		<path>./Install Drastic.sh</path>
-		<name>Install Drastic</name>
-		<desc>Download and install Drastic, wi-fi connection is required!</desc>
-		<developer>fewtarius </developer>
-		<publisher>351ELEC</publisher>
-		<rating>1.0</rating>
-		<releasedate>2020</releasedate>
-		<genre>script</genre>
-		<thumbnail>./downloaded_images/drastic-thumb.png</thumbnail>
-		<image>./downloaded_images/drastic.png</image>
-	</game>
-
-	<game>
 		<path>./Start PPSSPP.sh</path>
 		<name>Start PPSSPP</name>
 		<desc>Run the PPSSPP emulator without starting a game.</desc>
