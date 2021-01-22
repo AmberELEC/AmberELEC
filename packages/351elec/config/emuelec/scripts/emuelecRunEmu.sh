@@ -416,11 +416,11 @@ clear_screen
 # If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
 if [[ "${ROMNAME}" == *".sh" ]]; then
 	$VERBOSE && log "Executing shell script ${ROMNAME}"
-	"${ROMNAME}"
+	"${ROMNAME}" &>>/tmp/logs/emuelec.log
         ret_error=$?
 else
 	$VERBOSE && log "Executing $(eval echo ${RUNTHIS})" 
-	eval ${RUNTHIS}
+	eval ${RUNTHIS} &>>/tmp/logs/emuelec.log
 	ret_error=$?
 fi
 
