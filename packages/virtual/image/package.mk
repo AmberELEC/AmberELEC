@@ -4,7 +4,7 @@
 PKG_NAME="image"
 PKG_LICENSE="GPL"
 PKG_SITE="https://libreelec.tv"
-PKG_DEPENDS_TARGET="toolchain squashfs:host dosfstools:host fakeroot:host kmod:host mtools:host populatefs:host libc gcc linux linux-drivers linux-firmware ${BOOTLOADER} busybox util-linux corefonts network misc-packages debug usb-modeswitch unzip poppler socat"
+PKG_DEPENDS_TARGET="toolchain squashfs:host dosfstools:host fakeroot:host kmod:host mtools:host populatefs:host libc gcc linux linux-drivers linux-firmware ${BOOTLOADER} busybox util-linux corefonts network misc-packages debug usb-modeswitch unzip poppler socat p7zip"
 PKG_SECTION="virtual"
 PKG_LONGDESC="Root package used to build and create complete image"
 
