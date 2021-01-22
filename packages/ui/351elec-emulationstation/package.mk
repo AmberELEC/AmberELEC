@@ -23,9 +23,8 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-handheld-
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/emuelec/configs/locale/i18n/charmaps
+	mkdir -p $INSTALL/usr/config/emuelec/configs/locale
 	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/emuelec/configs/locale/
-	cp -PR "$(get_build_dir glibc)/localedata/charmaps/UTF-8" $INSTALL/usr/config/emuelec/configs/locale/i18n/charmaps/UTF-8
 	
 	mkdir -p $INSTALL/usr/lib
 	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/lib/locale
@@ -39,7 +38,6 @@ makeinstall_target() {
 	mkdir -p $INSTALL/usr/bin
 	ln -sf /storage/.config/emulationstation/resources $INSTALL/usr/bin/resources
 	cp -rf $PKG_BUILD/emulationstation $INSTALL/usr/bin
-	cp -PR "$(get_build_dir glibc)/.$TARGET_NAME/locale/localedef" $INSTALL/usr/bin
 
 	mkdir -p $INSTALL/etc/emulationstation/
 	ln -sf /storage/.config/emulationstation/themes $INSTALL/etc/emulationstation/

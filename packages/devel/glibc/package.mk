@@ -96,9 +96,7 @@ EOF
   GLIBC_INCLUDE_BIN="getent ldd locale"
 
   # Generic "installer" needs localedef to define drawing chars
-  if [ "$PROJECT" = "Generic" ]; then
-    GLIBC_INCLUDE_BIN+=" localedef"
-  fi
+  GLIBC_INCLUDE_BIN+=" localedef"
 }
 
 post_makeinstall_target() {
@@ -122,17 +120,14 @@ post_makeinstall_target() {
   rm -rf $INSTALL/usr/share/i18n/charmaps
 
 # add UTF-8 charmap for Generic (charmap is needed for installer)
-  if [ "$PROJECT" = "Generic" ]; then
-    mkdir -p $INSTALL/usr/share/i18n/charmaps
-    cp -PR $PKG_BUILD/localedata/charmaps/UTF-8 $INSTALL/usr/share/i18n/charmaps
-    pigz --best --force $INSTALL/usr/share/i18n/charmaps/UTF-8
-  fi
+  mkdir -p $INSTALL/usr/share/i18n/charmaps
+  cp -PR $PKG_BUILD/localedata/charmaps/UTF-8 $INSTALL/usr/share/i18n/charmaps
+  pigz --best --force $INSTALL/usr/share/i18n/charmaps/UTF-8
 
-  if [ ! "$GLIBC_LOCALES" = yes ]; then
+  if [ ! "$GLIBC_LOCALES" = "yes" ]; then
     rm -rf $INSTALL/usr/share/i18n/locales
-
     mkdir -p $INSTALL/usr/share/i18n/locales
-      cp -PR $PKG_BUILD/localedata/locales/POSIX $INSTALL/usr/share/i18n/locales
+    cp -PR $PKG_BUILD/localedata/locales/POSIX $INSTALL/usr/share/i18n/locales
   fi
 
 # create default configs

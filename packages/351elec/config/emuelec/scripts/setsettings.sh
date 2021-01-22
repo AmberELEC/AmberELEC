@@ -9,6 +9,8 @@
 
 # IMPORTANT: This script should not return (echo) anything other than the shader if its set
 
+. /etc/profile
+
 RETROARCHIVEMENTS=(atari2600 atari7800 atarilynx colecovision gamegear gb gba gbc mastersystem megadrive msx n64 neogeo nes ngp pcengine pokemini psx sega32x segacd sg-1000 snes tic80 vectrex virtualboy wonderswan)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
@@ -163,6 +165,7 @@ function clean_settings() {
 	sed -i "/netplay_ip_address/d" ${RACONF}
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
+	sed -i "/wifi_enabled/d" ${RACONF}
 }
 
 function default_settings() {
@@ -194,11 +197,20 @@ function default_settings() {
 	echo "input_libretro_device_p1 = \"1\"" >> ${RACONF}
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
+	echo 'wifi_enabled = "false"' >> ${RACONF}
 }
 
 function set_setting() {
 # we set the setting on the configuration file
 case ${1} in
+	"wifi")
+	if [ "$(get_ee_setting wifi.enabled)" = "1" ]
+	then
+		echo 'wifi_enabled = "true"' >> ${RACONF}
+	else
+                echo 'wifi_enabled = "false"' >> ${RACONF}
+        fi
+	;;
 	"ratio")
 	if [[ "${2}" == "false" ]]; then
 		# 22 is the "Core Provided" aspect ratio and its set by default if no other is selected
@@ -410,7 +422,7 @@ set_setting ${1} ${EES}
 
 clean_settings
 
-for s in ratio smooth shaderset rewind autosave integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
+for s in wifi ratio smooth shaderset rewind autosave integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
 get_setting $s
 [ -z "${EES}" ] || SETF=1
 done

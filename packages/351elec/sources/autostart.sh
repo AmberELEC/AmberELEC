@@ -41,7 +41,10 @@ fi
 
 # Automatic updates
 rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
-cp /usr/config/EE_VERSION /storage/.config
+cp -f /usr/config/EE_VERSION /storage/.config
+
+# Copy in the es_systems.cfg so it updates after a flash
+cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
 
 # Copy in any new PPSSPP INIs from git
 rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.config/ppsspp/PSP/SYSTEM
@@ -56,7 +59,7 @@ rsync --ignore-existing -raz /usr/config/openbor /storage
 rsync -a --exclude gamelist.xml /usr/config/emuelec/ports/* /storage/roms/ports
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
-  cp /usr/config/emuelec/ports/gamelist.xml /storage/roms/ports
+  cp -f /usr/config/emuelec/ports/gamelist.xml /storage/roms/ports
 fi
 rm -rf /usr/config/emuelec/ports
 
