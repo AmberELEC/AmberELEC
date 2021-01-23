@@ -18,25 +18,30 @@ NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/emuelec/configs/emuelec.conf"
 EMUCONF="/storage/.config/emuelec/configs/emuoptions.conf"
-SOURCERACONF="/storage/.config/retroarch/retroarch.cfg"
-#RACONF="/storage/.config/retroarch/retroarch.cfg"
+SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
+DESTRACONF="/storage/.config/retroarch/retroarch.cfg"
 RACONF="/tmp/retroarch.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
 PLATFORM=${1,,}
 CORE=${3,,}
 ROM="${2##*/}"
-#ROM="${ROM%.*}"
 SETF=0
 SHADERSET=0
 
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
-cp -f ${SOURCERACONF} ${RACONF}
+### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
+FILELENGTH="$(cat ${DESTRACONF} | wc -l)"
+if [ "${FILELENGTH}" -lt "1" ]
+  rm -f "${DESTRACONF}"
+  cp -f "${SOURCERACONF}" "${RACONF}"
+else
+  cp -f "${DESTRACONF}" "${RACONF}"
+fi
 
 function doexit() {
-# copy back temp config to retroarch config 
-cp -f ${RACONF} ${SOURCERACONF}
-rm ${RACONF}
-exit 0
+  mv "${RACONF}" "${DESTRACONF}"
+  sync
+  exit 0
 }
 
 function group_platform() {
@@ -507,15 +512,6 @@ fi
 done
 EE_DEVICE=$(cat /ee_arch)
 get_setting "retroarch.menu_driver"
-
-#if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
-#[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && EES="xmb"
-#else
-#[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && EES="ozone"
-#fi
-
-#sed -i "/menu_driver =/d" ${RACONF}
-#echo "menu_driver = ${EES}" >> ${RACONF}
 
 # Show bezel if enabled
 get_setting "bezel"
