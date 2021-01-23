@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="mame2003-midway"
-PKG_VERSION="d1c764cfa886e7451eb4b23f8084c309a9564bfe"
-PKG_SHA256="1eec462564242450781e6bc9932b41a8f1a42e6dc535baf883d80f06b13ef38c"
+PKG_VERSION="2204233a66a78ebbb0ef1e86bb9d36e4405a2a92"
+PKG_SHA256="8ed1addf56c9ed1999bac813e132c630f67096c9eaf4ab16495030c3e9045d43"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"

@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="mame2003"
-PKG_VERSION="e3d1dac4cfaa4d03f8da5a6d78149bfefe894302"
-PKG_SHA256="9a8abe56aa8fca8c899f28f8fe10f3d0aef62ee8825a96266e5482739b087ca5"
+PKG_VERSION="c079e586e5ef54e084622863816f4f0439fdb870"
+PKG_SHA256="a23579c5df4cadcf57740a4d64e10eff0e26805e304261902a4d891fd2a2662a"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"
