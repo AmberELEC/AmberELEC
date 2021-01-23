@@ -16,6 +16,7 @@ makeinstall_target() {
 mkdir -p $INSTALL/usr/config/emuelec/ports
 python3 port_builder.py ports.yaml $INSTALL/usr/config/emuelec/ports
 cp -rf $PKG_BUILD/images $INSTALL/usr/config/emuelec/ports
+cp -rf $PKG_BUILD/videos $INSTALL/usr/config/emuelec/ports
 
 # Remove duplicate newlines just to be tidy
 for file in "$INSTALL/usr/config/emuelec/ports/*.sh"; do
