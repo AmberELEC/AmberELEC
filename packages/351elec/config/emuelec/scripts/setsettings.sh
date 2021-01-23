@@ -32,6 +32,7 @@ SHADERSET=0
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
 FILELENGTH="$(cat ${DESTRACONF} | wc -l)"
 if [ "${FILELENGTH}" -lt "1" ]
+then
   rm -f "${DESTRACONF}"
   cp -f "${SOURCERACONF}" "${RACONF}"
 else
