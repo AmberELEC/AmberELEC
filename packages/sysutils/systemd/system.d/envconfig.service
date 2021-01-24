@@ -1,14 +1,12 @@
 [Unit]
-Description=Update hwdb.bin
+Description=Generate system-wide /etc/environment file
 DefaultDependencies=no
-Conflicts=shutdown.target
 After=systemd-tmpfiles-setup.service
-Before=sysinit.target shutdown.target systemd-udevd.service
 
 [Service]
 Type=oneshot
+ExecStart=/usr/bin/environment-setup
 RemainAfterExit=yes
-ExecStart=systemd-hwdb update
 
 [Install]
 WantedBy=sysinit.target
