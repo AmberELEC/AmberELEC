@@ -1,0 +1,13 @@
+diff -rupN u-boot.orig/Makefile u-boot.new/Makefile
+--- u-boot.orig/Makefile	2021-01-24 17:28:57.527669027 -0500
++++ u-boot.new/Makefile	2021-01-24 17:36:51.913907694 -0500
+@@ -359,7 +359,9 @@ KBUILD_CPPFLAGS := -D__KERNEL__ -D__UBOO
+ 
+ KBUILD_CFLAGS   := -Wall -Wstrict-prototypes \
+ 		   -Wno-format-security \
++		   -Wno-address-of-packed-member \
+ 		   -fno-builtin -ffreestanding
++KBUILD_CFLAGS   += $(call cc-disable-warning, address-of-packed-member)
+ KBUILD_CFLAGS	+= -fshort-wchar -Werror
+ KBUILD_AFLAGS   := -D__ASSEMBLY__
+ 
