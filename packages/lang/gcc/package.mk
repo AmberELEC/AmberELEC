@@ -3,22 +3,23 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gcc"
-PKG_VERSION="8.3.0"
-PKG_SHA256="64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+PKG_VERSION="10.2.0"
+#PKG_SHA256=""
 PKG_LICENSE="GPL"
 PKG_SITE="http://gcc.gnu.org/"
-PKG_URL="http://ftpmirror.gnu.org/gcc/$PKG_NAME-$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_BOOTSTRAP="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host"
-PKG_DEPENDS_TARGET="gcc:host"
-PKG_DEPENDS_HOST="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host glibc"
+PKG_URL="http://ftpmirror.gnu.org/gcc/${PKG_NAME}-${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_BOOTSTRAP="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_HOST="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host glibc"
 PKG_DEPENDS_INIT="toolchain"
 PKG_LONGDESC="This package contains the GNU Compiler Collection."
 
-GCC_COMMON_CONFIGURE_OPTS="--target=$TARGET_NAME \
-                           --with-sysroot=$SYSROOT_PREFIX \
-                           --with-gmp=$TOOLCHAIN \
-                           --with-mpfr=$TOOLCHAIN \
-                           --with-mpc=$TOOLCHAIN \
+GCC_COMMON_CONFIGURE_OPTS="--target=${TARGET_NAME} \
+                           --with-sysroot=${SYSROOT_PREFIX} \
+                           --with-gmp=${TOOLCHAIN} \
+                           --with-mpfr=${TOOLCHAIN} \
+                           --with-mpc=${TOOLCHAIN} \
+                           --with-zstd=${TOOLCHAIN} \
                            --with-gnu-as \
                            --with-gnu-ld \
                            --enable-plugin \
@@ -37,25 +38,24 @@ GCC_COMMON_CONFIGURE_OPTS="--target=$TARGET_NAME \
                            --disable-libatomic \
                            --disable-libitm \
                            --disable-libquadmath \
+                           --disable-libgomp \
                            --disable-libmpx \
-                           --disable-libssp"
+                           --disable-libssp \
+                           --enable-__cxa_atexit"
 
-PKG_CONFIGURE_OPTS_BOOTSTRAP="$GCC_COMMON_CONFIGURE_OPTS \
+PKG_CONFIGURE_OPTS_BOOTSTRAP="${GCC_COMMON_CONFIGURE_OPTS} \
                               --enable-languages=c \
-                              --disable-__cxa_atexit \
                               --disable-libsanitizer \
                               --enable-cloog-backend=isl \
                               --disable-shared \
                               --disable-threads \
-                              --disable-libgomp \
                               --without-headers \
                               --with-newlib \
                               --disable-decimal-float \
-                              $GCC_OPTS"
+                              ${GCC_OPTS}"
 
-PKG_CONFIGURE_OPTS_HOST="$GCC_COMMON_CONFIGURE_OPTS \
+PKG_CONFIGURE_OPTS_HOST="${GCC_COMMON_CONFIGURE_OPTS} \
                          --enable-languages=c,c++ \
-                         --enable-__cxa_atexit \
                          --enable-decimal-float \
                          --enable-tls \
                          --enable-shared \
@@ -66,30 +66,28 @@ PKG_CONFIGURE_OPTS_HOST="$GCC_COMMON_CONFIGURE_OPTS \
                          --disable-libstdcxx-pch \
                          --enable-libstdcxx-time \
                          --enable-clocale=gnu \
-                         $GCC_OPTS"
+                         ${GCC_OPTS}"
 
 pre_configure_host() {
-  export CXXFLAGS="$CXXFLAGS -std=gnu++98"
   unset CPP
 }
 
 post_make_host() {
   # fix wrong link
-  rm -rf $TARGET_NAME/libgcc/libgcc_s.so
-  ln -sf libgcc_s.so.1 $TARGET_NAME/libgcc/libgcc_s.so
+  rm -rf ${TARGET_NAME}/libgcc/libgcc_s.so
+  ln -sf libgcc_s.so.1 ${TARGET_NAME}/libgcc/libgcc_s.so
 
   if [ ! "${BUILD_WITH_DEBUG}" = "yes" ]; then
-    ${TARGET_PREFIX}strip $TARGET_NAME/libgcc/libgcc_s.so*
-    ${TARGET_PREFIX}strip $TARGET_NAME/libgomp/.libs/libgomp.so*
-    ${TARGET_PREFIX}strip $TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so*
+    ${TARGET_PREFIX}strip ${TARGET_NAME}/libgcc/libgcc_s.so*
+    ${TARGET_PREFIX}strip ${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so*
   fi
 }
 
 post_makeinstall_host() {
-  cp -PR $TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so* $SYSROOT_PREFIX/usr/lib
+  cp -PR ${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so* ${SYSROOT_PREFIX}/usr/lib
 
-  GCC_VERSION=`$TOOLCHAIN/bin/${TARGET_NAME}-gcc -dumpversion`
-  DATE="0501`echo $GCC_VERSION | sed 's/\([0-9]\)/0\1/g' | sed 's/\.//g'`"
+  GCC_VERSION=$(${TOOLCHAIN}/bin/${TARGET_NAME}-gcc -dumpversion)
+  DATE="0501$(echo ${GCC_VERSION} | sed 's/\./0/g')"
   CROSS_CC=${TARGET_PREFIX}gcc-${GCC_VERSION}
   CROSS_CXX=${TARGET_PREFIX}g++-${GCC_VERSION}
 
@@ -97,29 +95,29 @@ post_makeinstall_host() {
 
 cat > ${TARGET_PREFIX}gcc <<EOF
 #!/bin/sh
-$TOOLCHAIN/bin/ccache $CROSS_CC "\$@"
+${TOOLCHAIN}/bin/ccache ${CROSS_CC} "\$@"
 EOF
 
   chmod +x ${TARGET_PREFIX}gcc
 
   # To avoid cache trashing
-  touch -c -t $DATE $CROSS_CC
+  touch -c -t ${DATE} ${CROSS_CC}
 
-  [ ! -f "$CROSS_CXX" ] && mv ${TARGET_PREFIX}g++ $CROSS_CXX
+  [ ! -f "${CROSS_CXX}" ] && mv ${TARGET_PREFIX}g++ ${CROSS_CXX}
 
 cat > ${TARGET_PREFIX}g++ <<EOF
 #!/bin/sh
-$TOOLCHAIN/bin/ccache $CROSS_CXX "\$@"
+${TOOLCHAIN}/bin/ccache ${CROSS_CXX} "\$@"
 EOF
 
   chmod +x ${TARGET_PREFIX}g++
 
   # To avoid cache trashing
-  touch -c -t $DATE $CROSS_CXX
+  touch -c -t ${DATE} ${CROSS_CXX}
 
   # install lto plugin for binutils
-  mkdir -p $TOOLCHAIN/lib/bfd-plugins
-    ln -sf ../gcc/$TARGET_NAME/$GCC_VERSION/liblto_plugin.so $TOOLCHAIN/lib/bfd-plugins
+  mkdir -p ${TOOLCHAIN}/lib/bfd-plugins
+    ln -sf ../gcc/${TARGET_NAME}/${GCC_VERSION}/liblto_plugin.so ${TOOLCHAIN}/lib/bfd-plugins
 }
 
 configure_target() {
@@ -131,10 +129,9 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib
-    cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/usr/lib
-    cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgomp/.libs/libgomp.so* $INSTALL/usr/lib
-    cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libstdc++-v3/src/.libs/libstdc++.so* $INSTALL/usr/lib
+  mkdir -p ${INSTALL}/usr/lib
+    cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgcc/libgcc_s.so* ${INSTALL}/usr/lib
+    cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so* ${INSTALL}/usr/lib
 }
 
 configure_init() {
@@ -146,6 +143,6 @@ make_init() {
 }
 
 makeinstall_init() {
-  mkdir -p $INSTALL/usr/lib
-    cp -P $PKG_BUILD/.$HOST_NAME/$TARGET_NAME/libgcc/libgcc_s.so* $INSTALL/usr/lib
+  mkdir -p ${INSTALL}/usr/lib
+    cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgcc/libgcc_s.so* ${INSTALL}/usr/lib
 }
