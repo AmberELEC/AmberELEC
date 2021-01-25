@@ -3,11 +3,11 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gnutls"
-PKG_VERSION="3.6.14"
-PKG_SHA256="5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63"
+PKG_VERSION="3.7.0"
+PKG_SHA256="49e2a22691d252c9f24a9829b293a8f359095bc5a818351f05f1c0a5188a1df8"
 PKG_LICENSE="LGPL2.1"
 PKG_SITE="https://gnutls.org"
-PKG_URL="https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-$PKG_VERSION.tar.xz"
+PKG_URL="https://www.gnupg.org/ftp/gcrypt/gnutls/v${PKG_VERSION:0:3}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain libidn2 nettle zlib"
 PKG_LONGDESC="A library which provides a secure layer over a reliable transport layer."
 
@@ -25,6 +25,3 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-doc \
                            --with-included-unistring \
                            --without-p11-kit \
                            --without-tpm"
-makeinstall_target() {
-  make install DESTDIR="$INSTALL/../.INSTALL_PKG"
-}
