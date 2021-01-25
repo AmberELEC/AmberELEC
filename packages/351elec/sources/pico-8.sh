@@ -7,9 +7,10 @@
 
 if [ ! -z "${1}" ]
 then
-  RUN="-run ${1}"
+  OPTIONS="-run"
+  CART="${1}"
 else
-  RUN="-splore"
+  OPTIONS="-splore"
 fi
 
 if [ ! -d "/storage/roms/pico-8" ]
@@ -28,7 +29,7 @@ then
   export LD_LIBRARY_PATH=/usr/lib32
 fi
 
-/storage/roms/pico-8/pico8_dyn -home -root_path /storage/roms/pico-8 -joystick 0 "${RUN}"
+/storage/roms/pico-8/pico8_dyn -home -root_path /storage/roms/pico-8 -joystick 0 ${OPTIONS} "${CART}"
 
 ret_error=$?
 
