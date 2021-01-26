@@ -22,8 +22,8 @@ if [[ "$ARCH" == "arm" ]]; then
 	if [ "${DEVICE}" == "RG351P" ]; then
 		PKG_MAKE_OPTS_TARGET=" platform=Odroidgoa"
 	fi
-else
-	PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
+#else
+#	PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
 	
 fi
 

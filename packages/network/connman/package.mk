@@ -49,7 +49,7 @@ PKG_CONFIGURE_OPTS_TARGET="WPASUPPLICANT=/usr/bin/wpa_supplicant \
 if [ "$WIREGUARD_SUPPORT" = "yes" ]; then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-wireguard=builtin"
 else
-  PKG_CONGIGURE_OPTS_TARGET+=" --disable-wireguard"
+  PKG_CONFIGURE_OPTS_TARGET+=" --disable-wireguard"
 fi
 
 PKG_MAKE_OPTS_TARGET="storagedir=/storage/.cache/connman \

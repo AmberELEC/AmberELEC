@@ -7,7 +7,7 @@ PKG_SHA256="c32d10473457a8b545aab50070fe84be2b5b041e1f2099012777ee6be0057c13"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.openal.org/"
 PKG_URL="https://github.com/kcat/openal-soft/archive/$PKG_NAME-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib openal-soft:host"
+PKG_DEPENDS_TARGET="toolchain alsa-lib"
 PKG_LONGDESC="OpenAL the Open Audio Library"
 
 configure_package() {
