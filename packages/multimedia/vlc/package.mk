@@ -3,17 +3,17 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="vlc"
-PKG_VERSION="3.0.12"
+PKG_VERSION="a5dc0a00e504db427345cbea73e3b33620b88782"
 #PKG_SHA256="189311d28aa814f106a7b3645211ac52c0b3e2b9f4b348de2f63bab3218086b8"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.videolan.org"
-PKG_URL="https://download.videolan.org/pub/videolan/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="https://github.com/videolan/vlc/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio mpg123-compat"
 PKG_SHORTDESC="VideoLAN multimedia player and streamer"
 PKG_LONGDESC="VLC is the VideoLAN project's media player. It plays MPEG, MPEG2, MPEG4, DivX, MOV, WMV, QuickTime, mp3, Ogg/Vorbis files, DVDs, VCDs, and multimedia streams from various network sources."
 PKG_AUTORECONF="yes"
-PKG_TOOLCHAIN="configure"
+PKG_TOOLCHAIN="autotools"
 
 ENABLED_FEATURES="--enable-silent-rules \
             --enable-run-as-root \
@@ -25,7 +25,6 @@ ENABLED_FEATURES="--enable-silent-rules \
             --enable-avformat \
             --enable-swscale \
             --enable-postproc \
-            --enable-aa \
             --enable-libmpeg2 \
             --enable-png \
             --enable-jpeg \
@@ -62,7 +61,6 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-shout\
             --disable-mod \
             --disable-gme \
-            --disable-wma-fixed \
             --disable-shine \
             --disable-omxil \
             --disable-mad \
@@ -70,7 +68,6 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-faad \
             --disable-flac \
             --disable-twolame \
-            --disable-realrtsp \
             --disable-libtar \
             --disable-a52 \
             --disable-dca \
@@ -90,8 +87,6 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-vdpau \
             --without-x \
             --disable-xcb \
-            --disable-xvideo \
-            --disable-sdl-image \
             --disable-freetype \
             --disable-fribidi \
             --disable-fontconfig \
@@ -104,7 +99,6 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-skins2 \
             --disable-kai \
             --disable-macosx \
-            --disable-macosx-qtkit \
             --disable-ncurses \
             --disable-goom \
             --disable-projectm \
@@ -116,7 +110,6 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-bluray \
             --disable-samplerate \
             --disable-sid \
-            --disable-crystalhd \
             --disable-dxva2 \
             --disable-dav1d \
             --disable-qt"

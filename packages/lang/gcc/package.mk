@@ -3,11 +3,11 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gcc"
-PKG_VERSION="10.2.0"
+PKG_VERSION="10-20210123"
 #PKG_SHA256=""
 PKG_LICENSE="GPL"
 PKG_SITE="http://gcc.gnu.org/"
-PKG_URL="http://ftpmirror.gnu.org/gcc/${PKG_NAME}-${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_URL="https://bigsearcher.com/mirrors/gcc/snapshots/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_BOOTSTRAP="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_HOST="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host glibc"
@@ -38,7 +38,6 @@ GCC_COMMON_CONFIGURE_OPTS="--target=${TARGET_NAME} \
                            --disable-libatomic \
                            --disable-libitm \
                            --disable-libquadmath \
-                           --disable-libgomp \
                            --disable-libmpx \
                            --disable-libssp \
                            --enable-__cxa_atexit"

@@ -28,8 +28,8 @@ diff -rupN parallel-n64.orig/Makefile parallel-n64.new/Makefile
 -   #######################################
 -   # Generic ARMV8 - cross - No GL 
 -   ifneq (,$(findstring armv8,$(platform)))
--      CC = aarch64-linux-gnu-gcc
--      CXX = aarch64-linux-gnu-g++
+-      CC = aarch64-none-linux-gnu-c++
+-      CXX = aarch64-none-linux-gnu-g++
 -      CPUFLAGS += -DNO_ASM -DARM -DARM_ASM -DDONT_WANT_ARM_OPTIMIZATIONS -DARM_FIX -DCLASSIC -DARM64
 -      LDFLAGS += -static-libgcc -static-libstdc++
 -      GLES = 0
