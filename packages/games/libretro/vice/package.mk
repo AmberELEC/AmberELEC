@@ -42,10 +42,11 @@ make_target() {
   if [ "$ARCH" == "arm" ]; then
     CFLAGS="$CFLAGS -DARM -DALIGN_DWORD -mstructure-size-boundary=32 -mthumb-interwork -falign-functions=16 -marm"
   fi
-  make EMUTYPE=x64
-  make EMUTYPE=x128
-  make EMUTYPE=xplus4
-  make EMUTYPE=xvic
+  #make EMUTYPE=x64
+  #make EMUTYPE=x128
+  #make EMUTYPE=xplus4
+  #make EMUTYPE=xvic
+  make all
 }
 
 makeinstall_target() {

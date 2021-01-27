@@ -13,11 +13,14 @@ PKG_LONGDESC="listen to gamepad inputs and trigger a command, cloned from https:
 PKG_TOOLCHAIN="make"
 
 make_target() {
-mkdir bin
-make 
+  if [ ! -d "bin" ]
+  then
+    mkdir bin
+  fi
+  make 
 }
 
 makeinstall_target() {
-mkdir -p $INSTALL/usr/bin
-cp bin/jslisten $INSTALL/usr/bin
+  mkdir -p $INSTALL/usr/bin
+  cp bin/jslisten $INSTALL/usr/bin
 }

@@ -25,7 +25,7 @@ PKG_CONFIGURE_OPTS_TARGET="--without-ada \
                            --with-normal \
                            --without-debug \
                            --without-profile \
-                           --without-termlib \
+                           --with-termlib \
                            --without-ticlib \
                            --without-gpm \
                            --without-dbmalloc \

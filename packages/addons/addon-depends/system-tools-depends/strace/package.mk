@@ -2,14 +2,13 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="strace"
-PKG_VERSION="5.8"
-PKG_SHA256="df4a669f7fff9cc302784085bd4b72fab216a426a3f72c892b28a537b71e7aa9"
+PKG_VERSION="5.10"
+PKG_SHA256="fe3982ea4cd9aeb3b4ba35f6279f0b577a37175d3282be24b9a5537b56b8f01c"
 PKG_LICENSE="BSD"
 PKG_SITE="https://strace.io/"
-PKG_URL="https://strace.io/files/$PKG_VERSION/strace-$PKG_VERSION.tar.xz"
+PKG_URL="https://strace.io/files/${PKG_VERSION}/strace-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="strace is a diagnostic, debugging and instructional userspace utility"
 PKG_TOOLCHAIN="autotools"
-
+PKG_BUILD_FLAGS="-sysroot"
 PKG_CONFIGURE_OPTS_TARGET=" --enable-mpers=check"
-
