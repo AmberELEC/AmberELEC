@@ -77,8 +77,8 @@ fi
 # Create game directories if they don't exist..
 # Temporary hack to be replaced with emuelec-dirs.conf
 
-for dir in 3do BGM amiga amstradcpc arcade atari2600 atari5200 atari7800 \
-	   atari800 atarilynx atarist atomiswave bios c128 c16 \
+for dir in 3do BGM amiga amigacd32 amstradcpc arcade atari2600 atari5200 \
+	   atari7800 atari800 atarilynx atarist atomiswave bios c128 c16 \
 	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
 	   dreamcast easyrpg eduke famicom fbneo fds gameandwatch gamegear gb gba gbc \
 	   genesis gw intellivision mame mastersystem megadrive megadrive-japan \
