@@ -92,6 +92,8 @@ makeinstall_target() {
     ln -sf "/storage/.config/emuelec/scripts/batocera/$FI" $INSTALL/usr/bin/
   done
 
+  ln -sf /storage/roms/opt $INSTALL/opt
+
   mkdir -p $INSTALL/usr/share/retroarch-overlays
     cp -r $PKG_DIR/overlay/* $INSTALL/usr/share/retroarch-overlays
   

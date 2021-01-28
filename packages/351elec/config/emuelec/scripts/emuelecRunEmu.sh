@@ -237,7 +237,7 @@ if [ -z ${LIBRETRO} ]; then
 		;;
 		"nds")
 			jslisten set "drastic retroarch"
-			RUNTHIS='${TBASH} /storage/.emulationstation/scripts/drastic.sh "${ROMNAME}"'
+			RUNTHIS='${TBASH} /emuelec/scripts/drastic.sh "${ROMNAME}"'
 		;;
 		"pico-8")
 			jslisten set "pico8_dyn"

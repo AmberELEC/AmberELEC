@@ -34,6 +34,10 @@ PKG_LONGDESC="mupen64plus + RSP-HLE + GLideN64 + libretro"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-lto"
 
+pre_make_target() {
+  export CFLAGS="${CFLAGS} -fcommon"
+}
+
 pre_configure_target() {
   
    case $PROJECT in
