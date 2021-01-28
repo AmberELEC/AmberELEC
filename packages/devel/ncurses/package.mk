@@ -13,6 +13,7 @@ PKG_DEPENDS_TARGET="toolchain zlib ncurses:host"
 PKG_LONGDESC="A library is a free software emulation of curses in System V Release 4.0, and more."
 # causes some segmentation fault's (dialog) when compiled with gcc's link time optimization.
 PKG_BUILD_FLAGS="+pic"
+PKG_TOOLCHAIN="auto"
 
 PKG_CONFIGURE_OPTS_TARGET="--without-ada \
                            --without-cxx \
@@ -21,7 +22,7 @@ PKG_CONFIGURE_OPTS_TARGET="--without-ada \
                            --without-manpages \
                            --without-progs \
                            --without-tests \
-                           --without-shared \
+                           --with-shared \
                            --with-normal \
                            --without-debug \
                            --without-profile \
@@ -67,8 +68,9 @@ PKG_CONFIGURE_OPTS_HOST="--enable-termcap \
                          --without-manpages"
 
 post_makeinstall_target() {
+  #cp -rf ${INSTALL}/usr/lib/* ${TOOLCHAIN}/${TARGET_ARCH}-libreelec-linux-gnu${TARGET_ABI}/lib
   cp misc/ncurses-config ${TOOLCHAIN}/bin
   chmod +x ${TOOLCHAIN}/bin/ncurses-config
   sed -e "s:\(['=\" ]\)/usr:\\1${SYSROOT_PREFIX}/usr:g" -i ${TOOLCHAIN}/bin/ncurses-config
-  rm -rf ${INSTALL}/usr/bin
+  #rm -rf ${INSTALL}/usr/bin
 }

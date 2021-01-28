@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="advancemame"
-PKG_VERSION="c326a29f02a90c1d021cfdddb87d66e2465f6152"
-PKG_SHA256="fc613e3c3c6cc1cbf4cfebcc3c6f43032efb130ba2929f09dd79675fed0aabbb"
+PKG_VERSION="384e646234d17b01f89a0e3b38cfdea770d1a1d2"
+#PKG_SHA256=""
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"
@@ -19,9 +19,8 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
-#export CFLAGS=`echo $CFLAGS | sed -e "s|-O.|-O3|g"`
-
-sed -i "s|#include <slang.h>|#include <$SYSROOT_PREFIX/usr/include/slang.h>|" $PKG_BUILD/configure.ac
+  export CFLAGS="${CFLAGS} -fcommon"
+  sed -i "s|#include <slang.h>|#include <$SYSROOT_PREFIX/usr/include/slang.h>|" $PKG_BUILD/configure.ac
 }
 
 pre_make_target() {
