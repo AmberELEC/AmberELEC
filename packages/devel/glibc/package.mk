@@ -97,15 +97,6 @@ EOF
 }
 
 post_makeinstall_target() {
-  mkdir -p ${INSTALL}/.noinstall
-    cp -p ${INSTALL}/usr/bin/localedef ${INSTALL}/.noinstall
-    cp -a ${INSTALL}/usr/share/i18n/locales ${INSTALL}/.noinstall
-    mv ${INSTALL}/usr/share/i18n/charmaps ${INSTALL}/.noinstall
-
-  # Generic "installer" needs localedef to define drawing chars
-  if [ "${PROJECT}" != "Generic" ]; then
-    rm ${INSTALL}/usr/bin/localedef
-  fi
 
 # we are linking against ld.so, so symlink
   ln -sf $(basename ${INSTALL}/usr/lib/ld-*.so) ${INSTALL}/usr/lib/ld.so
