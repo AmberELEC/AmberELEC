@@ -1,0 +1,27 @@
+From b0ca92e77454a23323b7715bf4d265dd9e9d6299 Mon Sep 17 00:00:00 2001
+From: liberodark <liberodark@gmail.com>
+Date: Fri, 15 Jan 2021 14:15:02 +0100
+Subject: [PATCH] Fix GCC9 Crash
+
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 92ea5e6e20..529efee284 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -281,11 +281,11 @@ if(NOT MSVC)
+ 
+ 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -D_DEBUG")
+ 	set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -Os -D_NDEBUG")
+-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -D_NDEBUG")
++	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -fno-tree-slp-vectorize -D_NDEBUG")
+ 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -O2 -g -D_NDEBUG")
+ 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -D_DEBUG")
+ 	set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -Os -D_NDEBUG")
+-	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -D_NDEBUG")
++	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -fno-tree-slp-vectorize -D_NDEBUG")
+ 	set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -O2 -g -D_NDEBUG")
+ 	#TODO: Remove this and include the file properly everywhere it makes sense
+ 	# First step is too use the macros everywhere

@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="a2023a1e3eea7497aa69ea05db43df063135e80b"
+PKG_VERSION="087de849bdc74205dd00d8e6e11ba17a591213ab"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -39,6 +39,11 @@ PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
 
 pre_configure_target() {
   sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
+}
+
+pre_make_target() {
+  export CPPFLAGS="${CPPFLAGS} -Wno-error -fno-tree-slp-vectorize"
+  export CFLAGS="${CFLAGS} -Wno-error -fno-tree-slp-vectorize"
 }
 
 pre_make_target() {

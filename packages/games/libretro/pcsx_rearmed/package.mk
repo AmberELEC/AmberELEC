@@ -63,6 +63,7 @@ if [ "${ARCH}" = "aarch64" ]; then
 		libssl* \
 		libcrypt* \
 		libsystemd* \
+		libncurses* \
 		libdl* \
 		libMali* \
 		libdrm* \
@@ -75,7 +76,12 @@ if [ "${ARCH}" = "aarch64" ]; then
 		libpthread* \
 		libmali* \
 		libGLES* \
+		libgnutls* \
 		libgbm* \
+		libidn2* \
+		libnettle* \
+		libhogweed* \
+		libgmp* \
 		libEG*"
 
     for lib in ${LIBS}

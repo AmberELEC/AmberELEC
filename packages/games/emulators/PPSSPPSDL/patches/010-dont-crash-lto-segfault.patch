@@ -1,0 +1,83 @@
+diff -rupN PPSSPPSDL.orig/Core/HLE/sceHeap.cpp PPSSPPSDL.new/Core/HLE/sceHeap.cpp
+--- PPSSPPSDL.orig/Core/HLE/sceHeap.cpp	2021-01-29 07:57:22.788599784 -0500
++++ PPSSPPSDL.new/Core/HLE/sceHeap.cpp	2021-01-29 07:58:13.169638837 -0500
+@@ -15,6 +15,7 @@
+ // Official git repository and contact information can be found at
+ // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
+ 
++#include <map>
+ #include "Common/ChunkFile.h"
+ #include "Core/MemMap.h"
+ #include "Core/Reporting.h"
+@@ -23,7 +24,6 @@
+ #include "Core/HLE/sceKernelMemory.h"
+ #include "Core/HLE/sceHeap.h"
+ #include "Core/Util/BlockAllocator.h"
+-#include <map>
+ 
+ struct Heap {
+ 	Heap():alloc(4) {}
+@@ -41,7 +41,7 @@ struct Heap {
+ 	}
+ };
+ 
+-std::map<u32,Heap*> heapList;
++static std::map<u32, Heap *> heapList;
+ 
+ static Heap *getHeap(u32 addr) {
+ 	auto found = heapList.find(addr);
+diff -rupN PPSSPPSDL.orig/Core/HLE/sceKernelHeap.cpp PPSSPPSDL.new/Core/HLE/sceKernelHeap.cpp
+--- PPSSPPSDL.orig/Core/HLE/sceKernelHeap.cpp	2021-01-29 07:57:22.788599784 -0500
++++ PPSSPPSDL.new/Core/HLE/sceKernelHeap.cpp	2021-01-29 07:57:40.148957977 -0500
+@@ -8,10 +8,14 @@
+ #include "Core/HLE/sceKernelMemory.h"
+ #include "Core/Util/BlockAllocator.h"
+ 
+-static const u32 HEAP_BLOCK_HEADER_SIZE = 8;
++static const u32 KERNEL_HEAP_BLOCK_HEADER_SIZE = 8;
+ static const bool g_fromBottom = false;
+ 
+-struct Heap : public KernelObject {
++// This object and the functions here are available for kernel code only, not game code.
++// This differs from code like sceKernelMutex, which is available for games.
++// This exists in PPSSPP mainly because certain game patches use these kernel modules.
++
++struct KernelHeap : public KernelObject {
+ 	int uid = 0;
+ 	int partitionId = 0;
+ 	u32 size = 0;
+@@ -45,7 +49,7 @@ static int sceKernelCreateHeap(int parti
+ 		return SCE_KERNEL_ERROR_NO_MEMORY;  // Blind guess
+ 	}
+ 
+-	Heap *heap = new Heap();
++	KernelHeap *heap = new KernelHeap();
+ 	SceUID uid = kernelObjects.Create(heap);
+ 
+ 	heap->partitionId = partitionId;
+@@ -60,10 +64,10 @@ static int sceKernelCreateHeap(int parti
+ 
+ static int sceKernelAllocHeapMemory(int heapId, int size) {
+ 	u32 error;
+-	Heap *heap = kernelObjects.Get<Heap>(heapId, error);
++	KernelHeap *heap = kernelObjects.Get<KernelHeap>(heapId, error);
+ 	if (heap) {
+ 		// There's 8 bytes at the end of every block, reserved.
+-		u32 memSize = HEAP_BLOCK_HEADER_SIZE + size;
++		u32 memSize = KERNEL_HEAP_BLOCK_HEADER_SIZE + size;
+ 		u32 addr = heap->alloc.Alloc(memSize, true);
+ 		return hleLogSuccessInfoX(SCEKERNEL, addr);
+ 	} else {
+@@ -73,10 +77,10 @@ static int sceKernelAllocHeapMemory(int
+ 
+ static int sceKernelDeleteHeap(int heapId) {
+ 	u32 error;
+-	Heap *heap = kernelObjects.Get<Heap>(heapId, error);
++	KernelHeap *heap = kernelObjects.Get<KernelHeap>(heapId, error);
+ 	if (heap) {
+ 		userMemory.Free(heap->address);
+-		kernelObjects.Destroy<Heap>(heap->uid);
++		kernelObjects.Destroy<KernelHeap>(heap->uid);
+ 		return hleLogSuccessInfoX(SCEKERNEL, 0);
+ 	} else {
+ 		return hleLogError(SCEKERNEL, error, "sceKernelDeleteHeap(%d): invalid heapId", heapId);
