@@ -6,8 +6,8 @@
 
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-API="https://api.github.com/repos/fewtarius/351elec"
-REPO="https://github.com/fewtarius/351ELEC"
+API="https://api.github.com/repos/351ELEC/351elec"
+REPO="https://github.com/351ELEC/351ELEC"
 PREFIX="351ELEC-RG351P.aarch64"
 MYVERSION=$(cat /storage/.config/EE_VERSION)
 VERBOSE=true
@@ -24,8 +24,8 @@ then
   REPO="https://updates.351elec.org/releases/rc"
   PROVIDER="https"
 else
-  API="https://api.github.com/repos/fewtarius/351elec"
-  REPO="https://github.com/fewtarius/351ELEC"
+  API="https://api.github.com/repos/351ELEC/351elec"
+  REPO="https://github.com/351ELEC/351ELEC"
   PROVIDER="git"
 fi
 

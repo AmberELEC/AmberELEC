@@ -14,7 +14,7 @@
 
 DISTRO="351ELEC"
 CONFIGDIR="/storage/.config/packages"
-PACKAGELIST="https://raw.githubusercontent.com/fewtarius/351ELEC/main/metadata/packages.cfg"
+PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC/main/metadata/packages.cfg"
 LOCALPACKAGELIST="/storage/.config/packages.cfg"
 
 # Community Package List Schema
