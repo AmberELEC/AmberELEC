@@ -56,6 +56,8 @@ post_makeinstall_target() {
 		   libGLESv2.so \
 		   libGLESv3.so.3 \
 		   libGLESv3.so \
+		   libEGL.so.1 \
+		   libEGL.so \
 		   libMaliOpenCL.so.1 \
 		   libMaliOpenCL.so 
 	do

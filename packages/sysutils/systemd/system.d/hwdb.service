@@ -1,14 +1,12 @@
 [Unit]
 Description=Update hwdb.bin
 DefaultDependencies=no
-Conflicts=shutdown.target
 After=systemd-tmpfiles-setup.service
-Before=sysinit.target shutdown.target systemd-udevd.service
+Before=systemd-udevd.service
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
-ExecStart=systemd-hwdb update
+ExecStart=-/usr/bin/udevadm hwdb --update
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=basic.target

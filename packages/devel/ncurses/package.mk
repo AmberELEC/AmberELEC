@@ -15,7 +15,12 @@ PKG_LONGDESC="A library is a free software emulation of curses in System V Relea
 PKG_BUILD_FLAGS="+pic"
 PKG_TOOLCHAIN="auto"
 
-PKG_CONFIGURE_OPTS_TARGET="--without-ada \
+pre_configure_target() {
+   export CFLAGS="${CFLAGS} -fcommon -fPIC"
+}
+
+PKG_CONFIGURE_OPTS_TARGET="
+                           --without-ada \
                            --without-cxx \
                            --without-cxx-binding \
                            --disable-db-install \
@@ -60,12 +65,6 @@ PKG_CONFIGURE_OPTS_TARGET="--without-ada \
                            --disable-warnings \
                            --disable-home-terminfo \
                            --disable-assertions"
-
-PKG_CONFIGURE_OPTS_HOST="--enable-termcap \
-                         --with-termlib \
-                         --with-shared \
-                         --enable-pc-files \
-                         --without-manpages"
 
 post_makeinstall_target() {
   #cp -rf ${INSTALL}/usr/lib/* ${TOOLCHAIN}/${TARGET_ARCH}-libreelec-linux-gnu${TARGET_ABI}/lib

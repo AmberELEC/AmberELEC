@@ -69,6 +69,10 @@ PKG_CONFIGURE_OPTS_INIT="$UTILLINUX_CONFIG_DEFAULT \
                          --enable-libmount \
                          --enable-fsck"
 
+pre_configure_target() {
+  export LDFLAGS="${LDFLAGS} -lncurses -ltinfo"
+}
+
 makeinstall_target() {
 mkdir -p $INSTALL/usr/bin
 cp $PKG_BUILD/.$TARGET_NAME/setterm $INSTALL/usr/bin
