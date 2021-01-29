@@ -42,8 +42,8 @@ pre_configure_target() {
 }
 
 pre_make_target() {
-  export CPPFLAGS="${CPPFLAGS} -Wno-error -fno-tree-slp-vectorize"
-  export CFLAGS="${CFLAGS} -Wno-error -fno-tree-slp-vectorize"
+  export CPPFLAGS="${CPPFLAGS} -Wno-error"
+  export CFLAGS="${CFLAGS} -Wno-error"
 }
 
 pre_make_target() {
