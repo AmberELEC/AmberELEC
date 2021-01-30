@@ -40,23 +40,25 @@ ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
 # Automatic updates
-rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/usr/bin/ /storage/.config/usr/bin
+rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/ /storage/.config
 cp -f /usr/config/.OS* /storage/.config
 
 # Copy in the es_systems.cfg so it updates after a flash
 cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
 
 # Copy in any new PPSSPP INIs from git
-rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.config/ppsspp/PSP/SYSTEM
+rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.config/ppsspp/PSP/SYSTEM &
 
 # Copy remappings
-rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
+rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 
 # Copy OpenBOR
-rsync --ignore-existing -raz /usr/config/openbor /storage
+rsync --ignore-existing -raz /usr/config/openbor /storage &
 
 # Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports
+rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports &
+wait
+
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
   cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
@@ -280,9 +282,7 @@ case "$DEFE" in
 esac
 
 # write logs to tmpfs not the sdcard
-rm -rf /storage/.config/distribution/logs
 mkdir /tmp/logs
-ln -s /tmp/logs /storage/.config/distribution/logs
 
 # default to ondemand performance in EmulationStation
 normperf

@@ -19,13 +19,13 @@ BTENABLED=$(get_ee_setting ee_bluetooth.enabled)
 CFG="/storage/.emulationstation/es_settings.cfg"
 VERBOSE=false
 LOGSDIR="/tmp/logs"
-LOGFILE="emuelec.log"
+LOGFILE="exec.log"
 TBASH="/usr/bin/bash"
 RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 NETPLAY="No"
 SHADERTMP="/tmp/shader"
-
+OUTPUT_LOG="${LOGSDIR}/${LOGFILE}"
 ### Do not change the variables below as it may break things.
 MYNAME=$(basename "$0")
 
@@ -284,7 +284,7 @@ if [ -z ${LIBRETRO} ]; then
 			jslisten set "hypseus retroarch"
 			if [ "$EMU" = "HYPSEUS" ]
 			then
-				RUNTHIS='${TBASH} /storage/.config/usr/bin/hypseus.start.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/hypseus.start.sh "${ROMNAME}"'
 			fi
 		;;
 		"pc")
@@ -416,11 +416,11 @@ clear_screen
 # If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
 if [[ "${ROMNAME}" == *".sh" ]]; then
 	$VERBOSE && log "Executing shell script ${ROMNAME}"
-	"${ROMNAME}" &>>/tmp/logs/storage/.config/distribution.log
+	"${ROMNAME}" &>>${OUTPUT_LOG}
         ret_error=$?
 else
 	$VERBOSE && log "Executing $(eval echo ${RUNTHIS})" 
-	eval ${RUNTHIS} &>>/tmp/logs/storage/.config/distribution.log
+	eval ${RUNTHIS} &>>${OUTPUT_LOG}
 	ret_error=$?
 fi
 

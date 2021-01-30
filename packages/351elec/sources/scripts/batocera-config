@@ -41,7 +41,7 @@ bato_config_set_value () {
 #systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/batoceraSettings.py"
 
 log=//tmp/logs/systemsettings.log
-systemsetting="/storage/.config/usr/bin/batocera-settings"
+systemsetting="/usr/bin/batocera-settings"
 
 
 echo "----config ----" >> $log
@@ -165,10 +165,6 @@ if [ "$command" == "lsaudio" ];then
 	echo "auto"
 	echo "custom"
 	LANG=C aplay -l | grep -E '^card [0-9]*:' | sed -e s+'^card \([0-9]*\): \([^,]*\), device \([0-9]*\): [^\[]* \[\([^]]*\)].*$'+'\1,\3 \4 \2'+
-    elif [[ "${arch}" =~ "OdroidGoAdvance" ]];then
-	echo "auto"
-	echo "speakers"
-	echo "headphone"
     else
 	echo "auto"
     fi
@@ -213,7 +209,7 @@ EOF
 		aplay "/usr/share/sounds/Mallet.wav"
 	    fi
 	fi
-    elif [[ "${arch}" =~ "OdroidGoAdvance" ]]
+    elif [[ "${arch}" =~ "RG351P" ]]
     then
 	case "${mode}" in
 	    "auto"|"speakers")
