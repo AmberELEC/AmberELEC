@@ -3,7 +3,7 @@
 ACTION=$1
 shift
 
-mkdir -p /emuelec/configs/bluetooth/
+mkdir -p /storage/.config/distribution/configs/bluetooth/
 
 # only start the bt agent if not already running 
 NPID=$(pgrep -f batocera-bluetooth-agent)

@@ -17,4 +17,4 @@ RestartSec=2
 StartLimitInterval=0
 
 [Install]
-WantedBy=emuelec.target
+WantedBy=351elec.target

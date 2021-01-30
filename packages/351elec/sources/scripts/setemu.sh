@@ -5,7 +5,7 @@
 
 ## workaround for ES performance with big conf files
 
-EE_CONF="/emuelec/configs/emuoptions.conf"
+EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
 
 [ ! -f ${EE_CONF} ] && touch ${EE_CONF}
 

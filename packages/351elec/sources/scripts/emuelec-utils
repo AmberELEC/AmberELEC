@@ -7,7 +7,7 @@
 . /etc/profile
 
 function error() {
-	ERROR=$(cat //tmp/logs/emuelec.log)
+	ERROR=$(cat //tmp/logs/storage/.config/distribution.log)
 
 	/usr/bin/error.sh
 }
@@ -50,7 +50,7 @@ function devilutionx_password() {
 function identity_backup() {
         BPATH="/storage/roms/backup/"
         IDENTITYFILE="${BPATH}/identity.tar.gz"
-        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/emuelec.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
+        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/storage/.config/distribution.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
 }
 
 function clearconfig() {
@@ -103,8 +103,8 @@ function ee_backup() {
                 zip -9 -r ${BACKUPFILE} \
                           /storage/.cache/bluetooth/* \
                           /storage/.cache/connman* \
-                          /emuelec/configs/emuoptions.conf \
-                          /emuelec/configs/emuelec.conf \
+                          /storage/.config/distribution/configs/emuoptions.conf \
+                          /storage/.config/distribution/configs/storage/.config/distribution.conf \
                           /storage/.emulationstation/es_*.cfg \
                           /tmp/joypads/* \
                           /storage/.config/ppsspp/* \
@@ -118,7 +118,7 @@ function ee_backup() {
 function setemu(){
 ## workaround for ES performance with big conf files
 
-EE_CONF="/emuelec/configs/emuoptions.conf"
+EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
 [ ! -f ${EE_CONF} ] && touch ${EE_CONF}
 
 	case "$1" in
@@ -194,7 +194,7 @@ function showdialog() {
 	source /usr/bin/env.sh
 	joy2keyStart
 
-	[[ "${1}" == "Game" ]] && ERROR=$(cat //tmp/logs/emuelec.log) || ERROR="${2}"
+	[[ "${1}" == "Game" ]] && ERROR=$(cat //tmp/logs/storage/.config/distribution.log) || ERROR="${2}"
 
 	if [[ ! -z "${1}" ]] && [[ ! -z "${ERROR}" ]]; then
 		if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then

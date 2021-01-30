@@ -72,7 +72,7 @@ systemctl restart tz-data.service
 locale=$(get_ee_setting system.language)
 charmap="UTF-8"
 lang="${locale}.${charmap}"
-locpath="/emuelec/configs/locale"
+locpath="/storage/.config/distribution/configs/locale"
 i18npath="$locpath/i18n"
 localepath="$locpath/$lang"
 
@@ -112,7 +112,7 @@ fi
 #echo "EmuELEC Bluetooth Log" > //tmp/logs/bt.log
 #sleep 5
 #echo "Starting..." >> //tmp/logs/bt.log
-#python /emuelec/scriptmodules/supplementary/bluetoothcontroller.py >> //tmp/logs/bt.log 2>&1
+#python /storage/.config/distribution/scriptmodules/supplementary/bluetoothcontroller.py >> //tmp/logs/bt.log 2>&1
 
 # only start the bt agent if not already running 
 #NPID=$(pgrep -f batocera-bluetooth-agent)

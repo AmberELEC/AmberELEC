@@ -9,10 +9,10 @@ export TERMINFO_DIRS=$TERMINFO
 export HOME="/storage"
 export romdir="/storage/roms/"
 export configdir="/storage/.config/distribution/configs"
-export scriptdir="/emuelec"
+export scriptdir="/storage/.config/distribution"
 
 user="root"
-rootdir="/emuelec"
+rootdir="/storage/.config/distribution"
 home="/storage"
 datadir="$home/.config/distribution/RetroPie"
 romdir="$home/roms"

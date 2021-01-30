@@ -55,6 +55,16 @@ makeinstall_target() {
   #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
   ln -sf /storage/.config/distribution $INSTALL/distribution
   find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
+
+  echo "${LIBREELEC_VERSION}" >$INSTALL/usr/config/.OS_VERSION
+
+  if [ "$DEVICE" == "RG351P" ]; then
+      echo "$DEVICE" > $INSTALL/usr/config/.OS_ARCH
+  else
+      echo "$PROJECT" > $INSTALL/usr/config/.OS_ARCH
+  fi
+
+  echo "$(date)" > $INSTALL/usr/config/.BUILD_DATE
  
   mkdir -p $INSTALL/tmp
  
@@ -62,12 +72,6 @@ makeinstall_target() {
     
   mkdir -p $INSTALL/usr/bin/
   
-  if [ "$DEVICE" == "RG351P" ]; then
-      echo "$DEVICE" > $INSTALL/ee_arch
-  else
-      echo "$PROJECT" > $INSTALL/ee_arch
-  fi
-
   ln -sf /storage/roms/opt $INSTALL/opt
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays

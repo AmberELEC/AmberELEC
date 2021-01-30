@@ -11,7 +11,7 @@ RACONFIG="/storage/.config/retroarch/retroarch.cfg"
 OPACITY="1.000000"
 AR_INDEX="23"
 BEZELDIR="/storage/roms/bezels"
-INIFILE="/emuelec/bezels/settings.ini"
+INIFILE="/storage/.config/distribution/bezels/settings.ini"
 DEFAULT_BEZEL="false"
 
 case $PLATFORM in
@@ -46,7 +46,7 @@ PLATFORM=${PLATFORM,,}
  #fi
 
 # bezelmap.cfg in $BEZELDIR/ is to share bezels between arcade clones and parent. 
-BEZELMAP="/emuelec/bezels/arcademap.cfg"
+BEZELMAP="/storage/.config/distribution/bezels/arcademap.cfg"
 BZLNAME=$(sed -n "/"$PLATFORM"_"$ROMNAME" = /p" "$BEZELMAP")
 BZLNAME="${BZLNAME#*\"}"
 BZLNAME="${BZLNAME%\"*}"

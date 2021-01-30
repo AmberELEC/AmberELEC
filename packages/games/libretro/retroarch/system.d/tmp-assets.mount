@@ -10,4 +10,4 @@ Type=overlay
 Options=lowerdir=/usr/share/retroarch-assets,upperdir=/storage/assets,workdir=/storage/.tmp/assets-workdir
 
 [Install]
-WantedBy=emuelec.target
+WantedBy=351elec.target

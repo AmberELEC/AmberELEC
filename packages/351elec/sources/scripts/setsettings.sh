@@ -16,7 +16,7 @@ NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi ne
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
-CONF="/storage/.config/distribution/configs/emuelec.conf"
+CONF="/storage/.config/distribution/configs/storage/.config/distribution.conf"
 EMUCONF="/storage/.config/distribution/configs/emuoptions.conf"
 SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 DESTRACONF="/storage/.config/retroarch/retroarch.cfg"
@@ -511,7 +511,7 @@ fi
 
 fi
 done
-EE_DEVICE=$(cat /ee_arch)
+EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 get_setting "retroarch.menu_driver"
 
 # Show bezel if enabled

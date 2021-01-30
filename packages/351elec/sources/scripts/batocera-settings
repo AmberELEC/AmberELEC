@@ -31,7 +31,7 @@
 # by cyperghost - 2019/12/30
 
 ##### INITS #####
-BATOCERA_CONFIGFILE="/storage/.config/distribution/configs/emuelec.conf"
+BATOCERA_CONFIGFILE="/storage/.config/distribution/configs/storage/.config/distribution.conf"
 COMMENT_CHAR_SEARCH="[#|;]"
 COMMENT_CHAR="#"
 ##### INITS #####
@@ -128,7 +128,7 @@ val=" Usage of BASE COMMAND:
                        exit 11 = value found, but not activated
                        exit 12 = value not found
 
-           If you don't set a filename then default is '~/emuelec.conf'"
+           If you don't set a filename then default is '~/storage/.config/distribution.conf'"
 
 echo "$val"
 

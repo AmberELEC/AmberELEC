@@ -2,7 +2,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 . /etc/profile
-source /emuelec/scriptmodules/helpers.sh
+source /storage/.config/distribution/scriptmodules/helpers.sh
 
 MEDITATION=$(echo $* | md5sum | awk '{print $1}')
 MEDITATION=${MEDITATION^^}
