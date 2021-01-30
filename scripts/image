@@ -172,18 +172,6 @@ else
   echo "" > ${INSTALL}/etc/release-notes
 fi
 
-# Create /etc/issue
-cat <<EOF >${INSTALL}/etc/issue
-${GREETING0}
-${GREETING1}
-${GREETING2}
-${GREETING3}
-${GREETING4}
-${DISTRONAME} (${LIBREELEC_BUILD}): ${LIBREELEC_VERSION} (${LIBREELEC_ARCH})
-EOF
-
-ln -sf /etc/issue ${INSTALL}/etc/motd
-
 # Copy PROJECT related files to filesystem
 if [ -d "${PROJECT_DIR}/${PROJECT}/filesystem" ]; then
   cp -PR ${PROJECT_DIR}/${PROJECT}/filesystem/* ${INSTALL}

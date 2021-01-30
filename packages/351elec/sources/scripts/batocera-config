@@ -41,7 +41,7 @@ bato_config_set_value () {
 #systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/batoceraSettings.py"
 
 log=//tmp/logs/systemsettings.log
-systemsetting="/storage/.config/usr/bin/batocera/batocera-settings"
+systemsetting="/storage/.config/usr/bin/batocera-settings"
 
 
 echo "----config ----" >> $log

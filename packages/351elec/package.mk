@@ -102,6 +102,15 @@ post_install() {
   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target
   enable_service 351elec-autostart.service
 
+  echo "" >$INSTALL/etc/issue
+  echo "  _________  _ _____ _     _____ ____ " >>$INSTALL/etc/issue
+  echo " |___ / ___|/ | ____| |   | ____/ ___| V${LIBREELEC_VERSION}" >>$INSTALL/etc/issue
+  echo "   |_ \___ \| |  _| | |   |  _|| |    " >>$INSTALL/etc/issue
+  echo "  ___) |__) | | |___| |___| |__| |___ " >>$INSTALL/etc/issue
+  echo " |____/____/|_|_____|_____|_____\____|" >>$INSTALL/etc/issue
+  echo "" >>$INSTALL/etc/issue
+
+  ln -s /etc/issue $INSTALL/etc/motd
 
   cp $PKG_DIR/sources/autostart.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/shutdown.sh $INSTALL/usr/bin

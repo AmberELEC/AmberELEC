@@ -159,6 +159,15 @@ fi
 # Clean cache garbage when boot up.
 rm -rf /storage/.cache/cores/*
 
+# Write /etc/issue
+
+echo -e '
+
+### WELCOME TO \e[31m351\e[39mELEC
+### Version $(cat /storage/.config/.OS_VERSION)
+
+' >/storage/.config/.issue
+
 # handle SSH
 DEFE=$(get_ee_setting ee_ssh.enabled)
 
