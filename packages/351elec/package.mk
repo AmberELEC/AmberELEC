@@ -109,7 +109,7 @@ post_install() {
   cp $PKG_DIR/sources/autostart.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/shutdown.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/pico-8.sh $INSTALL/usr/bin
-  cp -r ${PKG_DIR}/sources/scripts $INSTALL/usr/bin
+  cp ${PKG_DIR}/sources/scripts/* $INSTALL/usr/bin
 
   rm -f $INSTALL/usr/bin/{sh,bash,busybox,sort}
   cp $(get_build_dir busybox)/.install_pkg/usr/bin/busybox $INSTALL/usr/bin
