@@ -41,7 +41,7 @@ fi
 
 # Automatic updates
 rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/usr/bin/ /storage/.config/usr/bin
-cp -f /usr/config/.OS_VERSION /storage/.config
+cp -f /usr/config/.OS* /storage/.config
 
 # Copy in the es_systems.cfg so it updates after a flash
 cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"

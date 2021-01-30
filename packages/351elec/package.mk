@@ -56,12 +56,12 @@ makeinstall_target() {
   ln -sf /storage/.config/distribution $INSTALL/distribution
   find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
 
-  echo "${LIBREELEC_VERSION}" >$INSTALL/usr/config/.OS_VERSION
+  echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
 
-  if [ "$DEVICE" == "RG351P" ]; then
-      echo "$DEVICE" > $INSTALL/usr/config/.OS_ARCH
+  if [ "${DEVICE}" == "RG351P" ]; then
+      echo "${DEVICE}" > $INSTALL/usr/config/.OS_ARCH
   else
-      echo "$PROJECT" > $INSTALL/usr/config/.OS_ARCH
+      echo "${PROJECT}" > $INSTALL/usr/config/.OS_ARCH
   fi
 
   echo "$(date)" > $INSTALL/usr/config/.BUILD_DATE
