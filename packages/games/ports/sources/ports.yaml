@@ -44,7 +44,7 @@ Commander Keen:
     - /usr/bin/show_splash.sh "${PORT}"
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
-    - '[[ ! -L "/storage/.CommanderGenius" ]] && ln -sf /emuelec/configs/CommanderGenius /storage/.CommanderGenius'
+    - '[[ ! -L "/storage/.CommanderGenius" ]] && ln -sf /storage/.config/distribution/configs/CommanderGenius /storage/.CommanderGenius'
     - cd /storage/roms/ports/cgenius
     - ${PORT} &>>/tmp/logs/emuelec.log
     - jslisten stop

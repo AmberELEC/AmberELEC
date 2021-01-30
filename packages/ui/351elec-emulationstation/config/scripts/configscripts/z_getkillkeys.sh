@@ -3,7 +3,7 @@
 # IMPORTANT: js0 is always used as default, but you can change this in ee_kill.cfg
 
 FOUND=0
-EE_CFG_STD="/emuelec/configs/jslisten.cfg"
+EE_CFG_STD="/storage/.config/distribution/configs/jslisten.cfg"
 EE_DEV="$(cat $EE_CFG | grep ee_evdev | awk -F= '{print $2}' | tr -d \")"
 
 [[ $EE_DEV =~ auto ]] && EE_DEV=$(basename /dev/input/js0)
