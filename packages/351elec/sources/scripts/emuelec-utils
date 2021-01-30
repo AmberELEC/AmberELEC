@@ -50,7 +50,7 @@ function devilutionx_password() {
 function identity_backup() {
         BPATH="/storage/roms/backup/"
         IDENTITYFILE="${BPATH}/identity.tar.gz"
-        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configsdistribution.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
+        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/distribution.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
 }
 
 function clearconfig() {
@@ -104,7 +104,7 @@ function ee_backup() {
                           /storage/.cache/bluetooth/* \
                           /storage/.cache/connman* \
                           /storage/.config/distribution/configs/emuoptions.conf \
-                          /storage/.config/distribution/configsdistribution.conf \
+                          /storage/.config/distribution/configs/distribution.conf \
                           /storage/.emulationstation/es_*.cfg \
                           /tmp/joypads/* \
                           /storage/.config/ppsspp/* \
