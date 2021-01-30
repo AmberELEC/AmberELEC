@@ -10,7 +10,7 @@
 GPIO=$(cat /sys/class/gpio/gpio86/value)
 [[ "$GPIO" == "1" ]] && set_ee_setting "audio.device" "headphone" || set_ee_setting "audio.device" "speakers"
 
-if [ -e "/storage/.config/distribution/distribution.conf" ]; then
+if [ -e "/storage/.config/distribution/configs/distribution.conf" ]; then
 /usr/bin/odroidgoa_utils.sh setaudio $(get_ee_setting "audio.device")
 /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi
