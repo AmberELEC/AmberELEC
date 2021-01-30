@@ -104,6 +104,20 @@ cp "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh"
 BPATH="/storage/roms/backup/"
 BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
 
+# Create the distribution directory if it doesn't exist.
+if [ ! -d "/storage/.config/distribution" ]
+then
+  rsync -av /usr/config/distribution /storage/.config/distribution
+fi
+
+# If the .config/emuelec directory still exists, migrate the config files and them remove it.
+if [ -d '/storage/.config/emuelec' ]
+then
+  mv /storage/.config/emuelec/configs/emuelec.conf /storage/.config/distribution/configs/distribution.conf
+  mv /storage/.config/emuelec/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf
+  rm -rf /storage/.config/emuelec
+fi
+
 if [ -e "${BPATH}/.restore" ]
 then
   if [ -f "${BACKUPFILE}" ]; then
