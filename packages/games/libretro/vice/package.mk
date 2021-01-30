@@ -42,7 +42,10 @@ make_target() {
   if [ "$ARCH" == "arm" ]; then
     CFLAGS="$CFLAGS -DARM -DALIGN_DWORD -mstructure-size-boundary=32 -mthumb-interwork -falign-functions=16 -marm"
   fi
-  mkdir built
+  if [ ! -d "built" ]
+  then
+    mkdir built
+  fi
   for EMUTYPE in x128 x64sc x64dtv xscpu64 xplus4 xvic xcbm5x0 xcbm2 xpet x64
   do
     make clean
