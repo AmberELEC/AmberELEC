@@ -68,8 +68,6 @@ makeinstall_target() {
       echo "$PROJECT" > $INSTALL/ee_arch
   fi
 
-  cp -r ${PKG_DIR}/sources/scripts $INSTALL/usr/bin/
-
   ln -sf /storage/roms/opt $INSTALL/opt
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays
@@ -102,20 +100,27 @@ post_install() {
   for i in borders effects gamepads ipad keyboards misc; do
     rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
   done
-mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
-cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
-   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target
-   enable_service 351elec-autostart.service
+  mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
+  cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
+  ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target
+  enable_service 351elec-autostart.service
 
-# Thanks to vpeter we can now have bash :) 
-  rm -f $INSTALL/usr/bin/{sh,bash,busybox,sort}
+
   cp $PKG_DIR/sources/autostart.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/shutdown.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/pico-8.sh $INSTALL/usr/bin
+  cp -r ${PKG_DIR}/sources/scripts $INSTALL/usr/bin
+
+  rm -f $INSTALL/usr/bin/{sh,bash,busybox,sort}
   cp $(get_build_dir busybox)/.install_pkg/usr/bin/busybox $INSTALL/usr/bin
   cp $(get_build_dir bash)/.install_pkg/usr/bin/bash $INSTALL/usr/bin
   cp $(get_build_dir coreutils)/.install_pkg/usr/bin/sort $INSTALL/usr/bin
+
   ln -sf bash $INSTALL/usr/bin/sh
+  mkdir -p $INSTALL/etc
+  echo "/usr/bin/bash" >>$INSTALL/etc/shells
+  echo "/usr/bin/sh" >>$INSTALL/etc/shells
+
   echo "chmod 4755 $INSTALL/usr/bin/bash" >> $FAKEROOT_SCRIPT
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;

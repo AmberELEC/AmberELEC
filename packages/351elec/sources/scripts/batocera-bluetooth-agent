@@ -22,7 +22,7 @@ gadapter = None
 gdiscovering = False
 gdevices = {}
 
-logging.basicConfig(filename='/emuelec/logs/bluetooth-agent.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='//tmp/logs/bluetooth-agent.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
 
 def bool2str(val, valiftrue, valiffalse):
   if val:

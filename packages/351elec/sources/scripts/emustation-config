@@ -109,10 +109,10 @@ fi
 #if [[ ! -z "$NPID" ]]; then
 #	kill "$NPID"
 #fi
-#echo "EmuELEC Bluetooth Log" > /emuelec/logs/bt.log
+#echo "EmuELEC Bluetooth Log" > //tmp/logs/bt.log
 #sleep 5
-#echo "Starting..." >> /emuelec/logs/bt.log
-#python /emuelec/scriptmodules/supplementary/bluetoothcontroller.py >> /emuelec/logs/bt.log 2>&1
+#echo "Starting..." >> //tmp/logs/bt.log
+#python /emuelec/scriptmodules/supplementary/bluetoothcontroller.py >> //tmp/logs/bt.log 2>&1
 
 # only start the bt agent if not already running 
 #NPID=$(pgrep -f batocera-bluetooth-agent)

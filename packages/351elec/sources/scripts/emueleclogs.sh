@@ -73,7 +73,7 @@ LOGFILE="02_JOYPADS.log"
 done
 
 
-EE_LOG_DIR=/emuelec/logs
+EE_LOG_DIR=//tmp/logs
   
   LOGFILE="03_EE_LOGS.LOG"
 for i in emuelec.log sx05re.log emulationstation.log es_log.txt es_log.txt.bak retroarch.log hatari.log dosbox.log amiberry.log; do
@@ -183,10 +183,10 @@ LOGFILE="04_RETROARCH.log"
   getlog_cmd journalctl --no-pager -b -1 | grep -v "cectx"
 
 # pack logfiles
-  mkdir -p /emuelec/logs
-  zip -jq /emuelec/logs/log-$DATE.zip $BASEDIR/$LOGDIR/*
-  cat $BASEDIR/$LOGDIR/* > /emuelec/logs/FULL_EMUELEC.LOG
-  pastebinit /emuelec/logs/FULL_EMUELEC.LOG
+  mkdir -p //tmp/logs
+  zip -jq //tmp/logs/log-$DATE.zip $BASEDIR/$LOGDIR/*
+  cat $BASEDIR/$LOGDIR/* > //tmp/logs/FULL_EMUELEC.LOG
+  pastebinit //tmp/logs/FULL_EMUELEC.LOG
 
 # remove logdir
   rm -rf $BASEDIR/$LOGDIR
