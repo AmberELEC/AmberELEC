@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="78f0a1e503181c75be7ab4a66d7a28a003705924"
+PKG_VERSION="64de1570a73652da346c209d4f62a0be72410547"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
@@ -22,11 +22,11 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-handheld-
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/emuelec/configs/locale
-	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/emuelec/configs/locale/
+	mkdir -p $INSTALL/usr/config/distribution/configs/locale
+	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/distribution/configs/locale/
 	
 	mkdir -p $INSTALL/usr/lib
-	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/lib/locale
+	ln -sf /storage/.config/distribution/configs/locale $INSTALL/usr/lib/locale
 	
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
 	cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
@@ -57,7 +57,7 @@ makeinstall_target() {
 post_install() {  
 	enable_service emustation.service
 	mkdir -p $INSTALL/usr/share
-	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/share/locale
+	ln -sf /storage/.config/distribution/configs/locale $INSTALL/usr/share/locale
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
         cp -rf $PKG_DIR/config/resources/* $INSTALL/usr/config/emulationstation/resources/
 }

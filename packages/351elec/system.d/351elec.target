@@ -1,9 +1,7 @@
 [Unit]
-Description=emuelec
+Description=351elec
 Requires=multi-user.target graphical.target
 After=graphical.target
-#Requires=basic.target
-#After=basic.target
 Conflicts=rescue.target
 AllowIsolate=yes
 

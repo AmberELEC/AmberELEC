@@ -30,7 +30,7 @@ else
   MYGAME=${ROMNAME^^}
   MYBOOT="
 
-        ### WELCOME TO \e[31m351\e[39mELEC - VERSION $(cat /storage/.config/EE_VERSION) ###
+        ### WELCOME TO \e[31m351\e[39mELEC - VERSION $(cat /storage/.config/.OS_VERSION) ###
         $(awk '/MemTotal/ {printf $2}' /proc/meminfo)K BYTE RAM SYSTEM $(awk '/MemFree/ {printf $2}' /proc/meminfo)K BYTES FREE
 
 "
@@ -74,7 +74,7 @@ esac
 
 [[ "${PLATFORM}" != "intro" ]] && VIDEO=0 || VIDEO=$(get_ee_setting ee_bootvideo.enabled)
 
-if [[ -f "/storage/.config/emuelec/configs/novideo" ]] && [[ ${VIDEO} != "1" ]]
+if [[ -f "/storage/.config/distribution/configs/novideo" ]] && [[ ${VIDEO} != "1" ]]
 then
         if [ "$PLATFORM" != "intro" ]; then
                 ffplay -fs -autoexit ${SIZE} "${SPLASH}" > /dev/null 2>&1
@@ -85,7 +85,7 @@ else
         set_audio alsa
         #[ -e /storage/.config/asound.conf ] && mv /storage/.config/asound.conf /storage/.config/asound.confs
         ffplay -fs -autoexit ${SIZE} "$SPLASH" > /dev/null 2>&1
-        touch "/storage/.config/emuelec/configs/novideo"
+        touch "/storage/.config/distribution/configs/novideo"
         #[ -e /storage/.config/asound.confs ] && mv /storage/.config/asound.confs /storage/.config/asound.conf
 fi
 

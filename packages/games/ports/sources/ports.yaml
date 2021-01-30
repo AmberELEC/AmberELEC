@@ -186,9 +186,9 @@ Prince of Persia:
     - /usr/bin/show_splash.sh "${PORT}"
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
-    - '[[ ! -f "/storage/.config/emuelec/configs/SDLPoP/SDLPoP.cfg" ]] && touch "/storage/.config/emuelec/configs/SDLPoP/SDLPoP.cfg"'
+    - '[[ ! -f "/storage/.config/distribution/configs/SDLPoP/SDLPoP.cfg" ]] && touch "/storage/.config/distribution/configs/SDLPoP/SDLPoP.cfg"'
     - '# SDLPop will complain about a missing data and config files by showing a nice blank screen after the intro'
-    - cd /storage/.config/emuelec/configs/SDLPoP
+    - cd /storage/.config/distribution/configs/SDLPoP
     - ${PORT} &>>/tmp/logs/emuelec.log
     - jslisten stop
 

@@ -6,7 +6,7 @@
 
 . /etc/profile
 jslisten set "killall DinguxCommander"
-source /emuelec/scripts/env.sh
+source /usr/bin/env.sh
 joy2keyStart
 
 /usr/bin/DinguxCommander

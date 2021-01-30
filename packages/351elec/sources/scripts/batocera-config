@@ -4,8 +4,8 @@ if [ ! "$1" ];then
 	echo -e "usage : batocera-config [command] [args]\nWith command in\n\toverscan [enable|disable]\n\tlsaudio\n\tgetaudio\n\taudio [hdmi|jack|auto|custom|x,y]\n\tcanupdate\n\tupdate\n\twifi [enable|disable] ssid key\n\tstorage [current|list|INTERNAL|ANYEXTERNAL|RAM|DEV UUID]\n\tsetRootPassword [password]\n\tgetRootPassword\n\ttz [|tz]"
 	exit 1
 fi
-configFile="/storage/.config/emuelec/configs/config.txt"
-storageFile="/storage/.config/emuelec/configs/batocera-boot.conf"
+configFile="/storage/.config/distribution/configs/config.txt"
+storageFile="/storage/.config/distribution/configs/batocera-boot.conf"
 command="$1"
 mode="$2"
 extra1="$3"
@@ -41,7 +41,7 @@ bato_config_set_value () {
 #systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/batoceraSettings.py"
 
 log=/emuelec/logs/systemsettings.log
-systemsetting="/storage/.config/emuelec/scripts/batocera/batocera-settings"
+systemsetting="/storage/.config/usr/bin/batocera/batocera-settings"
 
 
 echo "----config ----" >> $log

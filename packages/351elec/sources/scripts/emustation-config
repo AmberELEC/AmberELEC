@@ -19,7 +19,7 @@ LOADTIME=$(get_ee_setting ee_load.delay)
 sleep $LOADTIME
 
 # Kodi seems to set its own FB settings for 720p, so we revert them to one that work on ES, I use all resolutions just in case :)
-/emuelec/scripts/setres.sh
+/usr/bin/setres.sh
 
 # Lets try and find some roms on a mounted USB drive
 # name of the file we need to put in the roms folder in your USB or SDCARD
@@ -91,7 +91,7 @@ systemctl import-environment LANGUAGE
 
 if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
 # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
-/emuelec/scripts/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
+/usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi
 
 if [[ ! -f "/storage/newcfg" ]]; then

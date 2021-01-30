@@ -132,8 +132,8 @@ function quit() {
 	bluetooth enable
 	jslisten stop
 	clear_screen
-	${TBASH} /emuelec/scripts/show_splash.sh exit
-	${TBASH} /emuelec/scripts/setres.sh
+	${TBASH} /usr/bin/show_splash.sh exit
+	${TBASH} /usr/bin/setres.sh
 	normperf
 	set_audio default
 	exit $1
@@ -237,7 +237,7 @@ if [ -z ${LIBRETRO} ]; then
 		;;
 		"nds")
 			jslisten set "drastic retroarch"
-			RUNTHIS='${TBASH} /emuelec/scripts/drastic.sh "${ROMNAME}"'
+			RUNTHIS='${TBASH} /usr/bin/drastic.sh "${ROMNAME}"'
 		;;
 		"pico-8")
 			jslisten set "pico8_dyn"
@@ -284,7 +284,7 @@ if [ -z ${LIBRETRO} ]; then
 			jslisten set "hypseus retroarch"
 			if [ "$EMU" = "HYPSEUS" ]
 			then
-				RUNTHIS='${TBASH} /storage/.config/emuelec/scripts/hypseus.start.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /storage/.config/usr/bin/hypseus.start.sh "${ROMNAME}"'
 			fi
 		;;
 		"pc")
@@ -394,7 +394,7 @@ clear_screen
 
 # Show splash screen if enabled
 SPL=$(get_ee_setting ee_splash.enabled)
-[ "$SPL" -eq "1" ] && (${TBASH} /emuelec/scripts/show_splash.sh "${ROMNAME}") &
+[ "$SPL" -eq "1" ] && (${TBASH} /usr/bin/show_splash.sh "${ROMNAME}") &
 
 ### Wait for background jobs to complete before continuing.
 wait

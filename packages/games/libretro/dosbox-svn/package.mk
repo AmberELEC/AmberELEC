@@ -55,6 +55,6 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   cp $PKG_BUILD/libretro/dosbox_svn_libretro.so $INSTALL/usr/lib/libretro
 
-  mkdir -p $INSTALL/usr/config/emuelec/configs/dosbox
-  cp $PKG_DIR/config/*.conf $INSTALL/usr/config/emuelec/configs/dosbox
+  mkdir -p $INSTALL/usr/config/distribution/configs/dosbox
+  cp $PKG_DIR/config/*.conf $INSTALL/usr/config/distribution/configs/dosbox
 }

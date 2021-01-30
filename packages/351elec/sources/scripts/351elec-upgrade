@@ -7,7 +7,7 @@
 ### Modifiable variables
 USTAGE="/storage/roms/update"
 PREFIX="351ELEC-RG351P.aarch64"
-MYVERSION=$(cat /storage/.config/EE_VERSION)
+MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
 

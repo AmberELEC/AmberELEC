@@ -16,8 +16,8 @@ NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi ne
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
-CONF="/storage/.config/emuelec/configs/emuelec.conf"
-EMUCONF="/storage/.config/emuelec/configs/emuoptions.conf"
+CONF="/storage/.config/distribution/configs/emuelec.conf"
+EMUCONF="/storage/.config/distribution/configs/emuoptions.conf"
 SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 DESTRACONF="/storage/.config/retroarch/retroarch.cfg"
 RACONF="/tmp/retroarch.cfg"
@@ -439,7 +439,7 @@ default_settings
 fi
 
 if [ "${CORE}" == "atari800" ]; then
-ATARICONF="/storage/.config/emuelec/configs/atari800.cfg"
+ATARICONF="/storage/.config/distribution/configs/atari800.cfg"
 ATARI800CONF="/storage/.config/retroarch/config/Atari800/Atari800.opt"
 [[ ! -f "$ATARI800CONF" ]] && touch "$ATARI800CONF"
 
@@ -516,6 +516,6 @@ get_setting "retroarch.menu_driver"
 
 # Show bezel if enabled
 get_setting "bezel"
-[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && ${TBASH} /emuelec/scripts/bezels.sh "default" || ${TBASH} /emuelec/scripts/bezels.sh "$PLATFORM" "${ROM}"
+[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && ${TBASH} /usr/bin/bezels.sh "default" || ${TBASH} /usr/bin/bezels.sh "$PLATFORM" "${ROM}"
 
 doexit

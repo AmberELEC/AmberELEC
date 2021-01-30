@@ -16,7 +16,7 @@ BEZELPROJECTDIR="bezels/"
 BEZELPROJECTGAMESDIR="${BEZELPROJECTDIR}"
 BEZELPROJECTSYSTEMDIR="${BEZELPROJECTDIR}"
 BEZELSLIST="https://pastebin.com/raw/C4wdxTMv"
-LOCALBEZELSLIST="/storage/.config/emuelec/configs/bezels.txt"
+LOCALBEZELSLIST="/storage/.config/distribution/configs/bezels.txt"
 # bezels.txt must be a plain file with the format 'bezel_name https://githubURL' (spaces or tabs)
 # Example of a bezels.txt file:
 # fba	https://github.com/thebezelproject/bezelproject-MAME

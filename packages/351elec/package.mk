@@ -10,7 +10,6 @@ PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch-overlays"
-PKG_SECTION="emuelec"
 PKG_SHORTDESC="351ELEC Meta Package"
 PKG_LONGDESC="351ELEC Meta Package"
 PKG_IS_ADDON="no"
@@ -51,26 +50,17 @@ fi
 
 makeinstall_target() {
    
-    if [ "$PROJECT" == "Amlogic-ng" ]; then
-    mkdir -p $INSTALL/usr/bin
-    cp $PKG_BUILD/fbfix/fbfix $INSTALL/usr/bin
-    fi
-
-    mkdir -p $INSTALL/usr/config/
-    rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
-    #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
-    ln -sf /storage/.config/emuelec $INSTALL/emuelec
-    find $INSTALL/usr/config/emuelec/ -type f -exec chmod o+x {} \;
-  
-  mkdir -p $INSTALL/usr/config/emuelec/logs
-  ln -sf /var/log $INSTALL/usr/config/emuelec/logs/var-log
+  mkdir -p $INSTALL/usr/config/
+  rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
+  #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
+  ln -sf /storage/.config/distribution $INSTALL/distribution
+  find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
+ 
+  mkdir -p $INSTALL/tmp
+ 
+  ln -sf /var/log $INSTALL/tmp/logs 
     
   mkdir -p $INSTALL/usr/bin/
-  
-  # leave for compatibility
-  if [ "$PROJECT" == "Amlogic" ]; then
-      echo "s905" > $INSTALL/ee_s905
-  fi
   
   if [ "$DEVICE" == "RG351P" ]; then
       echo "$DEVICE" > $INSTALL/ee_arch
@@ -78,19 +68,7 @@ makeinstall_target() {
       echo "$PROJECT" > $INSTALL/ee_arch
   fi
 
-  FILES=$INSTALL/usr/config/emuelec/scripts/*
-  for f in $FILES 
-    do
-    FI=$(basename $f)
-    ln -sf "/storage/.config/emuelec/scripts/$FI" $INSTALL/usr/bin/
-  done
-
-  FILES=$INSTALL/usr/config/emuelec/scripts/batocera/*
-  for f in $FILES
-    do
-    FI=$(basename $f)
-    ln -sf "/storage/.config/emuelec/scripts/batocera/$FI" $INSTALL/usr/bin/
-  done
+  cp -r ${PKG_DIR}/sources/scripts $INSTALL/usr/bin/
 
   ln -sf /storage/roms/opt $INSTALL/opt
 
@@ -126,10 +104,9 @@ post_install() {
   done
 mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
 cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
-# link default.target to emuelec.target
-   ln -sf emuelec.target $INSTALL/usr/lib/systemd/system/default.target
-   enable_service emuelec-autostart.service
-  #enable_service emuelec-disable_small_cores.service
+   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target
+   enable_service 351elec-autostart.service
+
 # Thanks to vpeter we can now have bash :) 
   rm -f $INSTALL/usr/bin/{sh,bash,busybox,sort}
   cp $PKG_DIR/sources/autostart.sh $INSTALL/usr/bin
@@ -163,8 +140,8 @@ fi
   # Remove scripts from OdroidGoAdvance build
 	if [[ ${DEVICE} == "RG351P" ]]; then 
 	for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
-xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/emuelec/scripts/modules/gamelist.xml 2>/dev/null ||:
-	rm "$INSTALL/usr/config/emuelec/scripts/modules/${i}.sh" 2>/dev/null ||:
+xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
+	rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
 	done
 	fi 
   

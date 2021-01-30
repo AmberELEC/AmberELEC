@@ -9,7 +9,7 @@ echo -e $(date -u)" - Script started.\n" >> /tmp/logs/dosbox_scan.log
 
 EE_DEVICE=$(cat /ee_arch)
 
-source /emuelec/scripts/env.sh
+source /usr/bin/env.sh
 source /etc/profile
 rp_registerAllModules
 

@@ -11,6 +11,6 @@ if [[ -f "$dir/$name.commands" ]]; then
     params=$(<"$dir/$name.commands")
 fi
 
-cd ~/.config/emuelec/configs/hypseus/
+cd ~/.config/distribution/configs/hypseus/
 
 hypseus "$name" vldp -framefile "$dir/$name.txt" -fullscreen -useoverlaysb 2 $params

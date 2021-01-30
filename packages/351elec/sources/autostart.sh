@@ -40,8 +40,8 @@ ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
 # Automatic updates
-rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
-cp -f /usr/config/EE_VERSION /storage/.config
+rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/usr/bin/ /storage/.config/usr/bin
+cp -f /usr/config/.OS_VERSION /storage/.config
 
 # Copy in the es_systems.cfg so it updates after a flash
 cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
@@ -56,12 +56,12 @@ rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
 rsync --ignore-existing -raz /usr/config/openbor /storage
 
 # Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/emuelec/ports/* /storage/roms/ports
+rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
-  cp -f /usr/config/emuelec/ports/gamelist.xml /storage/roms/ports
+  cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
 fi
-rm -rf /usr/config/emuelec/ports
+rm -rf /usr/config/distribution/ports
 
 # End Automatic updates
 
@@ -140,7 +140,7 @@ elif [ -s "/flash/EE_VIDEO_MODE" ]; then
 fi
 
 # finally we correct the FB according to video mode
-/emuelec/scripts/setres.sh
+/usr/bin/setres.sh
 
 # Clean cache garbage when boot up.
 rm -rf /storage/.cache/cores/*
@@ -234,7 +234,7 @@ then
 fi
 
 # Show splash Screen 
-/emuelec/scripts/show_splash.sh intro
+/usr/bin/show_splash.sh intro
 
 # run custom_start before FE scripts
 /storage/.config/custom_start.sh before
@@ -257,9 +257,9 @@ case "$DEFE" in
 esac
 
 # write logs to tmpfs not the sdcard
-rm -rf /storage/.config/emuelec/logs
+rm -rf /storage/.config/distribution/logs
 mkdir /tmp/logs
-ln -s /tmp/logs /storage/.config/emuelec/logs
+ln -s /tmp/logs /storage/.config/distribution/logs
 
 # default to ondemand performance in EmulationStation
 normperf

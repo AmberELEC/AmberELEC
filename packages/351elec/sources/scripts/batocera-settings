@@ -31,7 +31,7 @@
 # by cyperghost - 2019/12/30
 
 ##### INITS #####
-BATOCERA_CONFIGFILE="/storage/.config/emuelec/configs/emuelec.conf"
+BATOCERA_CONFIGFILE="/storage/.config/distribution/configs/emuelec.conf"
 COMMENT_CHAR_SEARCH="[#|;]"
 COMMENT_CHAR="#"
 ##### INITS #####

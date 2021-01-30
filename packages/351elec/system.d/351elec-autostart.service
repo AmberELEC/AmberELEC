@@ -1,5 +1,5 @@
 [Unit]
-Description=emuelec user autostart script
+Description=351ELEC user autostart script
 Before=emulationstation.service
 After=graphical.target
 
@@ -10,4 +10,4 @@ ExecStart=-/bin/sh -c ". /etc/profile; exec /bin/sh /usr/bin/autostart.sh"
 RemainAfterExit=yes
 
 [Install]
-WantedBy=emuelec.target
+WantedBy=351elec.target

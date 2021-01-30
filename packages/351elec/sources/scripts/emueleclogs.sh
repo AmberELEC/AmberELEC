@@ -61,10 +61,10 @@ mkdir -p $BASEDIR/$LOGDIR
 # es_log.txt
   EE_LOG_DIR=/storage
 
-  LOGFILE="01_EE_VERSION.log"
-  for i in EE_VERSION; do
+  LOGFILE="01_.OS_VERSION.log"
+  for i in .OS_VERSION; do
     [ -f ${EE_LOG_DIR}/.config/${i} ] && getlog_cmd cat ${EE_LOG_DIR}/.config/${i}
-       getlog_cmd cat /usr/config/EE_VERSION
+       getlog_cmd cat /usr/config/.OS_VERSION
   done
   
 LOGFILE="02_JOYPADS.log"

@@ -17,7 +17,7 @@
 typedef unsigned int fbval_t;
 
 /* tinyfont files for regular, italic, and bold fonts */
-#define FR		"/storage/.config/emuelec/configs/courr.tf"
+#define FR		"/storage/.config/distribution/configs/courr.tf"
 #define FI		NULL
 #define FB		NULL
 

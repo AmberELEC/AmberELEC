@@ -9,7 +9,7 @@ USTAGE="/storage/roms/update"
 API="https://api.github.com/repos/351ELEC/351elec"
 REPO="https://github.com/351ELEC/351ELEC"
 PREFIX="351ELEC-RG351P.aarch64"
-MYVERSION=$(cat /storage/.config/EE_VERSION)
+MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
 

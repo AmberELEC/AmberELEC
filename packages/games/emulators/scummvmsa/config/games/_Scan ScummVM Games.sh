@@ -5,7 +5,7 @@
 
 EE_DEVICE=$(cat /ee_arch)
 
-source /emuelec/scripts/env.sh
+source /usr/bin/env.sh
 . /etc/profile
 
 rp_registerAllModules
