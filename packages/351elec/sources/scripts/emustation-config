@@ -2,11 +2,10 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 # Source predefined functions and variables
 . /etc/profile
-
-# odroidgoa
 
 # Make sure retroarch is not running before starting emulationstation to avoid sound conflicts
 while pgrep -x /usr/bin/retroarch >/dev/null; do
@@ -18,12 +17,9 @@ done
 LOADTIME=$(get_ee_setting ee_load.delay)
 sleep $LOADTIME
 
-# Kodi seems to set its own FB settings for 720p, so we revert them to one that work on ES, I use all resolutions just in case :)
-/usr/bin/setres.sh
-
 # Lets try and find some roms on a mounted USB drive
 # name of the file we need to put in the roms folder in your USB or SDCARD
-ROMFILE="emuelecroms"
+ROMFILE="roms"
 
 # Only run the USB check if the ROMFILE does not exists in /storage/roms, this can help for manually created symlinks or network shares
 # or if you want to skip the USB rom mount for whatever reason
@@ -70,33 +66,38 @@ systemctl restart tz-data.service
 
 # create charmap used for translations
 locale=$(get_ee_setting system.language)
-charmap="UTF-8"
-lang="${locale}.${charmap}"
-locpath="/storage/.config/distribution/configs/locale"
-i18npath="$locpath/i18n"
-localepath="$locpath/$lang"
+if [ $? == "0" ]
+then
+  charmap="UTF-8"
+  lang="${locale}.${charmap}"
+  locpath="/storage/.config/distribution/configs/locale"
+  i18npath="$locpath/i18n"
+  localepath="$locpath/$lang"
 
-if [ ! -d $localepath ]; then
-	export I18NPATH=$i18npath
-	/usr/bin/localedef -f $charmap -i $locale $localepath
+  if [ ! -d $localepath ]; then
+    export I18NPATH=$i18npath
+    maxperf
+    /usr/bin/localedef -f $charmap -i $locale $localepath
+    normperf
+  fi
+
+  export LOCPATH=$locpat
+  export LANG=$lang
+  export LANGUAGE=$lang
+  systemctl import-environment LANG
+  systemctl import-environment LOCPATH
+  systemctl import-environment I18NPATH
+  systemctl import-environment LANGUAGE
 fi
 
-export LOCPATH=$locpat
-export LANG=$lang
-export LANGUAGE=$lang
-systemctl import-environment LANG
-systemctl import-environment LOCPATH
-systemctl import-environment I18NPATH
-systemctl import-environment LANGUAGE
-
 if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
-# For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
-/usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
+  # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
+  /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi
 
 if [[ ! -f "/storage/newcfg" ]]; then
-cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
-touch /storage/newcfg
+  cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
+  touch /storage/newcfg
 fi
 
 #BTENABLED=$(get_ee_setting ee_bluetooth.enabled)

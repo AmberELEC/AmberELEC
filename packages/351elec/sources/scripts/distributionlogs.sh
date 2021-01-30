@@ -76,7 +76,7 @@ done
 EE_LOG_DIR=//tmp/logs
   
   LOGFILE="03_EE_LOGS.LOG"
-for i in emuelec.log sx05re.log emulationstation.log es_log.txt es_log.txt.bak retroarch.log hatari.log dosbox.log amiberry.log; do
+for i in exec.log sx05re.log emulationstation.log es_log.txt es_log.txt.bak retroarch.log hatari.log dosbox.log amiberry.log; do
 	if [ ${i} = "es_log.txt" ] || [ ${i} = "es_log.txt.bak" ]; then
 		getlog_cmd grep -e lvl2 -e Error ${EE_LOG_DIR}/${i}
 	else
