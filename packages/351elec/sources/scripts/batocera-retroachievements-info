@@ -15,7 +15,7 @@
 # Usage:
 # batocera-retroachievements-info
 #
-CONFIGFILE="/storage/.config/distribution/configs/storage/.config/distribution.conf"
+CONFIGFILE="/storage/.config/distribution/configsdistribution.conf"
 TIMEOUT=4 # seconds before timeout (>2 sec)
 USER=""
 
