@@ -68,6 +68,8 @@ PKG_MESON_OPTS_TARGET="-Dgcov=false \
 pre_configure_target() {
   sed -e 's|; remixing-use-all-sink-channels = yes|; remixing-use-all-sink-channels = no|' \
       -i ${PKG_BUILD}/src/daemon/daemon.conf.in
+  sed -e 's|; default-fragments = 4|; default-fragments = 5|' \
+      -i ${PKG_BUILD}/src/daemon/daemon.conf.in
 }
 
 post_makeinstall_target() {

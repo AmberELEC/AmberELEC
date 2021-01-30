@@ -66,10 +66,6 @@ makeinstall_target() {
 
   echo "$(date)" > $INSTALL/usr/config/.BUILD_DATE
  
-  mkdir -p $INSTALL/tmp
- 
-  ln -sf /var/log $INSTALL/tmp/logs 
-    
   mkdir -p $INSTALL/usr/bin/
   
   ln -sf /storage/roms/opt $INSTALL/opt
