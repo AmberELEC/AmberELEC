@@ -55,7 +55,8 @@ if [ ! -d "/storage/.config/distribution" ]
 then
   rsync -a /usr/config/distribution /storage/.config/distribution &
 else
-  rsync -a --delete --exclude=custom_start.sh --exclude=locale /usr/config/distribution/ /storage/.config/distribution &
+  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs \
+    /usr/config/distribution/ /storage/.config/distribution &
 fi
 
 # Copy in build metadata
