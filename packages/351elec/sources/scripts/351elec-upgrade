@@ -120,14 +120,33 @@ else
   fi
 fi
 
+MYMAJOR=${MYVERSION:0:1}
+MYMINOR=${MYVERSION:2:1}
+MYRELEASE=${MYVERSION:4:1}
+
+TAGMAJOR=${TAG:0:1}
+TAGMINOR=${TAG:2:1}
+TAGRELEASE=${TAG:4:1}
+
 if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
 then
   UPDATE=true
-elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | tail -n 1)" == "${TAG}" ]
-then
-  UPDATE=false
 else
-  UPDATE=true
+  UPDATE=false
+fi
+
+if [ "${MYMAJOR}" = "1" ] && [ "${UPDATE}" == false ]
+then
+  if [ "TAGRELEASE" -gt "MYRELEASE" ]
+  then
+    UPDATE=true
+  fi
+elif [ ${MYMAJOR} -ge 2 ] && [ "${UPDATE}" == false ]
+then
+  if [ ${TAGMINOR} -gt ${MYMINOR} ]
+  then
+    UPDATE=true
+  fi
 fi
 
 if [ "${UPDATE}" == false ]
