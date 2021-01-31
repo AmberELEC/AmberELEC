@@ -4,7 +4,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 # Libretro cores should be added as Libretro_nameofcore"
-# Stand alone emulators should also be added to emuelecRunEmu.sh to add the command line
+# Stand alone emulators should also be added to runemu.sh to add the command line
 # these platforms are the only ones that support ES selection
 
 # case "$1" in
