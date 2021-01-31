@@ -204,6 +204,7 @@ post_install() {
 makeinstall_init() {
   mkdir -p $INSTALL/bin
     ln -sf busybox $INSTALL/usr/bin/sh
+    ln -sf busybox $INSTALL/usr/bin/bc
     chmod 4755 $INSTALL/usr/bin/busybox
 
   mkdir -p $INSTALL/etc

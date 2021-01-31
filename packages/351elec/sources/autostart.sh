@@ -53,8 +53,13 @@ else
   rsync -a --delete --exclude=custom_start.sh --exclude=locale /usr/config/distribution/ /storage/.config/distribution &
 fi
 
+if [ ! -e "/storage/.newcfg" ]
+then
+  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
+fi
+
 # Copy in build metadata
-rsync /usr/config/.OS* /storage/.config/distribution &
+rsync /usr/config/.OS* /storage/.config &
 
 # If the .config/emuelec directory still exists, migrate the config files and them remove it.
 if [ -d '/storage/.config/emuelec' ]
@@ -167,15 +172,6 @@ fi
 
 # Clean cache garbage when boot up.
 rm -rf /storage/.cache/cores/*
-
-# Write /etc/issue
-
-echo -e '
-
-### WELCOME TO \e[31m351\e[39mELEC
-### Version $(cat /storage/.config/.OS_VERSION)
-
-' >/storage/.config/.issue
 
 # handle SSH
 DEFE=$(get_ee_setting ee_ssh.enabled)
@@ -290,8 +286,6 @@ else
   echo 75 >/sys/class/backlight/backlight/brightness
   echo 75 >/storage/.brightness
 fi
-
-clear >/dev/console
 
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)

@@ -95,9 +95,9 @@ if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi
 
-if [[ ! -f "/storage/newcfg" ]]; then
+if [[ ! -f "/storage/.newcfg" ]]; then
   cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
-  touch /storage/newcfg
+  touch /storage/.newcfg
 fi
 
 #BTENABLED=$(get_ee_setting ee_bluetooth.enabled)

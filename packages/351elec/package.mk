@@ -109,6 +109,7 @@ post_install() {
   echo "  ___) |__) | | |___| |___| |__| |___ " >>$INSTALL/etc/issue
   echo " |____/____/|_|_____|_____|_____\____|" >>$INSTALL/etc/issue
   echo "" >>$INSTALL/etc/issue
+  echo "" >>$INSTALL/etc/issue
 
   ln -s /etc/issue $INSTALL/etc/motd
 
