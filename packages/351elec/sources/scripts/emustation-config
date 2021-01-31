@@ -98,6 +98,7 @@ fi
 if [[ ! -f "/storage/.newcfg" ]]; then
   cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
   touch /storage/.newcfg
+  echo -en '\e[20;0H                                        ' >/dev/console
 fi
 
 #BTENABLED=$(get_ee_setting ee_bluetooth.enabled)

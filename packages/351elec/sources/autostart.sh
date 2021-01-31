@@ -25,6 +25,11 @@ maxperf
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
 
+if [ ! -e "/storage/.newcfg" ]
+then
+  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
+fi
+
 if [ ! -d "/storage/roms/update" ]
 then
   /usr/bin/mkdir -p /storage/roms/update &>/dev/null
@@ -51,11 +56,6 @@ then
   rsync -a /usr/config/distribution /storage/.config/distribution &
 else
   rsync -a --delete --exclude=custom_start.sh --exclude=locale /usr/config/distribution/ /storage/.config/distribution &
-fi
-
-if [ ! -e "/storage/.newcfg" ]
-then
-  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
 fi
 
 # Copy in build metadata
