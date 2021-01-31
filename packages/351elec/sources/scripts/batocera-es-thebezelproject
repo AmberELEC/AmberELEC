@@ -70,7 +70,7 @@ function list() {
 	local url
 
 	[ $DEBUG -eq 1 ] && echo "DEBUG: path to bezels ${DECODIR}${BEZELPROJECTGAMESDIR}"
-	echo "* EmuELEC bezels *"
+	echo "* 351ELEC bezels *"
 	
 	# create temporary files in /tmp
 	if [ -f $LOCALBEZELSLIST ]; then

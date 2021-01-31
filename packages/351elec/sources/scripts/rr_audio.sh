@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking@gmail.com)
-# Modifications by Shanti Gilbert (shantic@gmail.com) to work on EmuELEC Copyright (C) 2019-present 
+# Modifications by Shanti Gilbert (shantic@gmail.com) to work on 351ELEC Copyright (C) 2019-present 
 
 . /etc/profile 
 

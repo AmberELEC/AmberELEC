@@ -198,9 +198,9 @@ function showdialog() {
 
 	if [[ ! -z "${1}" ]] && [[ ! -z "${ERROR}" ]]; then
 		if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
-			dialog --backtitle 'EmuELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 20 35
+			dialog --backtitle '351ELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 20 35
 		else
-			dialog --backtitle 'EmuELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 30 80
+			dialog --backtitle '351ELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 30 80
 		fi
 	fi
 }

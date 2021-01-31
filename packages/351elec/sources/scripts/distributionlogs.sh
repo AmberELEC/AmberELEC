@@ -15,7 +15,7 @@ getlog_cmd() {
   if command -v $1 >/dev/null; then
     echo "################################################################################" >> $BASEDIR/$LOGDIR/$LOGFILE
     echo "# ... output of $@" >> $BASEDIR/$LOGDIR/$LOGFILE
-    echo "# EmuELEC release: $RELEASE" >> $BASEDIR/$LOGDIR/$LOGFILE
+    echo "# 351ELEC release: $RELEASE" >> $BASEDIR/$LOGDIR/$LOGFILE
     echo "# $GIT" >> $BASEDIR/$LOGDIR/$LOGFILE
     echo "################################################################################" >> $BASEDIR/$LOGDIR/$LOGFILE
     "$@" >> $BASEDIR/$LOGDIR/$LOGFILE 2>/dev/null
