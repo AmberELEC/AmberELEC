@@ -123,7 +123,7 @@ fi
 if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
 then
   UPDATE=true
-elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
+elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | tail -n 1)" == "${TAG}" ]
 then
   UPDATE=false
 else
