@@ -13,6 +13,15 @@
 # short project description
   DESCRIPTION="An Open Source firmware."
 
+# Distribution Home URL
+  HOME_URL="https://github.com/351ELEC/351ELEC"
+
+# Documentation URL
+  WIKI_URL="https://github.com/351ELEC/351ELEC/wiki"
+
+# Where to report bugs
+  BUG_REPORT_URL="https://github.com/351ELEC/351ELEC/issues"
+
 # Root password to integrate in the target system
   ROOT_PASSWORD="351elec"
 
