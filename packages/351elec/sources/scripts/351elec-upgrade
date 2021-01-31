@@ -70,14 +70,18 @@ function hash() {
   done
 }
 
+get_available() {
+  echo $(df | awk '/'$1'/ {printf $4; exit}')
+}
+
 get_size() {
   echo $(df | awk '/'$1'/ {printf $2; exit}')
 }
 
 check_space() {
-  MYSIZE="$(get_size $1)"
-  VOLNAME="$2"
-  REQUIRED="$3"
+  MYSIZE="$(get_$1 $2)"
+  VOLNAME="$3"
+  REQUIRED="$4"
   if [ "${MYSIZE}" -lt "${REQUIRED}" ]
   then
     NEEDED=$(( (${REQUIRED} - ${MYSIZE} ) / 1024 ))
@@ -140,7 +144,7 @@ else
 fi
 
 ### We need a minimum of 3GB free on the games volume to download and extract the update.
-check_space mmcblk0p3 GAMES 3072000
+check_space available mmcblk0p3 GAMES 3072000
 
 ### 351ELEC 1.x needs 640MB, but 2.x needs 1GB on the boot volume.
 MAJOR=${TAG:0:1}
@@ -151,7 +155,7 @@ else
   BOOTREQ=1024000
 fi
 
-check_space mmcblk0p1 boot ${BOOTREQ}
+check_space size mmcblk0p1 boot ${BOOTREQ}
 
 if [ ! -e "${USTAGE}/${UFILE}" ] && [ ! -e "${USTAGE}/${UFILE}.sha256" ]
 then
