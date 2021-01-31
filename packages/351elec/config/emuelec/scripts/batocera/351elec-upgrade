@@ -137,7 +137,7 @@ fi
 
 if [ "${MYMAJOR}" = "1" ] && [ "${UPDATE}" == false ]
 then
-  if [ "TAGRELEASE" -gt "MYRELEASE" ]
+  if [ "${TAGRELEASE}" -gt "${MYRELEASE}" ]
   then
     UPDATE=true
   fi
