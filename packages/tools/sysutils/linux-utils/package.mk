@@ -5,7 +5,7 @@
 
 PKG_NAME="linux-utils"
 PKG_VERSION="2.36.1"
-#PKG_SHA256=""
+PKG_SHA256="09fac242172cd8ec27f0739d8d192402c69417617091d8c6e974841568f37eed"
 PKG_LICENSE="GPL"
 PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v${PKG_VERSION%.*}/util-linux-$PKG_VERSION.tar.xz"
 PKG_DEPENDS_HOST="gcc:host ncurses:host"

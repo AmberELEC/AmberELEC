@@ -4,7 +4,7 @@
 
 PKG_NAME="gcc"
 PKG_VERSION="10-20210123"
-#PKG_SHA256=""
+PKG_SHA256="47cbfb3b76dab5eb21c1d97b80c3b765448a56c332f074d3014b0e628b539ab2"
 PKG_LICENSE="GPL"
 PKG_SITE="http://gcc.gnu.org/"
 PKG_URL="https://bigsearcher.com/mirrors/gcc/snapshots/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"

@@ -102,16 +102,17 @@ if [ ! -f "/storage/roms/bezels/default.cfg" ]; then
 fi
 
 # Create game directories if they don't exist..
-for dir in 3do BGM amiga amigacd32 amstradcpc arcade atari2600 atari5200 \
-	   atari7800 atari800 atarilynx atarist atomiswave bios c128 c16 \
-	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
+for dir in 3do amiga amigacd32 amstradcpc arcade atari800 atari2600 atari5200 \
+	   atari7800 atarilynx atarist atomiswave BGM bios c16 c64 c128  \
+	   capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
 	   dreamcast easyrpg eduke famicom fbneo fds gameandwatch gamegear gb gba gbc \
 	   genesis gw intellivision mame mastersystem megadrive megadrive-japan \
 	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor opt \
-           pcengine pc pc98 pcenginecd pcfx pico-8 pokemini psp psx saturn sc-3000 \
-	   scummvm sega32x segacd sfc sg-1000 sgfx snes tg16 tg16cd tic-80 uzebox \
-	   vectrex vic20 videopac virtualboy wonderswan wonderswancolor x68000 \
-	   zx81 zxspectrum ports ports/VVVVVV ports/quake ports/diablo ports/doom \
+	   pc pc98 pcengine pcenginecd pcfx pico-8 pokemini psp pspminis psx residualvm \
+	   residualvm/games saturn sc-3000 scummvm scummvm/games sega32x segacd sfc sg-1000 \
+	   sgfx snes snesmsu1 solarus tg16 tg16cd tic-80 uzebox vectrex vic20 videopac \
+	   virtualboy wonderswan wonderswancolor x68000 zx81 zxspectrum \
+	   ports ports/VVVVVV ports/quake ports/diablo ports/doom \
 	   ports/doom2 ports/cannonball ports/CaveStory ports/reminiscence \
 	   ports/xrick ports/opentyrian ports/cgenius ports/cgenius/games
 do

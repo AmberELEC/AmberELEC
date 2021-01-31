@@ -4,7 +4,7 @@
 
 PKG_NAME="python-evdev"
 PKG_VERSION="5ac66502adc219f816ba833032a5207982eb4861"
-#PKG_SHA256=""
+PKG_SHA256="b1c649b4fed7252711011da235782b2c260b32e004058d62473471e5cd30634d"
 PKG_LICENSE="OSS"
 PKG_SITE="https://github.com/gvalkov/python-evdev"
 PKG_URL="https://github.com/gvalkov/python-evdev/archive/$PKG_VERSION.tar.gz"

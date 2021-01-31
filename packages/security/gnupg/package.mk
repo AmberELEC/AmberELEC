@@ -3,7 +3,7 @@
 
 PKG_NAME="gnupg"
 PKG_VERSION="1.4.23"
-#PKG_SHA256=""
+PKG_SHA256="c9462f17e651b6507848c08c430c791287cd75491f8b5a8b50c6ed46b12678ba"
 PKG_LICENSE="GPL"
 PKG_SITE="https://gnupg.org/ftp/gcrypt/gnupg"
 PKG_URL="$PKG_SITE/gnupg-$PKG_VERSION.tar.bz2"
