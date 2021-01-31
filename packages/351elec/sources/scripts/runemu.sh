@@ -362,7 +362,7 @@ else
 	### Configure netplay
 	if [[ ${NETPLAY} != "No" ]]; then
 		NETPLAY_NICK=$(get_ee_setting netplay.nickname)
-		[[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="Anonymous"
+		[[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="351ELEC"
 		NETPLAY="$(echo ${NETPLAY} | sed "s|--nick|--nick \"${NETPLAY_NICK}\"|")"
 
 		RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --config|")
