@@ -70,6 +70,22 @@ function hash() {
   done
 }
 
+get_size() {
+  echo $(df | awk '/'$1'/ {printf $2; exit}')
+}
+
+check_space() {
+  MYSIZE="$(get_size $1)"
+  VOLNAME="$2"
+  REQUIRED="$3"
+  if [ "${MYSIZE}" -lt "${REQUIRED}" ]
+  then
+    NEEDED=$(( (${REQUIRED} - ${MYSIZE} ) / 1024 ))
+    message_stream  "\n\nThere is not enough free space available on the ${VOLNAME} volume to install this update.  Free up an additional ${NEEDED}MB, or reflash this version." .02
+    exit 1
+  fi
+}
+
 ### Main
 
 systemctl stop emustation
@@ -83,7 +99,7 @@ then
   mkdir -p "${USTAGE}"
 fi
 
-message_stream "Starting \e[31m351\e[39mELEC Update - Checking For Updates\n" .02
+message_stream "\e[31m351\e[39mELEC Update Utility - Starting Update...\n" .02
 
 NETWORKING=$(online_status)
 if [ "${NETWORKING}" == true ]
@@ -99,7 +115,6 @@ else
     TAG=$(echo ${UFILE} | awk 'BEGIN {FS="-"}; {split($3, a, /.tar/); print a[1]}')
   fi
 fi
-
 
 if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
 then
@@ -123,6 +138,20 @@ else
   $VERBOSE && log "Update available ${MYVERSION} -> ${TAG}"
 
 fi
+
+### We need a minimum of 3GB free on the games volume to download and extract the update.
+check_space mmcblk0p3 GAMES 3072000
+
+### 351ELEC 1.x needs 640MB, but 2.x needs 1GB on the boot volume.
+MAJOR=${MYVERSION:0:1}
+if [ "${MAJOR}" -lt 2 ]
+then
+  BOOTREQ=640000
+else
+  BOOTREQ=1024000
+fi
+
+check_space mmcblk0p1 boot ${BOOTREQ}
 
 if [ ! -e "${USTAGE}/${UFILE}" ] && [ ! -e "${USTAGE}/${UFILE}.sha256" ]
 then
@@ -159,7 +188,8 @@ DLSUM=$(cat ${USTAGE}/${UFILE}.sha256 | awk '{print $1}')
 if [ ! "${MYSUM}" == "${DLSUM}" ]
 then
   $VERBOSE && log "Verification failed: ${MYSUM} == ${DLSUM}"
-  message_stream "\nVerification failed, not updating..." .02
+  message_stream "\nVerification failed, cleaning up and exiting..." .02
+  rm -f ${USTAGE}/*
   sleep 4
   clear >/dev/console
   systemctl start emustation
