@@ -40,7 +40,7 @@ bato_config_set_value () {
 #log=/userdata/system/logs/batocera.log
 #systemsetting="python /usr/lib/python2.7/site-packages/configgen/settings/batoceraSettings.py"
 
-log=//tmp/logs/systemsettings.log
+log=/tmp/logs/systemsettings.log
 systemsetting="/usr/bin/batocera-settings"
 
 

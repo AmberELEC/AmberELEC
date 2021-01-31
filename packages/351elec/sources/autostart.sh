@@ -53,6 +53,9 @@ else
   rsync -a --delete --exclude=custom_start.sh --exclude=locale /usr/config/distribution/ /storage/.config/distribution &
 fi
 
+# Copy in build metadata
+rsync /usr/config/.OS* /storage/.config/distribution &
+
 # If the .config/emuelec directory still exists, migrate the config files and them remove it.
 if [ -d '/storage/.config/emuelec' ]
 then

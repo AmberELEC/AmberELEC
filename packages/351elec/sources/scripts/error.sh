@@ -16,20 +16,16 @@ ERROR="
 ###########################################################
 \e[39m
 
-
 "
 
 clear >/dev/console
 message_stream "${ERROR}" 0
 if [ -n "$1" ]
 then
-  message_stream "\n\e[31mERROR: $1\n" 0
-  message_stream "DETAIL:\n$2" 0
-  cat <<EOF > /tmp/logs/error.log
-$1
-$2
-EOF
-  sleep 5
+  message_stream "$*" 0
+else
+  tail -n 15 /tmp/logs/es_launch_stderr.log >/dev/console
 fi
-sleep 3
+
+sleep 5
 clear >/dev/console

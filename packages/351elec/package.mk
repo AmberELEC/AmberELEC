@@ -64,7 +64,7 @@ makeinstall_target() {
       echo "${PROJECT}" > $INSTALL/usr/config/.OS_ARCH
   fi
 
-  echo "$(date)" > $INSTALL/usr/config/.BUILD_DATE
+  echo "$(date)" > $INSTALL/usr/config/.OS_BUILD_DATE
  
   mkdir -p $INSTALL/usr/bin/
   
