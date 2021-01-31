@@ -38,8 +38,11 @@ fi
 /usr/bin/mountpoint -q /storage/roms &>/dev/null
 if [ $? == "0" ]
 then
-  /usr/bin/mkdir -p "$UPDATE_ROOT" &>/dev/null
-  /usr/bin/mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+  if [ ! "$(/usr/bin/mount 2>/dev/null| grep \.[u]pdate)" ]
+  then
+    /usr/bin/mkdir -p "$UPDATE_ROOT" &>/dev/null
+    /usr/bin/mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+  fi
 fi
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
