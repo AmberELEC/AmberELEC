@@ -24,7 +24,7 @@ pre_configure_target() {
 }
 
 pre_make_target() {
-VERSION="351ELEC-v$(cat $ROOT/packages/351elec/config/.OS_VERSION)-${PKG_VERSION:0:7}"
+VERSION="351ELEC-v${LIBREELEC-VERSION}-${PKG_VERSION:0:7}"
 echo $VERSION > $PKG_BUILD/.version
 }
 
