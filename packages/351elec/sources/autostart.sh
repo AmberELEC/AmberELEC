@@ -73,9 +73,6 @@ then
   rm -rf /storage/.config/emuelec &
 fi
 
-# Copy in the es_systems.cfg so it updates after a flash
-rsync -a "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg" &
-
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 
