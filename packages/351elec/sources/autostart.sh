@@ -43,9 +43,6 @@ fi
 rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
 cp -f /usr/config/EE_VERSION /storage/.config
 
-# Copy in the es_systems.cfg so it updates after a flash
-cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
-
 # Copy in any new PPSSPP INIs from git
 rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.config/ppsspp/PSP/SYSTEM
 
