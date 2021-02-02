@@ -43,4 +43,5 @@ configure_target() {
 
 makeinstall_target() {
   make install INSTALLDIR="$INSTALL/usr/share/common-shaders"
+  cp -r $PKG_DIR/shaders/* $INSTALL/usr/share/common-shaders
 }

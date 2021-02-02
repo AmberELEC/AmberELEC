@@ -89,7 +89,7 @@ if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
   cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
 fi
-rm -rf /usr/config/distribution/ports
+rm -rf /storage/.config/distribution/ports
 
 # End Automatic updates
 
