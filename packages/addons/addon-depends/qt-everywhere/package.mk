@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 PKG_NAME="qt-everywhere"
-PKG_VERSION="5.13.0"
-PKG_SHA256="2cba31e410e169bd5cdae159f839640e672532a4687ea0f265f686421e0e86d6"
+PKG_VERSION="5.15.2"
+#PKG_SHA256=""
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
@@ -97,8 +97,8 @@ QMAKE_AR         = ${AR} cqs
 QMAKE_OBJCOPY    = ${OBJCOPY}
 QMAKE_NM         = ${NM} -P
 QMAKE_STRIP      = ${STRIP}
-QMAKE_CFLAGS     = ${CFLAGS}
-QMAKE_CXXFLAGS   = ${CXXFLAGS}
+QMAKE_CFLAGS     = ${CFLAGS} -O3
+QMAKE_CXXFLAGS   = ${CXXFLAGS} -O3
 QMAKE_LFLAGS     = ${LDFLAGS}
 load(qt_config)
 EOF

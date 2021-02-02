@@ -282,7 +282,7 @@ if [[ "$command" == "wifi" ]]; then
         if [[ "$mode" == "enable" ]]; then
             echo "configure wifi" >> $log
 	    mkdir -p "/storage/.cache/connman" || exit 1
-	    cat > "/storage/.cache/connman/distribution_wifi.config" <<EOF
+	    cat > "/storage/.cache/connman/wifi.config" <<EOF
 [global]
 Name=351elec
 
@@ -292,7 +292,7 @@ Name=${ssid}
 EOF
 	    if test "${psk}" != ""
 	    then
-		echo "Passphrase=${psk}" >> "/storage/.cache/connman/distribution_wifi.config"
+		echo "Passphrase=${psk}" >> "/storage/.cache/connman/wifi.config"
 	    fi
 
 	    connmanctl enable wifi || exit 1

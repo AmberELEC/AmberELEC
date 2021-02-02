@@ -79,6 +79,10 @@ makeinstall_target() {
   # Move plymouth-lite bin to show splash screen
   cp $(get_build_dir plymouth-lite)/.install_init/usr/bin/ply-image $INSTALL/usr/bin
 
+  mkdir -p $INSTALL/usr/config/splash
+
+  find_file_path "splash/splash-*.png" && cp ${FOUND_PATH} $INSTALL/usr/config/splash
+
   mkdir -p $INSTALL/usr/share/bootloader
   cp logo.bmp $INSTALL/usr/share/bootloader/logo.bmp
 
