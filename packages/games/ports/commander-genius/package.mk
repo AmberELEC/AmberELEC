@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="commander-genius"
-PKG_VERSION="15d6860c1ac727dac400c679ac6ebd6cffa3a6cf"
+PKG_VERSION="ca14b3644a7630b654aa4f7c75784ceaf6667661"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://gitlab.com/Dringgstein/Commander-Genius"

@@ -44,7 +44,7 @@ Commander Keen:
     - /usr/bin/show_splash.sh "${PORT}"
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
-    - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius ||:
+    - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius 
     - cd /storage/roms/ports/cgenius
     - ${PORT} &>>/tmp/logs/exec.log
     - jslisten stop

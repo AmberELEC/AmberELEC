@@ -27,5 +27,5 @@ else
   tail -n 15 /tmp/logs/es_launch_stderr.log >/dev/console
 fi
 
-sleep 5
+sleep 10
 clear >/dev/console
