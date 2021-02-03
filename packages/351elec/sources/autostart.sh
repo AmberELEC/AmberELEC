@@ -152,7 +152,7 @@ then
   cd /
   tar -xvzf ${IDENTITYFILE} >${BPATH}/restore.log
   rm ${IDENTITYFILE}
-  message_stream "Identity restored...rebooting..." .02
+  message_stream "\nIdentity restored...rebooting..." .02
   systemctl reboot
 fi
 
