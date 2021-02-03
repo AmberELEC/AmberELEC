@@ -11,7 +11,7 @@
 
 . /etc/profile
 
-RETROARCHIVEMENTS=(atari2600 atari7800 atarilynx colecovision gamegear gb gba gbc mastersystem megadrive msx n64 neogeo nes ngp pcengine pokemini psx sega32x segacd sg-1000 snes tic80 vectrex virtualboy wonderswan)
+RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision gamegear gb gba gbc genesis mastersystem megadrive msx msx2 n64 neogeo nes ngp ngpc odyssey2 pcengine pcenginecd pokemini psx sega32x segacd sg-1000 snes tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
