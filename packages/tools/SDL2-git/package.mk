@@ -58,7 +58,7 @@ pre_configure_target(){
                          -DRENDER_D3D=OFF \
                          -DVIDEO_X11=OFF \
                          -DVIDEO_OPENGLES=ON \
-                         -DVIDEO_VULKAN=OFF \
+                         -DVIDEO_VULKAN=ON \
                          -DPULSEAUDIO=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
   PKG_CMAKE_OPTS_TARGET="$PKG_CMAKE_OPTS_TARGET -DVIDEO_KMSDRM=ON"

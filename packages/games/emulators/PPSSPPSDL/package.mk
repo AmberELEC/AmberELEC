@@ -16,20 +16,16 @@ PKG_BUILD_FLAGS="+lto"
 
 PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
                        -DUSE_SYSTEM_FFMPEG=ON \
-                       -DUSING_FBDEV=ON \
                        -DUSE_WAYLAND_WSI=OFF \
 		       -DCMAKE_BUILD_TYPE=Release \
 		       -DCMAKE_SYSTEM_NAME=Linux \
 		       -DUSING_GLES2=ON \
-                       -DVULKAN=OFF \
-                       -DUSING_X11_VULKAN=OFF \
-		       -DARM_NO_VULKAN=ON \
+                       -DVULKAN=ON \
                        -DBUILD_SHARED_LIBS=OFF \
 		       -DANDROID=OFF \
 		       -DWIN32=OFF \
 		       -DAPPLE=OFF \
 		       -DCMAKE_CROSSCOMPILING=ON \
-		       -DVULKAN=OFF \
 		       -DUSING_EGL=OFF \
 		       -DUSING_QT_UI=OFF \
 		       -DUNITTEST=OFF \
