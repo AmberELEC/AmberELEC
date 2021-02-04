@@ -3,15 +3,14 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="c08cfae0000dc01d09883357d4e62ac78b4256b4"
+PKG_VERSION="9821e02f748aa9e359bfe9f757143b4b9667aada"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/fewtarius/351elec-emulationstation"
+PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain SDL2-git freetype curl freeimage vlc bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip"
-PKG_SECTION="emuelec"
+PKG_DEPENDS_TARGET="toolchain SDL2-git freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
 PKG_SHORTDESC="Emulationstation emulator frontend"
 PKG_BUILD_FLAGS="-gold"
@@ -23,11 +22,11 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-handheld-
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/emuelec/configs/locale
-	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/emuelec/configs/locale/
+	mkdir -p $INSTALL/usr/config/distribution/configs/locale
+	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/distribution/configs/locale/
 	
 	mkdir -p $INSTALL/usr/lib
-	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/lib/locale
+	ln -sf /storage/.config/distribution/configs/locale $INSTALL/usr/lib/locale
 	
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
 	cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
@@ -58,7 +57,7 @@ makeinstall_target() {
 post_install() {  
 	enable_service emustation.service
 	mkdir -p $INSTALL/usr/share
-	ln -sf /storage/.config/emuelec/configs/locale $INSTALL/usr/share/locale
+	ln -sf /storage/.config/distribution/configs/locale $INSTALL/usr/share/locale
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
         cp -rf $PKG_DIR/config/resources/* $INSTALL/usr/config/emulationstation/resources/
 }

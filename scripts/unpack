@@ -120,7 +120,8 @@ if [ -d "${SOURCES}/${PKG_NAME}" -o -d "${PKG_DIR}/sources" ] || pkg_call_exists
     if [ "${TARGET_ARCH}" = "x86_64" ]; then
       PATCH_ARCH="x86"
     else
-      PATCH_ARCH="${TARGET_PATCH_ARCH:-${TARGET_ARCH}}"
+      #PATCH_ARCH="${TARGET_PATCH_ARCH:-${TARGET_ARCH}}"
+      PATCH_ARCH="${TARGET_ARCH}"
     fi
 
     PATCH_DIRS_PKG=""
@@ -150,7 +151,6 @@ if [ -d "${SOURCES}/${PKG_NAME}" -o -d "${PKG_DIR}/sources" ] || pkg_call_exists
              ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/patches/${PKG_NAME}/*.patch; do
 
       thisdir="$(dirname "${i}")"
-
       if [ "${thisdir}" = "${PKG_DIR}/patches" ]; then
         PATCH_DESC="(common)"
       elif [ "${thisdir}" = "${PKG_DIR}/patches/${PATCH_ARCH}" ]; then

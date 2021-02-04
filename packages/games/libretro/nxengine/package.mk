@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="nxengine"
-PKG_VERSION="2efb7d3f90c509dad104a9cd024051b4f3c6c365"
-PKG_SHA256="55f430367a6bf3d531b70eff8950af00563cc7ae738b59bd48b1864da73f24c9"
+PKG_VERSION="c3913c4e75c46b300511009cfd28b18f6cce8f86"
+PKG_SHA256="f708c9336c3ed4a840bdefd1d8ab0ffb1ea4cda06e5e15706097662230d3da02"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"

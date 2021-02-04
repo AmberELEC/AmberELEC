@@ -16,20 +16,17 @@ PKG_BUILD_FLAGS="+lto"
 
 PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
                        -DUSE_SYSTEM_FFMPEG=ON \
-                       -DUSING_FBDEV=ON \
                        -DUSE_WAYLAND_WSI=OFF \
 		       -DCMAKE_BUILD_TYPE=Release \
 		       -DCMAKE_SYSTEM_NAME=Linux \
 		       -DUSING_GLES2=ON \
-                       -DVULKAN=OFF \
+                       -DVULKAN=ON \
                        -DUSING_X11_VULKAN=OFF \
-		       -DARM_NO_VULKAN=ON \
                        -DBUILD_SHARED_LIBS=OFF \
 		       -DANDROID=OFF \
 		       -DWIN32=OFF \
 		       -DAPPLE=OFF \
 		       -DCMAKE_CROSSCOMPILING=ON \
-		       -DVULKAN=OFF \
 		       -DUSING_EGL=OFF \
 		       -DUSING_QT_UI=OFF \
 		       -DUNITTEST=OFF \
@@ -42,6 +39,9 @@ pre_configure_target() {
 }
 
 pre_make_target() {
+  export CPPFLAGS="${CPPFLAGS} -Wno-error"
+  export CFLAGS="${CFLAGS} -Wno-error"
+
   # fix cross compiling
   find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
   find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;

@@ -21,7 +21,7 @@ sed -i "s|;-static-libstdc++>|;-lstdc++>|" $PKG_BUILD/CMakeLists.txt
 
 makeinstall_target() { 
 mkdir -p $INSTALL/usr/local/bin
-mkdir -p $INSTALL/usr/config/emuelec/devilutionx
+mkdir -p $INSTALL/usr/config/distribution/devilutionx
 cp -rf $PKG_BUILD/.$TARGET_NAME/devilutionx $INSTALL/usr/local/bin
-cp -rf $PKG_BUILD/Packaging/resources/CharisSILB.ttf $PKG_BUILD/.$TARGET_NAME/devilutionx $INSTALL/usr/config/emuelec/devilutionx
+cp -rf $PKG_BUILD/Packaging/resources/CharisSILB.ttf $PKG_BUILD/.$TARGET_NAME/devilutionx $INSTALL/usr/config/distribution/devilutionx
 }

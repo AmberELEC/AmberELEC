@@ -15,6 +15,7 @@ PKG_BUILD_FLAGS="+pic"
 PKG_CMAKE_OPTS_TARGET="-DBUILD_EXAMPLES=OFF \
                        -DBUILD_SHARED_LIBS=OFF \
                        -DBUILD_TESTS=OFF \
+                       -DWITH_OPENMP=OFF \
                        -DWITH_AVFFT=OFF"
 
 if [ "$TARGET_ARCH" = "arm" ]; then
@@ -24,3 +25,4 @@ if [ "$TARGET_ARCH" = "arm" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DWITH_CR32S=OFF"
   fi
 fi
+

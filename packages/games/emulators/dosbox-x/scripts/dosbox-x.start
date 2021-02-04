@@ -9,7 +9,7 @@ set_audio pulseaudio
 
 # Set common variables
 RR_DOSBOX_HOME=/storage/.dosbox
-RR_DOSBOX_HOME_CONFIG=/storage/.config/emuelec/configs/dosbox-x
+RR_DOSBOX_HOME_CONFIG=/storage/.config/distribution/configs/dosbox-x
 
 # Create symlink to config dir
 if [ ! -L ${RR_DOSBOX_HOME} ]; then
@@ -23,6 +23,6 @@ fi
 # Run the emulator
 ARG="$(echo $1 | sed 's=.*/==;s/\.[^.]*$//')" 
 
-dosbox-x -c "${ARG}" > /emuelec/logs/dosbox-x.log 2>&1
+dosbox-x -c "${ARG}" > /tmp/logs/dosbox-x.log 2>&1
 
 set_audio default

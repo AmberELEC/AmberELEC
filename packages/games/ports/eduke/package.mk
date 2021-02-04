@@ -2,7 +2,7 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="eduke"
-PKG_VERSION="2bb6cbcae798e4dca542490aa5faffe2451466ea"
+PKG_VERSION="d2ee87aea7d11a9076e3580f9c52cb941544def4"
 PKG_ARCH="any"
 PKG_LICENSE="GPL2 + BUILDLIC"
 PKG_SITE="https://eduke32.com"

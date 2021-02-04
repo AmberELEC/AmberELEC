@@ -10,11 +10,11 @@ AMIBERRY_DIR=/storage/.config/amiberry
 AMIBERRY_CONFIG_DIR=$AMIBERRY_DIR/conf
 AMIBERRY_TMP_DIR=/tmp/emulation/amiberry
 AMIBERRY_TMP_CONFIG="$AMIBERRY_TMP_DIR"/.amiberry_conf.uae
-AMIBERRY_LOG=/emuelec/logs/amiberry.log
+AMIBERRY_LOG=/tmp/logs/amiberry.log
 MAX_DRIVES=4
 i=0
 
-echo "EmuELEC Amiberry Log" > "$AMIBERRY_LOG"
+echo "351ELEC Amiberry Log" > "$AMIBERRY_LOG"
 
 find_gamepad() {
 # Search for connected gamepads based s0 and extract the name to $GAMEPAD

@@ -6,6 +6,9 @@
 # remove old machine-id file
 [[ -f "/storage/.cache/machine-id" ]] && rm /storage/.cache/machine-id
 
+# If the machine id is in a tmpfs mount, unmount it
+[[ "$(/usr/bin/mount 2>/dev/null| grep [m]achine-id)" ]] && umount /storage/.cache/systemd-machine-id
+
 # test systemd-machine-id exists and is 32 hex chars or generate a new uuid
 MACHINEID="$(cat /storage/.cache/systemd-machine-id 2>/dev/null)"
 [ "${#MACHINEID}" != "32" ] && MACHINEID=

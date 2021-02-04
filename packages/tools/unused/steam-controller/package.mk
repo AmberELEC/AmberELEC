@@ -37,11 +37,11 @@ find $PKG_BUILD/build/scripts-2.7 -type f -exec sed -i "s|\#\!/mnt.*|\#\!/usr/bi
     cp -a $(get_build_dir python-libusb1)/build/lib/* $INSTALL/usr/lib/
     cp -a $(get_build_dir enum34)/build/lib/* $INSTALL/usr/lib/
 
-  mkdir -p $INSTALL/usr/config/emuelec/scinclude/linux
+  mkdir -p $INSTALL/usr/config/distribution/scinclude/linux
     if [ -f "$(get_build_dir linux)/usr/include/linux/input-event-codes.h" ]; then
-      cp $(get_build_dir linux)/usr/include/linux/input-event-codes.h $INSTALL/usr/config/emuelec/scinclude/linux/
+      cp $(get_build_dir linux)/usr/include/linux/input-event-codes.h $INSTALL/usr/config/distribution/scinclude/linux/
     fi
-    cp $(get_build_dir linux)/usr/include/linux/input.h $INSTALL/usr/config/emuelec/scinclude/linux/input.h
+    cp $(get_build_dir linux)/usr/include/linux/input.h $INSTALL/usr/config/distribution/scinclude/linux/input.h
 
   $TOOLCHAIN/bin/python -Wi -t -B $TOOLCHAIN/lib/$PKG_PYTHON_VERSION/compileall.py $INSTALL/usr/lib/ -f 1>/dev/null
   find $INSTALL/usr/lib/ -name '*.py' -exec rm {} \;

@@ -14,8 +14,9 @@ PKG_LONGDESC="A port to Linux (and OpenPandora / DragonBox Pyra / ODroid / Pocke
 PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
-PKG_CMAKE_OPTS_TARGET=" -DUSE_SDL2=ON -DSDL2_INCLUDE_DIRS=$SYSROOT_PREFIX/usr/include/SDL2 -DSDL2_LIBRARIES=$SYSROOT_PREFIX/usr/lib"
-LDFLAGS="$LDFLAGS -lSDL2"
+   export CFLAGS="$CFLAGS -fcommon"
+  PKG_CMAKE_OPTS_TARGET=" -DUSE_SDL2=ON -DSDL2_INCLUDE_DIRS=$SYSROOT_PREFIX/usr/include/SDL2 -DSDL2_LIBRARIES=$SYSROOT_PREFIX/usr/lib"
+  LDFLAGS="$LDFLAGS -lSDL2"
 }
 
 makeinstall_target() {

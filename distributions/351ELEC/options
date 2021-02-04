@@ -11,13 +11,16 @@
   DISTRONAME="351ELEC"
 
 # short project description
-  DESCRIPTION="A fork of EmuELEC for the RG351P"
+  DESCRIPTION="An Open Source firmware."
 
-# Welcome Message for e.g. SSH Server (up to 5 Lines)
-  GREETING0="##############################################"
-  GREETING1="#                 351ELEC                    #"
-  GREETING2="#      A fork of EmuELEC for the RG351P      #"
-  GREETING3="##############################################"
+# Distribution Home URL
+  HOME_URL="https://github.com/351ELEC/351ELEC"
+
+# Documentation URL
+  WIKI_URL="https://github.com/351ELEC/351ELEC/wiki"
+
+# Where to report bugs
+  BUG_REPORT_URL="https://github.com/351ELEC/351ELEC/issues"
 
 # Root password to integrate in the target system
   ROOT_PASSWORD="351elec"
@@ -208,7 +211,7 @@
   ADDON_URL="$ADDON_SERVER_URL/$ADDON_PATH"
 
 # Default size of system partition, in MB, eg. 512
-  SYSTEM_SIZE=640
+  SYSTEM_SIZE=1024
 # Default system partition offset, in sectors, eg. 2048
   SYSTEM_PART_START=8192
 
@@ -276,6 +279,7 @@ meowpc98 \
 mgba \
 mrboom \
 mupen64plus \
+libretro-mupen64plus-nx \
 neocd_libretro \
 nestopia \
 nxengine \

@@ -4,8 +4,8 @@
 # Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 PKG_NAME="busybox"
-PKG_VERSION="1.31.0"
-PKG_SHA256="0e4925392fd9f3743cc517e031b68b012b24a63b0cf6c1ff03cce7bb3846cc99"
+PKG_VERSION="1.32.1"
+PKG_SHA256="9d57c4bd33974140fd4111260468af22856f12f5b5ef7c70c8d9b75c712a0dee"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.busybox.net"
 PKG_URL="http://busybox.net/downloads/$PKG_NAME-$PKG_VERSION.tar.bz2"
@@ -204,6 +204,7 @@ post_install() {
 makeinstall_init() {
   mkdir -p $INSTALL/bin
     ln -sf busybox $INSTALL/usr/bin/sh
+    ln -sf busybox $INSTALL/usr/bin/bc
     chmod 4755 $INSTALL/usr/bin/busybox
 
   mkdir -p $INSTALL/etc

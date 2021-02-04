@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="flycast"
-PKG_VERSION="20caf3f49e620f89595fc4fd972765ae65a1903f"
-PKG_SHA256="9e5957cc96b3137d512c92001472034ff87b982d06601a076d2aa8992c07a8d7"
+PKG_VERSION="ea1278ee1faf31068ff3b9122779ad5d771d88cc"
+PKG_SHA256="9d0f8f1c378c2ced6163dd4e0e0b7b940b7d522a2d49efcc7df005a6c2eb52f3"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/flycast"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"

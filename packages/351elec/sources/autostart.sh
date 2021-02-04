@@ -19,6 +19,17 @@ then
   /usr/bin/mount -o umask=000 /dev/mmcblk0p3 /storage/roms
 fi
 
+# Set max performance mode to start the boot.
+maxperf
+
+# write logs to tmpfs not the sdcard
+mkdir /tmp/logs
+
+if [ ! -e "/storage/.newcfg" ]
+then
+  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
+fi
+
 if [ ! -d "/storage/roms/update" ]
 then
   /usr/bin/mkdir -p /storage/roms/update &>/dev/null
@@ -27,8 +38,11 @@ fi
 /usr/bin/mountpoint -q /storage/roms &>/dev/null
 if [ $? == "0" ]
 then
-  /usr/bin/mkdir -p "$UPDATE_ROOT" &>/dev/null
-  /usr/bin/mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+  if [ ! "$(/usr/bin/mount 2>/dev/null| grep \.[u]pdate)" ]
+  then
+    /usr/bin/mkdir -p "$UPDATE_ROOT" &>/dev/null
+    /usr/bin/mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+  fi
 fi
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
@@ -36,32 +50,46 @@ CONFIG_DIR="/storage/.emulationstation"
 CONFIG_DIR2="/storage/.config/emulationstation"
 
 if [ ! -L "$CONFIG_DIR" ]; then
-ln -sf $CONFIG_DIR2 $CONFIG_DIR
+  ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
-# Automatic updates
-rsync -a --delete --exclude=custom_start.sh --exclude=drastic.sh /usr/config/emuelec/scripts/ /storage/.config/emuelec/scripts
-cp -f /usr/config/EE_VERSION /storage/.config
+# Create the distribution directory if it doesn't exist, sync it if it does
+if [ ! -d "/storage/.config/distribution" ]
+then
+  rsync -a /usr/config/distribution /storage/.config/distribution &
+else
+  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs \
+    /usr/config/distribution/ /storage/.config/distribution &
+fi
 
-# Copy in the es_systems.cfg so it updates after a flash
-cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
+# Copy in build metadata
+rsync /usr/config/.OS* /storage/.config &
 
-# Copy in any new PPSSPP INIs from git
-rsync --ignore-existing -raz /usr/config/ppsspp/PSP/SYSTEM/*.ini /storage/.config/ppsspp/PSP/SYSTEM
+# If the .config/emuelec directory still exists, migrate the config files and them remove it.
+if [ -d '/storage/.config/emuelec' ]
+then
+  mv /storage/.config/emuelec/configs/emuelec.conf /storage/.config/distribution/configs/distribution.conf
+  mv /storage/.config/emuelec/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf
+  rm -rf /storage/.config/emuelec &
+fi
 
 # Copy remappings
-rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/
+rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 
 # Copy OpenBOR
-rsync --ignore-existing -raz /usr/config/openbor /storage
+rsync --ignore-existing -raz /usr/config/openbor /storage &
 
 # Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/emuelec/ports/* /storage/roms/ports
+rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports &
+
+# Wait for the rsync processes to finish.
+wait
+
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
-  cp -f /usr/config/emuelec/ports/gamelist.xml /storage/roms/ports
+  cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
 fi
-rm -rf /usr/config/emuelec/ports
+rm -rf /storage/.config/distribution/ports
 
 # End Automatic updates
 
@@ -70,35 +98,37 @@ sysctl vm.swappiness=1
 
 # copy bezel if it doesn't exists
 if [ ! -f "/storage/roms/bezels/default.cfg" ]; then 
-mkbezels/
-cp -rf /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/
+  mkbezels/
+  cp -rf /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/
 fi
 
 # Create game directories if they don't exist..
-# Temporary hack to be replaced with emuelec-dirs.conf
-
-for dir in 3do BGM amiga amigacd32 amstradcpc arcade atari2600 atari5200 \
-	   atari7800 atari800 atarilynx atarist atomiswave bios c128 c16 \
-	   c64 capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
+for dir in 3do amiga amigacd32 amstradcpc arcade atari800 atari2600 atari5200 \
+	   atari7800 atarilynx atarist atomiswave BGM bios c16 c64 c128  \
+	   capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
 	   dreamcast easyrpg eduke famicom fbneo fds gameandwatch gamegear gb gba gbc \
 	   genesis gw intellivision mame mastersystem megadrive megadrive-japan \
 	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor opt \
-           pcengine pc pc98 pcenginecd pcfx pico-8 pokemini psp psx saturn sc-3000 \
-	   scummvm sega32x segacd sfc sg-1000 sgfx snes tg16 tg16cd tic-80 uzebox \
-	   vectrex vic20 videopac virtualboy wonderswan wonderswancolor x68000 \
-	   zx81 zxspectrum ports ports/VVVVVV ports/quake ports/diablo ports/doom \
+	   pc pc98 pcengine pcenginecd pcfx pico-8 pokemini psp pspminis psx residualvm \
+	   residualvm/games saturn sc-3000 scummvm scummvm/games sega32x segacd sfc sg-1000 \
+	   sgfx snes snesmsu1 solarus tg16 tg16cd tic-80 uzebox vectrex vic20 videopac \
+	   virtualboy wonderswan wonderswancolor x68000 zx81 zxspectrum \
+	   ports ports/VVVVVV ports/quake ports/diablo ports/doom \
 	   ports/doom2 ports/cannonball ports/CaveStory ports/reminiscence \
 	   ports/xrick ports/opentyrian ports/cgenius ports/cgenius/games
 do
   if [ ! -d "/storage/roms/${dir}" ]; then
-    mkdir -p "/storage/roms/${dir}"
-    chown root:root "/storage/roms/${dir}"
-    chmod 0777 "/storage/roms/${dir}"
+    ( mkdir -p "/storage/roms/${dir}";
+      chown root:root "/storage/roms/${dir}";
+      chmod 0777 "/storage/roms/${dir}"; ) &
   fi
 done
 
+# Wait for the directories to be created
+wait
+
 # Copy pico-8
-cp "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh"
+rsync -a "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh"
 
 # Restore config if backup exists
 BPATH="/storage/roms/backup/"
@@ -122,7 +152,7 @@ then
   cd /
   tar -xvzf ${IDENTITYFILE} >${BPATH}/restore.log
   rm ${IDENTITYFILE}
-  message_stream "Identity restored...rebooting..." .02
+  message_stream "\nIdentity restored...rebooting..." .02
   systemctl reboot
 fi
 
@@ -140,7 +170,7 @@ elif [ -s "/flash/EE_VIDEO_MODE" ]; then
 fi
 
 # finally we correct the FB according to video mode
-/emuelec/scripts/setres.sh
+/usr/bin/setres.sh
 
 # Clean cache garbage when boot up.
 rm -rf /storage/.cache/cores/*
@@ -176,7 +206,7 @@ do
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
     else
-      cp -rf "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
+      rsync -a "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
     fi
   fi
 
@@ -230,36 +260,16 @@ then
     mkdir -p "/storage/roms/pico-8"
   fi
   mv "/storage/roms/ports/pico-8/"* "/storage/roms/pico-8"
-  rm -rf "/storage/roms/ports/pico-8"
+  rm -rf "/storage/roms/ports/pico-8" &
 fi
 
+sync &
+
 # Show splash Screen 
-/emuelec/scripts/show_splash.sh intro
+/usr/bin/show_splash.sh intro
 
 # run custom_start before FE scripts
 /storage/.config/custom_start.sh before
-
-
-# What to start at boot?
-DEFE=$(get_ee_setting ee_boot)
-
-case "$DEFE" in
-"Retroarch")
-	rm -rf /var/lock/start.retro
-	touch /var/lock/start.retro
-	systemctl start retroarch
-	;;
-*)
-	rm /var/lock/start.games
-	touch /var/lock/start.games
-	systemctl start emustation
-	;;
-esac
-
-# write logs to tmpfs not the sdcard
-rm -rf /storage/.config/emuelec/logs
-mkdir /tmp/logs
-ln -s /tmp/logs /storage/.config/emuelec/logs
 
 # default to ondemand performance in EmulationStation
 normperf
@@ -279,7 +289,21 @@ else
   echo 75 >/storage/.brightness
 fi
 
-clear
+# What to start at boot?
+DEFE=$(get_ee_setting ee_boot)
+
+case "$DEFE" in
+"Retroarch")
+        rm -rf /var/lock/start.retro
+        touch /var/lock/start.retro
+        systemctl start retroarch
+        ;;
+*)
+        rm /var/lock/start.games
+        touch /var/lock/start.games
+        systemctl start emustation
+        ;;
+esac
 
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after

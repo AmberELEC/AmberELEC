@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="SDL2-git"
-PKG_VERSION="2.0.10"
+PKG_VERSION="d6c431161e7467bec884cb5a889e140e004d4180"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
-PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio"
+PKG_URL="https://github.com/AreaScout/SDL/archive/$PKG_VERSION.tar.gz"
+PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES librga pulseaudio"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
 
 if [ ${PROJECT} = "Amlogic-ng" ] || [ ${PROJECT} = "Amlogic" ]; then
@@ -58,9 +58,10 @@ pre_configure_target(){
                          -DRENDER_D3D=OFF \
                          -DVIDEO_X11=OFF \
                          -DVIDEO_OPENGLES=ON \
-                         -DVIDEO_VULKAN=OFF \
+                         -DVIDEO_VULKAN=ON \
                          -DPULSEAUDIO=ON"
-PKG_CMAKE_OPTS_TARGET="$PKG_CMAKE_OPTS_TARGET -DVIDEO_KMSDRM=ON"
+  export LDFLAGS="${LDFLAGS} -lrga"
+  PKG_CMAKE_OPTS_TARGET="$PKG_CMAKE_OPTS_TARGET -DVIDEO_KMSDRM=ON"
 }
 
 post_makeinstall_target() {

@@ -35,7 +35,7 @@ create_rvm
 ;;
 *) 
 set_audio "fluidsynth"
-[[ ! -f "/ee_s905" ]] && /storage/.config/emuelec/bin/fbfix
+[[ ! -f "/ee_s905" ]] && /storage/.config/distribution/bin/fbfix
 nice -n -19 $BINDIR/residualvm --fullscreen --joystick=0 $EXTRA "$GAME"
 set_audio "pulseaudio"
 ;;

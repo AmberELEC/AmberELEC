@@ -1,6 +1,6 @@
 PKG_NAME="python-evdev"
-PKG_VERSION="1.3.0"
-PKG_SHA256="b1c649b4fed7252711011da235782b2c260b32e004058d62473471e5cd30634d"
+PKG_VERSION="5ac66502adc219f816ba833032a5207982eb4861"
+#PKG_SHA256="b1c649b4fed7252711011da235782b2c260b32e004058d62473471e5cd30634d"
 PKG_LICENSE="OSS"
 PKG_SITE="https://pypi.org/project/evdev"
 PKG_URL="https://files.pythonhosted.org/packages/89/83/5f5635fd0d91a08ac355dd9ca9bde34bfa6b29a5c59f703ad83d1ad0bf34/evdev-1.3.0.tar.gz"
@@ -31,12 +31,12 @@ post_makeinstall_target() {
   # files use the arch from the host system
   # tried to solve it but couldn't so I move them to the correct names for python
   # to grab them
-  mv ${INSTALL}/usr/lib/python3.7/site-packages/evdev/_ecodes.cpython-37-* \
-    ${INSTALL}/usr/lib/python3.7/site-packages/evdev/_ecodes.cpython-37-arm-linux-gnueabihf.so
-  mv ${INSTALL}/usr/lib/python3.7/site-packages/evdev/_input.cpython-37-* \
-    ${INSTALL}/usr/lib/python3.7/site-packages/evdev/_input.cpython-37-arm-linux-gnueabihf.so
-  mv ${INSTALL}/usr/lib/python3.7/site-packages/evdev/_uinput.cpython-37-* \
-    ${INSTALL}/usr/lib/python3.7/site-packages/evdev/_uinput.cpython-37-arm-linux-gnueabihf.so
+  mv ${INSTALL}/usr/lib/python3.8/site-packages/evdev/_ecodes.cpython-38-* \
+    ${INSTALL}/usr/lib/python3.8/site-packages/evdev/_ecodes.cpython-38-arm-linux-gnueabihf.so
+  mv ${INSTALL}/usr/lib/python3.8/site-packages/evdev/_input.cpython-38-* \
+    ${INSTALL}/usr/lib/python3.8/site-packages/evdev/_input.cpython-38-arm-linux-gnueabihf.so
+  mv ${INSTALL}/usr/lib/python3.8/site-packages/evdev/_uinput.cpython-38-* \
+    ${INSTALL}/usr/lib/python3.8/site-packages/evdev/_uinput.cpython-38-arm-linux-gnueabihf.so
 }
 
 # post_makeinstall_target() {
