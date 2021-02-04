@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
 PKG_NAME="vulkan-tools"
 PKG_VERSION="a03938051ff67dac3e13dd011238fccc529e1fa5"
 #PKG_SHA256=""

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
 PKG_NAME="vulkan-headers"
 PKG_VERSION="ec2db85225ab410bc6829251bef6c578aaed5868"
 #PKG_SHA256=""

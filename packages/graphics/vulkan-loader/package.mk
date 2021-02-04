@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
 PKG_NAME="vulkan-loader"
 PKG_VERSION="6fcd515be5b305d9a68ba94b911f84c76a30887e"
 #PKG_SHA256=""
