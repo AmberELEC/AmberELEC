@@ -16,7 +16,7 @@ configure_target() {
   # the bootstrap was failing for some reason. 
   cp $PKG_DIR/waf/* $PKG_BUILD  
   
-  ./waf configure --enable-sdl2 --enable-sdl2-gamepad --disable-pulse --enable-egl --disable-libbluray --disable-drm --disable-gl --opengl-es=yes
+  ./waf configure --enable-sdl2 --enable-sdl2-gamepad --disable-pulse --enable-egl --disable-libbluray --disable-gl
 }
 
 make_target() {
