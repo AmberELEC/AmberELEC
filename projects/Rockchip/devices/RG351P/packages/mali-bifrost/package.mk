@@ -43,20 +43,12 @@ post_makeinstall_target() {
   unzip -o "${SOURCES}/${PKG_NAME}/${VULKAN_PKG}"
   cd "${CWD}"
 
-  for lib in $INSTALL/usr/lib/libmali.so.1 \
-	   $INSTALL/usr/lib/libmali.so \
-	   $INSTALL/usr/lib/libmali.so.1.9.0 \
-	   $INSTALL/usr/lib/libgbm.so.1 \
-	   $INSTALL/usr/lib/libgbm.so \
-           $INSTALL/usr/lib/libvulkan.so.1 \
-           $INSTALL/usr/lib/libvulkan.so \
-	   $SYSROOT_PREFIX/usr/lib/libmali.so.1 \
-	   $SYSROOT_PREFIX/usr/lib/libmali.so \
-	   $SYSROOT_PREFIX/usr/lib/libmali.so.1.9.0 \
-	   $SYSROOT_PREFIX/usr/lib/libgbm.so.1 \
-	   $SYSROOT_PREFIX/usr/lib/libgbm.so \
-           $SYSROOT_PREFIX/usr/lib/libvulkan.so.1 \
-           $SYSROOT_PREFIX/usr/lib/libvulkan.so
+  for lib in $INSTALL/usr/lib/libmali.so* \
+	   $INSTALL/usr/lib/libgbm.so* \
+           $INSTALL/usr/lib/libvulkan.so* \
+	   $SYSROOT_PREFIX/usr/lib/libmali.so* \
+	   $SYSROOT_PREFIX/usr/lib/libgbm.so* \
+           $SYSROOT_PREFIX/usr/lib/libvulkan.so*
   do
 	rm -f ${lib}
   done
