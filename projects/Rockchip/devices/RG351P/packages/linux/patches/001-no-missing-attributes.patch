@@ -1,6 +1,6 @@
-diff -rupN RG351P.orig/include/linux/compat.h.orig RG351P.new/include/linux/compat.h.orig
---- RG351P.orig/include/linux/compat.h.orig	1969-12-31 19:00:00.000000000 -0500
-+++ RG351P.new/include/linux/compat.h.orig	2021-01-24 16:57:53.522569528 -0500
+diff -rupN linux.orig/include/linux/compat.h.orig linux.new/include/linux/compat.h.orig
+--- linux.orig/include/linux/compat.h.orig	1969-12-31 19:00:00.000000000 -0500
++++ linux.new/include/linux/compat.h.orig	2021-02-05 16:52:36.469750905 -0500
 @@ -0,0 +1,721 @@
 +#ifndef _LINUX_COMPAT_H
 +#define _LINUX_COMPAT_H
@@ -723,9 +723,9 @@ diff -rupN RG351P.orig/include/linux/compat.h.orig RG351P.new/include/linux/comp
 +
 +#endif /* CONFIG_COMPAT */
 +#endif /* _LINUX_COMPAT_H */
-diff -rupN RG351P.orig/include/linux/compiler-gcc.h.orig RG351P.new/include/linux/compiler-gcc.h.orig
---- RG351P.orig/include/linux/compiler-gcc.h.orig	1969-12-31 19:00:00.000000000 -0500
-+++ RG351P.new/include/linux/compiler-gcc.h.orig	2021-01-24 16:57:53.522569528 -0500
+diff -rupN linux.orig/include/linux/compiler-gcc.h.orig linux.new/include/linux/compiler-gcc.h.orig
+--- linux.orig/include/linux/compiler-gcc.h.orig	1969-12-31 19:00:00.000000000 -0500
++++ linux.new/include/linux/compiler-gcc.h.orig	2021-02-05 16:52:36.469750905 -0500
 @@ -0,0 +1,317 @@
 +#ifndef __LINUX_COMPILER_H
 +#error "Please don't include <linux/compiler-gcc.h> directly, include <linux/compiler.h> instead."
@@ -1044,9 +1044,9 @@ diff -rupN RG351P.orig/include/linux/compiler-gcc.h.orig RG351P.new/include/linu
 + * code
 + */
 +#define uninitialized_var(x) x = x
-diff -rupN RG351P.orig/include/linux/syscalls.h.orig RG351P.new/include/linux/syscalls.h.orig
---- RG351P.orig/include/linux/syscalls.h.orig	1969-12-31 19:00:00.000000000 -0500
-+++ RG351P.new/include/linux/syscalls.h.orig	2021-01-24 16:57:53.522569528 -0500
+diff -rupN linux.orig/include/linux/syscalls.h.orig linux.new/include/linux/syscalls.h.orig
+--- linux.orig/include/linux/syscalls.h.orig	1969-12-31 19:00:00.000000000 -0500
++++ linux.new/include/linux/syscalls.h.orig	2021-02-05 16:52:36.469750905 -0500
 @@ -0,0 +1,912 @@
 +/*
 + * syscalls.h - Linux syscall interfaces (non-arch-specific)
@@ -1960,17 +1960,28 @@ diff -rupN RG351P.orig/include/linux/syscalls.h.orig RG351P.new/include/linux/sy
 +asmlinkage long sys_mlock2(unsigned long start, size_t len, int flags);
 +
 +#endif
-diff -rupN RG351P.orig/Makefile RG351P.new/Makefile
---- RG351P.orig/Makefile	2021-01-24 15:18:59.383620068 -0500
-+++ RG351P.new/Makefile	2021-01-24 18:01:39.109665985 -0500
-@@ -667,6 +667,10 @@ KBUILD_CFLAGS	+= $(call cc-disable-warni
- KBUILD_CFLAGS	+= $(call cc-disable-warning, int-in-bool-context)
- KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
- KBUILD_CFLAGS	+= $(call cc-disable-warning, attribute-alias)
-+KBUILD_CFLAGS	+= $(call cc-disable-warning, missing-attributes)
-+KBUILD_CFLAGS	+= $(call cc-disable-warning, zero-length-bounds)
-+KBUILD_CFLAGS	+= $(call cc-disable-warning, stringop-overflow)
-+KBUILD_CFLAGS	+= $(call cc-disable-warning, restrict)
+diff -rupN linux.orig/Makefile linux.new/Makefile
+--- linux.orig/Makefile	2021-02-05 16:31:59.047175310 -0500
++++ linux.new/Makefile	2021-02-05 16:56:12.355692949 -0500
+@@ -662,11 +662,16 @@ include arch/$(SRCARCH)/Makefile
+ KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
+-KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
+-KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
+-KBUILD_CFLAGS	+= $(call cc-disable-warning, int-in-bool-context)
+-KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+-KBUILD_CFLAGS	+= $(call cc-disable-warning, attribute-alias)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,format-truncation,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,format-overflow,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,int-in-bool-context,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,address-of-packed-member,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,attribute-alias,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,missing-attributes,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,zero-length-bounds,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,stringop-overflow,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,uninitialized,)
++KBUILD_CFLAGS	+= $(call cc-disable-warning,restrict)
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS	+= -Os
