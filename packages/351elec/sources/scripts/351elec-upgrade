@@ -86,6 +86,9 @@ check_space() {
   then
     NEEDED=$(( (${REQUIRED} - ${MYSIZE} ) / 1024 ))
     message_stream  "\n\nThere is not enough free space available on the ${VOLNAME} volume to install this update.  Free up an additional ${NEEDED}MB, or reflash this version." .02
+    sleep 10
+    clear >/dev/console
+    systemctl start emustation
     exit 1
   fi
 }
