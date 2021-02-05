@@ -2,12 +2,12 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="rs97-commander-sdl2"
-PKG_VERSION="30a9f6a588d220ac233b4c02c8c55fb1e24aeeeb"
-PKG_SHA256="441aa06ca35ac0e56cfbfa45522832f50794f2f95475305ce3dddc6100e6693d"
+PKG_VERSION="ba0e7f96b7e4c2bc1d7f9e809590f0cf3007488b"
+PKG_SHA256="55a0c2c57af0443eb0f258405772a81651353ef2bcefde993a40ed1992e52b83"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/EmuELEC/rs97-commander-sdl2"
+PKG_SITE="https://github.com/zulhailmie/rs97-commander-sdl2"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2-git SDL2_image SDL2_gfx SDL2_ttf"
 PKG_PRIORITY="optional"
