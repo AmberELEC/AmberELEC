@@ -37,7 +37,7 @@ function getlatest() {
   then
     ### Clean this up later.
     LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
+    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
     REPO="${REPO}/${LATEST}/aarch64/RG351P"
     UFILE="${PREFIX}-${TAG}.tar"
   elif [ "${PROVIDER}" == "git" ]
