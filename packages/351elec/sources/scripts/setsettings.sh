@@ -2,6 +2,7 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 # TODO: Set Atari800 to Atari5200 when neeeded / done?
 # TODO: retroachivements / done?
@@ -27,6 +28,17 @@ CORE=${3,,}
 ROM="${2##*/}"
 SETF=0
 SHADERSET=0
+
+#Snapshot
+SNAPSHOT="$@"
+SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
+
+# For the new snapshot save state manager we need to set the path to be /storage/roms/savestates/[PLATFORM] @shantigilbert
+mkdir -p "/storage/roms/savestates/${PLATFORM}"
+sed -i '/savestates_in_content_dir =/d' ${RACONF}
+sed -i '/savestate_directory =/d' ${RACONF}
+echo "savestates_in_content_dir = false"
+echo "savestate_directory = \"/storage/roms/savestates/${PLATFORM}\""
 
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
@@ -248,6 +260,25 @@ case ${1} in
 		else
 			echo 'savestate_auto_save = "true"' >> ${RACONF}
 			echo 'savestate_auto_load = "true"' >> ${RACONF}
+		fi
+	;;
+	"snapshot")
+		sed -i "/state_slot =/d" ${RACONF}
+
+		if [ ! -z ${SNAPSHOT} ]; then    
+			sed -i "/savestate_auto_load =/d" ${RACONF}
+			sed -i "/savestate_auto_save =/d" ${RACONF}
+			echo 'savestate_auto_save = "true"' >> ${RACONF}
+			echo 'savestate_auto_load = "true"' >> ${RACONF}
+			echo "state_slot = \"${SNAPSHOT}\"" >> ${RACONF}
+		else
+			if [ ${AUTOLOAD} == "false" ]; then
+				sed -i "/savestate_auto_load =/d" ${RACONF}
+				sed -i "/savestate_auto_save =/d" ${RACONF}
+				echo 'savestate_auto_save = "false"' >> ${RACONF}
+				echo 'savestate_auto_load = "false"' >> ${RACONF}
+			fi
+			echo 'state_slot = "0"' >> ${RACONF}
 		fi
 	;;
 	"integerscale")
