@@ -278,6 +278,7 @@ normperf
 if [ -e /storage/.brightness ]
 then
   BRIGHTNESS=$(cat /storage/.brightness)
+  BRIGHTNESS=${BRIGHTNESS:0:2}
   if [[ "${BRIGHTNESS}" -lt 15 ]]
   then
     BRIGHTNESS=15
