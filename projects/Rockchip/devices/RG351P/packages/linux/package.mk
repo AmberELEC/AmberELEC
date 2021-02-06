@@ -9,7 +9,7 @@ PKG_DEPENDS_HOST="ccache:host openssl:host"
 PKG_DEPENDS_TARGET="toolchain linux:host cpio:host kmod:host xz:host wireless-regdb keyutils $KERNEL_EXTRA_DEPENDS_TARGET"
 PKG_DEPENDS_INIT="toolchain"
 PKG_NEED_UNPACK="$LINUX_DEPENDS $(get_pkg_directory busybox)"
-PKG_LONGDESC="This package contains a precompiled kernel image and the modules."
+PKG_LONGDESC="This package contains the kernel for the OGA and patches for the RG351P/M"
 PKG_IS_KERNEL_PKG="yes"
 PKG_STAMP="$KERNEL_TARGET $KERNEL_MAKE_EXTRACMD"
 
@@ -18,7 +18,6 @@ PKG_PATCH_DIRS="$LINUX"
 PKG_VERSION="fbfe5c30bf5643f44cc8c87c9b53b1ba2a0bfa49"
 #PKG_SHA256=""
 PKG_URL="https://github.com/hardkernel/linux/archive/$PKG_VERSION.tar.gz"
-#PKG_SOURCE_NAME="RG351P-linux-$PKG_VERSION.tar.gz"
 
 PKG_KERNEL_CFG_FILE=$(kernel_config_path) || die
 
