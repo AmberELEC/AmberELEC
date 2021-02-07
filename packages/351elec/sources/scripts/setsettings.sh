@@ -202,6 +202,7 @@ function default_settings() {
 	echo 'run_ahead_frames = "1"' >> ${RACONF}
 	echo 'run_ahead_secondary_instance = "false"' >> ${RACONF}
 	echo 'savestate_auto_load = "false"' >> ${RACONF}
+	echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
 	echo 'cheevos_enable = "false"' >> ${RACONF}
 	echo 'cheevos_username = ""' >> ${RACONF}
 	echo 'cheevos_password = ""' >> ${RACONF}
@@ -217,7 +218,6 @@ function default_settings() {
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
-	echo 'savestate_directory = "'"${SAVESTATES}/${PLATFORM}"'"' >> ${RACONF}
 }
 
 function set_setting() {
