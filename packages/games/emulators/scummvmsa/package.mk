@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="scummvmsa"
 PKG_VERSION="51bb9305a3c614d283bcab0eb735a47b4fae1e7c"
@@ -13,22 +14,22 @@ PKG_SHORTDESC="Script Creation Utility for Maniac Mansion Virtual Machine"
 PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files."
 
 pre_configure_target() { 
-sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure
-TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --enable-optimizations --opengl-mode=gles2 --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin"
+  sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure
+  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --enable-optimizations --opengl-mode=gles2 --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin"
 }
 
 post_makeinstall_target() {
-mkdir -p $INSTALL/usr/config/scummvm/extra 
-	cp -rf $PKG_DIR/config/* $INSTALL/usr/config/scummvm/
-	cp -rf $PKG_BUILD/backends/vkeybd/packs/*.zip $INSTALL/usr/config/scummvm/extra
+  mkdir -p $INSTALL/usr/config/scummvm/extra 
+  cp -rf $PKG_DIR/config/* $INSTALL/usr/config/scummvm/
+  cp -rf $PKG_BUILD/backends/vkeybd/packs/*.zip $INSTALL/usr/config/scummvm/extra
 
-mv $INSTALL/usr/local/bin $INSTALL/usr/
-	cp -rf $PKG_DIR/bin/* $INSTALL/usr/bin
+  mv $INSTALL/usr/local/bin $INSTALL/usr/
+  cp -rf $PKG_DIR/bin/* $INSTALL/usr/bin
+  chmod 755 $INSTALL/usr/bin/*
 	
-for i in appdata applications doc icons man; do
+  for i in appdata applications doc icons man; do
     rm -rf "$INSTALL/usr/local/share/$i"
   done
-
  
 }
 
