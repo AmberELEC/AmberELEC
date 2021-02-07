@@ -197,7 +197,8 @@ MYARCH=$(getarch)
 jslisten stop
 
 ### Per emulator/core configurations
-if [ -z ${LIBRETRO} ]; then
+if [ -z ${LIBRETRO} ]
+then
 	$VERBOSE && log "Configuring for a non-libretro emulator"
 	case ${PLATFORM} in
 		"atari2600")
@@ -269,17 +270,7 @@ if [ -z ${LIBRETRO} ]; then
 		;;
 		"scummvm")
 			jslisten set "scummvm retroarch"
-			if [ "$EMU" = "SCUMMVMSA" ]
-			then
 			RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
-			else
-				if [ "$EMU" = "SCUMMVMSA" ]
-				then
-					RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
-				else
-					RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro'
-				fi
-			fi
 		;;
 		"daphne")
 			jslisten set "hypseus retroarch"
@@ -322,17 +313,6 @@ if [ -z ${LIBRETRO} ]; then
 		esac
 else
 	$VERBOSE && log "Configuring for a libretro core"
-
-	# Workaround for Atomiswave
-	if [[ ${PLATFORM} == "atomiswave" ]]; then
-		rm ${ROMNAME}.nvmem*
-	fi
-
-	if [[ ${PLATFORM} == "ports" ]]; then
-		PORTCORE="${arguments##*-C}"  # read from -C onwards
-		EMU="${PORTCORE%% *}_libretro"  # until a space is found
-		PORTSCRIPT="${arguments##*-SC}"  # read from -SC onwards
-	fi
 
 	### Set jslisten to kill the appropriate retroarch
 	if [ "${MYARCH}" == "aarch64" ]
@@ -387,6 +367,23 @@ else
 		fi
 
 	fi
+
+	# Platform specific configurations
+        case ${PLATFORM} in
+                "atomiswave")
+                        rm ${ROMNAME}.nvmem*
+                ;;
+                "ports")
+                        PORTCORE="${arguments##*-C}"  # read from -C onwards
+                        EMU="${PORTCORE%% *}_libretro"  # until a space is found
+                        PORTSCRIPT="${arguments##*-SC}"  # read from -SC onwards
+                ;;
+                "scummvm")
+			GAMEDIR=$(cat "${ROMNAME}" | awk 'BEGIN {FS="\""}; {print $2}')
+			cd "${GAMEDIR}"
+			RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro .'
+                ;;
+        esac
 fi
 
 if [ -e "${SHADERTMP}" ]
