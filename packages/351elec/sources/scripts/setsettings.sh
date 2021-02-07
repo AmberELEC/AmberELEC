@@ -77,7 +77,7 @@ case ${1} in
 	PLATFORM="vectrex"
 	;;
 	"msx"|"msx2")
-	PLATFORM="wonderswan"
+	PLATFORM="msx"
 	;;
 	"pcengine"|"pcenginecd"|"pcfx"|"supergrafx"|"tg16"|"tg16cd")
 	PLATFORM="pcengine"
