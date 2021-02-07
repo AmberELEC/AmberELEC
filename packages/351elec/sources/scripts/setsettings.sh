@@ -265,6 +265,7 @@ case ${1} in
 		fi
 	;;
 	"snapshot")
+		echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
 		if [ ! -z ${SNAPSHOT} ]; then
 			sed -i "/savestate_auto_load =/d" ${RACONF}
 			sed -i "/savestate_auto_save =/d" ${RACONF}
