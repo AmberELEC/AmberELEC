@@ -111,8 +111,8 @@ for dir in 3do amiga amigacd32 amstradcpc arcade atari800 atari2600 atari5200 \
 	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor opt \
 	   pc pc98 pcengine pcenginecd pcfx pico-8 pokemini psp pspminis psx residualvm \
 	   residualvm/games saturn sc-3000 scummvm scummvm/games sega32x segacd sfc sg-1000 \
-	   sgfx snes snesmsu1 solarus tg16 tg16cd tic-80 uzebox vectrex vic20 videopac \
-	   virtualboy wonderswan wonderswancolor x68000 zx81 zxspectrum \
+	   sgfx savestates snes snesmsu1 solarus tg16 tg16cd tic-80 uzebox vectrex vic20 \
+           videopac virtualboy wonderswan wonderswancolor x68000 zx81 zxspectrum \
 	   ports ports/VVVVVV ports/quake ports/diablo ports/doom \
 	   ports/doom2 ports/cannonball ports/CaveStory ports/reminiscence \
 	   ports/xrick ports/opentyrian ports/cgenius ports/cgenius/games

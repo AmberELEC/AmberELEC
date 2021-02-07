@@ -47,6 +47,8 @@ EMULATOR="${EMULATOR%% *}"  # until a space is found
 ROMNAME="$1"
 BASEROMNAME=${ROMNAME##*/}
 GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
+EXTRAARGS="${@:5}"
+
 
 ### Determine if we're running a Libretro core and append the libretro suffix
 if [[ $EMULATOR = "libretro" ]]; then
@@ -189,7 +191,7 @@ function setaudio() {
 
 ### Main Screen Turn On
 
-loginit "$1" "$2" "$3" "$4"
+loginit "$1" "$2" "$3" "$4" "${EXTRAARGS}"
 clear_screen
 bluetooth disable
 MYARCH=$(getarch)
@@ -357,6 +359,7 @@ else
 	RUNTHIS='/usr/bin/${RABIN} -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
 	CONTROLLERCONFIG="${arguments#*--controllers=*}"
 	CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
+
 	CORE=${EMU%%_*}
 
 	### Configure netplay
@@ -385,9 +388,9 @@ then
 fi
 
 if [[ ${PLATFORM} == "ports" ]]; then
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG} ${EXTRAARGS}" >${SHADERTMP}) &
 else
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" "${EXTRAARGS}" >${SHADERTMP}) &
 fi
 
 clear_screen

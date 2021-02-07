@@ -29,17 +29,6 @@ ROM="${2##*/}"
 SETF=0
 SHADERSET=0
 
-#Snapshot
-SNAPSHOT="$@"
-SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
-
-# For the new snapshot save state manager we need to set the path to be /storage/roms/savestates/[PLATFORM] @shantigilbert
-mkdir -p "/storage/roms/savestates/${PLATFORM}"
-sed -i '/savestates_in_content_dir =/d' ${RACONF}
-sed -i '/savestate_directory =/d' ${RACONF}
-echo "savestates_in_content_dir = false"
-echo "savestate_directory = \"/storage/roms/savestates/${PLATFORM}\""
-
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
 FILELENGTH="$(cat ${DESTRACONF} | wc -l)"
@@ -50,6 +39,17 @@ then
 else
   cp -f "${DESTRACONF}" "${RACONF}"
 fi
+
+#Snapshot
+SNAPSHOT="$@"
+SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
+
+# For the new snapshot save state manager we need to set the path to be /storage/roms/savestates/[PLATFORM] @shantigilbert
+mkdir -p "/storage/roms/savestates/${PLATFORM}"
+sed -i '/savestates_in_content_dir =/d' ${RACONF}
+sed -i '/savestate_directory =/d' ${RACONF}
+echo "savestates_in_content_dir = false" >> ${RACONF}
+echo "savestate_directory = \"/storage/roms/savestates/${PLATFORM}\"" >> ${RACONF}
 
 function doexit() {
   mv "${RACONF}" "${DESTRACONF}"
