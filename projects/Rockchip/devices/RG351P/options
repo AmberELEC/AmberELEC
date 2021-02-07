@@ -38,7 +38,7 @@
     OPENGLES="mali-bifrost"
 
   # kernel serial console
-    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0 systemd.show_status=0 loglevel=0 systemd.log_target=null"
+    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0 systemd.show_status=0 loglevel=0"
     
     LINUX="RG351P"
     UBOOT_SYSTEM="rg351p"

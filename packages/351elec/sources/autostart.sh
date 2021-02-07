@@ -137,7 +137,7 @@ BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
 if [ -e "${BPATH}/.restore" ]
 then
   if [ -f "${BACKUPFILE}" ]; then
-    message_stream "Restoring backup..." .02
+    echo -en '\e[20;0H\e[37mRestoring Backup and rebooting...\e[0m' >/dev/console
     unzip -o ${BACKUPFILE} -d /
     rm ${BACKUPFILE}
     systemctl reboot
@@ -152,7 +152,7 @@ then
   cd /
   tar -xvzf ${IDENTITYFILE} >${BPATH}/restore.log
   rm ${IDENTITYFILE}
-  message_stream "\nIdentity restored...rebooting..." .02
+  echo -en '\e[20;0H\e[37mIdentity restored, rebooting...\e[0m' >/dev/console
   systemctl reboot
 fi
 
