@@ -50,7 +50,7 @@ function devilutionx_password() {
 function identity_backup() {
         BPATH="/storage/roms/backup/"
         IDENTITYFILE="${BPATH}/identity.tar.gz"
-        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/distribution.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log
+        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/distribution.conf /storage/.config/distribution/configs/emuoptions.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log 2>&1
 }
 
 function clearconfig() {
