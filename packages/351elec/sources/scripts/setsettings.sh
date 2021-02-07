@@ -23,11 +23,16 @@ SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 DESTRACONF="/storage/.config/retroarch/retroarch.cfg"
 RACONF="/tmp/retroarch.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
+SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
 CORE=${3,,}
 ROM="${2##*/}"
 SETF=0
 SHADERSET=0
+
+#Snapshot
+SNAPSHOT="$@"
+SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
 
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
@@ -40,16 +45,10 @@ else
   cp -f "${DESTRACONF}" "${RACONF}"
 fi
 
-#Snapshot
-SNAPSHOT="$@"
-SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
-
-# For the new snapshot save state manager we need to set the path to be /storage/roms/savestates/[PLATFORM] @shantigilbert
-mkdir -p "/storage/roms/savestates/${PLATFORM}"
-sed -i '/savestates_in_content_dir =/d' ${RACONF}
-sed -i '/savestate_directory =/d' ${RACONF}
-echo "savestates_in_content_dir = false" >> ${RACONF}
-echo "savestate_directory = \"/storage/roms/savestates/${PLATFORM}\"" >> ${RACONF}
+if [ ! -d "${SNAPSHOTS}/${PLATFORM}" ]
+then
+  mkdir -p "${SNAPSHOTS}/${PLATFORM}"
+fi
 
 function doexit() {
   mv "${RACONF}" "${DESTRACONF}"
@@ -155,8 +154,11 @@ function clean_settings() {
 	sed -i '/run_ahead_enabled =/d' ${RACONF}
 	sed -i '/run_ahead_frames =/d' ${RACONF}
 	sed -i '/run_ahead_secondary_instance =/d' ${RACONF}
+	sed -i "/state_slot =/d" ${RACONF}
 	sed -i '/savestate_auto_save =/d' ${RACONF}
 	sed -i '/savestate_auto_load =/d' ${RACONF}
+	sed -i '/savestates_in_content_dir =/d' ${RACONF}
+	sed -i '/savestate_directory =/d' ${RACONF}
 	sed -i '/cheevos_enable =/d' ${RACONF}
 	sed -i '/cheevos_username =/d' ${RACONF}
 	sed -i '/cheevos_password =/d' ${RACONF}
@@ -199,7 +201,6 @@ function default_settings() {
 	echo 'run_ahead_enabled = "false"' >> ${RACONF}
 	echo 'run_ahead_frames = "1"' >> ${RACONF}
 	echo 'run_ahead_secondary_instance = "false"' >> ${RACONF}
-	echo 'savestate_auto_save = "false"' >> ${RACONF}
 	echo 'savestate_auto_load = "false"' >> ${RACONF}
 	echo 'cheevos_enable = "false"' >> ${RACONF}
 	echo 'cheevos_username = ""' >> ${RACONF}
@@ -216,6 +217,7 @@ function default_settings() {
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
+	echo 'savestate_directory = "'"${SAVESTATES}/${PLATFORM}"'"' >> ${RACONF}
 }
 
 function set_setting() {
@@ -263,9 +265,7 @@ case ${1} in
 		fi
 	;;
 	"snapshot")
-		sed -i "/state_slot =/d" ${RACONF}
-
-		if [ ! -z ${SNAPSHOT} ]; then    
+		if [ ! -z ${SNAPSHOT} ]; then
 			sed -i "/savestate_auto_load =/d" ${RACONF}
 			sed -i "/savestate_auto_save =/d" ${RACONF}
 			echo 'savestate_auto_save = "true"' >> ${RACONF}
@@ -459,7 +459,7 @@ set_setting ${1} ${EES}
 
 clean_settings
 
-for s in wifi ratio smooth shaderset rewind autosave integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
+for s in wifi ratio smooth shaderset rewind autosave snapshot integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
 get_setting $s
 [ -z "${EES}" ] || SETF=1
 done

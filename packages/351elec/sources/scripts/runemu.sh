@@ -47,7 +47,6 @@ EMULATOR="${EMULATOR%% *}"  # until a space is found
 ROMNAME="$1"
 BASEROMNAME=${ROMNAME##*/}
 GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
-EXTRAARGS="${@:5}"
 
 
 ### Determine if we're running a Libretro core and append the libretro suffix
@@ -191,7 +190,7 @@ function setaudio() {
 
 ### Main Screen Turn On
 
-loginit "$1" "$2" "$3" "$4" "${EXTRAARGS}"
+loginit "$1" "$2" "$3" "$4" 
 clear_screen
 bluetooth disable
 MYARCH=$(getarch)
@@ -358,7 +357,15 @@ else
 
 	RUNTHIS='/usr/bin/${RABIN} -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
 	CONTROLLERCONFIG="${arguments#*--controllers=*}"
-	CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
+
+	if [[ "$arguments" == *"-state_slot"* ]]; then
+		CONTROLLERCONFIG="${CONTROLLERCONFIG%% -state_slot*}"  # until -state is found
+		SNAPSHOT="${arguments#*-state_slot *}" # -state_slot x -autosave 1
+		SNAPSHOT="${SNAPSHOT%% -*}"  # we don't need -autosave 1 we asume its always 1 
+	else
+		CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
+		SNAPSHOT=""
+	fi
 
 	CORE=${EMU%%_*}
 
@@ -388,9 +395,9 @@ then
 fi
 
 if [[ ${PLATFORM} == "ports" ]]; then
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG} ${EXTRAARGS}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 else
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" "${EXTRAARGS}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 fi
 
 clear_screen
