@@ -8,19 +8,18 @@ BASEDTB="rk3326-rg351p-linux"
 MOUNT="/flash"
 
 flash() {
-  echo "Setting ${MOUNT} ${1}"
   mount -o remount,${1} ${MOUNT}
 }
 
 on() {
   flash rw
-  sed -i "s#${BASEDTB}#${BASEDTB}-oc#g" /flash/boot.ini
+  sed -i "s#${BASEDTB}.dtb#${BASEDTB}-oc.dtb#g" /flash/boot.ini
   flash ro
 }
 
 off() {
   flash rw
-  sed -i "s#${BASEDTB}-oc#${BASEDTB}#g" /flash/boot.ini
+  sed -i "s#${BASEDTB}-oc.dtb#${BASEDTB}.dtb#g" /flash/boot.ini
   flash ro
 }
 

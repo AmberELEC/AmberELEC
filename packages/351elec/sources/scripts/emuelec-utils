@@ -48,9 +48,18 @@ function devilutionx_password() {
 }
 
 function identity_backup() {
+	if [ "$(pgrep emulationstation &>/dev/null)" ]
+	then
+		systemctl stop emustation
+		EMURESTART=true
+	fi
         BPATH="/storage/roms/backup/"
         IDENTITYFILE="${BPATH}/identity.tar.gz"
         tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/distribution.conf /storage/.config/distribution/configs/emuoptions.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log 2>&1
+	if [ "${EMURESTART}" == true ]
+	then
+		systemctl start emustation
+	fi
 }
 
 function clearconfig() {
@@ -62,7 +71,6 @@ function clearconfig() {
 	"EMUS")
 		systemctl stop emustation
 		/usr/bin/ee_backup.sh b no
-		identity_backup
 		find /storage -mindepth 1 \( ! -regex '^/storage/.config/emulationstation/themes.*' -a ! -regex '^/storage/.update.*' -a ! -regex '^/storage/download.*' -a ! -regex '^/storage/roms.*' \) -delete
 		mkdir /storage/.config/
 		sync
@@ -76,7 +84,6 @@ function clearconfig() {
 	"ALL")
 		systemctl stop emustation
 		cd /
-		identity_backup
 		find /storage -mindepth 1 \( ! -regex '^/storage/.update.*' -a ! -regex '^/storage/roms.*' \) -delete
 		mkdir /storage/.config/
 		sync
