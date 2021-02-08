@@ -107,7 +107,7 @@ for dir in 3do amiga amigacd32 amstradcpc arcade atari800 atari2600 atari5200 \
 	   atari7800 atarilynx atarist atomiswave BGM bios c16 c64 c128  \
 	   capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
 	   dreamcast easyrpg eduke famicom fbneo fds gameandwatch gamegear gb gba gbc \
-	   genesis gw intellivision mame mastersystem megadrive megadrive-japan \
+	   genesis intellivision mame mastersystem megadrive megadrive-japan \
 	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor opt \
 	   pc pc98 pcengine pcenginecd pcfx pico-8 pokemini psp pspminis psx residualvm \
 	   residualvm/games saturn sc-3000 scummvm scummvm/games sega32x segacd sfc sg-1000 \
