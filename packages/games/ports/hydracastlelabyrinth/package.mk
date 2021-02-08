@@ -20,6 +20,8 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-mkdir -p $INSTALL/usr/local/bin
-cp $PKG_BUILD/.${TARGET_NAME}/hcl $INSTALL/usr/local/bin
+  mkdir -p $INSTALL/usr/local/bin
+  cp $PKG_BUILD/.${TARGET_NAME}/hcl $INSTALL/usr/local/bin
+  mkdir -p $INSTALL/usr/config/distribution/ports/hcl
+  cp -rf $PKG_BUILD/data $INSTALL/usr/config/distribution/ports/hcl/
 }
