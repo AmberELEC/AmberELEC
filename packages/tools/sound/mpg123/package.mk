@@ -11,7 +11,10 @@ PKG_DEPENDS_TARGET="toolchain alsa-lib SDL2-git"
 PKG_LONGDESC="A console based real time MPEG Audio Player for Layer 1, 2 and 3."
 PKG_BUILD_FLAGS="-fpic"
 
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared \
+                           --enable-static"
+
 if [ "$PULSEAUDIO_SUPPORT" = yes ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pulseaudio"
-  PKG_CONFIGURE_OPTS_TARGET="--with-default-audio=pulse --with-audio=alsa,pulse"
+  PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --with-default-audio=pulse --with-audio=alsa,pulse"
 fi
