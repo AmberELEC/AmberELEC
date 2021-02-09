@@ -130,6 +130,22 @@ wait
 # Copy pico-8
 rsync -a "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh"
 
+# Restore overclock setting
+OVERCLOCK_SETTING=$(get_ee_setting overclock)
+OVERCLOCK_STATE=$((grep "\-oc.dtb" /flash/boot.ini >/dev/null 2>&1 && echo 1) || echo 0)
+if [ ! "${OVERCLOCK_STATE}" == "${OVERCLOCK_SETTING}" ]
+then
+  echo -en '\e[20;0H\e[37mRestoring overclock...\e[0m' >/dev/console
+  if [ "${OVERCLOCK_SETTING}" = "1" ]
+  then
+    /usr/bin/351elec-overclock on
+  else
+    /usr/bin/351elec-overclock off
+  fi
+  sleep 1
+  systemctl reboot
+fi
+
 # Restore config if backup exists
 BPATH="/storage/roms/backup/"
 BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
@@ -137,7 +153,7 @@ BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
 if [ -e "${BPATH}/.restore" ]
 then
   if [ -f "${BACKUPFILE}" ]; then
-    echo -en '\e[20;0H\e[37mRestoring Backup and rebooting...\e[0m' >/dev/console
+    echo -en '\e[20;0H\e[37mRestoring backup and rebooting...\e[0m' >/dev/console
     unzip -o ${BACKUPFILE} -d /
     rm ${BACKUPFILE}
     systemctl reboot

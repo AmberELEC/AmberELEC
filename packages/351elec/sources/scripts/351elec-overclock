@@ -14,12 +14,14 @@ flash() {
 on() {
   flash rw
   sed -i "s#${BASEDTB}.dtb#${BASEDTB}-oc.dtb#g" /flash/boot.ini
+  set_ee_setting overclock 1
   flash ro
 }
 
 off() {
   flash rw
   sed -i "s#${BASEDTB}-oc.dtb#${BASEDTB}.dtb#g" /flash/boot.ini
+  set_ee_setting overclock 0
   flash ro
 }
 

@@ -1,6 +1,441 @@
+diff -rupN linux.orig/arch/arc/Makefile linux.new/arch/arc/Makefile
+--- linux.orig/arch/arc/Makefile	2021-02-05 16:32:00.787205717 -0500
++++ linux.new/arch/arc/Makefile	2021-02-09 08:26:30.362424441 -0500
+@@ -54,7 +54,7 @@ cflags-$(CONFIG_ARC_DW2_UNWIND)		+= -gdw
+ endif
+ 
+ ifndef CONFIG_CC_OPTIMIZE_FOR_SIZE
+-# Generic build system uses -O2, we want -O3
++# Generic build system uses -O3, we want -O3
+ # Note: No need to add to cflags-y as that happens anyways
+ ARCH_CFLAGS += -O3
+ endif
+diff -rupN linux.orig/arch/arm/boot/dts/armada-xp-netgear-rn2120.dts linux.new/arch/arm/boot/dts/armada-xp-netgear-rn2120.dts
+--- linux.orig/arch/arm/boot/dts/armada-xp-netgear-rn2120.dts	2021-02-05 16:32:00.835206556 -0500
++++ linux.new/arch/arm/boot/dts/armada-xp-netgear-rn2120.dts	2021-02-09 08:26:30.890428134 -0500
+@@ -102,7 +102,7 @@
+ 				status = "okay";
+ 
+ 				/* Controller for rear fan #1 of 3 (Protechnic
+-				 * MGT4012XB-O20, 8000RPM) near eSATA port */
++				 * MGT4012XB-O30, 8000RPM) near eSATA port */
+ 				g762_fan1: g762@3e {
+ 					compatible = "gmt,g762";
+ 					reg = <0x3e>;
+diff -rupN linux.orig/arch/arm/vdso/Makefile linux.new/arch/arm/vdso/Makefile
+--- linux.orig/arch/arm/vdso/Makefile	2021-02-05 16:32:00.831206486 -0500
++++ linux.new/arch/arm/vdso/Makefile	2021-02-09 08:26:30.730427015 -0500
+@@ -22,9 +22,9 @@ CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
+ 
+ CFLAGS_REMOVE_vdso.o = -pg
+ 
+-# Force -O2 to avoid libgcc dependencies
++# Force -O3 to avoid libgcc dependencies
+ CFLAGS_REMOVE_vgettimeofday.o = -pg -Os
+-CFLAGS_vgettimeofday.o = -O2
++CFLAGS_vgettimeofday.o = -O3
+ 
+ # Disable gcov profiling for VDSO code
+ GCOV_PROFILE := n
+diff -rupN linux.orig/arch/cris/boot/compressed/Makefile linux.new/arch/cris/boot/compressed/Makefile
+--- linux.orig/arch/cris/boot/compressed/Makefile	2021-02-05 16:32:00.403199007 -0500
++++ linux.new/arch/cris/boot/compressed/Makefile	2021-02-09 08:26:30.986428806 -0500
+@@ -3,11 +3,11 @@
+ #
+ 
+ asflags-y += $(LINUXINCLUDE)
+-ccflags-y += -O2 $(LINUXINCLUDE)
++ccflags-y += -O3 $(LINUXINCLUDE)
+ 
+ # asflags-$(CONFIG_ETRAX_ARCH_V32) += -I$(srctree)/include/asm/mach \
+ # 				    -I$(srctree)/include/asm/arch
+-# ccflags-$(CONFIG_ETRAX_ARCH_V32) += -O2 -I$(srctree)/include/asm/mach
++# ccflags-$(CONFIG_ETRAX_ARCH_V32) += -O3 -I$(srctree)/include/asm/mach
+ # 					-I$(srctree)/include/asm/arch
+ 
+ arch-$(CONFIG_ETRAX_ARCH_V10) = v10
+diff -rupN linux.orig/arch/cris/boot/rescue/Makefile linux.new/arch/cris/boot/rescue/Makefile
+--- linux.orig/arch/cris/boot/rescue/Makefile	2021-02-05 16:32:00.407199076 -0500
++++ linux.new/arch/cris/boot/rescue/Makefile	2021-02-09 08:26:30.986428806 -0500
+@@ -9,7 +9,7 @@
+ # LD = gcc-cris -mlinux -march=v32 -nostdlib
+ 
+ asflags-y += $(LINUXINCLUDE)
+-ccflags-y += -O2 $(LINUXINCLUDE)
++ccflags-y += -O3 $(LINUXINCLUDE)
+ 
+ ifdef CONFIG_ETRAX_AXISFLASHMAP
+ 
+diff -rupN linux.orig/arch/cris/include/arch-v10/arch/bug.h linux.new/arch/cris/include/arch-v10/arch/bug.h
+--- linux.orig/arch/cris/include/arch-v10/arch/bug.h	2021-02-05 16:32:00.407199076 -0500
++++ linux.new/arch/cris/include/arch-v10/arch/bug.h	2021-02-09 08:26:30.934428442 -0500
+@@ -28,7 +28,7 @@ struct bug_frame {
+ 
+ #if 0
+ /* Unfortunately this version of the macro does not work due to a problem
+- * with the compiler (aka a bug) when compiling with -O2, which sometimes
++ * with the compiler (aka a bug) when compiling with -O3, which sometimes
+  * erroneously causes the second input to be stored in a register...
+  */
+ #define BUG()								\
+diff -rupN linux.orig/arch/m32r/Makefile linux.new/arch/m32r/Makefile
+--- linux.orig/arch/m32r/Makefile	2021-02-05 16:32:00.439199636 -0500
++++ linux.new/arch/m32r/Makefile	2021-02-09 08:26:30.398424693 -0500
+@@ -17,14 +17,14 @@ KBUILD_CFLAGS_MODULE += -mmodel=large
+ 
+ ifdef CONFIG_CHIP_VDEC2
+ cflags-$(CONFIG_ISA_M32R2)	+= -DNO_FPU -Wa,-bitinst
+-aflags-$(CONFIG_ISA_M32R2)	+= -DNO_FPU -O2 -Wa,-bitinst -Wa,-no-parallel
++aflags-$(CONFIG_ISA_M32R2)	+= -DNO_FPU -O3 -Wa,-bitinst -Wa,-no-parallel
+ else
+ cflags-$(CONFIG_ISA_M32R2)	+= -DNO_FPU -m32r2
+-aflags-$(CONFIG_ISA_M32R2)	+= -DNO_FPU -m32r2 -O2
++aflags-$(CONFIG_ISA_M32R2)	+= -DNO_FPU -m32r2 -O3
+ endif
+ 
+ cflags-$(CONFIG_ISA_M32R)	+= -DNO_FPU
+-aflags-$(CONFIG_ISA_M32R)	+= -DNO_FPU -O2 -Wa,-no-bitinst
++aflags-$(CONFIG_ISA_M32R)	+= -DNO_FPU -O3 -Wa,-no-bitinst
+ 
+ KBUILD_CFLAGS += $(cflags-y)
+ KBUILD_AFLAGS += $(aflags-y)
+diff -rupN linux.orig/arch/m68k/tools/amiga/Makefile linux.new/arch/m68k/tools/amiga/Makefile
+--- linux.orig/arch/m68k/tools/amiga/Makefile	2021-02-05 16:32:00.463200055 -0500
++++ linux.new/arch/m68k/tools/amiga/Makefile	2021-02-09 08:26:30.422424861 -0500
+@@ -1,6 +1,6 @@
+ 
+ CC =		m68k-cbm-amigados-gcc
+-CFLAGS =	-Wall -O2
++CFLAGS =	-Wall -O3
+ 
+ 
+ All:		dmesg
+diff -rupN linux.orig/arch/mips/vdso/Makefile linux.new/arch/mips/vdso/Makefile
+--- linux.orig/arch/mips/vdso/Makefile	2021-02-05 16:32:00.531201244 -0500
++++ linux.new/arch/mips/vdso/Makefile	2021-02-09 08:26:30.226423490 -0500
+@@ -9,7 +9,7 @@ ccflags-vdso := \
+ 	$(filter -march=%,$(KBUILD_CFLAGS))
+ cflags-vdso := $(ccflags-vdso) \
+ 	$(filter -W%,$(filter-out -Wa$(comma)%,$(KBUILD_CFLAGS))) \
+-	-O2 -g -fPIC -fno-strict-aliasing -fno-common -fno-builtin -G 0 \
++	-O3 -g -fPIC -fno-strict-aliasing -fno-common -fno-builtin -G 0 \
+ 	-DDISABLE_BRANCH_PROFILING \
+ 	$(call cc-option, -fno-stack-protector)
+ aflags-vdso := $(ccflags-vdso) \
+diff -rupN linux.orig/arch/powerpc/platforms/cell/spufs/Makefile linux.new/arch/powerpc/platforms/cell/spufs/Makefile
+--- linux.orig/arch/powerpc/platforms/cell/spufs/Makefile	2021-02-05 16:32:00.603202502 -0500
++++ linux.new/arch/powerpc/platforms/cell/spufs/Makefile	2021-02-09 08:26:29.778420357 -0500
+@@ -14,7 +14,7 @@ SPU_CC		:= $(SPU_CROSS)gcc
+ SPU_AS		:= $(SPU_CROSS)gcc
+ SPU_LD		:= $(SPU_CROSS)ld
+ SPU_OBJCOPY	:= $(SPU_CROSS)objcopy
+-SPU_CFLAGS	:= -O2 -Wall -I$(srctree)/include -D__KERNEL__
++SPU_CFLAGS	:= -O3 -Wall -I$(srctree)/include -D__KERNEL__
+ SPU_AFLAGS	:= -c -D__ASSEMBLY__ -I$(srctree)/include -D__KERNEL__
+ SPU_LDFLAGS	:= -N -Ttext=0x0
+ 
+diff -rupN linux.orig/arch/s390/boot/compressed/Makefile linux.new/arch/s390/boot/compressed/Makefile
+--- linux.orig/arch/s390/boot/compressed/Makefile	2021-02-05 16:32:00.615202712 -0500
++++ linux.new/arch/s390/boot/compressed/Makefile	2021-02-09 08:26:29.698419798 -0500
+@@ -8,7 +8,7 @@ targets	:= vmlinux.lds vmlinux vmlinux.b
+ targets += vmlinux.bin.xz vmlinux.bin.lzma vmlinux.bin.lzo vmlinux.bin.lz4
+ targets += misc.o piggy.o sizes.h head.o
+ 
+-KBUILD_CFLAGS := -m64 -D__KERNEL__ $(LINUX_INCLUDE) -O2
++KBUILD_CFLAGS := -m64 -D__KERNEL__ $(LINUX_INCLUDE) -O3
+ KBUILD_CFLAGS += -DDISABLE_BRANCH_PROFILING
+ KBUILD_CFLAGS += $(cflags-y) -fno-delete-null-pointer-checks -msoft-float
+ KBUILD_CFLAGS += $(call cc-option,-mpacked-stack)
+diff -rupN linux.orig/arch/x86/boot/compressed/Makefile linux.new/arch/x86/boot/compressed/Makefile
+--- linux.orig/arch/x86/boot/compressed/Makefile	2021-02-05 16:32:00.707204319 -0500
++++ linux.new/arch/x86/boot/compressed/Makefile	2021-02-09 08:26:29.474418232 -0500
+@@ -24,7 +24,7 @@ KCOV_INSTRUMENT		:= n
+ targets := vmlinux vmlinux.bin vmlinux.bin.gz vmlinux.bin.bz2 vmlinux.bin.lzma \
+ 	vmlinux.bin.xz vmlinux.bin.lzo vmlinux.bin.lz4
+ 
+-KBUILD_CFLAGS := -m$(BITS) -D__KERNEL__ $(LINUX_INCLUDE) -O2
++KBUILD_CFLAGS := -m$(BITS) -D__KERNEL__ $(LINUX_INCLUDE) -O3
+ KBUILD_CFLAGS += -fno-strict-aliasing $(call cc-option, -fPIE, -fPIC)
+ KBUILD_CFLAGS += -DDISABLE_BRANCH_PROFILING
+ cflags-$(CONFIG_X86_32) := -march=i386
+diff -rupN linux.orig/arch/x86/entry/vdso/Makefile linux.new/arch/x86/entry/vdso/Makefile
+--- linux.orig/arch/x86/entry/vdso/Makefile	2021-02-05 16:32:00.711204389 -0500
++++ linux.new/arch/x86/entry/vdso/Makefile	2021-02-09 08:26:29.386417617 -0500
+@@ -65,7 +65,7 @@ $(obj)/vdso-image-%.c: $(obj)/vdso%.so.d
+ # Don't omit frame pointers for ease of userspace debugging, but do
+ # optimize sibling calls.
+ #
+-CFL := $(PROFILING) -mcmodel=small -fPIC -O2 -fasynchronous-unwind-tables -m64 \
++CFL := $(PROFILING) -mcmodel=small -fPIC -O3 -fasynchronous-unwind-tables -m64 \
+        $(filter -g%,$(KBUILD_CFLAGS)) $(call cc-option, -fno-stack-protector) \
+        -fno-omit-frame-pointer -foptimize-sibling-calls \
+        -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
+diff -rupN linux.orig/arch/x86/um/vdso/Makefile linux.new/arch/x86/um/vdso/Makefile
+--- linux.orig/arch/x86/um/vdso/Makefile	2021-02-05 16:32:00.755205158 -0500
++++ linux.new/arch/x86/um/vdso/Makefile	2021-02-09 08:26:29.466418176 -0500
+@@ -37,7 +37,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+ # Don't omit frame pointers for ease of userspace debugging, but do
+ # optimize sibling calls.
+ #
+-CFL := $(PROFILING) -mcmodel=small -fPIC -O2 -fasynchronous-unwind-tables -m64 \
++CFL := $(PROFILING) -mcmodel=small -fPIC -O3 -fasynchronous-unwind-tables -m64 \
+        $(filter -g%,$(KBUILD_CFLAGS)) $(call cc-option, -fno-stack-protector) \
+        -fno-omit-frame-pointer -foptimize-sibling-calls
+ 
+diff -rupN linux.orig/Documentation/arm/kernel_mode_neon.txt linux.new/Documentation/arm/kernel_mode_neon.txt
+--- linux.orig/Documentation/arm/kernel_mode_neon.txt	2021-02-05 16:31:58.959173772 -0500
++++ linux.new/Documentation/arm/kernel_mode_neon.txt	2021-02-09 08:26:57.286612793 -0500
+@@ -81,7 +81,7 @@ The compiler is not aware of the special
+ kernel_neon_end(), i.e., that it is only allowed to issue NEON/VFP instructions
+ between calls to these respective functions. Furthermore, GCC may generate NEON
+ instructions of its own at -O3 level if -mfpu=neon is selected, and even if the
+-kernel is currently compiled at -O2, future changes may result in NEON/VFP
++kernel is currently compiled at -O3, future changes may result in NEON/VFP
+ instructions appearing in unexpected places if no special care is taken.
+ 
+ Therefore, the recommended and only supported way of using NEON/VFP in the
+diff -rupN linux.orig/Documentation/crypto/descore-readme.txt linux.new/Documentation/crypto/descore-readme.txt
+--- linux.orig/Documentation/crypto/descore-readme.txt	2021-02-05 16:31:58.967173912 -0500
++++ linux.new/Documentation/crypto/descore-readme.txt	2021-02-09 08:26:56.982610666 -0500
+@@ -44,7 +44,7 @@ and then move on to the common abstract
+ 
+ 
+ performance comparison to other available des code which i could
+-compile on a SPARCStation 1 (cc -O4, gcc -O2):
++compile on a SPARCStation 1 (cc -O4, gcc -O3):
+ 
+ this code (byte-order independent):
+    30us per encryption (options: 64k tables, no IP/FP)
+@@ -72,12 +72,12 @@ kerberos des replacement from australia
+ 	on the sparc,  depending on the compiler;
+ 	in full gory detail (ALT_ECB is a libdes variant):
+ 	compiler   	machine		desCore	libdes	ALT_ECB	slower by
+-	gcc 2.1 -O2	Sun 3/110	304  uS	369.5uS	461.8uS	 22%
++	gcc 2.1 -O3	Sun 3/110	304  uS	369.5uS	461.8uS	 22%
+ 	cc      -O1	Sun 3/110	336  uS	436.6uS	399.3uS	 19%
+-	cc      -O2	Sun 3/110	360  uS	532.4uS	505.1uS	 40%
++	cc      -O3	Sun 3/110	360  uS	532.4uS	505.1uS	 40%
+ 	cc      -O4	Sun 3/110	365  uS	532.3uS	505.3uS	 38%
+-	gcc 2.1 -O2	Sun 4/50	 48  uS	 53.4uS	 57.5uS	 11%
+-	cc      -O2	Sun 4/50	 48  uS	 64.6uS	 64.7uS	 35%
++	gcc 2.1 -O3	Sun 4/50	 48  uS	 53.4uS	 57.5uS	 11%
++	cc      -O3	Sun 4/50	 48  uS	 64.6uS	 64.7uS	 35%
+ 	cc      -O4	Sun 4/50	 48  uS	 64.7uS	 64.9uS	 35%
+ 	(my time measurements are not as accurate as his).
+    the comments in my first release of desCore on version 1.92:
+diff -rupN linux.orig/Documentation/java.txt linux.new/Documentation/java.txt
+--- linux.orig/Documentation/java.txt	2021-02-05 16:31:58.963173842 -0500
++++ linux.new/Documentation/java.txt	2021-02-09 08:26:56.370606384 -0500
+@@ -51,7 +51,7 @@ other program after you have done the fo
+    above given configuration string.
+ 
+    You, too, need the little program after the script. Compile like
+-   gcc -O2 -o javaclassname javaclassname.c
++   gcc -O3 -o javaclassname javaclassname.c
+    and stick it to /usr/local/bin.
+ 
+    Both the javawrapper shellscript and the javaclassname program
+diff -rupN linux.orig/Documentation/networking/cs89x0.txt linux.new/Documentation/networking/cs89x0.txt
+--- linux.orig/Documentation/networking/cs89x0.txt	2021-02-05 16:31:59.031175031 -0500
++++ linux.new/Documentation/networking/cs89x0.txt	2021-02-09 08:26:56.826609574 -0500
+@@ -350,7 +350,7 @@ To compile the driver into a loadable mo
+ (single command line, without quotes):
+ 
+ "gcc -D__KERNEL__ -I/usr/src/linux/include -I/usr/src/linux/net/inet -Wall 
+--Wstrict-prototypes -O2 -fomit-frame-pointer -DMODULE -DCONFIG_MODVERSIONS 
++-Wstrict-prototypes -O3 -fomit-frame-pointer -DMODULE -DCONFIG_MODVERSIONS 
+ -c cs89x0.c"
+ 
+ 4.2 COMPILING THE DRIVER TO SUPPORT MEMORY MODE
+diff -rupN linux.orig/Documentation/networking/generic-hdlc.txt linux.new/Documentation/networking/generic-hdlc.txt
+--- linux.orig/Documentation/networking/generic-hdlc.txt	2021-02-05 16:31:59.031175031 -0500
++++ linux.new/Documentation/networking/generic-hdlc.txt	2021-02-09 08:26:56.798609379 -0500
+@@ -27,7 +27,7 @@ WAN port. You'll need the "sethdlc" util
+ 	http://www.kernel.org/pub/linux/utils/net/hdlc/
+ 
+ Compile sethdlc.c utility:
+-	gcc -O2 -Wall -o sethdlc sethdlc.c
++	gcc -O3 -Wall -o sethdlc sethdlc.c
+ Make sure you're using a correct version of sethdlc for your kernel.
+ 
+ Use sethdlc to set physical interface, clock rate, HDLC mode used,
+diff -rupN linux.orig/Documentation/networking/packet_mmap.txt linux.new/Documentation/networking/packet_mmap.txt
+--- linux.orig/Documentation/networking/packet_mmap.txt	2021-02-05 16:31:59.031175031 -0500
++++ linux.new/Documentation/networking/packet_mmap.txt	2021-02-09 08:26:56.810609463 -0500
+@@ -751,7 +751,7 @@ It is said that TPACKET_V3 brings the fo
+ So it seems to be a good candidate to be used with packet fanout.
+ 
+ Minimal example code by Daniel Borkmann based on Chetan Loke's lolpcap (compile
+-it with gcc -Wall -O2 blob.c, and try things like "./a.out eth0", etc.):
++it with gcc -Wall -O3 blob.c, and try things like "./a.out eth0", etc.):
+ 
+ /* Written from scratch, but kernel-to-user space API usage
+  * dissected from lolpcap:
+diff -rupN linux.orig/Documentation/s390/Debugging390.txt linux.new/Documentation/s390/Debugging390.txt
+--- linux.orig/Documentation/s390/Debugging390.txt	2021-02-05 16:31:59.035175101 -0500
++++ linux.new/Documentation/s390/Debugging390.txt	2021-02-09 08:26:56.718608819 -0500
+@@ -726,7 +726,7 @@ CFLAGS & LDFLAGS variables Makefile of t
+ 
+ If using gdb & you would like accurate displays of registers &
+  stack traces compile without optimisation i.e make sure
+-that there is no -O2 or similar on the CFLAGS line of the Makefile &
++that there is no -O3 or similar on the CFLAGS line of the Makefile &
+ the emitted gcc commands, obviously this will produce worse code 
+ ( not advisable for shipment ) but it is an  aid to the debugging process.
+ 
+diff -rupN linux.orig/drivers/firmware/efi/libstub/Makefile linux.new/drivers/firmware/efi/libstub/Makefile
+--- linux.orig/drivers/firmware/efi/libstub/Makefile	2021-02-05 16:31:59.083175939 -0500
++++ linux.new/drivers/firmware/efi/libstub/Makefile	2021-02-09 08:26:31.214430400 -0500
+@@ -6,7 +6,7 @@
+ #
+ cflags-$(CONFIG_X86_32)		:= -march=i386
+ cflags-$(CONFIG_X86_64)		:= -mcmodel=small
+-cflags-$(CONFIG_X86)		+= -m$(BITS) -D__KERNEL__ $(LINUX_INCLUDE) -O2 \
++cflags-$(CONFIG_X86)		+= -m$(BITS) -D__KERNEL__ $(LINUX_INCLUDE) -O3 \
+ 				   -fPIC -fno-strict-aliasing -mno-red-zone \
+ 				   -mno-mmx -mno-sse
+ 
+diff -rupN linux.orig/drivers/gpu/rogue/build/linux/buildvars.mk linux.new/drivers/gpu/rogue/build/linux/buildvars.mk
+--- linux.orig/drivers/gpu/rogue/build/linux/buildvars.mk	2021-02-05 16:31:59.191177827 -0500
++++ linux.new/drivers/gpu/rogue/build/linux/buildvars.mk	2021-02-09 08:26:44.814525531 -0500
+@@ -64,7 +64,7 @@ COMMON_CFLAGS := $(COMMON_FLAGS) \
+ ifeq ($(BUILD),debug)
+ COMMON_USER_FLAGS := -O0
+ else
+-OPTIM ?= -O2
++OPTIM ?= -O3
+ ifeq ($(USE_LTO),1)
+ COMMON_USER_FLAGS := $(OPTIM) -flto
+ else
+diff -rupN linux.orig/drivers/gpu/rogue/build/linux/common/android/arch_common.mk linux.new/drivers/gpu/rogue/build/linux/common/android/arch_common.mk
+--- linux.orig/drivers/gpu/rogue/build/linux/common/android/arch_common.mk	2021-02-05 16:31:59.191177827 -0500
++++ linux.new/drivers/gpu/rogue/build/linux/common/android/arch_common.mk	2021-02-09 08:26:44.814525531 -0500
+@@ -74,4 +74,4 @@ SYS_INCLUDES := \
+  -isystem $(ANDROID_ROOT)/external/clang/lib/Headers
+ endif
+ 
+-OPTIM := -O2
++OPTIM := -O3
+diff -rupN linux.orig/drivers/gpu/rogue/config_kernel.mk linux.new/drivers/gpu/rogue/config_kernel.mk
+--- linux.orig/drivers/gpu/rogue/config_kernel.mk	2021-02-05 16:31:59.191177827 -0500
++++ linux.new/drivers/gpu/rogue/config_kernel.mk	2021-02-09 08:26:44.886526035 -0500
+@@ -21,7 +21,7 @@ override CACHEFLUSH_TYPE := CACHEFLUSH_G
+ override SUPPORT_INSECURE_EXPORT := 1
+ override SUPPORT_SECURE_EXPORT := 1
+ override SUPPORT_GPUTRACE_EVENTS := 1
+-override OPTIM := -O2
++override OPTIM := -O3
+ override PVR_HANDLE_BACKEND := generic
+ override SUPPORT_ANDROID_PLATFORM := 1
+ override PVR_ANDROID_NATIVE_WINDOW_HAS_SYNC := 1
+diff -rupN linux.orig/drivers/gpu/rogue_m/build/linux/buildvars.mk linux.new/drivers/gpu/rogue_m/build/linux/buildvars.mk
+--- linux.orig/drivers/gpu/rogue_m/build/linux/buildvars.mk	2021-02-05 16:31:59.203178036 -0500
++++ linux.new/drivers/gpu/rogue_m/build/linux/buildvars.mk	2021-02-09 08:26:45.058527238 -0500
+@@ -64,7 +64,7 @@ COMMON_CFLAGS := $(COMMON_FLAGS) \
+ ifeq ($(BUILD),debug)
+ COMMON_USER_FLAGS := -O0
+ else
+-OPTIM ?= -O2
++OPTIM ?= -O3
+ ifeq ($(USE_LTO),1)
+ COMMON_USER_FLAGS := $(OPTIM) -flto
+ else
+diff -rupN linux.orig/drivers/gpu/rogue_m/build/linux/common/android/arch_common.mk linux.new/drivers/gpu/rogue_m/build/linux/common/android/arch_common.mk
+--- linux.orig/drivers/gpu/rogue_m/build/linux/common/android/arch_common.mk	2021-02-05 16:31:59.203178036 -0500
++++ linux.new/drivers/gpu/rogue_m/build/linux/common/android/arch_common.mk	2021-02-09 08:26:45.058527238 -0500
+@@ -82,4 +82,4 @@ SYS_INCLUDES := \
+  -isystem $(ANDROID_ROOT)/external/clang/lib/Headers
+ endif
+ 
+-OPTIM := -O2
++OPTIM := -O3
+diff -rupN linux.orig/drivers/gpu/rogue_m/config_kernel.mk linux.new/drivers/gpu/rogue_m/config_kernel.mk
+--- linux.orig/drivers/gpu/rogue_m/config_kernel.mk	2021-02-05 16:31:59.203178036 -0500
++++ linux.new/drivers/gpu/rogue_m/config_kernel.mk	2021-02-09 08:26:45.114527631 -0500
+@@ -21,7 +21,7 @@ override DEBUGLINK := 1
+ override CACHEFLUSH_TYPE := CACHEFLUSH_GENERIC
+ override SUPPORT_SECURE_EXPORT := 1
+ override SUPPORT_GPUTRACE_EVENTS := 1
+-override OPTIM := -O2
++override OPTIM := -O3
+ override PVR_HANDLE_BACKEND := idr
+ override SUPPORT_ANDROID_PLATFORM := 1
+ override SUPPORT_NATIVE_FENCE_SYNC := 1
+diff -rupN linux.orig/drivers/net/ethernet/dlink/dl2k.c linux.new/drivers/net/ethernet/dlink/dl2k.c
+--- linux.orig/drivers/net/ethernet/dlink/dl2k.c	2021-02-05 16:31:59.399181462 -0500
++++ linux.new/drivers/net/ethernet/dlink/dl2k.c	2021-02-09 08:26:35.126457762 -0500
+@@ -1807,7 +1807,7 @@ module_pci_driver(rio_driver);
+ 
+ Compile command:
+ 
+-gcc -D__KERNEL__ -DMODULE -I/usr/src/linux/include -Wall -Wstrict-prototypes -O2 -c dl2k.c
++gcc -D__KERNEL__ -DMODULE -I/usr/src/linux/include -Wall -Wstrict-prototypes -O3 -c dl2k.c
+ 
+ Read Documentation/networking/dl2k.txt for details.
+ 
+diff -rupN linux.orig/drivers/staging/lustre/include/linux/libcfs/libcfs_private.h linux.new/drivers/staging/lustre/include/linux/libcfs/libcfs_private.h
+--- linux.orig/drivers/staging/lustre/include/linux/libcfs/libcfs_private.h	2021-02-05 16:31:59.999191946 -0500
++++ linux.new/drivers/staging/lustre/include/linux/libcfs/libcfs_private.h	2021-02-09 08:26:33.814448585 -0500
+@@ -165,7 +165,7 @@ do {								    \
+ 
+ /******************************************************************************/
+ 
+-/* htonl hack - either this, or compile with -O2. Stupid byteorder/generic.h */
++/* htonl hack - either this, or compile with -O3. Stupid byteorder/generic.h */
+ #if defined(__GNUC__) && (__GNUC__ >= 2) && !defined(__OPTIMIZE__)
+ #define ___htonl(x) __cpu_to_be32(x)
+ #define ___htons(x) __cpu_to_be16(x)
+diff -rupN linux.orig/drivers/staging/rtl8192u/ieee80211/Makefile linux.new/drivers/staging/rtl8192u/ieee80211/Makefile
+--- linux.orig/drivers/staging/rtl8192u/ieee80211/Makefile	2021-02-05 16:32:00.067193135 -0500
++++ linux.new/drivers/staging/rtl8192u/ieee80211/Makefile	2021-02-09 08:26:33.730447998 -0500
+@@ -1,7 +1,7 @@
+ NIC_SELECT = RTL8192U
+ 
+ ccflags-y := -I$(TOPDIR)/drivers/net/wireless
+-ccflags-y += -O2
++ccflags-y += -O3
+ ccflags-y += -DJACKSON_NEW_8187 -DJACKSON_NEW_RX
+ 
+ ieee80211-rsl-objs := ieee80211_rx.o \
+diff -rupN linux.orig/drivers/staging/rtl8192u/Makefile linux.new/drivers/staging/rtl8192u/Makefile
+--- linux.orig/drivers/staging/rtl8192u/Makefile	2021-02-05 16:32:00.067193135 -0500
++++ linux.new/drivers/staging/rtl8192u/Makefile	2021-02-09 08:26:33.738448054 -0500
+@@ -1,7 +1,7 @@
+ NIC_SELECT = RTL8192U
+ 
+ ccflags-y := -std=gnu89
+-ccflags-y += -O2
++ccflags-y += -O3
+ 
+ ccflags-y += -DCONFIG_FORCE_HARD_FLOAT=y
+ ccflags-y += -DJACKSON_NEW_8187 -DJACKSON_NEW_RX
+diff -rupN linux.orig/fs/adfs/map.c linux.new/fs/adfs/map.c
+--- linux.orig/fs/adfs/map.c	2021-02-05 16:32:00.323197608 -0500
++++ linux.new/fs/adfs/map.c	2021-02-09 08:26:54.330592109 -0500
+@@ -65,7 +65,7 @@ static DEFINE_RWLOCK(adfs_map_lock);
+  * return the map bit offset of the fragment frag_id in the zone dm.
+  * Note that the loop is optimised for best asm code - look at the
+  * output of:
+- *  gcc -D__KERNEL__ -O2 -I../../include -o - -S map.c
++ *  gcc -D__KERNEL__ -O3 -I../../include -o - -S map.c
+  */
+ static int
+ lookup_zone(const struct adfs_discmap *dm, const unsigned int idlen,
+diff -rupN linux.orig/fs/reiserfs/Makefile linux.new/fs/reiserfs/Makefile
+--- linux.orig/fs/reiserfs/Makefile	2021-02-05 16:32:00.303197259 -0500
++++ linux.new/fs/reiserfs/Makefile	2021-02-09 08:26:54.742594993 -0500
+@@ -25,7 +25,7 @@ ifeq ($(CONFIG_REISERFS_FS_POSIX_ACL),y)
+ reiserfs-objs += xattr_acl.o
+ endif
+ 
+-# gcc -O2 (the kernel default)  is overaggressive on ppc32 when many inline
++# gcc -O3 (the kernel default)  is overaggressive on ppc32 when many inline
+ # functions are used.  This causes the compiler to advance the stack
+ # pointer out of the available stack space, corrupting kernel space,
+ # and causing a panic. Since this behavior only affects ppc32, this ifeq
 diff -rupN linux.orig/include/linux/compat.h.orig linux.new/include/linux/compat.h.orig
 --- linux.orig/include/linux/compat.h.orig	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/include/linux/compat.h.orig	2021-02-05 16:52:36.469750905 -0500
++++ linux.new/include/linux/compat.h.orig	2021-02-09 08:26:53.750588052 -0500
 @@ -0,0 +1,721 @@
 +#ifndef _LINUX_COMPAT_H
 +#define _LINUX_COMPAT_H
@@ -725,7 +1160,7 @@ diff -rupN linux.orig/include/linux/compat.h.orig linux.new/include/linux/compat
 +#endif /* _LINUX_COMPAT_H */
 diff -rupN linux.orig/include/linux/compiler-gcc.h.orig linux.new/include/linux/compiler-gcc.h.orig
 --- linux.orig/include/linux/compiler-gcc.h.orig	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/include/linux/compiler-gcc.h.orig	2021-02-05 16:52:36.469750905 -0500
++++ linux.new/include/linux/compiler-gcc.h.orig	2021-02-09 08:26:53.942589395 -0500
 @@ -0,0 +1,317 @@
 +#ifndef __LINUX_COMPILER_H
 +#error "Please don't include <linux/compiler-gcc.h> directly, include <linux/compiler.h> instead."
@@ -1046,7 +1481,7 @@ diff -rupN linux.orig/include/linux/compiler-gcc.h.orig linux.new/include/linux/
 +#define uninitialized_var(x) x = x
 diff -rupN linux.orig/include/linux/syscalls.h.orig linux.new/include/linux/syscalls.h.orig
 --- linux.orig/include/linux/syscalls.h.orig	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/include/linux/syscalls.h.orig	2021-02-05 16:52:36.469750905 -0500
++++ linux.new/include/linux/syscalls.h.orig	2021-02-09 08:26:53.814588499 -0500
 @@ -0,0 +1,912 @@
 +/*
 + * syscalls.h - Linux syscall interfaces (non-arch-specific)
@@ -1960,10 +2395,52 @@ diff -rupN linux.orig/include/linux/syscalls.h.orig linux.new/include/linux/sysc
 +asmlinkage long sys_mlock2(unsigned long start, size_t len, int flags);
 +
 +#endif
+diff -rupN linux.orig/init/Kconfig linux.new/init/Kconfig
+--- linux.orig/init/Kconfig	2021-02-05 16:31:58.759170277 -0500
++++ linux.new/init/Kconfig	2021-02-09 08:26:29.202416330 -0500
+@@ -1395,13 +1395,13 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+ 	bool "Optimize for performance"
+ 	help
+ 	  This is the default optimization level for the kernel, building
+-	  with the "-O2" compiler flag for best performance and most
++	  with the "-O3" compiler flag for best performance and most
+ 	  helpful compile-time warnings.
+ 
+ config CC_OPTIMIZE_FOR_SIZE
+ 	bool "Optimize for size"
+ 	help
+-	  Enabling this option will pass "-Os" instead of "-O2" to
++	  Enabling this option will pass "-Os" instead of "-O3" to
+ 	  your compiler resulting in a smaller kernel.
+ 
+ 	  If unsure, say N.
+diff -rupN linux.orig/lib/raid6/test/Makefile linux.new/lib/raid6/test/Makefile
+--- linux.orig/lib/raid6/test/Makefile	2021-02-05 16:31:58.783170697 -0500
++++ linux.new/lib/raid6/test/Makefile	2021-02-09 08:26:52.446578927 -0500
+@@ -4,7 +4,7 @@
+ #
+ 
+ CC	 = gcc
+-OPTFLAGS = -O2			# Adjust as desired
++OPTFLAGS = -O3			# Adjust as desired
+ CFLAGS	 = -I.. -I ../../../include -g $(OPTFLAGS)
+ LD	 = ld
+ AWK	 = awk -f
 diff -rupN linux.orig/Makefile linux.new/Makefile
 --- linux.orig/Makefile	2021-02-05 16:31:59.047175310 -0500
-+++ linux.new/Makefile	2021-02-05 16:56:12.355692949 -0500
-@@ -662,11 +662,16 @@ include arch/$(SRCARCH)/Makefile
++++ linux.new/Makefile	2021-02-09 08:26:59.054625165 -0500
+@@ -320,8 +320,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH"
+ 
+ HOSTCC       = gcc
+ HOSTCXX      = g++
+-HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
+-HOSTCXXFLAGS = -O2
++HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -std=gnu89
++HOSTCXXFLAGS = -O3
+ 
+ # Decide whether to build built-in, modular, or both.
+ # Normally, just do built-in.
+@@ -662,19 +662,24 @@ include arch/$(SRCARCH)/Makefile
  KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
  KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
  KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
@@ -1985,3 +2462,253 @@ diff -rupN linux.orig/Makefile linux.new/Makefile
  
  ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
  KBUILD_CFLAGS	+= -Os
+ else
+ ifdef CONFIG_PROFILE_ALL_BRANCHES
+-KBUILD_CFLAGS	+= -O2
++KBUILD_CFLAGS	+= -O3
+ else
+-KBUILD_CFLAGS   += -O2
++KBUILD_CFLAGS   += -O3
+ endif
+ endif
+ 
+diff -rupN linux.orig/samples/bpf/Makefile linux.new/samples/bpf/Makefile
+--- linux.orig/samples/bpf/Makefile	2021-02-05 16:32:00.287196980 -0500
++++ linux.new/samples/bpf/Makefile	2021-02-09 08:26:29.010414988 -0500
+@@ -73,7 +73,7 @@ LLC=$(srctree)/tools/bpf/llvm/bld/Debug+
+ $(obj)/%.o: $(src)/%.c
+ 	clang $(NOSTDINC_FLAGS) $(LINUXINCLUDE) $(EXTRA_CFLAGS) \
+ 		-D__KERNEL__ -D__ASM_SYSREG_H -Wno-unused-value -Wno-pointer-sign \
+-		-O2 -emit-llvm -c $< -o -| $(LLC) -march=bpf -filetype=obj -o $@
++		-O3 -emit-llvm -c $< -o -| $(LLC) -march=bpf -filetype=obj -o $@
+ 	clang $(NOSTDINC_FLAGS) $(LINUXINCLUDE) $(EXTRA_CFLAGS) \
+ 		-D__KERNEL__ -D__ASM_SYSREG_H -Wno-unused-value -Wno-pointer-sign \
+-		-O2 -emit-llvm -c $< -o -| $(LLC) -march=bpf -filetype=asm -o $@.s
++		-O3 -emit-llvm -c $< -o -| $(LLC) -march=bpf -filetype=asm -o $@.s
+diff -rupN linux.orig/tools/build/feature/Makefile linux.new/tools/build/feature/Makefile
+--- linux.orig/tools/build/feature/Makefile	2021-02-05 16:31:58.847171815 -0500
++++ linux.new/tools/build/feature/Makefile	2021-02-09 08:26:29.066415379 -0500
+@@ -49,7 +49,7 @@ __BUILD = $(CC) $(CFLAGS) -Wall -Werror
+ ###############################
+ 
+ test-all.bin:
+-	$(BUILD) -fstack-protector-all -O2 -D_FORTIFY_SOURCE=2 -ldw -lelf -lnuma -lelf -laudit -I/usr/include/slang -lslang $(shell $(PKG_CONFIG) --libs --cflags gtk+-2.0 2>/dev/null) $(FLAGS_PERL_EMBED) $(FLAGS_PYTHON_EMBED) -DPACKAGE='"perf"' -lbfd -ldl -lz -llzma
++	$(BUILD) -fstack-protector-all -O3 -D_FORTIFY_SOURCE=2 -ldw -lelf -lnuma -lelf -laudit -I/usr/include/slang -lslang $(shell $(PKG_CONFIG) --libs --cflags gtk+-2.0 2>/dev/null) $(FLAGS_PERL_EMBED) $(FLAGS_PYTHON_EMBED) -DPACKAGE='"perf"' -lbfd -ldl -lz -llzma
+ 
+ test-hello.bin:
+ 	$(BUILD)
+@@ -61,7 +61,7 @@ test-stackprotector-all.bin:
+ 	$(BUILD) -fstack-protector-all
+ 
+ test-fortify-source.bin:
+-	$(BUILD) -O2 -D_FORTIFY_SOURCE=2
++	$(BUILD) -O3 -D_FORTIFY_SOURCE=2
+ 
+ test-bionic.bin:
+ 	$(BUILD)
+diff -rupN linux.orig/tools/firewire/Makefile linux.new/tools/firewire/Makefile
+--- linux.orig/tools/firewire/Makefile	2021-02-05 16:31:58.847171815 -0500
++++ linux.new/tools/firewire/Makefile	2021-02-09 08:26:29.082415491 -0500
+@@ -5,7 +5,7 @@ CC = gcc
+ 
+ all : nosy-dump
+ 
+-nosy-dump : CFLAGS = -Wall -O2 -g
++nosy-dump : CFLAGS = -Wall -O3 -g
+ nosy-dump : CPPFLAGS = -DVERSION=\"$(nosy-dump-version)\" -I../../drivers/firewire
+ nosy-dump : LDFLAGS = -g
+ nosy-dump : LDLIBS = -lpopt
+diff -rupN linux.orig/tools/net/Makefile linux.new/tools/net/Makefile
+--- linux.orig/tools/net/Makefile	2021-02-05 16:31:58.851171885 -0500
++++ linux.new/tools/net/Makefile	2021-02-09 08:26:29.082415491 -0500
+@@ -4,7 +4,7 @@ CC = gcc
+ LEX = flex
+ YACC = bison
+ 
+-CFLAGS += -Wall -O2
++CFLAGS += -Wall -O3
+ CFLAGS += -D__EXPORTED_HEADERS__ -I../../include/uapi -I../../include
+ 
+ %.yacc.c: %.y
+diff -rupN linux.orig/tools/perf/util/llvm-utils.c linux.new/tools/perf/util/llvm-utils.c
+--- linux.orig/tools/perf/util/llvm-utils.c	2021-02-05 16:31:58.871172234 -0500
++++ linux.new/tools/perf/util/llvm-utils.c	2021-02-09 08:26:29.110415687 -0500
+@@ -15,7 +15,7 @@
+ 		"$CLANG_OPTIONS $KERNEL_INC_OPTIONS "		\
+ 		"-Wno-unused-value -Wno-pointer-sign "		\
+ 		"-working-directory $WORKING_DIR "		\
+-		"-c \"$CLANG_SOURCE\" -target bpf -O2 -o -"
++		"-c \"$CLANG_SOURCE\" -target bpf -O3 -o -"
+ 
+ struct llvm_param llvm_param = {
+ 	.clang_path = "clang",
+@@ -396,7 +396,7 @@ int llvm__compile_bpf(const char *path,
+ 		pr_err("ERROR:\tunable to compile %s\n", path);
+ 		pr_err("Hint:\tCheck error message shown above.\n");
+ 		pr_err("Hint:\tYou can also pre-compile it into .o using:\n");
+-		pr_err("     \t\tclang -target bpf -O2 -c %s\n", path);
++		pr_err("     \t\tclang -target bpf -O3 -c %s\n", path);
+ 		pr_err("     \twith proper -I and -D options.\n");
+ 		goto errout;
+ 	}
+diff -rupN linux.orig/tools/power/acpi/Makefile.config linux.new/tools/power/acpi/Makefile.config
+--- linux.orig/tools/power/acpi/Makefile.config	2021-02-05 16:31:58.883172444 -0500
++++ linux.new/tools/power/acpi/Makefile.config	2021-02-09 08:26:29.094415575 -0500
+@@ -62,8 +62,8 @@ HOSTCC = gcc
+ # check if compiler option is supported
+ cc-supports = ${shell if $(CC) ${1} -S -o /dev/null -x c /dev/null > /dev/null 2>&1; then echo "$(1)"; fi;}
+ 
+-# use '-Os' optimization if available, else use -O2
+-OPTIMIZATION := $(call cc-supports,-Os,-O2)
++# use '-Os' optimization if available, else use -O3
++OPTIMIZATION := $(call cc-supports,-Os,-O3)
+ 
+ WARNINGS := -Wall
+ WARNINGS += $(call cc-supports,-Wstrict-prototypes)
+diff -rupN linux.orig/tools/power/cpupower/Makefile linux.new/tools/power/cpupower/Makefile
+--- linux.orig/tools/power/cpupower/Makefile	2021-02-05 16:31:58.883172444 -0500
++++ linux.new/tools/power/cpupower/Makefile	2021-02-09 08:26:29.094415575 -0500
+@@ -113,8 +113,8 @@ export CROSS CC AR STRIP RANLIB CFLAGS L
+ # check if compiler option is supported
+ cc-supports = ${shell if $(CC) ${1} -S -o /dev/null -x c /dev/null > /dev/null 2>&1; then echo "$(1)"; fi;}
+ 
+-# use '-Os' optimization if available, else use -O2
+-OPTIMIZATION := $(call cc-supports,-Os,-O2)
++# use '-Os' optimization if available, else use -O3
++OPTIMIZATION := $(call cc-supports,-Os,-O3)
+ 
+ WARNINGS := -Wall -Wchar-subscripts -Wpointer-arith -Wsign-compare
+ WARNINGS += $(call cc-supports,-Wno-pointer-sign)
+diff -rupN linux.orig/tools/testing/selftests/capabilities/Makefile linux.new/tools/testing/selftests/capabilities/Makefile
+--- linux.orig/tools/testing/selftests/capabilities/Makefile	2021-02-05 16:31:58.887172514 -0500
++++ linux.new/tools/testing/selftests/capabilities/Makefile	2021-02-09 08:26:29.186416218 -0500
+@@ -7,7 +7,7 @@ include ../lib.mk
+ TARGETS := validate_cap test_execve
+ TEST_PROGS := test_execve
+ 
+-CFLAGS := -O2 -g -std=gnu99 -Wall -lcap-ng
++CFLAGS := -O3 -g -std=gnu99 -Wall -lcap-ng
+ 
+ all: $(TARGETS)
+ 
+diff -rupN linux.orig/tools/testing/selftests/futex/functional/Makefile linux.new/tools/testing/selftests/futex/functional/Makefile
+--- linux.orig/tools/testing/selftests/futex/functional/Makefile	2021-02-05 16:31:58.931173283 -0500
++++ linux.new/tools/testing/selftests/futex/functional/Makefile	2021-02-09 08:26:29.170416107 -0500
+@@ -1,5 +1,5 @@
+ INCLUDES := -I../include -I../../
+-CFLAGS := $(CFLAGS) -g -O2 -Wall -D_GNU_SOURCE -pthread $(INCLUDES)
++CFLAGS := $(CFLAGS) -g -O3 -Wall -D_GNU_SOURCE -pthread $(INCLUDES)
+ LDFLAGS := $(LDFLAGS) -pthread -lrt
+ 
+ HEADERS := ../include/futextest.h
+diff -rupN linux.orig/tools/testing/selftests/mount/Makefile linux.new/tools/testing/selftests/mount/Makefile
+--- linux.orig/tools/testing/selftests/mount/Makefile	2021-02-05 16:31:58.931173283 -0500
++++ linux.new/tools/testing/selftests/mount/Makefile	2021-02-09 08:26:29.186416218 -0500
+@@ -1,6 +1,6 @@
+ # Makefile for mount selftests.
+ CFLAGS = -Wall \
+-         -O2
++         -O3
+ all: unprivileged-remount-test
+ 
+ unprivileged-remount-test: unprivileged-remount-test.c
+diff -rupN linux.orig/tools/testing/selftests/mqueue/Makefile linux.new/tools/testing/selftests/mqueue/Makefile
+--- linux.orig/tools/testing/selftests/mqueue/Makefile	2021-02-05 16:31:58.931173283 -0500
++++ linux.new/tools/testing/selftests/mqueue/Makefile	2021-02-09 08:26:29.162416051 -0500
+@@ -1,4 +1,4 @@
+-CFLAGS += -O2
++CFLAGS += -O3
+ LDLIBS = -lrt -lpthread -lpopt
+ TEST_PROGS := mq_open_tests mq_perf_tests
+ 
+diff -rupN linux.orig/tools/testing/selftests/net/Makefile linux.new/tools/testing/selftests/net/Makefile
+--- linux.orig/tools/testing/selftests/net/Makefile	2021-02-05 16:31:58.931173283 -0500
++++ linux.new/tools/testing/selftests/net/Makefile	2021-02-09 08:26:29.174416134 -0500
+@@ -1,6 +1,6 @@
+ # Makefile for net selftests
+ 
+-CFLAGS = -Wall -O2 -g
++CFLAGS = -Wall -O3 -g
+ 
+ CFLAGS += -I../../../../usr/include/
+ 
+diff -rupN linux.orig/tools/testing/selftests/powerpc/benchmarks/Makefile linux.new/tools/testing/selftests/powerpc/benchmarks/Makefile
+--- linux.orig/tools/testing/selftests/powerpc/benchmarks/Makefile	2021-02-05 16:31:58.931173283 -0500
++++ linux.new/tools/testing/selftests/powerpc/benchmarks/Makefile	2021-02-09 08:26:29.178416162 -0500
+@@ -1,6 +1,6 @@
+ TEST_PROGS := gettimeofday
+ 
+-CFLAGS += -O2
++CFLAGS += -O3
+ 
+ all: $(TEST_PROGS)
+ 
+diff -rupN linux.orig/tools/testing/selftests/powerpc/Makefile linux.new/tools/testing/selftests/powerpc/Makefile
+--- linux.orig/tools/testing/selftests/powerpc/Makefile	2021-02-05 16:31:58.931173283 -0500
++++ linux.new/tools/testing/selftests/powerpc/Makefile	2021-02-09 08:26:29.178416162 -0500
+@@ -8,7 +8,7 @@ ifeq ($(ARCH),powerpc)
+ 
+ GIT_VERSION = $(shell git describe --always --long --dirty || echo "unknown")
+ 
+-CFLAGS := -Wall -O2 -flto -Wall -Werror -DGIT_VERSION='"$(GIT_VERSION)"' -I$(CURDIR) $(CFLAGS)
++CFLAGS := -Wall -O3 -flto -Wall -Werror -DGIT_VERSION='"$(GIT_VERSION)"' -I$(CURDIR) $(CFLAGS)
+ 
+ export CFLAGS
+ 
+diff -rupN linux.orig/tools/testing/selftests/powerpc/switch_endian/Makefile linux.new/tools/testing/selftests/powerpc/switch_endian/Makefile
+--- linux.orig/tools/testing/selftests/powerpc/switch_endian/Makefile	2021-02-05 16:31:58.935173353 -0500
++++ linux.new/tools/testing/selftests/powerpc/switch_endian/Makefile	2021-02-09 08:26:29.174416134 -0500
+@@ -1,6 +1,6 @@
+ TEST_PROGS := switch_endian_test
+ 
+-ASFLAGS += -O2 -Wall -g -nostdlib -m64
++ASFLAGS += -O3 -Wall -g -nostdlib -m64
+ 
+ all: $(TEST_PROGS)
+ 
+diff -rupN linux.orig/tools/testing/selftests/vm/Makefile linux.new/tools/testing/selftests/vm/Makefile
+--- linux.orig/tools/testing/selftests/vm/Makefile	2021-02-05 16:31:58.935173353 -0500
++++ linux.new/tools/testing/selftests/vm/Makefile	2021-02-09 08:26:29.190416246 -0500
+@@ -15,7 +15,7 @@ all: $(BINARIES)
+ %: %.c
+ 	$(CC) $(CFLAGS) -o $@ $^ -lrt
+ userfaultfd: userfaultfd.c ../../../../usr/include/linux/kernel.h
+-	$(CC) $(CFLAGS) -O2 -o $@ $< -lpthread
++	$(CC) $(CFLAGS) -O3 -o $@ $< -lpthread
+ 
+ ../../../../usr/include/linux/kernel.h:
+ 	make -C ../../../.. headers_install
+diff -rupN linux.orig/tools/testing/selftests/x86/Makefile linux.new/tools/testing/selftests/x86/Makefile
+--- linux.orig/tools/testing/selftests/x86/Makefile	2021-02-05 16:31:58.939173423 -0500
++++ linux.new/tools/testing/selftests/x86/Makefile	2021-02-09 08:26:29.166416079 -0500
+@@ -13,7 +13,7 @@ TARGETS_C_32BIT_ALL := $(TARGETS_C_BOTHB
+ BINARIES_32 := $(TARGETS_C_32BIT_ALL:%=%_32)
+ BINARIES_64 := $(TARGETS_C_BOTHBITS:%=%_64)
+ 
+-CFLAGS := -O2 -g -std=gnu99 -pthread -Wall
++CFLAGS := -O3 -g -std=gnu99 -pthread -Wall
+ 
+ UNAME_M := $(shell uname -m)
+ CAN_BUILD_I386 := $(shell ./check_cc.sh $(CC) trivial_32bit_program.c -m32)
+diff -rupN linux.orig/tools/virtio/Makefile linux.new/tools/virtio/Makefile
+--- linux.orig/tools/virtio/Makefile	2021-02-05 16:31:58.939173423 -0500
++++ linux.new/tools/virtio/Makefile	2021-02-09 08:26:29.194416274 -0500
+@@ -3,7 +3,7 @@ test: virtio_test vringh_test
+ virtio_test: virtio_ring.o virtio_test.o
+ vringh_test: vringh_test.o vringh.o virtio_ring.o
+ 
+-CFLAGS += -g -O2 -Werror -Wall -I. -I../include/ -I ../../usr/include/ -Wno-pointer-sign -fno-strict-overflow -fno-strict-aliasing -fno-common -MMD -U_FORTIFY_SOURCE
++CFLAGS += -g -O3 -Werror -Wall -I. -I../include/ -I ../../usr/include/ -Wno-pointer-sign -fno-strict-overflow -fno-strict-aliasing -fno-common -MMD -U_FORTIFY_SOURCE
+ vpath %.c ../../drivers/virtio ../../drivers/vhost
+ mod:
+ 	${MAKE} -C `pwd`/../.. M=`pwd`/vhost_test V=${V}
+diff -rupN linux.orig/tools/virtio/virtio-trace/Makefile linux.new/tools/virtio/virtio-trace/Makefile
+--- linux.orig/tools/virtio/virtio-trace/Makefile	2021-02-05 16:31:58.939173423 -0500
++++ linux.new/tools/virtio/virtio-trace/Makefile	2021-02-09 08:26:29.194416274 -0500
+@@ -1,5 +1,5 @@
+ CC = gcc
+-CFLAGS = -O2 -Wall -pthread
++CFLAGS = -O3 -Wall -pthread
+ 
+ all: trace-agent
+ 
