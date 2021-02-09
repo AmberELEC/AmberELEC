@@ -35,8 +35,8 @@ else
   MYGAME=${ROMNAME^^}
   MYBOOT="
 
-        ### WELCOME TO \e[31m351\e[39mELEC - VERSION $(cat /storage/.config/.OS_VERSION) ###
-        $(awk '/MemTotal/ {printf $2}' /proc/meminfo)K BYTE RAM SYSTEM $(awk '/MemFree/ {printf $2}' /proc/meminfo)K BYTES FREE
+       ### WELCOME TO \e[31m351\e[39mELEC  -  VERSION $(cat /storage/.config/.OS_VERSION) ###
+       $(awk '/MemTotal/ {printf $2}' /proc/meminfo)K  BYTE RAM SYSTEM $(awk '/MemFree/ {printf $2}' /proc/meminfo)K BYTES FREE
 
 "
 
