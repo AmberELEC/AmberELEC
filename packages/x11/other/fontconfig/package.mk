@@ -2,7 +2,7 @@
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 
 PKG_NAME="fontconfig"
-PKG_VERSION="2.13.93"
+PKG_VERSION="2.13.1"
 #PKG_SHA256=""
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.fontconfig.org"
