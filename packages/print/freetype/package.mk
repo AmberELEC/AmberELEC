@@ -3,11 +3,11 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="freetype"
-PKG_VERSION="2.4.10"
+PKG_VERSION="2.10.4"
 #PKG_SHA256=""
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.freetype.org"
-PKG_URL="http://download.savannah.gnu.org/releases/freetype/$PKG_NAME-$PKG_VERSION.tar.bz2"
+PKG_URL="http://download.savannah.gnu.org/releases/freetype/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain zlib libpng"
 PKG_LONGDESC="The FreeType engine is a free and portable TrueType font rendering engine."
 PKG_TOOLCHAIN="configure"
@@ -25,8 +25,3 @@ pre_configure_target() {
     )
 }
 
-post_makeinstall_target() {
-  sed -e "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/freetype-config
-
-  rm -rf $INSTALL/usr/bin
-}
