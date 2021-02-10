@@ -42,7 +42,7 @@ make_target() {
   if [[ "$ARCH" =~ "arm" ]]; then
     make -f Makefile.libretro platform=unix-armv HAVE_NEON=1
   else
-    make -f Makefile.libretro platform=rpi3
+    make -f Makefile.libretro platform=armv8_a35
   fi
 }
 
