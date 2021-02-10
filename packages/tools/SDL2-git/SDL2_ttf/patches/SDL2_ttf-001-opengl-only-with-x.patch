@@ -43,6 +43,3 @@
 -else
 -    GL_LIBS=""
 -fi
- 
- 
- 

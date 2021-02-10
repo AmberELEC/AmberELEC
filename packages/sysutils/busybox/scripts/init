@@ -367,7 +367,7 @@ update_file() {
       # ensuring accurate progress - take the sync hit during the
       # transfer, rather than when flushing file buffers after the progress
       # meter declares the transfer already complete
-      dd if=$UPDATE_DIR/$2 of=$3 bs=32k conv=fsync 2>/dev/null
+      dd if=$UPDATE_DIR/$2 of=$3 bs=1m conv=fsync 2>/dev/null
       StopProgress
 
     # loopback file needs writable /flash all the time
@@ -383,7 +383,7 @@ update_partition() {
 
   if [ -f "$UPDATE_DIR/$2" -a -b "$3" ]; then
     StartProgress spinner "Updating $1... "
-      result="$(dd if="$UPDATE_DIR/$2" of="$3" bs=32k 2>&1)"
+      result="$(dd if="$UPDATE_DIR/$2" of="$3" 2>&1)"
       StopProgress "done"
       sync
     echo "${result}"
