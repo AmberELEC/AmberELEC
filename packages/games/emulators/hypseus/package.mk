@@ -16,10 +16,6 @@ GET_HANDLER_SUPPORT="git"
 PKG_CMAKE_OPTS_TARGET=" ./src"
 
 pre_configure_target() {
-  export CFLAGS=$(echo ${CFLAGS} | sed -e "s|-Ofast|-O2|g")
-  export CXXFLAGS=$(echo ${CXXFLAGS} | sed -e "s|-Ofast|-O2|g")
-  export LDFLAGS=$(echo ${LDFLAGS} | sed -e "s|-Ofast|-O2|g")
-
   mkdir -p $INSTALL/usr/config/distribution/configs/hypseus
   ln -fs /storage/roms/daphne/roms $INSTALL/usr/config/distribution/configs/hypseus/roms
   ln -fs /storage/roms/daphne/sound $INSTALL/usr/config/distribution/configs/hypseus/sound
