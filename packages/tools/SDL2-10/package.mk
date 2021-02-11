@@ -60,11 +60,7 @@ pre_configure_target(){
                          -DPULSEAUDIO=ON"
 }
 
-post_makeinstall_target() {
-  sed -e "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
-  rm -rf $INSTALL/usr/bin
-  for lib in libSDL2.so libSDL2-2.0.so libSDL2-2.0.so.0
-  do
-    rm -f $INSTALL/usr/lib/$lib
-  done
+makeinstall_target() {
+  mkdir -p $INSTALL/usr/lib
+  cp libSDL2-2.0.so.0.10.0 $INSTALL//usr/lib
 }
