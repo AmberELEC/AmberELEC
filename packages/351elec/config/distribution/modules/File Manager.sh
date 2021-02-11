@@ -17,3 +17,5 @@ cp -f /usr/bin/DinguxCommander /tmp/bin
 patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/DinguxCommander
 
 /tmp/bin/DinguxCommander
+
+rm -f /tmp/bin/DinguxCommander

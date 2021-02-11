@@ -24,3 +24,5 @@ patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/hypseu
 PATH=/tmp/bin:$PATH
 
 hypseus "$name" vldp -framefile "$dir/$name.txt" -fullscreen -useoverlaysb 2 $params
+
+rm -f /tmp/bin/hypseus
