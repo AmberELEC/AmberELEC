@@ -66,7 +66,7 @@ fi
 if [[ -f "/storage/.config/distribution/configs/novideo" ]] && [[ ${VIDEO} != "1" ]]
 then
         if [ "$PLATFORM" != "intro" ]; then
-                /usr/bin/mpv "${SPLASH}" > /dev/null 2>&1 &
+                /usr/bin/display "${SPLASH}" > /dev/null 2>&1 &
         fi
 else
 	# Show intro video
