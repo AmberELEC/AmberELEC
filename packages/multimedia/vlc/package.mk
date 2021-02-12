@@ -3,17 +3,18 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="vlc"
-PKG_VERSION="3.0.12"
-PKG_SHA256="eff458f38a92126094f44f2263c2bf2c7cdef271b48192d0fe7b1726388cf879"
+PKG_VERSION="3.0.11.1"
+#PKG_SHA256=""
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.videolan.org"
 PKG_URL="https://download.videolan.org/pub/videolan/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio mpg123"
+PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio SDL2-12 x264"
 PKG_SHORTDESC="VideoLAN multimedia player and streamer"
 PKG_LONGDESC="VLC is the VideoLAN project's media player. It plays MPEG, MPEG2, MPEG4, DivX, MOV, WMV, QuickTime, mp3, Ogg/Vorbis files, DVDs, VCDs, and multimedia streams from various network sources."
 PKG_AUTORECONF="yes"
-PKG_TOOLCHAIN="autotools"
+PKG_TOOLCHAIN="configure"
+PKG_BUILD_FLAGS="-fpic"
 
 ENABLED_FEATURES="--enable-silent-rules \
             --enable-run-as-root \
@@ -25,6 +26,7 @@ ENABLED_FEATURES="--enable-silent-rules \
             --enable-avformat \
             --enable-swscale \
             --enable-postproc \
+            --enable-aa \
             --enable-libmpeg2 \
             --enable-png \
             --enable-jpeg \
@@ -32,6 +34,7 @@ ENABLED_FEATURES="--enable-silent-rules \
             --enable-alsa \
             --enable-udev \
             --enable-vlc \
+            --enable-x264 \
             --enable-neon"
 
 DISABLED_FEATURES="--disable-dependency-tracking \
@@ -46,6 +49,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-lua \
             --disable-notify \
             --disable-taglib \
+	    --disable-mpg123 \
             --disable-live555 \
             --disable-dc1394 \
             --disable-dvdread \
@@ -61,6 +65,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-shout\
             --disable-mod \
             --disable-gme \
+            --disable-wma-fixed \
             --disable-shine \
             --disable-omxil \
             --disable-mad \
@@ -68,6 +73,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-faad \
             --disable-flac \
             --disable-twolame \
+            --disable-realrtsp \
             --disable-libtar \
             --disable-a52 \
             --disable-dca \
@@ -76,7 +82,6 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-speex \
             --disable-theora \
             --disable-schroedinger \
-            --disable-x264 \
             --disable-fluidsynth \
             --disable-zvbi \
             --disable-telx \
@@ -87,6 +92,8 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-vdpau \
             --without-x \
             --disable-xcb \
+            --disable-xvideo \
+            --disable-sdl-image \
             --disable-freetype \
             --disable-fribidi \
             --disable-fontconfig \
@@ -99,6 +106,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-skins2 \
             --disable-kai \
             --disable-macosx \
+            --disable-macosx-qtkit \
             --disable-ncurses \
             --disable-goom \
             --disable-projectm \
@@ -110,6 +118,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-bluray \
             --disable-samplerate \
             --disable-sid \
+            --disable-crystalhd \
             --disable-dxva2 \
             --disable-dav1d \
             --disable-qt"
@@ -123,7 +132,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
 PKG_CONFIGURE_OPTS_TARGET="$ENABLED_FEATURES $DISABLED_FEATURES"
 
 pre_configure_target() {
-  export LDFLAGS="$LDFLAGS -lresolv -fopenmp"
+  export LDFLAGS="$LDFLAGS -lresolv -fopenmp -lm"
 }
 
 post_makeinstall_target() {
