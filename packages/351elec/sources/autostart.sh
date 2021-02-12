@@ -6,129 +6,14 @@
 # Source predefined functions and variables
 . /etc/profile
 
-if [ ! -d "/storage/roms" ]
-then
-  mkdir /storage/roms
-fi
-
-UPDATE_ROOT=/storage/.update
-
-if [ ! "$(/usr/bin/mount 2>/dev/null| grep [r]oms)" ]
-then
-  rm -rf /storage/roms/*
-  /usr/bin/mount -o umask=000 /dev/mmcblk0p3 /storage/roms
-fi
-
 # Set max performance mode to start the boot.
 maxperf
 
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
 
-if [ ! -e "/storage/.newcfg" ]
-then
-  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
-fi
-
-if [ ! -d "/storage/roms/update" ]
-then
-  /usr/bin/mkdir -p /storage/roms/update &>/dev/null
-fi
-
-/usr/bin/mountpoint -q /storage/roms &>/dev/null
-if [ $? == "0" ]
-then
-  if [ ! "$(/usr/bin/mount 2>/dev/null| grep \.[u]pdate)" ]
-  then
-    /usr/bin/mkdir -p "$UPDATE_ROOT" &>/dev/null
-    /usr/bin/mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
-  fi
-fi
-
-# It seems some slow SDcards have a problem creating the symlink on time :/
-CONFIG_DIR="/storage/.emulationstation"
-CONFIG_DIR2="/storage/.config/emulationstation"
-
-if [ ! -L "$CONFIG_DIR" ]; then
-  ln -sf $CONFIG_DIR2 $CONFIG_DIR
-fi
-
-# Create the distribution directory if it doesn't exist, sync it if it does
-if [ ! -d "/storage/.config/distribution" ]
-then
-  rsync -a /usr/config/distribution /storage/.config/distribution &
-else
-  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs \
-    /usr/config/distribution/ /storage/.config/distribution &
-fi
-
-# Copy in build metadata
-rsync /usr/config/.OS* /storage/.config &
-
-# If the .config/emuelec directory still exists, migrate the config files and them remove it.
-if [ -d '/storage/.config/emuelec' ]
-then
-  mv /storage/.config/emuelec/configs/emuelec.conf /storage/.config/distribution/configs/distribution.conf
-  mv /storage/.config/emuelec/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf
-  rm -rf /storage/.config/emuelec &
-fi
-
-# Copy remappings
-rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
-
-# Copy OpenBOR
-rsync --ignore-existing -raz /usr/config/openbor /storage &
-
-# Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports &
-
-# Wait for the rsync processes to finish.
-wait
-
-if [ ! -e "/storage/roms/ports/gamelist.xml" ]
-then
-  cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
-fi
-rm -rf /storage/.config/distribution/ports
-
-# End Automatic updates
-
 # Apply some kernel tuning
 sysctl vm.swappiness=1
-
-# copy bezel if it doesn't exists
-if [ ! -f "/storage/roms/bezels/default.cfg" ]; then 
-  mkbezels/
-  cp -rf /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/
-fi
-
-# Create game directories if they don't exist..
-for dir in 3do amiga amigacd32 amstradcpc arcade atari800 atari2600 atari5200 \
-	   atari7800 atarilynx atarist atomiswave BGM bios c16 c64 c128  \
-	   capcom coleco cps1 cps2 cps3 daphne daphne/roms daphne/sound \
-	   dreamcast easyrpg eduke famicom fbneo fds gameandwatch gamegear gb gba gbc \
-	   genesis intellivision mame mastersystem megadrive megadrive-japan \
-	   mplayer msx msx2 n64 naomi nds neocd neogeo nes ngp ngpc odyssey openbor opt \
-	   pc pc98 pcengine pcenginecd pcfx pico-8 pokemini psp pspminis psx residualvm \
-	   residualvm/games saturn sc-3000 scummvm scummvm/games sega32x segacd sfc sg-1000 \
-	   sgfx savestates snes snesmsu1 solarus tg16 tg16cd tic-80 uzebox vectrex vic20 \
-           videopac virtualboy wonderswan wonderswancolor x68000 zx81 zxspectrum \
-	   ports ports/VVVVVV ports/quake ports/diablo ports/doom \
-	   ports/doom2 ports/cannonball ports/CaveStory ports/reminiscence \
-	   ports/xrick ports/opentyrian ports/cgenius ports/cgenius/games
-do
-  if [ ! -d "/storage/roms/${dir}" ]; then
-    ( mkdir -p "/storage/roms/${dir}";
-      chown root:root "/storage/roms/${dir}";
-      chmod 0777 "/storage/roms/${dir}"; ) &
-  fi
-done
-
-# Wait for the directories to be created
-wait
-
-# Copy pico-8
-rsync -a "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh"
 
 # Restore overclock setting
 OVERCLOCK_SETTING=$(get_ee_setting overclock)
@@ -172,6 +57,65 @@ then
   systemctl reboot
 fi
 
+if [ ! -e "/storage/.newcfg" ]
+then
+  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
+fi
+
+# It seems some slow SDcards have a problem creating the symlink on time :/
+CONFIG_DIR="/storage/.emulationstation"
+CONFIG_DIR2="/storage/.config/emulationstation"
+
+if [ ! -L "$CONFIG_DIR" ]; then
+  ln -sf $CONFIG_DIR2 $CONFIG_DIR
+fi
+
+### Necessary for OS initialization and updates
+
+# Create the distribution directory if it doesn't exist, sync it if it does
+if [ ! -d "/storage/.config/distribution" ]
+then
+  rsync -a /usr/config/distribution /storage/.config/distribution &
+else
+  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs --exclude=ports \
+    /usr/config/distribution/ /storage/.config/distribution &
+fi
+
+# Clean cache garbage when boot up.
+rsync -a --delete /tmp/cache/ /storage/.cache/cores/ &
+
+# Copy in build metadata
+rsync /usr/config/.OS* /storage/.config &
+
+# Copy remappings
+rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
+
+# Copy OpenBOR
+rsync --ignore-existing -raz /usr/config/openbor /storage &
+
+# copy bezel if it doesn't exists
+if [ ! -f "/storage/roms/bezels/default.cfg" ]; then
+  mkbezels/
+  rsync --ignore-existing -raz /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/ &
+fi
+
+# Copy pico-8
+cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
+
+# Move ports to the FAT volume
+rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports &
+
+# Wait for the rsync processes to finish.
+wait
+
+if [ ! -e "/storage/roms/ports/gamelist.xml" ]
+then
+  cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
+fi
+rm -rf /storage/.config/distribution/ports
+
+# End Automatic updates
+
 # Set video mode, this has to be done before starting ES
 DEFE=$(get_ee_setting ee_videomode)
 
@@ -188,9 +132,6 @@ fi
 # finally we correct the FB according to video mode
 /usr/bin/setres.sh
 
-# Clean cache garbage when boot up.
-rm -rf /storage/.cache/cores/*
-
 # handle SSH
 DEFE=$(get_ee_setting ee_ssh.enabled)
 
@@ -205,6 +146,9 @@ case "$DEFE" in
 	systemctl start sshd
 	;;
 esac
+
+# Show splash Screen
+/usr/bin/show_splash.sh intro &
 
 # Migrate game data to the games partition
 GAMEDATA="/storage/roms/gamedata"
@@ -221,8 +165,6 @@ do
     if [ -d "/storage/.config/${GAME}" ]
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
-    else
-      rsync -a "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
     fi
   fi
 
@@ -280,9 +222,6 @@ then
 fi
 
 sync &
-
-# Show splash Screen 
-/usr/bin/show_splash.sh intro
 
 # run custom_start before FE scripts
 /storage/.config/custom_start.sh before
