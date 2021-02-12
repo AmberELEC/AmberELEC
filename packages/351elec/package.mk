@@ -68,6 +68,8 @@ makeinstall_target() {
  
   mkdir -p $INSTALL/usr/bin/
   
+  ## Compatibility links for ports
+  ln -s /storage/roms $INSTALL/roms
   ln -sf /storage/roms/opt $INSTALL/opt
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays
