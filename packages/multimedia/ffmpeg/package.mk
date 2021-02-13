@@ -189,7 +189,8 @@ configure_target() {
               --disable-libvo-amrwbenc \
               --disable-libvorbis \
               --disable-libvpx \
-	      --enable-libx264 \
+              --enable-libx264 \
+              --enable-encoder=x264 \
               --disable-libxavs \
               --disable-libxvid \
               --enable-zlib \

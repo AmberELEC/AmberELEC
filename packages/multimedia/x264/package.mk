@@ -36,7 +36,7 @@ configure_target() {
     $PKG_X264_ASM \
     --disable-cli \
     --enable-lto \
+    --enable-shared \
     --enable-pic \
-    --enable-static \
     --enable-strip
 }
