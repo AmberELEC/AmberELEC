@@ -9,12 +9,20 @@ PKG_SHA256="3973a00bb6d696ce2561c1da3588a2d4b33ebb5d83760e56fbe3f3961dc29143"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="https://github.com/CoreELEC/FFmpeg/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain zlib bzip2 openssl speex SDL2-12 x264"
+PKG_DEPENDS_TARGET="toolchain zlib bzip2 openssl speex SDL2-12"
 PKG_LONGDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 PKG_BUILD_FLAGS="-gold"
 
 # Dependencies
 get_graphicdrivers
+
+if [ "${ARCH}" == "aarch64" ]
+then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET x264"
+  PKG_X264="--enable-libx264"
+else
+  PKG_X264="--disable-libx264"
+fi
 
 if [ "$V4L2_SUPPORT" = "yes" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm"
@@ -190,7 +198,7 @@ configure_target() {
               --disable-libvo-amrwbenc \
               --disable-libvorbis \
               --disable-libvpx \
-              --enable-libx264 \
+	      ${PKG_X264} \
               --disable-libxavs \
               --disable-libxvid \
               --enable-zlib \
