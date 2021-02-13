@@ -3,10 +3,16 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2021-present XargonWan
 
 # TODO: Set Atari800 to Atari5200 when neeeded / done?
 # TODO: retroachivements / done?
 # I use ${} for easier reading
+
+# Quick reference:
+# $1 = platform
+# $2 = rom
+# $3 = core
 
 # IMPORTANT: This script should not return (echo) anything other than the shader if its set
 
@@ -145,7 +151,7 @@ group_platform
 function clean_settings() {
 # IMPORTANT: Every setting we change should be removed from retroarch.cfg before we do any changes.
 	sed -i '/video_scale_integer =/d' ${RACONF}
-        sed -i '/video_ctx_scaling =/d' ${RACONF}
+    sed -i '/video_ctx_scaling =/d' ${RACONF}
 	sed -i '/video_shader =/d' ${RACONF}
 	sed -i '/video_shader_enable =/d' ${RACONF}
 	sed -i '/video_smooth =/d' ${RACONF}
@@ -186,6 +192,9 @@ function clean_settings() {
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
+	sed -i "/mame2003-tate_mode/d" ${RACONF}
+	sed -i "/video_allow_rotate/d" ${RACONF}
+	sed -i "/screen_orientation/d" ${RACONF}
 }
 
 function default_settings() {
@@ -218,6 +227,9 @@ function default_settings() {
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
+	echo 'mame2003-tate_mode = "disabled"' >> ${RACONF}
+	echo 'video_allow_rotate = "true"' >> ${RACONF}
+	echo 'screen_orientation = "0"' >> ${RACONF}
 }
 
 function set_setting() {
@@ -262,6 +274,48 @@ case ${1} in
 		else
 			echo 'savestate_auto_save = "true"' >> ${RACONF}
 			echo 'savestate_auto_load = "true"' >> ${RACONF}
+		fi
+	;;
+	"tatemode")
+		if [  "$(get_ee_setting global.tatemode)" != "0"  ]; then
+			# I will remove the inputs only if tatemode is active in order to be immediately be replaced
+			sed -i "/input_libretro_device_p1/d" ${RACONF}
+			sed -i "/input_libretro_device_p2/d" ${RACONF}
+			sed -i "/input_libretro_device_p3/d" ${RACONF}
+			sed -i "/input_libretro_device_p4/d" ${RACONF}
+			sed -i "/input_libretro_device_p5/d" ${RACONF}
+			sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
+			sed -i "/input_player1_btn_b/d" ${RACONF}
+			sed -i "/input_player1_btn_down/d" ${RACONF}
+			sed -i "/input_player1_btn_left/d" ${RACONF}
+			sed -i "/input_player1_btn_right/d" ${RACONF}
+			sed -i "/input_player1_btn_up/d" ${RACONF}
+			sed -i "/input_player1_btn_x/d" ${RACONF}
+			sed -i "/input_player2_analog_dpad_mode/d" ${RACONF}
+			sed -i "/input_player3_analog_dpad_mode/d" ${RACONF}
+			sed -i "/input_player4_analog_dpad_mode/d" ${RACONF}
+			sed -i "/input_player5_analog_dpad_mode/d" ${RACONF}
+			echo 'mame2003-tate_mode = "enabled"' >> ${RACONF}
+			echo 'video_allow_rotate = "true"' >> ${RACONF}
+			echo 'input_libretro_device_p1 = "1"' >> ${RACONF}
+			echo 'input_libretro_device_p2 = "1"' >> ${RACONF}
+			echo 'input_libretro_device_p3 = "1"' >> ${RACONF}
+			echo 'input_libretro_device_p4 = "1"' >> ${RACONF}
+			echo 'input_libretro_device_p5 = "1"' >> ${RACONF}
+			echo 'input_player1_analog_dpad_mode = "2"' >> ${RACONF}
+			echo 'input_player1_btn_b = "8"' >> ${RACONF}
+			echo 'input_player1_btn_down = "6"' >> ${RACONF}
+			echo 'input_player1_btn_left = "4"' >> ${RACONF}
+			echo 'input_player1_btn_right = "5"' >> ${RACONF}
+			echo 'input_player1_btn_up = "7"' >> ${RACONF}
+			echo 'input_player1_btn_x = "0"' >> ${RACONF}
+			echo 'input_player2_analog_dpad_mode = "1"' >> ${RACONF}
+			echo 'input_player3_analog_dpad_mode = "1"' >> ${RACONF}
+			echo 'input_player4_analog_dpad_mode = "1"' >> ${RACONF}
+			echo 'input_player5_analog_dpad_mode = "0"' >> ${RACONF}
+		fi
+		if [  "$(get_ee_setting global.tatemode)" = "2"  ]; then #if tatemode is "REVERSED"
+			echo 'screen_orientation = "2"' >> ${RACONF}
 		fi
 	;;
 	"snapshot")
@@ -460,7 +514,7 @@ set_setting ${1} ${EES}
 
 clean_settings
 
-for s in wifi ratio smooth shaderset rewind autosave snapshot integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
+for s in wifi ratio smooth shaderset rewind autosave snapshot integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps tatemode; do
 get_setting $s
 [ -z "${EES}" ] || SETF=1
 done
