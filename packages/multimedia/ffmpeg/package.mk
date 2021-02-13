@@ -16,14 +16,6 @@ PKG_BUILD_FLAGS="-gold"
 # Dependencies
 get_graphicdrivers
 
-if [ "${ARCH}" == "aarch64" ]
-then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET x264"
-  PKG_X264="--enable-libx264"
-else
-  PKG_X264="--disable-libx264"
-fi
-
 if [ "$V4L2_SUPPORT" = "yes" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm"
   PKG_FFMPEG_V4L2="--enable-v4l2_m2m --enable-libdrm"
@@ -198,7 +190,7 @@ configure_target() {
               --disable-libvo-amrwbenc \
               --disable-libvorbis \
               --disable-libvpx \
-	      ${PKG_X264} \
+	      --disable-libx264 \
               --disable-libxavs \
               --disable-libxvid \
               --enable-zlib \
