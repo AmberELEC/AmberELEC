@@ -77,7 +77,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-a52 \
             --disable-dca \
             --disable-vorbis \
-            --disable-x264 \
+            --disable-libx264 \
             --disable-tremor \
             --disable-speex \
             --disable-theora \
