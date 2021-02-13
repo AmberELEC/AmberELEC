@@ -71,6 +71,7 @@ makeinstall_target() {
 		libnettle* \
 		libhogweed* \
 		libgmp* \
+		libuuid.so* \
 		libEG*"
 
     for lib in ${LIBS}
