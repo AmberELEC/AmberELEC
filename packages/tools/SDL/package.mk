@@ -15,14 +15,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
+# https://github.com/libsdl-org/SDL-1.2/archive/eb787c0b6cbd2848e01c134472020c346e62eb21.zip
 
 PKG_NAME="SDL"
-PKG_VERSION="74055dd839e4"
-PKG_SHA256="809644ef6e2050148b6649eca395e8472e66b9f5ef6d20392baf5e7fb178160a"
+PKG_VERSION="eb787c0b6cbd2848e01c134472020c346e62eb21"
+PKG_SHA256="c689d626ab6fbc0ed0bd03a49aad6b0af483a6cd5c352cd130e177587e0f97c1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
-PKG_URL="https://hg.libsdl.org/$PKG_NAME/archive/$PKG_VERSION.tar.gz"
+PKG_URL="https://github.com/libsdl-org/SDL-1.2/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain yasm:host alsa-lib systemd dbus SDL:host"
 PKG_SECTION="multimedia"
 PKG_SHORTDESC="SDL: A cross-platform Graphic API"
