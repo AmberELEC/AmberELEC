@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.videolan.org"
 PKG_URL="https://download.videolan.org/pub/videolan/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio SDL2-12 x264"
+PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio SDL2-12"
 PKG_SHORTDESC="VideoLAN multimedia player and streamer"
 PKG_LONGDESC="VLC is the VideoLAN project's media player. It plays MPEG, MPEG2, MPEG4, DivX, MOV, WMV, QuickTime, mp3, Ogg/Vorbis files, DVDs, VCDs, and multimedia streams from various network sources."
 PKG_AUTORECONF="yes"
@@ -34,7 +34,6 @@ ENABLED_FEATURES="--enable-silent-rules \
             --enable-alsa \
             --enable-udev \
             --enable-vlc \
-            --enable-x264 \
             --enable-neon"
 
 DISABLED_FEATURES="--disable-dependency-tracking \
@@ -78,6 +77,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-a52 \
             --disable-dca \
             --disable-vorbis \
+            --disable-x264 \
             --disable-tremor \
             --disable-speex \
             --disable-theora \
@@ -113,7 +113,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-mtp \
             --disable-lirc \
             --disable-libgcrypt \
-            --disable-update-check \
+            -disable-update-check \
             --disable-kva \
             --disable-bluray \
             --disable-samplerate \
