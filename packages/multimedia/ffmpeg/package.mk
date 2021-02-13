@@ -3,13 +3,12 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="ffmpeg"
-# Current branch is: release/4.0-kodi
-PKG_VERSION="fbe0b83624f4d32a490d93ac5d201965e99d7acb"
-PKG_SHA256="3973a00bb6d696ce2561c1da3588a2d4b33ebb5d83760e56fbe3f3961dc29143"
+PKG_VERSION="59bb9dc2a670cbe5d659585392b6d79f7bb6d40f"
+#PKG_SHA256=""
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
-PKG_URL="https://github.com/CoreELEC/FFmpeg/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain zlib bzip2 openssl speex SDL2-12"
+PKG_URL="https://github.com/FFmpeg/FFmpeg/archive/${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain zlib bzip2 openssl speex SDL2-12 x264"
 PKG_LONGDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 PKG_BUILD_FLAGS="-gold"
 
@@ -190,7 +189,7 @@ configure_target() {
               --disable-libvo-amrwbenc \
               --disable-libvorbis \
               --disable-libvpx \
-	      --disable-libx264 \
+	      --enable-libx264 \
               --disable-libxavs \
               --disable-libxvid \
               --enable-zlib \

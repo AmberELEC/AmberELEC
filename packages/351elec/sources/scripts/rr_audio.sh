@@ -54,16 +54,16 @@ pulseaudio_sink_load() {
 pulseaudio_sink_unload() {
   
   if [ ${RR_AUDIO_BACKEND} = "PulseAudio" ]; then
-    if [ "${RR_PA_UDEV}" = "true" ] && [ ! -z "$(pactl list modules short | grep module-alsa-card)" ]; then
-      pactl set-sink-volume "$(pactl info | grep 'Default Sink:' | cut -d ' ' -f 3)" 100%  
-      pactl unload-module module-udev-detect
-      pactl unload-module module-alsa-card
+    if [ "${RR_PA_UDEV}" = "true" ] && [ ! -z "$(pactl list modules short 2>/dev/null | grep module-alsa-card)" ]; then
+      pactl set-sink-volume "$(pactl info 2>/dev/null | grep 'Default Sink:' | cut -d ' ' -f 3)" 100% >/dev/null 2>&1 
+      pactl unload-module module-udev-detect >/dev/null 2>&1
+      pactl unload-module module-alsa-card >/dev/null 2>&1
       echo "Set-Audio: PulseAudio module-udev-detect unloaded"
-    elif [ "${RR_PA_UDEV}" = "false" ] && [ ! -z "$(pactl list modules short | grep module-alsa-sink)" ]; then
-      pactl set-sink-volume alsa_output.temp_sink 100%
-      NUMBER="$(pactl list modules short | grep "name=temp_sink" | awk '{print $1;}')"
+    elif [ "${RR_PA_UDEV}" = "false" ] && [ ! -z "$(pactl list modules short 2>/dev/null| grep module-alsa-sink)" ]; then
+      pactl set-sink-volume alsa_output.temp_sink 100% >/dev/null 2>&1
+      NUMBER="$(pactl list modules short 2>/dev/null | grep "name=temp_sink" | awk '{print $1;}')"
       if [ -n "${NUMBER}" ]; then
-        pactl unload-module "${NUMBER}"
+        pactl unload-module "${NUMBER}" >/dev/null 2>&1
       fi
       echo "Set-Audio: PulseAudio module-alsa-sink unloaded"
     else
@@ -72,11 +72,11 @@ pulseaudio_sink_unload() {
 
     # Restore ALSA Master volume to 100%
     if [ ! -z "$(amixer | grep "'Master',0")" ] && [ ! $(amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%') = "100" ]; then
-      amixer -q set Master,0 100% unmute
+      amixer -q set Master,0 100% unmute >/dev/null 2>&1
       echo "Set-Audio: ALSA mixer restore volume to 100%"
     fi
   fi
-  systemctl stop pulseaudio 
+  systemctl stop pulseaudio >/dev/null 2>&1
 }
 
 # Start FluidSynth
