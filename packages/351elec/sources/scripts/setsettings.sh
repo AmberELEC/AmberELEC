@@ -193,6 +193,7 @@ function clean_settings() {
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
 	sed -i "/mame2003-tate_mode/d" ${RACONF}
+	sed -i "/mame2003-plus-tate_mode/d" ${RACONF}
 	sed -i "/video_allow_rotate/d" ${RACONF}
 	sed -i "/screen_orientation/d" ${RACONF}
 }
@@ -228,6 +229,7 @@ function default_settings() {
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
 	echo 'mame2003-tate_mode = "disabled"' >> ${RACONF}
+	echo 'mame2003-plus-tate_mode = "disabled"' >> ${RACONF}
 	echo 'video_allow_rotate = "true"' >> ${RACONF}
 	echo 'screen_orientation = "0"' >> ${RACONF}
 }
@@ -277,46 +279,167 @@ case ${1} in
 		fi
 	;;
 	"tatemode")
-		if [  "$(get_ee_setting global.tatemode)" != "0"  ]; then
-			# I will remove the inputs only if tatemode is active in order to be immediately be replaced
-			sed -i "/input_libretro_device_p1/d" ${RACONF}
-			sed -i "/input_libretro_device_p2/d" ${RACONF}
-			sed -i "/input_libretro_device_p3/d" ${RACONF}
-			sed -i "/input_libretro_device_p4/d" ${RACONF}
-			sed -i "/input_libretro_device_p5/d" ${RACONF}
+		if [  "$(get_ee_setting global.tatemode)" != "0"  ] || [  $PLATFORM != "atarilynx" ]; then
+			# I will remove the inputs only if tatemode is active in order to not mess up with the normal controls
+			sed -i "/video_allow_rotate/d" ${RACONF}
+			sed -i "/video_rotation/d" ${RACONF}
 			sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
-			sed -i "/input_player1_btn_b/d" ${RACONF}
-			sed -i "/input_player1_btn_down/d" ${RACONF}
-			sed -i "/input_player1_btn_left/d" ${RACONF}
-			sed -i "/input_player1_btn_right/d" ${RACONF}
-			sed -i "/input_player1_btn_up/d" ${RACONF}
-			sed -i "/input_player1_btn_x/d" ${RACONF}
-			sed -i "/input_player2_analog_dpad_mode/d" ${RACONF}
-			sed -i "/input_player3_analog_dpad_mode/d" ${RACONF}
-			sed -i "/input_player4_analog_dpad_mode/d" ${RACONF}
-			sed -i "/input_player5_analog_dpad_mode/d" ${RACONF}
-			echo 'mame2003-tate_mode = "enabled"' >> ${RACONF}
+			sed -i "/input_player1_joypad_index/d" ${RACONF}
+			sed -i "/input_player1_right/d" ${RACONF}
+			sed -i "/input_player1_right_btn/d" ${RACONF}
+			sed -i "/input_player1_left/d" ${RACONF}
+			sed -i "/input_player1_left_btn/d" ${RACONF}
+			sed -i "/input_player1_up/d" ${RACONF}
+			sed -i "/input_player1_up_btn/d" ${RACONF}
+			sed -i "/input_player1_down/d" ${RACONF}
+			sed -i "/input_player1_down_btn/d" ${RACONF}
+			sed -i "/input_player1_b/d" ${RACONF}
+			sed -i "/input_player1_b_btn/d" ${RACONF}
+			sed -i "/input_player1_y/d" ${RACONF}
+			sed -i "/input_player1_y_btn/d" ${RACONF}
+			sed -i "/input_player1_a/d" ${RACONF}
+			sed -i "/input_player1_a_btn/d" ${RACONF}
+			sed -i "/input_player1_x/d" ${RACONF}
+			sed -i "/input_player1_x_btn/d" ${RACONF}
+			sed -i "/input_player1_l_x_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_x_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_y_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_y_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_x_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_x_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_y_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_y_plus_axis/d" ${RACONF}
 			echo 'video_allow_rotate = "true"' >> ${RACONF}
-			echo 'input_libretro_device_p1 = "1"' >> ${RACONF}
-			echo 'input_libretro_device_p2 = "1"' >> ${RACONF}
-			echo 'input_libretro_device_p3 = "1"' >> ${RACONF}
-			echo 'input_libretro_device_p4 = "1"' >> ${RACONF}
-			echo 'input_libretro_device_p5 = "1"' >> ${RACONF}
+			echo 'video_rotation = "1"' >> ${RACONF}
 			echo 'input_player1_analog_dpad_mode = "2"' >> ${RACONF}
-			echo 'input_player1_btn_b = "8"' >> ${RACONF}
-			echo 'input_player1_btn_down = "6"' >> ${RACONF}
-			echo 'input_player1_btn_left = "4"' >> ${RACONF}
-			echo 'input_player1_btn_right = "5"' >> ${RACONF}
-			echo 'input_player1_btn_up = "7"' >> ${RACONF}
-			echo 'input_player1_btn_x = "0"' >> ${RACONF}
-			echo 'input_player2_analog_dpad_mode = "1"' >> ${RACONF}
-			echo 'input_player3_analog_dpad_mode = "1"' >> ${RACONF}
-			echo 'input_player4_analog_dpad_mode = "1"' >> ${RACONF}
-			echo 'input_player5_analog_dpad_mode = "0"' >> ${RACONF}
+			echo 'input_player1_joypad_index = "0"' >> ${RACONF}
+			echo 'input_player1_right = "up"' >> ${RACONF}
+			echo 'input_player1_right_btn = "h0up"' >> ${RACONF}
+			echo 'input_player1_left = "down"' >> ${RACONF}
+			echo 'input_player1_left_btn = "h0down"' >> ${RACONF}
+			echo 'input_player1_up = "left"' >> ${RACONF}
+			echo 'input_player1_up_btn = "h0left"' >> ${RACONF}
+			echo 'input_player1_down = "right"' >> ${RACONF}
+			echo 'input_player1_down_btn = "h0right"' >> ${RACONF}
+			echo 'input_player1_b = "x"' >> ${RACONF}
+			echo 'input_player1_b_btn = "15"' >> ${RACONF}
+			echo 'input_player1_y = "z"' >> ${RACONF}
+			echo 'input_player1_y_btn = "16"' >> ${RACONF}
+			echo 'input_player1_a = "s"' >> ${RACONF}
+			echo 'input_player1_a_btn = "17"' >> ${RACONF}
+			echo 'input_player1_x = "a"' >> ${RACONF}
+			echo 'input_player1_x_btn = "18"' >> ${RACONF}
+			echo 'input_player1_l_x_minus_axis = "+1"' >> ${RACONF}
+			echo 'input_player1_l_x_plus_axis = "-1"' >> ${RACONF}
+			echo 'input_player1_l_y_minus_axis = "-0"' >> ${RACONF}
+			echo 'input_player1_l_y_plus_axis = "+0"' >> ${RACONF}
+			echo 'input_player1_r_x_minus_axis = "+3"' >> ${RACONF}
+			echo 'input_player1_r_x_plus_axis = "-3"' >> ${RACONF}
+			echo 'input_player1_r_y_minus_axis = "-2"' >> ${RACONF}
+			echo 'input_player1_r_y_plus_axis = "+2"' >> ${RACONF}
 		fi
-		if [  "$(get_ee_setting global.tatemode)" = "2"  ]; then #if tatemode is "REVERSED"
-			echo 'screen_orientation = "2"' >> ${RACONF}
+		if [  "$(get_ee_setting global.tatemode)" != "0"  ] || [  $PLATFORM == "atarilynx" ]; then
+			sed -i "/video_allow_rotate/d" ${RACONF}
+			sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
+			sed -i "/input_player1_joypad_index/d" ${RACONF}
+			sed -i "/input_player1_right/d" ${RACONF}
+			sed -i "/input_player1_right_btn/d" ${RACONF}
+			sed -i "/input_player1_left/d" ${RACONF}
+			sed -i "/input_player1_left_btn/d" ${RACONF}
+			sed -i "/input_player1_up/d" ${RACONF}
+			sed -i "/input_player1_up_btn/d" ${RACONF}
+			sed -i "/input_player1_down/d" ${RACONF}
+			sed -i "/input_player1_down_btn/d" ${RACONF}
+			sed -i "/input_player1_r_x_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_x_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_y_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_y_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_x_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_x_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_y_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_y_plus_axis/d" ${RACONF}
+			sed -i "/video_rotation/d" ${RACONF}
+			echo 'video_rotation = "2"' >> ${RACONF}
+			echo 'video_allow_rotate = "true"' >> ${RACONF}
+			echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
+			echo 'input_player1_joypad_index = "0"' >> ${RACONF}
+			echo 'input_player1_right = "left"' >> ${RACONF}
+			echo 'input_player1_right_btn = "h0left"' >> ${RACONF}
+			echo 'input_player1_left = "right"' >> ${RACONF}
+			echo 'input_player1_left_btn = "h0right"' >> ${RACONF}
+			echo 'input_player1_up = "down"' >> ${RACONF}
+			echo 'input_player1_up_btn = "h0down"' >> ${RACONF}
+			echo 'input_player1_down = "up"' >> ${RACONF}
+			echo 'input_player1_down_btn = "h0up"' >> ${RACONF}
+			echo 'input_player1_r_x_minus_axis = "-2"' >> ${RACONF}
+			echo 'input_player1_r_x_plus_axis = "+2"' >> ${RACONF}
+			echo 'input_player1_r_y_minus_axis = "-3"' >> ${RACONF}
+			echo 'input_player1_r_y_plus_axis = "+3"' >> ${RACONF}
+			echo 'input_player1_l_x_minus_axis = "+0"' >> ${RACONF}
+			echo 'input_player1_l_x_plus_axis = "-0"' >> ${RACONF}
+			echo 'input_player1_l_y_minus_axis = "+1"' >> ${RACONF}
+			echo 'input_player1_l_y_plus_axis = "-1"' >> ${RACONF}
 		fi
+		if [  "$(get_ee_setting global.tatemode)" == "2"  ] || [  $PLATFORM != "atarilynx" ]; then #if tatemode is "REVERSED"
+			sed -i "/video_rotation/d" ${RACONF}
+			echo 'video_rotation = "3"' >> ${RACONF}
+		fi
+		if [  "$(get_ee_setting global.tatemode)" == "2"  ] || [  $PLATFORM == "atarilynx" ]; then
+			sed -i "/video_rotation/d" ${RACONF}
+			echo 'video_rotation = "4"' >> ${RACONF}
+			sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
+			sed -i "/input_player1_joypad_index/d" ${RACONF}
+			sed -i "/input_player1_right/d" ${RACONF}
+			sed -i "/input_player1_right_btn/d" ${RACONF}
+			sed -i "/input_player1_left/d" ${RACONF}
+			sed -i "/input_player1_left_btn/d" ${RACONF}
+			sed -i "/input_player1_up/d" ${RACONF}
+			sed -i "/input_player1_up_btn/d" ${RACONF}
+			sed -i "/input_player1_down/d" ${RACONF}
+			sed -i "/input_player1_down_btn/d" ${RACONF}
+			sed -i "/input_player1_b/d" ${RACONF}
+			sed -i "/input_player1_b_btn/d" ${RACONF}
+			sed -i "/input_player1_y/d" ${RACONF}
+			sed -i "/input_player1_y_btn/d" ${RACONF}
+			sed -i "/input_player1_a/d" ${RACONF}
+			sed -i "/input_player1_a_btn/d" ${RACONF}
+			sed -i "/input_player1_x/d" ${RACONF}
+			sed -i "/input_player1_x_btn/d" ${RACONF}
+			sed -i "/input_player1_l_x_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_x_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_y_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_l_y_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_x_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_x_plus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_y_minus_axis/d" ${RACONF}
+			sed -i "/input_player1_r_y_plus_axis/d" ${RACONF}
+			echo 'input_player1_analog_dpad_mode = "2"' >> ${RACONF}
+			echo 'input_player1_joypad_index = "0"' >> ${RACONF}
+			echo 'input_player1_right = "up"' >> ${RACONF}
+			echo 'input_player1_right_btn = "h0up"' >> ${RACONF}
+			echo 'input_player1_left = "down"' >> ${RACONF}
+			echo 'input_player1_left_btn = "h0down"' >> ${RACONF}
+			echo 'input_player1_up = "left"' >> ${RACONF}
+			echo 'input_player1_up_btn = "h0left"' >> ${RACONF}
+			echo 'input_player1_down = "right"' >> ${RACONF}
+			echo 'input_player1_down_btn = "h0right"' >> ${RACONF}
+			echo 'input_player1_b = "x"' >> ${RACONF}
+			echo 'input_player1_b_btn = "15"' >> ${RACONF}
+			echo 'input_player1_y = "z"' >> ${RACONF}
+			echo 'input_player1_y_btn = "16"' >> ${RACONF}
+			echo 'input_player1_a = "s"' >> ${RACONF}
+			echo 'input_player1_a_btn = "17"' >> ${RACONF}
+			echo 'input_player1_x = "a"' >> ${RACONF}
+			echo 'input_player1_x_btn = "18"' >> ${RACONF}
+			echo 'input_player1_l_x_minus_axis = "+1"' >> ${RACONF}
+			echo 'input_player1_l_x_plus_axis = "-1"' >> ${RACONF}
+			echo 'input_player1_l_y_minus_axis = "-0"' >> ${RACONF}
+			echo 'input_player1_l_y_plus_axis = "+0"' >> ${RACONF}
+			echo 'input_player1_r_x_minus_axis = "+3"' >> ${RACONF}
+			echo 'input_player1_r_x_plus_axis = "-3"' >> ${RACONF}
+			echo 'input_player1_r_y_minus_axis = "-2"' >> ${RACONF}
+			echo 'input_player1_r_y_plus_axis = "+2"' >> ${RACONF}
+		fi		
 	;;
 	"snapshot")
 		echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
