@@ -192,8 +192,6 @@ function clean_settings() {
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
-	sed -i "/mame2003-tate_mode/d" ${RACONF}
-	sed -i "/mame2003-plus-tate_mode/d" ${RACONF}
 	sed -i "/video_allow_rotate/d" ${RACONF}
 	sed -i "/screen_orientation/d" ${RACONF}
 }
@@ -228,8 +226,6 @@ function default_settings() {
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
-	echo 'mame2003-tate_mode = "disabled"' >> ${RACONF}
-	echo 'mame2003-plus-tate_mode = "disabled"' >> ${RACONF}
 	echo 'video_allow_rotate = "true"' >> ${RACONF}
 	echo 'screen_orientation = "0"' >> ${RACONF}
 }
