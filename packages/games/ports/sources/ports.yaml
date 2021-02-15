@@ -46,7 +46,7 @@ Commander Keen:
     - jslisten set "/usr/bin/killall ${PORT}"
     - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius
     - mkdir -p /tmp/bin ||:
-    - cp -f /usr/local/${PORT} /tmp/bin
+    - cp -f /usr/local/bin/${PORT} /tmp/bin
     - patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/${PORT}
     - cd /storage/roms/ports/cgenius
     - ${PORT} &>>/tmp/logs/exec.log
