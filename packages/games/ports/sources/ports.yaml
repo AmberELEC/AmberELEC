@@ -44,12 +44,13 @@ Commander Keen:
     - /usr/bin/show_splash.sh "${PORT}"
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
+    - rm -f /storage/.CommanderGenius
     - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius
-    - mkdir -p /tmp/bin ||:
+    - mkdir -p /tmp/bin
     - cp -f /usr/local/bin/${PORT} /tmp/bin
     - patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/${PORT}
     - cd /storage/roms/ports/cgenius
-    - ${PORT} &>>/tmp/logs/exec.log
+    - /tmp/bin/${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
     - rm -f /tmp/bin/${PORT}
 
