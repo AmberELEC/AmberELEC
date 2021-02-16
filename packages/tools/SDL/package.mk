@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="SDL"
-PKG_VERSION="74055dd839e4"
+PKG_VERSION="92927a9b689c55c5879add79378e24f9443f56f4"
 #PKG_SHA256=""
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
