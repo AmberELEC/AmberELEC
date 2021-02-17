@@ -14,7 +14,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-openmp \
                            --disable-static \
                            --enable-shared \
                            --with-pango=no \
-                           --with-utilities=no \
+                           --with-utilities=yes \
                            --with-x=no"
 
 makeinstall_target() {
