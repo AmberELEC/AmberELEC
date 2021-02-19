@@ -17,12 +17,12 @@
 ################################################################################
 
 PKG_NAME="SDL"
-PKG_VERSION="74055dd839e4"
-PKG_SHA256="809644ef6e2050148b6649eca395e8472e66b9f5ef6d20392baf5e7fb178160a"
+PKG_VERSION="92927a9b689c55c5879add79378e24f9443f56f4"
+#PKG_SHA256=""
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
-PKG_URL="https://hg.libsdl.org/$PKG_NAME/archive/$PKG_VERSION.tar.gz"
+PKG_URL="https://github.com/libsdl-org/SDL-1.2/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain yasm:host alsa-lib systemd dbus SDL:host"
 PKG_SECTION="multimedia"
 PKG_SHORTDESC="SDL: A cross-platform Graphic API"

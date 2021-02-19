@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/ynsta/steamcontroller"
 PKG_URL="https://github.com/ynsta/steamcontroller/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain Python2 distutilscross:host python-libusb1 enum34 linux:host"
+PKG_DEPENDS_TARGET="toolchain Python3 distutilscross:host python-libusb1 enum34 linux:host"
 PKG_SECTION="driver"
 PKG_SHORTDESC="A standalone userland driver for the steam controller to be used where steam client can't be installed."
 PKG_LONGDESC="A standalone userland driver for the steam controller to be used where steam client can't be installed."
@@ -25,7 +25,7 @@ pre_make_target() {
 }
 
 make_target() {
-  python setup.py build
+  python3 setup.py build
 }
 
 addon() {
@@ -43,6 +43,6 @@ addon() {
     fi
     cp $(get_build_dir linux)/usr/include/linux/input.h $ADDON_BUILD/$PKG_ADDON_ID/include/linux/
 
-  $TOOLCHAIN/bin/python -Wi -t -B $TOOLCHAIN/lib/$PKG_PYTHON_VERSION/compileall.py $ADDON_BUILD/$PKG_ADDON_ID/lib/ -f 1>/dev/null
+  $TOOLCHAIN/bin/python3 -Wi -t -B $TOOLCHAIN/lib/$PKG_PYTHON_VERSION/compileall.py $ADDON_BUILD/$PKG_ADDON_ID/lib/ -f 1>/dev/null
   find $ADDON_BUILD/$PKG_ADDON_ID/lib/ -name '*.py' -exec rm {} \;
 }

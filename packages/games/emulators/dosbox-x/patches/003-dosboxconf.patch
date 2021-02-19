@@ -20,7 +20,7 @@ index 05a5893..74daf41 100644
  	in = "/<Choices$Write>/DosBox-X";
  #elif !defined(HX_DOS)
 -	in = "~/.config/dosbox-x";
-+	in = "/storage/.config/emuelec/configs/dosbox-x";
++	in = "/storage/.config/distribution/configs/dosbox-x";
  	ResolveHomedir(in);
  #endif
  	in += CROSS_FILESPLIT;
@@ -43,7 +43,7 @@ index 05a5893..74daf41 100644
  	mkdir(in.c_str(),0700);
  #elif !defined(HX_DOS)
 -	in = "~/.config/dosbox-x";
-+	in = "/storage/.config/emuelec/configs/dosbox-x";
++	in = "/storage/.config/distribution/configs/dosbox-x";
  	ResolveHomedir(in);
  	mkdir(in.c_str(),0700);
  #endif

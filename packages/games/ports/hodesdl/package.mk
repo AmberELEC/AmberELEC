@@ -8,14 +8,14 @@ PKG_REV="1"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/usineur/hode"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain SDL2-git"
+PKG_DEPENDS_TARGET="toolchain SDL2-12"
 PKG_LONGDESC="Game port of 'Heart of Darkness' using SDL2"
 PKG_TOOLCHAIN="cmake"
 GET_HANDLER_SUPPORT="git"
 
 makeinstall_target() {
 mkdir -p $INSTALL/usr/local/bin
-mkdir -p $INSTALL/usr/config/emuelec/hode
+mkdir -p $INSTALL/usr/config/distribution/hode
 cp $PKG_BUILD/.${TARGET_NAME}/hode $INSTALL/usr/local/bin
-cp $PKG_BUILD/hode.ini $INSTALL/usr/config/emuelec/hode
+cp $PKG_BUILD/hode.ini $INSTALL/usr/config/distribution/hode
 }

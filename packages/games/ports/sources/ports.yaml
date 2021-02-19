@@ -6,7 +6,7 @@
   publisher: Public Domain
 
   commands:
-    - /usr/bin/emuelecRunEmu.sh "" -Pports "${2}" -C2048 "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "" -Pports "${2}" -C2048 "-SC${0}" &>>/tmp/logs/exec.log
 
 Cannonball:
   description: "This is an arcade-perfect port of SEGA's seminal arcade racer. Features include: Pixel-perfect 240p video. 60 FPS gameplay. Continuous mode (play all 15 tracks in one go)."
@@ -17,7 +17,7 @@ Cannonball:
 
   check_bios: Cannonball
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/cannonball/" -Pports "${2}" -Ccannonball "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/cannonball/" -Pports "${2}" -Ccannonball "-SC${0}" &>>/tmp/logs/exec.log
 
 Cave Story:
   description: A platform-adventure video game released in 2004 for Windows PCs. It was developed over five years by Japanese developer Daisuke "Pixel" Amaya in his free time. Cave Story features 2D platform mechanics.
@@ -28,7 +28,7 @@ Cave Story:
 
   check_bios: CaveStory
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/CaveStory/Doukutsu.exe" -Pports "${2}" -Cnxengine "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/CaveStory/Doukutsu.exe" -Pports "${2}" -Cnxengine "-SC${0}" &>>/tmp/logs/exec.log
 
 Commander Keen:
   description: Commander Genius is a software piece that interprets the Commander Keen Invasion of the Vorticons and Galaxy series. As fans and developers we try to implement new features, improve the gameplay and give players an experience that feels like playing the original game but a bit more refreshing.
@@ -44,10 +44,15 @@ Commander Keen:
     - /usr/bin/show_splash.sh "${PORT}"
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
-    - '[[ ! -L "/storage/.CommanderGenius" ]] && ln -sf /emuelec/configs/CommanderGenius /storage/.CommanderGenius'
+    - rm -f /storage/.CommanderGenius
+    - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius
+    - mkdir -p /tmp/bin
+    - cp -f /usr/local/bin/${PORT} /tmp/bin
+    - patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/${PORT}
     - cd /storage/roms/ports/cgenius
-    - ${PORT} &>>/tmp/logs/emuelec.log
+    - /tmp/bin/${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
+    - rm -f /tmp/bin/${PORT}
 
 Diablo:
   description: Diablo build for modern operating systems - Diablo is an action role-playing hack and slash video game developed by Blizzard North and released by Blizzard Entertainment in early January 1997.
@@ -71,7 +76,7 @@ Diablo:
     - cd /storage/roms/ports
     - emuelec-utils devilutionx_server "$(get_ee_setting diablo.server)"
     - emuelec-utils devilutionx_password "$(get_ee_setting diablo.password)"
-    - ${PORT} &>>/tmp/logs/emuelec.log
+    - ${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
 
 Dinothawr:
@@ -83,7 +88,7 @@ Dinothawr:
 
   check_bios: Dinothawr
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/dinothawr/dinothawr.game" -Pports "${2}" -Cdinothawr "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/dinothawr/dinothawr.game" -Pports "${2}" -Cdinothawr "-SC${0}" &>>/tmp/logs/exec.log
 
 Doom:
   description: Players assume the role of a space marine fighting his way through hordes of invading demons through the 9 levels of Hell.
@@ -94,7 +99,7 @@ Doom:
 
   check_bios: DOOM1
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/doom/doom1.wad" -Pports "${2}" -Cprboom "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/doom/doom1.wad" -Pports "${2}" -Cprboom "-SC${0}" &>>/tmp/logs/exec.log
 
 Doom 2:
   description: A first-person shooter video game, the second title of id Software's Doom franchise. It was originally released for MS-DOS computers in 1994 and Macintosh computers in 1995.
@@ -105,7 +110,7 @@ Doom 2:
 
   check_bios: DOOM2
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/doom2/doom2.wad" -Pports "${2}" -Cprboom "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/doom2/doom2.wad" -Pports "${2}" -Cprboom "-SC${0}" &>>/tmp/logs/exec.log
 
 Mr. Boom:
   description: Mr. Boom is an up to 8 player Bomberman clone. The goal of the game is to bomb away your enemies and other players.
@@ -115,7 +120,7 @@ Mr. Boom:
   publisher: non-commercial
 
   commands:
-    - /usr/bin/emuelecRunEmu.sh "" -Pports "${2}" -Cmrboom "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "" -Pports "${2}" -Cmrboom "-SC${0}" &>>/tmp/logs/exec.log
 
 OpenTyrian:
   description: OpenTyrian is an open-source port of the "cult" arcade-style vertical scrolling shooter called "Tyrian". Original game was developed by World Tree Games Productions and published in 1995 by Epic MegaGames.
@@ -134,7 +139,7 @@ OpenTyrian:
     - jslisten set "/usr/bin/killall ${PORT}"
     - '## on "Amlogic" project we need to remove asound.conf or else OpenTyrian will have no sound.'
     - '[[ "$EE_DEVICE" == "Amlogic" ]] && mv /storage/.config/asound.conf /storage/.config/asound2.conf'
-    - ${PORT} -t /storage/roms/ports/opentyrian &>>/tmp/logs/emuelec.log
+    - ${PORT} -t /storage/roms/ports/opentyrian &>>/tmp/logs/exec.log
     - jslisten stop
   commands_end:
     - '[[ "$EE_DEVICE" == "Amlogic" ]] && mv /storage/.config/asound2.conf /storage/.config/asound.conf'
@@ -148,7 +153,7 @@ Quake:
 
   check_bios: Quake
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/quake/id1/pak0.pak" -Pports "${2}" -Ctyrquake "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/quake/id1/pak0.pak" -Pports "${2}" -Ctyrquake "-SC${0}" &>>/tmp/logs/exec.log
 
 Flashback:
   description: REminiscence is a game engine recreation of the 1992/1993 action adventure game Flashback. It is the spiritual successor of Another World/Out Of This World and it distinguishes itself with rotoscoped graphics, and polygonal cutscenes.
@@ -159,7 +164,7 @@ Flashback:
 
   check_bios: REminiscence
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/reminiscence" -Pports "${2}" -Creminiscence "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/reminiscence" -Pports "${2}" -Creminiscence "-SC${0}" &>>/tmp/logs/exec.log
 
 Rick Dangerous:
   description: Way before Lara Croft, back in the 1980's and early 1990's, Rick Dangerous was the Indiana Jones of computer games, running away from rolling rocks, avoiding traps, from South America to a futuristic missile base via Egypt and the Schwarzendumpf castle. Xrick is a clone of Rick Dangerous, known to run on Linux, Windows, BeOs, Amiga, QNX, all sorts of gaming consoles.
@@ -170,7 +175,7 @@ Rick Dangerous:
 
   check_bios: RickDangerous
   commands:
-    - /usr/bin/emuelecRunEmu.sh "/storage/roms/ports/xrick/data.zip" -Pports "${2}" -Cxrick "-SC${0}" &>>/tmp/logs/emuelec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/xrick/data.zip" -Pports "${2}" -Cxrick "-SC${0}" &>>/tmp/logs/exec.log
 
 Prince of Persia:
   description: SDLPoP is an open-source port of Prince of Persia that runs natively on Windows and Linux. It is based on a disassembly of the DOS version.
@@ -186,10 +191,10 @@ Prince of Persia:
     - /usr/bin/show_splash.sh "${PORT}"
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
-    - '[[ ! -f "/storage/.config/emuelec/configs/SDLPoP/SDLPoP.cfg" ]] && touch "/storage/.config/emuelec/configs/SDLPoP/SDLPoP.cfg"'
+    - '[[ ! -f "/storage/.config/distribution/configs/SDLPoP/SDLPoP.cfg" ]] && touch "/storage/.config/distribution/configs/SDLPoP/SDLPoP.cfg"'
     - '# SDLPop will complain about a missing data and config files by showing a nice blank screen after the intro'
-    - cd /storage/.config/emuelec/configs/SDLPoP
-    - ${PORT} &>>/tmp/logs/emuelec.log
+    - cd /storage/.config/distribution/configs/SDLPoP
+    - ${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
 
 VVVVVV:
@@ -208,7 +213,7 @@ VVVVVV:
     - jslisten set "/usr/bin/killall ${PORT}"
     - '# VVVVVV will complain about a missing gamecontrollerdb.txt unless we switch to this folder first'
     - cd /storage/.config/SDL-GameControllerDB/
-    - ${PORT} &>>/tmp/logs/emuelec.log
+    - ${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
 
 
@@ -227,7 +232,7 @@ Duke Nukem:
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
     - cd /storage/roms/ports/eduke
-    - ${PORT} &>>/tmp/logs/emuelec.log
+    - ${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
 
 Hydra Castle Labyrinth:
@@ -245,7 +250,7 @@ Hydra Castle Labyrinth:
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
     - cd /storage/roms/ports/hcl
-    - ${PORT} -d &>>/tmp/logs/emuelec.log
+    - ${PORT} -d &>>/tmp/logs/exec.log
     - jslisten stop
 
 Bermuda Syndrome:
@@ -263,5 +268,5 @@ Bermuda Syndrome:
     - clear >/dev/console
     - jslisten set "/usr/bin/killall ${PORT}"
     - cd /storage/roms/ports/bermuda/
-    - ${PORT} --datapath=/storage/roms/ports/bermuda/ --fullscreen --widescreen=4:3 &>>/tmp/logs/emuelec.log
+    - ${PORT} --datapath=/storage/roms/ports/bermuda/ --fullscreen --widescreen=4:3 &>>/tmp/logs/exec.log
     - jslisten stop

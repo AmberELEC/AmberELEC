@@ -8,45 +8,62 @@
 
 CONFIG_DIR="/storage/.config/scummvm"
 BINDIR="/usr/bin"
-GAME="$(echo $2 | sed 's=.*/==;s/\.[^.]*$//')" 
+ROMSPATH="/storage/roms"
+BIOSPATH="${ROMSPATH}/bios"
+GAME=$2
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 
+if [ ! -d "${CONFIG_DIR}/games" ]
+then
+  mkdir -p "${CONFIG_DIR}/games"
+fi
+
 create_svm(){
-	$BINDIR/scummvm --list-targets | tail -n +3 | cut -d " " -f 1 | while read line; do
+  $BINDIR/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
+  while read line
+  do
     id=($line);
-    [[ -f "${CONFIG_DIR}/games/$id.scummvm" ]] && rm "${CONFIG_DIR}/games/$id.scummvm"
-    touch "${CONFIG_DIR}/games/$id.scummvm"
-    SVMPATH=$(cat ${CONFIG_DIR}/scummvm.ini | sed -n "/\[$id\]/,/\[/p" | grep path= | sed "s|path=||")
-    echo "-p \"${SVMPATH}\" ${id}" > "${CONFIG_DIR}/games/$id.scummvm"
-    echo "${id} has been added with the path $SVMPATH to ${CONFIG_DIR}/games/$id.scummvm"
-	done 
-	}
+    filename=$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | \
+      awk 'BEGIN {FS="="}; /description/ {printf $2}' | \
+      sed -e 's# (.*)# ('${id}')#g' -e "s#'##g" -e "s#: # - #g" \
+    )
+
+    SVMPATH="$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | awk 'BEGIN {FS="="}; /path/ {print $2}')"
+    echo '--path="'${SVMPATH}'" '${id} >"${CONFIG_DIR}/games/${filename}.scummvm"
+  done
+}
 
 if [ ! -d "$CONFIG_DIR" ]; then
  mkdir -p $CONFIG_DIR
  cp -rf /usr/config/scummvm/* $CONFIG_DIR/
 fi
 
-if [ -d "/storage/.config/scummvm/extra" ]; then 
-EXTRA="--extrapath=/storage/.config/scummvm/extra"
-fi 
+if [ -d "/storage/.config/scummvm/extra" ]; then
+ EXTRA="--extrapath=/storage/.config/scummvm/extra"
+fi
 
 case $1 in
-"sa") 
-set_audio "fluidsynth"
-$BINDIR/scummvm --fullscreen --joystick=0 $EXTRA "$GAME"
-set_audio "pulseaudio"
-;;
-"libretro") 
-/usr/bin/retroarch -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} "$GAME"
-;;
-"add") 
-$BINDIR/scummvm --add --path="/storage/roms/scummvm" --recursive
-mkdir -p /storage/roms/bios/
-cp $CONFIG_DIR/scummvm.ini /storage/roms/bios/scummvm.ini
-;;
-"create") 
-create_svm
-;;
+  "sa")
+    set_audio "fluidsynth"
+    GAME=$(cat "${GAME}")
+    eval $BINDIR/scummvm --fullscreen --joystick=0 ${EXTRA} ${GAME}
+    set_audio "pulseaudio"
+  ;;
 
-esac 
+  "libretro")
+    GAME=$(cat "${GAME}" | awk 'BEGIN {FS="\""}; {print $2}')
+    cd "${GAME}"
+    /usr/bin/retroarch -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} .
+  ;;
+
+  "add")
+    $BINDIR/scummvm --add --path="${ROMSPATH}/scummvm" --recursive
+    mkdir -p ${BIOSPATH}
+    cp $CONFIG_DIR/scummvm.ini ${BIOSPATH}/scummvm.ini
+  ;;
+
+  "create")
+    create_svm
+  ;;
+
+esac

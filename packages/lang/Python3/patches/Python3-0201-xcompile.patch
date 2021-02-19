@@ -1,0 +1,53 @@
+diff -aur a/Makefile.pre.in b/Makefile.pre.in
+--- a/Makefile.pre.in	2020-08-08 14:28:01.691542199 -0400
++++ b/Makefile.pre.in	2020-08-08 14:17:51.908512177 -0400
+@@ -607,10 +607,12 @@
+ 	esac; \
+ 	echo "$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
+ 		_TCLTK_INCLUDES='$(TCLTK_INCLUDES)' _TCLTK_LIBS='$(TCLTK_LIBS)' \
++		PYTHONXCPREFIX='$(DESTDIR)$(prefix)' \
+ 		DISABLED_EXTENSIONS="$(DISABLED_EXTENSIONS)" \
+ 		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build"; \
+ 	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
+ 		_TCLTK_INCLUDES='$(TCLTK_INCLUDES)' _TCLTK_LIBS='$(TCLTK_LIBS)' \
++		PYTHONXCPREFIX='$(DESTDIR)$(prefix)' \
+ 		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build
+ 
+ 
+@@ -1656,8 +1658,10 @@
+ # Install the dynamically loadable modules
+ # This goes into $(exec_prefix)
+ sharedinstall: sharedmods
++	CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
+ 	$(RUNSHARED) DISABLED_EXTENSIONS="$(DISABLED_EXTENSIONS)" \
+ 		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py install \
++		--skip-build \
+ 	   	--prefix=$(prefix) \
+ 		--install-scripts=$(BINDIR) \
+ 		--install-platlib=$(DESTSHARED) \
+diff -aur a/setup.py b/setup.py
+--- a/setup.py	2020-08-08 14:28:01.695542200 -0400
++++ b/setup.py	2020-08-08 14:28:36.931543934 -0400
+@@ -41,7 +41,7 @@
+     return sys.platform
+ 
+ 
+-CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)
++CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ) or ('PYTHONXCPREFIX' in os.environ)
+ HOST_PLATFORM = get_platform()
+ MS_WINDOWS = (HOST_PLATFORM == 'win32')
+ CYGWIN = (HOST_PLATFORM == 'cygwin')
+@@ -487,6 +487,13 @@
+                 ext.name, level=1)
+             return
+ 
++        # Import check will not work when cross-compiling.
++        if 'PYTHONXCPREFIX' in os.environ:
++            self.announce(
++                'WARNING: skipping import check for cross-compiled: "%s"' %
++                ext.name)
++            return
++
+         # Workaround for Mac OS X: The Carbon-based modules cannot be
+         # reliably imported into a command-line Python
+         if 'Carbon' in ext.extra_link_args:

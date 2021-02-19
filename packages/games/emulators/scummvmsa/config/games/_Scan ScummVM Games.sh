@@ -2,10 +2,11 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
 
 EE_DEVICE=$(cat /ee_arch)
 
-source /emuelec/scripts/env.sh
+source /usr/bin/env.sh
 . /etc/profile
 
 rp_registerAllModules

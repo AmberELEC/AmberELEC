@@ -5,6 +5,6 @@
 . /etc/profile
 
 # Show splash screen
-/emuelec/scripts/show_splash.sh shutdown
+/usr/bin/show_splash.sh shutdown
 
 shutdown $*

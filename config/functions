@@ -725,6 +725,20 @@ get_pkg_version() {
   get_pkg_variable "$1" PKG_VERSION
 }
 
+get_pkg_version_maj_min() {
+  local pkg_version
+
+  [ -n "${1}" ] && pkg_version="$(get_pkg_version "${1}")" || pkg_version="${PKG_VERSION}"
+
+  if [[ ${pkg_version} =~ ^[0-9A-Za-z]*\.[0-9A-Za-z]*\.[0-9A-za-z]*$ ]]; then
+    echo "${pkg_version%.*}"
+  elif [[ ${pkg_version} =~ ^[0-9A-Za-z]*\.[0-9A-Za-z]*$ ]]; then
+    echo "${pkg_version}"
+  else
+    echo "${pkg_version}"
+  fi
+}
+
 get_pkg_directory() {
   local _PKG_ROOT_NAME=${1%:*} _ALL_DIRS _FOUND=0 _ANCHOR="@?+?@" _PKG_DIR _DIR
 
@@ -966,6 +980,36 @@ source_package() {
   fi
 }
 
+# arg1: file, or directory to recursively compile.
+python_compile() {
+  local path="${1:-${INSTALL}/usr/lib/${PKG_PYTHON_VERSION}}"
+  ${TOOLCHAIN}/bin/python3 -Wi -t -B ${TOOLCHAIN}/lib/${PKG_PYTHON_VERSION}/compileall.py -f -d "${path#${INSTALL}}" "${path}"
+  python_remove_source "${path}"
+}
+
+# arg1: file, or directory from which to recursively remove all py source code
+python_remove_source() {
+  local path="${1:-${INSTALL}/usr/lib/${PKG_PYTHON_VERSION}}"
+  if [ -d "${path}" ]; then
+    find "${path}" -type f -name '*.py' -delete
+  else
+    rm -f "${path}"
+  fi
+}
+
+# arg1: directory to process recursively
+# strip incorrect build-host ABI from native Python3 modules (see PEP3149)
+python_fix_abi() {
+  local pymodule pyname
+
+  for pymodule in $(find ${1} -type f -name '*.cpython-*.so' 2>/dev/null); do
+    pyname=${pymodule##*/}
+    pyname=${pyname%.so} # strip extension
+    pyname=${pyname%.*}  # strip incorrect ABI
+    echo "python_fix_abi: Removing ABI from ${pymodule} -> ${pyname}.so"
+    mv ${pymodule} ${pymodule%/*}/${pyname}.so
+  done
+}
 
 ### KERNEL HELPERS ###
 kernel_path() {

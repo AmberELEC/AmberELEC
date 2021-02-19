@@ -2,13 +2,13 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="087de849bdc74205dd00d8e6e11ba17a591213ab"
+PKG_VERSION="7095115d476fdc9a970259c46953ed188343fc73"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
-PKG_DEPENDS_TARGET="toolchain ffmpeg libzip libpng SDL2-git zlib zip"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip libpng SDL2-12 zlib zip vulkan-loader"
 PKG_SHORTDESC="PPSSPPDL"
 PKG_LONGDESC="PPSSPP Standalone"
 GET_HANDLER_SUPPORT="git"
@@ -16,21 +16,20 @@ PKG_BUILD_FLAGS="+lto"
 
 PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
                        -DUSE_SYSTEM_FFMPEG=ON \
-                       -DUSING_FBDEV=ON \
                        -DUSE_WAYLAND_WSI=OFF \
+                       -DUSING_FBDEV=ON \
 		       -DCMAKE_BUILD_TYPE=Release \
 		       -DCMAKE_SYSTEM_NAME=Linux \
+		       -DUSING_EGL=OFF \
 		       -DUSING_GLES2=ON \
-                       -DVULKAN=OFF \
+                       -DVULKAN=ON \
+                       -DARM_NO_VULKAN=OFF \
                        -DUSING_X11_VULKAN=OFF \
-		       -DARM_NO_VULKAN=ON \
                        -DBUILD_SHARED_LIBS=OFF \
 		       -DANDROID=OFF \
 		       -DWIN32=OFF \
 		       -DAPPLE=OFF \
 		       -DCMAKE_CROSSCOMPILING=ON \
-		       -DVULKAN=OFF \
-		       -DUSING_EGL=OFF \
 		       -DUSING_QT_UI=OFF \
 		       -DUNITTEST=OFF \
 		       -DSIMULATOR=OFF \
@@ -42,6 +41,9 @@ pre_configure_target() {
 }
 
 pre_make_target() {
+  export CPPFLAGS="${CPPFLAGS} -Wno-error"
+  export CFLAGS="${CFLAGS} -Wno-error"
+
   # fix cross compiling
   find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
   find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;

@@ -7,7 +7,7 @@ PKG_SHA256="b5812d24990eb4092ce3b46dc5b1670ba1d80bfee6c52a5ae4eb24abbf48359d"
 PKG_LICENSE="OSS"
 PKG_SITE="https://github.com/Wintermute0110/sdljoytest"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain SDL2-git"
+PKG_DEPENDS_TARGET="toolchain SDL2-12"
 PKG_LONGDESC="Test joystick with SDL2 in Linux"
 PKG_TOOLCHAIN="make"
 
@@ -16,7 +16,7 @@ sed -i "s|gcc|${CC}|" Makefile
 }
 
 makeinstall_target() {
-mkdir -p $INSTALL/usr/config/emuelec/bin
-cp -rf test_gamepad_SDL2 $INSTALL/usr/config/emuelec/bin
-cp -rf map_gamepad_SDL2 $INSTALL/usr/config/emuelec/bin
+mkdir -p $INSTALL/usr/config/distribution/bin
+cp -rf test_gamepad_SDL2 $INSTALL/usr/config/distribution/bin
+cp -rf map_gamepad_SDL2 $INSTALL/usr/config/distribution/bin
 }

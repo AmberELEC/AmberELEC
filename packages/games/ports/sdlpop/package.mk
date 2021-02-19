@@ -8,7 +8,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPL3"
 PKG_SITE="https://github.com/NagyD/SDLPoP"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain SDL2-git SDL2_image"
+PKG_DEPENDS_TARGET="toolchain SDL2-12 SDL2_image"
 PKG_SHORTDESC="Prince of Persia SDL"
 PKG_LONGDESC="An open-source port of Prince of Persia, based on the disassembly of the DOS version."
 PKG_TOOLCHAIN="make"
@@ -27,11 +27,11 @@ make_target() {
 }
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/emuelec/configs/SDLPoP
+	mkdir -p $INSTALL/usr/config/distribution/configs/SDLPoP
 	mkdir -p $INSTALL/usr/local/bin
-	cp -r $PKG_BUILD/* $INSTALL/usr/config/emuelec/configs/SDLPoP/
-	mv "$INSTALL/usr/config/emuelec/configs/SDLPoP/prince" "$INSTALL/usr/local/bin/"
-	rm -rf $INSTALL/usr/config/emuelec/configs/SDLPoP/src
-	rm -rf $INSTALL/usr/config/emuelec/configs/SDLPoP/.gitignore
-	rm -rf $INSTALL/usr/config/emuelec/configs/SDLPoP/.editorconfig
+	cp -r $PKG_BUILD/* $INSTALL/usr/config/distribution/configs/SDLPoP/
+	mv "$INSTALL/usr/config/distribution/configs/SDLPoP/prince" "$INSTALL/usr/local/bin/"
+	rm -rf $INSTALL/usr/config/distribution/configs/SDLPoP/src
+	rm -rf $INSTALL/usr/config/distribution/configs/SDLPoP/.gitignore
+	rm -rf $INSTALL/usr/config/distribution/configs/SDLPoP/.editorconfig
 }

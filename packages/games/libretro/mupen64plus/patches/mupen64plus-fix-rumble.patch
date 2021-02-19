@@ -1,0 +1,25 @@
+diff -rupN mupen64plus-libretro-ab8134ac90a567581df6de4fc427dd67bfad1b17.orig/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c mupen64plus-libretro-ab8134ac90a567581df6de4fc427dd67bfad1b17/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c
+--- mupen64plus-libretro-ab8134ac90a567581df6de4fc427dd67bfad1b17.orig/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c	2020-11-19 14:38:34.233991783 -0500
++++ mupen64plus-libretro-ab8134ac90a567581df6de4fc427dd67bfad1b17/custom/mupen64plus-core/plugin/emulate_game_controller_via_libretro.c	2020-12-02 04:49:12.778279430 -0500
+@@ -252,13 +252,21 @@ EXPORT void CALL inputControllerCommand(
+ 
+                 if ((dwAddress == PAK_IO_RUMBLE) && (rumble.set_rumble_state))
+                 {
++                    FILE *fp;
++
+                     if (*Data)
+                     {
++                        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++                        fprintf(fp, "10");
++                        fclose(fp);
+                         rumble.set_rumble_state(Control, RETRO_RUMBLE_WEAK, 0xFFFF);
+                         rumble.set_rumble_state(Control, RETRO_RUMBLE_STRONG, 0xFFFF);
+                     }
+                     else
+                     {
++                        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++                        fprintf(fp, "1000000");
++                        fclose(fp);
+                         rumble.set_rumble_state(Control, RETRO_RUMBLE_WEAK, 0);
+                         rumble.set_rumble_state(Control, RETRO_RUMBLE_STRONG, 0);
+                     }

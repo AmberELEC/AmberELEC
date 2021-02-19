@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="libspeexdsp"
-PKG_VERSION="64cbfa9"
+PKG_VERSION="095fd36e189554bbcbfd9884630a53d7792409dc"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/xiph/speexdsp"

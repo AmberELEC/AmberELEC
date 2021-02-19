@@ -63,6 +63,13 @@ MACHINE_UID="$(awk '/^Serial/{s='0000000' $3; print substr(s, length(s) - 7)}' /
 # Enable GPIO 77 for power LED manipulation
 echo 77 > /sys/class/gpio/export
 
+# Enable PWM for rumble and turn rumble off during startup.
+
+echo 0 > /sys/class/pwm/pwmchip0/export
+echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
+echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+
 # script functions
 progress() {
   if test "$PROGRESS" = "yes"; then
@@ -368,6 +375,7 @@ update_file() {
       # transfer, rather than when flushing file buffers after the progress
       # meter declares the transfer already complete
       dd if=$UPDATE_DIR/$2 of=$3 bs=1M conv=fsync 2>/dev/null
+
       StopProgress
 
     # loopback file needs writable /flash all the time
@@ -685,27 +693,27 @@ mount_games() {
     progress "Mounting games"
     if [ ! -d "/storage/roms" ]
     then
-      /usr/bin/busybox mkdir -p /storage/roms &>/dev/null
+      /usr/bin/busybox mkdir -p /storage/roms >/dev/null 2>&1
     fi
 
-    mount /dev/mmcblk0p3 /storage/roms &>/dev/console
+    mount /dev/mmcblk0p3 /storage/roms >/dev/null 2>&1
 
     if [ -d "/storage/.update" ]
     then
-      /usr/bin/busybox rm -rf /storage/.update &>/dev/null
-      /usr/bin/busybox mkdir -p /storage/.update &>/dev/null
+      /usr/bin/busybox rm -rf /storage/.update >/dev/null 2>&1
+      /usr/bin/busybox mkdir -p /storage/.update >/dev/null 2>&1
     fi
 
     if [ ! -d "/storage/roms/update" ]
     then
-      /usr/bin/busybox mkdir -p /storage/roms/update &>/dev/null
+      /usr/bin/busybox mkdir -p /storage/roms/update >/dev/null 2>&1
     fi
 
-    /usr/bin/busybox mountpoint -q /storage/roms &>/dev/null
+    /usr/bin/busybox mountpoint -q /storage/roms >/dev/null 2>&1
     if [ $? == "0" ]
     then
-      /usr/bin/busybox mkdir -p "$UPDATE_ROOT" &>/dev/null
-      mount --bind /storage/roms/update "$UPDATE_ROOT" &>/dev/null
+      /usr/bin/busybox mkdir -p "$UPDATE_ROOT" >/dev/null 2>&1
+      mount --bind /storage/roms/update "$UPDATE_ROOT" >/dev/null 2>&1
     fi
   fi
 }

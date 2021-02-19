@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="unlicense"
 PKG_SITE="https://github.com/diasurgical/devilutionX"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain SDL2-git SDL2_mixer SDL2_ttf libsodium"
+PKG_DEPENDS_TARGET="toolchain SDL2-12 SDL2_mixer SDL2_ttf libsodium"
 PKG_LONGDESC="Diablo build for modern operating systems "
 PKG_TOOLCHAIN="cmake-make"
 GET_HANDLER_SUPPORT="git"
@@ -21,7 +21,7 @@ sed -i "s|;-static-libstdc++>|;-lstdc++>|" $PKG_BUILD/CMakeLists.txt
 
 makeinstall_target() { 
 mkdir -p $INSTALL/usr/local/bin
-mkdir -p $INSTALL/usr/config/emuelec/devilutionx
+mkdir -p $INSTALL/usr/config/distribution/devilutionx
 cp -rf $PKG_BUILD/.$TARGET_NAME/devilutionx $INSTALL/usr/local/bin
-cp -rf $PKG_BUILD/Packaging/resources/CharisSILB.ttf $PKG_BUILD/.$TARGET_NAME/devilutionx $INSTALL/usr/config/emuelec/devilutionx
+cp -rf $PKG_BUILD/Packaging/resources/CharisSILB.ttf $PKG_BUILD/.$TARGET_NAME/devilutionx $INSTALL/usr/config/distribution/devilutionx
 }

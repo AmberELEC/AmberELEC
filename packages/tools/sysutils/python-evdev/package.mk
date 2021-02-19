@@ -3,12 +3,12 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="python-evdev"
-PKG_VERSION="a53106c06fdb969a13d1de37a11acb036da8c8d5"
-PKG_SHA256="3c5b16dd8725e367bf9d4a89e826ee12b7e853b81eb14f3459b6b87decaf1909"
+PKG_VERSION="5ac66502adc219f816ba833032a5207982eb4861"
+PKG_SHA256="b1c649b4fed7252711011da235782b2c260b32e004058d62473471e5cd30634d"
 PKG_LICENSE="OSS"
 PKG_SITE="https://github.com/gvalkov/python-evdev"
 PKG_URL="https://github.com/gvalkov/python-evdev/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain Python2 distutilscross:host"
+PKG_DEPENDS_TARGET="toolchain Python3 distutilscross:host"
 PKG_LONGDESC="This package provides bindings to the generic input event interface in Linux. The evdev interface serves the purpose of passing events generated in the kernel directly to userspace through character devices that are typically located in /dev/input/."
 PKG_TOOLCHAIN="manual"
 
@@ -21,12 +21,12 @@ pre_make_target() {
 }
 
 make_target() {
-  python setup.py build --cross-compile \
+  python3 setup.py build --cross-compile \
   build_ecodes --evdev-headers $SYSROOT_PREFIX/usr/include/linux/input.h:$SYSROOT_PREFIX/usr/include/linux/input-event-codes.h
 }
 
 makeinstall_target() {
-  python setup.py install --root=$INSTALL --prefix=/usr
+  python3 setup.py install --root=$INSTALL --prefix=/usr
 }
 
 post_makeinstall_target() {

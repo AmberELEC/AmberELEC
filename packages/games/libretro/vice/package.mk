@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="vice"
-PKG_VERSION="ae225dbc75a8b5ab74655c3fea1f829401570b96"
-PKG_SHA256="4c7ed3c8cee8f7636fb929ce69874d745ec3a0b9ada354ed3c9b796f08725d3e"
+PKG_VERSION="b9ac392514a5ddbc646a451bf4a72a43dc99d843"
+PKG_SHA256="198b96ecf5e66f03a8b33981657c00535acc4246264ce074cc11f71c070bbd2d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -42,7 +42,10 @@ make_target() {
   if [ "$ARCH" == "arm" ]; then
     CFLAGS="$CFLAGS -DARM -DALIGN_DWORD -mstructure-size-boundary=32 -mthumb-interwork -falign-functions=16 -marm"
   fi
-  mkdir built
+  if [ ! -d "built" ]
+  then
+    mkdir built
+  fi
   for EMUTYPE in x128 x64sc x64dtv xscpu64 xplus4 xvic xcbm5x0 xcbm2 xpet x64
   do
     make clean

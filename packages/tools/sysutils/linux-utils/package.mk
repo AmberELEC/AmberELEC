@@ -4,12 +4,12 @@
 # Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
 
 PKG_NAME="linux-utils"
-PKG_VERSION="2.35.2"
-PKG_SHA256="21b7431e82f6bcd9441a01beeec3d57ed33ee948f8a5b41da577073c372eb58a"
+PKG_VERSION="2.36.1"
+PKG_SHA256="09fac242172cd8ec27f0739d8d192402c69417617091d8c6e974841568f37eed"
 PKG_LICENSE="GPL"
 PKG_URL="http://www.kernel.org/pub/linux/utils/util-linux/v${PKG_VERSION%.*}/util-linux-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_HOST="gcc:host"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_HOST="gcc:host ncurses:host"
+PKG_DEPENDS_TARGET="toolchain ncurses:target"
 PKG_DEPENDS_INIT="toolchain"
 PKG_LONGDESC="A large variety of low-level system utilities that are necessary for a Linux system to function."
 PKG_TOOLCHAIN="autotools"
@@ -68,6 +68,10 @@ PKG_CONFIGURE_OPTS_INIT="$UTILLINUX_CONFIG_DEFAULT \
                          --enable-libblkid \
                          --enable-libmount \
                          --enable-fsck"
+
+pre_configure_target() {
+  export LDFLAGS="${LDFLAGS} -lncurses -ltinfo"
+}
 
 makeinstall_target() {
 mkdir -p $INSTALL/usr/bin

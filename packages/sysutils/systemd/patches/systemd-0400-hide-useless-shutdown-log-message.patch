@@ -1,0 +1,46 @@
+diff -rupN systemd-247.orig/src/shutdown/shutdown.c systemd-247.new/src/shutdown/shutdown.c
+--- systemd-247.orig/src/shutdown/shutdown.c	2021-02-07 14:43:00.075206218 -0500
++++ systemd-247.new/src/shutdown/shutdown.c	2021-02-07 14:43:52.515152573 -0500
+@@ -540,13 +540,13 @@ int main(int argc, char *argv[]) {
+                         log_error_errno(r, "Failed to switch root to \"/run/initramfs\": %m");
+         }
+ 
+-        if (need_umount || need_swapoff || need_loop_detach || need_dm_detach || need_md_detach)
+-                log_error("Failed to finalize%s%s%s%s%s ignoring.",
++        /* if (need_umount || need_swapoff || need_loop_detach || need_dm_detach || need_md_detach)
++                 log_error("Failed to finalize%s%s%s%s%s ignoring.",
+                           need_umount ? " file systems," : "",
+                           need_swapoff ? " swap devices," : "",
+                           need_loop_detach ? " loop devices," : "",
+                           need_dm_detach ? " DM devices," : "",
+-                          need_md_detach ? " MD devices," : "");
++                          need_md_detach ? " MD devices," : ""); */
+ 
+         /* The kernel will automatically flush ATA disks and suchlike on reboot(), but the file systems need to be
+          * sync'ed explicitly in advance. So let's do this here, but not needlessly slow down containers. Note that we
+diff -rupN systemd-247.orig/src/shutdown/umount.c systemd-247.new/src/shutdown/umount.c
+--- systemd-247.orig/src/shutdown/umount.c	2021-02-07 14:43:00.075206218 -0500
++++ systemd-247.new/src/shutdown/umount.c	2021-02-07 14:58:13.851587985 -0500
+@@ -566,8 +566,8 @@ static int umount_with_timeout(MountPoin
+                  * filesystem less busy so the unmount might succeed (rather
+                  * then return EBUSY).*/
+                 r = umount2(m->path, MNT_FORCE);
+-                if (r < 0)
+-                        log_full_errno(umount_log_level, errno, "Failed to unmount %s: %m", m->path);
++                /* if (r < 0)
++                        log_full_errno(umount_log_level, errno, "Failed to unmount %s: %m", m->path); */
+ 
+                 _exit(r < 0 ? EXIT_FAILURE : EXIT_SUCCESS);
+         }
+diff -rupN systemd-247.orig/src/volatile-root/volatile-root.c systemd-247.new/src/volatile-root/volatile-root.c
+--- systemd-247.orig/src/volatile-root/volatile-root.c	2021-02-07 14:43:00.083206834 -0500
++++ systemd-247.new/src/volatile-root/volatile-root.c	2021-02-07 14:58:50.713285895 -0500
+@@ -50,7 +50,7 @@ static int make_volatile(const char *pat
+ 
+         r = umount_recursive(path, 0);
+         if (r < 0) {
+-                log_error_errno(r, "Failed to unmount %s: %m", path);
++                /* log_error_errno(r, "Failed to unmount %s: %m", path); */
+                 goto finish_umount;
+         }
+ 
