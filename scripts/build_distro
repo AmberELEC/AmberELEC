@@ -31,7 +31,18 @@ then
   for package in gcc retroarch pcsx_rearmed parallel-n64 uae4arm
   do
     scripts/build ${package}
+    if [ ! $? == 0 ]
+    then
+      echo "Build failed..exiting."
+      exit 1
+    fi
+    
     scripts/install ${package}
+    if [ ! $? == 0 ]
+    then
+      echo "Build failed..exiting."
+      exit 1
+    fi
   done
 fi
 

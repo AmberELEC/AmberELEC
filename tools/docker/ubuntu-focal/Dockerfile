@@ -27,7 +27,8 @@ RUN apt-get update && apt-get install -y \
     libvlc-dev libvlccore-dev libxml-parser-perl libzip-dev lzop make \
     openssh-client p7zip patch patchelf patchutils perl premake4 python \
     python3 rapidjson-dev rsync sed tar texinfo u-boot-tools unzip vlc-bin \
-    wget xfonts-utils xmlstarlet xsltproc xz-utils zip \
+    wget xfonts-utils xmlstarlet xsltproc xz-utils zip libparse-yapp-perl \
+    unrar \
     --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
