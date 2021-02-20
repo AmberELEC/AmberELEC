@@ -7,7 +7,7 @@
 . /etc/profile
 
 CONFIG_DIR="/storage/.config/scummvm"
-BINDIR="/usr/bin"
+BINDIR="/tmp/bin"
 ROMSPATH="/storage/roms"
 BIOSPATH="${ROMSPATH}/bios"
 GAME=$2
@@ -17,6 +17,11 @@ if [ ! -d "${CONFIG_DIR}/games" ]
 then
   mkdir -p "${CONFIG_DIR}/games"
 fi
+
+### ScummVM seems to not be happy about SDL 2.0.12
+mkdir -p ${BINDIR}
+cp -f /usr/bin/scummvm ${BINDIR}
+patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 ${BINDIR}/scummvm
 
 create_svm(){
   $BINDIR/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
@@ -67,3 +72,5 @@ case $1 in
   ;;
 
 esac
+
+rm -f ${BINDIR}/scummvm
