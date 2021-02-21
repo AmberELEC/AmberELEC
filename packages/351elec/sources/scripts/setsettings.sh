@@ -259,12 +259,12 @@ case ${1} in
 			fi
 	;;
 	"autosave")
-		if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then 
-			echo 'savestate_auto_save = "false"' >> ${RACONF}
-			echo 'savestate_auto_load = "false"' >> ${RACONF}
-		else
+		if [ "${2}" == "true" ] || [ "${2}" == "1" ]; then 
 			echo 'savestate_auto_save = "true"' >> ${RACONF}
 			echo 'savestate_auto_load = "true"' >> ${RACONF}
+		else
+			echo 'savestate_auto_save = "false"' >> ${RACONF}
+			echo 'savestate_auto_load = "false"' >> ${RACONF}
 		fi
 	;;
 	"snapshot")
