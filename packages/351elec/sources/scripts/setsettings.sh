@@ -136,8 +136,8 @@ case ${1} in
 	"tic80")
 	PLATFORM="tic80"
 	;;
-	"fbeno")
-	PLATFORM="fbneo"
+	"fbneo")
+	PLATFORM="arcade"
 	;;
 esac
 
