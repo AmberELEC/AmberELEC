@@ -234,9 +234,9 @@ if [ -e /storage/.brightness ]
 then
   BRIGHTNESS=$(cat /storage/.brightness)
   BRIGHTNESS=${BRIGHTNESS:0:2}
-  if [[ "${BRIGHTNESS}" -lt 15 ]]
+  if [[ "${BRIGHTNESS}" -le 10 ]]
   then
-    BRIGHTNESS=15
+    BRIGHTNESS=100
   fi
   echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
   echo ${BRIGHTNESS} >/storage/.brightness
