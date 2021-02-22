@@ -65,11 +65,6 @@ function identity_backup() {
 }
 
 function clearconfig() {
-	BPATH="/storage/roms/backup/"
-	BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
-	mkdir -p "${BPATH}"
-	echo -en '\e[20;0H\e[37mPlease wait, backing up system...\e[0m' >/dev/console
-
 	case "${1}" in
 	"EMUS")
 		systemctl stop emustation

@@ -12,7 +12,7 @@
 
 . /etc/profile
 
-RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision gamegear gb gba gbc genesis mastersystem megadrive msx msx2 n64 neogeo nes ngp ngpc odyssey2 pcengine pcenginecd pokemini psx sega32x segacd sg-1000 snes tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
+RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision fbn gamegear gb gba gbc genesis mastersystem megadrive msx msx2 n64 neogeo nes ngp ngpc odyssey2 pcengine pcenginecd pokemini psx sega32x segacd sg-1000 snes tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
@@ -136,6 +136,9 @@ case ${1} in
 	"tic80")
 	PLATFORM="tic80"
 	;;
+	"fbn")
+	PLATFORM="arcade"
+	;;
 esac
 
 	}
@@ -256,30 +259,34 @@ case ${1} in
 			fi
 	;;
 	"autosave")
-		if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then 
-			echo 'savestate_auto_save = "false"' >> ${RACONF}
-			echo 'savestate_auto_load = "false"' >> ${RACONF}
-		else
+		if [ "${2}" == false ] || [ "${2}" == "1" ]; then 
 			echo 'savestate_auto_save = "true"' >> ${RACONF}
 			echo 'savestate_auto_load = "true"' >> ${RACONF}
+			AUTOLOAD=true
+		else
+			echo 'savestate_auto_save = "false"' >> ${RACONF}
+			echo 'savestate_auto_load = "false"' >> ${RACONF}
+			AUTOLOAD=false
 		fi
 	;;
 	"snapshot")
 		echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
-		if [ ! -z ${SNAPSHOT} ]; then
-			sed -i "/savestate_auto_load =/d" ${RACONF}
-			sed -i "/savestate_auto_save =/d" ${RACONF}
-			echo 'savestate_auto_save = "true"' >> ${RACONF}
-			echo 'savestate_auto_load = "true"' >> ${RACONF}
-			echo "state_slot = \"${SNAPSHOT}\"" >> ${RACONF}
-		else
-			if [ ${AUTOLOAD} == "false" ]; then
+		if [ ! -z ${SNAPSHOT} ]
+		then
+			if [ ${AUTOLOAD} == true ]
+			then
+				sed -i "/savestate_auto_load =/d" ${RACONF}
+				sed -i "/savestate_auto_save =/d" ${RACONF}
+				echo 'savestate_auto_save = "true"' >> ${RACONF}
+				echo 'savestate_auto_load = "true"' >> ${RACONF}
+				echo "state_slot = \"${SNAPSHOT}\"" >> ${RACONF}
+			else
 				sed -i "/savestate_auto_load =/d" ${RACONF}
 				sed -i "/savestate_auto_save =/d" ${RACONF}
 				echo 'savestate_auto_save = "false"' >> ${RACONF}
 				echo 'savestate_auto_load = "false"' >> ${RACONF}
+				echo 'state_slot = "0"' >> ${RACONF}
 			fi
-			echo 'state_slot = "0"' >> ${RACONF}
 		fi
 	;;
 	"integerscale")
