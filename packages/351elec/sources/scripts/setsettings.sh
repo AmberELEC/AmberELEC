@@ -259,30 +259,34 @@ case ${1} in
 			fi
 	;;
 	"autosave")
-		if [ "${2}" == "true" ] || [ "${2}" == "1" ]; then 
+		if [ "${2}" == false ] || [ "${2}" == "1" ]; then 
 			echo 'savestate_auto_save = "true"' >> ${RACONF}
 			echo 'savestate_auto_load = "true"' >> ${RACONF}
+			AUTOLOAD=true
 		else
 			echo 'savestate_auto_save = "false"' >> ${RACONF}
 			echo 'savestate_auto_load = "false"' >> ${RACONF}
+			AUTOLOAD=false
 		fi
 	;;
 	"snapshot")
 		echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
-		if [ ! -z ${SNAPSHOT} ]; then
-			sed -i "/savestate_auto_load =/d" ${RACONF}
-			sed -i "/savestate_auto_save =/d" ${RACONF}
-			echo 'savestate_auto_save = "true"' >> ${RACONF}
-			echo 'savestate_auto_load = "true"' >> ${RACONF}
-			echo "state_slot = \"${SNAPSHOT}\"" >> ${RACONF}
-		else
-			if [ ${AUTOLOAD} == "false" ]; then
+		if [ ! -z ${SNAPSHOT} ]
+		then
+			if [ ${AUTOLOAD} == true ]
+			then
+				sed -i "/savestate_auto_load =/d" ${RACONF}
+				sed -i "/savestate_auto_save =/d" ${RACONF}
+				echo 'savestate_auto_save = "true"' >> ${RACONF}
+				echo 'savestate_auto_load = "true"' >> ${RACONF}
+				echo "state_slot = \"${SNAPSHOT}\"" >> ${RACONF}
+			else
 				sed -i "/savestate_auto_load =/d" ${RACONF}
 				sed -i "/savestate_auto_save =/d" ${RACONF}
 				echo 'savestate_auto_save = "false"' >> ${RACONF}
 				echo 'savestate_auto_load = "false"' >> ${RACONF}
+				echo 'state_slot = "0"' >> ${RACONF}
 			fi
-			echo 'state_slot = "0"' >> ${RACONF}
 		fi
 	;;
 	"integerscale")
