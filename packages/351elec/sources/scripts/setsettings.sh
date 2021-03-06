@@ -29,6 +29,8 @@ CORE=${3,,}
 ROM="${2##*/}"
 SETF=0
 SHADERSET=0
+LOGSDIR="/tmp/logs"
+LOGFILE="exec.log"
 
 #Snapshot
 SNAPSHOT="$@"
@@ -50,9 +52,7 @@ function log() {
                         mkdir -p "$LOGSDIR"
                 fi
 		DATE=$(date +"%b %d %H:%M:%S")
-                echo "${DATE} ${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
-        else
-                echo "${MYNAME}: $1"
+		echo "${DATE} ${MYNAME}: $1" 2>&1 >> ${LOGSDIR}/${LOGFILE}
         fi
 }
 
