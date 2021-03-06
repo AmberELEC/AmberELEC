@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="pokemini"
-PKG_VERSION="8d1dbcc19055052ca2c8842c13359afc4d650993"
-PKG_SHA256="1f59521c4845c9302a5c98db025c5d182134a19c8b28c601ac26e927eb3f81b3"
+PKG_VERSION="e9fdbd98ef9e5f5dd6bb71c59e0eff5006671a54"
+PKG_SHA256="634037bdd171687f5eb9dd852c952ced7f866beb50cdafde58c60c16d36f9632"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
