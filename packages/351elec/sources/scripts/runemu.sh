@@ -34,7 +34,7 @@ if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then
     LOG=false
 else
     LOG=true
-	VERBOSE=true
+    VERBOSE=true
 fi
 
 arguments="$@"
@@ -96,7 +96,8 @@ function log() {
 		then
 			mkdir -p "$LOGSDIR"
 		fi
-		echo "${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
+		DATE=$(date +"%b %d %H:%M:%S")
+		echo "${DATE} ${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
 	else
 		echo "${MYNAME}: $1"
 	fi

@@ -34,14 +34,38 @@ SHADERSET=0
 SNAPSHOT="$@"
 SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
 
+### Enable logging
+if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then
+    LOG=false
+else
+    LOG=true
+    VERBOSE=true
+fi
+
+function log() {
+        if [ ${LOG} == true ]
+        then
+                if [[ ! -d "$LOGSDIR" ]]
+                then
+                        mkdir -p "$LOGSDIR"
+                fi
+		DATE=$(date +"%b %d %H:%M:%S")
+                echo "${DATE} ${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
+        else
+                echo "${MYNAME}: $1"
+        fi
+}
+
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
 FILELENGTH="$(cat ${DESTRACONF} | wc -l)"
 if [ "${FILELENGTH}" -lt "1" ]
 then
+  log "Fix broken RA conf"
   rm -f "${DESTRACONF}"
   cp -f "${SOURCERACONF}" "${RACONF}"
 else
+  log "Copying RA conf"
   cp -f "${DESTRACONF}" "${RACONF}"
 fi
 
@@ -51,12 +75,14 @@ then
 fi
 
 function doexit() {
+  log "Exiting.."
   mv "${RACONF}" "${DESTRACONF}"
   sync
   exit 0
 }
 
 function group_platform() {
+log "group platform function (${1})"
 case ${1} in 
 	"atari2600")
 	PLATFORM="atari2600"
@@ -146,6 +172,7 @@ esac
 group_platform
 
 function clean_settings() {
+log "Clean settings function"
 # IMPORTANT: Every setting we change should be removed from retroarch.cfg before we do any changes.
 	sed -i '/video_scale_integer =/d' ${RACONF}
         sed -i '/video_ctx_scaling =/d' ${RACONF}
@@ -192,6 +219,7 @@ function clean_settings() {
 }
 
 function default_settings() {
+log "Default settings function"
 # IMPORTANT: Every setting we change should have a default value here
 	clean_settings
 	echo 'video_scale_integer = "false"' >> ${RACONF}
@@ -224,6 +252,7 @@ function default_settings() {
 }
 
 function set_setting() {
+log "Set Settings function (${1})"
 # we set the setting on the configuration file
 case ${1} in
 	"wifi")
@@ -444,6 +473,7 @@ esac
 }
 
 function get_setting() {
+log "Get Settings function (${1})"
 #We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
 	EES=$(sed -n "${PAT}" "${EMUCONF}")
@@ -468,6 +498,7 @@ set_setting ${1} ${EES}
 clean_settings
 
 for s in wifi ratio smooth shaderset rewind autosave snapshot integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
+log "Get settings loop (${1})"
 get_setting $s
 [ -z "${EES}" ] || SETF=1
 done
@@ -478,25 +509,26 @@ default_settings
 fi
 
 if [ "${CORE}" == "atari800" ]; then
-ATARICONF="/storage/.config/distribution/configs/atari800.cfg"
-ATARI800CONF="/storage/.config/retroarch/config/Atari800/Atari800.opt"
-[[ ! -f "$ATARI800CONF" ]] && touch "$ATARI800CONF"
+	log "Atari 800 section"
+	ATARICONF="/storage/.config/distribution/configs/atari800.cfg"
+	ATARI800CONF="/storage/.config/retroarch/config/Atari800/Atari800.opt"
+	[[ ! -f "$ATARI800CONF" ]] && touch "$ATARI800CONF"
 
-sed -i "/atari800_system =/d" ${RACORECONF}
-sed -i "/RAM_SIZE=/d" ${ATARICONF}
-sed -i "/STEREO_POKEY=/d" ${ATARICONF}
-sed -i "/BUILTIN_BASIC=/d" ${ATARICONF}
-sed -i "/atari800_system =/d" ${ATARI800CONF}
+	sed -i "/atari800_system =/d" ${RACORECONF}
+	sed -i "/RAM_SIZE=/d" ${ATARICONF}
+	sed -i "/STEREO_POKEY=/d" ${ATARICONF}
+	sed -i "/BUILTIN_BASIC=/d" ${ATARICONF}
+	sed -i "/atari800_system =/d" ${ATARI800CONF}
 
 	if [ "${PLATFORM}" == "atari5200" ]; then
-			echo "atari800_system = \"5200\"" >> ${RACORECONF}
-			echo "atari800_system = \"5200\"" >> ${ATARI800CONF}
+	    echo "atari800_system = \"5200\"" >> ${RACORECONF}
+	    echo "atari800_system = \"5200\"" >> ${ATARI800CONF}
             echo "RAM_SIZE=16" >> ${ATARICONF}
             echo "STEREO_POKEY=0" >> ${ATARICONF}
             echo "BUILTIN_BASIC=0" >> ${ATARICONF}
 	else
-			echo "atari800_system = \"800XL (64K)\"" >> ${RACORECONF}
-			echo "atari800_system = \"800XL (64K)\"" >> ${ATARI800CONF}
+	    echo "atari800_system = \"800XL (64K)\"" >> ${RACORECONF}
+	    echo "atari800_system = \"800XL (64K)\"" >> ${ATARI800CONF}
             echo "RAM_SIZE=64" >> ${ATARICONF}
             echo "STEREO_POKEY=1" >> ${ATARICONF}
             echo "BUILTIN_BASIC=1" >> ${ATARICONF}
@@ -504,13 +536,14 @@ sed -i "/atari800_system =/d" ${ATARI800CONF}
 fi
 
 if [ "${CORE}" == "gambatte" ]; then
-GAMBATTECONF="/storage/.config/retroarch/config/Gambatte/Gambatte.opt"
-[[ ! -f "$GAMBATTECONF" ]] && touch "$GAMBATTECONF"
+	log "Gambatte section"
+	GAMBATTECONF="/storage/.config/retroarch/config/Gambatte/Gambatte.opt"
+	[[ ! -f "$GAMBATTECONF" ]] && touch "$GAMBATTECONF"
 
-sed -i "/gambatte_gb_colorization =/d" ${RACORECONF}
-sed -i "/gambatte_gb_internal_palette =/d" ${RACORECONF}
-sed -i "/gambatte_gb_colorization =/d" ${GAMBATTECONF}
-sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
+	sed -i "/gambatte_gb_colorization =/d" ${RACORECONF}
+	sed -i "/gambatte_gb_internal_palette =/d" ${RACORECONF}
+	sed -i "/gambatte_gb_colorization =/d" ${GAMBATTECONF}
+	sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
 
 		get_setting "renderer.colorization"
 		if [ "${EES}" == "false" ] || [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
@@ -535,7 +568,8 @@ sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
 CONTROLLERS="$@"
 CONTROLLERS="${CONTROLLERS#*--controllers=*}"
 
-for i in 1 2 3 4 5; do 
+for i in 1 2 3 4 5; do
+log "Controller section (${1})"
 if [[ "$CONTROLLERS" == *p${i}* ]]; then
 PINDEX="${CONTROLLERS#*-p${i}index }"
 PINDEX="${PINDEX%% -p${i}guid*}"
