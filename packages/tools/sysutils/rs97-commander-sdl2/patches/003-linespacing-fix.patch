@@ -1,0 +1,34 @@
+From b695fba79982000a7ca1f5ec2c13e8cf5b1204b6 Mon Sep 17 00:00:00 2001
+From: Zul <24516067+zulhailmie@users.noreply.github.com>
+Date: Sun, 7 Mar 2021 18:30:00 +0800
+Subject: [PATCH] Fix cropped text issue
+
+---
+ Makefile | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 6da5345..92f3c1a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,13 +11,15 @@ ifeq ($(ODROIDGO), 1)
+ 	SCREENW := 480
+ 	SCREENH := 320
+ 	FONTSIZE := 8
+-	HEADERH := 17
+ 	H_PADDING_TOP := 3
+-	FOOTERH := 13
+-	F_PADDING_TOP := 1
+-	LINEH := 15
++	F_PADDING_TOP := 3
+ 	FONTTOUSE := $(RESDIR)/Fiery_Turk.ttf
+-	VIEWER_LINE_H := 13
++	MAXLINES := 20
++	LINESPACE := $(shell echo $$(($(SCREENH)/$(MAXLINES))))
++	HEADERH := $(LINESPACE)
++	FOOTERH := $(LINESPACE)
++	LINEH := $(LINESPACE)
++	VIEWER_LINE_H := $(LINESPACE)
+ else
+ # todo detect resolution and set window to corrext size
+ 	SCREENW ?= 1920
