@@ -1,0 +1,22 @@
+From 997a1f4851c53eca18c17ef753e284b3420ff871 Mon Sep 17 00:00:00 2001
+From: christianhaitian <mckman@comcast.net>
+Date: Tue, 26 Jan 2021 14:10:15 -0500
+Subject: [PATCH] Change keyboard mapping from French to US
+
+---
+ libretro.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libretro.c b/libretro.c
+index ef4b250..b18e01e 100644
+--- a/libretro.c
++++ b/libretro.c
+@@ -125,7 +125,7 @@ void retro_init(void)
+ 
+     // Get map layout
+ 
+-    gb.keyboardLayout = 1; // French
++    gb.keyboardLayout = 0; // English
+ 
+     for (i = 0; i < RETROK_LAST; i++) {
+         KeySymToCPCKey[i] = CPC_NIL;
