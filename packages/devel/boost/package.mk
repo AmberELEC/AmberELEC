@@ -25,8 +25,8 @@ makeinstall_host() {
 }
 
 pre_configure_target() {
-  export CFLAGS="${CFLAGS} -I${SYSROOT_PREFIX}/usr/include/${PKG_PYTHON_VERSION}"
-  export CXXFLAGS="${CXXFLAGS} -I${SYSROOT_PREFIX}/usr/include/${PKG_PYTHON_VERSION}"
+  export CFLAGS="${CFLAGS} -I${TOOLCHAIN}/include/${PKG_PYTHON_VERSION}"
+  export CXXFLAGS="${CXXFLAGS} -I${TOOLCHAIN}/include/${PKG_PYTHON_VERSION}"
 }
 
 configure_target() {
