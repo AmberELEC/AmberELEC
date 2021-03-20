@@ -26,6 +26,10 @@ On the first boot, 351ELEC will expand the storage and games partitions and then
 
 For access to nightly builds with the most recent bleeding edge changes, visit #releases-nightly on discord.
 
+## Updating
+
+351ELEC has shifted to a daily build model.  If you are a current user of 2.0 and are using the "stable" channel, you will need to change to the nightly build channel to continue to update in the future.  After updating the nightly build channel will change to daily automatically.
+
 ## Getting Help
 
 Many frequently asked questions are covered in our [WIKI](https://github.com/fewtarius/351ELEC/wiki/Getting-to-Know-351ELEC).  If you have general questions or if you need help, join us on [Discord](https://discord.gg/bmXtCt88Tz).
