@@ -4,12 +4,12 @@ An open source firmware for the Anbernic RG351P/M devices.
 
 ## Features
 
-* A 64bit Firmware optimized for the RK3326 CPU and 320x480 display found in the RG351P/M.
-* Fully Open Source with a wonderful community of users and contributors.
+* A 64bit Firmware optimized for the RK3326 CPU and 320x480 display found in the RG351P/M
+* Fully Open Source with a wonderful community of users and contributors
 * An up-to-date and fresh user interface
 * Optimized defaults allowing you to pick up and play
-* Online updates including access to multiple release channels ranging from stable to daily builds.
-* An EXFAT games partition easily accessible from Linux, Windows and MacOS.
+* Online updates
+* An EXFAT games partition easily accessible from Linux, Windows and MacOS
 
 351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M and is not compatible with other devices.
 
@@ -17,7 +17,7 @@ An open source firmware for the Anbernic RG351P/M devices.
 
 351ELEC minimally requires an 8GB MicroSD, however the experience will be limited.  For an optimal configuration 32GB or more is recommended.
 
-To install the most recent stable release, start by downloading the latest 351ELEC-RG351P.aarch64-{version}.img.gz from the Releases section.
+To download the latest version of 351ELEC, visit [updates.351elec.org](https://updates.351elec.org/releases/daily/).
 
 * Decompress the image
 * Write the image to a microSD using your favorite image writer
@@ -28,12 +28,12 @@ For access to nightly builds with the most recent bleeding edge changes, visit #
 
 ## Getting Help
 
-Many frequently asked questions are covered in our [WIKI](https://github.com/fewtarius/351ELEC/wiki/Getting-to-Know-351ELEC).  If you have general questions or if you need help, join us on Discord: https://discord.gg/bmXtCt88Tz
+Many frequently asked questions are covered in our [WIKI](https://github.com/fewtarius/351ELEC/wiki/Getting-to-Know-351ELEC).  If you have general questions or if you need help, join us on [Discord](https://discord.gg/bmXtCt88Tz).
 
 For bug reports and feature requests, use one of the templates on the issues tab.  The more information you provide, the easier it will be to assist.  Please note that issues opened without using a form will be closed.  Please do not use the issue tracker for technical support, or your issue will be closed.
 
 ## Building from Source
-Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
+Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 100GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
 
 ```
 sudo apt update && sudo apt upgrade
