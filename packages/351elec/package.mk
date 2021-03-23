@@ -72,6 +72,9 @@ makeinstall_target() {
   ln -s /storage/roms $INSTALL/roms
   ln -sf /storage/roms/opt $INSTALL/opt
 
+  mkdir -p $INSTALL/usr/lib
+  ln -s /usr/lib32/ld-2.32.so $INSTALL/usr/lib/ld-linux-armhf.so.3
+
   mkdir -p $INSTALL/usr/share/retroarch-overlays
     cp -r $PKG_DIR/overlay/* $INSTALL/usr/share/retroarch-overlays
   

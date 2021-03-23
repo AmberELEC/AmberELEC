@@ -15,9 +15,9 @@ BAND=$(get_ee_setting updates.type)
 
 ### Functions Library
 
-if [ "${BAND}" == "nightly" ]
+if [ "${BAND}" == "daily" ]
 then
-  REPO="https://updates.351elec.org/releases/nightly"
+  REPO="https://updates.351elec.org/releases/daily"
   PROVIDER="https"
 elif [ "${BAND}" == "rc" ]
 then
@@ -69,7 +69,7 @@ else
   fi
 fi
 
-if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "nightly" ]
+if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
 then
   echo "${TAG} ${BAND^^}"
   exit 0
