@@ -46,12 +46,12 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +    {0, 0}, // left
 +    {0, 0}, // down
 +    {0, 0}, // right
-+    {0, 6}, // 1 player start
++    {0, 7}, // 1 player start
 +    {0, 0}, // 2 player start
 +    {0, 1}, // action button 1
 +    {0, 2}, // action button 2
 +    {0, 3}, // action button 3
-+    {0, 5}, // coin chute left
++    {0, 8}, // coin chute left
 +    {0, 0}, // coin chute right
 +    {0, 0}, // skill easy
 +    {0, 0}, // skill medium
@@ -60,8 +60,8 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +    {0, 0}, // test mode
 +    {0, 0}, // reset cpu
 +    {0, 0}, // take screenshot
-+    {0, 7}, // Quit DAPHNE
-+    {0, 0}, // pause game
++    {0, 12}, // Quit DAPHNE
++    {0, 11}, // pause game
 +    {0, 0}, // toggle console (TODO)
 +    {0, 0}  // Tilt/Slam switch
 +};
