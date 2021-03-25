@@ -216,6 +216,7 @@ log "Clean settings function"
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
+	sed -i "/menu_driver/d" ${RACONF}
 }
 
 function default_settings() {
@@ -249,6 +250,7 @@ log "Default settings function"
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
+	echo 'menu_driver = "xmb"' >> ${RACONF}
 }
 
 function set_setting() {
@@ -585,7 +587,10 @@ fi
 fi
 done
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
+
+# RA menu rgui or xmb
 get_setting "retroarch.menu_driver"
+[ "${EES}" == "rgui" ] && echo 'menu_driver = "rgui"' >> ${RACONF} || echo 'menu_driver = "xmb"' >> ${RACONF}
 
 # Show bezel if enabled
 get_setting "bezel"
