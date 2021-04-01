@@ -12,6 +12,7 @@ PREFIX="351ELEC-RG351P.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
+OS_SHA256="/storage/.config/.OS_SHA256"
 
 ### Functions Library
 
@@ -71,6 +72,25 @@ fi
 
 if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
 then
+  # If there is an update we still have to check if it's a new one
+  # this is done by comparing the sha256 checksum to the one of
+  # the last installed package. This information is written by 
+  # /usr/bin/351elec-upgrade while it fetches the next update
+  # The checksum is stored in /storage/.config/.OS_SHA256
+  LSHA=$(cat ${OS_SHA256})
+  if [ ! "$LSHA" == "" ]; then
+	curl -H 'Cache-Control: no-cache' -Lo "${USTAGE}/${PREFIX}-${TAG}.sha256" "${REPO}/${PREFIX}-${TAG}.sha256" &> /dev/null
+	DLSUM=$(cat ${USTAGE}/${PREFIX}-${TAG}.sha256 | awk '{print $1}')
+	rm -f ${USTAGE}/${PREFIX}-${TAG}.sha256
+	if [ "${LSHA}" == "${DLSUM}" ]; then
+		# we are called by '/usr/bin/batocera-config canupdate'
+		# and that expects a 'no' in return if there are no new updates
+		# '/usr/bin/batocera-config canupdate' itself is called by
+		# ES (ApiSystem.cpp) to check if there are any new updates.
+		echo "no"
+		exit 1
+	fi
+  fi
   echo "${TAG} ${BAND^^}"
   exit 0
 elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]

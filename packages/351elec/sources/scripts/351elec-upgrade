@@ -10,6 +10,7 @@ PREFIX="351ELEC-RG351P.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
+OS_SHA256="/storage/.config/.OS_SHA256"
 
 ### Functions Library
 
@@ -221,6 +222,10 @@ then
   systemctl start emustation
   exit 1
 else
+  # If we are sure that we will do the update we store the sha256 checksum into
+  # /storage/.config/.OS_SHA256 for /usr/bin/updatecheck to verify if the
+  # latest update is already installed or not
+  echo $DLSUM > ${OS_SHA256}
   message_stream "\nVerification successful..." .02
 fi
 
