@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="retroarch"
-PKG_VERSION="e35ed84de96d2dcf42c71dc9e4769ae25cc81641"
+PKG_VERSION="f7d0908ff1355c763fb6a892a6f502f54084cc97"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"
@@ -65,8 +65,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
 if [ "$DEVICE" == "RG351P" ]; then
 PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                            --enable-kms \
-                           --disable-mali_fbdev \
-                           --enable-odroidgo2"
+                           --disable-mali_fbdev"
 else
 PKG_CONFIGURE_OPTS_TARGET+=" --disable-kms \
                            --enable-mali_fbdev"
