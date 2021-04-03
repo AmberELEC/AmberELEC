@@ -1,14 +1,14 @@
 diff -rupN linux.orig/arch/arm64/boot/batocera_install.sh linux.new/arch/arm64/boot/batocera_install.sh
 --- linux.orig/arch/arm64/boot/batocera_install.sh	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/arch/arm64/boot/batocera_install.sh	2021-02-05 16:33:29.712760611 -0500
++++ linux.new/arch/arm64/boot/batocera_install.sh	2021-03-17 19:00:40.296516656 -0400
 @@ -0,0 +1,4 @@
 +#!/bin/sh
 +
 +mkimage -A arm64 -O linux -T kernel -C none -a 0x1080000 -e 0x1080000 -n 5.x -d "Image" "uImage"
 +mv uImage linux
 diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/Makefile linux.new/arch/arm64/boot/dts/rockchip/Makefile
---- linux.orig/arch/arm64/boot/dts/rockchip/Makefile	2021-02-05 16:32:00.363198308 -0500
-+++ linux.new/arch/arm64/boot/dts/rockchip/Makefile	2021-02-05 16:34:16.533579913 -0500
+--- linux.orig/arch/arm64/boot/dts/rockchip/Makefile	2021-03-17 18:48:48.118830466 -0400
++++ linux.new/arch/arm64/boot/dts/rockchip/Makefile	2021-03-17 19:00:40.296516656 -0400
 @@ -131,6 +131,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399pro
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo2-linux.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo2-linux-v11.dtb
@@ -19,14 +19,11 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/Makefile linux.new/arch/arm64
  subdir-y	:= $(dts-dirs)
 diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts
 --- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2021-02-05 16:33:29.716760681 -0500
-@@ -0,0 +1,875 @@
++++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2021-04-02 14:57:27.585215126 -0400
+@@ -0,0 +1,1008 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
-+ * Copyright (c) 2020 Anbernic
-+ *
-+ * Anbernic RG351P isn't ODROID-GO2 CLONE:)
-+ *
++ * Copyright (c) 2019 Hardkernel Co., Ltd
 + */
 +
 +/dts-v1/;
@@ -39,8 +36,8 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +#include "rk3326-linux.dtsi"
 +
 +/ {
-+	model = "Anbernic RG351P";
-+	compatible = "rockchip,rk3326-rg351p-linux", "rockchip,rk3326";
++	model = "Hardkernel ODROID-GO2";
++	compatible = "rockchip,rk3326-odroidgo2-linux", "rockchip,rk3326";
 +
 +	chosen {
 +                bootargs = "";
@@ -57,6 +54,20 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&uart2m1_xfer>;
 +		status = "okay";
++	};
++
++	leds: gpio_leds {
++		compatible = "gpio-leds";
++
++		pinctrl-names = "led_pins";
++		pinctrl-0 = <&led_pins>;
++
++		/* Blue LED : GPIO0_C1 */
++		heartbeat {
++			label = "blue:heartbeat";
++			gpios = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger = "heartbeat";
++		};
 +	};
 +
 +	backlight: backlight {
@@ -95,20 +106,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +			232 233 234 235 236 237 238 239
 +			240 241 242 243 244 245 246 247
 +			248 249 250 251 252 253 254 255>;
-+		default-brightness-level = <255>;
-+	};
-+	
-+	leds: gpio_leds {
-+		compatible = "gpio-leds";
-+
-+		pinctrl-names = "led_pins";
-+		pinctrl-0 = <&led_pins>;
-+
-+		heartbeat {
-+			label = "blue:heartbeat";
-+			gpios = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
-+			linux,default-trigger = "heartbeat";
-+		};
++		default-brightness-level = <200>;
 +	};
 +
 +	rk817-sound {
@@ -124,7 +122,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +			/*"IN1P", "Mic Jack",*/
 +			"Headphone Jack", "HPOL",
 +			"Headphone Jack", "HPOR";
-+		simple-audio-card,hp-det-gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
++		simple-audio-card,hp-det-gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_HIGH>;
 +		simple-audio-card,codec-hp-det = <1>;
 +		simple-audio-card,cpu {
 +			sound-dai = <&i2s1_2ch>;
@@ -141,19 +139,19 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +		regulator-min-microvolt = <3800000>;
 +		regulator-max-microvolt = <3800000>;
 +	};
-+/*
++
 +	vcc_host: vcc_host {
 +		compatible = "regulator-fixed";
 +		regulator-name = "vcc_host";
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
 +
-+		gpio = <&gpio0 RK_PB7 GPIO_ACTIVE_LOW>;
++		gpio = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>;
 +		enable-active-high;
 +		regulator-always-on;
 +		vin-supply = <&vccsys>;
 +	};
-+*/
++
 +};
 +
 +
@@ -179,7 +177,6 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	/delete-node/ opp-600000000;
 +	/delete-node/ opp-816000000;
 +	/delete-node/ opp-1416000000;
-+	/delete-node/ opp-1512000000;
 +};
 +
 +&display_subsystem {
@@ -211,8 +208,8 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +		unprepare-delay-ms = <20>;
 +
 +		/* LCD size */
-+		width-mm = <42>;
-+		height-mm = <82>;
++		width-mm = <52>;
++		height-mm = <70>;
 +
 +		dsi,flags = <(MIPI_DSI_MODE_VIDEO           |
 +			      MIPI_DSI_MODE_VIDEO_BURST     |
@@ -220,77 +217,216 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +			      MIPI_DSI_MODE_EOT_PACKET)>;
 +
 +		dsi,format = <MIPI_DSI_FMT_RGB888>;
-+		dsi,lanes = <1>;
-+
-+		/*
-+			- panel-init-sequence data description -
-+			  mipi_cmd, delay(ms), len, lcd_cmd, lcd_data...
-+
-+			- mipi_cmd description -
-+			  05 : MIPI_DSI_SHORT_WRITE
-+			  15 : MIPI_DSI_SHORT_WRITE_PARAM
-+			  39 : MIPI_DSI_LONG_WRITE
-+
-+			- ILI9486 (Initialize sequence) -
-+			  11: Sleep out & 250ms wait
-+			  E0: PositiveGamma
-+			  E1: NegativeGamma
-+			  C0: PowerControl_1
-+			  C1: PowerControl_2
-+			  C5: VcomControl
-+			  36: MemoryAccess
-+			  3A: InterfacePixelFormat
-+			  B0: InterfaceModeControl
-+			  B1: FrameRateControl
-+			  B4: DisplayInversionControl
-+			  B6: DisplayFunctionControl
-+			  E9: SetImageFunction
-+			  F7: AdjustControl_3
-+			  21: DisplayInversionOn
-+			  29: DisplayOn & 50ms wait
-+		*/
-+
++		dsi,lanes = <4>;
 +		panel-init-sequence = [
-+			05 fa 01 11
-+			39 00 10 E0 00 13 18 04 0F 06 3A 56
-+				    4D 03 0A 06 30 3E 0F
-+			39 00 10 E1 00 13 18 01 11 06 38 34
-+				    4D 06 0D 0B 31 37 0F
-+			15 00 03 C0 18 17
-+			15 00 02 C1 41
-+			39 00 04 C5 00 1A 80
-+			15 00 02 36 48
-+			15 00 02 3A 55
-+			15 00 02 B0 00
-+			15 00 02 B1 A0
-+			15 00 02 B4 02
-+			15 00 03 B6 20 02
-+			15 00 02 E9 00
-+			39 00 05 F7 A9 51 2C 82
-+			05 00 01 21
-+			05 32 01 29
++			15 00 02 FF 30
++			15 00 02 FF 52
++			15 00 02 FF 01
++			15 00 02 E3 00
++			15 00 02 40 0A
++			15 00 02 03 40
++			15 00 02 04 00
++			15 00 02 05 03
++			15 00 02 24 12
++			15 00 02 25 1E
++			15 00 02 26 28
++			15 00 02 27 52
++			15 00 02 28 57
++			15 00 02 29 01
++			15 00 02 2A DF
++			15 00 02 38 9C
++			15 00 02 39 A7
++			15 00 02 3A 53
++			15 00 02 44 00
++			15 00 02 49 3C
++			15 00 02 59 FE
++			15 00 02 5C 00
++			15 00 02 91 77
++			15 00 02 92 77
++			15 00 02 A0 55
++			15 00 02 A1 50
++			15 00 02 A4 9C
++			15 00 02 A7 02
++			15 00 02 A8 01
++			15 00 02 A9 01
++			15 00 02 AA FC
++			15 00 02 AB 28
++			15 00 02 AC 06
++			15 00 02 AD 06
++			15 00 02 AE 06
++			15 00 02 AF 03
++			15 00 02 B0 08
++			15 00 02 B1 26
++			15 00 02 B2 28
++			15 00 02 B3 28
++			15 00 02 B4 33
++			15 00 02 B5 08
++			15 00 02 B6 26
++			15 00 02 B7 08
++			15 00 02 B8 26
++			15 00 02 FF 30
++			15 00 02 FF 52
++			15 00 02 FF 02
++			15 00 02 B0 0B
++			15 00 02 B1 16
++			15 00 02 B2 17
++			15 00 02 B3 2C
++			15 00 02 B4 32
++			15 00 02 B5 3B
++			15 00 02 B6 29
++			15 00 02 B7 40
++			15 00 02 B8 0D
++			15 00 02 B9 05
++			15 00 02 BA 12
++			15 00 02 BB 10
++			15 00 02 BC 12
++			15 00 02 BD 15
++			15 00 02 BE 19
++			15 00 02 BF 0E
++			15 00 02 C0 16
++			15 00 02 C1 0A
++			15 00 02 D0 0C
++			15 00 02 D1 17
++			15 00 02 D2 14
++			15 00 02 D3 2E
++			15 00 02 D4 32
++			15 00 02 D5 3C
++			15 00 02 D6 22
++			15 00 02 D7 3D
++			15 00 02 D8 0D
++			15 00 02 D9 07
++			15 00 02 DA 13
++			15 00 02 DB 13
++			15 00 02 DC 11
++			15 00 02 DD 15
++			15 00 02 DE 19
++			15 00 02 DF 10
++			15 00 02 E0 17
++			15 00 02 E1 0A
++			15 00 02 FF 30
++			15 00 02 FF 52
++			15 00 02 FF 03
++			15 00 02 00 2A
++			15 00 02 01 2A
++			15 00 02 02 2A
++			15 00 02 03 2A
++			15 00 02 04 61
++			15 00 02 05 80
++			15 00 02 06 C7
++			15 00 02 07 01
++			15 00 02 08 82
++			15 00 02 09 83
++			15 00 02 30 2A
++			15 00 02 31 2A
++			15 00 02 32 2A
++			15 00 02 33 2A
++			15 00 02 34 61
++			15 00 02 35 C5
++			15 00 02 36 80
++			15 00 02 37 23
++			15 00 02 40 82
++			15 00 02 41 83
++			15 00 02 42 80
++			15 00 02 43 81
++			15 00 02 44 11
++			15 00 02 45 E6
++			15 00 02 46 E5
++			15 00 02 47 11
++			15 00 02 48 E8
++			15 00 02 49 E7
++			15 00 02 50 02
++			15 00 02 51 01
++			15 00 02 52 04
++			15 00 02 53 03
++			15 00 02 54 11
++			15 00 02 55 EA
++			15 00 02 56 E9
++			15 00 02 57 11
++			15 00 02 58 EC
++			15 00 02 59 EB
++			15 00 02 7E 02
++			15 00 02 7F 80
++			15 00 02 E0 5A
++			15 00 02 B1 00
++			15 00 02 B4 0E
++			15 00 02 B5 0F
++			15 00 02 B6 04
++			15 00 02 B7 07
++			15 00 02 B8 06
++			15 00 02 B9 05
++			15 00 02 BA 0F
++			15 00 02 C7 00
++			15 00 02 CA 0E
++			15 00 02 CB 0F
++			15 00 02 CC 04
++			15 00 02 CD 07
++			15 00 02 CE 06
++			15 00 02 CF 05
++			15 00 02 D0 0F
++			15 00 02 81 0F
++			15 00 02 84 0E
++			15 00 02 85 0F
++			15 00 02 86 07
++			15 00 02 87 04
++			15 00 02 88 05
++			15 00 02 89 06
++			15 00 02 8A 00
++			15 00 02 97 0F
++			15 00 02 9A 0E
++			15 00 02 9B 0F
++			15 00 02 9C 07
++			15 00 02 9D 04
++			15 00 02 9E 05
++			15 00 02 9F 06
++			15 00 02 A0 00
++			15 00 02 FF 30
++			15 00 02 FF 52
++			15 00 02 FF 02
++			15 00 02 01 01
++			15 00 02 02 DA
++			15 00 02 03 BA
++			15 00 02 04 A8
++			15 00 02 05 9A
++			15 00 02 06 70
++			15 00 02 07 FF
++			15 00 02 08 91
++			15 00 02 09 90
++			15 00 02 0A FF
++			15 00 02 0B 8F
++			15 00 02 0C 60
++			15 00 02 0D 58
++			15 00 02 0E 48
++			15 00 02 0F 38
++			15 00 02 10 2B
++			15 00 02 FF 30
++			15 00 02 FF 52
++			15 00 02 FF 00
++			15 00 02 36 02
++			15 00 02 3A 70
++			05 C8 01 11
++			05 0A 01 29
 +		];
 +
 +		/* 28: DisplayOff */
 +		/* 10: SleepIn */
 +		panel-exit-sequence = [
-+			05 00 01 28
-+			05 00 01 10
++			05 14 01 28
++			05 0A 01 10
 +		];
 +
 +		display-timings {
 +			native-mode = <&timing0>;
 +
 +			timing0: timing0 {
-+				clock-frequency = <17000000>;
-+				hactive = <320>;
++				clock-frequency = <60000000>;
++				hactive = <640>;
 +				vactive = <480>;
-+				hfront-porch = <130>;
-+				hsync-len = <4>;
-+				hback-porch = <130>;
-+				vfront-porch = <2>;
-+				vsync-len = <1>;
-+				vback-porch = <2>;
++				hfront-porch = <40>;
++				hsync-len = <2>;
++				hback-porch = <80>;
++				vfront-porch = <18>;
++				vsync-len = <2>;
++				vback-porch = <28>;
 +				hsync-active = <0>;
 +				vsync-active = <0>;
 +				de-active = <0>;
@@ -304,7 +440,10 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	status = "okay";
 +};
 +
-+
++&route_dsi {
++	connect = <&vopb_out_dsi>;
++	status = "okay";
++};
 +
 +&dfi {
 +	status = "okay";
@@ -325,7 +464,17 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	};
 +};
 +
++&gpu_opp_table {
++	/delete-node/ opp-200000000;
++	/delete-node/ opp-300000000;
++};
++
 +&emmc {
++	status = "disabled";
++};
++
++
++&sfc {
 +	status = "disabled";
 +};
 +
@@ -333,12 +482,6 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	mali-supply = <&vdd_logic>;
 +	status = "okay";
 +};
-+
-+&gpu_opp_table {
-+	/delete-node/ opp-200000000;
-+	/delete-node/ opp-300000000;
-+};
-+
 +
 +&i2c0 {
 +	status = "okay";
@@ -534,24 +677,24 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <3300000>;
++				regulator-max-microvolt = <1800000>;
 +
 +				regulator-name = "vccio_sd";
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
-+					regulator-suspend-microvolt = <3300000>;
++					regulator-suspend-microvolt = <1800000>;
 +				};
 +			};
 +
 +			vcc_sd: LDO_REG6 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <3000000>;
 +				regulator-boot-on;
 +
 +				regulator-name = "vcc_sd";
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
-+					regulator-suspend-microvolt = <3300000>;
++					regulator-suspend-microvolt = <3000000>;
 +
 +				};
 +			};
@@ -578,19 +721,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +				};
 +			};
 +
-+			/* Rev 1.1 WIFI Power */
-+			vcc_wifi: LDO_REG9 {
-+				regulator-always-on;
-+				regulator-boot-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
 +
-+				regulator-name = "vcc_wifi";
-+				regulator-state-mem {
-+					regulator-off-in-suspend;
-+					regulator-suspend-microvolt = <3300000>;
-+				};
-+			};
 +
 +			dcdc_boost: BOOST {
 +				regulator-always-on;
@@ -608,9 +739,9 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +
 +		battery {
 +			compatible = "rk817,battery";
-+			ocv_table = <3300 3342 3384 3426 3468 3511 3554
-+			3597 3640 3683 3726 3769 3812 3855
-+			3898 3941 3984 4027 4070 4113 4158>;
++			ocv_table = <3165 3220 3280 3330 3380 3430 3480
++			3530 3580 3630 3670 3710 3750 3790
++			3830 3870 3910 3950 3990 3995 4000>;
 +
 +
 +			/* KPL605475 Battery Spec */
@@ -623,13 +754,13 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +				Charging Voltage Max : 4.25V
 +				Sample resister : 10 mohm
 +			*/
-+			design_capacity = <3450>;
-+			design_qmax = <3795>;
++			design_capacity = <3380>;
++			design_qmax = <3718>;
 +			bat_res = <100>;
 +			sleep_enter_current = <300>;
 +			sleep_exit_current = <300>;
 +			sleep_filter_current = <100>;
-+			power_off_thresd = <3400>;
++			power_off_thresd = <3000>;
 +			zero_algorithm_vol = <3850>;
 +			max_soc_offset = <60>;
 +			monitor_sec = <5>;
@@ -645,10 +776,12 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +			max_chrg_current = <2000>;
 +			max_chrg_voltage = <4200>;
 +			chrg_term_mode = <0>;
-+			chrg_finish_cur = <66>;
++			chrg_finish_cur = <52>;
 +			virtual_power = <0>;
 +			sample_res = <10>;
 +
++
++			/* P.C.B rev0.2 DC Detect & Charger Status LED GPIO */
 +			dc_det_gpio  = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
 +			bat_low_gpio = <&gpio2 RK_PB5 GPIO_ACTIVE_HIGH>;
 +
@@ -662,13 +795,14 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +			clock-names = "mclk";
 +			pinctrl-names = "default";
 +			pinctrl-0 = <&i2s1_2ch_mclk>;
-+			hp-volume = <0>;
++			hp-volume = <20>;
 +			spk-volume = <3>;
 +			status = "okay";
 +		};
 +	};
 +};
 +
++/* EXT Header(P2) : 7(SCL:GPIO0.C2), 8(SDA:GPIO0.C3) */
 +&i2c1 {
 +	status = "okay";
 +	clock-frequency = <400000>;
@@ -690,7 +824,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	status = "okay";
 +
 +	/* SDIO I/O Voltage */
-+	vccio1-supply = <&vcc_3v3>;
++	vccio1-supply = <&vccio_sd>;
 +	/* SDMMC I/O Voltage */
 +	vccio2-supply = <&vccio_sd>;
 +	/* CAM I/O Voltage */
@@ -711,6 +845,14 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	status = "okay";
 +};
 +
++&rkisp1 {
++	status = "okay";
++};
++
++&spi0 {
++	status = "disabled";
++};
++
 +&pmu_io_domains {
 +	/* PMU GRF Register Voltage select control */
 +	status = "okay";
@@ -721,22 +863,12 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	pmuio2-supply = <&vcc3v3_pmu>;
 +};
 +
-+/* RG351P Motor PWM */
 +&pwm0 {
 +	status = "okay";
 +};
 +
 +/* LCD Backlight PWM */
 +&pwm1 {
-+	status = "okay";
-+};
-+
-+&route_dsi {
-+	connect = <&vopb_out_dsi>;
-+	status = "okay";
-+};
-+
-+&rkisp1 {
 +	status = "okay";
 +};
 +
@@ -747,16 +879,6 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +&rockchip_suspend {
 +	status = "okay";
 +	rockchip,sleep-debug-en = <1>;
-+};
-+
-+
-+&sfc {
-+	status = "disabled";
-+};
-+
-+
-+&spi0 {
-+	status = "disabled";
 +};
 +
 +&saradc {
@@ -783,13 +905,18 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +
 +&sdio {
 +	bus-width = <4>;
++	cap-mmc-highspeed;
 +	cap-sd-highspeed;
-+	cap-sdio-irq;
-+	disable-wp;
-+	supports-sdio;
++	supports-sd;
++	card-detect-delay = <800>;
 +	ignore-pm-notify;
-+	keep-power-in-suspend;
-+	/* non-removable; */
++	cd-gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_LOW>; /*[> CD GPIO <]*/
++	sd-uhs-sdr12;
++	sd-uhs-sdr25;
++	sd-uhs-sdr50;
++	sd-uhs-sdr104;
++	vqmmc-supply = <&vccio_sd>;
++	vmmc-supply = <&vcc_sd>;
 +	status = "okay";
 +};
 +
@@ -816,6 +943,10 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	status = "okay";
 +};
 +
++/*
++	EXT Header(P2) UART :
++	2(RXD:GPIO1.C0),3(TXD:GPIO1.C1),4(CTS:GPIO1.C2),5(RTS:GPIO1.C3)
++*/
 +&uart1 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&uart1_xfer &uart1_cts>;
@@ -841,12 +972,14 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +&pinctrl {
 +
 +	pmic {
++		/* ODROID-GO2 : PMIC_INT(GPIO0.PB2) */
 +		pmic_int: pmic_int {
 +			rockchip,pins =
 +				<0 RK_PB2 RK_FUNC_GPIO &pcfg_pull_up>,
 +				<0 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
 +
++		/* ODROID-GO2 : PMIC_SLEEP(GPIO0.PA4) */
 +		soc_slppin_gpio: soc_slppin_gpio {
 +			rockchip,pins =
 +				<0 RK_PA4 RK_FUNC_GPIO &pcfg_output_low>;
@@ -898,7 +1031,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +/* DON'T PUT ANYTHING BELOW HERE.  PUT IT ABOVE PINCTRL */
 diff -rupN linux.orig/arch/arm64/configs/rg351p_defconfig linux.new/arch/arm64/configs/rg351p_defconfig
 --- linux.orig/arch/arm64/configs/rg351p_defconfig	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/arch/arm64/configs/rg351p_defconfig	2021-02-05 16:33:29.716760681 -0500
++++ linux.new/arch/arm64/configs/rg351p_defconfig	2021-03-17 19:00:40.300516672 -0400
 @@ -0,0 +1,4999 @@
 +#
 +# Automatically generated file; DO NOT EDIT.
@@ -5901,12 +6034,24 @@ diff -rupN linux.orig/arch/arm64/configs/rg351p_defconfig linux.new/arch/arm64/c
 +CONFIG_ARCH_HAS_SG_CHAIN=y
 diff -rupN linux.orig/drivers/gator/generated_gator_src_md5.h linux.new/drivers/gator/generated_gator_src_md5.h
 --- linux.orig/drivers/gator/generated_gator_src_md5.h	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/drivers/gator/generated_gator_src_md5.h	2021-02-05 16:33:29.712760611 -0500
++++ linux.new/drivers/gator/generated_gator_src_md5.h	2021-03-17 19:00:40.300516672 -0400
 @@ -0,0 +1 @@
 +static char * gator_src_md5 = "e195786c27d25972203989708b26c144";
+diff -rupN linux.orig/drivers/input/joystick/odroidgo2-joypad.c linux.new/drivers/input/joystick/odroidgo2-joypad.c
+--- linux.orig/drivers/input/joystick/odroidgo2-joypad.c	2021-03-17 18:48:47.026820560 -0400
++++ linux.new/drivers/input/joystick/odroidgo2-joypad.c	2021-04-02 14:58:04.541459138 -0400
+@@ -669,7 +669,7 @@ static int joypad_input_setup(struct dev
+ 	device_property_read_u32(dev, "joypad-revision", &joypad_revision);
+ 	device_property_read_u32(dev, "joypad-product", &joypad_product);
+ 	input->id.bustype = BUS_HOST;
+-	input->id.vendor  = 0x484B;
++	input->id.vendor  = 0x0001;
+ 	input->id.product = (u16)joypad_product;
+ 	input->id.version = (u16)joypad_revision;
+ 
 diff -rupN linux.orig/drivers/power/rk817_battery.c linux.new/drivers/power/rk817_battery.c
---- linux.orig/drivers/power/rk817_battery.c	2021-02-05 16:31:59.891190059 -0500
-+++ linux.new/drivers/power/rk817_battery.c	2021-02-05 16:33:29.720760751 -0500
+--- linux.orig/drivers/power/rk817_battery.c	2021-03-17 18:48:47.618825930 -0400
++++ linux.new/drivers/power/rk817_battery.c	2021-03-17 19:00:40.300516672 -0400
 @@ -2019,6 +2019,29 @@ static int rk817_bat_get_charge_state(st
  	return (battery->usb_in || battery->ac_in);
  }
@@ -5953,8 +6098,8 @@ diff -rupN linux.orig/drivers/power/rk817_battery.c linux.new/drivers/power/rk81
  	case POWER_SUPPLY_PROP_HEALTH:
  		val->intval = POWER_SUPPLY_HEALTH_GOOD;
 diff -rupN linux.orig/.gitignore linux.new/.gitignore
---- linux.orig/.gitignore	2021-02-05 16:31:58.939173423 -0500
-+++ linux.new/.gitignore	2021-02-05 16:33:29.712760611 -0500
+--- linux.orig/.gitignore	2021-03-17 18:48:46.658817221 -0400
++++ linux.new/.gitignore	2021-03-17 19:00:40.300516672 -0400
 @@ -120,3 +120,4 @@ all.config
  
  # fetched Android config fragments

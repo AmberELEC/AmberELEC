@@ -17,11 +17,11 @@ makeinstall_target() {
         cp headphone_sense.sh $INSTALL/usr/bin
 	cp battery.sh $INSTALL/usr/bin
         cp odroidgoa_utils.sh $INSTALL/usr/bin
-        #cp oga_events.py $INSTALL/usr/bin
+        cp oga_events.py $INSTALL/usr/bin
 }
 
 post_install() {  
-	#enable_service odroidgoa-hotkeys.service
+	enable_service odroidgoa-hotkeys.service
 	enable_service odroidgoa-headphones.service
 	enable_service battery.service
 }

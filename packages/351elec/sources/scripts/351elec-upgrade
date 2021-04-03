@@ -166,7 +166,14 @@ else
 fi
 
 ### We need a minimum of 3GB free on the games volume to download and extract the update.
-check_space available mmcblk0p3 GAMES 3072000
+for DEV in mmcblk1p1 mmcblk0p3
+do
+  if [ -e "/dev/${DEV}" ]
+  then
+    break
+  fi
+done
+check_space available ${DEV} GAMES 3072000
 
 ### 351ELEC 1.x needs 640MB, but 2.x needs 1GB on the boot volume.
 MAJOR=${TAG:0:1}

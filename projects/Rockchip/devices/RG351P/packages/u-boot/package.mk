@@ -17,9 +17,11 @@ PKG_STAMP="$UBOOT_SYSTEM"
 PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 [ -n "$DEVICE" ] && PKG_NEED_UNPACK+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/bootloader"
 
-PKG_VERSION="e7b255b54c42c8a805dee7a9409a8838cfa13586"
-#PKG_SHA256="a3c9d17c363cdedb43ec34f3965594d82bf499cc1d70334610afe477adcdf9b6"
-PKG_URL="https://github.com/hardkernel/u-boot/archive/$PKG_VERSION.tar.gz"
+PKG_VERSION="7c793e2f138ee41eba20358508579768c8299d5a"
+PKG_GIT_CLONE_SINGLE="yes"
+PKG_GIT_CLONE_DEPTH="1"
+PKG_URL="https://github.com/SummerSunGenius/RG351V_uboot.git"
+GET_HANDLER_SUPPORT="git"
 
 post_patch() {
   if [ -n "$UBOOT_SYSTEM" ] && find_file_path bootloader/config; then
