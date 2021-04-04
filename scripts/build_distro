@@ -18,6 +18,7 @@ export PROJECT=Rockchip
 for DEVICE in RG351P RG351V
 do
   export DEVICE
+  echo "Building ${DISTRO} for ${DEVICE}"
   if [ ! -d "target" ]
   then
     mkdir target
