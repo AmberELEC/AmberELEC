@@ -1,17 +1,17 @@
 # 351ELEC
 
-An open source firmware for the Anbernic RG351P/M devices.
+An open source firmware for the Anbernic RG351P/M/V devices.
 
 ## Features
 
-* A 64bit Firmware optimized for the RK3326 CPU and 320x480 display found in the RG351P/M
+* A 64bit Firmware optimized for the RG351P/M/V devices.
 * Fully Open Source with a wonderful community of users and contributors
 * An up-to-date and fresh user interface
 * Optimized defaults allowing you to pick up and play
 * Online updates
-* An EXFAT games partition easily accessible from Linux, Windows and MacOS
+* An EXFAT games partition easily accessible from Linux, Windows and MacOS (Optional on the V)
 
-351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M and is not compatible with other devices.
+351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V and is not compatible with other devices.
 
 ## Installation
 
@@ -25,6 +25,8 @@ To download the latest version of 351ELEC, visit [updates.351elec.org](https://u
 On the first boot, 351ELEC will expand the storage and games partitions and then reboot to configure the firmware.  It's normal for this process to take a minute or two.  After setting up for the first time, subsequent boots will be much faster.
 
 For access to nightly builds with the most recent bleeding edge changes, visit #releases-nightly on discord.
+
+> RG351V users may use a large MicroSD in the first socket, or a smaller MicroSD with a larger card in the second socket.  The second card must have a single partition formatted with FAT, EXFAT, NTFS, or EXT4.  Other filesystems may also be compatible.
 
 ## Updating
 

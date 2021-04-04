@@ -477,8 +477,15 @@ load_splash() {
       # Select splash image based on current native resolution
       if [ -z "$SPLASHIMAGE" ]; then
         vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
+        hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
+        if [ "${hres}" = "640" ]
+        then
+          RES="${hres}"
+        else
+          RES="${vres}"
+        fi
 
-        for s in /splash/splash-${vres}.png \
+        for s in /splash/splash-${RES}.png \
                  /splash/splash-1080.png \
                  ; do
           if [ -f "${s}" ]; then
@@ -696,7 +703,14 @@ mount_games() {
       /usr/bin/busybox mkdir -p /storage/roms >/dev/null 2>&1
     fi
 
-    mount /dev/mmcblk0p3 /storage/roms >/dev/null 2>&1
+    for DEV in mmcblk1p1 mmcblk0p3
+    do
+      if [ -e "/dev/${DEV}" ]
+      then
+        mount /dev/${DEV} /storage/roms >/dev/null 2>&1
+        break
+      fi
+    done
 
     if [ -d "/storage/.update" ]
     then

@@ -19,7 +19,7 @@ sed -i "s|sdl2-config|${SYSROOT_PREFIX}/usr/bin/sdl2-config|" Makefile
 sed -i "s|CC=g++|CC=${CXX}|" Makefile
 
 [[ "$DEVICE" == "OdroidGoAdvance" ]] &&	OGA=1 || OGA=0
-[[ "$DEVICE" == "RG351P" ]] && OGA=1 || OGA=0
+[[ "$DEVICE" =~ RG351 ]] && OGA=1 || OGA=0
 
 PKG_MAKE_OPTS_TARGET=" ODROIDGO=${OGA} CC=$CXX"
 	

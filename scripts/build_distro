@@ -14,8 +14,8 @@ fi
 
 export DISTRO=351ELEC
 export PROJECT=Rockchip
-export DEVICE=RG351P
 
+echo "Building ${DISTRO} for ${DEVICE}"
 if [ ! -d "target" ]
 then
   mkdir target
@@ -36,7 +36,7 @@ then
       echo "Build failed..exiting."
       exit 1
     fi
-    
+  
     scripts/install ${package}
     if [ ! $? == 0 ]
     then
@@ -54,10 +54,10 @@ fi
 
 if [ "${ARCH}" == "aarch64" ]
 then
-  if [ -d "release/${ARCH}/RG351P" ]
+  if [ -d "release/${ARCH}/${DEVICE}" ]
   then
-    rm -rf "release/${ARCH}/RG351P"
+    rm -rf "release/${ARCH}/${DEVICE}"
   fi
-  mkdir -p release/${ARCH}/RG351P
-  mv target/* "release/${ARCH}/RG351P/"
+mkdir -p release/${ARCH}/${DEVICE}
+mv target/* "release/${ARCH}/${DEVICE}/"
 fi

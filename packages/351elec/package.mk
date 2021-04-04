@@ -28,7 +28,7 @@ if [ "$PROJECT" == "Amlogic-ng" ]; then
 PKG_DEPENDS_TARGET+=" $LIBRETRO_S922X_CORES mame2016"
 fi
 
-if [ "$DEVICE" == "RG351P" ]; then
+if [[ "$DEVICE" =~ RG351 ]]; then
     PKG_DEPENDS_TARGET+=" odroidgoa-utils rs97-commander-sdl2"
     
     #we disable some cores that are not working or work poorly on OGA
@@ -58,7 +58,7 @@ makeinstall_target() {
 
   echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
 
-  if [ "${DEVICE}" == "RG351P" ]; then
+  if [[ "${DEVICE}" =~ RG351 ]]; then
       echo "${DEVICE}" > $INSTALL/usr/config/.OS_ARCH
   else
       echo "${PROJECT}" > $INSTALL/usr/config/.OS_ARCH
@@ -89,7 +89,11 @@ makeinstall_target() {
   find_file_path "splash/splash-*.png" && cp ${FOUND_PATH} $INSTALL/usr/config/splash
 
   mkdir -p $INSTALL/usr/share/bootloader
-  cp logo.bmp $INSTALL/usr/share/bootloader/logo.bmp
+  if [ "$DEVICE" == "RG351P" ]; then
+    find_file_path "splash/splash-480.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
+  elif [ "$DEVICE" == "RG351V" ]; then
+    find_file_path "splash/splash-640.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
+  fi
 
 }
 
@@ -144,7 +148,7 @@ post_install() {
 CORESFILE="$INSTALL/usr/config/emulationstation/es_systems.cfg"
 
 if [ "${PROJECT}" != "Amlogic-ng" ]; then
-    if [[ ${DEVICE} == "RG351P" ]]; then
+    if [[ ${DEVICE} =~ RG351 ]]; then
         remove_cores="mesen-s quicknes REICASTSA_OLD REICASTSA mame2016"
     elif [ "${PROJECT}" == "Amlogic" ]; then
         remove_cores="mesen-s quicknes mame2016"
@@ -159,7 +163,7 @@ if [ "${PROJECT}" != "Amlogic-ng" ]; then
     done
 fi
   # Remove scripts from OdroidGoAdvance build
-	if [[ ${DEVICE} == "RG351P" ]]; then 
+	if [[ ${DEVICE} =~ RG351 ]]; then 
 	for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
 xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
 	rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
