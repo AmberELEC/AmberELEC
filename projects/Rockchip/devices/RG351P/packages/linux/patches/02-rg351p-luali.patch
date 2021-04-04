@@ -19,8 +19,8 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/Makefile linux.new/arch/arm64
  subdir-y	:= $(dts-dirs)
 diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts
 --- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2021-04-02 14:57:27.585215126 -0400
-@@ -0,0 +1,1008 @@
++++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2021-04-03 21:39:38.610830641 -0400
+@@ -0,0 +1,1025 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2019 Hardkernel Co., Ltd
@@ -42,6 +42,23 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +	chosen {
 +                bootargs = "";
 +	};
++
++        gpio_keys: rg351-keys {
++                        compatible = "gpio-keys";
++                        #address-cells = <1>;
++                        #size-cells = <0>;
++                        autorepeat;
++                        button@0 {
++                                label = "GPIO BTN-VOLUP";
++                                linux,code = <KEY_VOLUMEUP>;
++                                gpios = <&gpio2 RK_PA0 GPIO_ACTIVE_LOW>;
++                        };
++                        button@1 {
++                                label = "GPIO BTN-VOLDN";
++                                linux,code = <KEY_VOLUMEDOWN>;
++                                gpios = <&gpio2 RK_PA1 GPIO_ACTIVE_LOW>;
++                        };
++        };
 +
 +	fiq-debugger {
 +		compatible = "rockchip,fiq-debugger";
