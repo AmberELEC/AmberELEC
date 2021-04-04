@@ -23,7 +23,7 @@ PKG_VERSION="f7d0908ff1355c763fb6a892a6f502f54084cc97"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"
-PKG_DEPENDS_TARGET="toolchain SDL2-12 alsa-lib openssl freetype zlib retroarch-assets retroarch-overlays core-info ffmpeg libass joyutils empty $OPENGLES samba avahi nss-mdns freetype openal-soft libogg libvorbisidec libvpx libpng16"
+PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-assets retroarch-overlays core-info ffmpeg libass joyutils empty $OPENGLES samba avahi nss-mdns freetype openal-soft libogg libvorbisidec libvpx libpng16"
 PKG_LONGDESC="Reference frontend for the libretro API."
 GET_HANDLER_SUPPORT="git"
 
@@ -31,7 +31,7 @@ if [ ${PROJECT} = "Amlogic-ng" ]; then
   PKG_PATCH_DIRS="${PROJECT}"
 fi
 
-if [ "$DEVICE" == "RG351P" ]; then
+if [[ "$DEVICE" =~ RG351 ]]; then
 PKG_DEPENDS_TARGET+=" libdrm librga"
 fi
 
@@ -62,7 +62,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
                            --enable-sdl2 \
                            --enable-ffmpeg"
 
-if [ "$DEVICE" == "RG351P" ]; then
+if [[ "$DEVICE" =~ RG351 ]]; then
 PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                            --enable-kms \
                            --disable-mali_fbdev"

@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/ptitSeb/hydracastlelabyrinth"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain SDL2-12"
+PKG_DEPENDS_TARGET="toolchain SDL2"
 PKG_LONGDESC="A port to Linux (and OpenPandora / DragonBox Pyra / ODroid / PocketCHIP / GameShell / AmigaOS4 / MorphOS / Emscripten) of Hydra Castle Labyrinth (a "metroidvania" kind of game). Status: Working."
 PKG_TOOLCHAIN="cmake-make"
 

@@ -30,7 +30,7 @@ if [ ${PROJECT} = "Amlogic-ng" ]; then
 	sed -i "s|-lGLESv2|-lGLESv3|g" Makefile
 elif [ "${PROJECT}" = "Amlogic" ]; then
 	PKG_MAKE_OPTS_TARGET+=" platform=amlogic"
-elif [ "${DEVICE}" = "RG351P" ]; then
+elif [[ "${DEVICE}" =~ RG351 ]]; then
 	sed -i "s|GLES = 1|GLES3 = 1|g" Makefile
 	sed -i "s|-lGLESv2|-lGLESv3|g" Makefile
 	sed -i "s|cortex-a53|cortex-a35|g" Makefile
@@ -45,7 +45,7 @@ else
 		sed -i "s|GLES = 1|GLES = 1|g" Makefile
 		sed -i "s|-lGLESv2|-lGLESv2|g" Makefile
 		PKG_MAKE_OPTS_TARGET+=" platform=amlogic64"
-	elif [ "${DEVICE}" = "RG351P" ]; then
+	elif [[ "${DEVICE}" =~ RG351 ]]; then
 		sed -i "s|GLES = 1|GLES3 = 1|g" Makefile
 		sed -i "s|-lGLESv2|-lGLESv3|g" Makefile
 		PKG_MAKE_OPTS_TARGET+=" platform=amlogic64"

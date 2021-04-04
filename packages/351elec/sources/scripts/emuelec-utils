@@ -203,7 +203,7 @@ function showdialog() {
 	[[ "${1}" == "Game" ]] && ERROR=$(cat /tmp/logs/exec.log) || ERROR="${2}"
 
 	if [[ ! -z "${1}" ]] && [[ ! -z "${ERROR}" ]]; then
-		if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
+		if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
 			dialog --backtitle '351ELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 20 35
 		else
 			dialog --backtitle '351ELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 30 80

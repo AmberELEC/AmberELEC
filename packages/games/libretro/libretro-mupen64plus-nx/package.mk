@@ -17,7 +17,7 @@ PKG_BUILD_FLAGS="-lto"
 
 pre_configure_target() {
   
-if [ "$DEVICE" == "RG351P" ]; then 
+if [[ "$DEVICE" =~ RG351 ]]; then 
   if [[ "$ARCH" == "arm" ]]; then
 	CFLAGS="$CFLAGS -DLINUX -DEGL_API_FB"
 	CPPFLAGS="$CPPFLAGS -DLINUX -DEGL_API_FB"
