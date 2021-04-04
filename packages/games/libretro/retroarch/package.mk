@@ -62,17 +62,23 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
                            --enable-sdl2 \
                            --enable-ffmpeg"
 
-if [[ "$DEVICE" =~ RG351 ]]; then
-PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
-                           --enable-kms \
-                           --disable-mali_fbdev"
+if [[ "$DEVICE" =~ RG351 ]]
+then
+  PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
+                             --enable-kms \
+                             --disable-mali_fbdev"
 else
-PKG_CONFIGURE_OPTS_TARGET+=" --disable-kms \
-                           --enable-mali_fbdev"
+  PKG_CONFIGURE_OPTS_TARGET+=" --disable-kms \
+                             --enable-mali_fbdev"
+fi
+
+if [[ "$DEVICE" == "RG351P" ]]
+then
+  PKG_CONFIGURE_OPTS_TARGET+=" --enable-odroidgo2"
 fi
 
 if [ $ARCH == "arm" ]; then
-PKG_CONFIGURE_OPTS_TARGET+=" --enable-neon"
+  PKG_CONFIGURE_OPTS_TARGET+=" --enable-neon"
 fi
 
 cd $PKG_BUILD
