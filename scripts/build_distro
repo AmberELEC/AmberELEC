@@ -14,50 +14,53 @@ fi
 
 export DISTRO=351ELEC
 export PROJECT=Rockchip
-export DEVICE=RG351P
 
-if [ ! -d "target" ]
-then
-  mkdir target
-fi
-
-if [ "${ARCH}" == "aarch64" ]
-then
-  make image
-elif [ "${ARCH}" == "arm" ]
-then
-  # Only build the 32bit packages that we need rather than the whole image
-  # to speed up the build process and save disk space.
-  for package in gcc retroarch pcsx_rearmed parallel-n64 uae4arm
-  do
-    scripts/build ${package}
-    if [ ! $? == 0 ]
-    then
-      echo "Build failed..exiting."
-      exit 1
-    fi
-    
-    scripts/install ${package}
-    if [ ! $? == 0 ]
-    then
-      echo "Build failed..exiting."
-      exit 1
-    fi
-  done
-fi
-
-if [ ! $? == 0 ]
-then
-  echo "Build failed..exiting."
-  exit 1
-fi
-
-if [ "${ARCH}" == "aarch64" ]
-then
-  if [ -d "release/${ARCH}/RG351P" ]
+for DEVICE in RG351P RG351V
+do
+  export DEVICE
+  if [ ! -d "target" ]
   then
-    rm -rf "release/${ARCH}/RG351P"
+    mkdir target
   fi
-  mkdir -p release/${ARCH}/RG351P
-  mv target/* "release/${ARCH}/RG351P/"
-fi
+
+  if [ "${ARCH}" == "aarch64" ]
+  then
+    make image
+  elif [ "${ARCH}" == "arm" ]
+  then
+    # Only build the 32bit packages that we need rather than the whole image
+    # to speed up the build process and save disk space.
+    for package in gcc retroarch pcsx_rearmed parallel-n64 uae4arm
+    do
+      scripts/build ${package}
+      if [ ! $? == 0 ]
+      then
+        echo "Build failed..exiting."
+        exit 1
+      fi
+    
+      scripts/install ${package}
+      if [ ! $? == 0 ]
+      then
+        echo "Build failed..exiting."
+        exit 1
+      fi
+    done
+  fi
+
+  if [ ! $? == 0 ]
+  then
+    echo "Build failed..exiting."
+    exit 1
+  fi
+
+  if [ "${ARCH}" == "aarch64" ]
+  then
+    if [ -d "release/${ARCH}/${DEVICE}" ]
+    then
+      rm -rf "release/${ARCH}/${DEVICE}"
+    fi
+  mkdir -p release/${ARCH}/${DEVICE}
+  mv target/* "release/${ARCH}/${DEVICE}/"
+  fi
+done
