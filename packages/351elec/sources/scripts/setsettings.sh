@@ -12,7 +12,7 @@
 
 . /etc/profile
 
-RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision fbn gamegear gb gba gbc genesis mastersystem megadrive msx msx2 n64 neogeo nes ngp ngpc odyssey2 pcengine pcenginecd pokemini psx sega32x segacd sg-1000 snes tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
+RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
@@ -81,95 +81,101 @@ function doexit() {
   exit 0
 }
 
-function group_platform() {
-log "group platform function (${1})"
-case ${1} in 
-	"atari2600")
-	PLATFORM="atari2600"
-	;;
-	"atari7800")
-	PLATFORM="atari7800"
-	;;
-	"atarilynx")
-	PLATFORM="atarilynx"
-	;;
-	"wonderswan"|"wonderswancolor")
-	PLATFORM="wonderswan"
-	;;
-	"colecovision")
-	PLATFORM="colecovision"
-	;;
-	"vectrex")
-	PLATFORM="vectrex"
-	;;
-	"msx"|"msx2")
-	PLATFORM="msx"
-	;;
-	"pcengine"|"pcenginecd"|"pcfx"|"supergrafx"|"tg16"|"tg16cd")
-	PLATFORM="pcengine"
-	;;
-	"gb"|"gbh")
-	PLATFORM="gb"
-	;;
-	"gba"|"gbah")
-	PLATFORM="gba"
-	;;
-	"gbc"|"gbch")
-	PLATFORM="gb"
-	;;
-	"nes"|"nesh"|"fds"|"famicom")
-	PLATFORM="nes"
-	;;
-	"n64")
-	PLATFORM="n64"
-	;;
-	"pokemini")
-	PLATFORM="pokemini"
-	;;
-	"snes"|"snesh"|"snesmsu1"|"sfc")
-	PLATFORM="snes"
-	;;
-	"virtualboy")
-	PLATFORM="virtualboy"
-	;;
-	"mastersystem")
-	PLATFORM="mastersystem"
-	;;	
-	"genesis genh"|"megadrive"|"megadrive-japan")
-	PLATFORM="megadrive"
-	;;
-	"sega32x")
-	PLATFORM="sega32x"
-	;;
-	"gamegear"|"ggh")
-	PLATFORM="gamegear"
-	;;
-	"sg-1000")
-	PLATFORM="sg-1000"
-	;;
-	"segacd")
-	PLATFORM="segacd"
-	;;
-	"neogeo"|"neogeocd")
-	PLATFORM="neogeo"
-	;;
-	"ngp"|"ngpc")
-	PLATFORM="ngp"
-	;;
-	"psx")
-	PLATFORM="psx"
-	;;
-	"tic80")
-	PLATFORM="tic80"
-	;;
-	"fbn")
-	PLATFORM="arcade"
-	;;
-esac
-
-	}
-
-group_platform
+## group_platform is not used as it would group the RA savestate_directory-setting as well
+## add all the platforms directly to RETROARCHIVEMENTS 
+##
+#function group_platform() {
+#log "group platform function (${1})"
+#case ${1} in 
+#	"atari2600")
+#	PLATFORM="atari2600"
+#	;;
+#	"atari7800")
+#	PLATFORM="atari7800"
+#	;;
+#	"atarilynx")
+#	PLATFORM="atarilynx"
+#	;;
+#	"wonderswan"|"wonderswancolor")
+#	PLATFORM="wonderswan"
+#	;;
+#	"colecovision")
+#	PLATFORM="colecovision"
+#	;;
+#	"vectrex")
+#	PLATFORM="vectrex"
+#	;;
+#	"msx"|"msx2")
+#	PLATFORM="msx"
+#	;;
+#	"pcengine"|"pcenginecd"|"pcfx"|"supergrafx"|"tg16"|"tg16cd")
+#	PLATFORM="pcengine"
+#	;;
+#	"gb"|"gbh")
+#	PLATFORM="gb"
+#	;;
+#	"gba"|"gbah")
+#	PLATFORM="gba"
+#	;;
+#	"gbc"|"gbch")
+#	PLATFORM="gb"
+#	;;
+#	"nes"|"nesh"|"fds"|"famicom")
+#	PLATFORM="nes"
+#	;;
+#	"n64")
+#	PLATFORM="n64"
+#	;;
+#	"pokemini")
+#	PLATFORM="pokemini"
+#	;;
+#	"snes"|"snesh"|"snesmsu1"|"sfc")
+#	PLATFORM="snes"
+#	;;
+#	"virtualboy")
+#	PLATFORM="virtualboy"
+#	;;
+#	"mastersystem")
+#	PLATFORM="mastersystem"
+#	;;	
+#	"genesis genh"|"megadrive"|"megadrive-japan")
+#	PLATFORM="megadrive"
+#	;;
+#	"sega32x")
+#	PLATFORM="sega32x"
+#	;;
+#	"gamegear"|"ggh")
+#	PLATFORM="gamegear"
+#	;;
+#	"sg-1000")
+#	PLATFORM="sg-1000"
+#	;;
+#	"segacd"|"megacd")
+#	PLATFORM="segacd"
+#	;;
+#	"neogeo"|"neogeocd")
+#	PLATFORM="neogeo"
+#	;;
+#	"ngp"|"ngpc")
+#	PLATFORM="ngp"
+#	;;
+#	"psx")
+#	PLATFORM="psx"
+#	;;
+#	"tic80")
+#	PLATFORM="tic80"
+#	;;
+#	"fbn")
+#	PLATFORM="arcade"
+#	;;
+#       "intellivision")
+#	PLATFORM="intellivision"
+#	;;
+#esac
+#
+#	}
+#
+#group_platform 
 
 function clean_settings() {
 log "Clean settings function"
