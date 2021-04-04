@@ -19,6 +19,7 @@ makeinstall_target() {
 	cp battery.sh ${INSTALL}/usr/bin
         cp odroidgoa_utils.sh ${INSTALL}/usr/bin
 	cp volume_sense.sh ${INSTALL}/usr/bin
+        chmod 0755 ${INSTALL}/usr/bin/*
 }
 
 post_install() {  

@@ -1,11 +1,11 @@
 [Unit]
 Description=Volume button service
-After=headphones.service
+ConditionPathExists=/dev/input/event2
 Before=351elec.target
 
 [Service]
 Environment=HOME=/storage
-EnvironmentFile=/storage/.config/emulationstation/scripts/es_env.sh
+EnvironmentFile=/etc/profile
 ExecStart=/usr/bin/volume_sense.sh
 Restart=on-failure
 RestartSec=3
