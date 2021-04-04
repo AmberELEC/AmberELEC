@@ -4,9 +4,11 @@
 
 . /etc/profile
 
+ARCH="$(cat /storage/.config/.OS_ARCH)"
+
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-PREFIX="351ELEC-RG351P.aarch64"
+PREFIX="351ELEC-${ARCH}.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
@@ -37,8 +39,8 @@ function getlatest() {
   then
     ### Clean this up later.
     LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
-    REPO="${REPO}/${LATEST}/aarch64/RG351P"
+    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
+    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
     UFILE="${PREFIX}-${TAG}.tar"
   elif [ "${PROVIDER}" == "git" ]
   then
@@ -75,8 +77,7 @@ get_available() {
 }
 
 get_size() {
-  echo $(df | awk '/'$1'/ {printf $2; exit}')
-}
+  echo $(df | awk '/'$1'/ {printf $2; exit}')(}
 
 check_space() {
   MYSIZE="$(get_$1 $2)"
