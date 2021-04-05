@@ -3,8 +3,8 @@
 # Maintenance 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
 
 PKG_NAME="duckstation"
-PKG_VERSION="84a55486719dc10ebde9ce55478abf14fb03495c"
-PKG_SHA256="23c2f1bfe54dacf4ac7e29191352094fed0abb43e350eebe393f400fe91319bc"
+PKG_VERSION="abb76310c4fcefb86fb72b08482c332492e70c27"
+PKG_SHA256="2b704e97226c7eb13d1f68445ac1adf2192c5b75ab3a3fe6314f5dc9ad799e40"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/duckstation"
