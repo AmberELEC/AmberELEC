@@ -281,6 +281,13 @@ if [[ "$command" == "wifi" ]]; then
 
         if [[ "$mode" == "enable" ]]; then
             echo "configure wifi" >> $log
+	    if [ "$(cat /storage/.config/.OS_ARCH)" == "RG351V" ]
+            then
+              echo 5 > /sys/class/gpio/export
+              echo out > /sys/class/gpio/gpio5/direction
+              echo 1 >  /sys/class/gpio/gpio5/value
+              echo 5 > /sys/class/gpio/unexport
+            fi
 	    mkdir -p "/storage/.cache/connman" || exit 1
 	    cat > "/storage/.cache/connman/wifi.config" <<EOF
 [global]
@@ -312,6 +319,13 @@ EOF
         fi
         if [[ "$mode" == "disable" ]]; then
 	    connmanctl disable wifi
+            if [ "$(cat /storage/.config/.OS_ARCH)" == "RG351V" ]
+            then
+              echo 5 > /sys/class/gpio/export
+              echo out > /sys/class/gpio/gpio5/direction
+              echo 0 >  /sys/class/gpio/gpio5/value
+              echo 5 > /sys/class/gpio/unexport
+            fi
             exit $?
         fi
 	if [[ "$mode" == "list" ]]; then

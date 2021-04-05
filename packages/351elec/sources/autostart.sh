@@ -250,6 +250,17 @@ else
   echo 75 >/storage/.brightness
 fi
 
+# Enable WIFI
+WIFI=$(get_ee_setting wifi.enabled)
+case "${WIFI}" in
+  "1")
+     batocera-config wifi enable
+  ;;
+  "0")
+     batocera-config wifi disable
+  ;;
+esac
+
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)
 
