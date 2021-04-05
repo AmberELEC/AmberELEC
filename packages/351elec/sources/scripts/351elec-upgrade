@@ -78,7 +78,8 @@ get_available() {
 }
 
 get_size() {
-  echo $(df | awk '/'$1'/ {printf $2; exit}')(}
+  echo $(df | awk '/'$1'/ {printf $2; exit}')
+}
 
 check_space() {
   MYSIZE="$(get_$1 $2)"
