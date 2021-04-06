@@ -169,7 +169,7 @@ else
 fi
 
 ### We need a minimum of 3GB free on the games volume to download and extract the update.
-for DEV in mmcblk1p1 mmcblk0p3
+for DEV in mmcblk1p1 mmcblk1 mmcblk0p3
 do
   if [ -e "/dev/${DEV}" ]
   then

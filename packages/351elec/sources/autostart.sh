@@ -250,16 +250,12 @@ else
   echo 75 >/storage/.brightness
 fi
 
-# Enable WIFI
-WIFI=$(get_ee_setting wifi.enabled)
-case "${WIFI}" in
-  "1")
-     batocera-config wifi enable
-  ;;
-  "0")
-     batocera-config wifi disable
-  ;;
-esac
+# If the WIFI adapter isn't enabled, disable it on startup
+# to soft block the radio and save a bit of power.
+if [ "$(get_ee_setting wifi.enabled)" == "0" ]
+then
+  connmanctl disable wifi
+fi
 
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)

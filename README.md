@@ -26,7 +26,7 @@ On the first boot, 351ELEC will expand the storage and games partitions and then
 
 For access to nightly builds with the most recent bleeding edge changes, visit #releases-nightly on discord.
 
-> RG351V users may use a large MicroSD in the first socket, or a smaller MicroSD with a larger card in the second socket.  The second card must have a single partition formatted with FAT, EXFAT, NTFS, or EXT4.  Other filesystems may also be compatible.
+> RG351V users may use a large MicroSD in the first socket, or a smaller MicroSD with a larger card in the second socket.  The second card must have a single partition or whole card formatted with EXFAT, or EXT4.  FAT filesystems are not supported as it lacks support for filesystem features in use by 351ELEC. NTFS is not currently supported and may be added in a future release.
 
 ## Updating
 
