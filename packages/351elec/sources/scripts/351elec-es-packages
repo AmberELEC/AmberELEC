@@ -12,9 +12,10 @@
 # If you don't provide a <package>, the list of packages will be downloaded and sent back to you.
 #
 
+ARCH="$(cat /storage/.config/.OS_ARCH)"
 DISTRO="351ELEC"
 CONFIGDIR="/storage/.config/packages"
-PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC/main/metadata/packages.cfg"
+PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC/main/metadata/${ARCH}/packages.cfg"
 LOCALPACKAGELIST="/storage/.config/packages.cfg"
 
 # Community Package List Schema
