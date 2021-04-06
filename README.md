@@ -34,7 +34,7 @@ For access to nightly builds with the most recent bleeding edge changes, visit #
 
 ## Getting Help
 
-Many frequently asked questions are covered in our [WIKI](https://github.com/fewtarius/351ELEC/wiki/Getting-to-Know-351ELEC).  If you have general questions or if you need help, join us on [Discord](https://discord.gg/bmXtCt88Tz).
+Many frequently asked questions are covered in our [WIKI](https://github.com/351ELEC/351ELEC/wiki).  If you have general questions or if you need help, join us on [Discord](https://discord.gg/bmXtCt88Tz).
 
 For bug reports and feature requests, use one of the templates on the issues tab.  The more information you provide, the easier it will be to assist.  Please note that issues opened without using a form will be closed.  Please do not use the issue tracker for technical support, or your issue will be closed.
 
