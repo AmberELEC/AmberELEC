@@ -122,6 +122,39 @@ Mr. Boom:
   commands:
     - /usr/bin/runemu.sh "" -Pports "${2}" -Cmrboom "-SC${0}" &>>/tmp/logs/exec.log
 
+Omnispeak - Keen 4:
+  description: Omnispeak is an open-source reimplementation of Commander Keen episodes 4, 5, and 6. It aims to be a pixel-perfect, bug-for-bug clone of the original games, and is compatible with savegames from the DOS version.
+  rating: 1.0
+  release_date: 20140313T000000
+  developer: David Gow
+  publisher: non-commercial
+
+  commands:
+    - export SDL_RENDER_VSYNC=1
+    - omnispeak /EPISODE 4 /FULLSCREEN /NOBORDER /GAMEPATH /storage/roms/ports/omnispeak /USERPATH /storage/roms/ports/omnispeak &>>/tmp/logs/exec.log
+
+Omnispeak - Keen 5:
+  description: Omnispeak is an open-source reimplementation of Commander Keen episodes 4, 5, and 6. It aims to be a pixel-perfect, bug-for-bug clone of the original games, and is compatible with savegames from the DOS version.
+  rating: 1.0
+  release_date: 20140313T000000
+  developer: David Gow
+  publisher: non-commercial
+
+  commands:
+    - export SDL_RENDER_VSYNC=1
+    - omnispeak /EPISODE 5 /FULLSCREEN /NOBORDER /GAMEPATH /storage/roms/ports/omnispeak /USERPATH /storage/roms/ports/omnispeak &>>/tmp/logs/exec.log
+
+Omnispeak - Keen 6:
+  description: Omnispeak is an open-source reimplementation of Commander Keen episodes 4, 5, and 6. It aims to be a pixel-perfect, bug-for-bug clone of the original games, and is compatible with savegames from the DOS version.
+  rating: 1.0
+  release_date: 20140313T000000
+  developer: David Gow
+  publisher: non-commercial
+
+  commands:
+    - export SDL_RENDER_VSYNC=1
+    - omnispeak /EPISODE 6 /FULLSCREEN /NOBORDER /NOCOPY /GAMEPATH /storage/roms/ports/omnispeak /USERPATH /storage/roms/ports/omnispeak &>>/tmp/logs/exec.log
+
 OpenTyrian:
   description: OpenTyrian is an open-source port of the "cult" arcade-style vertical scrolling shooter called "Tyrian". Original game was developed by World Tree Games Productions and published in 1995 by Epic MegaGames.
   rating: 1.0
