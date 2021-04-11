@@ -170,6 +170,8 @@ do
     if [ -d "/storage/.config/${GAME}" ]
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
+    else
+      rsync -a "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
     fi
   fi
 
