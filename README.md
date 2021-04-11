@@ -30,7 +30,7 @@ For access to nightly builds with the most recent bleeding edge changes, visit #
 
 ## Updating
 
-351ELEC has shifted to a daily build model.  If you are a current user of 2.0 and are using the "stable" channel, you will need to change to the nightly build channel to continue to update in the future.  After updating the nightly build channel will change to daily automatically.
+351ELEC has shifted to a daily build cadence which means that our daily releases are the most stable and up-to-date versions of 351ELEC.  If you are a current user of the 2.0 "stable" release and you have not yet changed to the nightly build channel you will not be able to receive updates as the stable and release candidate channels are deprecated and have been removed from recent builds.
 
 ## Getting Help
 
