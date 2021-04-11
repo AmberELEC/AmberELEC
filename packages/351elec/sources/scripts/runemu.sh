@@ -34,7 +34,7 @@ if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then
     LOG=false
 else
     LOG=true
-    VERBOSE=true
+	VERBOSE=true
 fi
 
 arguments="$@"
@@ -54,6 +54,11 @@ if [[ $EMULATOR = "libretro" ]]; then
 	EMU="${CORE}_libretro"
 	LIBRETRO="yes"
 else
+else if [[ $EMULATOR = "retrorun" ]]; then
+	EMU="${CORE}"
+	RETRORUN="yes"
+else
+
 	EMU="${CORE}"
 fi
 
@@ -96,8 +101,7 @@ function log() {
 		then
 			mkdir -p "$LOGSDIR"
 		fi
-		DATE=$(date +"%b %d %H:%M:%S")
-		echo "${DATE} ${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
+		echo "${MYNAME}: $1" 2>&1 | tee -a ${LOGSDIR}/${LOGFILE}
 	else
 		echo "${MYNAME}: $1"
 	fi
@@ -312,6 +316,20 @@ then
 			RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
 		esac
+if [ -z ${RETRORUN} ]
+then
+	$VERBOSE && log "Configuring retrorun emulator"
+	case ${PLATFORM} in
+		"dreamcast")
+			if [ "$EMU" = "RETRORUN" ]
+			then
+				jslisten set "retrorun flycast32"
+				RUNTHIS='${TBASH} /storage/retrorun_flycast32/retrorun_flycast32.sh "${ROMNAME}"'
+			fi
+		;;
+
+		esac
+
 else
 	$VERBOSE && log "Configuring for a libretro core"
 
@@ -456,3 +474,4 @@ else
 	fi
 	quit 1
 fi
+
