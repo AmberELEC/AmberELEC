@@ -382,9 +382,9 @@ systems = {
 
 
     # NEC
-	"pcengine":   { "name": "PC Engine", "biosFiles":  [ { "md5": "ff1a674273fe3540ccef576376407d1d", "file": "bios/syscard3.pce" } ] },
+	"pcengine":   { "name": "PC Engine", "biosFiles":  [ { "md5": "38179df8f4ac870017db21ebcbf53114", "file": "bios/syscard3.pce" } ] },
     "pcfx":       { "name": "PC-FX", "biosFiles":      [ { "md5": "08e36edbea28a017f79f8d4f7ff9b6d7", "file": "bios/pcfx.rom"     } ] },
-    "supergrafx": { "name": "Supergrafx", "biosFiles": [ { "md5": "ff1a674273fe3540ccef576376407d1d", "file": "bios/syscard3.pce" },
+    "supergrafx": { "name": "Supergrafx", "biosFiles": [ { "md5": "38179df8f4ac870017db21ebcbf53114", "file": "bios/syscard3.pce" },
 														 { "md5": "", "file": "bios/syscard2.pce"								  },
 														 { "md5": "", "file": "bios/syscard1.pce"								  },
 														 { "md5": "", "file": "bios/gexpress.pce"								  } ] },
