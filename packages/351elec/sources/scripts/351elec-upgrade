@@ -18,13 +18,6 @@ OS_SHA256="/storage/.config/.OS_SHA256"
 
 if [ "${BAND}" == "daily" ]
 then
-  REPO="https://updates.351elec.org/releases/daily"
-  PROVIDER="https"
-elif [ "${BAND}" == "rc" ]
-then
-  REPO="https://updates.351elec.org/releases/rc"
-  PROVIDER="https"
-else
   API="https://api.github.com/repos/351ELEC/351elec"
   REPO="https://github.com/351ELEC/351ELEC"
   PROVIDER="git"
@@ -134,7 +127,7 @@ TAGMAJOR=${TAG:0:1}
 TAGMINOR=${TAG:2:1}
 TAGRELEASE=${TAG:4:1}
 
-if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
+if [ "${TAG}" ] && [ "${BAND}" == "daily" ]
 then
   UPDATE=true
 else

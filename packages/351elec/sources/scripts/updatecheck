@@ -21,13 +21,6 @@ OS_SHA256="/storage/.config/.OS_SHA256"
 
 if [ "${BAND}" == "daily" ]
 then
-  REPO="https://updates.351elec.org/releases/daily"
-  PROVIDER="https"
-elif [ "${BAND}" == "rc" ]
-then
-  REPO="https://updates.351elec.org/releases/rc"
-  PROVIDER="https"
-else
   API="https://api.github.com/repos/351ELEC/351elec"
   REPO="https://github.com/351ELEC/351ELEC"
   PROVIDER="git"
@@ -73,7 +66,7 @@ else
   fi
 fi
 
-if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
+if [ "${TAG}" ] && [ "${BAND}" == "daily" ]
 then
   # If there is an update we still have to check if it's a new one
   # this is done by comparing the sha256 checksum to the one of
