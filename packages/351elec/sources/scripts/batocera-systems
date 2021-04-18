@@ -465,6 +465,18 @@ systems = {
                                          {"md5": "490f666e1afb15b7362b406ed1cea246", "file": "bios/scph5501.bin"},
                                          {"md5": "32736f17079d0b2b7024407c39bd3050", "file": "bios/scph5502.bin"}]},
 
+
+    # Sinclair
+    "zxspectrum": {"name": "ZX Spectrum", "biosFiles": [{"md5": "", "file": "bios/128p-0.rom"},
+                                                        {"md5": "", "file": "bios/128p-1.rom"},
+                                                        {"md5": "", "file": "bios/trdos.rom"},
+                                                        {"md5": "", "file": "bios/gluck.rom"},
+                                                        {"md5": "", "file": "bios/256s-0.rom"},
+                                                        {"md5": "", "file": "bios/256s-1.rom"},
+                                                        {"md5": "", "file": "bios/256s-2.rom"},
+                                                        {"md5": "", "file": "bios/256s-3.rom"}]},
+
+
     # Ports
     "Diablo": {"name": "Diablo 1 (devilutionx) ", "biosFiles": [{"md5": "68f049866b44688a7af65ba766bef75a;011bc6518e6166206231080a4440b373", "file": "ports/diablo/diabdat.mpq"}]},
 
