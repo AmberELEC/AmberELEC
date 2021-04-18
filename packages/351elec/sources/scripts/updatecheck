@@ -9,8 +9,6 @@ ARCH="$(cat /storage/.config/.OS_ARCH)"
 
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-API="https://api.github.com/repos/351ELEC/351elec"
-REPO="https://github.com/351ELEC/351ELEC"
 PREFIX="351ELEC-${ARCH}.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
