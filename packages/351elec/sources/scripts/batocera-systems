@@ -11,12 +11,16 @@ systems = {
 
     # Atari
     "atari5200": {"name": "Atari 5200", "biosFiles": [{"md5": "281f20ea4320404ec820fb7ec0693b38", "file": "bios/5200.rom"}]},
+
     "atari800":  {"name": "Atari 800", "biosFiles":  [{"md5": "06daac977823773a3eea3422fd26a703", "file": "bios/ATARIXL.ROM"},
                                                       {"md5": "0bac0c6a50104045d902df4503a4c30b", "file": "bios/ATARIBAS.ROM"},
                                                       {"md5": "eb1f32f5d9f382db1bbfb8d7f9cb343a", "file": "bios/ATARIOSA.ROM"},
                                                       {"md5": "a3e8d617c95d08031fe1b20d541434b2", "file": "bios/ATARIOSB.ROM"}]},
+
     "atari7800": {"name": "Atari 7800", "biosFiles": [{"md5": "0763f1ffb006ddbe32e52d497ee848ae", "file": "bios/7800 BIOS (U).rom"}]},
+
     "atarist":   {"name": "Atari ST", "biosFiles":   [{"md5": "b2a8570de2e850c5acf81cb80512d9f6", "file": "bios/tos.img"}]},
+
     "atarilynx": {"name": "Lynx", "biosFiles":       [{"md5": "fcd403db69f54290b51035d82f835e7b", "file": "bios/lynxboot.img"}]},
 
 
@@ -388,7 +392,9 @@ systems = {
 
     # NEC
     "pcengine":   {"name": "PC Engine", "biosFiles":  [{"md5": "38179df8f4ac870017db21ebcbf53114;ff1a674273fe3540ccef576376407d1d", "file": "bios/syscard3.pce"}]},
+
     "pcfx":       {"name": "PC-FX", "biosFiles":      [{"md5": "08e36edbea28a017f79f8d4f7ff9b6d7", "file": "bios/pcfx.rom"}]},
+
     "supergrafx": {"name": "Supergrafx", "biosFiles": [{"md5": "38179df8f4ac870017db21ebcbf53114;ff1a674273fe3540ccef576376407d1d", "file": "bios/syscard3.pce"},
                                                        {"md5": "", "file": "bios/syscard2.pce"},
                                                        {"md5": "", "file": "bios/syscard1.pce"},
@@ -398,19 +404,26 @@ systems = {
     # Nintendo
     "fds":         {"name": "Nintendo Family Computer Disk System", "biosFiles": [{"md5": "7bfe8c0540ed4bd6a0f1e2a0f0118ced", "file": "bios/NstDatabase.xml"},
                                                                                   {"md5": "ca30b50f880eb660a320674ed365ef7a", "file": "bios/disksys.rom"}]},
+
     "gb":          {"name": "Game Boy", "biosFiles":                             [{"md5": "32fbbd84168d3482956eb3c5051637f5", "file": "bios/gb_bios.bin"},
                                                                                   {"md5": "dbfce9db9deaa2567f6a84fde55f9680", "file": "bios/gbc_bios.bin"}]},
+
     "gbc":         {"name": "Game Boy Color", "biosFiles":                       [{"md5": "32fbbd84168d3482956eb3c5051637f5", "file": "bios/gb_bios.bin"},
                                                                                   {"md5": "dbfce9db9deaa2567f6a84fde55f9680", "file": "bios/gbc_bios.bin"}]},
+
     "gba":         {"name": "Game Boy Advance", "biosFiles":                     [{"md5": "a860e8c0b6d573d191e4ec7db1b1e4f6", "file": "bios/gba_bios.bin"},
                                                                                   {"md5": "32fbbd84168d3482956eb3c5051637f5", "file": "bios/gb_bios.bin"},
                                                                                   {"md5": "dbfce9db9deaa2567f6a84fde55f9680", "file": "bios/gbc_bios.bin"},
                                                                                   {"md5": "d574d4f9c12f305074798f54c091a8b4", "file": "bios/sgb_bios.bin"}]},
+
     "n64":         {"name": "Nintendo 64", "biosFiles":                          [{"md5": "8d3d9f294b6e174bc7b1d2fd1c727530", "file": "bios/64DD_IPL.bin"}]},
+
     "nds":         {"name": "Nintendo DS", "biosFiles":                          [{"md5": "145eaef5bd3037cbc247c213bb3da1b3", "file": "bios/firmware.bin"},
                                                                                   {"md5": "df692a80a5b1bc90728bc3dfc76cd948", "file": "bios/bios7.bin"},
                                                                                   {"md5": "a392174eb3e572fed6447e956bde4b25", "file": "bios/bios9.bin"}]},
+
     "satellaview": {"name": "Satellaview", "biosFiles":                          [{"md5": "fed4d8242cfbed61343d53d48432aced;96cf17bf589fcbfa6f8de2dc84f19fa2", "file": "bios/BS-X.bin"}]},
+
     "sufami":      {"name": "Sufami", "biosFiles":                               [{"md5": "d3a44ba7d42a74d3ac58cb9c14c6a5ca", "file": "bios/STBIOS.bin"}]},
 
 
@@ -425,22 +438,29 @@ systems = {
     # Sega
     "naomi":        {"name": "Naomi", "biosFiles":        [{"md5": "3bffafac42a7767d8dcecf771f5552ba", "file": "bios/dc/naomi_boot.bin"},
                                                            {"md5": "e63d892cdb8b532351dc7020bb60b6f4", "file": "bios/dc/naomi.zip"}]},
+
     "atomiswave":   {"name": "Atomiswave", "biosFiles":   [{"md5": "0ec5ae5b5a5c4959fa8b43fcf8687f7c", "file": "bios/dc/awbios.zip"}]},
+
     "dreamcast":    {"name": "Dreamcast", "biosFiles":    [{"md5": "e10c53c2f8b90bab96ead2d368858623", "file": "bios/dc/dc_boot.bin"},
                                                            {"md5": "0a93f7940c455905bea6e392dfde92a4", "file": "bios/dc/dc_flash.bin"}]},
+
     "gamegear":     {"name": "Game Gear", "biosFiles":    [{"md5": "672e104c3be3a238301aceffc3b23fd6", "file": "bios/bios.gg"}]},
+
     "mastersystem": {"name": "MasterSystem", "biosFiles": [{"md5": "840481177270d5642a14ca71ee72844c", "file": "bios/bios_E.sms"},
                                                            {"md5": "840481177270d5642a14ca71ee72844c", "file": "bios/bios_U.sms"},
                                                            {"md5": "24a519c53f67b00640d0048ef7089105", "file": "bios/bios_J.sms"}]},
+
     "saturn":       {"name": "Sega Saturn", "biosFiles":  [{"md5": "af5828fdff51384f99b3c4926be27762", "file": "bios/saturn_bios.bin"},
                                                            {"md5": "85ec9ca47d8f6807718151cbcca8b964", "file": "bios/sega_101.bin"},
                                                            {"md5": "3240872c70984b6cbfda1586cab68dbe", "file": "bios/mpr-17933.bin"},
                                                            {"md5": "255113ba943c92a54facd25a10fd780c", "file": "bios/mpr-18811-mx.ic1"},
                                                            {"md5": "1cd19988d1d72a3e7caa0b73234c96b4", "file": "bios/mpr-19367-mx.ic1"},
                                                            {"md5": "53a094ad3a188f86de4e64624fe9b3ca", "file": "bios/stvbios.zip"}]},
+
     "segacd":       {"name": "Sega CD", "biosFiles":      [{"md5": "e66fa1dc5820d254611fdcdba0662372", "file": "bios/bios_CD_E.bin"},
                                                            {"md5": "854b9150240a198070150e4566ae1290", "file": "bios/bios_CD_U.bin"},
                                                            {"md5": "278a9397d192149e84e820ac621a8edd", "file": "bios/bios_CD_J.bin"}]},
+
     "sc-3000":      {"name": "SC-3000", "biosFiles":      [{"md5": "", "file": "bios/Machines/SEGA - SC-3000/config.ini"}]},
 
 
@@ -454,6 +474,7 @@ systems = {
 
     # SNK
     "neogeo":   {"name": "NeoGeo", "biosFiles":    [{"md5": "", "file": "neogeo/neogeo.zip"}]},
+
     "neogeocd": {"name": "NeoGeo CD", "biosFiles": [{"md5": "", "file": "neogeo/neogeo.zip"},
                                                     {"md5": "", "file": "bios/neocdz.zip"},
                                                     {"md5": "e255264d85d5765013b1b2fa8109dd53", "file": "bios/neocd/ng-lo.rom"},
