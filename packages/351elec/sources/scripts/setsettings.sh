@@ -222,6 +222,8 @@ log "Clean settings function"
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
+	sed -i "/menu_driver/d" ${RACONF}
+	sed -i "/menu_linear_filter/d" ${RACONF}
 }
 
 function default_settings() {
@@ -255,6 +257,7 @@ log "Default settings function"
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
+	echo 'menu_driver = "xmb"' >> ${RACONF}
 }
 
 function set_setting() {
@@ -592,28 +595,19 @@ fi
 done
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
-# RA menu rgui, ozone, glui or xmb (fallback if everthing else fails)
-# if empty (auto in ES) do nothing to enable configuration in RA
-get_setting "retroarch.menu_driver"                                                        
-if [ "${EES}" != "false" ]; then                                                         
-        # delete setting only if we set new ones
-	# therefore configuring in RA is still possible	
-        sed -i "/menu_driver/d" ${RACONF}                                                                                                     
-        sed -i "/menu_linear_filter/d" ${RACONF}                                                                                              
-        # Set new menu driver                                                                                                   
-        if [ "${EES}" == "rgui" ]; then                                                          
-		# menu_liner_filter is only needed for rgui
-		echo 'menu_driver = "rgui"' >> ${RACONF}                                                  
-                echo 'menu_linear_filter = "true"' >> ${RACONF}                                                                               
-        elif [ "${EES}" == "ozone" ]; then                                                                 
-                echo 'menu_driver = "ozone"' >> ${RACONF}                                          
-        elif [ "${EES}" == "glui" ]; then                                                 
-                echo 'menu_driver = "glui"' >> ${RACONF}                                                                                  
-        else                                                                       
-                # play it save and set xmb if nothing else matches                                          
-                echo 'menu_driver = "xmb"' >> ${RACONF}                                                                     
-        fi                                                                      
-fi                     
+# RA menu rgui, ozone, glui or xmb (default)
+# menu_liner_filter is only needed for rgui
+get_setting "retroarch.menu_driver"
+if [ "${EES}" == "rgui" ]; then
+	echo 'menu_driver = "rgui"' >> ${RACONF}
+	echo 'menu_linear_filter = "true"' >> ${RACONF}
+elif [ "${EES}" == "ozone" ]; then
+	echo 'menu_driver = "ozone"' >> ${RACONF}
+elif [ "${EES}" == "glui" ]; then
+	echo 'menu_driver = "glui"' >> ${RACONF}
+else
+	echo 'menu_driver = "xmb"' >> ${RACONF}
+fi
 
 # Show bezel if enabled
 get_setting "bezel"
