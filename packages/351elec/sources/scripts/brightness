@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present Fewtarius
 
 MIN=0
-MAX=100
-STEP=5
+MAX=255
+STEP=16
 
 if [ ! -f /sys/class/backlight/backlight/brightness ]
 then

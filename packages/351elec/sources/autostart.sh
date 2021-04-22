@@ -241,15 +241,15 @@ if [ -e /storage/.brightness ]
 then
   BRIGHTNESS=$(get_ee_setting system.brightness)
   BRIGHTNESS=${BRIGHTNESS:0:2}
-  if [[ "${BRIGHTNESS}" -le 10 ]]
+  if [[ "${BRIGHTNESS}" -le 33 ]]
   then
-    BRIGHTNESS=100
+    BRIGHTNESS=255
   fi
   echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
   set_ee_setting system.brightness ${BRIGHTNESS}
 else
-  echo 75 >/sys/class/backlight/backlight/brightness
-  set_ee_setting system.brightness 75
+  echo 191 >/sys/class/backlight/backlight/brightness
+  set_ee_setting system.brightness 191
 fi
 
 # If the WIFI adapter isn't enabled, disable it on startup

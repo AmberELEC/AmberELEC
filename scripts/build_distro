@@ -21,6 +21,12 @@ then
   mkdir target
 fi
 
+# Clean a few packages to ensure the build date and version are updated
+for package in 351elec u-boot
+do
+  ./scripts/clean ${package}
+done
+
 if [ "${ARCH}" == "aarch64" ]
 then
   make image
