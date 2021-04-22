@@ -239,17 +239,17 @@ normperf
 # Restore last saved brightness
 if [ -e /storage/.brightness ]
 then
-  BRIGHTNESS=$(cat /storage/.brightness)
+  BRIGHTNESS=$(get_ee_setting system.brightness)
   BRIGHTNESS=${BRIGHTNESS:0:2}
   if [[ "${BRIGHTNESS}" -le 10 ]]
   then
     BRIGHTNESS=100
   fi
   echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
-  echo ${BRIGHTNESS} >/storage/.brightness
+  set_ee_setting system.brightness ${BRIGHTNESS}
 else
   echo 75 >/sys/class/backlight/backlight/brightness
-  echo 75 >/storage/.brightness
+  set_ee_setting system.brightness 75
 fi
 
 # If the WIFI adapter isn't enabled, disable it on startup

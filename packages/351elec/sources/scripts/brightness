@@ -22,7 +22,7 @@ stepUp() {
     NEWBRIGHTNESS=${MAX}
   fi
   echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
-  echo "${NEWBRIGHTNESS}" > /storage/.brightness
+  set_ee_setting system.brightness ${NEWBRIGHTNESS}
 }
 
 stepDown() {
@@ -35,7 +35,7 @@ stepDown() {
     NEWBRIGHTNESS=${MIN}
   fi
   echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
-  echo "${NEWBRIGHTNESS}" > /storage/.brightness
+  set_ee_setting system.brightness ${NEWBRIGHTNESS}
 }
 
 getBrightness() {
