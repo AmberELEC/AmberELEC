@@ -4,6 +4,8 @@
 
 . /etc/profile
 
+### Disable update functionality
+exit 0
 
 ARCH="$(cat /storage/.config/.OS_ARCH)"
 
