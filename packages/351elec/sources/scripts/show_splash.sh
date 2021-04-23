@@ -57,8 +57,8 @@ else
   MYGAME=${ROMNAME^^}
   MYBOOT="
 
-\e[1;${cols}H#### WELCOME TO \e[31m351\e[39mELEC VERSION $(cat /storage/.config/.OS_VERSION) ####
-\e[2;${cols}H $(awk '/MemTotal/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES AVAILABLE   $(awk '/MemFree/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES FREE
+\e[1;${cols}H #### WELCOME TO \e[31m351\e[39mELEC VERSION 2.0 ####
+\e[2;${cols}H  $(awk '/MemTotal/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES AVAILABLE   $(awk '/MemFree/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES FREE
 
 "
 

@@ -238,10 +238,11 @@ normperf
 
 # Restore last saved brightness
 BRIGHTNESS=$(get_ee_setting system.brightness)
-if [[ "${BRIGHTNESS}" -le 33 ]]
+if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
 then
   BRIGHTNESS=255
 fi
+BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
 echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
 set_ee_setting system.brightness ${BRIGHTNESS}
 
