@@ -170,6 +170,8 @@ do
     if [ -d "/storage/.config/${GAME}" ]
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
+    else
+      rsync -a "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
     fi
   fi
 
@@ -235,31 +237,21 @@ sync &
 normperf
 
 # Restore last saved brightness
-if [ -e /storage/.brightness ]
+BRIGHTNESS=$(get_ee_setting system.brightness)
+if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
 then
-  BRIGHTNESS=$(cat /storage/.brightness)
-  BRIGHTNESS=${BRIGHTNESS:0:2}
-  if [[ "${BRIGHTNESS}" -le 10 ]]
-  then
-    BRIGHTNESS=100
-  fi
-  echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
-  echo ${BRIGHTNESS} >/storage/.brightness
-else
-  echo 75 >/sys/class/backlight/backlight/brightness
-  echo 75 >/storage/.brightness
+  BRIGHTNESS=255
 fi
+BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
+echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
+set_ee_setting system.brightness ${BRIGHTNESS}
 
-# Enable WIFI
-WIFI=$(get_ee_setting wifi.enabled)
-case "${WIFI}" in
-  "1")
-     batocera-config wifi enable
-  ;;
-  "0")
-     batocera-config wifi disable
-  ;;
-esac
+# If the WIFI adapter isn't enabled, disable it on startup
+# to soft block the radio and save a bit of power.
+if [ "$(get_ee_setting wifi.enabled)" == "0" ]
+then
+  connmanctl disable wifi
+fi
 
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)

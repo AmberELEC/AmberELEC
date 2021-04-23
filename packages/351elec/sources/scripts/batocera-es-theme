@@ -9,8 +9,9 @@
 # 
 # If you don't provide a <theme>, the list of themes available online will be returned back to you
 #
+ARCH="$(cat /storage/.config/.OS_ARCH)"
 CONFIGDIR="/storage/.emulationstation/themes"
-THEMESLIST="https://raw.githubusercontent.com/351ELEC/351ELEC/main/metadata/themes.cfg"
+THEMESLIST="https://raw.githubusercontent.com/351ELEC/351ELEC/main/metadata/${ARCH}/themes.cfg"
 LOCALTHEMESLIST="/storage/.config/distribution/configs/themes.txt"
 # themes.txt must be a plain file with the format 'theme_name https://githubURL' (spaces or tabs)
 # Example of a themes.txt file: 

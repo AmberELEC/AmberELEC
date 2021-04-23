@@ -4,13 +4,13 @@
 
 . /etc/profile
 
+### Disable update functionality
+exit 0
 
 ARCH="$(cat /storage/.config/.OS_ARCH)"
 
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-API="https://api.github.com/repos/351ELEC/351elec"
-REPO="https://github.com/351ELEC/351ELEC"
 PREFIX="351ELEC-${ARCH}.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
@@ -21,13 +21,6 @@ OS_SHA256="/storage/.config/.OS_SHA256"
 
 if [ "${BAND}" == "daily" ]
 then
-  REPO="https://updates.351elec.org/releases/daily"
-  PROVIDER="https"
-elif [ "${BAND}" == "rc" ]
-then
-  REPO="https://updates.351elec.org/releases/rc"
-  PROVIDER="https"
-else
   API="https://api.github.com/repos/351ELEC/351elec"
   REPO="https://github.com/351ELEC/351ELEC"
   PROVIDER="git"
@@ -73,8 +66,9 @@ else
   fi
 fi
 
-if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
+if [ "${TAG}" -gt "${MYVERSION}" ]
 then
+  # We may be able to deprecate this now.  Will leave for a while though.
   # If there is an update we still have to check if it's a new one
   # this is done by comparing the sha256 checksum to the one of
   # the last installed package. This information is written by 
@@ -96,11 +90,7 @@ then
   fi
   echo "${TAG} ${BAND^^}"
   exit 0
-elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
-then
+else
   echo "NO UPDATE AVAILABLE"
   exit 1
-else
-  echo "${TAG} STABLE" 
-  exit 0
 fi

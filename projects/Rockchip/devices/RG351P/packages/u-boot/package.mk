@@ -28,7 +28,6 @@ post_patch() {
       cat $FOUND_PATH >> "$PKG_CONFIG_FILE"
     fi
   fi
-  sed -i "s#351ELEC_VERSION#Version ${LIBREELEC_VERSION}#g" ${PKG_BUILD}/board/rockchip/odroidgo2/odroidgo2.c
 }
 
 make_target() {

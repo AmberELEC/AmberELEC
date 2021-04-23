@@ -1,0 +1,32 @@
+diff -rupN rs97.orig/def.h rs97.new/def.h
+--- rs97.orig/def.h	2020-09-01 03:33:45.000000000 -0400
++++ rs97.new/def.h	2021-04-10 09:04:57.030358139 -0400
+@@ -17,12 +17,12 @@
+ 
+ #ifndef SCREEN_WIDTH
+ // #define SCREEN_WIDTH 320
+-#define SCREEN_WIDTH 480
++#define SCREEN_WIDTH 640
+ #endif
+ 
+ #ifndef SCREEN_HEIGHT
+ // #define SCREEN_HEIGHT 240
+-#define SCREEN_HEIGHT 320
++#define SCREEN_HEIGHT 480
+ #endif
+ 
+ #ifndef SCREEN_BPP
+diff -rupN rs97.orig/Makefile rs97.new/Makefile
+--- rs97.orig/Makefile	2020-09-01 03:33:45.000000000 -0400
++++ rs97.new/Makefile	2021-04-10 09:05:13.174397946 -0400
+@@ -8,8 +8,8 @@ PATH_DEFAULT_RIGHT ?= /storage/roms
+ 
+ # set variables for the OGA screen
+ ifeq ($(ODROIDGO), 1)
+-	SCREENW := 480
+-	SCREENH := 320
++	SCREENW := 640
++	SCREENH := 480
+ 	FONTSIZE := 8
+ 	HEADERH := 17
+ 	H_PADDING_TOP := 3
