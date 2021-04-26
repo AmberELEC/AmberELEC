@@ -22,6 +22,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build rg351v
         run: |
-          sudo apt update -y && sudo apt upgrade -y
-          sudo apt install -y gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl
-          make RG351v
+            make RG351v
