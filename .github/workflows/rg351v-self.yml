@@ -24,6 +24,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build rg351v
         run: |
-            #make RG351V
-            make v-aarch64
-            sudo shutdown -h now
+            make RG351V
+            #make v-aarch64
+            sudo init 0
