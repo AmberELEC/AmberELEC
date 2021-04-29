@@ -24,4 +24,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build rg351v
         run: |
-            make v-aarch64
+            make RG351V
