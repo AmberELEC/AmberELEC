@@ -25,3 +25,4 @@ jobs:
       - name: Build rg351v
         run: |
             make RG351V
+            sudo shutdown -h now
