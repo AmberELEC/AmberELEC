@@ -53,8 +53,7 @@ GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
 if [[ $EMULATOR = "libretro" ]]; then
 	EMU="${CORE}_libretro"
 	LIBRETRO="yes"
-else
-else if [[ $EMULATOR = "retrorun" ]]; then
+elif [[ $EMULATOR = "retrorun" ]]; then
 	EMU="${CORE}"
 	RETRORUN="yes"
 else
@@ -202,7 +201,7 @@ MYARCH=$(getarch)
 jslisten stop
 
 ### Per emulator/core configurations
-if [ -z ${LIBRETRO} ]
+if [ -z ${LIBRETRO} ] &&  [ -z ${RETRORUN} ]
 then
 	$VERBOSE && log "Configuring for a non-libretro emulator"
 	case ${PLATFORM} in
@@ -316,20 +315,44 @@ then
 			RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
 		esac
-if [ -z ${RETRORUN} ]
+elif [ -n "${RETRORUN}" ]
 then
-	$VERBOSE && log "Configuring retrorun emulator"
+	$VERBOSE && log "Configuring retrorun emulator started"
+	$VERBOSE && log "platform: ${PLATFORM}"
+	$VERBOSE && log "emu: ${EMU}"
 	case ${PLATFORM} in
 		"dreamcast")
-			if [ "$EMU" = "RETRORUN" ]
+			if [ "$EMU" = "flycast" ]
 			then
-				jslisten set "retrorun flycast32"
-				RUNTHIS='${TBASH} /storage/retrorun_flycast32/retrorun_flycast32.sh "${ROMNAME}"'
+				echo "core flycast found"
+				RUNTHIS='${TBASH} /storage/retrorun/retrorun.sh "${ROMNAME}"'
+			else 
+				echo "emulator unknown"
 			fi
-		;;
-
-		esac
-
+		        ;;
+                    "naomi")
+                        if [ "$EMU" = "flycast" ]
+                        then
+                                echo "core flycast found"
+                                RUNTHIS='${TBASH} /storage/retrorun/retrorun.sh "${ROMNAME}"'
+                        else
+                                echo "emulator unknown"
+                        fi
+                        ;;
+               "atomiswave")
+                        if [ "$EMU" = "flycast" ]
+                        then
+                                echo "core flycast found"
+                                RUNTHIS='${TBASH} /storage/retrorun/retrorun.sh "${ROMNAME}"'
+                        else
+                                echo "emulator unknown"
+                        fi
+                        ;;
+	        *)
+		        echo "platform unknown"
+		        ;;
+	esac
+	$VERBOSE && log "Configuring retrorun emulator finished"
 else
 	$VERBOSE && log "Configuring for a libretro core"
 
@@ -417,7 +440,7 @@ else
 fi
 
 clear_screen
-
+$VERBOSE && log "Show splash screen"
 # Show splash screen if enabled
 SPL=$(get_ee_setting ee_splash.enabled)
 [ "$SPL" -eq "1" ] && (${TBASH} /usr/bin/show_splash.sh "${ROMNAME}") &
@@ -438,7 +461,8 @@ if [[ ${SHADERSET} != 0 ]]; then
 fi
 
 clear_screen
-
+$VERBOSE && log "executing game: ${ROMNAME}"
+$VERBOSE && log "script to execute: ${RUNTHIS}"
 # If the rom is a shell script just execute it, useful for DOSBOX and ScummVM scan scripts
 if [[ "${ROMNAME}" == *".sh" ]]; then
 	$VERBOSE && log "Executing shell script ${ROMNAME}"
@@ -455,6 +479,7 @@ fi
 
 clear_screen
 
+$VERBOSE && log "Checking errors: ${ret_error} "
 if [ "${ret_error}" == "0" ]
 then
 	quit 0
