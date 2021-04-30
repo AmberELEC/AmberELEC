@@ -325,7 +325,7 @@ then
 			if [ "$EMU" = "flycast" ]
 			then
 				echo "core flycast found"
-				RUNTHIS='${TBASH} /storage/retrorun/retrorun.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /storage/retrorun/armhf/retrorun.sh "${ROMNAME}"'
 			else 
 				echo "emulator unknown"
 			fi
@@ -334,7 +334,7 @@ then
                         if [ "$EMU" = "flycast" ]
                         then
                                 echo "core flycast found"
-                                RUNTHIS='${TBASH} /storage/retrorun/retrorun.sh "${ROMNAME}"'
+                                RUNTHIS='${TBASH} /storage/retrorun/armhf/retrorun.sh "${ROMNAME}"'
                         else
                                 echo "emulator unknown"
                         fi
@@ -343,7 +343,7 @@ then
                         if [ "$EMU" = "flycast" ]
                         then
                                 echo "core flycast found"
-                                RUNTHIS='${TBASH} /storage/retrorun/retrorun.sh "${ROMNAME}"'
+                                RUNTHIS='${TBASH} /storage/retrorun/armhf/retrorun.sh "${ROMNAME}"'
                         else
                                 echo "emulator unknown"
                         fi
