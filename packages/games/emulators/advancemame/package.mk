@@ -41,7 +41,7 @@ makeinstall_target() {
 
 post_make_target() { 
 mkdir -p $INSTALL/usr/share/advance
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [ "$DEVICE" == "RG351P" ]; then
+if [ "$DEVICE" == "OdroidGoAdvance" ] || [[ "$DEVICE" =~ RG351 ]]; then
    cp -r $PKG_DIR/config/advmame.rc_oga $INSTALL/usr/share/advance/advmame.rc
 else
    cp -r $PKG_DIR/config/advmame.rc $INSTALL/usr/share/advance/advmame.rc

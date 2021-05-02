@@ -130,7 +130,7 @@ EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
 	case "$1" in
 	"set")
 		PAT=$(echo "$2" | sed -e 's|\"|\\"|g' | sed -e 's|\[|\\\[|g' | sed -e 's|\]|\\\]|g')
-		sed -i "/$PAT/d" "${EE_CONF}"
+		sed -i "/^$PAT/d" "${EE_CONF}"
 		S2=${2}
 		S3=${3}
 		shift 2
@@ -203,7 +203,7 @@ function showdialog() {
 	[[ "${1}" == "Game" ]] && ERROR=$(cat /tmp/logs/exec.log) || ERROR="${2}"
 
 	if [[ ! -z "${1}" ]] && [[ ! -z "${ERROR}" ]]; then
-		if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
+		if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
 			dialog --backtitle '351ELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 20 35
 		else
 			dialog --backtitle '351ELEC Error' --title "${1} Error" --ascii-lines --colors --no-collapse --ok-label 'Close' --msgbox "${ERROR}" 30 80

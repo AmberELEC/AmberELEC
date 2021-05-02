@@ -4,26 +4,23 @@
 
 . /etc/profile
 
+### Disable update functionality
+exit 0
+
+ARCH="$(cat /storage/.config/.OS_ARCH)"
+
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-API="https://api.github.com/repos/351ELEC/351elec"
-REPO="https://github.com/351ELEC/351ELEC"
-PREFIX="351ELEC-RG351P.aarch64"
+PREFIX="351ELEC-${ARCH}.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
+OS_SHA256="/storage/.config/.OS_SHA256"
 
 ### Functions Library
 
 if [ "${BAND}" == "daily" ]
 then
-  REPO="https://updates.351elec.org/releases/daily"
-  PROVIDER="https"
-elif [ "${BAND}" == "rc" ]
-then
-  REPO="https://updates.351elec.org/releases/rc"
-  PROVIDER="https"
-else
   API="https://api.github.com/repos/351ELEC/351elec"
   REPO="https://github.com/351ELEC/351ELEC"
   PROVIDER="git"
@@ -44,8 +41,8 @@ function getlatest() {
   then
     ### Clean this up later.
     LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
-    REPO="${REPO}/${LATEST}/aarch64/RG351P"
+    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
+    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
     UFILE="${PREFIX}-${TAG}.tar"
   elif [ "${PROVIDER}" == "git" ]
   then
@@ -69,15 +66,31 @@ else
   fi
 fi
 
-if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
+if [ "${TAG}" -gt "${MYVERSION}" ]
 then
+  # We may be able to deprecate this now.  Will leave for a while though.
+  # If there is an update we still have to check if it's a new one
+  # this is done by comparing the sha256 checksum to the one of
+  # the last installed package. This information is written by 
+  # /usr/bin/351elec-upgrade while it fetches the next update
+  # The checksum is stored in /storage/.config/.OS_SHA256
+  LSHA=$(cat ${OS_SHA256})
+  if [ ! "$LSHA" == "" ]; then
+	curl -H 'Cache-Control: no-cache' -Lo "${USTAGE}/${PREFIX}-${TAG}.sha256" "${REPO}/${PREFIX}-${TAG}.sha256" &> /dev/null
+	DLSUM=$(cat ${USTAGE}/${PREFIX}-${TAG}.sha256 | awk '{print $1}')
+	rm -f ${USTAGE}/${PREFIX}-${TAG}.sha256
+	if [ "${LSHA}" == "${DLSUM}" ]; then
+		# we are called by '/usr/bin/batocera-config canupdate'
+		# and that expects a 'no' in return if there are no new updates
+		# '/usr/bin/batocera-config canupdate' itself is called by
+		# ES (ApiSystem.cpp) to check if there are any new updates.
+		echo "no"
+		exit 1
+	fi
+  fi
   echo "${TAG} ${BAND^^}"
   exit 0
-elif [ "$(printf '%s\n' "${MYVERSION}" "${TAG}" | sort -V | head -n 1)" == "${TAG}" ]
-then
+else
   echo "NO UPDATE AVAILABLE"
   exit 1
-else
-  echo "${TAG} STABLE" 
-  exit 0
 fi

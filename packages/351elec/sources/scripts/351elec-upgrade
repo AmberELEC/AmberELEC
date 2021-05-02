@@ -4,24 +4,23 @@
 
 . /etc/profile
 
+### Disable update functionality
+exit 0
+
+ARCH="$(cat /storage/.config/.OS_ARCH)"
+
 ### Modifiable variables
 USTAGE="/storage/roms/update"
-PREFIX="351ELEC-RG351P.aarch64"
+PREFIX="351ELEC-${ARCH}.aarch64"
 MYVERSION=$(cat /storage/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
+OS_SHA256="/storage/.config/.OS_SHA256"
 
 ### Functions Library
 
 if [ "${BAND}" == "daily" ]
 then
-  REPO="https://updates.351elec.org/releases/daily"
-  PROVIDER="https"
-elif [ "${BAND}" == "rc" ]
-then
-  REPO="https://updates.351elec.org/releases/rc"
-  PROVIDER="https"
-else
   API="https://api.github.com/repos/351ELEC/351elec"
   REPO="https://github.com/351ELEC/351ELEC"
   PROVIDER="git"
@@ -37,8 +36,8 @@ function getlatest() {
   then
     ### Clean this up later.
     LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/RG351P | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
-    REPO="${REPO}/${LATEST}/aarch64/RG351P"
+    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
+    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
     UFILE="${PREFIX}-${TAG}.tar"
   elif [ "${PROVIDER}" == "git" ]
   then
@@ -123,50 +122,35 @@ else
   fi
 fi
 
-MYMAJOR=${MYVERSION:0:1}
-MYMINOR=${MYVERSION:2:1}
-MYRELEASE=${MYVERSION:4:1}
-
-TAGMAJOR=${TAG:0:1}
-TAGMINOR=${TAG:2:1}
-TAGRELEASE=${TAG:4:1}
-
-if [ "${TAG}" ] && [ "${BAND}" == "rc" ] || [ "${BAND}" == "daily" ]
+if [ "${TAG}" -gt "${MYVERSION}" ]
 then
   UPDATE=true
 else
   UPDATE=false
 fi
 
-if [ "${MYMAJOR}" = "1" ] && [ "${UPDATE}" == false ]
-then
-  if [ "${TAGRELEASE}" -gt "${MYRELEASE}" ]
-  then
-    UPDATE=true
-  fi
-elif [ ${MYMAJOR} -ge 2 ] && [ "${UPDATE}" == false ]
-then
-  if [ ${TAGMINOR} -gt ${MYMINOR} ]
-  then
-    UPDATE=true
-  fi
-fi
-
 if [ "${UPDATE}" == false ]
 then
-  $VERBOSE && log "No update available ${MYVERSION} = ${TAG}"
+  $VERBOSE && log "No update available ${MYVERSION} >= ${TAG}"
   message_stream "\n\nNo update is available, nothing to do..." .02
   sleep 4
   clear >/dev/console
   systemctl start emustation
   exit 0
 else
-  $VERBOSE && log "Update available ${MYVERSION} -> ${TAG}"
+  $VERBOSE && log "Update available ${TAG} > ${MYVERSION}"
 
 fi
 
 ### We need a minimum of 3GB free on the games volume to download and extract the update.
-check_space available mmcblk0p3 GAMES 3072000
+for DEV in mmcblk1p1 mmcblk1 mmcblk0p3
+do
+  if [ -e "/dev/${DEV}" ]
+  then
+    break
+  fi
+done
+check_space available ${DEV} GAMES 3072000
 
 ### 351ELEC 1.x needs 640MB, but 2.x needs 1GB on the boot volume.
 MAJOR=${TAG:0:1}
@@ -221,6 +205,10 @@ then
   systemctl start emustation
   exit 1
 else
+  # If we are sure that we will do the update we store the sha256 checksum into
+  # /storage/.config/.OS_SHA256 for /usr/bin/updatecheck to verify if the
+  # latest update is already installed or not
+  echo $DLSUM > ${OS_SHA256}
   message_stream "\nVerification successful..." .02
 fi
 

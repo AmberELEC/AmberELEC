@@ -3,8 +3,7 @@
 
 PKG_NAME="Python3"
 # When changing PKG_VERSION remember to sync PKG_PYTHON_VERSION!
-PKG_VERSION="3.8.7"
-PKG_SHA256="ddcc1df16bb5b87aa42ec5d20a5b902f2d088caa269b28e01590f97a798ec50a"
+PKG_VERSION="3.8.9"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.python.org/"
 PKG_URL="http://www.python.org/ftp/python/${PKG_VERSION}/${PKG_NAME::-1}-${PKG_VERSION}.tar.xz"
@@ -12,7 +11,6 @@ PKG_DEPENDS_HOST="zlib:host bzip2:host libffi:host util-linux:host xz:host"
 PKG_DEPENDS_TARGET="toolchain Python3:host sqlite expat zlib bzip2 xz openssl libffi readline ncurses util-linux"
 PKG_LONGDESC="Python3 is an interpreted object-oriented programming language."
 PKG_TOOLCHAIN="autotools"
-
 PKG_PYTHON_VERSION="python3.8"
 
 PKG_PY_DISABLED_MODULES="_tkinter nis gdbm bsddb ossaudiodev"

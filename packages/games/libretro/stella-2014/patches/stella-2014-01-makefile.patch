@@ -1,0 +1,19 @@
+--- a/Makefile
++++ b/Makefile
+@@ -83,6 +83,16 @@
+ 	        fpic     += -mmacosx-version-min=10.7
+    endif
+ 
++# EmuELEC for Amlogic devices
++else ifeq ($(platform), emuelec-arm64)
++   TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC
++   SHARED := -shared -Wl,--version-script=link.T -Wl,--no-undefined
++   CXXFLAGS += -lpthread -DARM64
++   LDFLAGS += -lpthread -static-libgcc -lstdc++
++   ARCH = arm64
++   USE_DYNAREC = 1
++
+ # iOS
+ else ifneq (,$(findstring ios,$(platform)))
+    TARGET := $(TARGET_NAME)_libretro_ios.dylib

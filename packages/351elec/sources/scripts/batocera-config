@@ -53,7 +53,7 @@ if [ "$command" == "getRootPassword" ]; then
 	echo "linux"
 	exit 0
     fi
-    
+
     ENCPASSWD=$(grep -E '^[ \t]*rootshadowpassword[ \t]*=' "${storageFile}" | sed -e s+'^[ \t]*rootshadowpassword[ \t]*='++)
     if test -z "${ENCPASSWD}"
     then
@@ -74,14 +74,14 @@ if [ "$command" == "setRootPassword" ]; then
     if [ "$securityenabled" != "1" ];then
 	exit 0
     fi
-    
+
     # if no password if provided, generate one
     if test -z "${PASSWD}"
     then
 	PASSWD=$(tr -cd _A-Z-a-z-0-9 < /dev/urandom | fold -w8 | head -n1)
     fi
     PASSWDENC=$(batocera-encode encode "${PASSWD}")
-    
+
     preBootConfig
     if grep -qE '^[ \t]*rootshadowpassword[ \t]*=' "${storageFile}"
     then
@@ -102,7 +102,7 @@ if [ "$command" == "setRootPassword" ]; then
 	fi
 	postBootConfig
 	exit 0
-    fi    
+    fi
 fi
 
 if [ "$command" == "overscan" ]; then
@@ -209,7 +209,7 @@ EOF
 		aplay "/usr/share/sounds/Mallet.wav"
 	    fi
 	fi
-    elif [[ "${arch}" =~ "RG351P" ]]
+    elif [[ "${arch}" =~ RG351 ]]
     then
 	case "${mode}" in
 	    "auto"|"speakers")
@@ -294,7 +294,6 @@ EOF
 	    then
 		echo "Passphrase=${psk}" >> "/storage/.cache/connman/wifi.config"
 	    fi
-
 	    connmanctl enable wifi || exit 1
 	    connmanctl scan   wifi || exit 1
             exit 0
@@ -326,7 +325,7 @@ EOF
 fi
 
 if [[ "$command" == "storage" ]]; then
-    exit 0; 
+    exit 0;
 fi
 
 if [[ "$command" == "forgetBT" ]]; then

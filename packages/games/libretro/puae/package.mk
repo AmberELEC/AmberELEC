@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="puae"
-PKG_VERSION="b2e8aa83c24467aa83156c4a2519fa641ca76c48"
-PKG_SHA256="2bf7d778f015ea276f9d0bb889f334729febf4f8f5c93d1a6a4d692eec508908"
+PKG_VERSION="b0c3cd41d78a4ec5d76a6e27bc1cd948d59fcd1f"
+PKG_SHA256="fc826e884c76d0fb1f5e8845aed566419aac63eebd8b39041f5dd469759c96e3"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
