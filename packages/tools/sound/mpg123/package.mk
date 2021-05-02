@@ -7,7 +7,7 @@ PKG_VERSION="1.26.4"
 PKG_LICENSE="LGPLv2"
 PKG_SITE="http://www.mpg123.org/"
 PKG_URL="http://www.mpg123.org/download/mpg123-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_TARGET="toolchain alsa-lib SDL2-12"
+PKG_DEPENDS_TARGET="toolchain alsa-lib SDL2"
 PKG_LONGDESC="A console based real time MPEG Audio Player for Layer 1, 2 and 3."
 PKG_BUILD_FLAGS="-fpic -lm"
 

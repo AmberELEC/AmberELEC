@@ -58,7 +58,13 @@ fi
 fi 
 
 # Set audio to alsa if we are starting retroarch or default otherwise
-[[ "$1" == "retroarch" ]] && set_audio alsa || set_audio default
+# Run /usr/bin/setsettings.sh to get the lastest changes in ES before starting RetroArch as well
+if [ "$1" == "retroarch" ]; then
+  set_audio alsa
+  /usr/bin/setsettings.sh
+else
+  set_audio default
+fi
 
 TZ=$(get_ee_setting system.timezone)
 echo "TIMEZONE=$TZ" > /storage/.cache/timezone
@@ -90,7 +96,7 @@ then
   systemctl import-environment LANGUAGE
 fi
 
-if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [ "$EE_DEVICE" == "RG351P" ]; then
+if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
   # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi

@@ -2,8 +2,8 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="libretro-mupen64plus-nx"
-PKG_VERSION="8fb474275aaca2e92e025c6a60af3e47cfdd185c"
-PKG_SHA256="cdd98d2b6eb1f957d8315c2176b2ddb50a9d9cccd778d8e754d6db27daeb76f5"
+PKG_VERSION="a6a6bfd56c8a8d6077182c280bf9eb33c7fba0e8"
+PKG_SHA256="1c6cef039f6ad872d8cea332810fe5ba783ab59384580dfe200180b87e00aa49"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mupen64plus-libretro-nx"
@@ -17,7 +17,7 @@ PKG_BUILD_FLAGS="-lto"
 
 pre_configure_target() {
   
-if [ "$DEVICE" == "RG351P" ]; then 
+if [[ "$DEVICE" =~ RG351 ]]; then 
   if [[ "$ARCH" == "arm" ]]; then
 	CFLAGS="$CFLAGS -DLINUX -DEGL_API_FB"
 	CPPFLAGS="$CPPFLAGS -DLINUX -DEGL_API_FB"

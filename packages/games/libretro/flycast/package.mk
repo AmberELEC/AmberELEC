@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="flycast"
-PKG_VERSION="431d8d37241b2f469376238b9b26a5d1a5004a58"
-PKG_SHA256="73c261a77cd68486b442957793f5097bb101bf66170e11c3c651e0a39262da55"
+PKG_VERSION="fa3fa8b2e308024fb47182955f335858627d55de"
+PKG_SHA256="7992b607a8ac2021e841297a929836f623e0873adadb93c6dc34b472637466b4"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/flycast"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
@@ -66,7 +66,7 @@ else
   esac
 fi
   
- if [ "$DEVICE" == "RG351P" ]; then
+ if [[ "$DEVICE" =~ RG351 ]]; then
 	if [ "$ARCH" == "arm" ]; then
 	PKG_MAKE_OPTS_TARGET+=" platform=classic_armv8_a35"
 	else
