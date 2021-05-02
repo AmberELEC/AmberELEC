@@ -56,7 +56,7 @@
 	<game>
 		<path>./Remove ._ Files.sh</path>
 		<name>Start Remove ._ Files</name>
-		<desc>Clean up your not needed extensions</desc>
+		<desc>Removes hidden ._ files created by the MacOS filesystem</desc>
 		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
