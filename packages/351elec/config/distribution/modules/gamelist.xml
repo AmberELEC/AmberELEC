@@ -55,7 +55,7 @@
 	
 	<game>
 		<path>./Remove ._ Files.sh</path>
-		<name>Start Remove ._ Files</name>
+		<name>Run Remove ._ Files</name>
 		<desc>Removes hidden ._ files created by the MacOS filesystem</desc>
 		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
