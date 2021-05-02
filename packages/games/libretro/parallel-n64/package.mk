@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="parallel-n64"
-PKG_VERSION="133c655bfcec8e3105ea4d1fc028c6d2ba9e4cdb"
-PKG_SHA256="ca40b57c1a93519fc0ab708ee50fea87e7ce98d628ccd71ac14218d68af2d12b"
+PKG_VERSION="0a67445ce63513584d92e5c57ea87efe0da9b3bd"
+PKG_SHA256="141205571de2a5c0646ee4d33d32e71d86c8f4a75e43aba73c103c62cc15affd"
 PKG_REV="2"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/parallel-n64"
@@ -18,7 +18,7 @@ PKG_BUILD_FLAGS="-lto"
 if [[ "$ARCH" == "arm" ]]; then
 	PKG_MAKE_OPTS_TARGET=" platform=${PROJECT}"
 	
-	if [ "${DEVICE}" == "RG351P" ]; then
+	if [[ "${DEVICE}" =~ RG351 ]]; then
 		PKG_MAKE_OPTS_TARGET=" platform=Odroidgoa"
 	fi
 else
@@ -28,7 +28,7 @@ fi
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  if [[ "${DEVICE}" == "RG351P" ]] && [[ "$ARCH" == "aarch64" ]]
+  if [[ "$DEVICE" =~ RG351 ]] && [[ "$ARCH" == "aarch64" ]]
   then
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${LIBREELEC_VERSION}/parallel-n64-*/.install_pkg/usr/lib/libretro/parallel_n64_libretro.so ${INSTALL}/usr/lib/libretro/
   else

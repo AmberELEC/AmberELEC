@@ -2,11 +2,11 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plus-nx"
-PKG_VERSION="ea1c677c1e61ce1d95809c09cf26ffa75cd7e9dc"
-PKG_SHA256="b2b06332523aef0fb44cb3b97cfab2122b627ca4ef11708b0e40c8699a2b288e"
+PKG_VERSION="a6a6bfd56c8a8d6077182c280bf9eb33c7fba0e8"
+PKG_SHA256="1c6cef039f6ad872d8cea332810fe5ba783ab59384580dfe200180b87e00aa49"
 if [ $PROJECT = "Amlogic" ]; then
 PKG_VERSION="b785150465048fa88f812e23462f318e66af0be0"
-PKG_SHA256="456c433f45b0e2ba15a587978234e3e1300301d431b6823747ad0e779331c97e"
+PKG_SHA256=""
 fi
 PKG_REV="1"
 PKG_ARCH="any"
@@ -30,7 +30,7 @@ if [ ${PROJECT} = "Amlogic-ng" ]; then
 	sed -i "s|-lGLESv2|-lGLESv3|g" Makefile
 elif [ "${PROJECT}" = "Amlogic" ]; then
 	PKG_MAKE_OPTS_TARGET+=" platform=amlogic"
-elif [ "${DEVICE}" = "RG351P" ]; then
+elif [[ "${DEVICE}" =~ RG351 ]]; then
 	sed -i "s|GLES = 1|GLES3 = 1|g" Makefile
 	sed -i "s|-lGLESv2|-lGLESv3|g" Makefile
 	sed -i "s|cortex-a53|cortex-a35|g" Makefile
@@ -45,7 +45,7 @@ else
 		sed -i "s|GLES = 1|GLES = 1|g" Makefile
 		sed -i "s|-lGLESv2|-lGLESv2|g" Makefile
 		PKG_MAKE_OPTS_TARGET+=" platform=amlogic64"
-	elif [ "${DEVICE}" = "RG351P" ]; then
+	elif [[ "${DEVICE}" =~ RG351 ]]; then
 		sed -i "s|GLES = 1|GLES3 = 1|g" Makefile
 		sed -i "s|-lGLESv2|-lGLESv3|g" Makefile
 		PKG_MAKE_OPTS_TARGET+=" platform=amlogic64"

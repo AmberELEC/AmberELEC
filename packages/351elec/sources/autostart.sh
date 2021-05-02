@@ -15,20 +15,23 @@ mkdir /tmp/logs
 # Apply some kernel tuning
 sysctl vm.swappiness=1
 
-# Restore overclock setting
-OVERCLOCK_SETTING=$(get_ee_setting overclock)
-OVERCLOCK_STATE=$((grep "\-oc.dtb" /flash/boot.ini >/dev/null 2>&1 && echo 1) || echo 0)
-if [ ! "${OVERCLOCK_STATE}" == "${OVERCLOCK_SETTING}" ]
+if [ -e "/storage/.newcfg" ]
 then
-  echo -en '\e[20;0H\e[37mRestoring overclock...\e[0m' >/dev/console
-  if [ "${OVERCLOCK_SETTING}" = "1" ]
+  # Restore overclock setting
+  OVERCLOCK_SETTING=$(get_ee_setting overclock)
+  OVERCLOCK_STATE=$((grep "\-oc.dtb" /flash/boot.ini >/dev/null 2>&1 && echo 1) || echo 0)
+  if [ ! "${OVERCLOCK_STATE}" == "${OVERCLOCK_SETTING}" ]
   then
-    /usr/bin/351elec-overclock on
-  else
-    /usr/bin/351elec-overclock off
+    echo -en '\e[0;0H\e[37mRestoring overclock...\e[0m' >/dev/console
+    if [ "${OVERCLOCK_SETTING}" = "1" ]
+    then
+      /usr/bin/351elec-overclock on
+    else
+      /usr/bin/351elec-overclock off
+    fi
+    sleep 1
+    systemctl reboot
   fi
-  sleep 1
-  systemctl reboot
 fi
 
 # Restore config if backup exists
@@ -38,7 +41,7 @@ BACKUPFILE="${BPATH}/351ELEC_BACKUP.zip"
 if [ -e "${BPATH}/.restore" ]
 then
   if [ -f "${BACKUPFILE}" ]; then
-    echo -en '\e[20;0H\e[37mRestoring backup and rebooting...\e[0m' >/dev/console
+    echo -en '\e[0;0H\e[37mRestoring backup and rebooting...\e[0m' >/dev/console
     unzip -o ${BACKUPFILE} -d /
     rm ${BACKUPFILE}
     systemctl reboot
@@ -53,13 +56,13 @@ then
   cd /
   tar -xvzf ${IDENTITYFILE} >${BPATH}/restore.log
   rm ${IDENTITYFILE}
-  echo -en '\e[20;0H\e[37mIdentity restored, rebooting...\e[0m' >/dev/console
+  echo -en '\e[0;0H\e[37mIdentity restored, rebooting...\e[0m' >/dev/console
   systemctl reboot
 fi
 
 if [ ! -e "/storage/.newcfg" ]
 then
-  echo -en '\e[20;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
+  echo -en '\e[0;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
 fi
 
 # It seems some slow SDcards have a problem creating the symlink on time :/
@@ -167,6 +170,8 @@ do
     if [ -d "/storage/.config/${GAME}" ]
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
+    else
+      rsync -a "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
     fi
   fi
 
@@ -232,19 +237,20 @@ sync &
 normperf
 
 # Restore last saved brightness
-if [ -e /storage/.brightness ]
+BRIGHTNESS=$(get_ee_setting system.brightness)
+if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
 then
-  BRIGHTNESS=$(cat /storage/.brightness)
-  BRIGHTNESS=${BRIGHTNESS:0:2}
-  if [[ "${BRIGHTNESS}" -le 10 ]]
-  then
-    BRIGHTNESS=100
-  fi
-  echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
-  echo ${BRIGHTNESS} >/storage/.brightness
-else
-  echo 75 >/sys/class/backlight/backlight/brightness
-  echo 75 >/storage/.brightness
+  BRIGHTNESS=255
+fi
+BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
+echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
+set_ee_setting system.brightness ${BRIGHTNESS}
+
+# If the WIFI adapter isn't enabled, disable it on startup
+# to soft block the radio and save a bit of power.
+if [ "$(get_ee_setting wifi.enabled)" == "0" ]
+then
+  connmanctl disable wifi
 fi
 
 # What to start at boot?

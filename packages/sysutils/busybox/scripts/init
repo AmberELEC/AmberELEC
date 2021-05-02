@@ -63,8 +63,14 @@ MACHINE_UID="$(awk '/^Serial/{s='0000000' $3; print substr(s, length(s) - 7)}' /
 # Enable GPIO 77 for power LED manipulation
 echo 77 > /sys/class/gpio/export
 
-# Enable PWM for rumble and turn rumble off during startup.
+# Enable WIFI GPIO for WIFI manipulation
+echo 5 > /sys/class/gpio/export
 
+# Power up the WIFI device
+echo out > /sys/class/gpio/gpio5/direction
+echo 1 >  /sys/class/gpio/gpio5/value
+
+# Enable PWM for rumble and turn rumble off during startup.
 echo 0 > /sys/class/pwm/pwmchip0/export
 echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
 echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
@@ -477,8 +483,15 @@ load_splash() {
       # Select splash image based on current native resolution
       if [ -z "$SPLASHIMAGE" ]; then
         vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
+        hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
+        if [ "${hres}" = "640" ]
+        then
+          RES="${hres}"
+        else
+          RES="${vres}"
+        fi
 
-        for s in /splash/splash-${vres}.png \
+        for s in /splash/splash-${RES}.png \
                  /splash/splash-1080.png \
                  ; do
           if [ -f "${s}" ]; then
@@ -696,9 +709,26 @@ mount_games() {
       /usr/bin/busybox mkdir -p /storage/roms >/dev/null 2>&1
     fi
 
-    mount /dev/mmcblk0p3 /storage/roms >/dev/null 2>&1
+    for DEV in mmcblk1p1 mmcblk1 mmcblk0p3
+    do
+      if [ -e "/dev/${DEV}" ] && [ ! -e "/storage/.please_resize_me" ]
+      then
+	FS=$(blkid /dev/${DEV} | grep -e 'exfat' -e 'ext4' &>/dev/null)
+        if [ "$?" == "0" ]
+	then
+          mount /dev/${DEV} /storage/roms >/dev/null 2>&1
+          break
+        else
+	  echo "Unsupported games filesystem detected. Please reformat with ExFAT or EXT4."
+	  echo ""
+	  StartProgress countdown "Shutting down in 5... " 5 "NOW"
+	  sync
+	  poweroff
+	fi
+      fi
+    done
 
-    if [ -d "/storage/.update" ]
+    if [ -d "/storage/.update" ] && [ ! -e "/storage/.please_resize_me" ]
     then
       /usr/bin/busybox rm -rf /storage/.update >/dev/null 2>&1
       /usr/bin/busybox mkdir -p /storage/.update >/dev/null 2>&1
@@ -710,7 +740,7 @@ mount_games() {
     fi
 
     /usr/bin/busybox mountpoint -q /storage/roms >/dev/null 2>&1
-    if [ $? == "0" ]
+    if [ $? == "0" ] && [ ! -e "/storage/.please_resize_me" ]
     then
       /usr/bin/busybox mkdir -p "$UPDATE_ROOT" >/dev/null 2>&1
       mount --bind /storage/roms/update "$UPDATE_ROOT" >/dev/null 2>&1

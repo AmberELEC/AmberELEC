@@ -4,7 +4,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="openbor"
-PKG_VERSION="4432"
+PKG_VERSION=""
 PKG_SHA256="1c9a8a93584a9e0abda7aa11340d9b794a32b95d7b10c078460d13d68cc317d5"
 PKG_ARCH="any"
 PKG_SITE="http://downloads.sf.net/sourceforge/$PKG_NAME"

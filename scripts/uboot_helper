@@ -38,6 +38,10 @@ devices = {
       'rg351p' : { 'dtb' : 'rk3326-rg351p-linux.dtb', 'config' : 'odroidgo2_defconfig' },
       'rg351p-oc' : { 'dtb' : 'rk3326-rg351p-linux-oc.dtb', 'config' : 'odroidgo2_defconfig' },
     },
+    'RG351V' : {
+      'rg351p' : { 'dtb' : 'rk3326-rg351p-linux.dtb', 'config' : 'odroidgo2_defconfig' },
+      'rg351p-oc' : { 'dtb' : 'rk3326-rg351p-linux-oc.dtb', 'config' : 'odroidgo2_defconfig' },
+    },
     'RK3328' : {
       'box' : { 'dtb' : 'rk3328-box.dtb', 'config' : 'evb-rk3328_defconfig' },
       'box-trn9' : { 'dtb' : 'rk3328-box-trn9.dtb', 'config' : 'evb-rk3328_defconfig' },

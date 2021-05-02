@@ -10,10 +10,21 @@
 
 ROMNAME="$1"
 
+vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
+hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
+
 if [ "$ROMNAME" == "shutdown" ]
 then
+  if [ "${hres}" = "640" ]
+  then
+    cols="36"
+    rows="16"
+  else
+    cols="26"
+    rows="10"
+  fi
   clear >/dev/console
-  echo -ne "\033[10;26H" >/dev/console
+  echo -ne "\033[${rows};${cols}H" >/dev/console
   message_stream "GAME OVER" .05
   sleep .5
   exit 0
@@ -21,9 +32,14 @@ fi
 
 if [ "$ROMNAME" == "intro" ] || [ "$ROMNAME" == "exit" ]
 then
-  if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]
+  if [[ "$(cat /usr/config/.OS_ARCH)" =~ RG351 ]]
   then
-    SPLASH="/usr/config/splash/splash-480l.png"
+    if [ "${hres}" = "640" ]
+    then
+      SPLASH="/usr/config/splash/splash-640.png"
+    else
+      SPLASH="/usr/config/splash/splash-480l.png"
+    fi
   else
     SPLASH="/usr/config/splash/splash-1080.png"
   fi
@@ -32,11 +48,17 @@ else
   then
     exit 0
   fi
+  if [ "${hres}" = "640" ]
+  then
+    cols="20"
+  else
+    cols="10"
+  fi
   MYGAME=${ROMNAME^^}
   MYBOOT="
 
-          #### WELCOME TO \e[31m351\e[39mELEC VERSION $(cat /storage/.config/.OS_VERSION) ####
-           $(awk '/MemTotal/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES AVAILABLE   $(awk '/MemFree/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES FREE
+\e[1;${cols}H #### WELCOME TO \e[31m351\e[39mELEC VERSION 2.0 ####
+\e[2;${cols}H  $(awk '/MemTotal/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES AVAILABLE   $(awk '/MemFree/ {printf substr($2,1,3)}' /proc/meminfo)M BYTES FREE
 
 "
 
@@ -66,7 +88,7 @@ fi
 if [[ -f "/storage/.config/distribution/configs/novideo" ]] && [[ ${VIDEO} != "1" ]]
 then
         if [ "$PLATFORM" != "intro" ]; then
-                /usr/bin/display "${SPLASH}" > /dev/null 2>&1 &
+                /usr/bin/mpv "${SPLASH}" > /dev/null 2>&1 &
         fi
 else
 	# Show intro video

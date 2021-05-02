@@ -39,14 +39,14 @@ pre_configure_target() {
   sed -i "s|-lGLESv2|-lGLESv3|g" $PKG_BUILD/yabause/src/libretro/Makefile.common 
 
 if [[ "$ARCH" == "arm" ]]; then
-	if [[ "$DEVICE" == "RG351P" ]]; then
+	if [[ "$DEVICE" =~ RG351 ]]; then
 		PKG_MAKE_OPTS_TARGET+=" -C yabause/src/libretro platform=RK3399"
 		sed -i "s|-mtune=cortex-a72.cortex-a53|-mtune=cortex-a35|g" $PKG_BUILD/yabause/src/libretro/Makefile
 	else
 		PKG_MAKE_OPTS_TARGET+=" -C yabause/src/libretro platform=AMLG12B"
 	fi
 else
-	if [[ "$DEVICE" == "RG351P" ]]; then
+	if [[ "$DEVICE" =~ RG351 ]]; then
 		sed -i "s|-mtune=cortex-a73.cortex-a53|-mtune=cortex-a35|g" $PKG_BUILD/yabause/src/libretro/Makefile
 	fi
 	
