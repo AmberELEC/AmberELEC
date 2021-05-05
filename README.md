@@ -2,9 +2,7 @@
 
 An open source firmware for the Anbernic RG351P/M/V devices.
 
-351ELEC was a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V and is not compatible with other devices.
-
-> Note: This repository has been archived and the 351ELEC project is no longer active.
+351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V and is not compatible with other devices.
 
 ## Installation
 
@@ -29,7 +27,7 @@ sudo apt update && sudo apt upgrade
 
 sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl
 
-git clone https://github.com/fewtarius/351ELEC.git 351ELEC  
+git clone https://github.com/351ELEC/351ELEC.git 351ELEC  
 
 cd 351ELEC
 
