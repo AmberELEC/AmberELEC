@@ -19,8 +19,7 @@ NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/distribution/configs/distribution.conf"
 SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
-DESTRACONF="/storage/.config/retroarch/retroarch.cfg"
-RACONF="/tmp/retroarch.cfg"
+RACONF="/storage/.config/retroarch/retroarch.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
@@ -57,15 +56,11 @@ function log() {
 
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
-FILELENGTH="$(cat ${DESTRACONF} | wc -l)"
+FILELENGTH="$(cat ${RACONF} | wc -l)"
 if [ "${FILELENGTH}" -lt "1" ]
 then
   log "Fix broken RA conf"
-  rm -f "${DESTRACONF}"
   cp -f "${SOURCERACONF}" "${RACONF}"
-else
-  log "Copying RA conf"
-  cp -f "${DESTRACONF}" "${RACONF}"
 fi
 
 if [ ! -d "${SNAPSHOTS}/${PLATFORM}" ]
@@ -75,7 +70,6 @@ fi
 
 function doexit() {
   log "Exiting.."
-  mv "${RACONF}" "${DESTRACONF}"
   sync
   exit 0
 }
