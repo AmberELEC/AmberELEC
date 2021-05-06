@@ -4,6 +4,9 @@ An open source firmware for the Anbernic RG351P/M/V devices.
 
 351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V and is not compatible with other devices.
 
+Visit us on our Discord! https://discord.gg/bmXtCt88Tz
+
+
 ## Installation
 
 351ELEC minimally requires an 8GB MicroSD, however the experience will be limited.  For an optimal configuration 32GB or more is recommended.
@@ -14,8 +17,6 @@ To download 351ELEC, click Releases.
 * Write the image to a microSD using your favorite image writer
 
 On the first boot, 351ELEC will expand the storage and games partitions and then reboot to configure the firmware.  It's normal for this process to take a minute or two.  After setting up for the first time, subsequent boots will be much faster.
-
-For access to nightly builds with the most recent bleeding edge changes, visit #releases-nightly on discord.
 
 > RG351V users may use a large MicroSD in the first socket, or a smaller MicroSD with a larger card in the second socket.  The second card must have a single partition or whole card formatted with EXFAT, or EXT4.  FAT filesystems are not supported as it lacks support for filesystem features in use by 351ELEC. NTFS is not currently supported and may be added in a future release.
 

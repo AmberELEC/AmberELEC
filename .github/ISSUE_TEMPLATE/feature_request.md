@@ -6,6 +6,10 @@ labels: ''
 assignees: ''
 
 ---
+
+## This is only for actual detailed feature requests for the system! For Support or if you want to discuss ideas visit us in our Discord
+https://discord.gg/bmXtCt88Tz
+
 ### Getting started
 Before opening an issue, check the release notes of the version that you are using and recent commits.  Be sure to fill out the template completely, accurately, and with as much detail as possible.  Issues without sufficient detail will be rejected and closed.
 
