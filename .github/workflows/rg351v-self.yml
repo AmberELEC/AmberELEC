@@ -34,6 +34,7 @@ jobs:
             release
         # Runs a set of commands using the runners shell
       - name: Shutdown runner
+        if: always()
         run: |
             echo "Shutting down runner in 30 seconds..."
             nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
