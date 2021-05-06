@@ -26,8 +26,7 @@ jobs:
         run: |
             set +e
             sudo apt update && sudo apt install -y libclang-dev
-            #VERBOSE=no make RG351V
-            #make v-aarch64
+            VERBOSE=no make RG351V
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
