@@ -4,6 +4,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 ## workaround for ES performance with big conf files
+## This is no longer in use! 
 
 EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
 
