@@ -25,6 +25,8 @@ jobs:
       - name: Build rg351v
         run: |
             set +e
+            sudo apt update && sudo apt install -y libclang-dev
             VERBOSE=no make RG351V
             #make v-aarch64
+            echo "Shutting down runner..."
             sudo init 0
