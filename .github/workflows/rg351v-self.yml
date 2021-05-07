@@ -17,10 +17,10 @@ jobs:
       - name: launch real builder
         run: |
             echo "Run ID: ${GITHUB_RUN_ID} ${{ env.GITHUB_RUN_ID }}"
-            echo "Build Comment ${{ github.event.inputs.comment }}"
+            echo "Build Comment: ${{ github.event.inputs.comment }}"
             echo "SHA: ${GITHUB_SHA}"
-            echo $(git rev-parse --short "$GITHUB_SHA")
-            echo ${GITHUB_REF#refs/heads/}
+            echo "Branch: ${GITHUB_REF#refs/heads/}"
+            env
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
                 -e LABEL=full-build \
