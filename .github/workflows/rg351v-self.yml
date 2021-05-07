@@ -2,12 +2,9 @@
 
 name: rg351v-self-hosted
 
-# Controls when the action will run. 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   launch:
     runs-on: ubuntu-20.04
@@ -26,17 +23,13 @@ jobs:
             sleep 60
   build:
     needs: launch
-    # The type of runner that the job will run on
     runs-on: full-build
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
           clean: false
 
-      # Runs a set of commands using the runners shell
       - name: Build rg351v
         run: |
             set +e
@@ -47,9 +40,8 @@ jobs:
           name: release-artifacts
           path: |
             release
-        # Runs a set of commands using the runners shell
       - name: Shutdown runner
-        if: always()
+        #if: always()
         run: |
             echo "Shutting down runner in 30 seconds..."
             nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
