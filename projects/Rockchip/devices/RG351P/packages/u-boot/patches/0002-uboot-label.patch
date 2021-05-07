@@ -8,9 +8,7 @@ diff -rupN u-boot.orig/board/rockchip/odroidgo2/odroidgo2.c u-boot.new/board/roc
 -	lcd_printf(0, 18, 1, "%s", U_BOOT_VERSION);
 -	lcd_printf(0, 19, 1, "%s %s", U_BOOT_DATE, U_BOOT_TIME);
 -
-+	lcd_printf(0, 16, 1, "%s %s", U_BOOT_DATE, U_BOOT_TIME);
-+	lcd_printf(0, 18, 1, "This software can not be bundled or sold!");
-+	lcd_printf(0, 19, 1, "If you paid for it, demand a refund!");
++	lcd_printf(0, 19, 1, "%s %s", U_BOOT_DATE, U_BOOT_TIME);
  	if (!board_check_autotest()) {
  		board_run_autotest();
  		return 0;
