@@ -126,7 +126,7 @@ DEFE=$(get_ee_setting ee_videomode)
 
 if [ "${DEFE}" != "Custom" ]; then
     [ ! -z "${DEFE}" ] && echo "${DEFE}" > /sys/class/display/mode
-fi 
+fi
 
 if [ -s "/storage/.config/EE_VIDEO_MODE" ]; then
         echo $(cat /storage/.config/EE_VIDEO_MODE) > /sys/class/display/mode
@@ -226,6 +226,17 @@ then
   fi
   mv "/storage/roms/ports/pico-8/"* "/storage/roms/pico-8"
   rm -rf "/storage/roms/ports/pico-8" &
+fi
+
+# Migrate old emuoptions.conf if it exist
+if [ -e "/storage/.config/distribution/configs/emuoptions.conf" ]
+then
+  echo "Found old config - merging"
+  echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
+  cat /storage/.config/distribution/configs/emuoptions.conf >> /storage/.config/distribution/configs/distribution.conf
+  echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
+  echo "Move to backupfile"
+  mv /storage/.config/distribution/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf.bak
 fi
 
 sync &
