@@ -25,7 +25,7 @@ jobs:
   build:
     needs: launch
     # The type of runner that the job will run on
-    runs-on:  ${{ env.GITHUB_RUN_ID }}
+    runs-on:  "${{ env.GITHUB_RUN_ID }}"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
