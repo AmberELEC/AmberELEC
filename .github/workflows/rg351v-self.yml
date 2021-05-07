@@ -20,7 +20,7 @@ jobs:
             echo "Build Comment: ${{ github.event.inputs.comment }}"
             echo "SHA: ${GITHUB_SHA}"
             echo "Branch: ${GITHUB_REF#refs/heads/}"
-            env
+            env | grep -i github
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
                 -e LABEL=full-build \
