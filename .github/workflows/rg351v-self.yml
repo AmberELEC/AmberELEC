@@ -15,9 +15,9 @@ jobs:
       - name: launch real builder
         run: |
             echo "Run ID: ${GITHUB_RUN_ID} ${{ env.GITHUB_RUN_ID }}"
-            export LABEL=full-build
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                -e LABEL=full-build \
                 -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
@@ -27,7 +27,7 @@ jobs:
   build:
     needs: launch
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
+    runs-on: full-build
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
