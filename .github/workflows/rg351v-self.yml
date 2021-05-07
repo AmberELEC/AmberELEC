@@ -10,11 +10,11 @@ on:
         required: false
         default: ''
       save_runner:
-        description: 'If any value is set.  Runner will not be shut down.'
+        description: 'save_runner (any value will keep runner from terminating)'
         required: false
         default: ''
       skip_build:
-        description: 'If any value is set.  Build will be skipped.'
+        description: 'skip_build (any value will skip main build - use for testing)'
         required: false
         default: ''
 jobs:
