@@ -9,10 +9,23 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  launch:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: launch real builder
+        run: |
+            echo "Run ID: ${GITHUB_RUN_ID}"
+            export LABEL=${GITHUB_RUN_ID}
+            DOCKER_IMAGE="pkegg/api:latest" 
+            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+                -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
+                ${DOCKER_IMAGE} create-instance
   build:
+    needs: launch
     # The type of runner that the job will run on
-    runs-on: rg351v
+    runs-on:  ${{ env.GITHUB_RUN_ID }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
