@@ -4,6 +4,11 @@ name: rg351v-self-hosted
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        description: 'Comment to store if there is a reason for this build'
+        required: false
+        default: ''
 
 jobs:
   launch:
