@@ -61,7 +61,7 @@ jobs:
           path: |
             release
       - name: Shutdown runner
-        if: ${{ github.event.inputs.save_runner != "" }}
+        if: "${{ github.event.inputs.save_runner != '' }}"
         run: |
             echo "Shutting down runner in 30 seconds..."
             nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
