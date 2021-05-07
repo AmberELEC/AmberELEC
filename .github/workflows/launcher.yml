@@ -25,5 +25,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Run a one-line script
-        run: env
+      - name: launch real builder
+        run: |
+            echo "Run ID: ${GITHUB_RUN_ID}"
+            docker version
+            docker run hello-world
+
+             
