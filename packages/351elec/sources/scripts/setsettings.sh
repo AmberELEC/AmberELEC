@@ -12,16 +12,14 @@
 
 . /etc/profile
 
-RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
+RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx supervision tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/distribution/configs/distribution.conf"
-EMUCONF="/storage/.config/distribution/configs/emuoptions.conf"
 SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
-DESTRACONF="/storage/.config/retroarch/retroarch.cfg"
-RACONF="/tmp/retroarch.cfg"
+RACONF="/storage/.config/retroarch/retroarch.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
@@ -58,15 +56,11 @@ function log() {
 
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
-FILELENGTH="$(cat ${DESTRACONF} | wc -l)"
+FILELENGTH="$(cat ${RACONF} | wc -l)"
 if [ "${FILELENGTH}" -lt "1" ]
 then
   log "Fix broken RA conf"
-  rm -f "${DESTRACONF}"
   cp -f "${SOURCERACONF}" "${RACONF}"
-else
-  log "Copying RA conf"
-  cp -f "${DESTRACONF}" "${RACONF}"
 fi
 
 if [ ! -d "${SNAPSHOTS}/${PLATFORM}" ]
@@ -76,7 +70,6 @@ fi
 
 function doexit() {
   log "Exiting.."
-  mv "${RACONF}" "${DESTRACONF}"
   sync
   exit 0
 }
@@ -482,11 +475,11 @@ function get_setting() {
 log "Get Settings function (${1})"
 #We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
-	EES=$(sed -n "${PAT}" "${EMUCONF}")
+	EES=$(sed -n "${PAT}" "${CONF}")
 
 if [ -z "${EES}" ]; then
 	PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
-	EES=$(sed -n "${PAT}" "${EMUCONF}")
+	EES=$(sed -n "${PAT}" "${CONF}")
 fi
 
 if [ -z "${EES}" ]; then
