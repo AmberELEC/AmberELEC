@@ -22,6 +22,8 @@ jobs:
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
                 ${DOCKER_IMAGE} create-instance
+            
+            sleep 30
   build:
     needs: launch
     # The type of runner that the job will run on
