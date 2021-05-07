@@ -21,6 +21,10 @@ jobs:
         run: |
             echo "Run ID: ${GITHUB_RUN_ID}"
             docker version
-            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} pkegg/api:latest create-instance
+            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                       -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY}} \
+                       -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID}} \
+                       -e SSH_PUBLIC_KEY=${{ secrets.SSH_PUBLIC_KEY}} \
+                       pkegg/api:latest create-instance
 
              
