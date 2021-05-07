@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: launch real builder
         run: |
-            echo "Run ID: ${GITHUB_RUN_ID}"
+            echo "Run ID: ${GITHUB_RUN_ID} ${{ env.GITHUB_RUN_ID }}"
             export LABEL=${GITHUB_RUN_ID}
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
@@ -25,7 +25,7 @@ jobs:
   build:
     needs: launch
     # The type of runner that the job will run on
-    runs-on:  "${{ env.GITHUB_RUN_ID }}"
+    runs-on:  does_not_exist
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
