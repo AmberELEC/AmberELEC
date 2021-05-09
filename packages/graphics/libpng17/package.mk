@@ -14,10 +14,10 @@ PKG_TOOLCHAIN="configure"
 PKG_BUILD_FLAGS="+pic +pic:host"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_z_zlibVersion=yes \
-                           --enable-static \
-                           --disable-shared"
+                           --enable-shared \
+                           --disable-static"
 
-PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
+PKG_CONFIGURE_OPTS_HOST="--enable-shared --disable-static"
 
 pre_configure_host() {
   export CPPFLAGS="$CPPFLAGS -I$TOOLCHAIN/include"
@@ -32,5 +32,5 @@ post_makeinstall_target() {
       -e "s:libs=\"-lpng17\":libs=\"-lpng17 -lz\":g" \
       -i $SYSROOT_PREFIX/usr/bin/libpng*-config
 
-  rm -rf $INSTALL/usr/bin
+ # rm -rf $INSTALL/usr/bin
 }
