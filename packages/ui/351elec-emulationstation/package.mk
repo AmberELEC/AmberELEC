@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="f75a5014d6a0274f46c9cff0253e82c360315e26"
+PKG_VERSION="0f956ebc2c16b0e57c1caf6bc94e11db50c10b91"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
@@ -40,6 +40,7 @@ makeinstall_target() {
 
 	mkdir -p $INSTALL/etc/emulationstation/
 	ln -sf /storage/.config/emulationstation/themes $INSTALL/etc/emulationstation/
+	ln -sf /usr/config/emulationstation/es_systems.cfg $INSTALL/etc/emulationstation/es_systems.cfg
 
         cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
         cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation  

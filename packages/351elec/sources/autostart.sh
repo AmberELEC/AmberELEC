@@ -231,12 +231,16 @@ fi
 # Migrate old emuoptions.conf if it exist
 if [ -e "/storage/.config/distribution/configs/emuoptions.conf" ]
 then
-  echo "Found old config - merging"
   echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
   cat /storage/.config/distribution/configs/emuoptions.conf >> /storage/.config/distribution/configs/distribution.conf
   echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
-  echo "Move to backupfile"
   mv /storage/.config/distribution/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf.bak
+fi
+
+# Save old es_systems.cfg in case it is still needed
+if [ -f /storage/.config/emulationstation/es_systems.cfg ]; then
+        mv /storage/.config/emulationstation/es_systems.cfg\
+           /storage/.config/emulationstation/es_systems.oldcfg-rename-to:es_systems_custom.cfg-if-needed
 fi
 
 sync &
