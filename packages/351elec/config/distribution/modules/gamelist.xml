@@ -57,7 +57,7 @@
 		<path>./Remove ._ Files.sh</path>
 		<name>Run Remove ._ Files</name>
 		<desc>Removes hidden ._ files created by the MacOS filesystem</desc>
-		<developer>351ELEC</developer>
+		<developer>fewtarius</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
@@ -75,8 +75,8 @@
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
 		<genre>script</genre>
-		<thumbnail>./downloaded_images/clean-thumb.png</thumbnail>
-		<image>./downloaded_images/clean.png</image>
+		<thumbnail>./downloaded_images/splash-thumb.png</thumbnail>
+		<image>./downloaded_images/splash.png</image>
 	</game>
 
 </gameList>
