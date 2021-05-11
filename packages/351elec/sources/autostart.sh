@@ -243,6 +243,15 @@ if [ -f /storage/.config/emulationstation/es_systems.cfg ]; then
            /storage/.config/emulationstation/es_systems.oldcfg-rename-to:es_systems_custom.cfg-if-needed
 fi
 
+# Copy after new installation / missing logo.png
+if [ ! -e "/storage/.config/emulationstation/resources/logo.png" ]; then
+	if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
+		cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
+	elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
+		cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
+	fi
+fi
+
 sync &
 
 # run custom_start before FE scripts
