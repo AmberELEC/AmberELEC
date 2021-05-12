@@ -252,6 +252,12 @@ if [ ! -e "/storage/.config/emulationstation/resources/logo.png" ]; then
 	fi
 fi
 
+## Only call postupdate once after an UPDATE
+if [ "UPDATE" == "$(cat /storage/.config/boot.hint)" ]; then
+        /usr/bin/postupdate.sh
+	echo "OK" > /storage/.config/boot.hint
+fi
+
 sync &
 
 # run custom_start before FE scripts
