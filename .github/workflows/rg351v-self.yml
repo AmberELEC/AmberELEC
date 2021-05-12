@@ -36,7 +36,7 @@ jobs:
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
                 ${DOCKER_IMAGE} create-instance
             
-            sleep 60
+            sleep 90
   build:
     needs: launch
     runs-on: full-build
