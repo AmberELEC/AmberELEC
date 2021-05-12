@@ -13,10 +13,6 @@ on:
         description: skips launch if set.  To reuse workers
         required: false
         default: ''
-      save_runner:
-        description: 'save_runner (any value will keep runner from terminating)'
-        required: false
-        default: ''
       skip_build:
         description: 'skip_build (any value will skip main build - use for testing)'
         required: false
@@ -66,7 +62,7 @@ jobs:
           path: |
             release
       - name: Shutdown runner
-        if: always() && ${{ github.event.inputs.save_runner == '' }}
+        if: always()
         run: |
             echo "Shutting down runner in 30 seconds..."
             nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
