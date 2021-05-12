@@ -52,10 +52,17 @@ PKG_CONFIGURE_OPTS_TARGET="py_cv_mod_gtk_=yes \
                            --with-xml=expat \
                            --with-avahi-user=avahi \
                            --with-avahi-group=avahi \
+                           --host=arm \
                            --disable-nls"
 
 pre_configure_target() {
-  NOCONFIGURE=1 ./autogen.sh
+  #aclocal -I common
+  #cd ..
+  echo "AUTOGEN: "$PWD
+  if [ -f autogen.sh ]; then
+    env NOCONFIGURE=1 ./autogen.sh
+  fi
+  echo "AUTOGEN DONE"
 }
 
 post_makeinstall_target() {
