@@ -9,6 +9,10 @@ on:
         description: 'Comment as to why build was run'
         required: false
         default: ''
+      skip_launch:
+        description: skips launch if set.  To reuse workers
+        required: false
+        default: ''
       save_runner:
         description: 'save_runner (any value will keep runner from terminating)'
         required: false
@@ -20,6 +24,7 @@ on:
 jobs:
   launch:
     runs-on: ubuntu-20.04
+    if: "${{ github.event.inputs.skip_launch == '' }}"
     steps:
       - name: launch real builder
         run: |
@@ -40,7 +45,6 @@ jobs:
   build:
     needs: launch
     runs-on: full-build
-
     steps:
       - uses: actions/checkout@v2
         with:
