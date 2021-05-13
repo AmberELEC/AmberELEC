@@ -1,6 +1,6 @@
 BUILD_DIRS=build.*
 
-all: clean world
+all:
 
 system:
 	./scripts/image
