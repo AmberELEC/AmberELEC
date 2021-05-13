@@ -36,7 +36,7 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  make
+  make platform=emuelec-hh
 }
 
 makeinstall_target() {
