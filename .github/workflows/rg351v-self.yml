@@ -17,8 +17,8 @@ on:
         description: 'skip_build (any value will skip main build - use for testing)'
         required: false
         default: ''
-      save_runner:
-        description: 'save_runner (any value will keep runner from terminating)'
+      leave_root_volume:
+        description: 'leave root volume'
         required: false
         default: ''
 jobs:
@@ -36,6 +36,7 @@ jobs:
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
                 -e LABEL=full-build \
+                -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
                 -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
@@ -65,7 +66,7 @@ jobs:
           path: |
             release
       - name: Shutdown runner
-        if: (success() || failure()) && ${{ github.event.inputs.save_runner == '' }}
+        if: always()
         run: |
             echo "Shutting down runner in 30 seconds..."
             nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
