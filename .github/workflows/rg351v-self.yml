@@ -40,8 +40,7 @@ jobs:
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
                 ${DOCKER_IMAGE} create-instance
-            
-            sleep 90
+
   build:
     needs: launch
     if: always()
