@@ -1,7 +1,7 @@
 name: sync-upstream
 on:
   schedule:
-    - cron:  '0 7 * * *'
+    - cron:  '0 7,14,21 * * *'
     # scheduled at 07:00 every Monday and Thursday
 
   workflow_dispatch:  # click the button on Github repo!
