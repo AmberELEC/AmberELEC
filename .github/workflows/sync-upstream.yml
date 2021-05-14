@@ -10,7 +10,7 @@ on:
 jobs:
   sync_with_upstream:
     runs-on: ubuntu-20.04
-    name: Sync main with upstream latest
+    name: sync with upstream
     steps: 
       - name: Checkout
         uses: actions/checkout@v2
