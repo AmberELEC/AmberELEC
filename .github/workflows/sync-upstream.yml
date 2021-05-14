@@ -23,4 +23,4 @@ jobs:
           upstream: 351ELEC/351ELEC      # set the upstream repo
           upstream-branch: main   # set the upstream branch to merge from
           branch: main          # set the branch to merge to
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
