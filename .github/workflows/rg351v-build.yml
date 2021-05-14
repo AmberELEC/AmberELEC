@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: rg351v-self-hosted
+name: rg351v-build
 
 on:
   workflow_dispatch:
