@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: rg351v-build
+name: rg351-build
 
 on:
   workflow_dispatch:
@@ -40,9 +40,16 @@ jobs:
                 -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
-                ${DOCKER_IMAGE} create-instance
-
-  build:
+                ${DOCKER_IMAGE} create-instance &
+            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                -e LABEL=full-build \
+                -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
+                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+                -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
+                ${DOCKER_IMAGE} create-instance &
+            wait
+  build-v:
     needs: launch
     if: always()
     runs-on: full-build
@@ -62,11 +69,39 @@ jobs:
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: release-artifacts
+          name: artifacts-v
           path: |
             release
       - name: Shutdown runner
         if: always()
         run: |
-            echo "Shutting down runner in 30 seconds..."
-            nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
+            echo "Shutting down runner in 5 seconds..."
+            nohup sudo /bin/bash -c '/bin/sleep 5 && /usr/sbin/init 0' &
+  build-p:
+    needs: launch
+    if: always()
+    runs-on: full-build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          clean: false
+
+      - name: Build rg351p
+        run: |
+            set +e
+            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
+               echo "skipping build due to parameters"
+               exit 0
+            fi
+            VERBOSE=no make RG351P
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-p
+          path: |
+            release
+      - name: Shutdown runner
+        if: always()
+        run: |
+            echo "Shutting down runner in 5 seconds..."
+            nohup sudo /bin/bash -c '/bin/sleep 5 && /usr/sbin/init 0' &
