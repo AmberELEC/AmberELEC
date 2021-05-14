@@ -1,4 +1,3 @@
-name: sync-upstream
 on:
   schedule:
     - cron:  '0 7 * * *'
@@ -11,31 +10,15 @@ jobs:
   sync_with_upstream:
     runs-on: ubuntu-20.04
     name: Sync main with upstream latest
-
-    steps:
-    # Step 1: run a standard checkout action, provided by github
-    - name: Checkout main
-      uses: actions/checkout@v2
-      with:
-        ref: main
-        # submodules: 'recursive'     ### may be needed in your situation
-
-    # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
-    - name: Pull (Fast-Forward) upstream changes
-      id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v2.1
-      with:
-        upstream_repository: 351ELEC/351ELEC
-        upstream_branch: main
-        target_branch: main
-        git_pull_args: --ff-only                    # optional arg use, defaults to simple 'pull'
-        #github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
-
-    # Step 3: Display a message if 'sync' step had new commits (simple test)
-    - name: Check for new commits
-      if: steps.sync.outputs.has_new_commits
-      run: echo "There were new commits."
-
-    # Step 4: Print a helpful timestamp for your records (not required, just nice)
-    - name: Timestamp
-      run: date
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main             # set the branch to merge to
+          fetch-depth: 0 
+      - name: Merge Upstream
+        uses: exions/merge-upstream@v1
+        with:
+          upstream: 351ELEC/351ELEC      # set the upstream repo
+          upstream-branch: main   # set the upstream branch to merge from
+          branch: main          # set the branch to merge to
