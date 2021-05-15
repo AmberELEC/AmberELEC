@@ -53,7 +53,7 @@ diff -rupN ppsspp.orig/libretro/libretro.cpp ppsspp.new/libretro/libretro.cpp
 @@ -201,6 +201,7 @@ static RetroOption<int> ppsspp_rendering
  static RetroOption<bool> ppsspp_auto_frameskip("ppsspp_auto_frameskip", "Auto Frameskip", false);
  static RetroOption<int> ppsspp_frameskip("ppsspp_frameskip", "Frameskip", 0, 10);
- static RetroOption<int> ppsspp_frameskiptype("ppsspp_frameskiptype", "Frameskip Type", 0, 10);
+ static RetroOption<int> ppsspp_frameskiptype("ppsspp_frameskiptype", "Frameskip Type", { {"number of frames", 0}, {"percent of fps", 1} });
 +static RetroOption<int> ppsspp_force_max_fps("ppsspp_force_max_fps", "Force Max FPS", { {"Auto", 0}, {"10", 10}, {"20", 20}, {"30", 30}, {"40", 40}, {"50", 50}, {"60", 60}, {"70", 70}, {"80", 80} });
  static RetroOption<int> ppsspp_internal_resolution("ppsspp_internal_resolution", "Internal Resolution (restart)", 1, { "480x272", "960x544", "1440x816", "1920x1088", "2400x1360", "2880x1632", "3360x1904", "3840x2176", "4320x2448", "4800x2720" });
  static RetroOption<int> ppsspp_button_preference("ppsspp_button_preference", "Confirmation Button", { { "cross", PSP_SYSTEMPARAM_BUTTON_CROSS }, { "circle", PSP_SYSTEMPARAM_BUTTON_CIRCLE } });
@@ -63,8 +63,8 @@ diff -rupN ppsspp.orig/libretro/libretro.cpp ppsspp.new/libretro/libretro.cpp
     vars.push_back(ppsspp_frameskip.GetOptions());
     vars.push_back(ppsspp_frameskiptype.GetOptions());
 +   vars.push_back(ppsspp_force_max_fps.GetOptions());
-    vars.push_back(ppsspp_internal_resolution.GetOptions());
-    vars.push_back(ppsspp_button_preference.GetOptions());
+    vars.push_back(ppsspp_frame_duplication.GetOptions());
+    vars.push_back(ppsspp_vertex_cache.GetOptions());
     vars.push_back(ppsspp_fast_memory.GetOptions());
 @@ -312,6 +314,7 @@ static void check_variables(CoreParamete
     ppsspp_cheats.Update(&g_Config.bEnableCheats);
