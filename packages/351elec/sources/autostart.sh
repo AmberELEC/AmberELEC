@@ -228,30 +228,6 @@ then
   rm -rf "/storage/roms/ports/pico-8" &
 fi
 
-# Migrate old emuoptions.conf if it exist
-if [ -e "/storage/.config/distribution/configs/emuoptions.conf" ]
-then
-  echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
-  cat /storage/.config/distribution/configs/emuoptions.conf >> /storage/.config/distribution/configs/distribution.conf
-  echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
-  mv /storage/.config/distribution/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf.bak
-fi
-
-# Save old es_systems.cfg in case it is still needed
-if [ -f /storage/.config/emulationstation/es_systems.cfg ]; then
-        mv /storage/.config/emulationstation/es_systems.cfg\
-           /storage/.config/emulationstation/es_systems.oldcfg-rename-to:es_systems_custom.cfg-if-needed
-fi
-
-# Copy after new installation / missing logo.png
-if [ ! -e "/storage/.config/emulationstation/resources/logo.png" ]; then
-	if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
-		cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
-	elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
-		cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
-	fi
-fi
-
 ## Only call postupdate once after an UPDATE
 if [ "UPDATE" == "$(cat /storage/.config/boot.hint)" ]; then
         /usr/bin/postupdate.sh
