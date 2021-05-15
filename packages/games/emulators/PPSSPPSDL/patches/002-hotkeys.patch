@@ -11,9 +11,9 @@ index 30889f8..519eb27 100644
 +		g_Config.iCurrentStateSlot = (g_Config.iCurrentStateSlot - 1 + NUM_SLOTS) % NUM_SLOTS;
 +	}
 +
- 	void LoadSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData)
+	void LoadSlot(const Path &gameFilename, int slot, Callback callback, void *cbUserData)
  	{
- 		std::string fn = GenerateSaveSlotFilename(gameFilename, slot, STATE_EXTENSION);
+		Path fn = GenerateSaveSlotFilename(gameFilename, slot, STATE_EXTENSION);
 diff --git a/Core/SaveState.h b/Core/SaveState.h
 index 64c4dbe..d7326d6 100644
 --- a/Core/SaveState.h
@@ -23,9 +23,9 @@ index 64c4dbe..d7326d6 100644
  	// Cycle through the 5 savestate slots
  	void NextSlot();
 +	void PreviousSlot();
- 	void SaveSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData = 0);
- 	void LoadSlot(const std::string &gameFilename, int slot, Callback callback, void *cbUserData = 0);
- 	bool UndoSaveSlot(const std::string &gameFilename, int slot);
+	void SaveSlot(const Path &gameFilename, int slot, Callback callback, void *cbUserData = 0);
+	void LoadSlot(const Path &gameFilename, int slot, Callback callback, void *cbUserData = 0);
+	bool UndoSaveSlot(const Path &gameFilename, int slot);
 diff --git a/UI/EmuScreen.cpp b/UI/EmuScreen.cpp
 index 3e1b322..19aa874 100644
 --- a/UI/EmuScreen.cpp
