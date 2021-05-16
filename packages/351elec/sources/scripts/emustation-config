@@ -67,7 +67,7 @@ else
 fi
 
 TZ=$(get_ee_setting system.timezone)
-echo "TIMEZONE=$TZ" > /storage/.cache/timezone
+echo -n "TIMEZONE=$TZ" > /storage/.cache/timezone
 systemctl restart tz-data.service
 
 # create charmap used for translations
