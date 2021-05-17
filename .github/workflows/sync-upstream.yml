@@ -24,7 +24,7 @@ jobs:
       - id: step1
         run: |
           set -e
-          ahead=10
+          ahead=0
           if [[ "$ahead" == "10" ]]; then
               echo "::set-output name=test::ten"
           else
