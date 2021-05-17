@@ -12,15 +12,19 @@ jobs:
     runs-on: ubuntu-20.04
     name: sync with upstream
     steps: 
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: main             # set the branch to merge to
           fetch-depth: 0 
       - name: Merge Upstream
-        uses: exions/merge-upstream@v1
-        with:
-          upstream: 351ELEC/351ELEC      # set the upstream repo
-          upstream-branch: main   # set the upstream branch to merge from
-          branch: main          # set the branch to merge to
-          token: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+           git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
+           git remote -v
+           git branch --all
+           git config --list
+           git checkout main
+           git merge upstream/main
+           git push  
