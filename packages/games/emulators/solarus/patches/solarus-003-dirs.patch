@@ -1,0 +1,31 @@
+diff --git a/cmake/AddOptions.cmake b/cmake/AddOptions.cmake
+index eda22638b..de20baa1c 100644
+--- a/cmake/AddOptions.cmake
++++ b/cmake/AddOptions.cmake
+@@ -9,7 +9,7 @@ set(SOLARUS_DEFAULT_QUEST "." CACHE STRING "Path to the quest to launch if none
+
+ # Base directory where to write files.
+ # If blank it will be set depending on the OS (typically the user's home directory).
+-set(SOLARUS_BASE_WRITE_DIR "" CACHE STRING "Base directory where to write files, if blank it will be set depending on the OS (typically the user's home directory).")
++set(SOLARUS_BASE_WRITE_DIR "/storage/roms/gamedata/solarus" CACHE STRING "Base directory where to write files, if blank it will be set depending on the OS (typically the user's home directory).")
+
+ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+   # Directory where to write savegames and other files saved by quests.
+@@ -17,7 +17,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+   # The native macOS OpenAL already handles device changes, no need for OpenAL extensions.
+   SET(SOLARUS_INITIAL_OPENAL_EXTENSIONS_RECONNECT OFF)
+ else()
+-  set(SOLARUS_INITIAL_WRITE_DIR ".solarus")
++  set(SOLARUS_INITIAL_WRITE_DIR "saves")
+   SET(SOLARUS_INITIAL_OPENAL_EXTENSIONS_RECONNECT ON)
+ endif()
+ set(SOLARUS_WRITE_DIR ${SOLARUS_INITIAL_WRITE_DIR} CACHE STRING "Directory where Solarus savegames are stored, relative to the base write directory.")
+@@ -32,7 +32,7 @@ set(SOLARUS_DEFAULT_QUEST_WIDTH ${SOLARUS_INITIAL_DEFAULT_QUEST_WIDTH} CACHE STR
+ set(SOLARUS_DEFAULT_QUEST_HEIGHT 240 CACHE STRING "Default height of the quest screen in pixels.")
+
+ # Use OpenGL ES implementation.
+-set(SOLARUS_GL_ES "OFF" CACHE BOOL "Use OpenGL ES implementation.")
++set(SOLARUS_GL_ES "ON" CACHE BOOL "Use OpenGL ES implementation.")
+
+ # Enable logging of errors to file.
+ set(SOLARUS_FILE_LOGGING "ON" CACHE BOOL "Enable logging of errors to file.")
