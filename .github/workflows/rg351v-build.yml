@@ -21,6 +21,8 @@ on:
         description: 'leave root volume'
         required: false
         default: ''
+  repository_dispatch:
+    types: [upstream-commit]
 jobs:
   launch:
     runs-on: ubuntu-20.04
