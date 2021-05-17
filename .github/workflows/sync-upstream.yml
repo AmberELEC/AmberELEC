@@ -39,7 +39,11 @@ jobs:
            git checkout ${branch}
            git merge upstream/${upstream_branch}
            git push
-           echo "::set-output name=output::${ahead}"
+           if [[ "${ahead}" == "10" ]]; then
+             echo "::set-output name=output::ten"
+           else
+             echo "::set-output name=output::zero"
+           fi
   trigger:
       runs-on: ubuntu-20.04
       needs: sync
