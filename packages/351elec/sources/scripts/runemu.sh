@@ -325,7 +325,7 @@ then
 			if [ "$EMU" = "flycast" ]
 			then
 				echo "core flycast found"
-				RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/retrorun.sh /tmp/cores/flycast_libretro.so "${ROMNAME}"'
 			else 
 				echo "emulator unknown"
 			fi
@@ -334,7 +334,7 @@ then
                         if [ "$EMU" = "flycast" ]
                         then
                                 echo "core flycast found"
-                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
+                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh /tmp/cores/flycast_libretro.so "${ROMNAME}"'
                         else
                                 echo "emulator unknown"
                         fi
@@ -343,11 +343,21 @@ then
                         if [ "$EMU" = "flycast" ]
                         then
                                 echo "core flycast found"
-                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
+                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh /tmp/cores/flycast_libretro.so "${ROMNAME}"'
                         else
                                 echo "emulator unknown"
                         fi
                         ;;
+		"saturn")
+                        if [ "$EMU" = "yabasanshiro" ]
+                        then
+                                echo "core yabasanshiro found"
+                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh /tmp/cores/yabasanshiro_libretro.so "${ROMNAME}"'
+                        else
+                                echo "emulator unknown"
+                        fi
+                        ;;
+
 	        *)
 		        echo "platform unknown"
 		        ;;
