@@ -21,12 +21,17 @@ jobs:
       - name: Merge Upstream
         shell: bash
         run: |
+           upstream_branch=main
+           branch=main
            git config --global user.email "mseashor@gmail.com"
            git config --global user.name "sync-with-upstream"
            git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
+           upstream_hash=$(git rev-parse --short refs/remotes/upstream/${upstream_branch})
+           current_hash=$(git rev-parse --short refs/heads/${branch})
+           echo "upstream hash: ${upstream_hash} current hash:  ${current_hash}"
            git remote -v
            git branch --all
            git config --list
-           git checkout main
-           git merge upstream/main
+           git checkout ${branch}
+           git merge upstream/${upstream_branch}
            git push  
