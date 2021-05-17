@@ -62,7 +62,9 @@ jobs:
       needs: sync
       steps:
         - run: echo ${{needs.sync.outputs.test}}
-        - run: |
+        - name: run-update
+          if: ${{ needs.sync.outputs.test == "0" }}
+          run: |
               set -e
               changes="${{ needs.sync.outputs.test }}"
               if [[ "$changes" != "0" ]]; then
