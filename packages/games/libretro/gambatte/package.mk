@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="gambatte"
-PKG_VERSION="d7adc32658b9a3204422f075361f3315edc5d274"
-PKG_SHA256="2c931bbfd80f8012b43de41cfb5821307dd5a5cf649cc090fe1dd2e90c5f36fd"
+PKG_VERSION="4a9736b1f62cebb1eb4444926175f65ec49fbc1e"
+PKG_SHA256="3bc4bfb2abe5323ff14ecfd1382aa3eca113632792d4f11143df9bf8abf2ef5c"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

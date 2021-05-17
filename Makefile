@@ -1,6 +1,6 @@
 BUILD_DIRS=build.*
 
-all: clean world
+all:
 
 system:
 	./scripts/image
@@ -42,4 +42,4 @@ v-aarch64:
 	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
 
 update:
-	./scripts/package_bump
+	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
