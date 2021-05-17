@@ -60,6 +60,7 @@ jobs:
   trigger:
       runs-on: ubuntu-20.04
       needs: sync
+      if: ${{ needs.sync.outputs.test != "0" }}
       steps:
         - run: echo ${{needs.sync.outputs.test}}
         - run: |
