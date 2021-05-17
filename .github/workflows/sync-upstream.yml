@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: sync
     outputs:
-      ahead: ${{ steps.sync.outputs.output }}
+      ahead: ${{ steps.sync.outputs.test }}
     steps: 
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,11 +22,12 @@ jobs:
       - name: sync
         shell: bash
         run: |
-           upstream_branch=main
-           branch=main
-           git config --global user.email "mseashor@gmail.com"
-           git config --global user.name "sync-with-upstream"
-           git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
+           set -e
+           #upstream_branch=main
+           #branch=main
+           #git config --global user.email "mseashor@gmail.com"
+           #git config --global user.name "sync-with-upstream"
+           #git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
            #upstream_hash=$(git rev-parse --short refs/remotes/upstream/${upstream_branch})
            #current_hash=$(git rev-parse --short refs/heads/${branch})
            #ahead=$(git rev-list --count upstream/${upstream_branch}..${branch})
@@ -40,9 +41,9 @@ jobs:
            #git merge upstream/${upstream_branch}
            #git push
            if [[ "${ahead}" == "10" ]]; then
-             echo "::set-output name=output::ten"
+             echo "::set-output name=test::ten"
            else
-             echo "::set-output name=output::zero"
+             echo "::set-output name=test::zero"
            fi
   trigger:
       runs-on: ubuntu-20.04
