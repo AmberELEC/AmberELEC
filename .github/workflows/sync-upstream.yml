@@ -63,7 +63,7 @@ jobs:
       steps:
         - run: echo ${{needs.sync.outputs.test}}
         - name: run-update
-          if: ${{ needs.sync.outputs.test == "0" }}
+          if: ${{ needs.sync.outputs.test == '0' }}
           run: |
               set -e
               changes="${{ needs.sync.outputs.test }}"
