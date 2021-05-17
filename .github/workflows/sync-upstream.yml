@@ -24,11 +24,16 @@ jobs:
       - id: step1
         run: |
           set -e
-          ahead=0
-          if [[ "$ahead" == "10" ]]; then
-              echo "::set-output name=test::ten"
-          else
+          upstream_branch=main
+          branch=main
+          git config --global user.email "mseashor@gmail.com"
+          git config --global user.name "sync-with-upstream"
+          git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
+          ahead=$(git rev-list --count upstream/${upstream_branch}..${branch})
+          if [[ "$ahead" == "0" ]]; then
               echo "::set-output name=test::zero"
+          else
+              echo "::set-output name=test::update"
           fi
       - name: sync
         shell: bash
