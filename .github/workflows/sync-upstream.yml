@@ -54,6 +54,6 @@ jobs:
       steps:
         - run: echo ${{needs.sync.outputs.test}}
         - run: |
-              echo test: ${{ needs.sync.outputs.ahead }}"
+              echo "test: ${{ needs.sync.outputs.test }}"
 
               echo "ahead: ${{ needs.sync.outputs.ahead }}"
