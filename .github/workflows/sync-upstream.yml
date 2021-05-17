@@ -27,18 +27,18 @@ jobs:
            git config --global user.email "mseashor@gmail.com"
            git config --global user.name "sync-with-upstream"
            git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
-           upstream_hash=$(git rev-parse --short refs/remotes/upstream/${upstream_branch})
-           current_hash=$(git rev-parse --short refs/heads/${branch})
-           ahead=$(git rev-list --count upstream/${upstream_branch}..${branch})
+           #upstream_hash=$(git rev-parse --short refs/remotes/upstream/${upstream_branch})
+           #current_hash=$(git rev-parse --short refs/heads/${branch})
+           #ahead=$(git rev-list --count upstream/${upstream_branch}..${branch})
            ahead=10
-           echo "ahead: ${ahead}"
-           echo "upstream hash: ${upstream_hash} current hash:  ${current_hash}"
-           git remote -v
-           git branch --all
-           git config --list
-           git checkout ${branch}
-           git merge upstream/${upstream_branch}
-           git push
+           #echo "ahead: ${ahead}"
+           #echo "upstream hash: ${upstream_hash} current hash:  ${current_hash}"
+           #git remote -v
+           #git branch --all
+           #git config --list
+           #git checkout ${branch}
+           #git merge upstream/${upstream_branch}
+           #git push
            if [[ "${ahead}" == "10" ]]; then
              echo "::set-output name=output::ten"
            else
