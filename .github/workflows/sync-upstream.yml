@@ -47,7 +47,7 @@ jobs:
           run: |
               echo "updates occurred upstream.  Triggering new build..."
         - name: Repository Dispatch
-          if: ${{ needs.sync.outputs.test == '0' }}
+          if: ${{ needs.sync.outputs.test != '0' }}
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GH_TOKEN }}
