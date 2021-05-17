@@ -3,6 +3,11 @@
 ## This script should only run after an update
 ## 
 
+## 2021-05-17:
+## Remove package solarus if still installed
+if [ -x /storage/.config/packages/solarus/uninstall.sh ]; then
+	/usr/bin/351elec-es-packages remove solarus
+fi
 
 ## 2021-05-12:
 ## After PCSX-ReARMed core update
