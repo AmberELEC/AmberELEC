@@ -43,4 +43,5 @@ jobs:
       runs-on: ubuntu-20.04
       needs: sync
       steps:
-        - run: echo ${{ needs.sync.outputs.ahead }}
+        - run: |
+              echo "ahead: ${{ needs.sync.outputs.ahead }}"
