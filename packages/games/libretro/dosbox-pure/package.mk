@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="dosbox-pure"
-PKG_VERSION="ebc294e072f98477f9ed01545bf2ae03e32fa1b5"
+PKG_VERSION="300a223f89c7eabe2ac58b50ca65afb08abb6716"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -36,7 +36,7 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  make
+  make platform=emuelec-hh
 }
 
 makeinstall_target() {
