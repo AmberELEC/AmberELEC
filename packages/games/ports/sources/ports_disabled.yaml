@@ -1,0 +1,19 @@
+Prince of Persia:
+  description: SDLPoP is an open-source port of Prince of Persia that runs natively on Windows and Linux. It is based on a disassembly of the DOS version.
+  rating: 1.0
+  release_date: 20110111T000000
+  developer: Dávid Nagy
+  publisher: non-commercial
+
+  init_port: true
+  port_exe: "prince"
+  audio: "alsa"
+  commands:
+    - /usr/bin/show_splash.sh "${PORT}"
+    - clear >/dev/console
+    - jslisten set "/usr/bin/killall ${PORT}"
+    - '[[ ! -f "/storage/.config/distribution/configs/SDLPoP/SDLPoP.cfg" ]] && touch "/storage/.config/distribution/configs/SDLPoP/SDLPoP.cfg"'
+    - '# SDLPop will complain about a missing data and config files by showing a nice blank screen after the intro'
+    - cd /storage/.config/distribution/configs/SDLPoP
+    - ${PORT} &>>/tmp/logs/exec.log
+    - jslisten stop
