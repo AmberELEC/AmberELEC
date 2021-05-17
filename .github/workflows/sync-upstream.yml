@@ -15,13 +15,21 @@ jobs:
       ahead: ${{ steps.sync.outputs.test }}
       test: ${{ steps.step1.outputs.test }}
     steps:
-      - id: step1
-        run: echo "::set-output name=test::hello"
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: main             # set the branch to merge to
-          fetch-depth: 0 
+          fetch-depth: 0
+      - id: step1
+        run: |
+          set -e
+          ahead=10
+          if [[ "$ahead" == "10" ]]; then
+              echo "::set-output name=test::ten"
+          else
+              echo "::set-output name=test::ten"
+          fi
       - name: sync
         shell: bash
         run: |
