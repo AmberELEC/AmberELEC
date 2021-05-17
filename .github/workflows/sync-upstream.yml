@@ -60,10 +60,13 @@ jobs:
   trigger:
       runs-on: ubuntu-20.04
       needs: sync
-      if: ${{ needs.sync.outputs.test != "0" }}
       steps:
         - run: echo ${{needs.sync.outputs.test}}
         - run: |
-              echo "test: ${{ needs.sync.outputs.test }}"
-
-              echo "ahead: ${{ needs.sync.outputs.ahead }}"
+              set -e
+              changes="${{ needs.sync.outputs.test }}"
+              if [[ "$changes" != "0" ]]; then
+                 echo "changes!"
+              else
+                 echo "no changes..."
+              fi
