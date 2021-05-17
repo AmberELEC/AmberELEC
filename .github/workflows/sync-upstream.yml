@@ -29,7 +29,7 @@ jobs:
            git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
            upstream_hash=$(git rev-parse --short refs/remotes/upstream/${upstream_branch})
            current_hash=$(git rev-parse --short refs/heads/${branch})
-           ahead=$(git rev-list --count ${branch}..upstream/${upstream_branch})
+           ahead=$(git rev-list --count upstream/${upstream_branch}..${branch})
            echo "ahead: ${ahead}"
            echo "upstream hash: ${upstream_hash} current hash:  ${current_hash}"
            git remote -v
