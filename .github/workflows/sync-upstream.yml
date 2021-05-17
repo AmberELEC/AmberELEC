@@ -28,7 +28,7 @@ jobs:
           if [[ "$ahead" == "10" ]]; then
               echo "::set-output name=test::ten"
           else
-              echo "::set-output name=test::ten"
+              echo "::set-output name=test::zero"
           fi
       - name: sync
         shell: bash
