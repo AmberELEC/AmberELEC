@@ -13,7 +13,10 @@ jobs:
     name: sync
     outputs:
       ahead: ${{ steps.sync.outputs.test }}
-    steps: 
+      test: ${{ steps.step1.outputs.test }}
+    steps:
+      - id: step1
+        run: echo "::set-output name=test::hello"
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -49,5 +52,8 @@ jobs:
       runs-on: ubuntu-20.04
       needs: sync
       steps:
+        - run: echo ${{needs.sync.outputs.test}}
         - run: |
+              echo test: ${{ needs.sync.outputs.ahead }}"
+
               echo "ahead: ${{ needs.sync.outputs.ahead }}"
