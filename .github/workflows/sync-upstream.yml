@@ -8,17 +8,18 @@ on:
 
 
 jobs:
-  sync_with_upstream:
+  sync:
     runs-on: ubuntu-20.04
-    name: sync with upstream
+    name: sync
+    outputs:
+      ahead: ${{ steps.sync.outputs.output }}
     steps: 
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: main             # set the branch to merge to
           fetch-depth: 0 
-      - name: Merge Upstream
+      - name: sync
         shell: bash
         run: |
            upstream_branch=main
@@ -28,7 +29,7 @@ jobs:
            git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
            upstream_hash=$(git rev-parse --short refs/remotes/upstream/${upstream_branch})
            current_hash=$(git rev-parse --short refs/heads/${branch})
-           ahead=$(git rev-list --count upstream/${upstream_branch}..${branch})
+           ahead=$(git rev-list --count ${branch}..upstream/${upstream_branch})
            echo "ahead: ${ahead}"
            echo "upstream hash: ${upstream_hash} current hash:  ${current_hash}"
            git remote -v
@@ -36,4 +37,10 @@ jobs:
            git config --list
            git checkout ${branch}
            git merge upstream/${upstream_branch}
-           git push  
+           git push
+           echo "::set-output name=output::${ahead}"
+  trigger:
+      runs-on: ubuntu-20.04
+      needs: sync
+      steps:
+        - run: echo ${{ needs.sync.outputs.ahead }}
