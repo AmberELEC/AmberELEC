@@ -38,6 +38,9 @@ make world
 ```
 
 The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in 351ELEC/release.  Follow the installation steps to write your image to a microSD.
+It will build for both the RG351P/M and for the RG351V.
+
+To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``.
 
 ## License
 
