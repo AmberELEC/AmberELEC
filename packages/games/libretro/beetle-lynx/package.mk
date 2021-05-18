@@ -39,5 +39,5 @@ PKG_AUTORECONF="no"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp mednafen_lynx_libretro.so $INSTALL/usr/lib/libretro/
+  cp mednafen_lynx_libretro.so $INSTALL/usr/lib/libretro/beetle_lynx_libretro.so
 }
