@@ -22,5 +22,11 @@ do
 
         echo "$i" >> "$title".m3u
 done
+for i in *.chd
+do
+        title=$(echo "$i" | sed s'/.chd//g;s/ (Disc..)//g;s/ Disc..*$//g;s/ (.*//g')
+
+        echo "$i" >> "$title".m3u
+done
 clear >/dev/console
 systemctl start emustation
