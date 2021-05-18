@@ -48,7 +48,7 @@ jobs:
     if: always()
     runs-on: full-build
     steps:
-      - name: Build rg351v
+      - name: Downlod build environment
         run: |
             set +e
             if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
