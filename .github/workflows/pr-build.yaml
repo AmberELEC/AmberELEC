@@ -48,7 +48,6 @@ jobs:
     if: always()
     runs-on: full-build
     steps:
-
       - name: Build rg351v
         run: |
             set +e
@@ -60,12 +59,18 @@ jobs:
             cd /actions-runner/_work/351ELEC/351ELEC
             AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            aws s3 cp s3://rg351/351v.tar.gz - | tar xz
-            git pull
-            VERBOSE=no make RG351V
+            aws s3 cp s3://rg351/351v.tar.gz - | tar -I pigz -x
       - uses: actions/checkout@v2
         with:
           clean: false
+      - name: Build rg351v
+        run: |
+            set +e
+            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
+               echo "skipping build due to parameters"
+               exit 0
+            fi
+            VERBOSE=no make RG351V
 
       - name: Archive build
         uses: actions/upload-artifact@v2
