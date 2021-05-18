@@ -71,7 +71,7 @@ jobs:
                exit 0
             fi
             VERBOSE=no make RG351V
-            rm -rf release/aarch64/RG351*/*.system
+            #For PR builds, we only keep tar files to limit file transfer costs
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
 
