@@ -59,6 +59,8 @@ jobs:
                echo "skipping build due to parameters"
                exit 0
             fi
+            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
             aws s3 cp s3://rg351/bacon-wrapped-shrimp.jpeg .
         
             #VERBOSE=no make RG351V
