@@ -1,0 +1,16 @@
+diff --git a/gptokeyb.cpp b/gptokeyb.cpp
+index d604f37..a00ce50 100644
+--- a/gptokeyb.cpp
++++ b/gptokeyb.cpp
+@@ -42,8 +42,8 @@
+ #include <linux/input.h>
+ #include <linux/uinput.h>
+
+-#include <libevdev-1.0/libevdev/libevdev-uinput.h>
+-#include <libevdev-1.0/libevdev/libevdev.h>
++#include <libevdev/libevdev-uinput.h>
++#include <libevdev/libevdev.h>
+
+ #include <fcntl.h>
+ #include <sstream>
+
