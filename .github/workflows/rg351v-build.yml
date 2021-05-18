@@ -68,6 +68,8 @@ jobs:
                exit 0
             fi
             VERBOSE=no make RG351V
+            rm -rf release/aarch64/RG351*/*.system
+
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
