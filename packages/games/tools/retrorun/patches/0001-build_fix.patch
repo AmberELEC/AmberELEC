@@ -1,0 +1,10 @@
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -33,6 +33,7 @@
+ #include <dlfcn.h>
+ #include <cstdarg>
+ #include <string.h>
++#include <string>
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <exception>

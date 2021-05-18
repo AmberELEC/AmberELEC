@@ -244,6 +244,8 @@ LAKKA_MIRROR="http://sources.lakka.tv"
 LIBRETRO_CORES="2048 \
 81 \
 atari800 \
+beetle-gba \
+beetle-lynx \
 beetle-ngp \
 beetle-pce \
 beetle-pcfx \
@@ -256,9 +258,11 @@ cap32 \
 crocods \
 daphne \
 dinothawr \
+duckstation \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
+fba4arm \
 fbalpha2012 \
 fbneo \
 fceumm \
@@ -280,9 +284,10 @@ meowpc98 \
 mgba \
 mrboom \
 mupen64plus \
-libretro-mupen64plus-nx \
+mupen64plus-nx \
 neocd_libretro \
 nestopia \
+np2kai \
 nxengine \
 o2em \
 parallel-n64 \
@@ -295,6 +300,7 @@ prboom \
 prosystem \
 puae \
 px68k \
+quasi88 \
 reminiscence \
 sameboy \
 scummvm \
@@ -305,6 +311,7 @@ snes9x2010 \
 spring \
 stella \
 stella-2014 \
+TIC-80 \
 tgbdual \
 tyrquake \
 xrick \
@@ -313,10 +320,10 @@ uzem \
 vba-next \
 vbam \
 vecx \
-vice"
+vice \
+xmil" 
 
-LIBRETRO_EXTRA_CORES="beetle-lynx \ 
-chailove \
+LIBRETRO_EXTRA_CORES="chailove \
 crocods \
 daphne \
 desmume \
@@ -414,8 +421,8 @@ quicknes"
 "/tmp/cores/virtualjaguar_libretro.so;"\
 "/tmp/cores/handy_libretro.so;"\
 "/tmp/cores/hatari_libretro.so;"\
-"/tmp/cores/mednafen_wswan_libretro.so;"\
-"/tmp/cores/mednafen_wswan_libretro.so;"\
+"/tmp/cores/beetle_wswan_libretro.so;"\
+"/tmp/cores/beetle_wswan_libretro.so;"\
 "/tmp/cores/nxengine_libretro.so;"\
 "/tmp/cores/chailove_libretro.so;"\
 "/tmp/cores/bluemsx_libretro.so;"\
@@ -438,8 +445,8 @@ quicknes"
 "/tmp/cores/freeintv_libretro.so;"\
 "/tmp/cores/bluemsx_libretro.so;"\
 "/tmp/cores/bluemsx_libretro.so;"\
-"/tmp/cores/mednafen_supergrafx_libretro.so;"\
-"/tmp/cores/mednafen_pce_fast_libretro.so;"\
+"/tmp/cores/beetle_supergrafx_libretro.so;"\
+"/tmp/cores/beetle_pce_fast_libretro.so;"\
 "/tmp/cores/nestopia_libretro.so;"\
 "/tmp/cores/mgba_libretro.so;"\
 "/tmp/cores/mgba_libretro.so;"\
@@ -456,7 +463,7 @@ quicknes"
 "/tmp/cores/nestopia_libretro.so;"\
 "/tmp/cores/snes9x2010_libretro.so;"\
 "/tmp/cores/snes9x2010_libretro.so;"\
-"/tmp/cores/mednafen_vb_libretro.so;"\
+"/tmp/cores/beetle_vb_libretro.so;"\
 "/tmp/cores/dolphin_libretro.so;"\
 "/tmp/cores/pokemini_libretro.so;"\
 "/tmp/cores/tyrquake_libretro.so;"\
@@ -470,8 +477,8 @@ quicknes"
 "/tmp/cores/genesis_plus_gx_libretro.so;"\
 "/tmp/cores/yabause_libretro.so;"\
 "/tmp/cores/fuse_libretro.so;"\
-"/tmp/cores/mednafen_ngp_libretro.so;"\
-"/tmp/cores/mednafen_ngp_libretro.so;"\
+"/tmp/cores/beetle_ngp_libretro.so;"\
+"/tmp/cores/beetle_ngp_libretro.so;"\
 "/tmp/cores/play_libretro.so;"\
 "/tmp/cores/ppsspp_libretro.so;"\
 "/tmp/cores/pcsx_rearmed_libretro.so;"\
