@@ -263,15 +263,6 @@ then
 				RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
 			fi
 		;;
-		"residualvm")
-			jslisten set "residualvm retroarch"
-			if [[ "${ROMNAME}" == *".sh" ]]
-			then
-				RUNTHIS='${TBASH} "${ROMNAME}"'
-			else
-				RUNTHIS='${TBASH} /usr/bin/residualvm.sh sa "${ROMNAME}"'
-			fi
-		;;
 		"scummvm")
 			jslisten set "scummvm retroarch"
 			RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
