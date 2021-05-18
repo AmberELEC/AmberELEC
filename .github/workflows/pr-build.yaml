@@ -71,13 +71,16 @@ jobs:
                exit 0
             fi
             VERBOSE=no make RG351V
+            rm -rf release/aarch64/RG351*/*.system
+            rm -rf release/aarch64/RG351*/*.system
+            rm -rf release/aarch64/RG351*/*.img.gz
 
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
           name: artifacts-v
           path: |
-            release
+            release/aarch64/RG351V/
       - name: Shutdown runner
         if: always()
         run: |
