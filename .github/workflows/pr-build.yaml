@@ -21,10 +21,14 @@ on:
         description: 'leave root volume'
         required: false
         default: ''
+  pull_request_target:
+    types: [labeled]
+        
+
 jobs:
   launch:
     runs-on: ubuntu-20.04
-    if: "${{ github.event.inputs.skip_launch == '' }}"
+    if: "${{ github.event.inputs.skip_launch == '' }} && contains(github.event.pull_request.labels.*.name, 'safe to build'"
     strategy:
       matrix:
         type: ['V','P']
