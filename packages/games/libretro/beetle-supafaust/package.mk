@@ -19,45 +19,23 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="vice"
-PKG_VERSION="a223ced980ffd14cb881825eff2eb94d1fc35927"
-PKG_SHA256="5f94396db232f1cb1a72b619da1a1f989761540966867f2289511fb00ba77875"
+PKG_NAME="beetle-supafaust"
+PKG_VERSION="927b3a1f5e5b6689a1ff4d37ad42814e29ee0148"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/libretro/vice-libretro"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_SITE="https://github.com/libretro/supafaust"
+PKG_URL="$PKG_SITE.git"
+#PKG_GIT_CLONE_BRANCH="hd"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="Versatile Commodore 8-bit Emulator version 3.0"
-PKG_LONGDESC="Versatile Commodore 8-bit Emulator version 3.0"
+PKG_SHORTDESC="Super Nintendo (Super Famicom) emulator"
+GET_HANDLER_SUPPORT="git"
+PKG_TOOLCHAIN="make"
 
 PKG_IS_ADDON="no"
-PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
-PKG_BUILD_FLAGS="-lto"
-
-make_target() {
-  if [ "$ARCH" == "arm" ]; then
-    CFLAGS="$CFLAGS -DARM -DALIGN_DWORD -mstructure-size-boundary=32 -mthumb-interwork -falign-functions=16 -marm"
-  fi
-  if [ ! -d "built" ]
-  then
-    mkdir built
-  fi
-  for EMUTYPE in x128 x64sc x64dtv xscpu64 xplus4 xvic xcbm5x0 xcbm2 xpet x64
-  do
-    make clean
-    make EMUTYPE=${EMUTYPE}
-    mv vice_*_libretro.so built
-  done
-}
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp built/vice_x128_libretro.so $INSTALL/usr/lib/libretro/
-  cp built/vice_x64_libretro.so $INSTALL/usr/lib/libretro/
-  cp built/vice_xplus4_libretro.so $INSTALL/usr/lib/libretro/
-  cp built/vice_xvic_libretro.so $INSTALL/usr/lib/libretro/
+  cp $PKG_BUILD/mednafen_supafaust_libretro.so $INSTALL/usr/lib/libretro/beetle_supafaust_libretro.so
 }

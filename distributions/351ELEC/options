@@ -249,6 +249,7 @@ beetle-lynx \
 beetle-ngp \
 beetle-pce \
 beetle-pcfx \
+beetle-supafaust \
 beetle-supergrafx \
 beetle-vb \
 beetle-wswan \
@@ -305,6 +306,7 @@ quasi88 \
 reminiscence \
 sameboy \
 scummvm \
+smsplus-gx \
 snes9x \
 snes9x2002 \
 snes9x2005_plus \
@@ -323,6 +325,7 @@ vbam \
 vecx \
 vice \
 yabasanshiro \
+yabause \
 xmil" 
 
 LIBRETRO_EXTRA_CORES="chailove \

@@ -19,45 +19,31 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="vice"
-PKG_VERSION="a223ced980ffd14cb881825eff2eb94d1fc35927"
-PKG_SHA256="5f94396db232f1cb1a72b619da1a1f989761540966867f2289511fb00ba77875"
+PKG_NAME="smsplus-gx"
+PKG_VERSION="20414262883bf3a32149684a2e6750bd12508fd4"
 PKG_REV="1"
 PKG_ARCH="any"
-PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/libretro/vice-libretro"
+PKG_LICENSE="Non-commercial"
+PKG_SITE="https://github.com/libretro/smsplus-gx"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
-PKG_SHORTDESC="Versatile Commodore 8-bit Emulator version 3.0"
-PKG_LONGDESC="Versatile Commodore 8-bit Emulator version 3.0"
+PKG_SHORTDESC="SMS Plus GX is an enhanced version"
+PKG_LONGDESC="SMS Plus is an open-source Sega Master System and Game Gear emulator written by Charles MacDonald."
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
-PKG_BUILD_FLAGS="-lto"
 
 make_target() {
   if [ "$ARCH" == "arm" ]; then
-    CFLAGS="$CFLAGS -DARM -DALIGN_DWORD -mstructure-size-boundary=32 -mthumb-interwork -falign-functions=16 -marm"
+    CFLAGS="$CFLAGS -DALIGN_LONG"
   fi
-  if [ ! -d "built" ]
-  then
-    mkdir built
-  fi
-  for EMUTYPE in x128 x64sc x64dtv xscpu64 xplus4 xvic xcbm5x0 xcbm2 xpet x64
-  do
-    make clean
-    make EMUTYPE=${EMUTYPE}
-    mv vice_*_libretro.so built
-  done
+  make -f Makefile.libretro
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp built/vice_x128_libretro.so $INSTALL/usr/lib/libretro/
-  cp built/vice_x64_libretro.so $INSTALL/usr/lib/libretro/
-  cp built/vice_xplus4_libretro.so $INSTALL/usr/lib/libretro/
-  cp built/vice_xvic_libretro.so $INSTALL/usr/lib/libretro/
+  cp smsplus_libretro.so $INSTALL/usr/lib/libretro/
 }
