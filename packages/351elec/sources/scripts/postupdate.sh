@@ -4,9 +4,12 @@
 ## 
 
 ## 2021-05-17:
-## Remove mednafen core files from /tmp/cores
+## Remove mednafen/duckstation core files from /tmp/cores
 if [ "$(ls /tmp/cores/mednafen_* | wc -l)" -ge "1" ]; then
 	rm /tmp/cores/mednafen_*
+fi
+if [ "$(ls /tmp/cores/duckstation_* | wc -l)" -ge "1" ]; then
+	rm /tmp/cores/duckstation_*
 fi
 
 ## 2021-05-17:

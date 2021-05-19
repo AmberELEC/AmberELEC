@@ -2,7 +2,7 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 # Maintenance 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
 
-PKG_NAME="duckstation"
+PKG_NAME="swanstation"
 PKG_VERSION="5b6a1706e4f381bd0b85185a11fd487ecc6b4757"
 PKG_SHA256="b95fdedd24a9ff473606830e56a7245dde779882f14ff9e1ff153b077c56042b"
 PKG_ARCH="aarch64"
@@ -21,5 +21,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp $PKG_BUILD/.$TARGET_NAME/duckstation_libretro.so $INSTALL/usr/lib/libretro/
+  cp $PKG_BUILD/.$TARGET_NAME/duckstation_libretro.so $INSTALL/usr/lib/libretro/swanstation_libretro.so
 }
