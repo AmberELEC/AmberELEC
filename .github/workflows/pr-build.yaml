@@ -83,7 +83,7 @@ jobs:
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-v
+          name: artifacts-${{ matrix.type }}/
           path: |
             release/aarch64/RG351${{ matrix.type }}/
       - name: Shutdown runner
