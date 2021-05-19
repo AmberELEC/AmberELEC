@@ -27,6 +27,9 @@ jobs:
   launch:
     runs-on: ubuntu-20.04
     if: "${{ github.event.inputs.skip_launch == '' }}"
+    strategy:
+      matrix:
+        type: ['V','P']
     steps:
       - name: launch real builder
         run: |
@@ -37,74 +40,40 @@ jobs:
             env | grep -i github
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
-                -e LABEL=full-build \
+                -e LABEL=full-build,${{ matrix.type }} \
                 -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
                 -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
-                ${DOCKER_IMAGE} create-instance &
-            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
-                -e LABEL=full-build \
-                -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
-                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-                -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
-                ${DOCKER_IMAGE} create-instance &
-            wait
-  build-v:
+                ${DOCKER_IMAGE} create-instance 
+  build:
     needs: launch
     if: always()
     runs-on: full-build
+    strategy:
+      matrix:
+        type: ['V','P']
     steps:
       - uses: actions/checkout@v2
         with:
           clean: false
 
-      - name: Build rg351v
+      - name: Build rg351${{ matrix.type }}
         run: |
             set +e
             if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
                echo "skipping build due to parameters"
                exit 0
             fi
-            VERBOSE=no make RG351V
+            VERBOSE=no make RG351${{ matrix.type }}
             rm -rf release/aarch64/RG351*/*.system
 
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-v
+          name: artifacts-${{ matrix.type }}
           path: |
-            release
-      - name: Shutdown runner
-        if: always()
-        run: |
-            echo "Shutting down runner in 30 seconds..."
-            nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
-  build-p:
-    needs: launch
-    if: always()
-    runs-on: full-build
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          clean: false
-
-      - name: Build rg351p
-        run: |
-            set +e
-            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
-               echo "skipping build due to parameters"
-               exit 0
-            fi
-            VERBOSE=no make RG351P
-            rm -rf release/aarch64/RG351*/*.system
-      - name: Archive build
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifacts-p
-          path: |
-            release
+            release/aarch64/RG351${{ matrix.type }}
       - name: Shutdown runner
         if: always()
         run: |
