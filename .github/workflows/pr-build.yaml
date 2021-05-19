@@ -3,28 +3,9 @@
 name: pr-build
 
 on:
-  workflow_dispatch:
-    inputs:
-      comment:
-        description: 'Comment as to why build was run'
-        required: false
-        default: ''
-      skip_launch:
-        description: skips launch if set.  To reuse workers
-        required: false
-        default: ''
-      skip_build:
-        description: 'skip_build (any value will skip main build - use for testing)'
-        required: false
-        default: ''
-      leave_root_volume:
-        description: 'leave root volume'
-        required: false
-        default: ''
   pull_request_target:
-    types: [labeled]
+    types: [labeled, synchronized]
         
-
 jobs:
   launch:
     runs-on: ubuntu-20.04
@@ -74,6 +55,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           clean: false
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Build rg351${{ matrix.type }}
         run: |
             set +e
