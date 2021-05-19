@@ -26,6 +26,9 @@ jobs:
   launch:
     runs-on: ubuntu-20.04
     if: "${{ github.event.inputs.skip_launch == '' }}"
+    strategy:
+      matrix:
+        type: ['V','P']
     steps:
       - name: launch real builder
         run: |
@@ -36,16 +39,19 @@ jobs:
             env | grep -i github
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
-                -e LABEL=full-build \
+                -e LABEL="full-build,${{ matrix.type }}" \
                 -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
                 -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
                 -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
                 ${DOCKER_IMAGE} create-instance
-  build-v:
+  build:
     needs: launch
     if: always()
     runs-on: full-build
+    strategy:
+      matrix:
+        type: ['V','P']
     steps:
       - name: Downlod build environment
         run: |
@@ -58,18 +64,18 @@ jobs:
             cd /actions-runner/_work/351ELEC/351ELEC
             AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            aws s3 cp s3://rg351/351v.tar.gz - | tar -I pigz -x
+            aws s3 cp s3://rg351/351${{ matrix.type }}.tar.gz - | tar -I pigz -x
       - uses: actions/checkout@v2
         with:
           clean: false
-      - name: Build rg351v
+      - name: Build rg351${{ matrix.type }}
         run: |
             set +e
             if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
                echo "skipping build due to parameters"
                exit 0
             fi
-            VERBOSE=no make RG351V
+            VERBOSE=no make RG351${{ matrix.type }}
             #For PR builds, we only keep tar files to limit file transfer costs
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
@@ -79,7 +85,7 @@ jobs:
         with:
           name: artifacts-v
           path: |
-            release/aarch64/RG351V/
+            release/aarch64/RG351${{ matrix.type }}/
       - name: Shutdown runner
         if: always()
         run: |
