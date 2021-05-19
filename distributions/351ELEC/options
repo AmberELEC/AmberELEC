@@ -325,7 +325,6 @@ vbam \
 vecx \
 vice \
 yabasanshiro \
-yabause \
 xmil" 
 
 LIBRETRO_EXTRA_CORES="chailove \
