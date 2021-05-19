@@ -31,16 +31,24 @@ PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
 PKG_SHORTDESC="The QuickNES core library, originally by Shay Green, heavily modified"
 PKG_LONGDESC="The QuickNES core library, originally by Shay Green, heavily modified"
+PKG_BUILD_FLAGS="-gold"
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
+VERSION=${LIBREELEC_VERSION}
 
 make_target() {
-  make platform=armv8-neon-hardfloat-cortex-a53 
+if [ "${ARCH}" != "aarch64" ]; then
+  make platform=armv8-neon-hardfloat-cortex-a53
+fi
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp quicknes_libretro.so $INSTALL/usr/lib/libretro/
+  if [ "${ARCH}" != "aarch64" ]; then
+    cp quicknes_libretro.so $INSTALL/usr/lib/libretro/
+  else
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/quicknes-*/.install_pkg/usr/lib/libretro/quicknes_libretro.so $INSTALL/usr/lib/libretro/
+  fi
 }

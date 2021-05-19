@@ -22,7 +22,7 @@ then
 fi
 
 # Clean a few packages to ensure the build date and version are updated
-for package in 351elec u-boot
+for package in 351elec u-boot 351elec-emulationstation
 do
   ./scripts/clean ${package}
 done

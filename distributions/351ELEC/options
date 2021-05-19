@@ -290,6 +290,7 @@ nestopia \
 np2kai \
 nxengine \
 o2em \
+opera \
 parallel-n64 \
 pcsx_rearmed \
 picodrive \
@@ -321,6 +322,7 @@ vba-next \
 vbam \
 vecx \
 vice \
+yabasanshiro \
 xmil" 
 
 LIBRETRO_EXTRA_CORES="chailove \
@@ -336,11 +338,6 @@ pocketcdg \
 snes9x2005 \
 yabause \
 virtualjaguar"
-
-LIBRETRO_S922X_CORES="opera \
-mesen-s \
-yabasanshiro \
-quicknes"
 
   RA_PLAYLIST_NAMES=""\
 "Atari - 2600.lpl;"\

@@ -23,16 +23,11 @@ PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders Skyscraper MC SDL_Ga
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
 
-# These packages are only meant for S922x, S905x2 and A311D devices as they run poorly on S905, S912, etc"
-if [ "$PROJECT" == "Amlogic-ng" ]; then
-PKG_DEPENDS_TARGET+=" $LIBRETRO_S922X_CORES mame2016"
-fi
-
 if [[ "$DEVICE" =~ RG351 ]]; then
     PKG_DEPENDS_TARGET+=" odroidgoa-utils rs97-commander-sdl2"
     
     #we disable some cores that are not working or work poorly on OGA
-    for discore in mesen-s virtualjaguar quicknes reicastsa_old reicastsa; do
+    for discore in mesen-s virtualjaguar reicastsa_old reicastsa; do
         PKG_DEPENDS_TARGET=$(echo $PKG_DEPENDS_TARGET | sed "s|$discore||")
     done
     PKG_DEPENDS_TARGET+=" opera yabasanshiro"
@@ -145,29 +140,12 @@ post_install() {
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
   
-CORESFILE="$INSTALL/usr/config/emulationstation/es_systems.cfg"
-
-if [ "${PROJECT}" != "Amlogic-ng" ]; then
-    if [[ ${DEVICE} =~ RG351 ]]; then
-        remove_cores="mesen-s quicknes REICASTSA_OLD REICASTSA mame2016"
-    elif [ "${PROJECT}" == "Amlogic" ]; then
-        remove_cores="mesen-s quicknes mame2016"
-        xmlstarlet ed -L -P -d "/systemList/system[name='3do']" $CORESFILE
-        xmlstarlet ed -L -P -d "/systemList/system[name='saturn']" $CORESFILE
-    fi
-    
-    # remove unused cores
-    for discore in ${remove_cores}; do
-        sed -i "s|<core>$discore</core>||g" $CORESFILE
-        sed -i '/^[[:space:]]*$/d' $CORESFILE
-    done
-fi
-  # Remove scripts from OdroidGoAdvance build
-	if [[ ${DEVICE} =~ RG351 ]]; then 
-	for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
-xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
-	rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
-	done
-	fi 
+# Remove scripts from OdroidGoAdvance build
+if [[ ${DEVICE} =~ RG351 ]]; then 
+ for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
+  xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
+  rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
+ done
+fi 
   
 } 
