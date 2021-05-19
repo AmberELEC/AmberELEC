@@ -21,7 +21,7 @@ on:
         description: 'leave root volume'
         required: false
         default: ''
-  pull_request:
+  pull_request_target:
 jobs:
   launch:
     runs-on: ubuntu-20.04
