@@ -80,9 +80,9 @@ jobs:
 
             rm -rf release
 
-            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            tar -c --use-compress-program=pigz . | AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            tar -c --use-compress-program=pigz . | aws s3 cp - s3://rg351/351-test${{ matrix.type }}.tar.gz 
+            aws s3 cp - s3://rg351/351-test${{ matrix.type }}.tar.gz 
       - name: Shutdown runner
         if: always()
         run: |
