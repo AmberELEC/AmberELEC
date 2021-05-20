@@ -62,14 +62,16 @@ jobs:
             aws s3 cp s3://rg351/351${{ matrix.type }}.tar.gz - | tar -I pigz -x
       - uses: actions/checkout@v2
         if: ${{ github.event_name == 'pull_request' }}
+        name: checkout (pull request)
         with:
           clean: false
+          # pull requests require explicitly using the pr sha
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/checkout@v2
         if: ${{ github.event_name != 'pull_request' }}
+        name: checkout
         with:
           clean: false
-          ref: ${{ github.event.pull_request.head.sha }}
       - name: Build rg351${{ matrix.type }}
         run: |
             set +e
