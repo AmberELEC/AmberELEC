@@ -58,6 +58,8 @@ makeinstall_target() {
 		libdrm* \
 		librga* \
 		libpng* \
+		libgo2* \
+		libevdev* \
 		librockchip_mpp* \
 		libxkbcommon* \
 		libresolv* \

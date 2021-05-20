@@ -26,6 +26,12 @@ else
 	
 fi
 
+pre_configure_target() {
+  sed -i 's/"GFX Plugin; auto|glide64|gln64|rice/"GFX Plugin; gln64|auto|glide64|rice/g' $PKG_BUILD/libretro/libretro.c
+  sed -i 's/"Resolution (restart); 320x240|640x480|960x720/"Resolution (restart); 640x480|320x240|960x720/g' $PKG_BUILD/libretro/libretro.c
+  sed -i 's/"Framerate (restart); original|fullspeed"/"Framerate (restart); fullspeed|original"/g' $PKG_BUILD/libretro/libretro.c
+}
+
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   if [[ "$DEVICE" =~ RG351 ]] && [[ "$ARCH" == "aarch64" ]]

@@ -1,0 +1,121 @@
+diff --git a/packages/games/libretro/parallel-n64/package.mk b/packages/games/libretro/parallel-n64/package.mk
+index b8b818c9..1fb01aa2 100644
+--- a/packages/games/libretro/parallel-n64/package.mk
++++ b/packages/games/libretro/parallel-n64/package.mk
+@@ -26,6 +26,12 @@ else
+ 	
+ fi
+ 
++pre_configure_target() {
++  sed -i 's/"GFX Plugin; auto|glide64|gln64|rice/"GFX Plugin; gln64|auto|glide64|rice/g' $PKG_BUILD/libretro/libretro.c
++  sed -i 's/"Resolution (restart); 320x240|640x480|960x720/"Resolution (restart); 640x480|320x240|960x720/g' $PKG_BUILD/libretro/libretro.c
++  sed -i 's/"Framerate (restart); original|fullspeed"/"Framerate (restart); fullspeed|original"/g' $PKG_BUILD/libretro/libretro.c
++}
++
+ makeinstall_target() {
+   mkdir -p $INSTALL/usr/lib/libretro
+   if [[ "$DEVICE" =~ RG351 ]] && [[ "$ARCH" == "aarch64" ]]
+diff --git a/packages/games/tools/retroarch32/package.mk b/packages/games/tools/retroarch32/package.mk
+index 8c2e1dec..d3c846f2 100644
+--- a/packages/games/tools/retroarch32/package.mk
++++ b/packages/games/tools/retroarch32/package.mk
+@@ -58,6 +58,8 @@ makeinstall_target() {
+ 		libdrm* \
+ 		librga* \
+ 		libpng* \
++		libgo2* \
++		libevdev* \
+ 		librockchip_mpp* \
+ 		libxkbcommon* \
+ 		libresolv* \
+diff --git a/packages/games/tools/retrorun/package.mk b/packages/games/tools/retrorun/package.mk
+index 75fa0bd7..226f3a53 100644
+--- a/packages/games/tools/retrorun/package.mk
++++ b/packages/games/tools/retrorun/package.mk
+@@ -2,14 +2,15 @@
+ # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
+ 
+ PKG_NAME="retrorun"
+-PKG_VERSION="32e1ee98af94dfd2bf726a5701dd461541dbdf10"
+-PKG_ARCH="aarch64"
++PKG_VERSION="fcf91a49fc7cc82b6987eb5d132a63dbe533c833"
++PKG_ARCH="any"
+ PKG_LICENSE="GPLv2"
+ PKG_SITE="https://github.com/navy1978/retrorun-go2"
+ PKG_URL="$PKG_SITE.git"
+-PKG_DEPENDS_TARGET="toolchain libgo2 libdrm"
++PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng"
+ PKG_TOOLCHAIN="make"
+ GET_HANDLER_SUPPORT="git"
++VERSION=${LIBREELEC_VERSION}
+ 
+ pre_make_target() {
+   mkdir -p src/go2
+@@ -26,6 +27,11 @@ PKG_MAKE_OPTS_TARGET=" config=release ARCH="
+ 
+ makeinstall_target() {
+   mkdir -p $INSTALL/usr/bin
+-  cp retrorun $INSTALL/usr/bin
+-  cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
++  if [ "${ARCH}" != "aarch64" ]; then
++    cp retrorun $INSTALL/usr/bin/retrorun32
++  else
++    cp retrorun $INSTALL/usr/bin
++    cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
++    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
++  fi
+ }
+diff --git a/packages/games/tools/retrorun/retrorun.sh b/packages/games/tools/retrorun/retrorun.sh
+index cfc6fd32..73b2824b 100644
+--- a/packages/games/tools/retrorun/retrorun.sh
++++ b/packages/games/tools/retrorun/retrorun.sh
+@@ -6,10 +6,16 @@ sleep 1
+ ln -s /dev/input/event3 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+ chmod 777 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+ sleep 1
+-echo using core:"$1" 
++echo using core: "$1"
+ echo starting game... "$2"
+ sleep 1
+-/usr/bin/retrorun --triggers -n -s /tmp/logs -d /roms/bios "$1" "$2"
++if [[ "$1" == "/tmp/cores/pcsx_rearmed_libretro.so" ]] || [[ "$1" == "/tmp/cores/parallel_n64_libretro.so" ]] || [[ "$1" == "/tmp/cores/uae4arm_libretro.so" ]]
++then
++  export LD_LIBRARY_PATH="/usr/lib32"
++  /usr/bin/retrorun32 --triggers -n -s /tmp/logs -d /roms/bios "$1" "$2"
++else
++  /usr/bin/retrorun --triggers -n -s /tmp/logs -d /roms/bios "$1" "$2"
++fi
+ sleep 1
+ kill $(pidof rg351p-js2xbox)
+-echo end!
+\ No newline at end of file
++echo end!
+diff --git a/packages/ui/351elec-emulationstation/config/es_systems.cfg b/packages/ui/351elec-emulationstation/config/es_systems.cfg
+index bfd4e946..519fbf5d 100644
+--- a/packages/ui/351elec-emulationstation/config/es_systems.cfg
++++ b/packages/ui/351elec-emulationstation/config/es_systems.cfg
+@@ -1048,6 +1048,11 @@
+           <core>mupen64plus_next</core>
+         </cores>
+       </emulator>
++      <emulator name="retrorun">
++        <cores>
++          <core>parallel_n64</core>
++        </cores>
++      </emulator>
+     </emulators>
+   </system>
+   <system>
+diff --git a/scripts/build_distro b/scripts/build_distro
+index 72d82ab9..b4e1bcf0 100755
+--- a/scripts/build_distro
++++ b/scripts/build_distro
+@@ -34,7 +34,7 @@ elif [ "${ARCH}" == "arm" ]
+ then
+   # Only build the 32bit packages that we need rather than the whole image
+   # to speed up the build process and save disk space.
+-  for package in gcc retroarch pcsx_rearmed parallel-n64 uae4arm
++  for package in gcc retroarch retrorun pcsx_rearmed parallel-n64 uae4arm
+   do
+     scripts/build ${package}
+     if [ ! $? == 0 ]
