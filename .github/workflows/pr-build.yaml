@@ -27,7 +27,7 @@ jobs:
             env | grep -i github
             DOCKER_IMAGE="pkegg/api:latest" 
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
-                -e LABEL="full-build,${{ matrix.type }}" \
+                -e LABEL="full-build${{ matrix.type }},${{ matrix.type }}" \
                 -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
                 -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
                 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
@@ -35,7 +35,7 @@ jobs:
                 ${DOCKER_IMAGE} create-instance
   build:
     needs: launch
-    runs-on: full-build
+    runs-on: full-build${{ matrix.type }}
     strategy:
       matrix:
         type: ['V','P']
