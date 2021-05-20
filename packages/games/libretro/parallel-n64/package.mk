@@ -30,6 +30,9 @@ pre_configure_target() {
   sed -i 's/"GFX Plugin; auto|glide64|gln64|rice/"GFX Plugin; gln64|auto|glide64|rice/g' $PKG_BUILD/libretro/libretro.c
   sed -i 's/"Resolution (restart); 320x240|640x480|960x720/"Resolution (restart); 640x480|320x240|960x720/g' $PKG_BUILD/libretro/libretro.c
   sed -i 's/"Framerate (restart); original|fullspeed"/"Framerate (restart); fullspeed|original"/g' $PKG_BUILD/libretro/libretro.c
+  sed -i 's/"GFX Accuracy (restart); veryhigh|high|medium|low"/"GFX Accuracy (restart); medium|veryhigh|high|low"/g' $PKG_BUILD/libretro/libretro.c
+  sed -i 's/"(Glide64) Texture Filtering; automatic|N64 3-point|bilinear|nearest"/"(Glide64) Texture Filtering; nearest|automatic|N64 3-point|bilinear"/g' $PKG_BUILD/libretro/libretro.c
+  sed -i 's/"(Angrylion) Hide overscan; disabled|enabled"/"(Angrylion) Hide overscan; enabled|disabled"/g' $PKG_BUILD/libretro/libretro.c
 }
 
 makeinstall_target() {
