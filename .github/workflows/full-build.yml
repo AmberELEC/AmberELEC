@@ -1,0 +1,93 @@
+# This is a basic workflow to help you get started with Actions
+
+name: full-build
+
+on:
+  workflow_dispatch:
+    inputs:
+      comment:
+        description: 'Comment as to why build was run'
+        required: false
+        default: ''
+      skip_launch:
+        description: skips launch if set.  To reuse workers
+        required: false
+        default: ''
+      skip_build:
+        description: 'skip_build (any value will skip main build - use for testing)'
+        required: false
+        default: ''
+      leave_root_volume:
+        description: 'leave root volume'
+        required: false
+        default: ''
+  repository_dispatch:
+    types: [upstream-commit]
+jobs:
+  launch:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        type: ['V','P']
+    steps:
+      - name: launch real builder
+        run: |
+            if [[ -n "${{ github.event.inputs.skip_launch }}" ]]; then
+               echo "skipping build due to parameters"
+               exit 0
+            fi
+            echo "Run ID: ${GITHUB_RUN_ID} ${{ env.GITHUB_RUN_ID }}"
+            echo "Build Comment: ${{ github.event.inputs.comment }}"
+            echo "SHA: ${GITHUB_SHA}"
+            echo "Branch: ${GITHUB_REF#refs/heads/}"
+            env | grep -i github
+            DOCKER_IMAGE="pkegg/api:latest" 
+            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                -e LABEL=full-build-${{ matrix.type }} \
+                -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
+                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+                -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
+                ${DOCKER_IMAGE} create-instance 
+  build:
+    needs: launch
+    runs-on: full-build-${{ matrix.type }}
+    strategy:
+      matrix:
+        type: ['V','P']
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          clean: false
+
+      - name: Build rg351${{ matrix.type }}
+        run: |
+            set +e
+            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
+               echo "skipping build due to parameters"
+               exit 0
+            fi
+            VERBOSE=no make RG351${{ matrix.type }}
+            rm -rf release/aarch64/RG351*/*.system
+
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-${{ matrix.type }}
+          path: |
+            release/aarch64/RG351${{ matrix.type }}
+      - name: Update s3 build cache
+        run: |
+            set +e
+
+            #Don't need the release artifacts in the build-cache
+            rm -rf release
+
+            tar -c --use-compress-program=pigz . | AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            aws s3 cp - s3://rg351/351${{ matrix.type }}.tar.gz 
+      - name: Shutdown runner
+        if: always()
+        run: |
+            echo "Shutting down runner in 30 seconds..."
+            nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &

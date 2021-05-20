@@ -1,0 +1,99 @@
+# This is a basic workflow to help you get started with Actions
+
+name: quick-build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    branches:
+      - main
+    types: [labeled, synchronize]
+        
+jobs:
+  launch:
+    runs-on: ubuntu-20.04
+    if: | 
+       github.event.inputs.skip_launch == '' 
+         && (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'safe to build'))
+    strategy:
+      matrix:
+        type: ['V','P']
+    steps:
+      - name: launch real builder
+        run: |
+            if [[ -n "${{ github.event.inputs.skip_launch }}" ]]; then
+               echo "skipping launch due to parameters"
+               exit 0
+            fi
+            echo "Event name: ${{github.event_name}}"
+            echo "Run ID: ${GITHUB_RUN_ID} ${{ env.GITHUB_RUN_ID }}"
+            echo "Build Comment: ${{ github.event.inputs.comment }}"
+            echo "SHA: ${GITHUB_SHA}"
+            echo "Branch: ${GITHUB_REF#refs/heads/}"
+            env | grep -i github
+            DOCKER_IMAGE="pkegg/api:latest" 
+            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                -e LABEL="pr-${{ matrix.type }},${{ matrix.type }}" \
+                -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
+                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+                -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
+                ${DOCKER_IMAGE} create-instance
+  build:
+    needs: launch
+    runs-on: pr-${{ matrix.type }}
+    strategy:
+      matrix:
+        type: ['V','P']
+    steps:
+      - name: Downlod build environment
+        run: |
+            set +e
+            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
+               echo "skipping build due to parameters"
+               exit 0
+            fi
+            mkdir -p /actions-runner/_work/351ELEC/351ELEC
+            cd /actions-runner/_work/351ELEC/351ELEC
+            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            aws s3 cp s3://rg351/351${{ matrix.type }}.tar.gz - | tar -I pigz -x
+      - uses: actions/checkout@v2
+        if: ${{ github.event_name == 'pull_request_target' }}
+        name: checkout (pull request)
+        with:
+          clean: false
+          # pull requests require explicitly using the pr sha
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v2
+        if: ${{ github.event_name != 'pull_request_target' }}
+        name: checkout
+        with:
+          clean: false
+      - name: Build rg351${{ matrix.type }}
+        run: |
+            set +e
+            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
+               echo "skipping build due to parameters"
+               exit 0
+            fi
+            VERBOSE=no make RG351${{ matrix.type }}
+            #For PR builds, we only keep tar files to limit file transfer costs
+            rm -rf release/aarch64/RG351*/*.system
+            rm -rf release/aarch64/RG351*/*.img.gz
+
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-${{ matrix.type }}
+          path: |
+            release/aarch64/RG351${{ matrix.type }}/
+      - name: Shutdown runner
+        if: always()
+        run: |
+            echo "Shutting down runner in 30 seconds..."
+            nohup sudo /bin/bash -c '/bin/sleep 30 && /usr/sbin/init 0' &
+  

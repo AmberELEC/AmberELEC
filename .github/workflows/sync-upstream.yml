@@ -1,0 +1,53 @@
+name: sync-upstream
+on:
+  schedule:
+    - cron:  '0 5,12,19 * * *'
+  workflow_dispatch:  # allows manual syncs
+
+
+jobs:
+  sync:
+    runs-on: ubuntu-20.04
+    name: sync
+    outputs:
+      ahead: ${{ steps.sync.outputs.test }}
+      test: ${{ steps.step1.outputs.test }}
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+      - id: step1
+        run: |
+          set -e
+          upstream_branch=main
+          branch=main
+          git config --global user.email "mseashor@gmail.com"
+          git config --global user.name "sync-with-upstream"
+          git remote add -f upstream "https://github.com/351ELEC/351ELEC.git"
+          ahead=$(git rev-list --count ${branch}..upstream/${upstream_branch})
+          echo "::set-output name=test::${ahead}"
+          git remote -v
+          git branch --all
+          git config --list
+          git checkout ${branch}
+          git merge upstream/${upstream_branch}
+          git push
+
+  trigger:
+      runs-on: ubuntu-20.04
+      needs: sync
+      steps:
+        - name: run-update
+          if: ${{ needs.sync.outputs.test != '0' }}
+          run: |
+              echo "updates occurred upstream.  Triggering new build..."
+        - name: Repository Dispatch
+          if: ${{ needs.sync.outputs.test != '0' }}
+          uses: peter-evans/repository-dispatch@v1
+          with:
+            token: ${{ secrets.GH_TOKEN }}
+            repository: pkegg/351ELEC
+            event-type: upstream-commit
