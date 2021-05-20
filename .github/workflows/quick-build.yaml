@@ -1,15 +1,20 @@
 # This is a basic workflow to help you get started with Actions
 
-name: pr-build
+name: quick-build
 
 on:
+  push:
+    branches:
+      - main
   pull_request_target:
+    branches:
+      - main
     types: [labeled, synchronize]
         
 jobs:
   launch:
     runs-on: ubuntu-20.04
-    if: "${{ github.event.inputs.skip_launch == '' }} && contains(github.event.pull_request.labels.*.name, 'safe to build'"
+    if: "${{ github.event.inputs.skip_launch == '' }} && (${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'safe to build'))"
     strategy:
       matrix:
         type: ['V','P']
