@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: quick-build
+name: manual-launch
 
 on:
   workflow_dispatch:
