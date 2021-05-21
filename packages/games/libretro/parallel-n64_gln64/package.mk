@@ -16,16 +16,17 @@ PKG_BUILD_FLAGS="-lto"
 
 if [[ "$ARCH" == "arm" ]]; then
 	PKG_MAKE_OPTS_TARGET=" platform=${PROJECT}"
-	
+
 	if [[ "${DEVICE}" =~ RG351 ]]; then
 		PKG_MAKE_OPTS_TARGET=" platform=Odroidgoa"
 	fi
 else
 	PKG_MAKE_OPTS_TARGET=" platform=emuelec64-armv8"
-	
+
 fi
 
 pre_configure_target() {
+  sed -i 's/info->library_name = "ParaLLEl N64";/info->library_name = "ParaLLEl N64 GLN64";/g' $PKG_BUILD/libretro/libretro.c
   sed -i 's/"GFX Plugin; auto|glide64|gln64|rice/"GFX Plugin; gln64|auto|glide64|rice/g' $PKG_BUILD/libretro/libretro.c
   sed -i 's/"Resolution (restart); 320x240|640x480|960x720/"Resolution (restart); 640x480|320x240|960x720/g' $PKG_BUILD/libretro/libretro.c
   sed -i 's/"Framerate (restart); original|fullspeed"/"Framerate (restart); fullspeed|original"/g' $PKG_BUILD/libretro/libretro.c
