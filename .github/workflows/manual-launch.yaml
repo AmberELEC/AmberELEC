@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: quick-build
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  launch:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: launch real builder
+        run: |
+            if [[ -n "${{ github.event.inputs.skip_launch }}" ]]; then
+               echo "skipping launch due to parameters"
+               exit 0
+            fi
+            echo "Event name: ${{github.event_name}}"
+            echo "Run ID: ${GITHUB_RUN_ID} ${{ env.GITHUB_RUN_ID }}"
+            echo "SHA: ${GITHUB_SHA}"
+            echo "Branch: ${GITHUB_REF#refs/heads/}"
+            env | grep -i github
+            DOCKER_IMAGE="pkegg/api:latest" 
+            docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
+                -e LABEL="pr-${{ matrix.type }},${{ matrix.type }}" \
+                -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
+                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+                -e SSH_PUBLIC_KEY="${{ secrets.SSH_PUBLIC_KEY }}" \
+                ${DOCKER_IMAGE} create-instance
+  
