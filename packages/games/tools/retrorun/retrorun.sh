@@ -9,7 +9,7 @@ sleep 1
 echo using core: "$1"
 echo starting game... "$2"
 sleep 1
-if [[ "$1" == "/tmp/cores/pcsx_rearmed_libretro.so" ]] || [[ "$1" == "/tmp/cores/parallel_n64_libretro.so" ]] || [[ "$1" == "/tmp/cores/uae4arm_libretro.so" ]]
+if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]] || [[ "$1" =~ "uae4arm" ]]
 then
   export LD_LIBRARY_PATH="/usr/lib32"
   /usr/bin/retrorun32 --triggers -n -s /tmp/logs -d /roms/bios "$1" "$2"
