@@ -45,6 +45,7 @@ configure_package() {
                       --cross-answers=${PKG_BUILD}/cache.txt \
                       --hostcc=gcc \
                       --enable-fhs \
+                      --with-static-modules=vfs_widelinks \
                       --without-dmapi \
                       --disable-glusterfs \
                       --disable-rpath \

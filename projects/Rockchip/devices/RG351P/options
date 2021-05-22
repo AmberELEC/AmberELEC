@@ -141,7 +141,7 @@
   SAMBA_SUPPORT="no"
 
   # build and install Samba Server (yes / no)
-  SAMBA_SERVER="no"
+  SAMBA_SERVER="yes"
 
   # build and install SFTP Server (yes / no)
   SFTP_SERVER="yes"
@@ -158,7 +158,7 @@
   EXFAT="yes"
 
   # build and install NTFS-3G fuse support (yes / no)
-  NTFS3G="yes"
+  NTFS3G="no"
 
   # build and install hfs filesystem utilities (yes / no)
   HFSTOOLS="no"
