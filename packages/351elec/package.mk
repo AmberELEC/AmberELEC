@@ -16,24 +16,11 @@ PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
-# Thanks to magicseb  Reicast SA now WORKS :D
-PKG_EXPERIMENTAL="munt hypseus"
-PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus"
-PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders Skyscraper MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb"
+PKG_EXPERIMENTAL=""
+PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus opera yabasanshiro"
+PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
-
-if [[ "$DEVICE" =~ RG351 ]]; then
-    PKG_DEPENDS_TARGET+=" odroidgoa-utils rs97-commander-sdl2"
-    
-    #we disable some cores that are not working or work poorly on OGA
-    for discore in mesen-s virtualjaguar reicastsa_old reicastsa; do
-        PKG_DEPENDS_TARGET=$(echo $PKG_DEPENDS_TARGET | sed "s|$discore||")
-    done
-    PKG_DEPENDS_TARGET+=" opera yabasanshiro"
-else
-    PKG_DEPENDS_TARGET+=" fbterm"
-fi
 
 make_target() {
 if [ "$PROJECT" == "Amlogic-ng" ]; then
