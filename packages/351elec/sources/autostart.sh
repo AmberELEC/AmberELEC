@@ -11,6 +11,7 @@ maxperf
 
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
+ln -s /storage/roms/gamedata/retroarch/logs/ /tmp/logs/retroarch
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1
