@@ -1,6 +1,8 @@
+diff --git a/src/wl_play.cpp b/src/wl_play.cpp
+index aa9e527..5c3fa72 100644
 --- a/src/wl_play.cpp
 +++ b/src/wl_play.cpp
-@@ -101,6 +101,8 @@
+@@ -101,6 +101,8 @@ ControlScheme controlScheme[] =
  	{ bt_zoom,				"Zoom",			-1,			-1,				-1, CS_AxisDigital, 0 },
  	{ bt_automap,			"Automap",		-1,			-1,				-1, CS_AxisDigital, 0 },
  	{ bt_showstatusbar,		"Show Status",	-1,			sc_Tab,			-1,	CS_AxisDigital, 0 },
