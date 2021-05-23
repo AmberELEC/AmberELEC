@@ -34,7 +34,7 @@ jobs:
             echo "SHA: ${GITHUB_SHA}"
             echo "Branch: ${GITHUB_REF#refs/heads/}"
             env | grep -i github
-            DOCKER_IMAGE="pkegg/api:latest" 
+            DOCKER_IMAGE="pkegg/api:latest"
             docker run -e GH_TOKEN=${{ secrets.GH_TOKEN }} \
                 -e LABEL="pr-${{ matrix.type }},${{ matrix.type }}" \
                 -e LEAVE_ROOT_VOLUME=${{ github.event.inputs.leave_root_volume }} \
@@ -80,7 +80,7 @@ jobs:
                echo "skipping build due to parameters"
                exit 0
             fi
-            sudo docker run --user docker -v $(pwd):/work 351build/351elec-build make RG351${{ matrix.type }}
+            sudo docker run -it --pull always --rm --user $(id -u $(whoami)) -v $(pwd):/work 351build/351elec-build make RG351${{ matrix.type }}
             #For PR builds, we only keep tar files to limit file transfer costs
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
