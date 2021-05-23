@@ -153,6 +153,23 @@ case "$DEFE" in
 	;;
 esac
 
+# handle SAMBA
+DEFE=$(get_ee_setting ee_samba.enabled)
+
+case "$DEFE" in
+"0")
+	systemctl stop nmbd
+	systemctl stop smbd
+	rm /storage/.cache/services/smb.conf
+	;;
+*)
+	mkdir -p /storage/.cache/services/
+	touch /storage/.cache/services/smb.conf
+	systemctl start nmbd
+	systemctl start smbd
+	;;
+esac
+
 # Show splash Screen
 /usr/bin/show_splash.sh intro &
 
