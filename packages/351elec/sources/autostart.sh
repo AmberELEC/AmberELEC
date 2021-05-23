@@ -146,10 +146,14 @@ case "$DEFE" in
 	systemctl stop sshd
 	rm /storage/.cache/services/sshd.conf
 	;;
-*)
+"1")
 	mkdir -p /storage/.cache/services/
 	touch /storage/.cache/services/sshd.conf
 	systemctl start sshd
+	;;
+*)
+	systemctl stop sshd
+	rm /storage/.cache/services/sshd.conf
 	;;
 esac
 
@@ -162,11 +166,16 @@ case "$DEFE" in
 	systemctl stop smbd
 	rm /storage/.cache/services/smb.conf
 	;;
-*)
+"1")
 	mkdir -p /storage/.cache/services/
 	touch /storage/.cache/services/smb.conf
 	systemctl start nmbd
 	systemctl start smbd
+	;;
+*)
+	systemctl stop nmbd
+	systemctl stop smbd
+	rm /storage/.cache/services/smb.conf
 	;;
 esac
 
