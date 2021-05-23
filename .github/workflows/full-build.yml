@@ -67,7 +67,8 @@ jobs:
                echo "skipping build due to parameters"
                exit 0
             fi
-            VERBOSE=no make RG351${{ matrix.type }}
+            sudo docker run --pull always --rm --user $(id -u $(whoami)) -v $(pwd):/work 351build/351elec-build make RG351${{ matrix.type }}
+
             rm -rf release/aarch64/RG351*/*.system
 
       - name: Archive build
