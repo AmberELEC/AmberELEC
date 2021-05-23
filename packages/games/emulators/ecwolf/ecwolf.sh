@@ -5,25 +5,19 @@
 
 . /etc/profile
 
-CONFIG_DIR="/emuelec/configs/ecwolf"
+EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
+CONFIG_DIR="/storage/.config/distribution/ecwolf"
 CONFIG_FILE="${CONFIG_DIR}/ecwolf.cfg"
+SAVE_DIR="/storage/roms/gamedata/ecwolf"
 
-params=" --config ${CONFIG_FILE} --savedir ${CONFIG_DIR}"
+params=" --config ${CONFIG_FILE} --savedir ${SAVE_DIR}"
 
-case $(oga_ver) in
-    "OGS")
-        params+=" --res 854 480 --fullscreen --aspect 16:9"
-    ;;
-    "OGA")
-        params+=" --res 480 320 --fullscreen --aspect 3:2"
-    ;;
-    "GF")
-        params+=" --res 640 480 --fullscreen --aspect 4:3"
-    ;;
-    *)
-        params+=" --fullscreen --aspect 16:9"
-    ;;
-esac
+if [[ "$EE_DEVICE" == RG351P ]]; then
+        params+=" --res 480 320"
+fi
+if [[ "$EE_DEVICE" == RG351V ]]; then
+	params+=" --res 640 480"
+fi
 
 # data can be SD2 SD3 SOD WL6 or N3D and it's passed as the ROM
 DATA=${1#*.}
