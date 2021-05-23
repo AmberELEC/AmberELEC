@@ -249,6 +249,13 @@ then
 			jslisten set "pico8_dyn"
 			RUNTHIS='${TBASH} /usr/bin/pico-8.sh "${ROMNAME}"'
 		;;
+		"ecwolf")
+			jslisten set "ecwolf"
+			if [ "$EMU" = "ecwolf" ]
+			then
+				RUNTHIS='${TBASH} /usr/bin/ecwolf.sh "${ROMNAME}"'
+			fi
+		;;
 		"n64")
 			jslisten set "mupen64plus retroarch"
 			if [ "$EMU" = "M64P" ]
