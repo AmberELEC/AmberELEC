@@ -27,7 +27,7 @@ DATA=${1#*.}
 
 # If its a mod (extension .ecwolf) read the file and parse the data
 if [ ${DATA} == "ecwolf" ]; then
-  dos2unix ${1}
+  dos2unix "${1}"
   while IFS== read -r key value; do
     if [ "$key" == "DATA" ]; then
       params+=" --data $value"
