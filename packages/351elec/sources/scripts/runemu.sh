@@ -256,10 +256,10 @@ then
 				RUNTHIS='${TBASH} /usr/bin/ecwolf.sh "${ROMNAME}"'
 			fi
                 ;;
-		"lzdoom")
-			jslisten set "lzdoom"
+		"doom")
 			if [ "$EMU" = "lzdoom" ]
 			then
+				jslisten set "lzdoom"
 				RUNTHIS='${TBASH} /usr/bin/lzdoom.sh "${ROMNAME}"'
 			fi
 		;;
