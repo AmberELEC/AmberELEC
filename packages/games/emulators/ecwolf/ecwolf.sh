@@ -11,6 +11,8 @@ CONFIG_DIR="/storage/.config/distribution/ecwolf"
 CONFIG_FILE="${CONFIG_DIR}/ecwolf.cfg"
 SAVE_DIR="/storage/roms/gamedata/ecwolf"
 
+mkdir -p ${SAVE_DIR}
+
 params=" --config ${CONFIG_FILE} --savedir ${SAVE_DIR}"
 
 if [[ "$EE_DEVICE" == RG351P ]]; then
@@ -27,24 +29,24 @@ DATA=${1#*.}
 if [ ${DATA} == "ecwolf" ]; then
   dos2unix ${1}
   while IFS== read -r key value; do
-  if [ "$key" == "DATA" ]; then
-    params+=" --data $value"
-  fi
-  if [ "$key" == "PK3" ]; then
-    params+=" --file $value"
-  fi
-  if [ "$key" == "PK3_1" ]; then
-    params+=" --file $value"
-  fi
-  if [ "$key" == "PK3_2" ]; then
-    params+=" --file $value"
-  fi
-  if [ "$key" == "PK3_3" ]; then
-    params+=" --file $value"
-  fi
-  if [ "$key" == "PK3_4" ]; then
-    params+=" --file $value"
-  fi
+    if [ "$key" == "DATA" ]; then
+      params+=" --data $value"
+    fi
+    if [ "$key" == "PK3" ]; then
+      params+=" --file $value"
+    fi
+    if [ "$key" == "PK3_1" ]; then
+      params+=" --file $value"
+    fi
+    if [ "$key" == "PK3_2" ]; then
+      params+=" --file $value"
+    fi
+    if [ "$key" == "PK3_3" ]; then
+      params+=" --file $value"
+    fi
+    if [ "$key" == "PK3_4" ]; then
+      params+=" --file $value"
+    fi
   done < "${1}"
 else
   params+=" --data ${DATA}"
