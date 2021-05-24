@@ -382,6 +382,24 @@ else
 		fi
 	fi
 
+	# Platform specific configurations
+        case ${PLATFORM} in
+                "doom")
+			# EXT can be wad, WAD, iwad, IWAD, pwad, PWAD or doom
+			EXT=${ROMNAME#*.}
+
+			# If its not a simple wad (extension .doom) read the file and parse the data
+			if [ ${EXT} == "doom" ]; then
+			  dos2unix "${1}"
+			  while IFS== read -r key value; do
+			    if [ "$key" == "IWAD" ]; then
+			      ROMNAME="$value"
+			    fi
+			    done < "${1}"
+			fi
+                ;;
+        esac
+
 	RUNTHIS='/usr/bin/${RABIN} -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
 	CONTROLLERCONFIG="${arguments#*--controllers=*}"
 
