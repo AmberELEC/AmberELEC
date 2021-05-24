@@ -30,7 +30,7 @@ OUTPUT_LOG="${LOGSDIR}/${LOGFILE}"
 MYNAME=$(basename "$0")
 
 ### Enable logging
-if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then 
+if [ "$(get_es_setting string LogLevel)" == "minimal" ]; then
     LOG=false
 else
     LOG=true
@@ -116,9 +116,9 @@ function loginit() {
 		cat <<EOF >${LOGSDIR}/${LOGFILE}
 Emulation Run Log - Started at $(date)
 
-ARG1: $1 
+ARG1: $1
 ARG2: $2
-ARG3: $3 
+ARG3: $3
 ARG4: $4
 ARGS: $*
 PLATFORM: $PLATFORM
@@ -159,7 +159,7 @@ function bluetooth() {
 			if [[ ! -z "$NPID" ]]; then
 				kill "$NPID"
 			fi
-		fi 
+		fi
 	elif [ "$1" == "enable" ]
 	then
 		$VERBOSE && log "Enabling BT"
@@ -194,7 +194,7 @@ function setaudio() {
 
 ### Main Screen Turn On
 
-loginit "$1" "$2" "$3" "$4" 
+loginit "$1" "$2" "$3" "$4"
 clear_screen
 bluetooth disable
 MYARCH=$(getarch)
@@ -255,6 +255,13 @@ then
 			then
 				RUNTHIS='${TBASH} /usr/bin/ecwolf.sh "${ROMNAME}"'
 			fi
+                ;;
+		"lzdoom")
+			jslisten set "lzdoom"
+			if [ "$EMU" = "lzdoom" ]
+			then
+				RUNTHIS='${TBASH} /usr/bin/lzdoom.sh "${ROMNAME}"'
+			fi
 		;;
 		"n64")
 			jslisten set "mupen64plus retroarch"
@@ -290,7 +297,7 @@ then
 			then
 				RUNTHIS='${TBASH} /usr/bin/dosbox-x.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
 			fi
-		;;		
+		;;
 		"psp"|"pspminis")
 			jslisten set "PPSSPPSDL retroarch"
 			if [ "$EMU" = "PPSSPPSDL" ]
@@ -324,7 +331,7 @@ then
 			then
 				echo "core flycast found"
 				RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
-			else 
+			else
 				echo "emulator unknown"
 			fi
 		        ;;
@@ -381,7 +388,7 @@ else
 	if [[ "$arguments" == *"-state_slot"* ]]; then
 		CONTROLLERCONFIG="${CONTROLLERCONFIG%% -state_slot*}"  # until -state is found
 		SNAPSHOT="${arguments#*-state_slot *}" # -state_slot x -autosave 1
-		SNAPSHOT="${SNAPSHOT%% -*}"  # we don't need -autosave 1 we asume its always 1 
+		SNAPSHOT="${SNAPSHOT%% -*}"  # we don't need -autosave 1 we asume its always 1
 	else
 		CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
 		SNAPSHOT=""
@@ -467,7 +474,7 @@ if [[ "${ROMNAME}" == *".sh" ]]; then
 	"${ROMNAME}" &>>${OUTPUT_LOG}
         ret_error=$?
 else
-	$VERBOSE && log "Executing $(eval echo ${RUNTHIS})" 
+	$VERBOSE && log "Executing $(eval echo ${RUNTHIS})"
 	eval ${RUNTHIS} &>>${OUTPUT_LOG}
 	ret_error=$?
 fi
@@ -487,7 +494,7 @@ else
 	# Check for missing bios if needed
 	REQUIRESBIOS=(atari5200 atari800 atari7800 atarilynx colecovision amiga amigacd32 o2em intellivision pcengine pcenginecd pcfx fds segacd saturn dreamcast naomi atomiswave x68000 neogeo neogeocd msx msx2 sc-3000)
 
-	(for e in "${REQUIRESBIOS[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RB=0 || RB=1	
+	(for e in "${REQUIRESBIOS[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RB=0 || RB=1
 	if [ $RB == 0 ]; then
 		CBPLATFORM="${PLATFORM}"
 		[[ "${CBPLATFORM}" == "msx2" ]] && CBPLATFORM="msx"
