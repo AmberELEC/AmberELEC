@@ -62,7 +62,7 @@ jobs:
 
       - name: Build rg351${{ matrix.type }}
         run: |
-            set +e
+            set -e
             if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
                echo "skipping build due to parameters"
                exit 0
