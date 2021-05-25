@@ -54,7 +54,7 @@ if [[ $EMULATOR = "libretro" ]]; then
 	EMU="${CORE}_libretro"
 	LIBRETRO="yes"
 elif [[ $EMULATOR = "retrorun" ]]; then
-	EMU="${CORE}"
+	EMU="${CORE}_libretro"
 	RETRORUN="yes"
 else
 
@@ -322,42 +322,12 @@ then
 		esac
 elif [ -n "${RETRORUN}" ]
 then
+
 	$VERBOSE && log "Configuring retrorun emulator started"
 	$VERBOSE && log "platform: ${PLATFORM}"
-	$VERBOSE && log "emu: ${EMU}"
-	case ${PLATFORM} in
-		"dreamcast")
-			if [ "$EMU" = "flycast" ]
-			then
-				echo "core flycast found"
-				RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
-			else
-				echo "emulator unknown"
-			fi
-		        ;;
-                    "naomi")
-                        if [ "$EMU" = "flycast" ]
-                        then
-                                echo "core flycast found"
-                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
-                        else
-                                echo "emulator unknown"
-                        fi
-                        ;;
-               "atomiswave")
-                        if [ "$EMU" = "flycast" ]
-                        then
-                                echo "core flycast found"
-                                RUNTHIS='${TBASH} /usr/bin/retrorun.sh "${ROMNAME}"'
-                        else
-                                echo "emulator unknown"
-                        fi
-                        ;;
-	        *)
-		        echo "platform unknown"
-		        ;;
-	esac
-	$VERBOSE && log "Configuring retrorun emulator finished"
+	$VERBOSE && log "core: ${EMU}"
+	RUNTHIS='${TBASH} /usr/bin/retrorun.sh /tmp/cores/${EMU}.so "${ROMNAME}"'
+
 else
 	$VERBOSE && log "Configuring for a libretro core"
 

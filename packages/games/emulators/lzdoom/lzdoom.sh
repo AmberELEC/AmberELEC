@@ -41,4 +41,4 @@ else
 fi
 
 cd "${RUN_DIR}"
-lzdoom ${params} >/tmp/logs/lzdoom.log 2>&1
+/usr/bin/lzdoom ${params} >/tmp/logs/lzdoom.log 2>&1

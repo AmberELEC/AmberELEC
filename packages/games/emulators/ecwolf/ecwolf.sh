@@ -53,4 +53,4 @@ else
 fi
 
 cd "${CONFIG_DIR}"
-ecwolf ${params} > /tmp/logs/ecwolf.log 2>&1
+/usr/bin/ecwolf ${params} > /tmp/logs/ecwolf.log 2>&1
