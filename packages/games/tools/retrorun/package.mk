@@ -18,12 +18,11 @@ pre_make_target() {
 }
 
 pre_configure_target() {
-  CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
-  CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
-  CFLAGS+=" -I$(get_build_dir linux)/tools/include"
-  PKG_MAKE_OPTS_TARGET=" config=release ARCH="
-  sed -i 's/SaveState(savePath);//g' src/main.cpp
-  sed -i 's/LoadState(savePath);//g' src/main.cpp
+CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
+CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
+CFLAGS+=" -I$(get_build_dir linux)/tools/include"
+
+PKG_MAKE_OPTS_TARGET=" config=release ARCH="
 }
 
 makeinstall_target() {
