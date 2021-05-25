@@ -30,5 +30,7 @@ PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
+  rename.ul -v mednafen beetle $PKG_BUILD/*.info
+  rename.ul -v duckstation swanstation $PKG_BUILD/*.info
   cp $PKG_BUILD/*.info $INSTALL/usr/lib/libretro/
 }

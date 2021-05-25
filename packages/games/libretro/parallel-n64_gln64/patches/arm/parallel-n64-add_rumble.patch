@@ -1,0 +1,30 @@
+diff -rupN parallel-n64-cfb9789e13ccbeaabd928203566346c05709d501.orig/mupen64plus-core/src/plugin/emulate_game_controller_via_libretro.c parallel-n64-cfb9789e13ccbeaabd928203566346c05709d501/mupen64plus-core/src/plugin/emulate_game_controller_via_libretro.c
+--- parallel-n64-cfb9789e13ccbeaabd928203566346c05709d501.orig/mupen64plus-core/src/plugin/emulate_game_controller_via_libretro.c	2020-12-01 18:13:36.858538746 -0500
++++ parallel-n64-cfb9789e13ccbeaabd928203566346c05709d501/mupen64plus-core/src/plugin/emulate_game_controller_via_libretro.c	2020-12-01 20:21:41.806421568 -0500
+@@ -257,15 +257,22 @@ EXPORT void CALL inputControllerCommand(
+ 
+                 if ((dwAddress == PAK_IO_RUMBLE) && (rumble.set_rumble_state))
+                 {
++                    FILE *fp;
+                     if (*Data)
+                     {
+-                        rumble.set_rumble_state(Control, RETRO_RUMBLE_WEAK, 0xFFFF);
+-                        rumble.set_rumble_state(Control, RETRO_RUMBLE_STRONG, 0xFFFF);
++                        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++                        fprintf(fp, "10");
++                        fclose(fp);
++                        //rumble.set_rumble_state(Control, RETRO_RUMBLE_WEAK, 0xFFFF);
++                        //rumble.set_rumble_state(Control, RETRO_RUMBLE_STRONG, 0xFFFF);
+                     }
+                     else
+                     {
+-                        rumble.set_rumble_state(Control, RETRO_RUMBLE_WEAK, 0);
+-                        rumble.set_rumble_state(Control, RETRO_RUMBLE_STRONG, 0);
++                        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++                        fprintf(fp, "1000000");
++                        fclose(fp);
++                        //rumble.set_rumble_state(Control, RETRO_RUMBLE_WEAK, 0);
++                        //rumble.set_rumble_state(Control, RETRO_RUMBLE_STRONG, 0);
+                     }
+                 }
+             }

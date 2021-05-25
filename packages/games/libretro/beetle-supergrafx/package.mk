@@ -39,5 +39,5 @@ PKG_AUTORECONF="no"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp mednafen_supergrafx_libretro.so $INSTALL/usr/lib/libretro/
+  cp mednafen_supergrafx_libretro.so $INSTALL/usr/lib/libretro/beetle_supergrafx_libretro.so
 }
