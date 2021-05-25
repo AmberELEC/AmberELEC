@@ -42,6 +42,25 @@ It will build for both the RG351P/M and for the RG351V.
 
 To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``.
 
+## Building from Source - Docker
+Building with Docker simplifies the build process as any dependencies, with the exception of `make`, are contained within the docker image - all CPU/RAM/Disk/build time requirements remain similar. 
+
+NOTE: Make can be installed with `sudo apt update && sudo apt install -y make` on Ubuntu-based systems.
+
+All make commands are available via docker, by prepending `docker-`. `make RG351V` becomes `make docker-RG351V` and `make clean` becomes `make docker-clean`.
+
+New docker make commands: 
+- `make docker-image-build` - Builds the docker image based on the Dockerfile.  This is not required unless changes are needed locally. 
+- `make docker-image-pull` - Pulls docker image from dockerhub.  This will update to the latest image and replace any locally built changes to the docker file.
+
+Example building with docker:
+```
+git clone https://github.com/351ELEC/351ELEC.git 351ELEC  
+cd 351ELEC
+make docker-clean
+make docker-world
+```
+
 ## License
 
 351ELEC is a fork of EmuELEC which is based on CoreELEC which in turn is licensed under the GPLv2 (and GPLv2-or-later), all original files created by the 351ELEC team are licensed as GPLv2-or-later and marked as such.
