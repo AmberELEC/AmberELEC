@@ -4,6 +4,15 @@
 ## 
 
 ## 2021-05-17:
+## Remove mednafen/duckstation core files from /tmp/cores
+if [ "$(ls /tmp/cores/mednafen_* | wc -l)" -ge "1" ]; then
+	rm /tmp/cores/mednafen_*
+fi
+if [ "$(ls /tmp/cores/duckstation_* | wc -l)" -ge "1" ]; then
+	rm /tmp/cores/duckstation_*
+fi
+
+## 2021-05-17:
 ## Remove package solarus if still installed
 if [ -x /storage/.config/packages/solarus/uninstall.sh ]; then
 	/usr/bin/351elec-es-packages remove solarus
@@ -51,12 +60,10 @@ fi
 
 ## Moved over from /usr/bin/autostart.sh
 ## Copy after new installation / missing logo.png
-if [ ! -e "/storage/.config/emulationstation/resources/logo.png" ]; then
-	if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
-		cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
-	elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
-		cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
-	fi
+if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
+	cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
+elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
+	cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
 fi
 
 

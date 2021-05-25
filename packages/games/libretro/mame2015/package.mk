@@ -38,39 +38,16 @@ pre_make_target() {
 }
 
 pre_configure_target() {
-  case $PROJECT in
-    RPi|Slice)
-     PKG_MAKE_OPTS_TARGET=" platform=armv6-hardfloat-arm1176jzf-s"
-      ;;
-    RPi2|Slice3)
-      PKG_MAKE_OPTS_TARGET=" platform=armv7-neon-hardfloat-cortex-a7"
-      ;;
-    imx6)
-     PKG_MAKE_OPTS_TARGET=" platform=armv7-neon-hardfloat-cortex-a9"
-      ;;
-    WeTek_Play)
-      PKG_MAKE_OPTS_TARGET=" platform=armv7-neon-hardfloat-cortex-a9"
-      ;;
-    Odroid_C2|WeTek_Hub|WeTek_Play_2)
-      PKG_MAKE_OPTS_TARGET=" platform=armv-neon-hardfloat"
-      ;;
-    Amlogic*)
-     PKG_MAKE_OPTS_TARGET=" platform=armv8-neon-hardfloat-cortex-a53"
-      ;;
-    Generic)
-      PKG_MAKE_OPTS_TARGET=""
-      ;;
-    *)
-      PKG_MAKE_OPTS_TARGET=" platform=armv"
-      ;;
-  esac
-  
-  if [ "$DEVICE" == "OdroidGoAdvance" ] || [[ "$DEVICE" =~ RG351 ]]; then 
+  if [ "$DEVICE" == "OdroidGoAdvance" ] || [[ "$DEVICE" =~ RG351 ]]; then
 	PKG_MAKE_OPTS_TARGET=" platform=armv8-neon-hardfloat-cortex-a35"
+	sed -i 's/CCOMFLAGS += -mstructure-size-boundary=32//g' Makefile
+	sed -i 's/-DSDLMAME_NO64BITIO//g' Makefile
+	sed -i 's/LDFLAGS += -Wl,--fix-cortex-a8 -Wl,--no-as-needed//g' Makefile
   fi
 }
 
 makeinstall_target() {
+  aarch64-linux-gnu-strip -s *.so
   mkdir -p $INSTALL/usr/lib/libretro
   cp mame*_libretro.so $INSTALL/usr/lib/libretro/
 }
