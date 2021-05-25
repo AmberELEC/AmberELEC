@@ -16,29 +16,11 @@ PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
-# Thanks to magicseb  Reicast SA now WORKS :D
-PKG_EXPERIMENTAL="munt quasi88 xmil np2kai hypseus"
-PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL tgbdual TIC-80 pcsx_rearmed parallel-n64 fba4arm amiberry uae4arm puae hatarisa fba4arm openbor mupen64plus mupen64plus-nx scummvmsa duckstation solarus"
-PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders Skyscraper MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb"
+PKG_EXPERIMENTAL=""
+PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus ecwolf lzdoom"
+PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
-
-# These packages are only meant for S922x, S905x2 and A311D devices as they run poorly on S905, S912, etc"
-if [ "$PROJECT" == "Amlogic-ng" ]; then
-PKG_DEPENDS_TARGET+=" $LIBRETRO_S922X_CORES mame2016"
-fi
-
-if [[ "$DEVICE" =~ RG351 ]]; then
-    PKG_DEPENDS_TARGET+=" odroidgoa-utils rs97-commander-sdl2"
-    
-    #we disable some cores that are not working or work poorly on OGA
-    for discore in mesen-s virtualjaguar quicknes reicastsa_old reicastsa; do
-        PKG_DEPENDS_TARGET=$(echo $PKG_DEPENDS_TARGET | sed "s|$discore||")
-    done
-    PKG_DEPENDS_TARGET+=" opera yabasanshiro"
-else
-    PKG_DEPENDS_TARGET+=" fbterm"
-fi
 
 make_target() {
 if [ "$PROJECT" == "Amlogic-ng" ]; then
@@ -145,29 +127,12 @@ post_install() {
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
   
-CORESFILE="$INSTALL/usr/config/emulationstation/es_systems.cfg"
-
-if [ "${PROJECT}" != "Amlogic-ng" ]; then
-    if [[ ${DEVICE} =~ RG351 ]]; then
-        remove_cores="mesen-s quicknes REICASTSA_OLD REICASTSA mame2016"
-    elif [ "${PROJECT}" == "Amlogic" ]; then
-        remove_cores="mesen-s quicknes mame2016"
-        xmlstarlet ed -L -P -d "/systemList/system[name='3do']" $CORESFILE
-        xmlstarlet ed -L -P -d "/systemList/system[name='saturn']" $CORESFILE
-    fi
-    
-    # remove unused cores
-    for discore in ${remove_cores}; do
-        sed -i "s|<core>$discore</core>||g" $CORESFILE
-        sed -i '/^[[:space:]]*$/d' $CORESFILE
-    done
-fi
-  # Remove scripts from OdroidGoAdvance build
-	if [[ ${DEVICE} =~ RG351 ]]; then 
-	for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
-xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
-	rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
-	done
-	fi 
+# Remove scripts from OdroidGoAdvance build
+if [[ ${DEVICE} =~ RG351 ]]; then 
+ for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
+  xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
+  rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
+ done
+fi 
   
 } 

@@ -22,7 +22,7 @@ then
 fi
 
 # Clean a few packages to ensure the build date and version are updated
-for package in 351elec u-boot
+for package in 351elec u-boot 351elec-emulationstation
 do
   ./scripts/clean ${package}
 done
@@ -34,7 +34,7 @@ elif [ "${ARCH}" == "arm" ]
 then
   # Only build the 32bit packages that we need rather than the whole image
   # to speed up the build process and save disk space.
-  for package in gcc retroarch pcsx_rearmed parallel-n64 uae4arm
+  for package in gcc retroarch retrorun pcsx_rearmed parallel-n64 parallel-n64_gln64 uae4arm
   do
     scripts/build ${package}
     if [ ! $? == 0 ]

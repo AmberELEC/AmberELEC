@@ -1,0 +1,12 @@
+diff --git a/src/sdlvideo.cpp b/src/sdlvideo.cpp
+index 83e9c73..32a9ee5 100644
+--- a/src/sdlvideo.cpp
++++ b/src/sdlvideo.cpp
+@@ -388,6 +388,7 @@ static MiniModeInfo WinModes[] =
+ 	{ 400, 225 },	// 16:9
+ 	{ 400, 300 },
+ 	{ 480, 270 },	// 16:9
++	{ 480, 320 },	// 3:2
+ 	{ 480, 360 },
+ 	{ 512, 288 },	// 16:9
+ 	{ 512, 384 },

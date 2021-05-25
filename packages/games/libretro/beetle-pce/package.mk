@@ -39,5 +39,5 @@ PKG_AUTORECONF="no"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp mednafen_pce_fast_libretro.so $INSTALL/usr/lib/libretro/
+  cp mednafen_pce_fast_libretro.so $INSTALL/usr/lib/libretro/beetle_pce_fast_libretro.so
 }
