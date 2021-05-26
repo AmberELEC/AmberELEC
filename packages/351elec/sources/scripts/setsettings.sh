@@ -15,6 +15,8 @@
 RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx supervision tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
+# The following systems are listed as they don't need the Analogue D-Pad mode on RA
+NOANALOGUE=(n64 psx wonderswan wonderswancolor psp pspminis)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/distribution/configs/distribution.conf"
@@ -215,6 +217,7 @@ log "Clean settings function"
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
+	sed -i '/input_player1_analog_dpad_mode =/d' ${RACONF}
 }
 
 function default_settings() {
@@ -248,6 +251,7 @@ log "Default settings function"
 	echo 'fps_show = false' >> ${RACONF}
 	echo 'netplay = false' >> ${RACONF}
 	echo 'wifi_enabled = "false"' >> ${RACONF}
+	echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
 }
 
 function set_setting() {
@@ -467,6 +471,15 @@ case ${1} in
     # Display FPS
 	get_setting "showFPS"
     [ "${EES}" == "1" ] && echo 'fps_show = "true"' >> ${RACONF} || echo 'fps_show = "false"' >> ${RACONF}
+	;;
+	# D-Pad to Analogue support, option in ES is missng atm
+	"analogue")
+	(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
+			if [ $RA == 1 ] && [ "${2}" == "1" ]; then
+				echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
+			else
+				echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
+			fi
 	;;
 esac
 }
