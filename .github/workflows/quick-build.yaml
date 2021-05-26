@@ -80,7 +80,7 @@ jobs:
                echo "skipping build due to parameters"
                exit 0
             fi
-            sudo docker run --pull always --rm --user $(id -u $(whoami)) -v $(pwd):/work 351build/351elec-build make RG351${{ matrix.type }}
+            make docker-RG351${{ matrix.type }}
             #For PR builds, we only keep tar files to limit file transfer costs
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
