@@ -4,13 +4,13 @@ name: quick-build
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request_target:
-    branches:
-      - main
-    types: [labeled, synchronize]
+  #push:
+  #  branches:
+  #    - main
+  #pull_request_target:
+  #  branches:
+  #    - main
+  #  types: [labeled, synchronize]
         
 jobs:
   launch:
