@@ -50,7 +50,7 @@ update:
 # For example: make docker-RG351V will use docker to call: make RG351V
 # All variables are scoped to docker-* commands to prevent weird collisions/behavior with non-docker commands
 
-docker-%: DOCKER_IMAGE := "351build/351elec-build:latest"
+docker-%: DOCKER_IMAGE := "351elec/351elec-build:latest"
 
 # UID is the user ID of current user - ensures docker sets file permissions properly
 docker-%: UID := $(shell id -u)
@@ -73,6 +73,13 @@ docker-image-build:
 # Command: pulls latest docker image from dockerhub.  This will *replace* locally built version.
 docker-image-pull:
 	$(SUDO) docker pull $(DOCKER_IMAGE)
+
+# Command: pushes the latest Docker image to dockerhub.  This is *not* needed to build. It updates the latest build image in dockerhub for everyone.
+# Only 351elec admins in dockerhub can do this.
+#
+# You must login with: docker login --username <username> and provide either a password or token (from user settings -> security in dockerhub) before this will work.
+docker-image-push:
+	$(SUDO) docker push $(DOCKER_IMAGE)
 
 # Wire up docker to call equivalent make files using % to match and $* to pass the value matched by %
 docker-%:
