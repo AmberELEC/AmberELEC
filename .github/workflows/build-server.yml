@@ -11,14 +11,11 @@ on:
     types: [labeled, synchronize]
         
 jobs:
-  launch:
+  build:
     runs-on: build-server
     if: | 
        github.event.inputs.skip_launch == '' 
          && (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'safe to build'))
-    strategy:
-      matrix:
-        type: ['V','P']
     steps:
       - uses: actions/checkout@v2
         if: ${{ github.event_name == 'pull_request_target' }}
@@ -32,20 +29,21 @@ jobs:
         name: checkout
         with:
           clean: false
-      - name: Build rg351${{ matrix.type }}
+      - name: Build rg351
         run: |
             set -e
-            if [[ -n "${{ github.event.inputs.skip_build }}" ]]; then
-               echo "skipping build due to parameters"
-               exit 0
-            fi
-            sudo docker run --pull always --rm --user $(id -u $(whoami)) -v $(pwd):/work 351build/351elec-build make RG351${{ matrix.type }}
-            #For PR builds, we only keep tar files to limit file transfer costs
+            sudo docker run --pull always --rm --user $(id -u $(whoami)) -v $(pwd):/work 351build/351elec-build make world
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-${{ matrix.type }}
+          name: artifacts-v
           path: |
-            release/aarch64/RG351${{ matrix.type }}/
+            release/aarch64/RG351v
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-p
+          path: |
+            release/aarch64/RG351p
