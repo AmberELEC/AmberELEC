@@ -21,7 +21,6 @@ VERBOSE=false
 LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
 TBASH="/usr/bin/bash"
-RATMPCONF="/tmp/retroarch/ee_retroarch.cfg"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 NETPLAY="No"
 SHADERTMP="/tmp/shader"
