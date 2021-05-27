@@ -13,6 +13,10 @@ PKG_LONGDESC="Diablo build for modern operating systems "
 GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="-lto"
 
+pre_patch() {
+  find $(echo "${PKG_BUILD}" | cut -f1 -d\ ) -type f -exec dos2unix -q {} \;
+}
+
 pre_configure_target() {
 PKG_CMAKE_OPTS_TARGET=" -DBINARY_RELEASE=1 -DCMAKE_BUILD_TYPE="Release" -DDEBUG=OFF -DPREFILL_PLAYER_NAME=ON"
 sed -i "s|;-static-libstdc++>|;-lstdc++>|" $PKG_BUILD/CMakeLists.txt
