@@ -32,7 +32,7 @@ jobs:
       - name: Build rg351
         run: |
             set -e
-            sudo docker run --pull always --rm --user $(id -u $(whoami)) -v $(pwd):/work 351build/351elec-build make world
+            make docker-RG351V
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
       - name: Archive build
