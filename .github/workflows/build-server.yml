@@ -32,7 +32,7 @@ jobs:
       - name: Build rg351
         run: |
             set -e
-            make docker-RG351V
+            make docker-RG351P
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
       - name: Archive build
