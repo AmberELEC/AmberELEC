@@ -1,5 +1,4 @@
 name: build-main
-
 on:
   workflow_dispatch:
   push:
@@ -10,35 +9,18 @@ on:
       - '.dockerignore'
     branches:
       - main
-  
-  #pull_request_target:
-  #  branches:
-  #    - main
-  #  types: [labeled, synchronize]
-        
 jobs:
   build:
     runs-on: build-server
-    if: | 
-       github.event.inputs.skip_launch == '' 
-         && (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'safe to build'))
     steps:
       - uses: actions/checkout@v2
-        if: ${{ github.event_name == 'pull_request_target' }}
-        name: checkout (pull request)
-        with:
-          clean: false
-          # pull requests require explicitly using the pr sha
-          ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/checkout@v2
-        if: ${{ github.event_name != 'pull_request_target' }}
         name: checkout
         with:
           clean: false
       - name: Build rg351
         run: |
             set -e
-            make docker-RG351P
+            make docker-world
             rm -rf release/aarch64/RG351*/*.system
             rm -rf release/aarch64/RG351*/*.img.gz
       - name: Archive build
