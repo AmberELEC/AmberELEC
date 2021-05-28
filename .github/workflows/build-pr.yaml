@@ -35,12 +35,12 @@ jobs:
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-PR-${{GITHUB_HEAD_REF}}-${{GITHUB_SHA}}
+          name: RG351V-PR-${{ github.event.pull_request.head.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351V/
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: RG351P-PR-${{GITHUB_HEAD_REF}}-${{GITHUB_SHA}}
+          name: RG351P-PR-${{ github.event.pull_request.head.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351P/
