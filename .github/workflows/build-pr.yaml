@@ -19,7 +19,7 @@ on:
 #          This makes it so that only commit 9 is enqueued to build rather than builds for 2-9 all being queued
 concurrency: 
   group: pr-${{ github.event.pull_request.number }}
-
+  cancel-in-progress: true #only 1 build at a time per PR
 jobs:
   build:
     runs-on: pr
