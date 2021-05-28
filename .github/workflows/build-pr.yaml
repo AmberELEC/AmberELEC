@@ -26,6 +26,9 @@ jobs:
     if: | 
        github.event.pull_request.requested_reviewers[0] != null
     steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
       - uses: actions/checkout@v2
         name: checkout (pull request)
         with:
@@ -44,12 +47,12 @@ jobs:
       - name: Archive RG351V-PR-${{ github.event.pull_request.number }}
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
+          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ steps.date.outputs.date }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P-PR-${{ github.event.pull_request.number }}
         uses: actions/upload-artifact@v2
         with:
-          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
+          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ steps.date.outputs.date }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351P/
