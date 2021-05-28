@@ -1,0 +1,15 @@
+name: clean-pr
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: pr
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          clean: false
+      - name: clean
+        run: |
+            set -e
+            make docker-clean
