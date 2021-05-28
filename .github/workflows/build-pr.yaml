@@ -17,7 +17,6 @@ jobs:
     if: | 
        github.event.pull_request.requested_reviewers[0] != null
     steps:
-      - uses: hmarr/debug-action@v2
       - uses: actions/checkout@v2
         name: checkout (pull request)
         with:
@@ -28,8 +27,7 @@ jobs:
         run: |
             set -e
             rm -rf release/*
-            echo "event: ${{ github.event.pull_request }}"
-            #make docker-world
+            make docker-world
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive build
