@@ -28,6 +28,7 @@ jobs:
       - name: Build rg351
         run: |
             set -e
+            rm -rf release/*
             echo "event: ${{ github.event.pull_request }}"
             #make docker-world
             rm -rf release/aarch64/RG351*/*.system*
