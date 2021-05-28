@@ -56,8 +56,16 @@ elif [[ $EMULATOR = "retrorun" ]]; then
 	EMU="${CORE}_libretro"
 	RETRORUN="yes"
 else
-
 	EMU="${CORE}"
+fi
+
+# freej2me needs the JDK to be downloaded on the first run
+if [ ${EMU} == "freej2me_libretro" ]; then
+  /usr/bin/freej2me.sh
+  JAVA_HOME='/storage/jdk'
+  export JAVA_HOME
+  PATH="$JAVA_HOME/bin:$PATH"
+  export PATH
 fi
 
 ### If we're running a port, assume it's libretro
