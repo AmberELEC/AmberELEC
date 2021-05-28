@@ -1,6 +1,8 @@
 name: build-pr
 on:
   pull_request_target:
+  
+    # We don't need to run builds when these files change
     paths-ignore:
       - '.github/**'
       - 'README.me'
@@ -8,9 +10,16 @@ on:
       - '.dockerignore'
     branches:
       - main
+
+    #Ensure we build when a review is requested (as we don't build w/o a review)
     types: [review_requested, synchronize]
+
+# Ensure that if there are multiple builds for a PR only 1 is queued
+# Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
+#          This makes it so that only commit 9 is enqueued to build rather than builds for 2-9 all being queued
 concurrency: 
-  group: pr   
+  group: pr-${{ github.event.pull_request.number }}
+
 jobs:
   build:
     runs-on: pr
@@ -32,15 +41,15 @@ jobs:
             
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
-      - name: Archive RG351V-PR-${{ github.event.pull_request.head.number }}
+      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-PR-${{ github.event.pull_request.head.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
+          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351V/
-      - name: G351P-PR-${{ github.event.pull_request.head.number }}
+      - name: G351P-PR-${{ github.event.pull_request.number }}
         uses: actions/upload-artifact@v2
         with:
-          name: RG351P-PR-${{ github.event.pull_request.head.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
+          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351P/
