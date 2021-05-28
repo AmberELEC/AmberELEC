@@ -28,10 +28,10 @@ jobs:
         with:
           name: artifacts-v
           path: |
-            release/aarch64/RG351v/
+            release/aarch64/RG351V/
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
           name: artifacts-p
           path: |
-            release/aarch64/RG351p/
+            release/aarch64/RG351P/
