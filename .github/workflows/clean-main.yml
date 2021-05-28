@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: build-server
+    runs-on: main
     steps:
       - uses: actions/checkout@v2
         name: checkout
