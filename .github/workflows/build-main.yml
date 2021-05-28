@@ -23,6 +23,10 @@ jobs:
         name: checkout
         with:
           clean: false
+      - name: Get date for artifacts
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
+      - uses: hmarr/debug-action@v2
       - name: Build rg351
         run: |
             set -e
@@ -32,12 +36,13 @@ jobs:
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-v
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}
+
           path: |
             release/aarch64/RG351V/
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-p
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}
           path: |
             release/aarch64/RG351P/
