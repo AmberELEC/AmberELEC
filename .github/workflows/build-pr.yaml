@@ -27,18 +27,20 @@ jobs:
         run: |
             set -e
             rm -rf release/*
-            make docker-world
+            #make docker-world
             rm -rf release/aarch64/RG351*/*.system*
+            
+            #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-v
+          name: RG351V-PR-${{GITHUB_HEAD_REF}}-${{GITHUB_SHA}}
           path: |
             release/aarch64/RG351V/
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
-          name: artifacts-p
+          name: RG351P-PR-${{GITHUB_HEAD_REF}}-${{GITHUB_SHA}}
           path: |
             release/aarch64/RG351P/
