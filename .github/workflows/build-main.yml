@@ -39,16 +39,16 @@ jobs:
         run: |
             set -e
             rm -rf release/aarch64/RG351*/*.system*
-      - name: Archive RG351V
+      - name: Archive RG351V (${{github.sha})
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{env.GITHUB_SHA}}
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{github.sha}
 
           path: |
             release/aarch64/RG351V/
-      - name: Archive RG351P
+      - name: Archive RG351P (${{github.sha})
         uses: actions/upload-artifact@v2
         with:
-          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{env.GITHUB_SHA}}
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{github.sha}}
           path: |
             release/aarch64/RG351P/
