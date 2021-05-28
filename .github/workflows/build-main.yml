@@ -27,20 +27,26 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
       
-      - name: Build rg351
+      - name: Build rg351P
         run: |
             set -e
-            make docker-world
+            make docker-RG351P
+      - name: Build rg351V
+        run: |
+            set -e
+            make docker-RG351P
+      - name: Cleanup system artifacts
+        run: |
+            set -e
             rm -rf release/aarch64/RG351*/*.system*
-            rm -rf release/aarch64/RG351*/*.img.gz*
-      - name: Archive build
+      - name: Archive RG351V
         uses: actions/upload-artifact@v2
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{env.GITHUB_SHA}}
 
           path: |
             release/aarch64/RG351V/
-      - name: Archive build
+      - name: Archive RG351P
         uses: actions/upload-artifact@v2
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{env.GITHUB_SHA}}
