@@ -25,8 +25,8 @@ RACONF="/storage/.config/retroarch/retroarch.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
-CORE=${3,,}
 ROM="${2##*/}"
+CORE=${3,,}
 SETF=0
 SHADERSET=0
 LOGSDIR="/tmp/logs"
@@ -176,7 +176,7 @@ function clean_settings() {
 log "Clean settings function"
 # IMPORTANT: Every setting we change should be removed from retroarch.cfg before we do any changes.
 	sed -i '/video_scale_integer =/d' ${RACONF}
-        sed -i '/video_ctx_scaling =/d' ${RACONF}
+    sed -i '/video_ctx_scaling =/d' ${RACONF}
 	sed -i '/video_shader =/d' ${RACONF}
 	sed -i '/video_shader_enable =/d' ${RACONF}
 	sed -i '/video_smooth =/d' ${RACONF}
@@ -217,7 +217,7 @@ log "Clean settings function"
 	sed -i "/netplay_mitm_server/d" ${RACONF}
 	sed -i "/netplay_mode/d" ${RACONF}
 	sed -i "/wifi_enabled/d" ${RACONF}
-	sed -i '/input_player1_analog_dpad_mode =/d' ${RACONF}
+	sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
 }
 
 function default_settings() {
@@ -461,7 +461,7 @@ case ${1} in
         echo "netplay_nickname = ${EES}" >> ${RACONF}
         
      
-    # mode spectator
+    # spectator mode
          get_setting "netplay.spectator"
          [ "${EES}" == "1" ] && echo 'netplay_spectator_mode_enable = true' >> ${RACONF} || echo 'netplay_spectator_mode_enable = false' >> ${RACONF}
        
@@ -471,15 +471,6 @@ case ${1} in
     # Display FPS
 	get_setting "showFPS"
     [ "${EES}" == "1" ] && echo 'fps_show = "true"' >> ${RACONF} || echo 'fps_show = "false"' >> ${RACONF}
-	;;
-	# D-Pad to Analogue support, option in ES is missng atm
-	"analogue")
-	(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
-			if [ $RA == 1 ] && [ "${2}" == "1" ]; then
-				echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
-			else
-				echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
-			fi
 	;;
 esac
 }
@@ -519,6 +510,19 @@ if [ $SETF == 0 ]; then
 # If no setting was changed, set all options to default on the configuration files
 default_settings
 fi
+
+# D-Pad to Analogue support, option in ES is missng atm but is managed as global.anaolgue=1 in distribution.conf (that is made by postupdate.sh)
+get_setting "analouge"                                              
+#if [ "${EES}" != "false" ]; then
+	(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
+
+			if [ $RA == 1 ] && [ "${2}" == "1" ]; then
+				echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
+			else
+				echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
+			fi
+	;;
+#fi
 
 if [ "${CORE}" == "atari800" ]; then
 	log "Atari 800 section"
