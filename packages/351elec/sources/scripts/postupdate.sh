@@ -3,6 +3,13 @@
 ## This script should only run after an update
 ## 
 
+## 2021-05-27
+## Enable D-Pad to analogue at boot until we create a proper toggle
+sed -i "/## Enable D-Pad to analogue at boot until we create a proper toggle/d" /storage/.config/distribution/configs/distribution.conf
+sed -i "/global.analogue/d" /storage/.config/distribution/configs/distribution.conf
+echo '## Enable D-Pad to analogue at boot until we create a proper toggle' >> /storage/.config/distribution/configs/distribution.conf
+echo 'global.analogue=1' >> /storage/.config/distribution/configs/distribution.conf
+
 ## 2021-05-17:
 ## Remove mednafen/duckstation core files from /tmp/cores
 if [ "$(ls /tmp/cores/mednafen_* | wc -l)" -ge "1" ]; then
