@@ -49,13 +49,13 @@ jobs:
             rm -rf release/aarch64/RG351*/*.system*
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
-      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}
+      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
         uses: actions/upload-artifact@v2
         with:
           name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.head.sha }}
           path: |
             release/aarch64/RG351V/
-      - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-
+      - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
         uses: actions/upload-artifact@v2
         with:
           name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.head.sha }}
