@@ -27,7 +27,7 @@ jobs:
         run: |
             set -e
             echo "event: ${{ github.event.pull_request }}"
-            make docker-world
+            #make docker-world
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive build
