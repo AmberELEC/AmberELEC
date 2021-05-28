@@ -8,7 +8,7 @@ on:
       - '.dockerignore'
     branches:
       - main
-    types: [labeled, synchronize]
+    types: [labeled, review_requested, synchronize]
         
 jobs:
   build:
@@ -26,6 +26,7 @@ jobs:
       - name: Build rg351
         run: |
             set -e
+            echo "event: ${{ github.event.pull_request }}"
             make docker-world
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.img.gz*
