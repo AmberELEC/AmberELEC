@@ -15,8 +15,7 @@ jobs:
   build:
     runs-on: pr
     if: | 
-       github.event.inputs.skip_launch == '' 
-         && (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'safe to build'))
+       github.event.pull_request.requested_reviewers[0] != null
     steps:
       - uses: hmarr/debug-action@v2
       - uses: actions/checkout@v2
