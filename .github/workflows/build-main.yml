@@ -11,7 +11,7 @@ on:
       - main
 jobs:
   build:
-    runs-on: build-server
+    runs-on: main
     steps:
       - uses: actions/checkout@v2
         name: checkout
@@ -21,8 +21,8 @@ jobs:
         run: |
             set -e
             make docker-world
-            rm -rf release/aarch64/RG351*/*.system
-            rm -rf release/aarch64/RG351*/*.img.gz
+            rm -rf release/aarch64/RG351*/*.system*
+            rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive build
         uses: actions/upload-artifact@v2
         with:
