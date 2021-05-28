@@ -8,7 +8,7 @@ on:
       - '.dockerignore'
     branches:
       - main
-    types: [labeled, review_requested, synchronize]
+    types: [review_requested, synchronize]
 concurrency: 
   group: pr   
 jobs:
