@@ -1,0 +1,43 @@
+name: build-pr
+on:
+  pull_request_target:
+    paths-ignore:
+      - '.github/**'
+      - 'README.me'
+      - 'Dockerfile'
+      - '.dockerignore'
+    branches:
+      - main
+    types: [labeled, synchronize]
+        
+jobs:
+  build:
+    runs-on: pr
+    if: | 
+       github.event.inputs.skip_launch == '' 
+         && (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'safe to build'))
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout (pull request)
+        with:
+          clean: false
+          # pull requests require explicitly using the pr sha
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Build rg351
+        run: |
+            set -e
+            make docker-world
+            rm -rf release/aarch64/RG351*/*.system
+            rm -rf release/aarch64/RG351*/*.img.gz
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-v
+          path: |
+            release/aarch64/RG351v/
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-p
+          path: |
+            release/aarch64/RG351p/
