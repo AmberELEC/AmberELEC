@@ -35,13 +35,18 @@ jobs:
           clean: false
           # pull requests require explicitly using the pr sha
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Build rg351
+      - name: Build rg351P
         run: |
             set -e
-            rm -rf release/*
-            make docker-world
+            make docker-RG351P
+      - name: Build rg351V
+        run: |
+            set -e
+            make docker-RG351P
+      - name: Cleanup system artifacts (no .img in PR builds)
+        run: |
+            set -e
             rm -rf release/aarch64/RG351*/*.system*
-            
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive RG351V-PR-${{ github.event.pull_request.number }}
