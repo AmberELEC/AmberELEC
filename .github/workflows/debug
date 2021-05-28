@@ -1,0 +1,16 @@
+
+name: debug
+on:
+  workflow_dispatch:
+  
+jobs:
+  launch:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: hmarr/debug-action@v2
+      - name: other debug info
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+  
