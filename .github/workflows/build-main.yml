@@ -44,7 +44,7 @@ jobs:
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{github.sha}
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{github.sha}}
 
           path: |
             release/aarch64/RG351V/
