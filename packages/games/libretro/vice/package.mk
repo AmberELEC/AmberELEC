@@ -56,5 +56,8 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp built/vice_*_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_x128_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_x64_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_xplus4_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_xvic_libretro.so $INSTALL/usr/lib/libretro/
 }

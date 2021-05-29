@@ -3,6 +3,22 @@
 ## This script should only run after an update
 ## 
 
+## 2021-05-27
+## Enable D-Pad to analogue at boot until we create a proper toggle
+sed -i "/## Enable D-Pad to analogue at boot until we create a proper toggle/d" /storage/.config/distribution/configs/distribution.conf
+sed -i "/global.analogue/d" /storage/.config/distribution/configs/distribution.conf
+echo '## Enable D-Pad to analogue at boot until we create a proper toggle' >> /storage/.config/distribution/configs/distribution.conf
+echo 'global.analogue=1' >> /storage/.config/distribution/configs/distribution.conf
+
+## 2021-05-17:
+## Remove mednafen/duckstation core files from /tmp/cores
+if [ "$(ls /tmp/cores/mednafen_* | wc -l)" -ge "1" ]; then
+	rm /tmp/cores/mednafen_*
+fi
+if [ "$(ls /tmp/cores/duckstation_* | wc -l)" -ge "1" ]; then
+	rm /tmp/cores/duckstation_*
+fi
+
 ## 2021-05-17:
 ## Remove package solarus if still installed
 if [ -x /storage/.config/packages/solarus/uninstall.sh ]; then
@@ -51,12 +67,10 @@ fi
 
 ## Moved over from /usr/bin/autostart.sh
 ## Copy after new installation / missing logo.png
-if [ ! -e "/storage/.config/emulationstation/resources/logo.png" ]; then
-	if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
-		cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
-	elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
-		cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
-	fi
+if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
+	cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
+elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
+	cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
 fi
 
 

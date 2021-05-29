@@ -3,8 +3,7 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="samba"
-PKG_VERSION="4.13.3"
-PKG_SHA256="c10585d43f33656fe4e1f9ff8bf40ea57d8d5b653521c1cc198fbf4922756541"
+PKG_VERSION="4.14.4"
 PKG_LICENSE="GPLv3+"
 PKG_SITE="https://www.samba.org"
 PKG_URL="https://download.samba.org/pub/samba/stable/${PKG_NAME}-${PKG_VERSION}.tar.gz"
@@ -45,6 +44,7 @@ configure_package() {
                       --cross-answers=${PKG_BUILD}/cache.txt \
                       --hostcc=gcc \
                       --enable-fhs \
+                      --with-static-modules=vfs_widelinks \
                       --without-dmapi \
                       --disable-glusterfs \
                       --disable-rpath \

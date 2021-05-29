@@ -11,6 +11,7 @@ maxperf
 
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
+ln -s /storage/roms/gamedata/retroarch/logs/ /tmp/logs/retroarch
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1
@@ -145,10 +146,36 @@ case "$DEFE" in
 	systemctl stop sshd
 	rm /storage/.cache/services/sshd.conf
 	;;
-*)
+"1")
 	mkdir -p /storage/.cache/services/
 	touch /storage/.cache/services/sshd.conf
 	systemctl start sshd
+	;;
+*)
+	systemctl stop sshd
+	rm /storage/.cache/services/sshd.conf
+	;;
+esac
+
+# handle SAMBA
+DEFE=$(get_ee_setting ee_samba.enabled)
+
+case "$DEFE" in
+"0")
+	systemctl stop nmbd
+	systemctl stop smbd
+	rm /storage/.cache/services/smb.conf
+	;;
+"1")
+	mkdir -p /storage/.cache/services/
+	touch /storage/.cache/services/smb.conf
+	systemctl start nmbd
+	systemctl start smbd
+	;;
+*)
+	systemctl stop nmbd
+	systemctl stop smbd
+	rm /storage/.cache/services/smb.conf
 	;;
 esac
 
@@ -162,7 +189,7 @@ then
   mkdir -p "${GAMEDATA}"
 fi
 
-for GAME in ppsspp dosbox scummvm retroarch hatari openbor opentyrian residualvm
+for GAME in ppsspp dosbox scummvm retroarch hatari openbor opentyrian
 do
   # Migrate or copy fresh data
   if [ ! -d "${GAMEDATA}/${GAME}" ]

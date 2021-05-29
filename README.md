@@ -26,7 +26,7 @@ Building 351ELEC from source is a fairly simple process.  It is recommended to h
 ```
 sudo apt update && sudo apt upgrade
 
-sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl zip
+sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl zip binutils-aarch64-linux-gnu dos2unix p7zip-full
 
 git clone https://github.com/351ELEC/351ELEC.git 351ELEC  
 
@@ -41,6 +41,25 @@ The make world process will build a 32bit and 64bit userland and generate a 64bi
 It will build for both the RG351P/M and for the RG351V.
 
 To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``.
+
+## Building from Source - Docker
+Building with Docker simplifies the build process as any dependencies, with the exception of `make`, are contained within the docker image - all CPU/RAM/Disk/build time requirements remain similar. 
+
+NOTE: Make can be installed with `sudo apt update && sudo apt install -y make` on Ubuntu-based systems.
+
+All make commands are available via docker, by prepending `docker-`. `make RG351V` becomes `make docker-RG351V` and `make clean` becomes `make docker-clean`.
+
+New docker make commands: 
+- `make docker-image-build` - Builds the docker image based on the Dockerfile.  This is not required unless changes are needed locally. 
+- `make docker-image-pull` - Pulls docker image from dockerhub.  This will update to the latest image and replace any locally built changes to the docker file.
+
+Example building with docker:
+```
+git clone https://github.com/351ELEC/351ELEC.git 351ELEC  
+cd 351ELEC
+make docker-clean
+make docker-world
+```
 
 ## License
 
