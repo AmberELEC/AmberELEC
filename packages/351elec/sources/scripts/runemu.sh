@@ -68,6 +68,11 @@ if [ ${EMU} == "freej2me_libretro" ]; then
   export PATH
 fi
 
+# easyrpg needs runtime files to be downloaded on the first run
+if [ ${EMU} == "easyrpg_libretro" ]; then
+  /usr/bin/easyrpg.sh
+fi
+
 ### If we're running a port, assume it's libretro
 ### Re-evaluate as not all ports may be libretro cores
 ### perhaps rewrite to use ^ functionality
