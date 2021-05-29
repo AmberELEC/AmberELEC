@@ -11,12 +11,9 @@ echo '## Enable D-Pad to analogue at boot until we create a proper toggle' >> /s
 echo 'global.analogue=1' >> /storage/.config/distribution/configs/distribution.conf
 
 ## 2021-05-17:
-## Remove mednafen/duckstation core files from /tmp/cores
+## Remove mednafen core files from /tmp/cores
 if [ "$(ls /tmp/cores/mednafen_* | wc -l)" -ge "1" ]; then
 	rm /tmp/cores/mednafen_*
-fi
-if [ "$(ls /tmp/cores/duckstation_* | wc -l)" -ge "1" ]; then
-	rm /tmp/cores/duckstation_*
 fi
 
 ## 2021-05-17:
