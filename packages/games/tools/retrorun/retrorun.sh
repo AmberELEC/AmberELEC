@@ -10,7 +10,7 @@ echo using core: "$1"
 echo platform: "$3"
 echo starting game... "$2"
 sleep 1
-if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]] || [[ "$1" =~ "uae4arm" ]]
+if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]] || [[ "$1" =~ "uae4arm" ]] || [[ "$1" =~ "gpsp" ]]
 then
   export LD_LIBRARY_PATH="/usr/lib32"
   /usr/bin/retrorun32 --triggers -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
