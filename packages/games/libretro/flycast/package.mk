@@ -30,6 +30,7 @@ PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-gold"
 
 pre_configure_target() {
+sed -i 's/define CORE_OPTION_NAME "reicast"/define CORE_OPTION_NAME "flycast"/g' core/libretro/libretro_core_option_defines.h 
 # Flycast defaults to -O3 but then CHD v5 do not seem to work on EmuELEC so we change it to -O2 to fix the issue
 #PKG_MAKE_OPTS_TARGET="ARCH=arm HAVE_OPENMP=1 GIT_VERSION=${PKG_VERSION:0:7} FORCE_GLES=1 SET_OPTIM=-O2 HAVE_LTCG=0"
 PKG_MAKE_OPTS_TARGET="ARCH=arm HAVE_OPENMP=1 GIT_VERSION=${PKG_VERSION:0:7} FORCE_GLES=1 HAVE_LTCG=0"
