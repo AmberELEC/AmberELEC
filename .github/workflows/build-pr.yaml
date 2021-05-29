@@ -42,7 +42,7 @@ jobs:
       - name: Build rg351V
         run: |
             set -e
-            make docker-RG351P
+            make docker-RG351V
       - name: Cleanup system artifacts (no .img in PR builds)
         run: |
             set -e
