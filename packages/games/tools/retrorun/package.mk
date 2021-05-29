@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="retrorun"
-PKG_VERSION="fcf91a49fc7cc82b6987eb5d132a63dbe533c833"
+PKG_VERSION="a8fabc27780502a3ebc41e6b79f8e7ab74e3d1f7"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/retrorun-go2"
@@ -23,6 +23,10 @@ CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
 CFLAGS+=" -I$(get_build_dir linux)/tools/include"
 
 PKG_MAKE_OPTS_TARGET=" config=release ARCH="
+}
+
+make_target() {
+  make config=release ARCH=
 }
 
 makeinstall_target() {
