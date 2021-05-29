@@ -48,7 +48,7 @@ pkg_lock_status "GETPKG" "${PKG_NAME}" "unpack" "processing package repository..
 
 rm -f "${STAMP_URL}" "${STAMP_SHA}"
 
-GIT_CLONE_PARAMS=""
+GIT_CLONE_PARAMS="--recursive"
 GIT_SUBMODULE_PARAMS=""
 
 [ -n "${PKG_GIT_CLONE_BRANCH}" ] && GIT_CLONE_PARAMS="${GIT_CLONE_PARAMS} --branch ${PKG_GIT_CLONE_BRANCH}"
