@@ -47,6 +47,7 @@ jobs:
         run: |
             set -e
             rm -rf release/aarch64/RG351*/*.system*
+            rm -rf release/aarch64/RG351*/*.kernel*
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
