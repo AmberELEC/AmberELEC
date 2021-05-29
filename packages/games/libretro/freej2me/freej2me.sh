@@ -12,8 +12,6 @@ if [ ! -f "/storage/roms/bios/freej2me-lr.jar" ]; then
     cp /usr/config/distribution/freej2me/freej2me-lr.jar /storage/roms/bios
 fi
 
-echo "Checking JDK..." > /dev/console
-
 JDKDEST="/storage/jdk"
 JDKNAME="zulu11.48.21-ca-jdk11.0.11"
 
@@ -25,7 +23,7 @@ mkdir -p ${JDKDEST}
 if [ ${JDKINSTALLED} == "no" ]; then
   echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
   if [ $? -ne 0 ]; then
-      echo "No internet connection, exiting..." > /dev/console
+      text_viewer -e -w -t "No Internet!" -m "You need to be connected to the internet to download the JDK.";
       exit 1
   fi
   echo "Downloading JDK please be patient..." > /dev/console
