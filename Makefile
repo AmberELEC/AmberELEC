@@ -1,5 +1,5 @@
 BUILD_DIRS=build.*
-
+#make
 all:
 
 system:
