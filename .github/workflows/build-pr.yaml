@@ -29,6 +29,8 @@ jobs:
       - name: Get date for artifacts
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
+      - name: Get short SHA for artifacts
+        id: sha
       - uses: actions/checkout@v2
         name: checkout (pull request)
         with:
