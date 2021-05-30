@@ -26,7 +26,9 @@ jobs:
       - name: Get date for artifacts
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
-      
+      - name: Get short Sha for artifacts
+        id: sha
+        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
       - name: Build rg351P
         run: |
             set -e
@@ -44,13 +46,13 @@ jobs:
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{github.sha}}
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
 
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
         uses: actions/upload-artifact@v2
         with:
-          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{github.sha}}
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
