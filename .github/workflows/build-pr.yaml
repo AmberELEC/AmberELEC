@@ -26,18 +26,19 @@ jobs:
     if: | 
        github.event.pull_request.requested_reviewers[0] != null
     steps:
-      - name: Get date for artifacts
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
-      - name: Get short SHA for artifacts
-        id: sha
-        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
       - uses: actions/checkout@v2
         name: checkout (pull request)
         with:
           clean: false
           # pull requests require explicitly using the pr sha
           ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Get date for artifacts
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
       - name: Build rg351P
         run: |
             set -e
