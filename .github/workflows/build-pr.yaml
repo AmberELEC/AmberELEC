@@ -55,12 +55,12 @@ jobs:
       - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
         uses: actions/upload-artifact@v2
         with:
-          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.head.sha }}
+          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
         uses: actions/upload-artifact@v2
         with:
-          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.head.sha }}
+          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351P/
