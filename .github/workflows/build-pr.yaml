@@ -25,6 +25,7 @@ jobs:
     runs-on: pr
     if: | 
        github.event.pull_request.requested_reviewers[0] != null
+         || github.event.pull_request.head.repo.owner.login == "pkegg"
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
