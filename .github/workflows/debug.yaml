@@ -2,7 +2,19 @@
 name: debug
 on:
   workflow_dispatch:
+  pull_request_target:
   
+    # We don't need to run builds when these files change
+    paths-ignore:
+      - '.github/**'
+      - 'README.me'
+      - 'Dockerfile'
+      - '.dockerignore'
+    branches:
+      - main
+
+    #Ensure we build when a review is requested (as we don't build w/o a review)
+    types: [review_requested, synchronize]
 jobs:
   launch:
     runs-on: ubuntu-20.04
