@@ -60,4 +60,3 @@ index c95cf708b..ee9bf60a6 100644
  SDL_DYNAPI_PROC(SDL_bool,SDL_HasAVX512F,(void),(),return)
 -- 
 2.17.1
-
