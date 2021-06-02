@@ -82,7 +82,7 @@
 	<game>
 		<path>./usbmount.sh</path>
 		<name>Mount/Unmount USB drive</name>
-		<desc>Mounts/Unmounts a USB drive connected the OTG port</desc>
+		<desc>Mounts/Unmounts a USB drive connected to the OTG port</desc>
 		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
