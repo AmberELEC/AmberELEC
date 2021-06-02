@@ -62,7 +62,7 @@ make docker-world
 ```
 
 ## Automated Dev Builds
-Builds are automatically run on commits to `main` and for Pull Requests ("PR's") that have been requested for review.  Reviews must be requested by existing team members for security purposes.
+Builds are automatically run on commits to `main` and for Pull Requests (*PR's*) that have been requested for review.  Reviews must be requested by existing team members for security purposes.
 
 Development builds can be found looking for the green checkmarks next to commit history.  Artifacts are generated for each build which can be used to update the RG351P/RG351V and are stored for 30 days by GitHub.  Note that due to Github Action limitations, artifacts are zipped (.img.gz and .tar are inside the zip file).
 
