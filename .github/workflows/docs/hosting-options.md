@@ -113,4 +113,4 @@ However, AWS $0.09 per GB to send data *out* of AWS (almost all of the cost of i
 ## Static Self Hosted Runners
 No extensive evaluation on the best place to get a static server has been done.  The current donator has connections with Ionos (https://www.ionos.com/) to get a good deal on a dedicated AMD SSD server.  If the build server needs to be swapped to another provider, more extensive evaluation should be done at that point.  See the [build server setup](./build-server-setup.md) page for information about how a new server could be deployed.
 
-The most important design point in using a single build server is that no *state* (other than the old build directory) is store on the server.  All logs, artifacts, etc are stored in the build system.
+The most important design point in using a single build server is that no *state* (other than the old build directory) is stored on the server.  Instead, all logs, artifacts, etc are stored in the build system.
