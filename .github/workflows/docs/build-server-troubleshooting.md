@@ -65,9 +65,10 @@ In general, to add a new runner, you can follow the instructions from: https://d
 
 - For Main builder 
   - cd into `/var/runner` and setup GitHub runner there if it isn't already (`mkdir -p /var/runner/ && chown -R build:build /var/runner` if it doesn't exist)
-  - `./config.sh  --url https://github.com/351ELEC/351ELEC --token <get this from 'Add Runner' popup in GitHub> --unattended --name build-server --labels main`
+  - `sudo runuser -l build -c "/var/runner/config.sh  --url https://github.com/351ELEC/351ELEC --token <get this from 'Add Runner' popup in GitHub> --unattended --name build-server --labels main"`
+    - NOTE: The `runuser` command just runs the command as the `build` user. You can just login or `sudo su - build` to run the config.sh command.
     - If the action runner was already registered, you may need to run `sudo ./svc.sh stop` and `sudo ./svc.sh uninstall` first.
   - Register each runner with: `sudo ./svc install build` (`build` is the user builds will be run as).
   - See the [cloud-init](build-server-setup.md) for exactly what is done for deployment.
-- For PR builder - follow the above steps with `/var/runner-pr` instead of `/var/runner`
+- For PR builder - follow the above steps with `/var/runner-pr` instead of `/var/runner` and `build-server-pr` instead of `build-server`
 
