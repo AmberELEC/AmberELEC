@@ -18,26 +18,26 @@ Access to the server is given manually and is reserved for administrators of the
   - `/var/runner-pr/_work/351ELEC/351ELEC` - is the git checkout for the `pr` builder
   
 
-### Github Troubleshooting Steps
+### GitHub Troubleshooting Steps
 
-#### Make Clean for main/PR
+#### GitHub -Make Clean for main/PR
 - A change to a PR or main requires a `make clean` (or perhaps deleting some folders) in order to run successfully. The only options within github is `make clean`.  
   - You can run `make clean` for either the PR or main builds by going to 351ELEC in Github -> `Actions` -> `Clean PR` (or `Clean Main`) -> `Run Workflow` (dropdown) -> `Run Workflow` (button)
   - After it is done you will likely want to retrigger `main` or go into the failed PR action and select `Rerun Jobs`.  It will take roughly 5 or 6 hours.
 
-### Canceling in Progress Builds
+### GitHub - Cancelling in Progress Builds
 - The UI for actions allows cancelling builds if you have write permissions in GitHub.  Sometimes, it is helpful to issue the cancel commmand two times to ensure full cancellation (similar to hitting ctrl-c twice).
 
 ### Build Server Troubleshooting Steps
 
-#### Make Clean for main/PR
+#### Build Server - Make Clean for main/PR
 - You can also run a `make docker-clean` or any other commands to remove certain directories by going into `/var/runner/_work/351ELEC/351ELEC` or `/var/runner-pr/_work/351ELEC/351ELEC` and running whatever commands you want
  - You probably want to ensure no other builds are running
 
-#### Disable Builds Temporarily (requires sudo)
-Sometimes you need to disable builds because they are hanging or other manual commands are needed.
+#### Build Server - Disable Builds Temporarily (requires sudo)
+Sometimes you need to disable builds because they are hanging or other manual commands are needed (run a custom build manually, etc).
 
-You can do it for main like this:
+You can disable the GitHub runner for main like this:
 ```
 cd /var/runner/ && sudo ./svc stop
 ```
@@ -56,11 +56,11 @@ cd /var/runner-pr/ && sudo ./svc start
 ```
 
 #### Manually registering the GitHub Action Runners
-If you are attempting to deploy a new build server (or repair a totally broken one) and can't use cloud-init or the cloud-init failed, you can manually register the server.
+If you are attempting to deploy a new build server (or repair a totally broken one) and can't use cloud-init or the cloud-init failed, you can manually register the server with GitHub.
 
 You can `force delete` any existing runners you don't want from the GitHub UI under `Settings` -> `Actions` -> `Runners` -> `...` (Dropdown by each runner) -> `Delete` 
 
-In general, to add a new runner, you can follow the instructions from: https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners# but customized the `./config.sh` command should look like.  The process is similar to:
+In general, to add a new runner, you can follow the instructions from: https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners# but customized the `./config.sh` command should look like as follows:
 
 
 - For Main builder 
