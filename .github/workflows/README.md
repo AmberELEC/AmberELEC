@@ -1,7 +1,7 @@
 # Build Overview
 The build server is a single server with solid state disks (SSDs).  It runs two self-hosted Github action runners to perform builds. Conceptually, this is like using free GitHub actions except we register our own server to run the build. Using self-hosted runners is required as all known free options to run builds are too small (typically in disk size) to run the 351ELEC build.
 
-A major advantage of using GitHub actions with a self hosted server (as opposed to a full self hosted build system like Jenkins) is that the server is effectively stateless (build folders are cached, but can be rebuilt), making it easy to replace.
+A major advantage of using GitHub actions with a self hosted server - as opposed to a full self hosted build system like Jenkins - is that the server is effectively stateless. Build folders are cached, but can easily be rebuilt, making it easy to replace the server.
 
 **Runners**
 - **main** Driven by [build-main.yaml](build-main.yaml)
