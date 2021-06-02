@@ -1,3 +1,4 @@
 openbor # not able to pull sources
 stella # currently doesn't build with latest 2021-05-15
 amiberry # releases 4.x don't work, needs testing if reenabled
+yabasanshiro # stay on 7ae0de7abc378f6077aff0fd365ab25cff58b055 for now (better performance?)

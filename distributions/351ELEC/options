@@ -259,7 +259,7 @@ cap32 \
 crocods \
 daphne \
 dinothawr \
-swanstation \
+duckstation \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
@@ -269,11 +269,13 @@ fbneo \
 fceumm \
 flycast \
 freeintv \
+freej2me \
 fuse-libretro \
 gambatte \
 gearboy \
 gearsystem \
 genesis-plus-gx \
+genesis-plus-gx-wide \
 gme \
 gpsp \
 gw-libretro \
@@ -317,6 +319,7 @@ snes9x2010 \
 spring \
 stella \
 stella-2014 \
+swanstation \
 TIC-80 \
 tgbdual \
 tyrquake \

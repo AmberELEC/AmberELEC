@@ -1,0 +1,30 @@
+diff --git a/frontend/drivers/platform_unix.c b/frontend/drivers/platform_unix.c
+index 43e818494f..347cfd952d 100644
+--- a/frontend/drivers/platform_unix.c
++++ b/frontend/drivers/platform_unix.c
+@@ -1972,12 +1972,6 @@ static void frontend_unix_deinit(void *data)
+
+    android_app_destroy(android_app);
+ #endif
+-
+-#ifdef HAVE_LAKKA
+-   /* Reset brightness to maximum */
+-   if (settings->uints.screen_brightness != DEFAULT_SCREEN_BRIGHTNESS)
+-      frontend_unix_set_screen_brightness(DEFAULT_SCREEN_BRIGHTNESS);
+-#endif
+ }
+
+ static void frontend_unix_init(void *data)
+diff --git a/retroarch.c b/retroarch.c
+index 9850c21524..3ae7d35533 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -39990,7 +39990,7 @@ bool frontend_driver_can_set_screen_brightness()
+ {
+    struct rarch_state     *p_rarch = &rarch_st;
+    frontend_ctx_driver_t *frontend = p_rarch->current_frontend_ctx;
+-   return (frontend && frontend->set_screen_brightness);
++   return false;
+ }
+
+ void frontend_driver_detach_console(void)
