@@ -1,18 +1,18 @@
 # Build Overview
-The build server is a single server with SSD disks which runs two self-hosted Github action runners to perform builds: 
-- One runner for main. Driven by [build-main.yaml](docs/build-main.yaml)
+The build server is a single server with SSD disks.  It runs two self-hosted Github action runners to perform builds. Conceptually, this is pretty much like using free GitHub actions except we register our own server to run the build as GitHub actions and other free options are too small to run the 351ELEC build.
+
+**Runners**
+- One runner for main. Driven by [build-main.yaml](build-main.yaml)
   - An 'incremental' build (no `make clean`) is run on every commit to `main`.
   - If a 'full' build is required.  `make clean` can be run manually by 351ELEC admins.  Driven by: [clean-main.yaml](docs/clean-main.yaml)
-- One runner for PR's. Driven by [build-pr.yaml](docs/build-pr.yaml)
+- One runner for PR's. Driven by [build-pr.yaml](build-pr.yaml)
   - An 'incremental' build (no `make clean`) is run on every PR which: 1. Has requested reviewers OR 2. Is from a 351ELEC branch.  
     - Limiting the PRs built is done for security to ensure randomly submitted PRs are not built without some level of review (only 351ELEC admins are allowed to request reviewers)
   - If a 'full' PR build is required `make clean` can be run manually by 351ELEC admins for the PR builder.  Driven by: [clean-pr.yaml](docs/clean-pr.yaml)
 
-This two-runner design is to ensure that 'main' builds are not clogged up by random PR pushes, etc.
+This two-runner design is to ensure that 'main' builds are not clogged up by random PR pushes, etc.  
 
-Additionally, only a single build will be queued for a given PR or main.  For example, if there are 10 pushes to main
-while main is already building, you will see the first 9 commits show up in the Actions tab as 'cancelled'.  This ensures
-the queue doesn't get too clogged if people are pushing a lot of commits.
+**NOTE**: Only a single build will be queued for a given PR or main at a time.
 
 ### Dev Artifacts
 The 'main' branch publishes `.img.gz` and `.tar` updates for every build.  They are split into two packages, one for RG351P and RG351P.  
