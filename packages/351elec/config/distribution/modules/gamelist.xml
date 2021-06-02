@@ -79,4 +79,17 @@
 		<image>./downloaded_images/splash.png</image>
 	</game>
 
+	<game>
+		<path>./usbmount.sh</path>
+		<name>Mount/Unmount USB drive</name>
+		<desc>Mounts/Unmounts a USB drive connected the OTG port</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>script</genre>
+		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
+		<image>./downloaded_images/filemanager.png</image>
+	</game>
+
 </gameList>
