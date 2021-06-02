@@ -1,12 +1,12 @@
 # Build Overview
 The build server is a single server with SSD disks which runs two self-hosted Github action runners to perform builds: 
-- One runner for main. Driven by [build-main.yaml]
+- One runner for main. Driven by [build-main.yaml](docs/build-main.yaml)
   - An 'incremental' build (no `make clean`) is run on every commit to `main`.
-  - If a 'full' build is required.  `make clean` can be run manually by 351ELEC admins.  Driven by: [clean-main.yaml] 
-- One runner for PR's. Driven by [build-pr.yaml]
+  - If a 'full' build is required.  `make clean` can be run manually by 351ELEC admins.  Driven by: [clean-main.yaml](docs/clean-main.yaml)
+- One runner for PR's. Driven by [build-pr.yaml](docs/build-pr.yaml)
   - An 'incremental' build (no `make clean`) is run on every PR which: 1. Has requested reviewers OR 2. Is from a 351ELEC branch.  
     - Limiting the PRs built is done for security to ensure randomly submitted PRs are not built without some level of review (only 351ELEC admins are allowed to request reviewers)
-  - If a 'full' PR build is required `make clean` can be run manually by 351ELEC admins for the PR builder.  Driven by: [clean-pr.yaml] 
+  - If a 'full' PR build is required `make clean` can be run manually by 351ELEC admins for the PR builder.  Driven by: [clean-pr.yaml](docs/clean-pr.yaml)
 
 This two-runner design is to ensure that 'main' builds are not clogged up by random PR pushes, etc.
 
