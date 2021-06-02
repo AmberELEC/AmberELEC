@@ -1,7 +1,7 @@
 # Hosting Options - Summary
 All known free options for a build server will not currently
 work due to build size (~160GB), full build length (~5+ hours) and 
-CPU requirements (4+ cpus needed for full build).  This means self-host of at least the build 'runner' is required.
+CPU requirements (4+ cpus needed for full build).  This means self-hosting of at least the build 'runner' is required.
 
 Self-hosting of the runner could be done dynamically in the cloud (AWS, GCP, Azure, etc) or statically via a traditional 'build server'.  Due to the size of build (and complexity of caching it), CPU requirements and additional 'hidden' costs (*AWS* - we are looking at your 9 cents per GB outbound traffic costs) it was determined that a traditional build server is the way to go.  A static build server also allows the build server to be swapped out more easily than with full cloud integration and it is easier to debug without in-depth cloud knowledge.
 
