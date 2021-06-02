@@ -5,7 +5,14 @@ echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
 sleep 1
 echo 'confguring inputs'
-ln -s /dev/input/event3 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
+echo 'confguring inputs on device:'$EE_DEVICE
+if [[ "$EE_DEVICE" == "RG351V" ]] 
+then 
+	ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick 
+else
+	ln -s /dev/input/event3 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+fi
 chmod 777 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 sleep 1
 echo 'using core:' "$1"
