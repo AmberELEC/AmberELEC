@@ -1,5 +1,5 @@
 # Build Overview
-The build server is a single server with SSD disks.  It runs two self-hosted Github action runners to perform builds. Conceptually, this is pretty much like using free GitHub actions except we register our own server to run the build as GitHub actions and other free options are too small to run the 351ELEC build.
+The build server is a single server with solid state disks (SSDs).  It runs two self-hosted Github action runners to perform builds. Conceptually, this is pretty much like using free GitHub actions except we register our own server to run the build as GitHub actions as other free options are too small to run the 351ELEC build.
 
 **Runners**
 - **main** Driven by [build-main.yaml](build-main.yaml)
@@ -15,9 +15,9 @@ This two-runner design is to ensure that 'main' builds are not clogged up by ran
 **NOTE**: Only a single build will be queued for a given PR or main at a time.
 
 ### Dev Artifacts
-The 'main' branch publishes `.img.gz` and `.tar` updates for every build.  They are split into two packages, one for RG351P and RG351P.  
+The 'main' branch publishes `.img.gz` and `.tar` updates for every build.  They are split into two packages, one for RG351P and another RG351V.  
 Unfortunately, GitHub actions currently has a limitation that all artifacts must be zipped.  This means that the .tar.gz and .tar file will be inside a zip. 
-This is primarily a UI limitation and may be addressed in the future as the artifacts are stored separately and the zip is dynamically created. 
+This is primarily a GitHub UI limitation and may be addressed in the future as artifacts are stored separately and the zip is dynamically created. 
 See: https://github.com/actions/upload-artifact#zipped-artifact-downloads
 
 PR's currently only publish `.tar` updates as fresh flashing from the `.img.gz` is not typically needed.  This is just
@@ -25,14 +25,14 @@ done to speed up PR builds.
 
 # Hosting Options and Alternatives
 It is not ideal to require a non-free build system for an open source project.  However, at this time, it appears to 
-be the only realistic option due to the large build size (~160GB) combined with the long duration for full builds (~5 hours)
+be the only realistic option due to the large build size (~160GB) combined with the long duration for full builds (~5 hours).
 
 See: [Hosting Options](docs/hosting-options.md) for more details on why the current design (single server) along with
 GitHub actions was chosen.
 
 # Build Server Setup
 Due to requiring a build server - as opposed to cloud/hosted options - it is imporant to ensure that 
-the build server itself can be easily swapped out for another server.  The following documents how to create a new build server.
+the build server itself can be easily swapped out for another server.  The following link documents how to create a new build server.
 
 See: [Build Server Setup](docs/build-server-setup.md) for more details on provisioning the build server and configuring GitHub.
 
