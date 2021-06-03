@@ -267,6 +267,7 @@ fba4arm \
 fbalpha2012 \
 fbneo \
 fceumm \
+fmsx \
 flycast \
 freeintv \
 freej2me \
