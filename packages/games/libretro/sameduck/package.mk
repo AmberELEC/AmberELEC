@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -18,17 +19,29 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="core-info"
-PKG_VERSION="33838a13a9c261bbf03777f6aed39b5b1bb5e727"
-PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/libretro/libretro-core-info"
-PKG_URL="https://github.com/libretro/libretro-core-info/archive/$PKG_VERSION.tar.gz"
+PKG_NAME="sameduck"
+PKG_VERSION="a5e5462f79164d21053f81fc680bfa9f59a2bf59"
+PKG_REV="1"
+PKG_ARCH="any"
+PKG_LICENSE="MIT"
+PKG_SITE="https://github.com/LIJI32/SameBoy"
+PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_GIT_CLONE_BRANCH="SameDuck"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_LONGDESC="Mirror of libretro's core info files"
-PKG_TOOLCHAIN="manual"
+PKG_PRIORITY="optional"
+PKG_SECTION="libretro"
+PKG_SHORTDESC="Mega Duck/Cougar Boy emulator written in C"
+PKG_LONGDESC="Mega Duck/Cougar Boy emulator written in C"
+
+PKG_IS_ADDON="no"
+PKG_TOOLCHAIN="make"
+PKG_AUTORECONF="no"
+
+make_target() {
+  make -C libretro
+}
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  rename.ul -v mednafen beetle $PKG_BUILD/*.info
-  cp $PKG_BUILD/*.info $INSTALL/usr/lib/libretro/
+  cp build/bin/sameduck_libretro.so $INSTALL/usr/lib/libretro/
 }

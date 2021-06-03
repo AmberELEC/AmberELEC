@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -18,17 +19,31 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="core-info"
-PKG_VERSION="33838a13a9c261bbf03777f6aed39b5b1bb5e727"
-PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/libretro/libretro-core-info"
-PKG_URL="https://github.com/libretro/libretro-core-info/archive/$PKG_VERSION.tar.gz"
+PKG_NAME="genesis-plus-gx-wide"
+PKG_VERSION="73c298b106610055be4bffd4f5eb996c6bf83aee"
+PKG_REV="1"
+PKG_ARCH="any"
+PKG_LICENSE="Non-commercial"
+PKG_SITE="https://github.com/libretro/Genesis-Plus-GX-Wide"
+PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_LONGDESC="Mirror of libretro's core info files"
-PKG_TOOLCHAIN="manual"
+PKG_PRIORITY="optional"
+PKG_SECTION="libretro"
+PKG_SHORTDESC="An enhanced port of Genesis Plus for Gamecube/Wii"
+PKG_LONGDESC="Genesis Plus GX is an open-source & portable Sega Mega Drive / Genesis emulator, now also emulating SG-1000, Master System, Game Gear and Sega/Mega CD hardware."
+
+PKG_IS_ADDON="no"
+PKG_TOOLCHAIN="make"
+PKG_AUTORECONF="no"
+
+make_target() {
+  if [ "$ARCH" == "arm" ]; then
+    CFLAGS="$CFLAGS -DALIGN_LONG"
+  fi
+  make -f Makefile.libretro
+}
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  rename.ul -v mednafen beetle $PKG_BUILD/*.info
-  cp $PKG_BUILD/*.info $INSTALL/usr/lib/libretro/
+  cp genesis_plus_gx_wide_libretro.so $INSTALL/usr/lib/libretro/genesis_plus_gx_wide_libretro.so
 }

@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="retrorun"
-PKG_VERSION="fcf91a49fc7cc82b6987eb5d132a63dbe533c833"
+PKG_VERSION="a8fabc27780502a3ebc41e6b79f8e7ab74e3d1f7"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/retrorun-go2"
@@ -25,6 +25,10 @@ CFLAGS+=" -I$(get_build_dir linux)/tools/include"
 PKG_MAKE_OPTS_TARGET=" config=release ARCH="
 }
 
+make_target() {
+  make config=release ARCH=
+}
+
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
   if [ "${ARCH}" != "aarch64" ]; then
@@ -33,5 +37,7 @@ makeinstall_target() {
     cp retrorun $INSTALL/usr/bin
     cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
+    mkdir -p $INSTALL/usr/config/distribution/configs
+    cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
   fi
 }
