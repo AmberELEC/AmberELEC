@@ -19,29 +19,29 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="mame2000"
-PKG_VERSION="49671d509bd370a1e92b972eb021149fcdfb1a0d"
-PKG_SHA256="f31bbdf0addb54c655d8556f305f44a87f234f5a6af1e6988dce951e19e8d022"
+PKG_NAME="fmsx"
+PKG_VERSION="d0581d40a40b231d619d2c5363fc2e0ecefeafbd"
+PKG_SHA256="61fd4d4a3b2dc8aff2e33b601bafd15c87a0a4908cb5a47f5690dfe70a37d990"
 PKG_REV="1"
 PKG_ARCH="any"
-PKG_LICENSE="MAME"
-PKG_SITE="https://github.com/libretro/mame2000-libretro"
+PKG_LICENSE="GPLv2"
+PKG_SITE="https://github.com/libretro/fmsx-libretro"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
-PKG_SHORTDESC="MAME - Multiple Arcade Machine Emulator"
-PKG_LONGDESC="MAME - Multiple Arcade Machine Emulator"
+PKG_SHORTDESC="Port of fMSX 4.9 to the libretro API."
+PKG_LONGDESC="Port of fMSX 4.9 to the libretro API."
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
 make_target() {
-  make WANT_LIBCO=0
+  make
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp mame2000_libretro.so $INSTALL/usr/lib/libretro/
+  cp fmsx_libretro.so $INSTALL/usr/lib/libretro/
 }

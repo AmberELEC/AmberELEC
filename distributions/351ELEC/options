@@ -267,6 +267,7 @@ fba4arm \
 fbalpha2012 \
 fbneo \
 fceumm \
+fmsx \
 flycast \
 freeintv \
 freej2me \
@@ -281,6 +282,7 @@ gpsp \
 gw-libretro \
 handy \
 hatari \
+mame2000 \
 mame2003-plus \
 mame2010 \
 mame2015 \
