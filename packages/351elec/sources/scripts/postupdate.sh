@@ -3,15 +3,6 @@
 ## This script should only run after an update
 ## 
 
-## 2021-05-29 Removing the reset function from SELECT+B and replacing it with screenshot button
-sed -i "/input_screenshot_btn/d" /usr/config/retroarch/retroarch.cfg
-sed -i "/input_reset_mbtn/d" /usr/config/retroarch/retroarch.cfg
-sed -i "/input_screenshot_btn/d" "/etc/retroarch-joypad-autoconfig/OpenSimHardware OSH PB Controller.cfg"
-sed -i "/input_reset_mbtn/d" "/etc/retroarch-joypad-autoconfig/OpenSimHardware OSH PB Controller.cfg"
-echo 'input_screenshot_btn = "16"' >> /usr/config/retroarch/retroarch.cfg
-echo 'input_reset_mbtn = "nul"' >> /usr/config/retroarch/retroarch.cfg
-echo 'input_screenshot_btn = "16"' >> "/etc/retroarch-joypad-autoconfig/OpenSimHardware OSH PB Controller.cfg"
-
 ## 2021-05-27
 ## Enable D-Pad to analogue at boot until we create a proper toggle
 sed -i "/## Enable D-Pad to analogue at boot until we create a proper toggle/d" /storage/.config/distribution/configs/distribution.conf
