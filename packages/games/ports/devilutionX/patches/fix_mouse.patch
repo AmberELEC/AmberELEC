@@ -1,0 +1,23 @@
+From 6a82fdee333bfd68105344914a629caae6e90f8e Mon Sep 17 00:00:00 2001
+From: southoz <adriangrant@iinet.net.au>
+Date: Fri, 16 Apr 2021 08:48:31 +1000
+Subject: [PATCH] Update plrctrls.cpp
+
+Update Mouse Position based on Right Stick Movement
+---
+ SourceX/controls/plrctrls.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/SourceX/controls/plrctrls.cpp b/SourceX/controls/plrctrls.cpp
+index cb5fde0b12..631abfce13 100644
+--- a/SourceX/controls/plrctrls.cpp
++++ b/SourceX/controls/plrctrls.cpp
+@@ -1012,6 +1012,8 @@ void HandleRightStickMotion()
+ 		if (now - lastMouseSetTick > 0) {
+ 			SetCursorPos(x, y);
+ 			lastMouseSetTick = now;
++			MouseX = x;
++			MouseY = y;
+ 		}
+ 	}
+ }

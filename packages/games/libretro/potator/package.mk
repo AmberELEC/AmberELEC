@@ -1,6 +1,6 @@
 PKG_NAME="potator"
-PKG_VERSION="2873c42f28012992c1132fd083787f5b76b99418"
-PKG_SHA256="6220c22516327071d8167caeb289da79fee39683ff0ba44c62ad0bd88fc43fa7"
+PKG_VERSION="7ffa0711c84f24b217a04d2be411132f385a8076"
+PKG_SHA256="0879edf8adcc551ad14955d471b50c542ea3d452a127c664ad98505ac5c4f789"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -15,10 +15,7 @@ PKG_TOOLCHAIN="make"
 
 
 make_target() {
-  if [ "$ARCH" == "arm" ]; then
-    CFLAGS="$CFLAGS -DALIGN_LONG"
-  fi
-  make -C platform/libretro/
+  make -C platform/libretro/ platform=aarch64
 }
 
 makeinstall_target() {

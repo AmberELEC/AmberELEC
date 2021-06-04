@@ -19,8 +19,7 @@
 ################################################################################
 
 PKG_NAME="core-info"
-PKG_VERSION="9180267835df29abdfc6521108bb50cdc9be8d53"
-PKG_SHA256="eac143b17f08780a2cde75c2a547ffc94a24e6dab09ee96932e005ad850d736c"
+PKG_VERSION="33838a13a9c261bbf03777f6aed39b5b1bb5e727"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-core-info"
 PKG_URL="https://github.com/libretro/libretro-core-info/archive/$PKG_VERSION.tar.gz"
@@ -31,6 +30,5 @@ PKG_TOOLCHAIN="manual"
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   rename.ul -v mednafen beetle $PKG_BUILD/*.info
-  rename.ul -v duckstation swanstation $PKG_BUILD/*.info
   cp $PKG_BUILD/*.info $INSTALL/usr/lib/libretro/
 }
