@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="mpg123"
-PKG_VERSION="1.26.4"
+PKG_VERSION="1.27.2"
 #PKG_SHA256=""
 PKG_LICENSE="LGPLv2"
 PKG_SITE="http://www.mpg123.org/"

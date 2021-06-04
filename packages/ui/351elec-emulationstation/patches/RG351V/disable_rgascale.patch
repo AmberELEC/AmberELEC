@@ -1,0 +1,65 @@
+diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
+index 4b7fb000..5d54922e 100644
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -2175,10 +2175,10 @@ void GuiMenu::openGamesSettings_batocera()
+ 	s->addSaveFunc([integerscale_enabled] { SystemConf::getInstance()->set("global.integerscale", integerscale_enabled->getSelected()); });
+ 
+         // RGA scale
+-        auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALE (FOR MOST CONSOLES)"));
+-        rgascale_enabled->addRange({ { _("AUTO"), "auto" },{ _("ON") , "1" },{ _("OFF") , "0" } }, SystemConf::getInstance()->get("global.rgascale"));
+-        s->addWithLabel(_("RGA SCALE (FOR MOST CONSOLES)"), rgascale_enabled);
+-        s->addSaveFunc([rgascale_enabled] { SystemConf::getInstance()->set("global.rgascale", rgascale_enabled->getSelected()); });
++        //auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALE (FOR MOST CONSOLES)"));
++        //rgascale_enabled->addRange({ { _("AUTO"), "auto" },{ _("ON") , "1" },{ _("OFF") , "0" } }, SystemConf::getInstance()->get("global.rgascale"));
++        //s->addWithLabel(_("RGA SCALE (FOR MOST CONSOLES)"), rgascale_enabled);
++        //s->addSaveFunc([rgascale_enabled] { SystemConf::getInstance()->set("global.rgascale", rgascale_enabled->getSelected()); });
+ 
+ #ifndef _ENABLEEMUELEC
+ 	// decorations
+@@ -4125,13 +4125,13 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
+ 	}
+ 
+ #if defined(ODROIDGOA) || defined(_ENABLEGAMEFORCE)
+-	// RGA SCALING
+-		auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALING"));
+-		rgascale_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get(configName + ".rgascale") != "0" && SystemConf::getInstance()->get(configName + ".rgascale") != "1");
+-		rgascale_enabled->add(_("ON"), "1", SystemConf::getInstance()->get(configName + ".rgascale") == "1");
+-		rgascale_enabled->add(_("OFF"), "0", SystemConf::getInstance()->get(configName + ".rgascale") == "0");
+-		systemConfiguration->addWithLabel(_("RGA SCALING"), rgascale_enabled);
+-		systemConfiguration->addSaveFunc([configName, rgascale_enabled] { SystemConf::getInstance()->set(configName + ".rgascale", rgascale_enabled->getSelected()); });
++	// RGA scale
++	//	auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALING"));
++	//	rgascale_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get(configName + ".rgascale") != "0" && SystemConf::getInstance()->get(configName + ".rgascale") != "1");
++	//	rgascale_enabled->add(_("ON"), "1", SystemConf::getInstance()->get(configName + ".rgascale") == "1");
++	//	rgascale_enabled->add(_("OFF"), "0", SystemConf::getInstance()->get(configName + ".rgascale") == "0");
++	//	systemConfiguration->addWithLabel(_("RGA SCALING"), rgascale_enabled);
++	//	systemConfiguration->addSaveFunc([configName, rgascale_enabled] { SystemConf::getInstance()->set(configName + ".rgascale", rgascale_enabled->getSelected()); });
+ #endif
+ 
+ 	// Vertical Game
+@@ -4180,15 +4180,15 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
+ 	}
+ #ifdef _ENABLEEMUELEC
+         // RGA scale
+-        if (systemData->isFeatureSupported(currentEmulator, currentCore, EmulatorFeatures::pixel_perfect))
+-        {
+-                auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALE (FOR MOST CONSOLES)"));
+-                rgascale_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get(configName + ".rgascale") != "0" && SystemConf::getInstance()->get(configName + ".rgascale") != "1");
+-                rgascale_enabled->add(_("ON"), "1", SystemConf::getInstance()->get(configName + ".rgascale") == "1");
+-                rgascale_enabled->add(_("OFF"), "0", SystemConf::getInstance()->get(configName + ".rgascale") == "0");
+-                systemConfiguration->addWithLabel(_("RGA SCALE (FOR MOST CONSOLES)"), rgascale_enabled);
+-                systemConfiguration->addSaveFunc([rgascale_enabled, configName] { SystemConf::getInstance()->set(configName + ".rgascale", rgascale_enabled->getSelected()); });
+-        }
++        //if (systemData->isFeatureSupported(currentEmulator, currentCore, EmulatorFeatures::pixel_perfect))
++        //{
++        //        auto rgascale_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("RGA SCALE (FOR MOST CONSOLES)"));
++        //        rgascale_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get(configName + ".rgascale") != "0" && SystemConf::getInstance()->get(configName + ".rgascale") != "1");
++        //        rgascale_enabled->add(_("ON"), "1", SystemConf::getInstance()->get(configName + ".rgascale") == "1");
++        //        rgascale_enabled->add(_("OFF"), "0", SystemConf::getInstance()->get(configName + ".rgascale") == "0");
++        //        systemConfiguration->addWithLabel(_("RGA SCALE (FOR MOST CONSOLES)"), rgascale_enabled);
++        //        systemConfiguration->addSaveFunc([rgascale_enabled, configName] { SystemConf::getInstance()->set(configName + ".rgascale", rgascale_enabled->getSelected()); });
++        //}
+ 
+ 	// bezel
+ 	//if (systemData->isFeatureSupported(currentEmulator, currentCore, EmulatorFeatures::decoration))
