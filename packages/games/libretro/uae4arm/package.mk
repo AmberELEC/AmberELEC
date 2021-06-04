@@ -53,6 +53,6 @@ makeinstall_target() {
   if [ "${ARCH}" != "aarch64" ]; then
     cp uae4arm_libretro.so $INSTALL/usr/lib/libretro/
   else
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/uae4arm-*/.install_pkg/usr/lib/libretro/uae4arm_libretro.so $INSTALL/usr/lib/libretro/
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/uae4arm-*/.install_pkg/usr/lib/libretro/uae4arm_libretro.so $INSTALL/usr/lib/libretro/
   fi
 }

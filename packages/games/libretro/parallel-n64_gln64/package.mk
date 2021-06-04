@@ -38,7 +38,7 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   if [[ "$DEVICE" =~ RG351 ]] && [[ "$ARCH" == "aarch64" ]]
   then
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${LIBREELEC_VERSION}/parallel-n64_gln64-*/.install_pkg/usr/lib/libretro/parallel_n64_gln64_libretro.so ${INSTALL}/usr/lib/libretro/parallel_n64_gln64_libretro.so
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/parallel-n64_gln64-*/.install_pkg/usr/lib/libretro/parallel_n64_gln64_libretro.so ${INSTALL}/usr/lib/libretro/parallel_n64_gln64_libretro.so
   else
     cp parallel_n64_libretro.so $INSTALL/usr/lib/libretro/parallel_n64_gln64_libretro.so
   fi
