@@ -84,7 +84,7 @@ VERBOSE="${VERBOSE:-yes}"
 # value. The default is gigabytes. The actual value stored is rounded down to
 # the nearest multiple of 16 kilobytes.  Keep in mind this per project .ccache
 # directory.
-CCACHE_CACHE_SIZE="10G"
+CCACHE_CACHE_SIZE="20G"
 
 # read local persistent options from $ROOT if available
 if [ -f "${ROOT}/.coreelec/options" ]; then
