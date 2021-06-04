@@ -78,11 +78,11 @@ makeinstall_target() {
 
     for lib in ${LIBS}
     do 
-      find $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
+      find $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
     rm -f ${INSTALL}/usr/lib32/libmali.so
     ln -sf libmali.so.1 ${INSTALL}/usr/lib32/libmali.so
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
     patchelf --set-interpreter /usr/lib32/ld-linux-armhf.so.3 ${INSTALL}/usr/bin/retroarch32
     chmod -f +x ${INSTALL}/usr/lib32/* || :
   fi
