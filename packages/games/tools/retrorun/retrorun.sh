@@ -1,5 +1,5 @@
 #!/bin/bash
-echo starting retrorun emulator...
+echo 'starting retrorun emulator...'
 if [ ! -f /storage/.config/distribution/configs/retrorun.cfg ]; then
   cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
 fi
