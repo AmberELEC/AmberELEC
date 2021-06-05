@@ -67,7 +67,7 @@ else
 fi
 
 TZ=$(get_ee_setting system.timezone)
-echo "TIMEZONE=$TZ" > /storage/.cache/timezone
+echo -n "TIMEZONE=$TZ" > /storage/.cache/timezone
 systemctl restart tz-data.service
 
 # create charmap used for translations
@@ -102,7 +102,8 @@ if [ "$EE_DEVICE" == "OdroidGoAdvance" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
 fi
 
 if [[ ! -f "/storage/.newcfg" ]]; then
-  cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
+  # we don't use es_systems.cfg in this folder anymore
+  # cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
   touch /storage/.newcfg
   echo -en '\e[20;0H                                        ' >/dev/console
 fi

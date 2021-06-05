@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="vice"
-PKG_VERSION="d9c6b7538fb0be29730b873d24318840c6e7ae99"
-PKG_SHA256="40e3940153a78adcead2589e799c008d07f2cc73b4b9098dd20b065d2c2ad202"
+PKG_VERSION="a223ced980ffd14cb881825eff2eb94d1fc35927"
+PKG_SHA256="5f94396db232f1cb1a72b619da1a1f989761540966867f2289511fb00ba77875"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -56,5 +56,8 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp built/vice_*_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_x128_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_x64_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_xplus4_libretro.so $INSTALL/usr/lib/libretro/
+  cp built/vice_xvic_libretro.so $INSTALL/usr/lib/libretro/
 }

@@ -1,0 +1,12 @@
+diff --git a/src/posix/videomodes.h b/src/posix/videomodes.h
+index b9df20801..9c7419129 100644
+--- a/src/posix/videomodes.h
++++ b/src/posix/videomodes.h
+@@ -44,6 +44,7 @@ VideoModes[] =
+ 	{  400,  300 },
+ 	{  480,  270 },	// 16:9
+ 	{  480,  360 },
++	{  480,  320 }, // 3:2
+ 	{  512,  288 },	// 16:9
+ 	{  512,  384 },
+ 	{  640,  360 },	// 16:9

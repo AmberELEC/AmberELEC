@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-pcfx"
-PKG_VERSION="23818196bdac178e0583d43b013660a423e3c27b"
-PKG_SHA256="002ea9cb4b22e91b0f916d6654af4713236f640b3ce888a008c53ee3f2b2867d"
+PKG_VERSION="ceff11eab32febfcf8507f0bfe618bcdf80e75ef"
+PKG_SHA256="fbe1ff0d6505b61c230f406b628ec4404d0fdda2e50d9b1fdcb58a83e4e8b933"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -47,5 +47,5 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp mednafen_pcfx_libretro.so $INSTALL/usr/lib/libretro/
+  cp mednafen_pcfx_libretro.so $INSTALL/usr/lib/libretro/beetle_pcfx_libretro.so
 }

@@ -4,7 +4,7 @@
 
 MIN=0
 MAX=255
-STEP=16
+STEP=3
 
 if [ ! -f /sys/class/backlight/backlight/brightness ]
 then

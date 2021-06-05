@@ -57,7 +57,7 @@ function identity_backup() {
         BPATH="/storage/roms/backup/"
 	mkdir -p "${BPATH}"
         IDENTITYFILE="${BPATH}/identity.tar.gz"
-        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/distribution.conf /storage/.config/distribution/configs/emuoptions.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log 2>&1
+        tar -cvzf ${IDENTITYFILE} /storage/.ssh /storage/.config/distribution/configs/distribution.conf /storage/.config/emulationstation/es_settings.cfg /storage/.cache/shadow /storage/.cache/ssh /storage/.cache/connman >${BPATH}/backup.log 2>&1
 	if [ "${EMURESTART}" == true ]
 	then
 		systemctl start emustation
@@ -109,33 +109,33 @@ function ee_backup() {
                 zip -9 -r ${BACKUPFILE} \
                           /storage/.cache/bluetooth/* \
                           /storage/.cache/connman* \
-                          /storage/.config/distribution/configs/emuoptions.conf \
                           /storage/.config/distribution/configs/distribution.conf \
                           /storage/.emulationstation/es_*.cfg \
                           /tmp/joypads/* \
                           /storage/.config/ppsspp/* \
                           /storage/.config/retroarch/* \
                           /storage/.emulationstation/scripts/*
-                [ -z "$2" ] && systemctl start emustation
+                [ -z "${2}" ] && systemctl start emustation
         ;;
         esac
 }
 
 function setemu(){
 ## workaround for ES performance with big conf files
+## This is no longer in use! 
 
 EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
-[ ! -f ${EE_CONF} ] && touch ${EE_CONF}
+[ ! -f "${EE_CONF}" ] && touch "${EE_CONF}"
 
 	case "$1" in
 	"set")
-		PAT=$(echo "$2" | sed -e 's|\"|\\"|g' | sed -e 's|\[|\\\[|g' | sed -e 's|\]|\\\]|g')
+		PAT=$(echo "${2}" | sed -e 's|\"|\\"|g' | sed -e 's|\[|\\\[|g' | sed -e 's|\]|\\\]|g')
 		sed -i "/^$PAT/d" "${EE_CONF}"
-		S2=${2}
-		S3=${3}
+		S2="${2}"
+		S3="${3}"
 		shift 2
 		if [ "${S3}" != "auto" ]; then
-			[ ${S3} == "disable" ] && echo "#${S2}=" >> "${EE_CONF}" || echo "${S2}=${@}" >> "${EE_CONF}"
+			[ "${S3}" == "disable" ] && echo "#${S2}=" >> "${EE_CONF}" || echo "${S2}=${@}" >> "${EE_CONF}"
 		fi
 		;;
 	"get")
@@ -166,8 +166,8 @@ IP="$(ifconfig wlan0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')"
  if [ -z "$IP" ]; then
 	echo "No Internet"
  else
-	echo ${IP}
-	echo ${IP} > /storage/ip.txt
+	echo "${IP}"
+	echo "${IP}" > /storage/ip.txt
  fi
 }
 
@@ -216,7 +216,8 @@ function current_timezone() {
 }
 
 function timezones() {
-	cat /usr/share/zoneinfo/zone1970.tab | grep -v "^#" | awk '{ print $3 }' | sort -u | tr '\n' ','
+	# cat /usr/share/zoneinfo/zone1970.tab | grep -v "^#" | awk '{ print $3 }' | sort -u | tr '\n' ','
+	cat /usr/share/zoneinfo/zone1970.tab | grep -v "^#" | awk '{ print $3"," }' | sort -u
 }
 
 function small-cores() {

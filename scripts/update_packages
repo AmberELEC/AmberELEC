@@ -5,8 +5,8 @@
 # Based on work by ToKe79 and Shanti Gilbert
 
 OPTIONS="distributions/351ELEC/options"
-RAPACKAGES="retroarch retroarch-assets retroarch-joypad-autoconfig retroarch-overlays libretro-database core-info glsl-shaders"
-EMUPACKAGES="$LIBRETRO_CORES advancemame PPSSPPSDL tgbdual TIC-80 pcsx_rearmed parallel-n64 fba4arm reicastsa amiberry uae4arm puae hatarisa fba4arm openbor mupen64plus mupen64plus-nx scummvmsa duckstation"
+RAPACKAGES="retroarch-assets retroarch-overlays libretro-database core-info glsl-shaders"
+EMUPACKAGES="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus"
 BLOCKLIST="config/blocklist"
 
 source "${OPTIONS}"

@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1b1caf8..a4acb4c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -193,7 +193,7 @@ if(PHYSFS_BUILD_SHARED AND PHYSFS_BUILD_STATIC AND NOT WINDOWS)
+     set_target_properties(physfs-static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+ endif()
+
+-option(PHYSFS_BUILD_TEST "Build stdio test program." TRUE)
++option(PHYSFS_BUILD_TEST "Build stdio test program." FALSE)
+ mark_as_advanced(PHYSFS_BUILD_TEST)
+ if(PHYSFS_BUILD_TEST)
+     find_path(READLINE_H readline/readline.h)
