@@ -1,5 +1,8 @@
 #!/bin/bash
 echo 'starting retrorun emulator...'
+if [ ! -f /storage/.config/distribution/configs/retrorun.cfg ]; then
+  cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
+fi
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
@@ -7,9 +10,9 @@ sleep 1
 echo 'confguring inputs'
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 echo 'confguring inputs on device:'$EE_DEVICE
-if [[ "$EE_DEVICE" == "RG351V" ]] 
-then 
-	ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick 
+if [[ "$EE_DEVICE" == "RG351V" ]]
+then
+	ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 else
 	ln -s /dev/input/event3 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 fi
