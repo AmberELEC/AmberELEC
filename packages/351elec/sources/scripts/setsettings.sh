@@ -74,24 +74,19 @@ function get_setting() {
 	log "Get Settings function (${1})"
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
-	EES=$(sed -n "${PAT}" "${CONF}")
+	EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 
 	if [ -z "${EES}" ]; then
 		PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
-		EES=$(sed -n "${PAT}" "${CONF}")
+		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 	fi
 
 	if [ -z "${EES}" ]; then
 		PAT="s|^global[\.-].*${1}=\(.*\)|\1|p"
-		EES=$(sed -n "${PAT}" "${CONF}")
+		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 	fi
 
-	# Sanity check in case there there are 2 variables set, only use the first line
-	EES=$(echo $EES | head -1)
-
 	[ -z "${EES}" ] && EES="false"
-	# not needed any more
-	# set_setting ${1} ${EES}
 }
 
 ##
@@ -391,13 +386,11 @@ fi
 sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "analogue"
-if [ "${EES}" != "false" ]; then
-	(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
-	if [ $RA == 1 ]; then
-		echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
-	else
-		echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
-	fi
+(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
+if [ $RA == 1 ] || [ "${EES}" == "false" ] || [ "${EES}" == "0" ]; then
+        echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
+else
+        echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
 fi
 
 ##
@@ -507,9 +500,5 @@ if [ "${EES}" != "false" ]; then
 		echo 'menu_driver = "xmb"' >> ${RACONF}
 	fi
 fi
-
-# Show bezel if enabled
-get_setting "bezel"
-[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && ${TBASH} /usr/bin/bezels.sh "default" || ${TBASH} /usr/bin/bezels.sh "$PLATFORM" "${ROM}"
 
 doexit
