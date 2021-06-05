@@ -1,5 +1,8 @@
 #!/bin/bash
 echo starting retrorun emulator...
+if [ ! -f /storage/.config/distribution/configs/retrorun.cfg ]; then
+  cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
+fi
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
 sleep 1
