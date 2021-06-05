@@ -30,7 +30,7 @@ if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]] || [[ "$1" =~ "u
 then
     echo 'using 32bit'
   	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS -n -s /storage/roms/"$3"  -d /roms/bios -f "$1" "$2"
+	/usr/bin/retrorun32 --triggers $FPS -n -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
 else
 	echo 'using 64bit'
 	/usr/bin/retrorun --triggers $FPS -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
