@@ -80,7 +80,7 @@ When using [Personal Access Token](https://docs.github.com/en/github/authenticat
 error: failed to push some refs to 'https://github.com/my-351elec-fork/351ELEC.git'
 ```
 
-To fix, another [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) must be created with `workflow` permissions and used instead of the previous token.
+To fix, edit the [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to add `workflow` permissions (or create a new token with workflow permission).
 
 Alternatively, [ssh-key authentication](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) can be used.
 
