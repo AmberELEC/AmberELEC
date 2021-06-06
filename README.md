@@ -73,7 +73,7 @@ See: [Build Overview](.github/workflows/README.md) for more information.
 ### GitHub Actions and Forks
 Builds use GitHub actions (`.github/workflow`) to execute.  GitHub validates that changes to the `.github/workflow` folder require a special `workflow` permission.  
 
-When using [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to pull in upstream changes from 351ELEC into `.github/workflow` your fork, you may get an error similar to the following:
+When using [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to pull in upstream changes from 351ELEC into your fork, you may get an error similar to the following:
 
 ```
 ! [remote rejected]   main -> main (refusing to allow a Personal Access Token to create or update workflow `.github/workflows/README.md` without `workflow` scope)
@@ -82,7 +82,7 @@ error: failed to push some refs to 'https://github.com/my-351elec-fork/351ELEC.g
 
 To fix, another [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) must be created with `workflow` permissions and used instead of the previous token.
 
-Alternatively, [ssh-key authentication](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) can be used as well.
+Alternatively, [ssh-key authentication](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) can be used.
 
 ## License
 
