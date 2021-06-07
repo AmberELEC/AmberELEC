@@ -62,10 +62,17 @@ docker-%: GID := $(shell id -g)
 docker-%: PWD := $(shell pwd)
 
 # Use 'sudo' if docker ps doesn't work.  In theory, other things than missing sudo could cause this.  But sudo needed is a common issue and easy to fix.
-docker-%: SUDO := $(shell if ! docker ps -q 2>&1 > /dev/null; then echo "sudo"; fi)
+docker-%: SUDO := $(shell if ! docker ps -q 2> /dev/null; then echo "sudo"; fi)
 
 # Launch docker as interactive if this is an interactive shell (allows ctrl-c for manual and running non-interactive - aka: build server)
 docker-%: INTERACTIVE=$(shell [ -t 0 ] && echo "-it")
+
+# By default pass through anything after `docker-` back into `make`
+docker-%: COMMAND=make $*
+
+# If the user issues a `make docker-shell` just start up bash as the shell to run commands
+docker-shell: COMMAND=bash
+
 
 # Command: builds docker image locally from Dockerfile
 docker-image-build:
@@ -83,5 +90,4 @@ docker-image-push:
 
 # Wire up docker to call equivalent make files using % to match and $* to pass the value matched by %
 docker-%:
-	$(SUDO) docker run $(INTERACTIVE) --rm --user $(UID):$(GID) -v $(PWD):/work $(DOCKER_IMAGE) make $*
-
+	$(SUDO) docker run $(INTERACTIVE) --rm --user $(UID):$(GID) -v $(PWD):/work $(DOCKER_IMAGE) $(COMMAND)
