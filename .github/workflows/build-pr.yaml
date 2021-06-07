@@ -35,8 +35,6 @@ jobs:
         with:
           # clean: false ensures that we don't remove all the build files 
           clean: false
-          # pull requests require explicitly using the pr sha
-          ref: ${{ github.event.pull_request.head.sha }}
       
       - name: Get date for artifacts
         id: date
