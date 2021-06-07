@@ -52,6 +52,10 @@ update:
 
 docker-%: DOCKER_IMAGE := "351elec/351elec-build:latest"
 
+# DOCKER_WORK_DIR is the directory in the Docker image - it used to be /work
+#   Anytime this directory changes, you must run `make clean` similarly to moving the 351ELEC directory
+docker-%: DOCKER_WORK_DIR := $(shell if [ -n "${DOCKER_WORK_DIR}" ]; then echo ${DOCKER_WORK_DIR}; else echo $$(pwd); fi)
+
 # UID is the user ID of current user - ensures docker sets file permissions properly
 docker-%: UID := $(shell id -u)
 
@@ -90,4 +94,4 @@ docker-image-push:
 
 # Wire up docker to call equivalent make files using % to match and $* to pass the value matched by %
 docker-%:
-	$(SUDO) docker run $(INTERACTIVE) --rm --user $(UID):$(GID) -v $(PWD):/work $(DOCKER_IMAGE) $(COMMAND)
+	$(SUDO) docker run $(INTERACTIVE) --rm --user $(UID):$(GID) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_IMAGE) $(COMMAND)
