@@ -2,24 +2,85 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
+STORAGE_DIR="/storage"
+CONSOLE_DEVICE=/dev/console
 . /etc/profile
 
-### Disable update functionality
-exit 0
+# Maybe determine better way to identify 'test'
+if [ -d "${STORAGE_DIR}" ]; then
+  echo "Running on RG351 Device"
+else
+  echo "Running on generic linux device - test mode"
+  sleep 1
+  TEST="true"
 
-ARCH="$(cat /storage/.config/.OS_ARCH)"
+  STORAGE_DIR="./test"
+  # ouput to stdout instead of /dev/console
+  CONSOLE_DEVICE=/dev/stdout
+
+  # setup versions for testing
+  TEST_VERSION=20200703
+  TEST_DEVICE=RG351V
+
+  # Setup 'test' directory to simulate a real system
+  CONFIG_DIR="${STORAGE_DIR}/.config"
+  mkdir -p ${CONFIG_DIR}
+  ARCH="${TEST_DEVICE}"
+  echo "20200703" > ${CONFIG_DIR}/.OS_VERSION
+
+  #Test versions of functions
+  function get_ee_setting {
+    echo "daily"
+  }
+  function message_stream {
+    echo -e "${1}"
+  }
+  function reboot_system {
+    if [ "${TEST}" == "true" ]; then
+      echo "test: reboot"
+    else
+      reboot
+    fi
+  }
+fi
+
+function stop_emustation {
+  echo "Stopping emustation..."
+  if [[ "$TEST" == "true" ]]; then
+     echo "systemctl stop emustation"
+  else
+     systemctl stop emustation
+  fi
+}
+function start_emustation {
+  echo "Starting emustation..."
+  if [[ "$TEST" == "true" ]]; then
+     echo "test: systemctl start emustation"
+  else
+     systemctl start emustation
+  fi
+}
+
+function show_splash {
+
+  if [[ "$TEST" == "true" ]]; then
+    echo "test:  /usr/bin/show_splash.sh $1"
+  else
+    /usr/bin/show_splash.sh "$1"
+  fi
+}
 
 ### Modifiable variables
-USTAGE="/storage/roms/update"
+USTAGE="${STORAGE_DIR}/roms/update"
 PREFIX="351ELEC-${ARCH}.aarch64"
-MYVERSION=$(cat /storage/.config/.OS_VERSION)
+MYVERSION=$(cat ${STORAGE_DIR}/.config/.OS_VERSION)
 VERBOSE=true
 BAND=$(get_ee_setting updates.type)
-OS_SHA256="/storage/.config/.OS_SHA256"
+OS_SHA256="${STORAGE_DIR}/.config/.OS_SHA256"
 
 ### Functions Library
 
-if [ "${BAND}" == "daily" ]
+if [ "${BAND}" == "daily" ] || [ "${BAND}" == "release" ]
 then
   API="https://api.github.com/repos/351ELEC/351elec"
   REPO="https://github.com/351ELEC/351ELEC"
@@ -64,7 +125,7 @@ function online_status() {
 function hash() {
   while true
   do
-    echo -n "#" >/dev/console
+    echo -n "#" >${CONSOLE_DEVICE}
     sleep 1
   done
 }
@@ -78,6 +139,9 @@ get_size() {
 }
 
 check_space() {
+  if [ "$TEST" == "true" ]; then
+    return 
+  fi
   MYSIZE="$(get_$1 $2)"
   VOLNAME="$3"
   REQUIRED="$4"
@@ -86,19 +150,18 @@ check_space() {
     NEEDED=$(( (${REQUIRED} - ${MYSIZE} ) / 1024 ))
     message_stream  "\n\nThere is not enough free space available on the ${VOLNAME} volume to install this update.  Free up an additional ${NEEDED}MB, or reflash this version." .02
     sleep 10
-    clear >/dev/console
-    systemctl start emustation
+    clear > ${CONSOLE_DEVICE}
+    start_emustation
     exit 1
   fi
 }
 
 ### Main
 
-systemctl stop emustation
-
-clear >/dev/console
-/usr/bin/show_splash.sh "$0"
-clear >/dev/console
+stop_emustation
+clear > ${CONSOLE_DEVICE}
+show_splash "$0"
+clear > ${CONSOLE_DEVICE}
 
 if [ ! -d "${USTAGE}" ]
 then
@@ -134,8 +197,8 @@ then
   $VERBOSE && log "No update available ${MYVERSION} >= ${TAG}"
   message_stream "\n\nNo update is available, nothing to do..." .02
   sleep 4
-  clear >/dev/console
-  systemctl start emustation
+  clear > ${CONSOLE_DEVICE}
+  start_emustation
   exit 0
 else
   $VERBOSE && log "Update available ${TAG} > ${MYVERSION}"
@@ -201,12 +264,12 @@ then
   message_stream "\nVerification failed, cleaning up and exiting..." .02
   rm -f ${USTAGE}/*
   sleep 4
-  clear >/dev/console
-  systemctl start emustation
+  clear > ${CONSOLE_DEVICE}
+  start_emustation
   exit 1
 else
   # If we are sure that we will do the update we store the sha256 checksum into
-  # /storage/.config/.OS_SHA256 for /usr/bin/updatecheck to verify if the
+  # ${STORAGE_DIR}/.config/.OS_SHA256 for /usr/bin/updatecheck to verify if the
   # latest update is already installed or not
   echo $DLSUM > ${OS_SHA256}
   message_stream "\nVerification successful..." .02
@@ -216,4 +279,4 @@ $VERBOSE && log "Syncing..."
 message_stream "\n\nRebooting to continue update..." .02
 sync
 $VERBOSE && log "rebooting.."
-reboot
+reboot_system
