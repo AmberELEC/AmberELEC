@@ -44,7 +44,6 @@ v-aarch64:
 update:
 	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
 
-
 ## Docker builds - overview
 # docker-* commands just wire up docker to call the normal make command via docker
 # For example: make docker-RG351V will use docker to call: make RG351V

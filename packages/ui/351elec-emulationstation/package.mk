@@ -3,12 +3,12 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="d95eddf98e6a55db204ca0d1fa7dc4fb82e73d09"
-PKG_GIT_CLONE_BRANCH="main"
+PKG_VERSION="6efc0e3b14c33d32cf168a74359e9d05204c197b"
+PKG_GIT_CLONE_BRANCH="reenable-updates"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
+PKG_SITE="https://github.com/pkegg/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
