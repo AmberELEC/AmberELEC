@@ -14,7 +14,7 @@ printf "\033c" >> /dev/tty1
 cd /storage/roms/psx/
 
 # remove all m3u
-rm -f *.m3u ./*/*.m3u
+find . -type f -name '*.m3u' -delete
 
 totf=0
 
