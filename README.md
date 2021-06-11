@@ -52,6 +52,8 @@ All make commands are available via docker, by prepending `docker-`. `make RG351
 New docker make commands: 
 - `make docker-image-build` - Builds the docker image based on the Dockerfile.  This is not required unless changes are needed locally. 
 - `make docker-image-pull` - Pulls docker image from dockerhub.  This will update to the latest image and replace any locally built changes to the docker file.
+- `make docker-shell` - (advanced) Launches a shell inside the docker build container.  This allows running any development commands like `./scripts/build`, etc, which aren't in the Makefile.
+  - NOTE: Errors like `groups: cannot find name for group ID 1002` and the user being listed as `I have no name!` are OK and a result of mapping the host user/group into the docker container where the host user/groups may not exist.
 
 Example building with docker:
 ```
