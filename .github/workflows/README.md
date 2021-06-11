@@ -8,7 +8,7 @@ A major advantage of using GitHub actions with a self hosted server - as opposed
   - **Logic**: An 'incremental' build (no `make clean`) is run on every commit to `main`.  All *build.* directories are saved between builds.
   - If a 'full' build is required.  `make clean` can be run manually by 351ELEC admins via the Github UI.  Driven by: [clean-main.yaml](docs/clean-main.yaml)
 - **Pull Requests**. Driven by [build-pr.yaml](build-pr.yaml)
-  - **Logic**: An 'incremental' build (no `make clean`) is run on every PR which: 1. Has requested reviewers OR 2. Is from a 351ELEC branch.  
+  - **Logic**: An 'incremental' build (no `make clean`) is run on every PR which is from a previous committer. 
     - Limiting the PRs built is done for security to ensure randomly submitted PRs are not built without some level of review (only 351ELEC admins are allowed to request reviewers)
   - If a 'full' PR build is required `make clean` can be run manually by 351ELEC admins for the PR builder.  Driven by: [clean-pr.yaml](docs/clean-pr.yaml)
 

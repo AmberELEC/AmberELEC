@@ -12,5 +12,9 @@ PKG_TOOLCHAIN="manual"
 
 pre_unpack() {
   unzip sources/duckstation/duckstation-1.0.zip -d $PKG_BUILD
+}
+
+makeinstall_target() {
+  mkdir -p $INSTALL/usr/lib/libretro/
   cp $PKG_BUILD/duckstation_libretro.so $INSTALL/usr/lib/libretro/
 }
