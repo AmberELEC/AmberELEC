@@ -3,54 +3,9 @@
 # Copyright (C) 2020-present Fewtarius
 
 . /etc/profile
+DIR=$(realpath $(dirname $0))
 
-### Disable update functionality
-exit 0
-
-ARCH="$(cat /storage/.config/.OS_ARCH)"
-
-### Modifiable variables
-USTAGE="/storage/roms/update"
-PREFIX="351ELEC-${ARCH}.aarch64"
-MYVERSION=$(cat /storage/.config/.OS_VERSION)
-VERBOSE=true
-BAND=$(get_ee_setting updates.type)
-OS_SHA256="/storage/.config/.OS_SHA256"
-
-### Functions Library
-
-if [ "${BAND}" == "daily" ]
-then
-  API="https://api.github.com/repos/351ELEC/351elec"
-  REPO="https://github.com/351ELEC/351ELEC"
-  PROVIDER="git"
-fi
-
-function online_status() {
-  GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
-  if [[ ${GW} =~ [0-9] ]]
-  then
-    echo true
-  else
-    echo false
-  fi
-}
-
-function getlatest() {
-  if [ "${PROVIDER}" == "https" ]
-  then
-    ### Clean this up later.
-    LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
-    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  elif [ "${PROVIDER}" == "git" ]
-  then
-    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
-    REPO="${REPO}/releases/download/${TAG}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  fi
-}
+. ${DIR}/update-utils
 
 ### Main
 
@@ -66,7 +21,7 @@ else
   fi
 fi
 
-if [ "${TAG}" -gt "${MYVERSION}" ]
+if [ "${TAG}" -ge "${MYVERSION}" ]
 then
   # We may be able to deprecate this now.  Will leave for a while though.
   # If there is an update we still have to check if it's a new one

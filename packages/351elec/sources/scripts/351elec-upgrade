@@ -2,162 +2,12 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
+#Constants
 STORAGE_DIR="/storage"
 CONSOLE_DEVICE=/dev/console
 . /etc/profile
-
-# Maybe determine better way to identify 'test'
-if [ -d "${STORAGE_DIR}" ]; then
-  echo "Running on RG351 Device"
-else
-  echo "Running on generic linux device - test mode"
-  sleep 1
-  TEST="true"
-
-  STORAGE_DIR="./test"
-  # ouput to stdout instead of /dev/console
-  CONSOLE_DEVICE=/dev/stdout
-
-  # setup versions for testing
-  TEST_VERSION=20200703
-  TEST_DEVICE=RG351V
-
-  # Setup 'test' directory to simulate a real system
-  CONFIG_DIR="${STORAGE_DIR}/.config"
-  mkdir -p ${CONFIG_DIR}
-  echo "${TEST_DEVICE}" > ${CONFIG_DIR}/.OS_ARCH
-  echo "20200703" > ${CONFIG_DIR}/.OS_VERSION
-
-  #Test versions of functions
-  function get_ee_setting {
-    echo "daily"
-  }
-  function message_stream {
-    echo -e "${1}"
-  }
-fi
-function reboot_system {
-  if [ "${TEST}" == "true" ]; then
-    echo "test: reboot"
-  else
-    reboot
-  fi
-}
-
-function stop_emustation {
-  echo "Stopping emustation..."
-  if [[ "$TEST" == "true" ]]; then
-     echo "systemctl stop emustation"
-  else
-     systemctl stop emustation
-  fi
-}
-function start_emustation {
-  echo "Starting emustation..."
-  if [[ "$TEST" == "true" ]]; then
-     echo "test: systemctl start emustation"
-  else
-     systemctl start emustation
-  fi
-}
-
-function show_splash {
-
-  if [[ "$TEST" == "true" ]]; then
-    echo "test:  /usr/bin/show_splash.sh $1"
-  else
-    /usr/bin/show_splash.sh "$1"
-  fi
-}
-
-### Modifiable variables
-USTAGE="${STORAGE_DIR}/roms/update"
-ARCH="$(cat ${STORAGE_DIR}/.config/.OS_ARCH)"
-PREFIX="351ELEC-${ARCH}.aarch64"
-MYVERSION=$(cat ${STORAGE_DIR}/.config/.OS_VERSION)
-VERBOSE=true
-BAND=$(get_ee_setting updates.type)
-OS_SHA256="${STORAGE_DIR}/.config/.OS_SHA256"
-
-### Functions Library
-
-if [ "${BAND}" == "daily" ] || [ "${BAND}" == "release" ]
-then
-  API="https://api.github.com/repos/351ELEC/351elec"
-  REPO="https://github.com/351ELEC/351ELEC"
-  PROVIDER="git"
-fi
-
-if [ -e "${USTAGE}/update.log" ]
-then
-  rm "${USTAGE}/update.log"
-fi
-
-function getlatest() {
-  if [ "${PROVIDER}" == "https" ]
-  then
-    ### Clean this up later.
-    LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
-    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  elif [ "${PROVIDER}" == "git" ]
-  then
-    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
-    REPO="${REPO}/releases/download/${TAG}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  fi
-}
-
-function log () {
-  echo "$(date): $1" | tee -a "${USTAGE}/update.log"
-}
-
-function online_status() {
-  GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
-  if [[ ${GW} =~ [0-9] ]]
-  then
-    echo true
-  else
-    echo false
-  fi
-}
-
-function hash() {
-  while true
-  do
-    echo -n "#" >${CONSOLE_DEVICE}
-    sleep 1
-  done
-}
-
-get_available() {
-  echo $(df | awk '/'$1'/ {printf $4; exit}')
-}
-
-get_size() {
-  echo $(df | awk '/'$1'/ {printf $2; exit}')
-}
-
-check_space() {
-  if [ "$TEST" == "true" ]; then
-    return 
-  fi
-  MYSIZE="$(get_$1 $2)"
-  VOLNAME="$3"
-  REQUIRED="$4"
-  if [ "${MYSIZE}" -lt "${REQUIRED}" ]
-  then
-    NEEDED=$(( (${REQUIRED} - ${MYSIZE} ) / 1024 ))
-    message_stream  "\n\nThere is not enough free space available on the ${VOLNAME} volume to install this update.  Free up an additional ${NEEDED}MB, or reflash this version." .02
-    sleep 10
-    clear > ${CONSOLE_DEVICE}
-    start_emustation
-    exit 1
-  fi
-}
-
-### Main
+DIR=$(realpath $(dirname $0))
+. ${DIR}/update-utils
 
 stop_emustation
 clear > ${CONSOLE_DEVICE}
@@ -216,14 +66,8 @@ do
 done
 check_space available ${DEV} GAMES 3072000
 
-### 351ELEC 1.x needs 640MB, but 2.x needs 1GB on the boot volume.
-MAJOR=${TAG:0:1}
-if [ "${MAJOR}" -lt 2 ]
-then
-  BOOTREQ=640000
-else
-  BOOTREQ=1024000
-fi
+### 351ELEC 2.x needs 1GB on the boot volume.
+BOOTREQ=1024000
 
 check_space size mmcblk0p1 boot ${BOOTREQ}
 
