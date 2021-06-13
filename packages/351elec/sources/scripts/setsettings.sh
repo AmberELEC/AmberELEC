@@ -514,6 +514,7 @@ declare -A SystemViewport=(
 	['gb']="80 16 320 288"
 	['gbc']="80 16 320 288"
 	['supervision']="80 0 320 320"
+	['gamegear']="80 16 320 288"
 )
 # Cleanup old settings first
 sed -i "/input_overlay_enable/d" ${RACONF}
