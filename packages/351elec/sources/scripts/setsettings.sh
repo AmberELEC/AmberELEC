@@ -501,4 +501,73 @@ if [ "${EES}" != "false" ]; then
 	fi
 fi
 
+##
+## Bezels / Decorations
+##
+
+# List of possible Bezel Folders
+BEZELDIR=(/tmp/overlays/bezels /storage/roms/bezels)
+# Define the resolutions of the differen systems (0:x 1:y 2:width 3:height) as seen in Scaling -> Aspect Ration -> Custom
+# RG351P/M=480x320
+# RG351V=640x480
+declare -A SystemViewport=(
+	['gb']="80 16 320 288"
+	['gbc']="80 16 320 288"
+	['supervision']="80 0 320 320"
+)
+# Cleanup old settings first
+sed -i "/input_overlay_enable/d" ${RACONF}
+sed -i "/input_overlay/d" ${RACONF}
+sed -i "/input_overlay_hide_in_menu/d" ${RACONF}
+sed -i "/input_overlay_opacity/d" ${RACONF}
+sed -i "/input_overlay_show_inputs/d" ${RACONF}
+sed -i "/custom_viewport_x/d" ${RACONF}
+sed -i "/custom_viewport_y/d" ${RACONF}
+sed -i "/custom_viewport_width/d" ${RACONF}
+sed -i "/custom_viewport_height/d" ${RACONF}
+# Don't delete settings that have been set earlier right now:
+# sed -i "/video_scale_integer/d" ${RACONF}
+# sed -i "/aspect_ratio_index/d" ${RACONF}
+
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "bezel"
+if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ]; then
+	# set path
+	for p in ${BEZELDIR[@]}; do
+		if [ -d "${p}"/"${EES}" ]; then
+			path="${p}"/"${EES}"
+		fi
+	done
+	# if there a $ROM.cfg?
+	if [ -f "${path}"/"${ROM%.*}".cfg ]; then
+		bezelcfg="${path}"/"${ROM%.*}".cfg
+	elif [ -f "${path}"/default.cfg ]; then
+		bezelcfg="${path}"/default.cfg
+	fi
+	# configure bezel
+	echo 'input_overlay_enable = "true"'		>> ${RACONF}
+	echo "input_overlay = \"${bezelcfg}\""		>> ${RACONF}
+	echo 'input_overlay_hide_in_menu = "false"'	>> ${RACONF}
+	echo 'input_overlay_opacity = "1.000000"'	>> ${RACONF}
+	echo 'input_overlay_show_inputs = "2"'		>> ${RACONF}
+	# delete / set scaling and aspect ratio:
+	sed -i "/video_scale_integer/d" ${RACONF}
+	sed -i "/aspect_ratio_index/d" ${RACONF}
+	echo 'video_scale_integer = "false"'	>> ${RACONF}
+	echo 'aspect_ratio_index = "23"'		>> ${RACONF}
+	# configure custom scaling
+	# needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
+	declare -a resolution=(${SystemViewport[${PLATFORM}]})
+	echo "custom_viewport_x = \"${resolution[0]}\""			>> ${RACONF}
+	echo "custom_viewport_y = \"${resolution[1]}\""			>> ${RACONF}
+	echo "custom_viewport_width = \"${resolution[2]}\""		>> ${RACONF}
+	echo "custom_viewport_height = \"${resolution[3]}\""	>> ${RACONF}
+else
+	# disable decorations
+	echo 'input_overlay_enable = "false"'		>> ${RACONF}
+fi
+
+##
+## Clean Exit
+##
 doexit
