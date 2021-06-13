@@ -32,7 +32,7 @@ spinPID=$!
 # convert chd files
 
 shopt -s nullglob
-for i in *.chd ./*/*.chd
+for i in *.[cC][hH][dD] ./*/*.[cC][hH][dD]
 do
 	((totf+=1))
 	a=$i
@@ -48,7 +48,7 @@ done
 
 # convert cue files
 
-for i in *.cue ./*/*.cue
+for i in *.[cC][uU][eE] ./*/*.[cC][uU][eE]
 do
 	if [ ! -f "$(echo "$i" | sed s/.cue//gI).chd" ]
 	then
@@ -65,7 +65,7 @@ done
 
 # convert ccd files
 
-for i in *.ccd ./*/*.ccd
+for i in *.[cC][cC][dD] ./*/*.[cC][cC][dD]
 do
 	if [ ! -f "$(echo "$i" | sed s/.ccd//gI).chd" ] && [ ! -f "$(echo "$i" | sed s/.ccd//gI).cue" ]
 	then
