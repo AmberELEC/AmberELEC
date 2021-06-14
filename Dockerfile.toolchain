@@ -1,0 +1,4 @@
+FROM 351elec/351elec-build:latest
+
+RUN DEVICE=RG351P ARCH=arm ./scripts build toolchain
+RUN DEVICE=RG351V ARCH=aarch64 ./scripts build toolchain
