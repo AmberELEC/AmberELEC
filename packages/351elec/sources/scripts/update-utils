@@ -8,16 +8,14 @@ CONSOLE_DEVICE=/dev/console
 . /etc/profile
 
 # To make testing easier - allow running for ubuntu in 'test' mode
-if [ -d "${STORAGE_DIR}" ]; then
-  echo "Running on RG351 Device"
-else
+if [ ! -d "${STORAGE_DIR}" ]; then
   echo "Running on generic linux device - test mode"
-  sleep 1
   TEST="true"
   STORAGE_DIR="./test"
   
   # setup vars for testing
   TEST_VERSION=20210603
+  TEST_SHA=745ee8fd94ad41adc738bffb36ae24f5127036cb5ccaa548e8cb05639d2ff649
   TEST_DEVICE=RG351V
   TEST_BAND="release"
 
@@ -29,6 +27,7 @@ else
   mkdir -p ${CONFIG_DIR}
   echo "${TEST_DEVICE}" > ${CONFIG_DIR}/.OS_ARCH
   echo "${TEST_VERSION}" > ${CONFIG_DIR}/.OS_VERSION
+  echo "${TEST_SHA}" > ${CONFIG_DIR}/.OS_SHA256
 
   #Test versions of functions
   function get_ee_setting {
@@ -58,14 +57,11 @@ function getlatest() {
   # leave 'daily' band for backwards compatibility
   if [ "${BAND}" == "daily" ] || [ "${BAND}" == "release" ]
   then
-    API="https://api.github.com/repos/351ELEC/351elec"
-    REPO="https://github.com/351ELEC/351ELEC"
+    API="https://api.github.com/repos/pkegg/351elec"
+    REPO="https://github.com/pkegg/351ELEC"
     PROVIDER="git"
-  #maybe eventually have this pull from the latest actions
-  fi
-  if [ "${PROVIDER}" == "git" ]
-  then
-    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases?per_page=100" | python3 -c "import sys, json; print([release for release in json.load(sys.stdin) if release['prerelease'] == False ][0]['tag_name'])")
+
+    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases?per_page=100" | python3 -c "import sys, json; print([release for release in json.load(sys.stdin) if release['prerelease'] == False ][0]['tag_name'])" 2> /dev/null)
     REPO="${REPO}/releases/download/${TAG}"  
     UFILE="${PREFIX}-${TAG}.tar"
   else
@@ -154,4 +150,21 @@ check_space() {
     start_emustation
     exit 1
   fi
+}
+download_checksum() {
+    local CHECKSUM_FILE="$1"
+  	echo $(curl -H 'Cache-Control: no-cache' -Lo "${CHECKSUM_FILE}" "${REPO}/${PREFIX}-${TAG}.tar.sha256" &> /dev/null)
+}
+update_available() {
+    if [ -z "${TAG}" ]
+    then
+      echo "no"
+      return
+    fi
+    if [ "${TAG}" -ge "${MYVERSION}" ]
+    then
+      echo "${TAG} ${BAND^^}"
+    else
+      echo "no"
+    fi
 }
