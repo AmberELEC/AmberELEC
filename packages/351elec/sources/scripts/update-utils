@@ -17,7 +17,7 @@ if [ ! -d "${STORAGE_DIR}" ]; then
   TEST_VERSION=20210603
   TEST_SHA=745ee8fd94ad41adc738bffb36ae24f5127036cb5ccaa548e8cb05639d2ff649
   TEST_DEVICE=RG351V
-  TEST_BAND="release"
+  TEST_BAND="beta"
 
   # ouput to stdout instead of /dev/console
   CONSOLE_DEVICE=/dev/stdout
@@ -55,19 +55,21 @@ fi
 
 function getlatest() {
   # leave 'daily' band for backwards compatibility
-  if [ "${BAND}" == "daily" ] || [ "${BAND}" == "release" ]
+  if [ "${BAND}" == "release" ]
   then
-    API="https://api.github.com/repos/pkegg/351elec"
-    REPO="https://github.com/pkegg/351ELEC"
-    PROVIDER="git"
-
-    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases?per_page=100" | python3 -c "import sys, json; print([release for release in json.load(sys.stdin) if release['prerelease'] == False ][0]['tag_name'])" 2> /dev/null)
-    REPO="${REPO}/releases/download/${TAG}"  
-    UFILE="${PREFIX}-${TAG}.tar"
+    FILTER="if release['prerelease'] == False"
   else
-    echo "ERROR: No provider found for: ${PROVIDER}.  This is a coding error"
-    exit 1
+    FILTER=""
   fi
+
+  API="https://api.github.com/repos/pkegg/351elec"
+  REPO="https://github.com/pkegg/351ELEC"
+  PROVIDER="git"
+
+  TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases?per_page=100" | python3 -c "import sys, json; print([release for release in json.load(sys.stdin) ${FILTER}][0]['tag_name'])" 2> /dev/null)
+  REPO="${REPO}/releases/download/${TAG}"  
+  UFILE="${PREFIX}-${TAG}.tar"
+
 }
 
 function reboot_system {
