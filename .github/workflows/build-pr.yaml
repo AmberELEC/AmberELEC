@@ -35,14 +35,13 @@ jobs:
       - name: Get short SHA for artifacts
         id: sha
         run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
-      - name: Build rg351P
+      - name: Build
         run: |
             set -e
-            make DOCKER_WORK_DIR=/work docker-RG351P
-      - name: Build rg351V
-        run: |
-            set -e
-            make DOCKER_WORK_DIR=/work docker-RG351V
+            CUSTOM_VERSION="dev-pr-$(date +'%Y%m%d_%H%M')-$(git rev-parse --short HEAD)"
+            DOCKER_WORK_DIR=/work
+            make docker-RG351P
+            make docker-RG351V
       - name: Cleanup system artifacts (no .img in PR builds)
         run: |
             set -e
