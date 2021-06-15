@@ -54,7 +54,7 @@ then
   start_emustation
   exit 0
 else
-  $VERBOSE && log "Update available ${TAG} () >= ${MYVERSION} (${OS_SHA256})"
+  $VERBOSE && log "Update available ${TAG} > ${MYVERSION}"
 fi
 
 ### We need a minimum of 3GB free on the games volume to download and extract the update.
