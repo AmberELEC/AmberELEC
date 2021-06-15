@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: |
             set -e
-            export CUSTOM_VERSION="dev-pr-$(date +'%Y%m%d_%H%M')-$(git rev-parse --short HEAD)"
+            export CUSTOM_VERSION="pr-${{ github.event.pull_request.number }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
             export DOCKER_WORK_DIR=/work
             make docker-RG351P
             make docker-RG351V
