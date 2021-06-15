@@ -38,15 +38,14 @@ jobs:
       - name: Build
         run: |
             set -e
-            CUSTOM_VERSION="dev-pr-$(date +'%Y%m%d_%H%M')-$(git rev-parse --short HEAD)"
-            DOCKER_WORK_DIR=/work
+            export CUSTOM_VERSION="dev-pr-$(date +'%Y%m%d_%H%M')-$(git rev-parse --short HEAD)"
+            export DOCKER_WORK_DIR=/work
             make docker-RG351P
             make docker-RG351V
-      - name: Cleanup system artifacts (no .img in PR builds)
-        run: |
-            set -e
+
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.kernel*
+
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
       - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
