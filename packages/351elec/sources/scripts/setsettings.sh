@@ -30,6 +30,7 @@ CORE=${3,,}
 SHADERSET=0
 LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
+EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 #Snapshot
 SNAPSHOT="$@"
@@ -476,7 +477,6 @@ fi
 
 fi
 done
-EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 # RA menu rgui, ozone, glui or xmb (fallback if everthing else fails)
 # if empty (auto in ES) do nothing to enable configuration in RA
@@ -510,12 +510,21 @@ BEZELDIR=(/tmp/overlays/bezels /storage/roms/bezels)
 # Define the resolutions of the differen systems (0:x 1:y 2:width 3:height) as seen in Scaling -> Aspect Ration -> Custom
 # RG351P/M=480x320
 # RG351V=640x480
-declare -A SystemViewport=(
-	['gb']="80 16 320 288"
-	['gbc']="80 16 320 288"
-	['supervision']="80 0 320 320"
-	['gamegear']="80 16 320 288"
-)
+if [ "${EE_DEVICE}" == "RG351P" ]; then
+	declare -A SystemViewport=(
+		['gb']="80 16 320 288"
+		['gbc']="80 16 320 288"
+		['supervision']="80 0 320 320"
+		['gamegear']="80 16 320 288"
+	)
+else #Must be the V then
+	declare -A SystemViewport=(
+		['gb']="80 24 480 432"
+		['gbc']="80 24 480 432"
+		['supervision']="80 0 480 480"
+		['gamegear']="80 24 480 432"
+	)
+fi
 # Cleanup old settings first
 sed -i "/input_overlay_enable/d" ${RACONF}
 sed -i "/input_overlay/d" ${RACONF}
