@@ -92,4 +92,30 @@
 		<image>./downloaded_images/filemanager.png</image>
 	</game>
 
+	<game>
+		<path>./psx_generate_m3u.sh</path>
+		<name>PSX - Generate m3u files</name>
+		<desc>Generate m3u files of psx games</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>script</genre>
+		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
+		<image>./downloaded_images/filemanager.png</image>
+	</game>
+
+	<game>
+		<path>./psx_delete_m3u.sh</path>
+		<name>PSX - Delete m3u files</name>
+		<desc>Delete m3u files of psx games</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>script</genre>
+		<thumbnail>./downloaded_images/clean-thumb.png</thumbnail>
+		<image>./downloaded_images/clean.png</image>
+	</game>
+
 </gameList>
