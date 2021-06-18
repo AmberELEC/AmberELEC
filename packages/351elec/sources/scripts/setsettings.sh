@@ -516,6 +516,7 @@ if [ "${EE_DEVICE}" == "RG351P" ]; then
 		['gbc']="80 16 320 288"
 		['supervision']="80 0 320 320"
 		['gamegear']="80 16 320 288"
+		['pokemini']="96 64 288 192"
 	)
 else #Must be the V then
 	declare -A SystemViewport=(
@@ -523,6 +524,7 @@ else #Must be the V then
 		['gbc']="80 24 480 432"
 		['supervision']="80 0 480 480"
 		['gamegear']="80 24 480 432"
+		['pokemini']="128 112 384 256"
 	)
 fi
 # Cleanup old settings first
@@ -541,7 +543,7 @@ sed -i "/custom_viewport_height/d" ${RACONF}
 
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "bezel"
-if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ]; then
+if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
 	# set path
 	for p in ${BEZELDIR[@]}; do
 		if [ -d "${p}"/"${EES}" ]; then
@@ -549,8 +551,12 @@ if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ]; the
 		fi
 	done
 	# if there a $ROM.cfg?
+	# excatctly the same?
 	if [ -f "${path}"/"${ROM%.*}".cfg ]; then
 		bezelcfg="${path}"/"${ROM%.*}".cfg
+	# only the name without ()
+	elif [ -f "${path}"/"${ROM%% (*}".cfg ]; then
+		bezelcfg="${path}"/"${ROM%% (*}".cfg
 	elif [ -f "${path}"/default.cfg ]; then
 		bezelcfg="${path}"/default.cfg
 	fi
