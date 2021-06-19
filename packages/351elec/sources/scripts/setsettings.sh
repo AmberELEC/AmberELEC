@@ -563,7 +563,7 @@ if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [
 	# configure bezel
 	echo 'input_overlay_enable = "true"'		>> ${RACONF}
 	echo "input_overlay = \"${bezelcfg}\""		>> ${RACONF}
-	echo 'input_overlay_hide_in_menu = "false"'	>> ${RACONF}
+	echo 'input_overlay_hide_in_menu = "true"'	>> ${RACONF}
 	echo 'input_overlay_opacity = "1.000000"'	>> ${RACONF}
 	echo 'input_overlay_show_inputs = "2"'		>> ${RACONF}
 	# delete / set scaling and aspect ratio:
