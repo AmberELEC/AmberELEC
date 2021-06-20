@@ -99,11 +99,13 @@ rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 # Copy OpenBOR
 rsync --ignore-existing -raz /usr/config/openbor /storage &
 
-# copy bezel if it doesn't exists
-if [ ! -f "/storage/roms/bezels/default.cfg" ]; then
-  mkbezels/
-  rsync --ignore-existing -raz /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/ &
-fi
+## Not needed any more
+## copy bezel if it doesn't exists
+#if [ ! -f "/storage/roms/bezels/default.cfg" ]; then
+#  mkbezels/
+#  rsync --ignore-existing -raz /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/ &
+#fi
+##
 
 # Copy pico-8
 cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
