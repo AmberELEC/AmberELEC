@@ -200,7 +200,7 @@ do
     then
       mv "/storage/.config/${GAME}" "${GAMEDATA}/${GAME}"
     else
-      rsync -a "/usr/config/${GAME}" "${GAMEDATA}/${GAME}"
+      rsync -a "/usr/config/${GAME}/" "${GAMEDATA}/${GAME}/"
     fi
   fi
 
