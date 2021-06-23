@@ -26,7 +26,7 @@ clear > ${CONSOLE_DEVICE}
 python3 ${DIR}/get-release.py --band ${BAND} --org pkegg
 RETURN_CODE=$?
 
-if [ "${RETURN_CODE}" != "1" ]
+if [ "${RETURN_CODE}" != "0" ]
 then
   exit 1
 else
