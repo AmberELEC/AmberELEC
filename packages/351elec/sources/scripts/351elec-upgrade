@@ -23,7 +23,7 @@ clear > ${CONSOLE_DEVICE}
 show_splash "$0"
 clear > ${CONSOLE_DEVICE}
 
-python3 ${DIR}/get-release.py --band ${BAND}
+python3 ${DIR}/get-release.py --band ${BAND} --org pkegg
 RETURN_CODE=$?
 
 if [ "${RETURN_CODE}" != "1" ]

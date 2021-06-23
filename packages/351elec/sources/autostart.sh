@@ -74,10 +74,6 @@ if [ ! -L "$CONFIG_DIR" ]; then
   ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
-### Necessary for OS initialization and updates
-
-set_ee_setting updates.type daily
-
 # Create the distribution directory if it doesn't exist, sync it if it does
 if [ ! -d "/storage/.config/distribution" ]
 then

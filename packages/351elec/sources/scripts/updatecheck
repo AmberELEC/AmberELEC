@@ -4,8 +4,9 @@
 
 . /etc/profile
 DIR=$(realpath $(dirname $0))
+BAND=$(get_ee_setting updates.type)
 
-if UPDATE=$(python3 ${DIR}/get-release.py --check True 2>/dev/null); then
+if UPDATE=$(python3 ${DIR}/get-release.py --org pkegg --band ${BAND} --check True 2>/dev/null); then
    echo "${UPDATE}"
 else
    echo "no"

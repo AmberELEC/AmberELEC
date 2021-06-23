@@ -70,7 +70,7 @@ def main():
 
     if not current_release:
         message_stream("\nNo update available\n")
-        if not check:
+        if not args.check:
             time.sleep(4)
         sys.exit(1)
 
@@ -87,13 +87,10 @@ def main():
         sys.exit(0)
 
     # 3000 MB (307200 bytes)
-    if not update_dir_has_available_disk(args.update_dir, 3000*1024*1024):
-        message_stream(
-            f"\n\nERROR: There is not enough free space available in: {update_dir} to install this update.  Free up an additional ${needed_mb}MB, or reflash this version.")
-        sys.exit(1)
-
     try:
+        update_dir_has_available_disk(args.update_dir, 3000*1024*1024)
         check_boot_partition_size_correct()
+
     except UpdateError as e:
         message_stream(e.message)
         sys.exit(1)
@@ -219,8 +216,9 @@ def update_dir_has_available_disk(update_dir, required_bytes):
     total_bytes, used_bytes, free_bytes = shutil.disk_usage(update_dir)
     if free_bytes < required_bytes:
         needed_mb = (required_bytes - free_bytes) / 1024 / 1024
-        return False
-    return True
+        raise UpdateError(message_stream(
+            f"\n\nERROR: There is not enough free space available in: {update_dir} to install this update.  Free up an additional ${needed_mb}MB, or reflash this version.")
+        )
 
 # This was done in old update script and is likely not needed(?)
 # Checks that the flash partition is the correct size (1GB)
@@ -351,8 +349,10 @@ def get_args():
                         help='Github organization. Allows testing with fork other than 351ELEC')
     parser.add_argument('--band',
                         default="release",
-                        choices=['release', 'beta'],
-                        help='Update "band" ("channel"). Allows determining what latest release to get.')
+                        choices=['release', 'beta', 'daily'],
+                        help='''Update "band" ("channel"). Allows determining what latest release to get. 
+                             "daily" is for backwards compatibility and maps to "release"
+                             ''')
     parser.add_argument('--device',
                         default="RG351P",
                         choices=['RG351P', 'RG351V'],
@@ -381,6 +381,8 @@ def get_args():
                         type=bool,
                         help='Always updates as long as there is a release')
     args = parser.parse_args()
+    if args.band == "daily":
+        args.band = "release"
     return args
 
 
