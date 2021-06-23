@@ -14,6 +14,7 @@ import subprocess
 import atexit
 import socket
 import shutil
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,9 @@ class UpdateError(Exception):
     def __init__(self, message=None):
         self.message = message
 
-
+OS_VERSION_FILE="/storage/.config/.OS_VERSION"
+DEVICE_FILE="/storage/.config/.OS_ARCH"
+UPDATE_DIR="/storage/roms/update"
 console = "/dev/console"
 message_stream_delay = 0.02
 
@@ -43,12 +46,7 @@ message_stream_delay = 0.02
 def main():
 
     args = get_args()
-    set_global_args(args)
 
-    existing_release = args.existing_release
-    if not existing_release:
-        existing_release = get_existing_release()
-    initialize_logging(args.log_level)
     initialize_directories(args.update_dir, args.check)
 
     message_stream(CONSOLE.CLEAR)
@@ -63,7 +61,7 @@ def main():
     message_stream(f"\nChecking for updates in the '{args.band}' channel...")
     try:
         current_release = check_current_release(
-            args.band, args.org,  existing_release, args.force_update)
+            args.band, args.org, args.existing_release, args.force_update)
     except UpdateError as e:
         message_stream(e.message)
         sys.exit(1)
@@ -76,9 +74,9 @@ def main():
 
     if args.force_update:
         message_stream(f"\nForcing update to {current_release}...")
-    elif existing_release and existing_release >= current_release:
+    elif args.existing_release and args.existing_release >= current_release:
         message_stream(
-            f"\nExisting release ({existing_release}) >= current release ({current_release}). No download needed\n")
+            f"\nExisting release ({args.existing_release}) >= current release ({current_release}). No download needed\n")
         message_stream_close()
         sys.exit(1)
 
@@ -96,10 +94,10 @@ def main():
         sys.exit(1)
 
     message_stream(
-        f"\nUpdating to current release: {current_release} from: {existing_release}\n")
+        f"\nUpdating to current release: {current_release} from: {args.existing_release}\n")
     message_stream(f"\nDownloading (each # = 1.25%)... \n")
     downloaded_file = download_update(
-        current_release, existing_release, args.device, args.org, args.update_dir, show_progress)
+        current_release, args.existing_release, args.device, args.org, args.update_dir, show_progress)
     if not downloaded_file:
         message_stream("ERROR: Could not download update.")
         sys.exit(1)
@@ -200,16 +198,12 @@ def check_current_release(band, org, check=False, existing_release=None, force_u
 
 
 def get_existing_release():
-    release_file = "/storage/.config/.OS_VERSION"
-    if os.path.isfile(release_file):
-        existing_release = load_file_to_string(release_file).strip()
+    if os.path.isfile(OS_VERSION_FILE):
+        existing_release = load_file_to_string(OS_VERSION_FILE).strip()
         return existing_release
     else:
         logger.warning(
-            f"Warning: No existing release found in: {release_file}")
-
-# Check there is enough disk in /storage/roms/update
-
+            f"Warning: No existing release found in: {OS_VERSION_FILE}")
 
 def update_dir_has_available_disk(update_dir, required_bytes):
 
@@ -228,7 +222,7 @@ def check_boot_partition_size_correct():
 
     flash_dir = "/flash"
     if not os.path.exists(flash_dir):
-        logger.warning(
+        logger.info(
             f"{flash_dir} not found.  Ignoring space requirements...\n")
         return
     # 351ELEC 2.x needs 1GB on the boot volume.
@@ -283,6 +277,7 @@ def message_stream_sync(message):
     """
     Streams out messages in a similar mannaer to the emuelec `message_stream` function
     """
+    logger.debug(message)
     global console
     with open(console, 'w') as f:
         for char in message:
@@ -354,21 +349,20 @@ def get_args():
                              "daily" is for backwards compatibility and maps to "release"
                              ''')
     parser.add_argument('--device',
-                        default="RG351P",
                         choices=['RG351P', 'RG351V'],
-                        help='Sets the appropriate device for downloading')
+                        help=f'Sets the appropriate device for testing.  Will fallback to contents of {DEVICE_FILE}')
     parser.add_argument('--console',
                         default="/dev/console",
-                        help='Sets device to output messages to')
+                        help='Sets device to output messages to.  Use /dev/stderr for testing.')
     parser.add_argument('--log-level', '-l',
-                        default="INFO",
+                        default="WARN",
                         choices=['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL'],
                         help='Allows setting log level for more debugging')
     parser.add_argument('--update-dir',
-                        default="/storage/roms/update",
+                        default=UPDATE_DIR,
                         help='Allows setting a different directory for downloads')
     parser.add_argument('--existing-release',
-                        help='Overrides release version in "/storage/.config/.OS_VERSION" for upgrade purposes')
+                        help=f'Overrides release version in "{OS_VERSION_FILE} for upgrade/testing purposes')
     parser.add_argument('--check',
                         default=False,
                         help='Only check for update - do not download update')
@@ -379,10 +373,23 @@ def get_args():
                         nargs="?",
                         default=False,
                         type=bool,
-                        help='Always updates as long as there is a release')
+                        help='No delay when printing out messages to the console.  This is always on with --check')
     args = parser.parse_args()
+    initialize_logging(args.log_level)
+
+    set_global_args(args)
+    
     if args.band == "daily":
         args.band = "release"
+    if not args.device and os.path.isfile(DEVICE_FILE):
+        args.device = load_file_to_string(DEVICE_FILE).strip()
+    else:
+        args.device="RG351P"
+
+    if not args.existing_release:
+        args.existing_release = get_existing_release()
+    
+    args.existing_release = parse_release(args.existing_release)
     return args
 
 
@@ -428,21 +435,28 @@ def get_current_release(org, band, page=0, per_page=100):
     for release in releases:
         if band == "release" and release['prerelease']:
             continue
-        tag_name = release['tag_name']
-        try:
-            # Just parse as a date so we can check if release format is correct
-            time.strptime(tag_name, '%Y%m%d')
+        tag_name = parse_release(release['tag_name'])
+        if tag_name:
             current_release = tag_name
             break
-        except Exception as e:
-            logger.warning(
-                f"Could not parse release: {tag_name}.  Ignoring...")
-            logger.debug("Parsing exception", e)
-            current_release = tag_name
+
+
     if current_release == None and link:
         current_release = get_current_release(org, band, page)
     return current_release
 
+# Returns the release_tag if it can parse, otherwise None
+def parse_release(release_tag):
+    try:
+        temp_release = re.sub("-[0-9]*$", "", release_tag)
+        # Just parse as a date so we can check if release format is correct
+        time.strptime(temp_release, '%Y%m%d')
+        return release_tag
+    except Exception as e:
+        logger.info(
+                f"Could not parse release: {release_tag}.  Ignoring...")
+        logger.debug("Parsing exception", e)
+    return None
 
 if __name__ == "__main__":
     main()
