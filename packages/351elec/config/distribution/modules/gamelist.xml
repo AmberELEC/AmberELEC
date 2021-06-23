@@ -101,8 +101,8 @@
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
 		<genre>script</genre>
-		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
-		<image>./downloaded_images/filemanager.png</image>
+		<thumbnail>./downloaded_images/psx_m3u_generator-thumb.png</thumbnail>
+		<image>./downloaded_images/psx_m3u_generator.png</image>
 	</game>
 
 	<game>
@@ -114,8 +114,8 @@
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
 		<genre>script</genre>
-		<thumbnail>./downloaded_images/clean-thumb.png</thumbnail>
-		<image>./downloaded_images/clean.png</image>
+		<thumbnail>./downloaded_images/psx_delete_m3u-thumb.png</thumbnail>
+		<image>./downloaded_images/psx_delete_m3u.png</image>
 	</game>
 
 </gameList>
