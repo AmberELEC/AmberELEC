@@ -31,7 +31,7 @@ fi
 }
 
 makeinstall_target() {
-   
+
   mkdir -p $INSTALL/usr/config/
   rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
   #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
@@ -47,9 +47,9 @@ makeinstall_target() {
   fi
 
   echo "$(date)" > $INSTALL/usr/config/.OS_BUILD_DATE
- 
+
   mkdir -p $INSTALL/usr/bin/
-  
+
   ## Compatibility links for ports
   ln -s /storage/roms $INSTALL/roms
   ln -sf /storage/roms/opt $INSTALL/opt
@@ -58,8 +58,12 @@ makeinstall_target() {
   ln -s /usr/lib32/ld-2.32.so $INSTALL/usr/lib/ld-linux-armhf.so.3
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays
-    cp -r $PKG_DIR/overlay/* $INSTALL/usr/share/retroarch-overlays
-  
+  if [ "$DEVICE" == "RG351P" ]; then
+    cp -r $PKG_DIR/overlay-p/* $INSTALL/usr/share/retroarch-overlays
+  elif [ "$DEVICE" == "RG351V" ]; then
+    cp -r $PKG_DIR/overlay-v/* $INSTALL/usr/share/retroarch-overlays
+  fi
+
   mkdir -p $INSTALL/usr/share/libretro-database
      touch $INSTALL/usr/share/libretro-database/dummy
 
@@ -84,11 +88,11 @@ post_install() {
   for i in branding glui nuklear nxrgui pkg switch wallpapers zarch COPYING; do
     rm -rf "$INSTALL/usr/share/retroarch-assets/$i"
   done
-  
+
   for i in automatic dot-art flatui neoactive pixel retroactive retrosystem systematic convert.sh NPMApng2PMApng.py; do
   rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
   done
-  
+
   for i in borders effects gamepads ipad keyboards misc; do
     rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
   done
@@ -126,13 +130,13 @@ post_install() {
   echo "chmod 4755 $INSTALL/usr/bin/bash" >> $FAKEROOT_SCRIPT
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
-  
+
 # Remove scripts from OdroidGoAdvance build
-if [[ ${DEVICE} =~ RG351 ]]; then 
- for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do 
+if [[ ${DEVICE} =~ RG351 ]]; then
+ for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do
   xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
   rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
  done
-fi 
-  
-} 
+fi
+
+}
