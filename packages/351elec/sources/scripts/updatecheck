@@ -20,7 +20,7 @@ if [ "$FORCE" == "1" ]; then
   FORCE_ARGS="--force-update"
 fi
 
-if UPDATE=$(python3 ${DIR}/get-release.py --org ${ORG} --band ${BAND} --repo ${REPO} ${FORCE_ARGS} --check True 2>/dev/null); then
+if UPDATE=$(python3 ${DIR}/get-release.py --org ${ORG} --band ${BAND} --repo ${REPO} ${FORCE_ARGS} --check True 2>/tmp/logs/update-check.log); then
    echo "${UPDATE}"
 else
    echo "no"
