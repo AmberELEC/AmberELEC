@@ -61,7 +61,7 @@ def main():
     message_stream(f"\nChecking for updates in the '{args.band}' channel...")
     try:
         current_release = check_current_release(
-            args.band, args.org, args.existing_release, args.force_update)
+            args.band, args.org, args.repo)
     except UpdateError as e:
         message_stream(e.message)
         sys.exit(1)
@@ -97,7 +97,7 @@ def main():
         f"\nUpdating to current release: {current_release} from: {args.existing_release}\n")
     message_stream(f"\nDownloading (each # = 1.25%)... \n")
     downloaded_file = download_update(
-        current_release, args.existing_release, args.device, args.org, args.update_dir, show_progress)
+        current_release, args.existing_release, args.device, args.org, args.repo, args.update_dir, show_progress)
     if not downloaded_file:
         message_stream("ERROR: Could not download update.")
         sys.exit(1)
@@ -135,10 +135,10 @@ def set_global_args(args):
 # Download from github
 
 
-def download_update(current_release, existing_release, device, org, update_dir, show_progress):
+def download_update(current_release, existing_release, device, org, repo, update_dir, show_progress):
 
     downloaded_file = None
-    repo = f"https://github.com/{org}/351ELEC"
+    repo = f"https://github.com/{org}/{repo}"
 
     download_file_name = f"351ELEC-{device}.aarch64-{current_release}.tar"
     download_file_name_sha256 = f"{download_file_name}.sha256"
@@ -169,13 +169,13 @@ def download_update(current_release, existing_release, device, org, update_dir, 
 # Check if update is available
 
 
-def check_current_release(band, org, check=False, existing_release=None, force_update=False):
+def check_current_release(band, org, repo):
     """
     Returns true for update, false for none
     """
     current_release = None
     try:
-        current_release = get_current_release(org, band)
+        current_release = get_current_release(org, repo, band)
     except urllib.error.URLError as e:
         logger.debug(e)
         raise UpdateError(
@@ -341,7 +341,10 @@ def get_args():
         description='Arguments for picking up release')
     parser.add_argument('--org',
                         default="351ELEC",
-                        help='Github organization. Allows testing with fork other than 351ELEC')
+                        help='Github organization. Allows testing with fork releases other than 351ELEC')
+    parser.add_argument('--repo',
+                        default="351ELEC",
+                        help='Github repository. Allows testing with repo releases other than 351ELEC')
     parser.add_argument('--band',
                         default="release",
                         choices=['release', 'beta', 'daily'],
@@ -350,7 +353,7 @@ def get_args():
                              ''')
     parser.add_argument('--device',
                         choices=['RG351P', 'RG351V'],
-                        help=f'Sets the appropriate device for testing.  Will fallback to contents of {DEVICE_FILE}')
+                        help=f'Sets the appropriate device for testing.  Will fallback to contents of: {DEVICE_FILE}')
     parser.add_argument('--console',
                         default="/dev/console",
                         help='Sets device to output messages to.  Use /dev/stderr for testing.')
@@ -362,12 +365,13 @@ def get_args():
                         default=UPDATE_DIR,
                         help='Allows setting a different directory for downloads')
     parser.add_argument('--existing-release',
-                        help=f'Overrides release version in "{OS_VERSION_FILE} for upgrade/testing purposes')
+                        help=f'Overrides release version in "{OS_VERSION_FILE}" for upgrade/testing purposes')
     parser.add_argument('--check',
                         default=False,
                         help='Only check for update - do not download update')
     parser.add_argument('--force-update',
-                        default=False,
+                        dest="force_update",
+                        action='store_true',
                         help='Always updates as long as there is a release')
     parser.add_argument('-f', '--fast-messages',
                         nargs="?",
@@ -393,7 +397,7 @@ def get_args():
     return args
 
 
-def get_current_release(org, band, page=0, per_page=100):
+def get_current_release(org, repo, band, page=0, per_page=100):
     """
     Gets the current release from github.
 
@@ -404,7 +408,7 @@ def get_current_release(org, band, page=0, per_page=100):
         - This allows new naming conventions to be added and this will only update to latest release of this convention
       - Recursively call this method to get the 'next page' of releases if no matching release is found (shouldn't be needed, but helpful if we move to new naming convention)
     """
-    api = f"https://api.github.com/repos/{org}/351elec"
+    api = f"https://api.github.com/repos/{org}/{repo}"
     try:
         response = urllib.request.urlopen(
             f"{api}/releases?per_page={per_page}&page={page}")
@@ -442,7 +446,7 @@ def get_current_release(org, band, page=0, per_page=100):
 
 
     if current_release == None and link:
-        current_release = get_current_release(org, band, page)
+        current_release = get_current_release(org, repo, band, page)
     return current_release
 
 # Returns the release_tag if it can parse, otherwise None

@@ -5,8 +5,22 @@
 . /etc/profile
 DIR=$(realpath $(dirname $0))
 BAND=$(get_ee_setting updates.type)
+ORG=$(get_ee_setting updates.github.org)
+if [ "$ORG" == "" ]; then
+  ORG="351ELEC"
+fi
 
-if UPDATE=$(python3 ${DIR}/get-release.py --org pkegg --band ${BAND} --check True 2>/dev/null); then
+REPO=$(get_ee_setting updates.github.repo)
+if [ "$REPO" == "" ]; then
+  REPO=351ELEC
+fi
+
+FORCE=$(get_ee_setting updates.force)
+if [ "$FORCE" == "1" ]; then
+  FORCE_ARGS="--force-update"
+fi
+
+if UPDATE=$(python3 ${DIR}/get-release.py --org ${ORG} --band ${BAND} --repo ${REPO} ${FORCE_ARGS} --check True 2>/dev/null); then
    echo "${UPDATE}"
 else
    echo "no"
