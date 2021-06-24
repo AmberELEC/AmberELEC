@@ -17,11 +17,11 @@ PKG_STAMP="$UBOOT_SYSTEM"
 PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 [ -n "$DEVICE" ] && PKG_NEED_UNPACK+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/bootloader"
 
-PKG_VERSION="dec4b29fa92a646f559aebb9fbf082c8fca0d373"
+PKG_VERSION="592d654a993ef5c4d3615ea8b52db830397751ae"
 PKG_GIT_CLONE_SINGLE="yes"
 PKG_GIT_CLONE_DEPTH="1"
-PKG_URL="https://github.com/christianhaitian/RG351-u-boot.git"
-PKG_GIT_CLONE_BRANCH="odroidgoA-v2017.09"
+PKG_URL="https://github.com/pkegg/RG351V_uboot.git"
+PKG_GIT_CLONE_BRANCH="master"
 GET_HANDLER_SUPPORT="git"
 
 post_patch() {
