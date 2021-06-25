@@ -423,6 +423,7 @@ if [[ ${PLATFORM} == "ports" ]]; then
 else
 	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 fi
+SETSETTINGS_PID=$!
 
 clear_screen
 $VERBOSE && log "Show splash screen"
@@ -431,7 +432,7 @@ SPL=$(get_ee_setting ee_splash.enabled)
 [ "$SPL" -eq "1" ] && (${TBASH} /usr/bin/show_splash.sh "${ROMNAME}") &
 
 ### Wait for background jobs to complete before continuing.
-wait
+wait ${SETSETTINGS_PID}  #Don't wait for show splash
 
 ### If setsettings wrote data in the background, grab it and assign it to SHADERSET
 if [ -e "${SHADERTMP}" ]
