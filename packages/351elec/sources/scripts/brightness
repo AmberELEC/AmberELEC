@@ -6,6 +6,12 @@ MIN=0
 MAX=255
 STEP=3
 
+# Ensure set_ee_setting exists in all contexts
+if ! type set_ee_setting  >/dev/null
+then
+  source /etc/profile
+fi
+
 if [ ! -f /sys/class/backlight/backlight/brightness ]
 then
   echo "ERROR: There is no BRIGHTNESS object to manage."
