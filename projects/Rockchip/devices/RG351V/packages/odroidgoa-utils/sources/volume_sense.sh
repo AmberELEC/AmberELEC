@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+set -o pipefail
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2021-present Fewtarius
@@ -44,6 +46,8 @@ BRIGHTNESS_REPEAT_MOD=4
 # Variable to keep track of Fn being currently pressed
 FUNC_PRESSED=no
 
+CONTROLLER_DISCONNECTED="*error reading: No such device"
+
 # Logic:
 #  - Listen to both:
 #    - 'rg351' events to get volume keys (not part of the joystick api)
@@ -53,13 +57,26 @@ FUNC_PRESSED=no
 #      for all button pushes
 #  - Using 'read' means the loop is idle when no button is pressed
 
+# Wait for controller in case of restart, etc
+while true; do
+sleep 1
+if [[ ! -e "${RG351_CONTROLLER_DEVICE}" ]]; then
+  continue
+else
+  break
+fi
+
+done
 (  
    evtest "${RG351_DEVICE}" &
-   evtest "${RG351_CONTROLLER_DEVICE}" &
+   evtest "${RG351_CONTROLLER_DEVICE}" 2>&1 &
    wait 
 ) | while read line; do
-
     case $line in
+        (${CONTROLLER_DISCONNECTED})
+        echo "Reloading due to controller reattach..."
+        exit 0
+        ;;
         (${VOL_EVENT})
 
           # Setup for 'brightness' if Fn pressed
@@ -85,9 +102,9 @@ FUNC_PRESSED=no
 
           # Run the commands to adjust volume/brightness
           if [[ "${line}" == ${VOL_UP} ]]; then
-            ${COMMAND} ${UP}
+            ${COMMAND} ${UP} > /dev/null
           elif [[ "${line}" == ${VOL_DOWN} ]]; then
-            ${COMMAND} ${DOWN}
+            ${COMMAND} ${DOWN} > /dev/null
           fi
         ;;
 
