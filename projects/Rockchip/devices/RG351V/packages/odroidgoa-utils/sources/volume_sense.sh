@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # SPDX-License-Identifier: GPL-2.0-or-later
@@ -10,8 +9,6 @@
 #   Fn + Volume up/down will adjust brightness
 ###
 
-# Source predefined functions and variables
-. /etc/profile
 
 # Event examples for reference
 # type 1 (EV_KEY), code 114 (KEY_VOLUMEDOWN), value 1
@@ -35,14 +32,14 @@ RELEASE='*value 0'
 REPEAT_PRESS="* value 2"
 
 # Volume repeat
-# volume repeat speed is slower (every 5th repeat event) 
+# volume repeat speed is slower (every 8th repeat event) 
 #  as there are only 20 stop (0-100 by increments of 5)
-VOLUME_REPEAT_MOD=5
+VOLUME_REPEAT_MOD=8
 
 # Brightness repeat
-# brightness repeat speed is faster (every 2nd repeat event) 
+# brightness repeat speed is faster (every 4th repeat event) 
 #  as there are many stops (0-255 by increments of 3)
-BRIGHTNESS_REPEAT_MOD=5
+BRIGHTNESS_REPEAT_MOD=4
 
 # Variable to keep track of Fn being currently pressed
 FUNC_PRESSED=no
