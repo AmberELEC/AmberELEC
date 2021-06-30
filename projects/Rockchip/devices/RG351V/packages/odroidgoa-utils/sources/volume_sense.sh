@@ -79,6 +79,11 @@ done
         ;;
         (${VOL_EVENT})
 
+          # We don't care when you 'let go' ('release') the volume button
+          if [[ "$line" == ${RELEASE} ]]; then
+             continue
+          fi
+
           # Setup for 'brightness' if Fn pressed
           if [[ "${FUNC_PRESSED}" == "yes" ]]; then
             COMMAND=/usr/bin/brightness
