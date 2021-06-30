@@ -1,0 +1,13 @@
+diff --git a/configs/odroidgo2_defconfig b/configs/odroidgo2_defconfig
+index 707ac14..3b8f237 100644
+--- a/configs/odroidgo2_defconfig
++++ b/configs/odroidgo2_defconfig
+@@ -1010,7 +1010,7 @@ CONFIG_DM_REGULATOR_FIXED=y
+ CONFIG_REGULATOR_RK8XX=y
+ # CONFIG_DM_DVFS is not set
+ # CONFIG_CHARGER_BQ25700 is not set
+-CONFIG_DM_CHARGE_DISPLAY=y
++#CONFIG_DM_CHARGE_DISPLAY=y
+ CONFIG_CHARGE_ANIMATION=y
+ CONFIG_ROCKCHIP_PM=y
+ CONFIG_DM_PWM=y

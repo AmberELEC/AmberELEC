@@ -11,7 +11,7 @@ PKG_SITE="https://github.com/anthonycaccese/es-theme-art-book-3-2"
 PKG_URL="$PKG_SITE.git"
 GET_HANDLER_SUPPORT="git"
 PKG_SHORTDESC="ArtBook"
-PKG_LONGDESC="Art Book - 351ELEC default theme"
+PKG_LONGDESC="Art Book - 351ELEC default theme for RG351P/M"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
