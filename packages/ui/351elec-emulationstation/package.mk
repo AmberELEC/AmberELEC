@@ -3,12 +3,14 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="58a5b5701ea07e27993bca4b569aee4ba0e3de39"
-PKG_GIT_CLONE_BRANCH="main"
+PKG_VERSION="6cecca7c6e95d8864650fc8ac3e7f96822b1db74"
+#PKG_GIT_CLONE_BRANCH="main"
+PKG_GIT_CLONE_BRANCH="cheevos8"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
+#PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
+PKG_SITE="https://github.com/konsumschaf/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
@@ -54,7 +56,7 @@ makeinstall_target() {
 	# there are both default themes in es_settings.cfg
 	# delete es-theme-art-book-3-2 on V
 	if [ "${DEVICE}" = "RG351V" ]; then
-		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg 
+		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
 	fi
 	# delete es-theme-art-book-4-3 on P
 	if [ "${DEVICE}" = "RG351P" ]; then
