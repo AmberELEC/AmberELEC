@@ -17,7 +17,7 @@ PKG_BUILD_FLAGS="-gold"
 GET_HANDLER_SUPPORT="git"
 
 # themes for Emulationstation
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=0 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
 
@@ -49,6 +49,17 @@ makeinstall_target() {
 
         cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
         cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation
+
+	# set the correct default theme for P or V models
+	# there are both default themes in es_settings.cfg
+	# delete es-theme-art-book-3-2 on V
+	if [ "${DEVICE}" = "RG351V" ]; then
+		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg 
+	fi
+	# delete es-theme-art-book-4-3 on P
+	if [ "${DEVICE}" = "RG351P" ]; then
+                sed -i "/value=\"es-theme-art-book-4-3\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
+        fi
 
 	chmod +x $INSTALL/usr/config/emulationstation/scripts/*
 	chmod +x $INSTALL/usr/config/emulationstation/scripts/configscripts/*
