@@ -709,7 +709,7 @@ mount_games() {
       /usr/bin/busybox mkdir -p /storage/roms >/dev/null 2>&1
     fi
 
-    for DEV in mmcblk1p1 mmcblk1 mmcblk0p3
+    for DEV in mmcblk1p3 mmcblk1p1 mmcblk1 mmcblk0p3
     do
       if [ -e "/dev/${DEV}" ] && [ ! -e "/storage/.please_resize_me" ]
       then
