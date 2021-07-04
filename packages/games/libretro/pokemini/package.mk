@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="pokemini"
-PKG_VERSION="3c03e988b8316998e1fdf1b2df76fbbf332e5bc3"
+PKG_VERSION="40092c4ea1f15fce877c0b942c4fe907b5f3b6ff"
 PKG_SHA256="5486f8bf81ac12c0de3dc9b869711da17f8d469e98117d0e81703266e22fba9c"
 PKG_REV="1"
 PKG_ARCH="any"
