@@ -7,7 +7,6 @@
 . /etc/profile
 
 CONFIG_DIR="/storage/.config/scummvm"
-BINDIR="/tmp/bin"
 ROMSPATH="/storage/roms"
 BIOSPATH="${ROMSPATH}/bios"
 GAME=$2
@@ -18,13 +17,8 @@ then
   mkdir -p "${CONFIG_DIR}/games"
 fi
 
-### ScummVM seems to not be happy about SDL 2.0.12
-mkdir -p ${BINDIR}
-cp -f /usr/bin/scummvm ${BINDIR}
-patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 ${BINDIR}/scummvm
-
 create_svm(){
-  $BINDIR/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
+  /usr/bin/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
   while read line
   do
     id=($line);
@@ -43,15 +37,11 @@ if [ ! -d "$CONFIG_DIR" ]; then
  cp -rf /usr/config/scummvm/* $CONFIG_DIR/
 fi
 
-if [ -d "/storage/.config/scummvm/extra" ]; then
- EXTRA="--extrapath=/storage/.config/scummvm/extra"
-fi
-
 case $1 in
   "sa")
     set_audio "fluidsynth"
     GAME=$(cat "${GAME}")
-    eval $BINDIR/scummvm --fullscreen --joystick=0 ${EXTRA} ${GAME}
+    eval /usr/bin/scummvm --fullscreen --joystick=0 ${GAME}
     set_audio "pulseaudio"
   ;;
 
@@ -62,7 +52,7 @@ case $1 in
   ;;
 
   "add")
-    $BINDIR/scummvm --add --path="${ROMSPATH}/scummvm" --recursive
+    /usr/bin/scummvm --add --path="${ROMSPATH}/scummvm" --recursive
     mkdir -p ${BIOSPATH}
     cp $CONFIG_DIR/scummvm.ini ${BIOSPATH}/scummvm.ini
   ;;
@@ -72,5 +62,3 @@ case $1 in
   ;;
 
 esac
-
-rm -f ${BINDIR}/scummvm
