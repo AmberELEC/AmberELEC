@@ -41,4 +41,4 @@ else
 fi
 
 cd "${RUN_DIR}"
-/usr/bin/lzdoom ${params} >/tmp/logs/lzdoom.log 2>&1
+LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.1 /usr/bin/lzdoom ${params} >/tmp/logs/lzdoom.log 2>&1
