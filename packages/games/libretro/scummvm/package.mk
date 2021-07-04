@@ -19,12 +19,12 @@
 ################################################################################
 
 PKG_NAME="scummvm"
-PKG_VERSION="6df2bdf73cc9596dbc0ef395d78e48a93e0854be"
-PKG_SHA256="40b31a0eacd7214b18998c8ed56a95958e16cb7b99e272a68faf7183c58e93a3"
+PKG_VERSION="497d6e27540e5e3ec23a708665542b9daa5b71ee"
+#PKG_SHA256="40b31a0eacd7214b18998c8ed56a95958e16cb7b99e272a68faf7183c58e93a3"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/libretro/scummvm"
+PKG_SITE="https://github.com/diablodiab/scummvm"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
@@ -47,7 +47,8 @@ configure_target() {
 }
 
 make_target() {
- make -C backends/platform/libretro/build CXXFLAGS="$CXXFLAGS -DHAVE_POSIX_MEMALIGN=1"
+  sed -i 's/ENABLE_AGS/\/\/ENABLE_AGS/g' backends/platform/libretro/build/config.hd
+  make -C backends/platform/libretro/build CXXFLAGS="$CXXFLAGS -DHAVE_POSIX_MEMALIGN=1"
 }
 
 makeinstall_target() {
