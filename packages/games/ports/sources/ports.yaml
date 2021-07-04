@@ -46,13 +46,9 @@ Commander Keen:
     - jslisten set "/usr/bin/killall ${PORT}"
     - rm -f /storage/.CommanderGenius
     - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius
-    - mkdir -p /tmp/bin
-    - cp -f /usr/local/bin/${PORT} /tmp/bin
-    - patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/${PORT}
     - cd /storage/roms/ports/cgenius
-    - /tmp/bin/${PORT} &>>/tmp/logs/exec.log
+    - /usr/local/bin/${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
-    - rm -f /tmp/bin/${PORT}
 
 Diablo:
   description: Diablo build for modern operating systems - Diablo is an action role-playing hack and slash video game developed by Blizzard North and released by Blizzard Entertainment in early January 1997.
