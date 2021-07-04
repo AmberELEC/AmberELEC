@@ -18,7 +18,7 @@ clean:
 	rm -rf $(BUILD_DIRS)
 
 distclean:
-	rm -rf ./.ccache ./$(BUILD_DIRS)
+	rm -rf ./.ccache* ./$(BUILD_DIRS)
 
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
