@@ -16,7 +16,7 @@ pre_unpack() {
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin/
   mkdir -p $INSTALL/usr/config/
-  cp $PKG_BUILD/rclone*/rclone $INSTALL/usr/bin/
+  cp $PKG_BUILD/rclone-$PKG_VERSION/rclone $INSTALL/usr/bin/
   cp $PKG_DIR/cloud-sync-rules.conf $INSTALL/usr/config/
   chmod 755 $INSTALL/usr/bin/rclone
 }
