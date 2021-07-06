@@ -22,6 +22,7 @@ LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
 TBASH="/usr/bin/bash"
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
+RAAPPENDCONF="/tmp/raappend.cfg"
 NETPLAY="No"
 SHADERTMP="/tmp/shader"
 OUTPUT_LOG="${LOGSDIR}/${LOGFILE}"
@@ -137,6 +138,7 @@ PLATFORM: $PLATFORM
 ROM NAME: ${ROMNAME}
 BASE ROM NAME: ${ROMNAME##*/}
 USING CONFIG: ${RATMPCONF}
+USING APPENDCONFIG : ${RAAPPENDCONF}
 
 EOF
 	else
@@ -182,17 +184,6 @@ function bluetooth() {
 	fi
 }
 
-function getarch() {
-	$VERBOSE && log "Getting architecture"
-	local TEST=$(ldd /usr/bin/emulationstation | grep 64)
-	if [ $? == 0 ]
-	then
-		echo "aarch64"
-	else
-		echo "arm"
-	fi
-}
-
 function setaudio() {
 	$VERBOSE && log "Setting up audio"
 	AUDIO_DEVICE="hw:$(get_ee_setting ee_audio_device)"
@@ -209,7 +200,6 @@ function setaudio() {
 loginit "$1" "$2" "$3" "$4"
 clear_screen
 bluetooth disable
-MYARCH=$(getarch)
 jslisten stop
 
 ### Per emulator/core configurations
@@ -321,7 +311,7 @@ then
 			jslisten set "retroarch"
 			if [ "$EMU" = "fbneo" ]
 			then
-				RUNTHIS='/usr/bin/retroarch -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} "${ROMNAME}"'
+				RUNTHIS='/usr/bin/retroarch -L /tmp/cores/fbneo_libretro.so --subsystem neocd --config ${RATMPCONF} --appendconfig ${RAAPPENDCONF} "${ROMNAME}"'
 			fi
 		;;
 		"mplayer")
@@ -344,24 +334,14 @@ else
 	$VERBOSE && log "Configuring for a libretro core"
 
 	### Set jslisten to kill the appropriate retroarch
-	if [ "${MYARCH}" == "aarch64" ]
-	then
-		jslisten set "retroarch"
-	else
-		jslisten set "retroarch32"
-	fi
+	jslisten set "retroarch"
 
 	### Check if we need retroarch 32 bits or 64 bits
 	RABIN="retroarch"
 	if [[ "${CORE}" =~ "pcsx_rearmed" ]] || [[ "${CORE}" =~ "parallel_n64" ]] || [[ "${CORE}" =~ "uae4arm" ]]
 	then
-		if [ "${MYARCH}" == "arm" ]
-		then
-			RABIN="retroarch"
-		else
-			export LD_LIBRARY_PATH="/usr/lib32"
-			RABIN="retroarch32"
-		fi
+		export LD_LIBRARY_PATH="/usr/lib32"
+		RABIN="retroarch32"
 	fi
 
 	# Platform specific configurations
@@ -382,7 +362,7 @@ else
                 ;;
         esac
 
-	RUNTHIS='/usr/bin/${RABIN} -L /tmp/cores/${EMU}.so --config ${RATMPCONF} "${ROMNAME}"'
+	RUNTHIS='/usr/bin/${RABIN} -L /tmp/cores/${EMU}.so --config ${RATMPCONF} --appendconfig ${RAAPPENDCONF} "${ROMNAME}"'
 	CONTROLLERCONFIG="${arguments#*--controllers=*}"
 
 	if [[ "$arguments" == *"-state_slot"* ]]; then
@@ -443,6 +423,7 @@ if [[ ${PLATFORM} == "ports" ]]; then
 else
 	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 fi
+SETSETTINGS_PID=$!
 
 clear_screen
 $VERBOSE && log "Show splash screen"
@@ -451,7 +432,7 @@ SPL=$(get_ee_setting ee_splash.enabled)
 [ "$SPL" -eq "1" ] && (${TBASH} /usr/bin/show_splash.sh "${ROMNAME}") &
 
 ### Wait for background jobs to complete before continuing.
-wait
+wait ${SETSETTINGS_PID}  #Don't wait for show splash
 
 ### If setsettings wrote data in the background, grab it and assign it to SHADERSET
 if [ -e "${SHADERTMP}" ]

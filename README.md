@@ -52,6 +52,8 @@ All make commands are available via docker, by prepending `docker-`. `make RG351
 New docker make commands: 
 - `make docker-image-build` - Builds the docker image based on the Dockerfile.  This is not required unless changes are needed locally. 
 - `make docker-image-pull` - Pulls docker image from dockerhub.  This will update to the latest image and replace any locally built changes to the docker file.
+- `make docker-shell` - (advanced) Launches a shell inside the docker build container.  This allows running any development commands like `./scripts/build`, etc, which aren't in the Makefile.
+  - NOTE: Errors like `groups: cannot find name for group ID 1002` and the user being listed as `I have no name!` are OK and a result of mapping the host user/group into the docker container where the host user/groups may not exist.
 
 Example building with docker:
 ```
@@ -62,7 +64,7 @@ make docker-world
 ```
 
 ## Automated Dev Builds
-Builds are automatically run on commits to `main` and for Pull Requests (*PR's*) that have been requested for review.  Reviews must be requested by existing team members for security purposes.
+Builds are automatically run on commits to `main` and for Pull Requests (*PR's*) from previous committers.
 
 Development builds can be found looking for the green checkmarks next to commit history.  Artifacts are generated for each build which can be used to update the RG351P/RG351V and are stored for 30 days by GitHub.  Note that due to Github Action limitations, artifacts are zipped (.img.gz and .tar are inside the zip file).
 

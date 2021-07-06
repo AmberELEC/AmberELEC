@@ -1,6 +1,6 @@
 name: build-pr
 on:
-  pull_request_target:
+  pull_request:
   
     # We don't need to run builds when these files change
     paths-ignore:
@@ -10,9 +10,7 @@ on:
       - '.dockerignore'
     branches:
       - main
-
-    #Ensure we build when a review is requested (as we don't build w/o a review)
-    types: [opened, review_requested, synchronize]
+    types: [opened, synchronize]
 
 # Ensure that if there are multiple builds for a PR only 1 is queued
 # Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
@@ -24,19 +22,12 @@ jobs:
   build:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
-
-    # Only run if: 1. There are reviewers requested. 2. The branch is from the 351ELEC repo (and thus 'safe' to build as very few people should have access to create branches)
-    if: | 
-       github.event.pull_request.requested_reviewers[0] != null
-         || github.event.pull_request.head.repo.owner.login == '351ELEC'
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
         with:
           # clean: false ensures that we don't remove all the build files 
           clean: false
-          # pull requests require explicitly using the pr sha
-          ref: ${{ github.event.pull_request.head.sha }}
       
       - name: Get date for artifacts
         id: date
@@ -47,11 +38,11 @@ jobs:
       - name: Build rg351P
         run: |
             set -e
-            make docker-RG351P
+            make DOCKER_WORK_DIR=/work docker-RG351P
       - name: Build rg351V
         run: |
             set -e
-            make docker-RG351V
+            make DOCKER_WORK_DIR=/work docker-RG351V
       - name: Cleanup system artifacts (no .img in PR builds)
         run: |
             set -e

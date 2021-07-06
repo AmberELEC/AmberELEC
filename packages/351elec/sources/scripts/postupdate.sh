@@ -1,7 +1,19 @@
 #!/bin/bash
-## 
+##
 ## This script should only run after an update
-## 
+##
+## Config Files
+CONF="/storage/.config/distribution/configs/distribution.conf"
+
+## 2021-07-02 (konsumschaf)
+## Change the settings for global.retroachievements.leaderboards
+if grep -q "global.retroachievements.leaderboards=0" ${CONF}; then
+	sed -i "/global.retroachievements.leaderboards/d" ${CONF}
+	echo "global.retroachievements.leaderboards=disabled" >> ${CONF}
+elif grep -q "global.retroachievements.leaderboards=1" ${CONF}; then
+	sed -i "/global.retroachievements.leaderboards/d" ${CONF}
+	echo "global.retroachievements.leaderboards=enabled" >> ${CONF}
+fi
 
 ## 2021-05-27
 ## Enable D-Pad to analogue at boot until we create a proper toggle
