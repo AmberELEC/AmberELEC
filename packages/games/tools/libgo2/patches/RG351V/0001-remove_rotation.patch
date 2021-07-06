@@ -1,0 +1,32 @@
+From 0475adef34dd591096e6a8619c8f2bf0d2ba4392 Mon Sep 17 00:00:00 2001
+From: christianhaitian <mckman@comcast.net>
+Date: Fri, 9 Apr 2021 01:44:58 -0400
+Subject: [PATCH] Remove rotation
+
+---
+ src/display.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/src/display.c b/src/display.c
+index 52b2827..4f3dc3b 100644
+--- a/src/display.c
++++ b/src/display.c
+@@ -601,15 +601,15 @@ void go2_surface_blit(go2_surface_t* srcSurface, int srcX, int srcY, int srcWidt
+             break;
+ 
+         case GO2_ROTATION_DEGREES_90:
+-            src.rotation = HAL_TRANSFORM_ROT_90;
++            src.rotation = 0;
+             break;
+ 
+         case GO2_ROTATION_DEGREES_180:
+-            src.rotation = HAL_TRANSFORM_ROT_180;
++            src.rotation = 0;
+             break;
+ 
+         case GO2_ROTATION_DEGREES_270:
+-            src.rotation = HAL_TRANSFORM_ROT_270;
++            src.rotation = 0;
+             break;
+ 
+         default:
