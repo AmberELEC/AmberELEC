@@ -93,9 +93,9 @@
 	</game>
 
 	<game>
-		<path>./cloud_sync.sh</path>
-		<name>Cloud Sync</name>
-		<desc>Backup/Sync/Restore your saves and system backup over the cloud</desc>
+		<path>./cloud_backup.sh</path>
+		<name>Cloud Save Backup</name>
+		<desc>Backups your saves and system backup over the cloud</desc>
 		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
