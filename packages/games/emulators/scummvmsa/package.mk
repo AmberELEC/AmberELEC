@@ -30,11 +30,13 @@ post_makeinstall_target() {
     rm -rf "$INSTALL/usr/local/share/$i"
   done
 
-  for i in residualvm.zip scummmodern.zip scummremastered.zip scummclassic.zip; do
+  for i in residualvm.zip scummmodern.zip scummclassic.zip; do
     rm -rf "$INSTALL/usr/local/share/scummvm/$i"
   done
 
-  mkdir -p $INSTALL/usr/local/share/scummvm/
-  cp -rf $PKG_DIR/scummremastered.zip $INSTALL/usr/local/share/scummvm/
+  if [[ "$DEVICE" == RG351P ]]; then
+    mkdir -p $INSTALL/usr/local/share/scummvm/
+    cp -rf $PKG_DIR/scummremastered.zip $INSTALL/usr/local/share/scummvm/
+  fi
 }
 
