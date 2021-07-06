@@ -22,6 +22,8 @@ jobs:
   build:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
+    # Don't run on drafts
+    if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
