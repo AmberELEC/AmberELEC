@@ -92,4 +92,17 @@
 		<image>./downloaded_images/filemanager.png</image>
 	</game>
 
+	<game>
+		<path>./cloud_sync.sh</path>
+		<name>Cloud Sync</name>
+		<desc>Backup/Sync/Restore your saves and system backup over the cloud</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>script</genre>
+		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
+		<image>./downloaded_images/filemanager.png</image>
+	</game>
+
 </gameList>
