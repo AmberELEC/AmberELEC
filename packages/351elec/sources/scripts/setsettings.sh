@@ -499,16 +499,23 @@ if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [
 			path="${p}"/"${EES}"
 		fi
 	done
-	# if there a $ROM.cfg?
-	# excatctly the same?
-	if [ -f "${path}"/"${ROM%.*}".cfg ]; then
-		bezelcfg="${path}"/"${ROM%.*}".cfg
-	# only the name without ()
-	elif [ -f "${path}"/"${ROM%% (*}".cfg ]; then
-		bezelcfg="${path}"/"${ROM%% (*}".cfg
-	elif [ -f "${path}"/default.cfg ]; then
-		bezelcfg="${path}"/default.cfg
-	fi
+	# is there a $ROM.cfg?
+	# excatctly the same / just the name / default
+	# Random bezels have to match $ROM./d+.cfg
+	for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
+		# Somehow the regex of the busybox find does not know about "+" WTF?
+		pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
+		readarray -t filelist < <(find ${path} -regex "${pattern}" -exec basename {} \;)
+		count=${#filelist[*]}
+		if [ ${count} -gt 0 ]; then
+			ran=$(($RANDOM%${count}))
+			bezelcfg="${path}"/"${filelist[${ran}]}"
+			break
+		elif [ -f "${path}"/"${romname}".cfg ]; then
+			bezelcfg="${path}"/"${romname}".cfg
+			break
+		fi
+	done
 	# configure bezel
 	echo 'input_overlay_enable = "true"'		>> ${RAAPPENDCONF}
 	echo "input_overlay = \"${bezelcfg}\""		>> ${RAAPPENDCONF}
