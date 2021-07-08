@@ -1,219 +1,51 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2021-present pkegg
 
+#Constants
+CONSOLE_DEVICE=/dev/console
 . /etc/profile
 
-### Disable update functionality
-exit 0
-
-ARCH="$(cat /storage/.config/.OS_ARCH)"
-
-### Modifiable variables
-USTAGE="/storage/roms/update"
-PREFIX="351ELEC-${ARCH}.aarch64"
-MYVERSION=$(cat /storage/.config/.OS_VERSION)
-VERBOSE=true
+LOG=/tmp/logs/351-elec-upgrade
+DIR=$(realpath $(dirname $0))
 BAND=$(get_ee_setting updates.type)
-OS_SHA256="/storage/.config/.OS_SHA256"
-
-### Functions Library
-
-if [ "${BAND}" == "daily" ]
-then
-  API="https://api.github.com/repos/351ELEC/351elec"
-  REPO="https://github.com/351ELEC/351ELEC"
-  PROVIDER="git"
+ORG=$(get_ee_setting updates.github.org)
+if [ "$ORG" == "" ]; then
+  ORG="351ELEC"
 fi
 
-if [ -e "${USTAGE}/update.log" ]
-then
-  rm "${USTAGE}/update.log"
+REPO=$(get_ee_setting updates.github.repo)
+if [ "$REPO" == "" ]; then
+  REPO=351ELEC
 fi
 
-function getlatest() {
-  if [ "${PROVIDER}" == "https" ]
-  then
-    ### Clean this up later.
-    LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2)
-    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  elif [ "${PROVIDER}" == "git" ]
-  then
-    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
-    REPO="${REPO}/releases/download/${TAG}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  fi
-}
-
-function log () {
-  echo "$(date): $1" | tee -a "${USTAGE}/update.log"
-}
-
-function online_status() {
-  GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
-  if [[ ${GW} =~ [0-9] ]]
-  then
-    echo true
-  else
-    echo false
-  fi
-}
-
-function hash() {
-  while true
-  do
-    echo -n "#" >/dev/console
-    sleep 1
-  done
-}
-
-get_available() {
-  echo $(df | awk '/'$1'/ {printf $4; exit}')
-}
-
-get_size() {
-  echo $(df | awk '/'$1'/ {printf $2; exit}')
-}
-
-check_space() {
-  MYSIZE="$(get_$1 $2)"
-  VOLNAME="$3"
-  REQUIRED="$4"
-  if [ "${MYSIZE}" -lt "${REQUIRED}" ]
-  then
-    NEEDED=$(( (${REQUIRED} - ${MYSIZE} ) / 1024 ))
-    message_stream  "\n\nThere is not enough free space available on the ${VOLNAME} volume to install this update.  Free up an additional ${NEEDED}MB, or reflash this version." .02
-    sleep 10
-    clear >/dev/console
-    systemctl start emustation
-    exit 1
-  fi
-}
-
-### Main
+FORCE=$(get_ee_setting updates.force)
+if [ "$FORCE" == "1" ]; then
+  FORCE_ARGS="--force-update"
+fi
 
 systemctl stop emustation
 
-clear >/dev/console
+# Ensure we start emustation back up at end
+function cleanup {
+  clear > ${CONSOLE_DEVICE}
+  systemctl start emustation
+
+}
+trap cleanup EXIT
+
+clear > ${CONSOLE_DEVICE}
 /usr/bin/show_splash.sh "$0"
-clear >/dev/console
+clear > ${CONSOLE_DEVICE}
 
-if [ ! -d "${USTAGE}" ]
+python3 ${DIR}/get-release.py --band ${BAND} --org ${ORG} --repo ${REPO} --log-level DEBUG --console ${CONSOLE_DEVICE} ${FORCE_ARGS} &> ${LOG}
+
+RETURN_CODE=$?
+
+if [ "${RETURN_CODE}" != "0" ]
 then
-  mkdir -p "${USTAGE}"
-fi
-
-message_stream "\e[31m351\e[39mELEC Update Utility - Starting Update...\n" .02
-
-NETWORKING=$(online_status)
-if [ "${NETWORKING}" == true ]
-then
-  $VERBOSE && log "Network connection detected"
-  message_stream "\n\nChecking for updates in the ${BAND} channel..." .02
-  getlatest
-else
-  $VERBOSE && log "No network connection detected"
-  if [ -e "${USTAGE}/${UFILE}" ]
-  then
-    $VERBOSE && log "Local update package found"
-    TAG=$(echo ${UFILE} | awk 'BEGIN {FS="-"}; {split($3, a, /.tar/); print a[1]}')
-  fi
-fi
-
-if [ "${TAG}" -gt "${MYVERSION}" ]
-then
-  UPDATE=true
-else
-  UPDATE=false
-fi
-
-if [ "${UPDATE}" == false ]
-then
-  $VERBOSE && log "No update available ${MYVERSION} >= ${TAG}"
-  message_stream "\n\nNo update is available, nothing to do..." .02
-  sleep 4
-  clear >/dev/console
-  systemctl start emustation
-  exit 0
-else
-  $VERBOSE && log "Update available ${TAG} > ${MYVERSION}"
-
-fi
-
-### We need a minimum of 3GB free on the games volume to download and extract the update.
-for DEV in mmcblk1p1 mmcblk1 mmcblk0p3
-do
-  if [ -e "/dev/${DEV}" ]
-  then
-    break
-  fi
-done
-check_space available ${DEV} GAMES 3072000
-
-### 351ELEC 1.x needs 640MB, but 2.x needs 1GB on the boot volume.
-MAJOR=${TAG:0:1}
-if [ "${MAJOR}" -lt 2 ]
-then
-  BOOTREQ=640000
-else
-  BOOTREQ=1024000
-fi
-
-check_space size mmcblk0p1 boot ${BOOTREQ}
-
-if [ ! -e "${USTAGE}/${UFILE}" ] && [ ! -e "${USTAGE}/${UFILE}.sha256" ]
-then
-  if [ "${NETWORKING}" == true ]
-  then
-    $VERBOSE && log "Fetching ${UFILE} from ${REPO}"
-
-    message_stream "\n\nFetching ${UFILE}...\n" .02
-    hash &
-    CHILD_PID=$!
-    curl -H 'Cache-Control: no-cache' -Lo "${USTAGE}/${UFILE}" "${REPO}/${UFILE}" &>>${USTAGE}/update.log
-    kill ${CHILD_PID}
-    message_stream "\n\nFetching Checksum...\n" .02
-    hash &
-    CHILD_PID=$!
-    curl -H 'Cache-Control: no-cache' -Lo "${USTAGE}/${UFILE}.sha256" "${REPO}/${UFILE}.sha256"  &>>${USTAGE}/update.log
-    kill ${CHILD_PID}
-    message_stream "\n" .02
-  else
-    $VERBOSE && log "No network connection available"
-    message_stream "\n\nNetwork connection not detected, cannot continue..." .02
-    exit 0
-  fi
-else
-  $VERBOSE && log "Local update found"
-  message_stream "\n\nLocal update found..." .02
-fi
-
-$VERBOSE && log "Verifying ${UFILE}"
-message_stream "\nVerifying package..." .02
-MYSUM=$(sha256sum ${USTAGE}/${UFILE} | awk '{print $1}')
-DLSUM=$(cat ${USTAGE}/${UFILE}.sha256 | awk '{print $1}')
-
-if [ ! "${MYSUM}" == "${DLSUM}" ]
-then
-  $VERBOSE && log "Verification failed: ${MYSUM} == ${DLSUM}"
-  message_stream "\nVerification failed, cleaning up and exiting..." .02
-  rm -f ${USTAGE}/*
-  sleep 4
-  clear >/dev/console
-  systemctl start emustation
   exit 1
 else
-  # If we are sure that we will do the update we store the sha256 checksum into
-  # /storage/.config/.OS_SHA256 for /usr/bin/updatecheck to verify if the
-  # latest update is already installed or not
-  echo $DLSUM > ${OS_SHA256}
-  message_stream "\nVerification successful..." .02
+  sync
+  reboot
 fi
-
-$VERBOSE && log "Syncing..."
-message_stream "\n\nRebooting to continue update..." .02
-sync
-$VERBOSE && log "rebooting.."
-reboot

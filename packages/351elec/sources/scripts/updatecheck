@@ -1,96 +1,28 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2021-present pkegg
 
 . /etc/profile
-
-### Disable update functionality
-exit 0
-
-ARCH="$(cat /storage/.config/.OS_ARCH)"
-
-### Modifiable variables
-USTAGE="/storage/roms/update"
-PREFIX="351ELEC-${ARCH}.aarch64"
-MYVERSION=$(cat /storage/.config/.OS_VERSION)
-VERBOSE=true
+DIR=$(realpath $(dirname $0))
 BAND=$(get_ee_setting updates.type)
-OS_SHA256="/storage/.config/.OS_SHA256"
-
-### Functions Library
-
-if [ "${BAND}" == "daily" ]
-then
-  API="https://api.github.com/repos/351ELEC/351elec"
-  REPO="https://github.com/351ELEC/351ELEC"
-  PROVIDER="git"
+ORG=$(get_ee_setting updates.github.org)
+if [ "$ORG" == "" ]; then
+  ORG="351ELEC"
 fi
 
-function online_status() {
-  GW=$(ip route | awk '/eth0/ {a=$0} END{print $1}')
-  if [[ ${GW} =~ [0-9] ]]
-  then
-    echo true
-  else
-    echo false
-  fi
-}
+REPO=$(get_ee_setting updates.github.repo)
+if [ "$REPO" == "" ]; then
+  REPO=351ELEC
+fi
 
-function getlatest() {
-  if [ "${PROVIDER}" == "https" ]
-  then
-    ### Clean this up later.
-    LATEST=$(curl -H 'Cache-Control: no-cache' -sL ${REPO} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1)
-    TAG=$(curl -H 'Cache-Control: no-cache' -sL ${REPO}/${LATEST}/aarch64/${ARCH} | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed -e 's#/.*$##g' | grep '^[0-9]' | sort | tail -n 1 | cut -d"-" -f 3 | cut -d"." -f 1,2,3)
-    REPO="${REPO}/${LATEST}/aarch64/${ARCH}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  elif [ "${PROVIDER}" == "git" ]
-  then
-    TAG=$(curl -H 'Cache-Control: no-cache' -Ls "${API}/releases" | python -c "import sys, json; print(json.load(sys.stdin)[0]['tag_name'])")
-    REPO="${REPO}/releases/download/${TAG}"
-    UFILE="${PREFIX}-${TAG}.tar"
-  fi
-}
+FORCE=$(get_ee_setting updates.force)
+if [ "$FORCE" == "1" ]; then
+  FORCE_ARGS="--force-update"
+fi
 
-### Main
-
-NETWORKING=$(online_status)
-if [ "${NETWORKING}" == true ]
-then
-  getlatest
-  UFILE="${PREFIX}-${TAG}.tar"
+if UPDATE=$(python3 ${DIR}/get-release.py --org ${ORG} --band ${BAND} --repo ${REPO} ${FORCE_ARGS} --check True 2>/tmp/logs/update-check.log); then
+   echo "${UPDATE}"
 else
-  if [ -e "${USTAGE}/${UFILE}" ]
-  then
-    TAG=$(echo ${UFILE} | awk 'BEGIN {FS="-"}; {split($3, a, /.tar/); print a[1]}')
-  fi
-fi
-
-if [ "${TAG}" -gt "${MYVERSION}" ]
-then
-  # We may be able to deprecate this now.  Will leave for a while though.
-  # If there is an update we still have to check if it's a new one
-  # this is done by comparing the sha256 checksum to the one of
-  # the last installed package. This information is written by 
-  # /usr/bin/351elec-upgrade while it fetches the next update
-  # The checksum is stored in /storage/.config/.OS_SHA256
-  LSHA=$(cat ${OS_SHA256})
-  if [ ! "$LSHA" == "" ]; then
-	curl -H 'Cache-Control: no-cache' -Lo "${USTAGE}/${PREFIX}-${TAG}.sha256" "${REPO}/${PREFIX}-${TAG}.sha256" &> /dev/null
-	DLSUM=$(cat ${USTAGE}/${PREFIX}-${TAG}.sha256 | awk '{print $1}')
-	rm -f ${USTAGE}/${PREFIX}-${TAG}.sha256
-	if [ "${LSHA}" == "${DLSUM}" ]; then
-		# we are called by '/usr/bin/batocera-config canupdate'
-		# and that expects a 'no' in return if there are no new updates
-		# '/usr/bin/batocera-config canupdate' itself is called by
-		# ES (ApiSystem.cpp) to check if there are any new updates.
-		echo "no"
-		exit 1
-	fi
-  fi
-  echo "${TAG} ${BAND^^}"
-  exit 0
-else
-  echo "NO UPDATE AVAILABLE"
-  exit 1
-fi
+   echo "no"
+   exit 1
+fi 

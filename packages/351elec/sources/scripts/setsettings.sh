@@ -161,7 +161,15 @@ for i in "${!RETROARCHIVEMENTS[@]}"; do
 
 		# retroachievements_leaderboards
 		get_setting "retroachievements.leaderboards"
-		[ "${EES}" == "1" ] && echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
+		if [ "${EES}" == "enabled" ]; then
+			echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF}
+		elif [ "${EES}" == "trackers only" ]; then
+			echo 'cheevos_leaderboards_enable = "trackers"' >> ${RAAPPENDCONF}
+		elif [ "${EES}" == "notifications only" ]; then
+			echo 'cheevos_leaderboards_enable = "notifications"' >> ${RAAPPENDCONF}
+		else
+			echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
+		fi
 
 		# retroachievements_verbose_mode
 		get_setting "retroachievements.verbose"
