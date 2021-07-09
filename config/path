@@ -21,7 +21,7 @@ set -e
 [ -z "${HOST_NAME}" ] && export HOST_NAME="$($LOCAL_CC -dumpmachine)"
 TARGET_NAME=$TARGET_GCC_ARCH-libreelec-linux-gnu${TARGET_ABI}
 
-BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${LIBREELEC_VERSION}
+BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}
 if [ "${LIBREELEC_VERSION}" = "devel" ] ; then
   BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}
 fi
@@ -78,7 +78,7 @@ else
 fi
 
 if [ -z "$CCACHE_DIR" ]; then
-  export CCACHE_DIR=$BUILD/.ccache
+  export CCACHE_DIR=${BUILD_ROOT}/.ccache-${TARGET_ARCH}
 fi
 
 if [[ -z "$PATH" || ( "$PATH" != "$TOOLCHAIN/bin:$TOOLCHAIN/sbin" && "$PATH" = "${PATH#$TOOLCHAIN/bin:$TOOLCHAIN/sbin:}" ) ]]; then

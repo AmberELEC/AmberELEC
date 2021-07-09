@@ -1,0 +1,57 @@
+name: build-main
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - 'README.me'
+      - 'Dockerfile'
+      - '.dockerignore'
+    branches:
+      - main
+# Ensure that if there are multiple builds for main only 1 is queued during a build
+# Example: 1st commit in main starts a build then 2-9 commits come in during the first build.
+#          'concurrency' makes it so that only commit 9 is enqueued to build rather builds 2-9 all runing a build.
+concurrency: 
+  group: main
+
+jobs:
+  build:
+    runs-on: main
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          clean: false
+      - name: Get date for artifacts
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+      - name: Build rg351P
+        run: |
+            set -e
+            make DOCKER_WORK_DIR=/work docker-RG351P
+      - name: Build rg351V
+        run: |
+            set -e
+            make DOCKER_WORK_DIR=/work docker-RG351V
+      - name: Cleanup system artifacts
+        run: |
+            set -e
+            rm -rf release/aarch64/RG351*/*.system*
+            rm -rf release/aarch64/RG351*/*.kernel*
+      - name: Archive RG351V (${{github.sha}})
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+
+          path: |
+            release/aarch64/RG351V/
+      - name: Archive RG351P (${{github.sha}})
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+          path: |
+            release/aarch64/RG351P/

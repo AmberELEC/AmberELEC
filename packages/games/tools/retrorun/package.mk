@@ -26,6 +26,7 @@ PKG_MAKE_OPTS_TARGET=" config=release ARCH="
 }
 
 make_target() {
+  sed -i 's/\/\/ free(sramName);/free(sramName);/g' src/main.cpp
   make config=release ARCH=
 }
 
@@ -36,7 +37,7 @@ makeinstall_target() {
   else
     cp retrorun $INSTALL/usr/bin
     cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
     mkdir -p $INSTALL/usr/config/distribution/configs
     cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
   fi

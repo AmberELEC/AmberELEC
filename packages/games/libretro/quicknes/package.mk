@@ -49,6 +49,6 @@ makeinstall_target() {
   if [ "${ARCH}" != "aarch64" ]; then
     cp quicknes_libretro.so $INSTALL/usr/lib/libretro/
   else
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm-${VERSION}/quicknes-*/.install_pkg/usr/lib/libretro/quicknes_libretro.so $INSTALL/usr/lib/libretro/
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/quicknes-*/.install_pkg/usr/lib/libretro/quicknes_libretro.so $INSTALL/usr/lib/libretro/
   fi
 }

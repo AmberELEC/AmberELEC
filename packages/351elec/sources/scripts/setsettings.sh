@@ -22,15 +22,16 @@ INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 
 CONF="/storage/.config/distribution/configs/distribution.conf"
 SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
+RAAPPENDCONF="/tmp/raappend.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
 ROM="${2##*/}"
 CORE=${3,,}
-SETF=0
 SHADERSET=0
 LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
+EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 #Snapshot
 SNAPSHOT="$@"
@@ -45,10 +46,8 @@ else
 fi
 
 function log() {
-	if [ ${LOG} == true ]
-	then
-		if [[ ! -d "$LOGSDIR" ]]
-		then
+	if [ ${LOG} == true ]; then
+		if [[ ! -d "$LOGSDIR" ]]; then
 			mkdir -p "$LOGSDIR"
 		fi
 		DATE=$(date +"%b %d %H:%M:%S")
@@ -56,17 +55,17 @@ function log() {
 	fi
 }
 
+## Create / delete raappend.cfg
+echo -n > "${RAAPPENDCONF}"
+
 ### Move operations to /tmp so we're not writing to the microSD slowing us down.
 ### Also test the file to ensure it's not 0 bytes which can happen if someone presses reset.
-FILELENGTH="$(cat ${RACONF} | wc -l)"
-if [ "${FILELENGTH}" -lt "1" ]
-then
+if [ ! -s ${RACONF} ]; then
 	log "Fix broken RA conf"
 	cp -f "${SOURCERACONF}" "${RACONF}"
 fi
 
-if [ ! -d "${SNAPSHOTS}/${PLATFORM}" ]
-then
+if [ ! -d "${SNAPSHOTS}/${PLATFORM}" ]; then
 	mkdir -p "${SNAPSHOTS}/${PLATFORM}"
 fi
 
@@ -76,441 +75,316 @@ function doexit() {
 	exit 0
 }
 
-## group_platform is not used as it would group the RA savestate_directory-setting as well
-## add all the platforms directly to RETROARCHIVEMENTS
-##
-#function group_platform() {
-#log "group platform function (${1})"
-#case ${1} in
-#	"atari2600")
-#	PLATFORM="atari2600"
-#	;;
-#	"atari7800")
-#	PLATFORM="atari7800"
-#	;;
-#	"atarilynx")
-#	PLATFORM="atarilynx"
-#	;;
-#	"wonderswan"|"wonderswancolor")
-#	PLATFORM="wonderswan"
-#	;;
-#	"colecovision")
-#	PLATFORM="colecovision"
-#	;;
-#	"vectrex")
-#	PLATFORM="vectrex"
-#	;;
-#	"msx"|"msx2")
-#	PLATFORM="msx"
-#	;;
-#	"pcengine"|"pcenginecd"|"pcfx"|"supergrafx"|"tg16"|"tg16cd")
-#	PLATFORM="pcengine"
-#	;;
-#	"gb"|"gbh")
-#	PLATFORM="gb"
-#	;;
-#	"gba"|"gbah")
-#	PLATFORM="gba"
-#	;;
-#	"gbc"|"gbch")
-#	PLATFORM="gb"
-#	;;
-#	"nes"|"nesh"|"fds"|"famicom")
-#	PLATFORM="nes"
-#	;;
-#	"n64")
-#	PLATFORM="n64"
-#	;;
-#	"pokemini")
-#	PLATFORM="pokemini"
-#	;;
-#	"snes"|"snesh"|"snesmsu1"|"sfc")
-#	PLATFORM="snes"
-#	;;
-#	"virtualboy")
-#	PLATFORM="virtualboy"
-#	;;
-#	"mastersystem")
-#	PLATFORM="mastersystem"
-#	;;
-#	"genesis genh"|"megadrive"|"megadrive-japan")
-#	PLATFORM="megadrive"
-#	;;
-#	"sega32x")
-#	PLATFORM="sega32x"
-#	;;
-#	"gamegear"|"ggh")
-#	PLATFORM="gamegear"
-#	;;
-#	"sg-1000")
-#	PLATFORM="sg-1000"
-#	;;
-#	"segacd"|"megacd")
-#	PLATFORM="segacd"
-#	;;
-#	"neogeo"|"neogeocd")
-#	PLATFORM="neogeo"
-#	;;
-#	"ngp"|"ngpc")
-#	PLATFORM="ngp"
-#	;;
-#	"psx")
-#	PLATFORM="psx"
-#	;;
-#	"tic80")
-#	PLATFORM="tic80"
-#	;;
-#	"fbn")
-#	PLATFORM="arcade"
-#	;;
-#	"intellivision")
-#	PLATFORM="intellivision"
-#	;;
-#esac
-#
-#	}
-#
-#group_platform
-
-function clean_settings() {
-	log "Clean settings function"
-	# IMPORTANT: Every setting we change should be removed from retroarch.cfg before we do any changes.
-	sed -i '/video_scale_integer =/d' ${RACONF}
-	sed -i '/video_ctx_scaling =/d' ${RACONF}
-	sed -i '/video_shader =/d' ${RACONF}
-	sed -i '/video_shader_enable =/d' ${RACONF}
-	sed -i '/video_smooth =/d' ${RACONF}
-	sed -i '/aspect_ratio_index =/d' ${RACONF}
-	sed -i '/rewind_enable =/d' ${RACONF}
-	sed -i '/run_ahead_enabled =/d' ${RACONF}
-	sed -i '/run_ahead_frames =/d' ${RACONF}
-	sed -i '/run_ahead_secondary_instance =/d' ${RACONF}
-	sed -i "/state_slot =/d" ${RACONF}
-	sed -i '/savestate_auto_save =/d' ${RACONF}
-	sed -i '/savestate_auto_load =/d' ${RACONF}
-	sed -i '/savestates_in_content_dir =/d' ${RACONF}
-	sed -i '/savestate_directory =/d' ${RACONF}
-	sed -i '/cheevos_enable =/d' ${RACONF}
-	sed -i '/cheevos_username =/d' ${RACONF}
-	sed -i '/cheevos_password =/d' ${RACONF}
-	sed -i '/cheevos_hardcore_mode_enable =/d' ${RACONF}
-	sed -i '/cheevos_leaderboards_enable =/d' ${RACONF}
-	sed -i '/cheevos_verbose_enable =/d' ${RACONF}
-	sed -i '/cheevos_auto_screenshot =/d' ${RACONF}
-	sed -i '/ai_service_mode =/d' ${RACONF}
-	sed -i '/ai_service_enable =/d' ${RACONF}
-	sed -i '/ai_service_source_lang =/d' ${RACONF}
-	sed -i '/ai_service_url =/d' ${RACONF}
-	sed -i "/input_libretro_device_p1/d" ${RACONF}
-	sed -i "/fps_show/d" ${RACONF}
-	sed -i "/netplay =/d" ${RACONF}
-	sed -i "/netplay_ip_port/d" ${RACONF}
-	sed -i "/netplay_delay_frames/d" ${RACONF}
-	sed -i "/netplay_nickname/d" ${RACONF}
-	sed -i "/netplay_client_swap_input/d" ${RACONF}
-	sed -i "/netplay_ip_port/d" ${RACONF}
-	sed -i "/netplay_server_ip/d" ${RACONF}
-	sed -i "/netplay_client_swap_input/d" ${RACONF}
-	sed -i "/netplay_spectator_mode_enable/d" ${RACONF}
-	sed -i "/netplay_use_mitm_server/d" ${RACONF}
-	sed -i "/netplay_ip_address/d" ${RACONF}
-	sed -i "/netplay_mitm_server/d" ${RACONF}
-	sed -i "/netplay_mode/d" ${RACONF}
-	sed -i "/wifi_enabled/d" ${RACONF}
-	sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
-}
-
-function default_settings() {
-	log "Default settings function"
-	# IMPORTANT: Every setting we change should have a default value here
-	clean_settings
-	echo 'video_scale_integer = "false"' >> ${RACONF}
-	echo 'video_ctx_scaling = "false"' >> ${RACONF}
-	echo 'video_shader = ""' >> ${RACONF}
-	echo 'video_shader_enable = "false"' >> ${RACONF}
-	echo 'video_smooth = "false"' >> ${RACONF}
-	echo 'aspect_ratio_index = "22"' >> ${RACONF}
-	echo 'rewind_enable = "false"' >> ${RACONF}
-	echo 'run_ahead_enabled = "false"' >> ${RACONF}
-	echo 'run_ahead_frames = "1"' >> ${RACONF}
-	echo 'run_ahead_secondary_instance = "false"' >> ${RACONF}
-	echo 'savestate_auto_load = "false"' >> ${RACONF}
-	echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
-	echo 'cheevos_enable = "false"' >> ${RACONF}
-	echo 'cheevos_username = ""' >> ${RACONF}
-	echo 'cheevos_password = ""' >> ${RACONF}
-	echo 'cheevos_hardcore_mode_enable = "false"' >> ${RACONF}
-	echo 'cheevos_leaderboards_enable = "false"' >> ${RACONF}
-	echo 'cheevos_verbose_enable = "false"' >> ${RACONF}
-	echo 'cheevos_auto_screenshot = "false"' >> ${RACONF}
-	echo 'ai_service_mode = "0"' >> ${RACONF}
-	echo 'ai_service_enable = false' >> ${RACONF}
-	echo 'ai_service_source_lang = "0"' >> ${RACONF}
-	echo 'ai_service_url = ""' >> ${RACONF}
-	echo "input_libretro_device_p1 = \"1\"" >> ${RACONF}
-	echo 'fps_show = false' >> ${RACONF}
-	echo 'netplay = false' >> ${RACONF}
-	echo 'wifi_enabled = "false"' >> ${RACONF}
-	echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
-}
-
-function set_setting() {
-	log "Set Settings function (${1})"
-	# we set the setting on the configuration file
-	case ${1} in
-		"wifi")
-			if [ "$(get_ee_setting wifi.enabled)" = "1" ]
-			then
-				echo 'wifi_enabled = "true"' >> ${RACONF}
-			else
-				echo 'wifi_enabled = "false"' >> ${RACONF}
-			fi
-		;;
-		"ratio")
-			if [[ "${2}" == "false" ]]; then
-				# 22 is the "Core Provided" aspect ratio and its set by default if no other is selected
-				echo 'aspect_ratio_index = "22"' >> ${RACONF}
-			else
-			for i in "${!INDEXRATIOS[@]}"; do
-				if [[ "${INDEXRATIOS[$i]}" = "${2}" ]]; then
-					break
-				fi
-			done
-				echo "aspect_ratio_index = \"${i}\"" >> ${RACONF}
-			fi
-		;;
-		"smooth")
-			[ "${2}" == "1" ] && echo 'video_smooth = "true"' >> ${RACONF} || echo 'video_smooth = "false"' >> ${RACONF}
-		;;
-		"rewind")
-			(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
-			if [ $RA == 1 ] && [ "${2}" == "1" ]; then
-				echo 'rewind_enable = "true"' >> ${RACONF}
-			else
-				echo 'rewind_enable = "false"' >> ${RACONF}
-			fi
-		;;
-		"autosave")
-			if [ "${2}" == false ] || [ "${2}" == "1" ]; then
-				echo 'savestate_auto_save = "true"' >> ${RACONF}
-				echo 'savestate_auto_load = "true"' >> ${RACONF}
-				AUTOLOAD=true
-			else
-				echo 'savestate_auto_save = "false"' >> ${RACONF}
-				echo 'savestate_auto_load = "false"' >> ${RACONF}
-				AUTOLOAD=false
-			fi
-		;;
-		"snapshot")
-			echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RACONF}
-			if [ ! -z ${SNAPSHOT} ]
-			then
-				if [ ${AUTOLOAD} == true ]
-				then
-					sed -i "/savestate_auto_load =/d" ${RACONF}
-					sed -i "/savestate_auto_save =/d" ${RACONF}
-					echo 'savestate_auto_save = "true"' >> ${RACONF}
-					echo 'savestate_auto_load = "true"' >> ${RACONF}
-					echo "state_slot = \"${SNAPSHOT}\"" >> ${RACONF}
-				else
-					sed -i "/savestate_auto_load =/d" ${RACONF}
-					sed -i "/savestate_auto_save =/d" ${RACONF}
-					echo 'savestate_auto_save = "false"' >> ${RACONF}
-					echo 'savestate_auto_load = "false"' >> ${RACONF}
-					echo 'state_slot = "0"' >> ${RACONF}
-				fi
-			fi
-		;;
-		"integerscale")
-			[ "${2}" == "1" ] && echo 'video_scale_integer = "true"' >> ${RACONF} || echo 'video_scale_integer = "false"' >> ${RACONF}
-		;;
-		"rgascale")
-			[ "${2}" == "1" ] && echo 'video_ctx_scaling = "true"' >> ${RACONF} || echo 'video_ctx_scaling = "false"' >> ${RACONF}
-		;;
-		"shaderset")
-			if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then
-				echo 'video_shader_enable = "false"' >> ${RACONF}
-				echo 'video_shader = ""' >> ${RACONF}
-			else
-				echo "video_shader = \"${2}\"" >> ${RACONF}
-				echo 'video_shader_enable = "true"' >> ${RACONF}
-				echo "--set-shader /tmp/shaders/${2}"
-			fi
-		;;
-		"runahead")
-			(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
-			if [ $RA == 1 ]; then
-				if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then
-					echo 'run_ahead_enabled = "false"' >> ${RACONF}
-					echo 'run_ahead_frames = "1"' >> ${RACONF}
-				else
-					echo 'run_ahead_enabled = "true"' >> ${RACONF}
-					echo "run_ahead_frames = \"${2}\"" >> ${RACONF}
-				fi
-			fi
-		;;
-		"secondinstance")
-			(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
-			if [ $RA == 1 ]; then
-				[ "${2}" == "1" ] && echo 'run_ahead_secondary_instance = "true"' >> ${RACONF} || echo 'run_ahead_secondary_instance = "false"' >> ${RACONF}
-			fi
-		;;
-		"ai_service_enabled")
-			if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then
-				echo 'ai_service_enable = "false"' >> ${RACONF}
-			else
-				echo 'ai_service_enable = "true"' >> ${RACONF}
-				get_setting "ai_target_lang"
-				AI_LANG=${EES}
-				[[ "$AI_LANG" == "false" ]] && AI_LANG="0"
-				get_setting "ai_service_url"
-				AI_URL=${EES}
-				echo "ai_service_source_lang = \"${AI_LANG}\"" >> ${RACONF}
-				if [ "${AI_URL}" == "false" ] || [ "${AI_URL}" == "auto" ] || [ "${AI_URL}" == "none" ]; then
-					echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RACONF}
-				else
-					echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RACONF}
-				fi
-			fi
-		;;
-		"retroachievements")
-			for i in "${!RETROARCHIVEMENTS[@]}"; do
-				if [[ "${RETROARCHIVEMENTS[$i]}" = "${PLATFORM}" ]]; then
-					if [ "${2}" == "1" ]; then
-						echo 'cheevos_enable = "true"' >> ${RACONF}
-						get_setting "retroachievements.username"
-						echo "cheevos_username = \"${EES}\"" >> ${RACONF}
-						get_setting "retroachievements.password"
-						echo "cheevos_password = \"${EES}\"" >> ${RACONF}
-
-						# retroachievements_hardcore_mode
-						get_setting "retroachievements.hardcore"
-						[ "${EES}" == "1" ] && echo 'cheevos_hardcore_mode_enable = "true"' >> ${RACONF} || echo 'cheevos_hardcore_mode_enable = "false"' >> ${RACONF}
-
-						# retroachievements_leaderboards
-						get_setting "retroachievements.leaderboards"
-						[ "${EES}" == "1" ] && echo 'cheevos_leaderboards_enable = "true"' >> ${RACONF} || echo 'cheevos_leaderboards_enable = "false"' >> ${RACONF}
-
-						# retroachievements_verbose_mode
-						get_setting "retroachievements.verbose"
-						[ "${EES}" == "1" ] && echo 'cheevos_verbose_enable = "true"' >> ${RACONF} || echo 'cheevos_verbose_enable = "false"' >> ${RACONF}
-
-						# retroachievements_automatic_screenshot
-						get_setting "retroachievements.screenshot"
-						[ "${EES}" == "1" ] && echo 'cheevos_auto_screenshot = "true"' >> ${RACONF} || echo 'cheevos_auto_screenshot = "false"' >> ${RACONF}
-					else
-						echo 'cheevos_enable = "false"' >> ${RACONF}
-						echo 'cheevos_username = ""' >> ${RACONF}
-						echo 'cheevos_password = ""' >> ${RACONF}
-						echo 'cheevos_hardcore_mode_enable = "false"' >> ${RACONF}
-						echo 'cheevos_leaderboards_enable = "false"' >> ${RACONF}
-						echo 'cheevos_verbose_enable = "false"' >> ${RACONF}
-						echo 'cheevos_auto_screenshot = "false"' >> ${RACONF}
-					fi
-				fi
-			done
-		;;
-		"netplay")
-			if [ "${2}" == "false" ] || [ "${2}" == "none" ] || [ "${2}" == "0" ]; then
-				echo 'netplay = false' >> ${RACONF}
-			else
-				echo 'netplay = true' >> ${RACONF}
-				get_setting "netplay.mode"
-				NETPLAY_MODE=${EES}
-				# Security : hardcore mode disables save states, which would kill netplay
-				sed -i '/cheevos_hardcore_mode_enable =/d' ${RACONF}
-				echo 'cheevos_hardcore_mode_enable = "false"' >> ${RACONF}
-
-				if [[ "${NETPLAY_MODE}" == "host" ]]; then
-					# Quite strangely, host mode requires netplay_mode to be set to false when launched from command line
-					echo 'netplay_mode = false' >> ${RACONF}
-					echo 'netplay_client_swap_input = false' >> ${RACONF}
-					get_setting "netplay.port"
-					echo "netplay_ip_port = ${EES}" >> ${RACONF}
-				elif [[ "${NETPLAY_MODE}" == "client" ]]; then
-					# But client needs netplay_mode = true ... bug ?
-					echo 'netplay_mode = true' >> ${RACONF}
-					get_setting "netplay.client.ip"
-					echo "netplay_ip_address = ${EES}" >> ${RACONF}
-					get_setting "netplay.client.port"
-					echo "netplay_ip_port = ${EES}" >> ${RACONF}
-					echo 'netplay_client_swap_input = true' >> ${RACONF}
-				fi # Host or Client
-
-				# relay
-				get_setting "netplay.relay"
-				if [[ ! -z "${EES}" && "${EES}" != "none" ]]; then
-					echo 'netplay_use_mitm_server = true' >> ${RACONF}
-					echo "netplay_mitm_server = ${EES}" >> ${RACONF}
-				else
-					echo 'netplay_use_mitm_server = false' >> ${RACONF}
-					sed -i "/netplay_mitm_server/d" ${RACONF}
-				fi
-
-				get_setting "netplay.frames"
-				echo "netplay_delay_frames = ${EES}" >> ${RACONF}
-				get_setting "netplay.nickname"
-				echo "netplay_nickname = ${EES}" >> ${RACONF}
-				# spectator mode
-				get_setting "netplay.spectator"
-				[ "${EES}" == "1" ] && echo 'netplay_spectator_mode_enable = true' >> ${RACONF} || echo 'netplay_spectator_mode_enable = false' >> ${RACONF}
-			fi
-		;;
-		"fps")
-			# Display FPS
-			get_setting "showFPS"
-			[ "${EES}" == "1" ] && echo 'fps_show = "true"' >> ${RACONF} || echo 'fps_show = "false"' >> ${RACONF}
-		;;
-	esac
-}
-
 function get_setting() {
 	log "Get Settings function (${1})"
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
-	EES=$(sed -n "${PAT}" "${CONF}")
+	EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 
 	if [ -z "${EES}" ]; then
 		PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
-		EES=$(sed -n "${PAT}" "${CONF}")
+		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 	fi
 
 	if [ -z "${EES}" ]; then
 		PAT="s|^global[\.-].*${1}=\(.*\)|\1|p"
-		EES=$(sed -n "${PAT}" "${CONF}")
+		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 	fi
-
-	# Sanity check in case there there are 2 variables set, only use the first line
-	EES=$(echo $EES | head -1)
 
 	[ -z "${EES}" ] && EES="false"
-	set_setting ${1} ${EES}
 }
 
-clean_settings
+##
+## Global Setting that have to stay in retroarch.cfg
+## All setttings that should applay when retroarch is as standalone
+##
 
-for s in wifi ratio smooth shaderset rewind autosave snapshot integerscale rgascale runahead secondinstance retroachievements ai_service_enabled netplay fps; do
-	log "Get settings loop (${1})"
-	get_setting $s
-	[ -z "${EES}" ] || SETF=1
-done
-
-if [ $SETF == 0 ]; then
-	# If no setting was changed, set all options to default on the configuration files
-	default_settings
+## Wifi
+# Cleanup old settings first
+sed -i "/wifi_enabled/d" ${RACONF}
+# Get configuration from distribution.conf and set to retroarch.cfg
+if [ "$(get_ee_setting wifi.enabled)" = "1" ]; then
+	echo 'wifi_enabled = "true"' >> ${RACONF}
+else
+	echo 'wifi_enabled = "false"' >> ${RACONF}
 fi
 
-# D-Pad to Analogue support, option in ES is missng atm but is managed as global.anaolgue=1 in distribution.conf (that is made by postupdate.sh)
-#get_setting "analouge"
-#if [ "${EES}" != "false" ]; then
-	(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
-	if [ $RA == 1 ] && [ "${2}" == "1" ]; then
-		echo 'input_player1_analog_dpad_mode = "0"' >> ${RACONF}
+# RA menu rgui, ozone, glui or xmb (fallback if everthing else fails)
+# if empty (auto in ES) do nothing to enable configuration in RA
+get_setting "retroarch.menu_driver"
+if [ "${EES}" != "false" ]; then
+	# delete setting only if we set new ones
+	# therefore configuring in RA is still possible
+	sed -i "/menu_driver/d" ${RACONF}
+	sed -i "/menu_linear_filter/d" ${RACONF}
+	# Set new menu driver
+	if [ "${EES}" == "rgui" ]; then
+		# menu_liner_filter is only needed for rgui
+		echo 'menu_driver = "rgui"' >> ${RACONF}
+		echo 'menu_linear_filter = "true"' >> ${RACONF}
+	elif [ "${EES}" == "ozone" ]; then
+		echo 'menu_driver = "ozone"' >> ${RACONF}
+	elif [ "${EES}" == "glui" ]; then
+		echo 'menu_driver = "glui"' >> ${RACONF}
 	else
-		echo 'input_player1_analog_dpad_mode = "1"' >> ${RACONF}
+		# play it save and set xmb if nothing else matches
+		echo 'menu_driver = "xmb"' >> ${RACONF}
 	fi
-#fi
+fi
 
+
+##
+## Global Settings that go into the temorary config file
+##
+
+## FPS
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "showFPS"
+[ "${EES}" == "1" ] && echo 'fps_show = "true"' >> ${RAAPPENDCONF} || echo 'fps_show = "false"' >> ${RAAPPENDCONF}
+
+
+## RetroAchievements / Cheevos
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "retroachievements"
+for i in "${!RETROARCHIVEMENTS[@]}"; do
+	if [[ "${RETROARCHIVEMENTS[$i]}" = "${PLATFORM}" ]]; then
+		if [ "${EES}" == "1" ]; then
+		echo 'cheevos_enable = "true"' >> ${RAAPPENDCONF}
+		get_setting "retroachievements.username"
+		echo "cheevos_username = \"${EES}\"" >> ${RAAPPENDCONF}
+		get_setting "retroachievements.password"
+		echo "cheevos_password = \"${EES}\"" >> ${RAAPPENDCONF}
+
+		# retroachievements_hardcore_mode
+		get_setting "retroachievements.hardcore"
+		[ "${EES}" == "1" ] && echo 'cheevos_hardcore_mode_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
+
+		# retroachievements_leaderboards
+		get_setting "retroachievements.leaderboards"
+		if [ "${EES}" == "enabled" ]; then
+			echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF}
+		elif [ "${EES}" == "trackers only" ]; then
+			echo 'cheevos_leaderboards_enable = "trackers"' >> ${RAAPPENDCONF}
+		elif [ "${EES}" == "notifications only" ]; then
+			echo 'cheevos_leaderboards_enable = "notifications"' >> ${RAAPPENDCONF}
+		else
+			echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
+		fi
+
+		# retroachievements_verbose_mode
+		get_setting "retroachievements.verbose"
+		[ "${EES}" == "1" ] && echo 'cheevos_verbose_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+
+		# retroachievements_automatic_screenshot
+		get_setting "retroachievements.screenshot"
+		[ "${EES}" == "1" ] && echo 'cheevos_auto_screenshot = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+		else
+		echo 'cheevos_enable = "false"' >> ${RAAPPENDCONF}
+		echo 'cheevos_username = ""' >> ${RAAPPENDCONF}
+		echo 'cheevos_password = ""' >> ${RAAPPENDCONF}
+		echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
+		echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
+		echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+		echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+		fi
+	fi
+done
+
+## Netplay
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "netplay"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	echo 'netplay = false' >> ${RAAPPENDCONF}
+else
+	echo 'netplay = true' >> ${RAAPPENDCONF}
+	get_setting "netplay.mode"
+	NETPLAY_MODE=${EES}
+	# Security : hardcore mode disables save states, which would kill netplay
+	sed -i '/cheevos_hardcore_mode_enable =/d' ${RAAPPENDCONF}
+	echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
+
+	if [[ "${NETPLAY_MODE}" == "host" ]]; then
+		# Quite strangely, host mode requires netplay_mode to be set to false when launched from command line
+		echo 'netplay_mode = false' >> ${RAAPPENDCONF}
+		echo 'netplay_client_swap_input = false' >> ${RAAPPENDCONF}
+		get_setting "netplay.port"
+		echo "netplay_ip_port = ${EES}" >> ${RAAPPENDCONF}
+	elif [[ "${NETPLAY_MODE}" == "client" ]]; then
+		# But client needs netplay_mode = true ... bug ?
+		echo 'netplay_mode = true' >> ${RAAPPENDCONF}
+		get_setting "netplay.client.ip"
+		echo "netplay_ip_address = ${EES}" >> ${RAAPPENDCONF}
+		get_setting "netplay.client.port"
+		echo "netplay_ip_port = ${EES}" >> ${RAAPPENDCONF}
+		echo 'netplay_client_swap_input = true' >> ${RAAPPENDCONF}
+	fi # Host or Client
+
+	# relay
+	get_setting "netplay.relay"
+	if [[ ! -z "${EES}" && "${EES}" != "none" ]]; then
+		echo 'netplay_use_mitm_server = true' >> ${RAAPPENDCONF}
+		echo "netplay_mitm_server = ${EES}" >> ${RAAPPENDCONF}
+	else
+		echo 'netplay_use_mitm_server = false' >> ${RAAPPENDCONF}
+		# sed -i "/netplay_mitm_server/d" ${RACONF}
+	fi
+
+	get_setting "netplay.frames"
+	echo "netplay_delay_frames = ${EES}" >> ${RAAPPENDCONF}
+	get_setting "netplay.nickname"
+	echo "netplay_nickname = ${EES}" >> ${RAAPPENDCONF}
+	# spectator mode
+	get_setting "netplay.spectator"
+	[ "${EES}" == "1" ] && echo 'netplay_spectator_mode_enable = true' >> ${RAAPPENDCONF} || echo 'netplay_spectator_mode_enable = false' >> ${RAAPPENDCONF}
+fi
+
+## AI Translation Service
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "ai_service_enabled"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	echo 'ai_service_enable = "false"' >> ${RAAPPENDCONF}
+else
+	echo 'ai_service_enable = "true"' >> ${RAAPPENDCONF}
+	get_setting "ai_target_lang"
+	AI_LANG=${EES}
+	[[ "$AI_LANG" == "false" ]] && AI_LANG="0"
+	get_setting "ai_service_url"
+	AI_URL=${EES}
+	echo "ai_service_source_lang = \"${AI_LANG}\"" >> ${RAAPPENDCONF}
+	if [ "${AI_URL}" == "false" ] || [ "${AI_URL}" == "auto" ] || [ "${AI_URL}" == "none" ]; then
+		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+	else
+		echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+	fi
+fi
+
+##
+## Global/System/Game specific settings
+##
+
+## Ratio
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "ratio"
+if [[ "${EES}" == "false" ]]; then
+	# 22 is the "Core Provided" aspect ratio and its set by default if no other is selected
+	echo 'aspect_ratio_index = "22"' >> ${RAAPPENDCONF}
+else
+for i in "${!INDEXRATIOS[@]}"; do
+	if [[ "${INDEXRATIOS[$i]}" = "${EES}" ]]; then
+		break
+	fi
+done
+	echo "aspect_ratio_index = \"${i}\"" >> ${RAAPPENDCONF}
+fi
+
+## Video Smooth
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "smooth"
+[ "${EES}" == "1" ] && echo 'video_smooth = "true"' >> ${RAAPPENDCONF} || echo 'video_smooth = "false"' >> ${RAAPPENDCONF}
+
+## Video Integer Scale
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "integerscale"
+[ "${EES}" == "1" ] && echo 'video_scale_integer = "true"' >> ${RAAPPENDCONF} || echo 'video_scale_integer = "false"' >> ${RAAPPENDCONF}
+
+## RGA Scaling / CTX Scaling
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting	"rgascale"
+[ "${EES}" == "1" ] && echo 'video_ctx_scaling = "true"' >> ${RAAPPENDCONF} || echo 'video_ctx_scaling = "false"' >> ${RAAPPENDCONF}
+
+## Shaderset
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "shaderset"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	echo 'video_shader_enable = "false"' >> ${RAAPPENDCONF}
+	echo 'video_shader = ""' >> ${RAAPPENDCONF}
+else
+	echo "video_shader = \"${EES}\"" >> ${RAAPPENDCONF}
+	echo 'video_shader_enable = "true"' >> ${RAAPPENDCONF}
+	echo "--set-shader /tmp/shaders/${EES}"
+fi
+
+## Rewind
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "rewind"
+(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
+if [ $RA == 1 ] && [ "${EES}" == "1" ]; then
+	echo 'rewind_enable = "true"' >> ${RAAPPENDCONF}
+else
+	echo 'rewind_enable = "false"' >> ${RAAPPENDCONF}
+fi
+
+## Autosave
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "autosave"
+if [ "${EES}" == false ] || [ "${EES}" == "1" ]; then
+	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+	AUTOLOAD=true
+else
+	echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
+	echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+	AUTOLOAD=false
+fi
+
+## Snapshots
+echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RAAPPENDCONF}
+if [ ! -z ${SNAPSHOT} ]
+then
+	if [ ${AUTOLOAD} == true ]
+	then
+		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
+		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
+		echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+		echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
+	else
+		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
+		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
+		echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
+		echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+		echo 'state_slot = "0"' >> ${RAAPPENDCONF}
+	fi
+fi
+
+## Runahead
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "runahead"
+(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
+if [ $RA == 1 ]; then
+	if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+		echo 'run_ahead_enabled = "false"' >> ${RAAPPENDCONF}
+		echo 'run_ahead_frames = "1"' >> ${RAAPPENDCONF}
+	else
+		echo 'run_ahead_enabled = "true"' >> ${RAAPPENDCONF}
+		echo "run_ahead_frames = \"${EES}\"" >> ${RAAPPENDCONF}
+	fi
+fi
+
+## Secondinstance
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "secondinstance"
+(for e in "${NORUNAHEAD[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=0 || RA=1
+if [ $RA == 1 ]; then
+	[ "${EES}" == "1" ] && echo 'run_ahead_secondary_instance = "true"' >> ${RAAPPENDCONF} || echo 'run_ahead_secondary_instance = "false"' >> ${RAAPPENDCONF}
+fi
+
+
+## D-Pad to Analogue support, option in ES is missng atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "analogue"
+(for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
+if [ $RA == 1 ] || [ "${EES}" == "false" ] || [ "${EES}" == "0" ]; then
+        echo 'input_player1_analog_dpad_mode = "0"' >> ${RAAPPENDCONF}
+else
+        echo 'input_player1_analog_dpad_mode = "1"' >> ${RAAPPENDCONF}
+fi
+
+##
+## Settings for special cores
+##
+
+## atari800 core needs other settings when emulation atari5200
 if [ "${CORE}" == "atari800" ]; then
 	log "Atari 800 section"
 	ATARICONF="/storage/.config/distribution/configs/atari800.cfg"
@@ -538,6 +412,7 @@ if [ "${CORE}" == "atari800" ]; then
  	fi
 fi
 
+## Gambatte
 if [ "${CORE}" == "gambatte" ]; then
 	log "Gambatte section"
 	GAMBATTECONF="/storage/.config/retroarch/config/Gambatte/Gambatte.opt"
@@ -568,6 +443,7 @@ if [ "${CORE}" == "gambatte" ]; then
 fi
 
 # We set up the controller index
+#sed -i "/input_libretro_device_p1/d" ${RACONF}
 CONTROLLERS="$@"
 CONTROLLERS="${CONTROLLERS#*--controllers=*}"
 
@@ -576,44 +452,87 @@ log "Controller section (${1})"
 if [[ "$CONTROLLERS" == *p${i}* ]]; then
 PINDEX="${CONTROLLERS#*-p${i}index }"
 PINDEX="${PINDEX%% -p${i}guid*}"
-sed -i "/input_player${i}_joypad_index =/d" ${RACONF}
-echo "input_player${i}_joypad_index = \"${PINDEX}\"" >> ${RACONF}
+#sed -i "/input_player${i}_joypad_index =/d" ${RACONF}
+echo "input_player${i}_joypad_index = \"${PINDEX}\"" >> ${RAAPPENDCONF}
 
 # Setting controller type for different cores
 if [ "${PLATFORM}" == "atari5200" ]; then
-	sed -i "/input_libretro_device_p${i}/d" ${RACONF}
-	echo "input_libretro_device_p${i} = \"513\"" >> ${RACONF}
+	sed -i "/input_libretro_device_p${i}/d" ${RAAPPENDCONF}
+	echo "input_libretro_device_p${i} = \"513\"" >> ${RAAPPENDCONF}
 fi
 
 fi
 done
-EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
-# RA menu rgui, ozone, glui or xmb (fallback if everthing else fails)
-# if empty (auto in ES) do nothing to enable configuration in RA
-get_setting "retroarch.menu_driver"
-if [ "${EES}" != "false" ]; then
-	# delete setting only if we set new ones
-	# therefore configuring in RA is still possible
-	sed -i "/menu_driver/d" ${RACONF}
-	sed -i "/menu_linear_filter/d" ${RACONF}
-	# Set new menu driver
-	if [ "${EES}" == "rgui" ]; then
-		# menu_liner_filter is only needed for rgui
-		echo 'menu_driver = "rgui"' >> ${RACONF}
-		echo 'menu_linear_filter = "true"' >> ${RACONF}
-	elif [ "${EES}" == "ozone" ]; then
-		echo 'menu_driver = "ozone"' >> ${RACONF}
-	elif [ "${EES}" == "glui" ]; then
-		echo 'menu_driver = "glui"' >> ${RACONF}
-	else
-		# play it save and set xmb if nothing else matches
-		echo 'menu_driver = "xmb"' >> ${RACONF}
+##
+## Bezels / Decorations
+##
+
+# List of possible Bezel Folders
+BEZELDIR=(/tmp/overlays/bezels /storage/roms/bezels)
+# Define the resolutions of the differen systems (0:x 1:y 2:width 3:height) as seen in Scaling -> Aspect Ration -> Custom
+# RG351P/M=480x320
+# RG351V=640x480
+if [ "${EE_DEVICE}" == "RG351P" ]; then
+	declare -A SystemViewport=(
+		['gb']="80 16 320 288"
+		['gbc']="80 16 320 288"
+		['supervision']="80 0 320 320"
+		['gamegear']="80 16 320 288"
+		['pokemini']="96 64 288 192"
+	)
+else #Must be the V then
+	declare -A SystemViewport=(
+		['gb']="80 24 480 432"
+		['gbc']="80 24 480 432"
+		['supervision']="80 0 480 480"
+		['gamegear']="80 24 480 432"
+		['pokemini']="128 112 384 256"
+	)
+fi
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "bezel"
+if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
+	# set path
+	for p in ${BEZELDIR[@]}; do
+		if [ -d "${p}"/"${EES}" ]; then
+			path="${p}"/"${EES}"
+		fi
+	done
+	# if there a $ROM.cfg?
+	# excatctly the same?
+	if [ -f "${path}"/"${ROM%.*}".cfg ]; then
+		bezelcfg="${path}"/"${ROM%.*}".cfg
+	# only the name without ()
+	elif [ -f "${path}"/"${ROM%% (*}".cfg ]; then
+		bezelcfg="${path}"/"${ROM%% (*}".cfg
+	elif [ -f "${path}"/default.cfg ]; then
+		bezelcfg="${path}"/default.cfg
 	fi
+	# configure bezel
+	echo 'input_overlay_enable = "true"'		>> ${RAAPPENDCONF}
+	echo "input_overlay = \"${bezelcfg}\""		>> ${RAAPPENDCONF}
+	echo 'input_overlay_hide_in_menu = "true"'	>> ${RAAPPENDCONF}
+	echo 'input_overlay_opacity = "1.000000"'	>> ${RAAPPENDCONF}
+	echo 'input_overlay_show_inputs = "2"'		>> ${RAAPPENDCONF}
+	# delete / set scaling and aspect ratio:
+	sed -i "/video_scale_integer/d" ${RAAPPENDCONF}
+	sed -i "/aspect_ratio_index/d" ${RAAPPENDCONF}
+	echo 'video_scale_integer = "false"'	>> ${RAAPPENDCONF}
+	echo 'aspect_ratio_index = "23"'		>> ${RAAPPENDCONF}
+	# configure custom scaling
+	# needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
+	declare -a resolution=(${SystemViewport[${PLATFORM}]})
+	echo "custom_viewport_x = \"${resolution[0]}\""			>> ${RAAPPENDCONF}
+	echo "custom_viewport_y = \"${resolution[1]}\""			>> ${RAAPPENDCONF}
+	echo "custom_viewport_width = \"${resolution[2]}\""		>> ${RAAPPENDCONF}
+	echo "custom_viewport_height = \"${resolution[3]}\""	>> ${RAAPPENDCONF}
+else
+	# disable decorations
+	echo 'input_overlay_enable = "false"'		>> ${RAAPPENDCONF}
 fi
 
-# Show bezel if enabled
-get_setting "bezel"
-[ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ] && ${TBASH} /usr/bin/bezels.sh "default" || ${TBASH} /usr/bin/bezels.sh "$PLATFORM" "${ROM}"
-
+##
+## Clean Exit
+##
 doexit

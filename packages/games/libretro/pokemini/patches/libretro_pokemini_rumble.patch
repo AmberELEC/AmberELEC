@@ -1,0 +1,55 @@
+diff --git a/libretro/libretro.c b/libretro/libretro.c
+index 1fbf38d..84b7ff2 100644
+--- a/libretro/libretro.c
++++ b/libretro/libretro.c
+@@ -169,26 +169,36 @@ static void InitialiseRumbleInterface(void)
+ 
+ static void ActivateControllerRumble(void)
+ {
+-	if (!rumble.set_rumble_state ||
+-		 (rumble_strength_prev == rumble_strength))
+-		return;
+-
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK,   rumble_strength);
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, rumble_strength);
+-	rumble_strength_prev = rumble_strength;
++	//if (!rumble.set_rumble_state ||
++	//	 (rumble_strength_prev == rumble_strength))
++	//	return;
++
++	//rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK,   rumble_strength);
++	//rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, rumble_strength);
++	FILE *fp;
++ 	fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++ 	fprintf(fp, "10");
++ 	fclose(fp);
++
++	//rumble_strength_prev = rumble_strength;
+ }
+ 
+ ///////////////////////////////////////////////////////////
+ 
+ static void DeactivateControllerRumble(void)
+ {
+-	if (!rumble.set_rumble_state ||
+-		 (rumble_strength_prev == 0))
+-		return;
+-
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK,   0);
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, 0);
+-	rumble_strength_prev = 0;
++	//if (!rumble.set_rumble_state ||
++	//	 (rumble_strength_prev == 0))
++	//	return;
++
++	//rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK,   0);
++	//rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, 0);
++	FILE *fp;
++ 	fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++ 	fprintf(fp, "1000000");
++ 	fclose(fp);
++
++	//rumble_strength_prev = 0;
+ }
+ 
+ ///////////////////////////////////////////////////////////
