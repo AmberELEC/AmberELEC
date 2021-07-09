@@ -144,30 +144,4 @@
 		<image>./downloaded_images/filemanager.png</image>
 	</game>
 
-	<game>
-		<path>./cloud_backup.sh</path>
-		<name>Cloud Save Backup</name>
-		<desc>Backups your saves and system backup over the cloud</desc>
-		<developer>351ELEC</developer>
-		<publisher>351ELEC</publisher>
-		<rating>1.0</rating>
-		<releasedate>2021</releasedate>
-		<genre>script</genre>
-		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
-		<image>./downloaded_images/filemanager.png</image>
-	</game>
-
-	<game>
-		<path>./cloud_restore.sh</path>
-		<name>Cloud Save Restore</name>
-		<desc>Restore your saves and system backup from the cloud</desc>
-		<developer>351ELEC</developer>
-		<publisher>351ELEC</publisher>
-		<rating>1.0</rating>
-		<releasedate>2021</releasedate>
-		<genre>script</genre>
-		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
-		<image>./downloaded_images/filemanager.png</image>
-	</game>
-
 </gameList>
