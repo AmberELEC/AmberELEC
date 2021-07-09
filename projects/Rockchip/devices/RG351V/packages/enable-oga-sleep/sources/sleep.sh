@@ -20,10 +20,10 @@ case $1 in
     # Restore system brightness
     cat /storage/.brightness > /sys/class/backlight/backlight/brightness
 
-    # Touch 'resume_time' file to indicate date when last resume occurred (can be used to fix screensaver ES issue)
-    touch /run/.resume_time
+    # Touch '.last_resume_time' file to indicate date when last resume occurred (can be used to fix screensaver ES issue)
+    touch /run/.last_resume_time
 
     # re-detect and reapply sound, brightness and hp state
     systemctl start headphones
-        ;;
+	;;
 esac
