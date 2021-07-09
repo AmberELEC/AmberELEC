@@ -16,7 +16,7 @@ RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 # The following systems are listed as they don't need the Analogue D-Pad mode on RA
-NOANALOGUE=(n64 psx wonderswan wonderswancolor psp pspminis)
+NOANALOGUE=(n64 psx wonderswan wonderswancolor psp pspminis dreamcast)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/distribution/configs/distribution.conf"
