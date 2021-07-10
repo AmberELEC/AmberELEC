@@ -15,7 +15,9 @@ if [ ! -f "/roms/gamedata/rclone/rclone.conf" ]; then
     exit 0
 fi
 
-text_viewer -y -w -m "Do you want to restore your cloud backup?" -t "351ELEC Cloud Save Restore" -f 20
+text_viewer -y -w -m "Do you want to restore your save backup from the cloud?\n\n\n\n
+**** IMPORTANT ****
+The screen will be black for a few minutes depending on the ammount of data to restore.\nPlease do not turn off your device during the process." -t "351ELEC Cloud Save Restore" -f 20
 response=$?
 
 case $response in

@@ -15,7 +15,9 @@ if [ ! -f "/roms/gamedata/rclone/rclone.conf" ]; then
     exit 0
 fi
 
-text_viewer -y -w -m "Do you want to backup your data on the cloud?" -t "351ELEC Cloud Save Backup" -f 20
+text_viewer -y -w -m "Do you want to backup your data on the cloud?\n\n\n\n
+**** IMPORTANT ****
+The screen will be black for a few minutes depending on the ammount of data to backup.\nPlease do not turn off your device during the process." -t "351ELEC Cloud Save Backup" -f 20
 response=$?
 
 case $response in
