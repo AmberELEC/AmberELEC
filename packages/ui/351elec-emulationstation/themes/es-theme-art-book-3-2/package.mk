@@ -14,7 +14,9 @@ PKG_SHORTDESC="ArtBook"
 PKG_LONGDESC="Art Book - 351ELEC default theme for RG351P/M"
 PKG_TOOLCHAIN="manual"
 
-makeinstall_target() {
-  mkdir -p $INSTALL/usr/config/emulationstation/themes/$PKG_NAME
-  cp -rf * $INSTALL/usr/config/emulationstation/themes/$PKG_NAME
-}
+if [ "${DEVICE}" = "RG351P" ]; then
+  makeinstall_target() {
+    mkdir -p $INSTALL/usr/config/emulationstation/themes/$PKG_NAME
+    cp -rf * $INSTALL/usr/config/emulationstation/themes/$PKG_NAME
+  }
+fi

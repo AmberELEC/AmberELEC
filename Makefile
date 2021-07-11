@@ -44,6 +44,11 @@ v-aarch64:
 update:
 	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
 
+package:
+	./scripts/build ${PACKAGE}
+
+package-clean:
+	./scripts/clean ${PACKAGE}
 
 ## Docker builds - overview
 # docker-* commands just wire up docker to call the normal make command via docker
@@ -74,9 +79,11 @@ docker-%: INTERACTIVE=$(shell [ -t 0 ] && echo "-it")
 # By default pass through anything after `docker-` back into `make`
 docker-%: COMMAND=make $*
 
+# Get .env file ready
+docker-%: $(shell env > .env)
+
 # If the user issues a `make docker-shell` just start up bash as the shell to run commands
 docker-shell: COMMAND=bash
-
 
 # Command: builds docker image locally from Dockerfile
 docker-image-build:
@@ -94,4 +101,4 @@ docker-image-push:
 
 # Wire up docker to call equivalent make files using % to match and $* to pass the value matched by %
 docker-%:
-	$(SUDO) docker run $(INTERACTIVE) --rm --user $(UID):$(GID) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_IMAGE) $(COMMAND)
+	$(SUDO) docker run $(INTERACTIVE) --env-file .env --rm --user $(UID):$(GID) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_IMAGE) $(COMMAND)

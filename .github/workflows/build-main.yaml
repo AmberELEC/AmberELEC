@@ -25,17 +25,22 @@ jobs:
           clean: false
       - name: Get date for artifacts
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d_%H%M')"
+        run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
       - name: Get short SHA for artifacts
         id: sha
         run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+      - name: Get dev version
+        id: version
+        run: echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
       - name: Build rg351P
         run: |
             set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351P
       - name: Build rg351V
         run: |
             set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351V
       - name: Cleanup system artifacts
         run: |
