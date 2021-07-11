@@ -15,9 +15,7 @@ if [ ! -f "/roms/gamedata/rclone/rclone.conf" ]; then
     exit 0
 fi
 
-text_viewer -y -w -m "Do you want to restore your save backup from the cloud?\n\n\n\n
-**** IMPORTANT ****
-The screen will be black for a few minutes depending on the ammount of data to restore.\nPlease do not turn off your device during the process." -t "351ELEC Cloud Save Restore" -f 20
+text_viewer -y -w -m "Do you want to restore your save backup from the cloud?" -t "351ELEC Cloud Save Restore" -f 20
 response=$?
 
 case $response in
@@ -27,7 +25,8 @@ case $response in
         ;;
 
     21)
-        rclone sync 351REMOTE:/351BACKUP/ /storage/roms/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf -v >> /tmp/logs/cloud-sync.log
+        clear > /dev/console
+        rclone sync 351REMOTE:/351BACKUP/ /storage/roms/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf -v 2>&1 | tee -a /tmp/logs/cloud-sync.log | tee /dev/console
         text_viewer -m "Backup restored!" -t "351ELEC Cloud Save Restore" -f 20
         ;;
 esac
