@@ -10,6 +10,10 @@ case $1 in
     modprobe -r dwc2
     # stop hotkey service
     systemctl stop headphones
+ 
+    # This file is used by ES to determine if we just woke up from sleep
+    touch /run/.last_sleep_time
+
     ;;
    post)
     # Restore pre-sleep sound state
@@ -19,9 +23,6 @@ case $1 in
     modprobe -i dwc2
     # Restore system brightness
     cat /storage/.brightness > /sys/class/backlight/backlight/brightness
-
-    # Touch '.last_resume_time' file to indicate date when last resume occurred (can be used to fix screensaver ES issue)
-    touch /run/.last_resume_time
 
     # re-detect and reapply sound, brightness and hp state
     systemctl start headphones
