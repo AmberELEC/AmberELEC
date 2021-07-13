@@ -50,9 +50,9 @@ GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
 
 
 ### Determine if we're running a Libretro core and append the libretro suffix
-if [[ $EMULATOR = "libretro" ]]; then
+if [[ $EMULATOR = "retroarch" ]]; then
 	EMU="${CORE}_libretro"
-	LIBRETRO="yes"
+	RETROARCH="yes"
 elif [[ $EMULATOR = "retrorun" ]]; then
 	EMU="${CORE}_libretro"
 	RETRORUN="yes"
@@ -77,7 +77,7 @@ fi
 ### If we're running a port, assume it's libretro
 ### Re-evaluate as not all ports may be libretro cores
 ### perhaps rewrite to use ^ functionality
-[[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
+[[ ${PLATFORM} = "ports" ]] && RETROARCH="yes"
 
 # check if we started as host for a game
 if [[ "$arguments" == *"--host"* ]]; then
@@ -203,7 +203,7 @@ bluetooth disable
 jslisten stop
 
 ### Per emulator/core configurations
-if [ -z ${LIBRETRO} ] &&  [ -z ${RETRORUN} ]
+if [ -z ${RETROARCH} ] &&  [ -z ${RETRORUN} ]
 then
 	$VERBOSE && log "Configuring for a non-libretro emulator"
 	case ${PLATFORM} in
