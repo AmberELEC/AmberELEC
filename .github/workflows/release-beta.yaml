@@ -1,0 +1,58 @@
+
+# The purpose of this build is to allow a 'beta' release be created.
+#  Typically, it will be created every day if there are new commits since the last tag (beta)
+#  It can also be run manually.
+name: release-beta
+on:
+  schedule:
+    - cron:  '0 20 * * *'
+  workflow_dispatch:  # allows manual runs
+    
+jobs:
+  launch-beta-release-if-needed:
+      runs-on: ubuntu-20.04
+      steps:
+        #- uses: hmarr/debug-action@v2
+        #  name: debug
+        - uses: actions/checkout@v2
+          name: checkout
+          with:
+            clean: false
+            fetch-depth: 0
+            
+        # We get the full name from git here as in the case of 'cron', it is not available on the event
+        - name: repository full name
+          id: full_name
+          run: |
+               echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's|^.*github.com/||g' | sed 's/.git$//g')"
+        
+        - name: changes
+          id: changes
+          run: |
+              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
+              
+              release_notes="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+
+              # The below lines translate linebreaks so they can be set into the 'release_notes' variable
+              release_notes="${release_notes//'%'/'%25'}"
+              release_notes="${release_notes//$'\n'/'%0A'}"
+              release_notes="${release_notes//$'\r'/'%0D'}"
+              
+              echo "::set-output name=release_notes::${release_notes}"
+        - name: Get date for artifacts
+          id: date
+          run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
+  
+        - name: Repository Dispatch
+          if: steps.changes.outputs.changes != '0'
+          uses: peter-evans/repository-dispatch@v1
+          with:
+            token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+            repository: ${{ steps.full_name.outputs.full_name }}
+            event-type: release-beta
+            client-payload: |
+               {
+                 "release_tag" : "beta-${{steps.date.outputs.date}}",
+                 "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
+               }
+            
