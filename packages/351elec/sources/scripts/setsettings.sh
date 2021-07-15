@@ -380,6 +380,105 @@ else
         echo 'input_player1_analog_dpad_mode = "1"' >> ${RAAPPENDCONF}
 fi
 
+## TATE (vertical) mode
+get_setting "tatemode"
+if [ "${EES}" == false ] || [ "${EES}" == "1" ] || [ "${EES}" == "2" ]; then
+
+		#TODO: check if the analogues are correct, maybe we need to switch L and R?
+
+		# if ["${EES}" == "1" ]; then #this shit
+
+		#sed -i "/input_libretro_device_p1/d" ${RACONF}
+		sed -i "/video_allow_rotate/d" ${RACONF}
+		sed -i "/video_rotation/d" ${RACONF}
+		sed -i "/mame2003-tate_mode/d" ${RACONF}
+		sed -i "/input_player1_joypad_index/d" ${RACONF}
+		sed -i "/input_player1_right/d" ${RACONF}
+		#sed -i "/input_player1_right_btn/d" ${RACONF}
+		sed -i "/input_player1_left/d" ${RACONF}
+		#sed -i "/input_player1_left_btn/d" ${RACONF}
+		sed -i "/input_player1_up/d" ${RACONF}
+		#sed -i "/input_player1_up_btn/d" ${RACONF}
+		sed -i "/input_player1_down/d" ${RACONF}
+		#sed -i "/input_player1_down_btn/d" ${RACONF}
+		sed -i "/input_player1_b/d" ${RACONF}
+		#sed -i "/input_player1_b_btn/d" ${RACONF}
+		sed -i "/input_player1_y/d" ${RACONF}
+		#sed -i "/input_player1_y_btn/d" ${RACONF}
+		sed -i "/input_player1_a/d" ${RACONF}
+		#sed -i "/input_player1_a_btn/d" ${RACONF}
+		sed -i "/input_player1_x/d" ${RACONF}
+		#sed -i "/input_player1_x_btn/d" ${RACONF}
+		sed -i "/input_player1_l_x_minus_axis/d" ${RACONF}
+		sed -i "/input_player1_l_x_plus_axis/d" ${RACONF}
+		sed -i "/input_player1_l_y_minus_axis/d" ${RACONF}
+		sed -i "/input_player1_l_y_plus_axis/d" ${RACONF}
+		sed -i "/input_player1_r_x_minus_axis/d" ${RACONF}
+		sed -i "/input_player1_r_x_plus_axis/d" ${RACONF}
+		sed -i "/input_player1_r_y_minus_axis/d" ${RACONF}
+		sed -i "/input_player1_r_y_plus_axis/d" ${RACONF}
+
+
+		echo 'video_allow_rotate = "1"' >> ${RACONF}
+		echo 'video_rotation = "1"' >> ${RACONF}
+		echo 'input_player1_joypad_index = "0"' >> ${RACONF}
+		echo 'mame2003-tate_mode = "enabled"' >> ${RACONF}
+		# remove "h0" if not working
+		echo 'input_player1_right = "h0down"' >> ${RACONF}
+		#echo 'input_player1_right_btn = "h0up"' >> ${RACONF}
+		echo 'input_player1_left = "h0up"' >> ${RACONF}
+		#echo 'input_player1_left_btn = "h0down"' >> ${RACONF}
+		echo 'input_player1_up = "h0right"' >> ${RACONF}
+		#echo 'input_player1_up_btn = "h0left"' >> ${RACONF}
+		echo 'input_player1_down = "h0left"' >> ${RACONF}
+		#echo 'input_player1_down_btn = "h0right"' >> ${RACONF}
+		echo 'input_player1_b = "15"' >> ${RACONF} #a
+		#echo 'input_player1_b_btn = "15"' >> ${RACONF}
+		echo 'input_player1_y = "16"' >> ${RACONF} #b
+		#echo 'input_player1_y_btn = "16"' >> ${RACONF}
+		echo 'input_player1_a = "17"' >> ${RACONF} #x
+		#echo 'input_player1_a_btn = "17"' >> ${RACONF}
+		echo 'input_player1_x = "18"' >> ${RACONF} #y
+		#echo 'input_player1_x_btn = "18"' >> ${RACONF}
+		echo 'input_player1_l_x_minus_axis = "+1"' >> ${RACONF}
+		echo 'input_player1_l_x_plus_axis = "-1"' >> ${RACONF}
+		echo 'input_player1_l_y_minus_axis = "-0"' >> ${RACONF}
+		echo 'input_player1_l_y_plus_axis = "+0"' >> ${RACONF}
+		echo 'input_player1_r_x_minus_axis = "-3"' >> ${RACONF}
+		echo 'input_player1_r_x_plus_axis = "+3"' >> ${RACONF}
+		echo 'input_player1_r_y_minus_axis = "+2"' >> ${RACONF}
+		echo 'input_player1_r_y_plus_axis = "-2"' >> ${RACONF}
+
+		# elif [ "${EES}" == "2" ]; then #means the mode is rotate as opposite
+			#controls inverted, figure out
+		# fi
+
+		#case ${PLATFORM} in
+		#"atarilynx")
+		#	code
+		#	atarilynx may need a specific override as some games are already rotated
+		#	maybe atarylinx doesn't need the keyswap when in tate mode as it's not really in tate mode, it's just the game drawn already rotated
+		#;;
+		#"mame2003")
+		#	set as default, if it's not mame is still ok
+		#	sed -i "/mame2003-tate_mode/d" ${RACONF}
+		#	echo 'mame2003-tate_mode = "enabled"' >> ${RACONF}
+		#;;
+		#"fba")
+		#	same to mame?
+		#	is mame2003-tate_mode including fba?
+		#;;
+		#"fbn")
+		#	see above
+		#;;
+		#esac
+
+		if [ "${EES}" == "2" ] then;
+			sed -i "/screen_orientation/d" ${RACONF}
+			echo 'screen_orientation = "2"' >> ${RACONF}
+		fi
+fi
+
 ##
 ## Settings for special cores
 ##
