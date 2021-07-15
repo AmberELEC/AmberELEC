@@ -35,8 +35,8 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/local/share/mupen64plus
   cp ${PKG_BUILD}/data/* ${INSTALL}/usr/local/share/mupen64plus
   chmod 0644 ${INSTALL}/usr/local/share/mupen64plus/*
-  mkdir -p ${INSTALL}/usr/include/mupen64plus
-  cp ${PKG_BUILD}/src/api/m64p_*.h ${INSTALL}/usr/include/mupen64plus
-  chmod 0644 ${INSTALL}/usr/include/mupen64plus/*
+  mkdir -p ${INSTALL}/usr/local/include/mupen64plus
+  cp ${PKG_BUILD}/src/api/m64p_*.h ${INSTALL}/usr/local/include/mupen64plus
+  chmod 0644 ${INSTALL}/usr/local/include/mupen64plus/*
 }
 
