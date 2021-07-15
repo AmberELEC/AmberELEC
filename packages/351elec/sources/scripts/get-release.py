@@ -74,7 +74,7 @@ def main():
 
     if args.force_update:
         message_stream(f"\nForcing update to {current_release}...")
-    elif args.existing_release and args.existing_release >= current_release:
+    elif not download_needed(args.existing_release, current_release):
         message_stream(
             f"\nExisting release ({args.existing_release}) >= current release ({current_release}). No download needed\n")
         message_stream_close()
@@ -105,6 +105,19 @@ def main():
         message_stream(
             f"\nFile: {os.path.basename(downloaded_file)} downloaded successfully.\n")
 
+def download_needed(existing_release, current_release):
+
+    if not existing_release:
+        return True
+
+    # If the current release is a real release and existing device release is not, still download.
+    #  This allows 'downgrading' from beta back to any release
+    if parse_release(current_release, "release") and not parse_release(existing_release, "release"):
+        return True
+
+    if existing_release < current_release:
+        return True
+    return False
 
 # Create any needed directories
 def initialize_directories(update_dir, check):
@@ -385,15 +398,16 @@ def get_args():
     
     if args.band == "daily":
         args.band = "release"
-    if not args.device and os.path.isfile(DEVICE_FILE):
-        args.device = load_file_to_string(DEVICE_FILE).strip()
-    else:
-        args.device="RG351P"
+    if not args.device:
+        if os.path.isfile(DEVICE_FILE):
+            args.device = load_file_to_string(DEVICE_FILE).strip()
+        else:
+            args.device="RG351P"
 
     if not args.existing_release:
         args.existing_release = get_existing_release()
     
-    args.existing_release = parse_release(args.existing_release)
+    args.existing_release = parse_release(args.existing_release, args.band)
     return args
 
 
@@ -439,7 +453,7 @@ def get_current_release(org, repo, band, page=0, per_page=100):
     for release in releases:
         if band == "release" and release['prerelease']:
             continue
-        tag_name = parse_release(release['tag_name'])
+        tag_name = parse_release(release['tag_name'], band)
         if tag_name:
             current_release = tag_name
             break
@@ -450,15 +464,29 @@ def get_current_release(org, repo, band, page=0, per_page=100):
     return current_release
 
 # Returns the release_tag if it can parse, otherwise None
-def parse_release(release_tag):
+# Example valid releases:
+# band = release: 20210603, 20210603-1   
+# band = beta: beta-20210603_1010, 20210603, 20210603-1 20210603_1010
+def parse_release(release_tag,band):
     try:
+        #Temporarily strip off the `-1` modifiers used for hotfix for date parsing.
+        #  Ex: 20210603-1 -> 20210603 when ensure the date is valid
         temp_release = re.sub("-[0-9]*$", "", release_tag)
+        
         # Just parse as a date so we can check if release format is correct
         time.strptime(temp_release, '%Y%m%d')
         return release_tag
     except Exception as e:
-        logger.info(
-                f"Could not parse release: {release_tag}.  Ignoring...")
+        if band == "beta":
+            try:
+              temp_release = re.sub("beta-","",release_tag)
+              logger.debug(f"temp_release : {temp_release}")
+              time.strptime(temp_release, '%Y%m%d_%H%M')
+              return release_tag
+            except Exception as ex:
+              logger.info("Could not parse release as 'beta' release")
+
+        logger.info(f"Could not parse release: {release_tag}.  Ignoring...")
         logger.debug("Parsing exception", e)
     return None
 
