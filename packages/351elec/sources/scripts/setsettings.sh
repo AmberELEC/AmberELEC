@@ -416,27 +416,21 @@ fi
 if [ "${CORE}" == "gambatte" ]; then
 	log "Gambatte section"
 	GAMBATTECONF="/storage/.config/retroarch/config/Gambatte/Gambatte.opt"
-	[[ ! -f "$GAMBATTECONF" ]] && touch "$GAMBATTECONF"
-
-	sed -i "/gambatte_gb_colorization =/d" ${RACORECONF}
-	sed -i "/gambatte_gb_internal_palette =/d" ${RACORECONF}
-	sed -i "/gambatte_gb_colorization =/d" ${GAMBATTECONF}
-	sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
-
+	if [ ! -f "$GAMBATTECONF" ]; then
+		# set some defaults
+		echo 'gambatte_gbc_color_correction = "disabled"' > ${GAMBATTECONF}
+	else
+		sed -i "/gambatte_gb_colorization =/d" ${GAMBATTECONF}
+		sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
+	fi
 	get_setting "renderer.colorization"
 	if [ "${EES}" == "false" ] || [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
-		echo "gambatte_gb_colorization = \"disabled\"" >> ${RACORECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${RACORECONF}
 		echo "gambatte_gb_colorization = \"disabled\"" >> ${GAMBATTECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${GAMBATTECONF}
 	elif [ "${EES}" == "Best Guess" ]; then
-		echo "gambatte_gb_colorization = \"auto\"" >> ${RACORECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${RACORECONF}
 		echo "gambatte_gb_colorization = \"auto\"" >> ${GAMBATTECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${GAMBATTECONF}
+	elif [ "${EES}" == "GBC" ] || [ "${EES}" == "SGB" ]; then
+		echo "gambatte_gb_colorization = \"${EES}\"" >> ${GAMBATTECONF}
 	else
-		echo "gambatte_gb_colorization = \"internal\"" >> ${RACORECONF}
-		echo "gambatte_gb_internal_palette = \"${EES}\"" >> ${RACORECONF}
 		echo "gambatte_gb_colorization = \"internal\"" >> ${GAMBATTECONF}
 		echo "gambatte_gb_internal_palette = \"${EES}\"" >> ${GAMBATTECONF}
 	fi
