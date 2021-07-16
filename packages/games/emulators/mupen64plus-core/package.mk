@@ -31,7 +31,7 @@ makeinstall_target() {
   cp ${PKG_BUILD}/projects/unix/libmupen64plus.so.2.0.0 ${INSTALL}/usr/local/lib
   $STRIP ${INSTALL}/usr/local/lib/libmupen64plus.so.2.0.0
   chmod 644 ${INSTALL}/usr/local/lib/libmupen64plus.so.2.0.0
-  ln -sf ${INSTALL}/usr/local/lib/libmupen64plus.so.2.0.0 ${INSTALL}/usr/local/lib/libmupen64plus.so.2
+  cp ${PKG_BUILD}/projects/unix/libmupen64plus.so.2 ${INSTALL}/usr/local/lib
   mkdir -p ${INSTALL}/usr/local/share/mupen64plus
   cp ${PKG_BUILD}/data/* ${INSTALL}/usr/local/share/mupen64plus
   chmod 0644 ${INSTALL}/usr/local/share/mupen64plus/*
