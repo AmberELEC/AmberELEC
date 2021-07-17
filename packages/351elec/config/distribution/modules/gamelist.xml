@@ -3,8 +3,8 @@
 
 	<game>
 		<path>./File Manager.sh</path>
-		<name>Start File Manager</name>
-		<desc>DinguxCommander File Manager.</desc>
+		<name>File Manager</name>
+		<desc>Dual panel file manager</desc>
 		<developer>shantigilbert </developer>
 		<publisher>Emuelec</publisher>
 		<rating>1.0</rating>
