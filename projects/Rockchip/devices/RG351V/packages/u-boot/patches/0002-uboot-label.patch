@@ -7,6 +7,7 @@ index 102644fd2b..eec5247fb6 100644
  	lcd_show_logo();
  	lcd_setfg_color("white");
 -	lcd_printf(0, 18, 1, "%s", U_BOOT_VERSION);
- 	lcd_printf(0, 19, 1, "%s %s", U_BOOT_DATE, U_BOOT_TIME);
+-	lcd_printf(0, 19, 1, "%s %s", U_BOOT_DATE, U_BOOT_TIME);
++	lcd_printf(0, 20, 1, "%s %s", U_BOOT_DATE, U_BOOT_TIME);
  
  	if (!board_check_autotest()) {
