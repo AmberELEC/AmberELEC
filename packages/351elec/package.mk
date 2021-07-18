@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec"
-PKG_VERSION=""
+PKG_VERSION="1.0"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
@@ -23,11 +23,7 @@ PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
 
 make_target() {
-if [ "$PROJECT" == "Amlogic-ng" ]; then
-    cp -r $PKG_DIR/fbfix* $PKG_BUILD/
-    cd $PKG_BUILD/fbfix
-    $CC -O2 fbfix.c -o fbfix
-fi
+  echo
 }
 
 makeinstall_target() {
@@ -40,11 +36,7 @@ makeinstall_target() {
 
   echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
 
-  if [[ "${DEVICE}" =~ RG351 ]]; then
-      echo "${DEVICE}" > $INSTALL/usr/config/.OS_ARCH
-  else
-      echo "${PROJECT}" > $INSTALL/usr/config/.OS_ARCH
-  fi
+  echo "${DEVICE}" > $INSTALL/usr/config/.OS_ARCH
 
   echo "$(date)" > $INSTALL/usr/config/.OS_BUILD_DATE
 
@@ -90,7 +82,7 @@ post_install() {
   done
 
   for i in automatic dot-art flatui neoactive pixel retroactive retrosystem systematic convert.sh NPMApng2PMApng.py; do
-  rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
+    rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
   done
 
   for i in borders effects gamepads ipad keyboards misc; do
