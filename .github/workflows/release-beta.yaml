@@ -29,15 +29,15 @@ jobs:
         - name: changes
           id: changes
           run: |
-              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
-              
-              release_notes="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --oneline | wc -l)"
 
+              release_notes="$(git log $(git describe --tags --abbrev=0)..HEAD --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
+              
               # The below lines translate linebreaks so they can be set into the 'release_notes' variable
               release_notes="${release_notes//'%'/'%25'}"
               release_notes="${release_notes//$'\n'/'%0A'}"
               release_notes="${release_notes//$'\r'/'%0D'}"
-              
+
               echo "::set-output name=release_notes::${release_notes}"
         - name: Get date for artifacts
           id: date
