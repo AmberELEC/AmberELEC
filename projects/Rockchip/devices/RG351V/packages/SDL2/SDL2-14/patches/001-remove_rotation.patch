@@ -1,0 +1,11 @@
+--- a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_video.c
++++ b/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_video.c
+@@ -284,7 +284,7 @@ KMSDRM_LEGACY_InitRotateBuffer(_THIS, int frameWidth, int frameHeight)
+     // setup rotation
+     src_info.fd = -1;
+     src_info.mmuFlag = 1;
+-    src_info.rotation = HAL_TRANSFORM_ROT_270;
++    src_info.rotation = 0;
+
+     // swap width and height here because our source buffer is 480x320
+     rga_set_rect(&src_info.rect, 0, 0, frameHeight, frameWidth, frameHeight, frameWidth, RK_FORMAT_BGRA_8888);
