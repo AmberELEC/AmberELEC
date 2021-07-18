@@ -39,6 +39,10 @@ jobs:
               release_notes="${release_notes//$'\r'/'%0D'}"
               
               echo "::set-output name=release_notes::${release_notes}"
+              
+              previous_release_tag=$(git describe --tags --abbrev=0  --match "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" --match "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]" )
+              echo "::set-output name=previous_release_tag::${previous_release_tag}"
+
         - name: Get date for artifacts
           id: date
           run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
@@ -53,6 +57,7 @@ jobs:
             client-payload: |
                {
                  "release_tag" : "beta-${{steps.date.outputs.date}}",
+                 "previous_release_tag": "${{steps.changes.outputs.previous_release_tag}}",
                  "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
                }
             

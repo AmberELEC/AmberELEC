@@ -80,6 +80,12 @@ jobs:
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           body: |
+          
+            # Latest Stable Release
+            **You probably want the [latest stable release](https://github.com/${{ github.event.repository.full_name }}/releases/tag/${{ github.event.client_payload.previous_release_tag }})**!  If you are unsure what release to choose, please use the **latest stable release.**
+
+            If you want the latest **beta** release (unstable, but absolutely latest software).  Keep reading.
+            
             # Release Notes (Beta)
             This is a pre-release based on the commit: ${{github.sha}}.
     
