@@ -29,9 +29,20 @@ jobs:
         - name: changes
           id: changes
           run: |
-              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --oneline | wc -l)"
-
-              release_notes="$(git log $(git describe --tags --abbrev=0)..HEAD --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
+          
+              #Figure out last beta date by converting the latest 351ELEC-beta tag into a date and 
+              # looking for commits in 351ELEC newer than that date
+              git clone https://github.com/${{ steps.full_name.outputs.full_name }}-beta beta
+              pushd beta
+              last_tag=$(git tag -l | tail -1)
+              last_beta_formatted=$(echo ${last_tag} | sed 's/beta-//g ; s/_/ /g')
+              last_beta_date=$(date -d"${last_beta_formatted}")
+              echo "last beta date: ${last_beta_date}"
+              popd
+              
+              echo ::set-output name=changes::$(git log --after="${last_beta_date}" --oneline | wc -l)
+              
+              release_notes="$(git log --after=\\"${last_beta_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
               
               # The below lines translate linebreaks so they can be set into the 'release_notes' variable
               release_notes="${release_notes//'%'/'%25'}"
