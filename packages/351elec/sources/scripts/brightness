@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
-MIN=0
+MIN=12
 MAX=255
 STEP=3
 
