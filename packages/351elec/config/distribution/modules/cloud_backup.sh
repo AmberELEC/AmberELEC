@@ -26,7 +26,7 @@ case $response in
 
     21)
         clear > /dev/console
-        rclone sync /storage/roms/ 351REMOTE:/351backup/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf --log-level DEBUG --log-file /tmp/logs/cloud-sync.log 2>&1 > /dev/console
+        rclone sync /storage/roms/ 351remote:/351backup/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf --log-level DEBUG --log-file /tmp/logs/cloud-sync.log 2>&1 > /dev/console
         text_viewer -m "Backup completed!" -t "351ELEC Cloud Save Backup"
         ;;
 esac
