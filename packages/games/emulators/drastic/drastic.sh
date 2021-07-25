@@ -6,7 +6,7 @@ EXECLOG="/tmp/logs/exec.log"
 
 if [ ! -d "/storage/drastic/aarch64/drastic/config" ]
 then
-  mkdir /storage/drastic/aarch64/drastic/config
+  mkdir -p /storage/drastic/aarch64/drastic/config
   cp -rf /usr/share/drastic/drastic.cfg /storage/drastic/aarch64/drastic/config
 fi
 if [ ! -f "/storage/drastic/aarch64/drastic/config/drastic.cfg" ]

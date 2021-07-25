@@ -71,7 +71,7 @@ fi
 # forced drastic removal to allow upgrade after every image update
 if [ ! -d "/storage/roms/gamedata/drastic" ]
 then
-  mkdir "/storage/roms/gamedata/drastic"
+  mkdir -p "/storage/roms/gamedata/drastic"
   ln -sf /storage/roms/gamedata/drastic /storage/drastic
 else
   rm -f /storage/roms/gamedata/drastic/drastic.sh
