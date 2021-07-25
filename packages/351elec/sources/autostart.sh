@@ -205,20 +205,10 @@ do
   fi
 done
 
-# Covers drastic
+# Create drastic gamedata folder
 if [ ! -d "${GAMEDATA}/drastic" ]
 then
-  if [ -d "/storage/drastic" ]
-  then
-    mv "/storage/drastic" "${GAMEDATA}/drastic"
-  else
-    mkdir "${GAMEDATA}/drastic"
-  fi
-fi
-
-if [ ! -L "/storage/drastic" ]
-then
-  rm -rf "/storage/drastic" 2>/dev/null
+  mkdir "${GAMEDATA}/drastic"
   ln -sf "${GAMEDATA}/drastic" "/storage/drastic"
 fi
 
