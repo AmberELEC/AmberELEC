@@ -474,6 +474,10 @@ if [ "${EE_DEVICE}" == "RG351P" ]; then
 		['supervision']="80 0 320 320"
 		['gamegear']="80 16 320 288"
 		['pokemini']="96 64 288 192"
+		['ngp']="80 8 320 304"
+		['ngpc']="80 8 320 304"
+		['wonderswan']="16 16 448 288"
+		['wonderswancolor']="16 16 448 288"
 	)
 else #Must be the V then
 	declare -A SystemViewport=(
@@ -482,6 +486,10 @@ else #Must be the V then
 		['supervision']="80 0 480 480"
 		['gamegear']="80 24 480 432"
 		['pokemini']="128 112 384 256"
+		['ngp']="80 12 480 456"
+		['ngpc']="80 12 480 456"
+		['wonderswan']="96 96 448 288"
+		['wonderswancolor']="96 96 448 288"
 	)
 fi
 # Get configuration from distribution.conf and set to retroarch.cfg
