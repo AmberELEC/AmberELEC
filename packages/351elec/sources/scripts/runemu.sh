@@ -245,7 +245,7 @@ then
 		;;
 		"nds")
 			jslisten set "drastic retroarch"
-			RUNTHIS='${TBASH} /storage/drastic/drastic.sh "${ROMNAME}"'
+			RUNTHIS='${TBASH} /usr/bin/drastic.sh "${ROMNAME}"'
 		;;
 		"pico-8")
 			jslisten set "pico8_dyn"
