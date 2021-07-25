@@ -208,7 +208,7 @@ done
 # Create drastic gamedata folder
 if [ ! -d "${GAMEDATA}/drastic" ]
 then
-  mkdir "${GAMEDATA}/drastic"
+  mkdir -p "${GAMEDATA}/drastic"
   ln -sf "${GAMEDATA}/drastic" "/storage/drastic"
 fi
 
