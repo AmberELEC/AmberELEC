@@ -7,12 +7,16 @@ DIR=$(realpath $(dirname $0))
 BAND=$(get_ee_setting updates.type)
 ORG=$(get_ee_setting updates.github.org)
 if [ "$ORG" == "" ]; then
-  ORG="351ELEC"
+  ORG=351ELEC
 fi
 
 REPO=$(get_ee_setting updates.github.repo)
 if [ "$REPO" == "" ]; then
-  REPO=351ELEC
+  if [ "$BAND" == "beta" ]; then
+    REPO=351ELEC-beta
+  else
+    REPO=351ELEC
+  fi
 fi
 
 FORCE=$(get_ee_setting updates.force)
