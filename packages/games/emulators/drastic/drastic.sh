@@ -16,6 +16,7 @@ fi
 
 if [ ! -f "/storage/drastic/aarch64/drastic/drastic" ]
 then
+  mkdir -p /storage/drastic/aarch64/drastic/
   cp -rf /usr/share/drastic/data/* /storage/drastic/aarch64/drastic/
 fi
 
