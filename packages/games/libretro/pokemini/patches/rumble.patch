@@ -1,0 +1,33 @@
+diff --git a/libretro/libretro.c b/libretro/libretro.c
+index 4c0ec1b..ad71408 100644
+--- a/libretro/libretro.c
++++ b/libretro/libretro.c
+@@ -173,8 +173,12 @@ static void ActivateControllerRumble(void)
+ 		 (rumble_strength_prev == rumble_strength))
+ 		return;
+ 
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK,   rumble_strength);
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, rumble_strength);
++	uint pwm_duty_cycle = 1000000 - (int)(((double)rumble_strength / 65535.0) * 1000000.0);
++	FILE *fp;
++	fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++	fprintf(fp, "%u", pwm_duty_cycle);
++	fclose(fp);
++
+ 	rumble_strength_prev = rumble_strength;
+ }
+ 
+@@ -186,8 +190,11 @@ static void DeactivateControllerRumble(void)
+ 		 (rumble_strength_prev == 0))
+ 		return;
+ 
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK,   0);
+-	rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, 0);
++	FILE *fp;
++	fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++	fprintf(fp, "%u", 1000000);
++	fclose(fp);
++
+ 	rumble_strength_prev = 0;
+ }
+ 
