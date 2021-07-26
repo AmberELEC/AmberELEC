@@ -3,6 +3,36 @@ echo 'starting retrorun emulator...'
 if [ ! -f /storage/.config/distribution/configs/retrorun.cfg ]; then
   cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
 fi
+CORE="$1"
+ROM="$2"
+PLATFORM="$3"
+
+retrorun_config_file="/storage/.config/distribution/configs/retrorun.cfg"
+
+source /etc/profile
+rom_name=$(basename "${ROM}")
+resolution=$(get_ee_setting resolution "${PLATFORM}" "${rom_name}")
+
+echo "resolution: ${resolution} rom: ${rom_name}"
+
+# Because the config file is on the SD card, we are careful to only write when needed
+if [ "$resolution" != "" ]; then
+  if ! grep "^parallel-n64-screensize = ${resolution}" "${retrorun_config_file}"; then
+    echo "Updating resolution..." 
+    sed -i "/^parallel-n64-screensize/d" ${retrorun_config_file}
+    echo "parallel-n64-screensize = ${resolution}" >> ${retrorun_config_file}
+  else
+    echo "resolution already correct"
+  fi
+else
+  if grep "^parallel-n64-screensize =" ${retrorun_config_file}; then
+    echo "Updating resolution..."
+    sed -i "/^parallel-n64-screensize/d" ${retrorun_config_file}
+  else
+    echo "resolution already correct"
+  fi
+fi
+
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
