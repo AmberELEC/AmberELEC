@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
-MIN=0
+MIN=3
 MAX=255
 STEP=3
 
@@ -21,10 +21,9 @@ fi
 stepUp() {
   getBrightness
   MYBRIGHTNESS=$?
-  if (( ${MYBRIGHTNESS} < ${MAX} ))
+  NEWBRIGHTNESS=$((${MYBRIGHTNESS}+${STEP}))
+  if (( ${NEWBRIGHTNESS} > ${MAX} ))
   then
-    NEWBRIGHTNESS=$((${MYBRIGHTNESS}+${STEP}))
-  else
     NEWBRIGHTNESS=${MAX}
   fi
   echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
@@ -34,16 +33,14 @@ stepUp() {
 stepDown() {
   getBrightness
   MYBRIGHTNESS=$?
-  if (( ${MYBRIGHTNESS} > ${MIN} ))
+  NEWBRIGHTNESS=$((${MYBRIGHTNESS}-${STEP}))
+  if (( ${NEWBRIGHTNESS} < ${MIN} ))
   then
-    NEWBRIGHTNESS=$((${MYBRIGHTNESS}-${STEP}))
-  else
     NEWBRIGHTNESS=${MIN}
   fi
   echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
   set_ee_setting system.brightness ${NEWBRIGHTNESS}
 }
-
 getBrightness() {
   local BRIGHTNESS=$(cat /sys/class/backlight/backlight/brightness)
   return ${BRIGHTNESS}

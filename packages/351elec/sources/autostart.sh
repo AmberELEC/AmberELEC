@@ -273,6 +273,12 @@ if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
 then
   BRIGHTNESS=255
 fi
+
+# Ensure user doesn't get "locked out" with super low brightness
+if [[ "${BRIGHTNESS}" -lt "12" ]]
+then
+  BRIGHTNESS=12
+fi
 BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
 echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
 set_ee_setting system.brightness ${BRIGHTNESS}

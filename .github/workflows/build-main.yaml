@@ -76,14 +76,14 @@ jobs:
             release/aarch64/RG351P/
       - name: Create pre-release
         if: github.event.action == 'release-beta'
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: "${{ steps.version.outputs.version }}"
+          tag: "${{ steps.version.outputs.version }}"
           body: |
             # Release Notes (Beta)
-            This is a pre-release based on the commit: ${{github.sha}}.
+            This is a pre-release based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
     
-            Beta releases are unstable and provided for the community.  Please DO NOT open issues on this build and instead post in the `#contribution-help` section of discord.
+            Beta releases are unstable and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#contribution-help` section of discord.
             
             See the [wiki](https://github.com/${{ github.event.repository.full_name }}/wiki/Contributing-to-351ELEC#]) for more info.
             
@@ -96,15 +96,14 @@ jobs:
              **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
 
-          files: |
-            release/aarch64/RG351P/*
-            release/aarch64/RG351V/*
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*"
           prerelease: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+          repo: 351ELEC-beta
+
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         if: github.event.action == 'release-draft'

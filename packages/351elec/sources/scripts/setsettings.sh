@@ -416,27 +416,21 @@ fi
 if [ "${CORE}" == "gambatte" ]; then
 	log "Gambatte section"
 	GAMBATTECONF="/storage/.config/retroarch/config/Gambatte/Gambatte.opt"
-	[[ ! -f "$GAMBATTECONF" ]] && touch "$GAMBATTECONF"
-
-	sed -i "/gambatte_gb_colorization =/d" ${RACORECONF}
-	sed -i "/gambatte_gb_internal_palette =/d" ${RACORECONF}
-	sed -i "/gambatte_gb_colorization =/d" ${GAMBATTECONF}
-	sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
-
+	if [ ! -f "$GAMBATTECONF" ]; then
+		# set some defaults
+		echo 'gambatte_gbc_color_correction = "disabled"' > ${GAMBATTECONF}
+	else
+		sed -i "/gambatte_gb_colorization =/d" ${GAMBATTECONF}
+		sed -i "/gambatte_gb_internal_palette =/d" ${GAMBATTECONF}
+	fi
 	get_setting "renderer.colorization"
 	if [ "${EES}" == "false" ] || [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
-		echo "gambatte_gb_colorization = \"disabled\"" >> ${RACORECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${RACORECONF}
 		echo "gambatte_gb_colorization = \"disabled\"" >> ${GAMBATTECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${GAMBATTECONF}
 	elif [ "${EES}" == "Best Guess" ]; then
-		echo "gambatte_gb_colorization = \"auto\"" >> ${RACORECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${RACORECONF}
 		echo "gambatte_gb_colorization = \"auto\"" >> ${GAMBATTECONF}
-		echo "gambatte_gb_internal_palette = \"\"" >> ${GAMBATTECONF}
+	elif [ "${EES}" == "GBC" ] || [ "${EES}" == "SGB" ]; then
+		echo "gambatte_gb_colorization = \"${EES}\"" >> ${GAMBATTECONF}
 	else
-		echo "gambatte_gb_colorization = \"internal\"" >> ${RACORECONF}
-		echo "gambatte_gb_internal_palette = \"${EES}\"" >> ${RACORECONF}
 		echo "gambatte_gb_colorization = \"internal\"" >> ${GAMBATTECONF}
 		echo "gambatte_gb_internal_palette = \"${EES}\"" >> ${GAMBATTECONF}
 	fi
@@ -480,6 +474,10 @@ if [ "${EE_DEVICE}" == "RG351P" ]; then
 		['supervision']="80 0 320 320"
 		['gamegear']="80 16 320 288"
 		['pokemini']="96 64 288 192"
+		['ngp']="80 8 320 304"
+		['ngpc']="80 8 320 304"
+		['wonderswan']="16 16 448 288"
+		['wonderswancolor']="16 16 448 288"
 	)
 else #Must be the V then
 	declare -A SystemViewport=(
@@ -488,6 +486,10 @@ else #Must be the V then
 		['supervision']="80 0 480 480"
 		['gamegear']="80 24 480 432"
 		['pokemini']="128 112 384 256"
+		['ngp']="80 12 480 456"
+		['ngpc']="80 12 480 456"
+		['wonderswan']="96 96 448 288"
+		['wonderswancolor']="96 96 448 288"
 	)
 fi
 # Get configuration from distribution.conf and set to retroarch.cfg
@@ -499,16 +501,23 @@ if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [
 			path="${p}"/"${EES}"
 		fi
 	done
-	# if there a $ROM.cfg?
-	# excatctly the same?
-	if [ -f "${path}"/"${ROM%.*}".cfg ]; then
-		bezelcfg="${path}"/"${ROM%.*}".cfg
-	# only the name without ()
-	elif [ -f "${path}"/"${ROM%% (*}".cfg ]; then
-		bezelcfg="${path}"/"${ROM%% (*}".cfg
-	elif [ -f "${path}"/default.cfg ]; then
-		bezelcfg="${path}"/default.cfg
-	fi
+	# is there a $ROM.cfg?
+	# excatctly the same / just the name / default
+	# Random bezels have to match $ROM./d+.cfg
+	for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
+		# Somehow the regex of the busybox find does not know about "+" WTF?
+		pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
+		readarray -t filelist < <(find "${path}" -regex "${pattern}" -exec basename "{}" \;)
+		count=${#filelist[*]}
+		if [ ${count} -gt 0 ]; then
+			ran=$(($RANDOM%${count}))
+			bezelcfg="${path}"/"${filelist[${ran}]}"
+			break
+		elif [ -f "${path}"/"${romname}".cfg ]; then
+			bezelcfg="${path}"/"${romname}".cfg
+			break
+		fi
+	done
 	# configure bezel
 	echo 'input_overlay_enable = "true"'		>> ${RAAPPENDCONF}
 	echo "input_overlay = \"${bezelcfg}\""		>> ${RAAPPENDCONF}

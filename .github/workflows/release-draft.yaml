@@ -8,10 +8,10 @@ on:
   workflow_dispatch:  # allows manual runs
     inputs:
       release_tag:
-        description: Tag to release (ex: 20210603 - defaults to today)
+        description: "Tag to release (ex: 20210603 - defaults to today)"
         required: false
       release_name:
-        description: Name to use for release (ex: Crazy Hedgehog)
+        description: "Name to use for release (ex: Crazy Hedgehog)"
         required: false
         default: RELEASE_NAME
     
