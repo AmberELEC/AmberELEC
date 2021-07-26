@@ -57,10 +57,10 @@ sed -i "/input_overlay/d" ${RACONF}
 sed -i "/input_overlay_hide_in_menu/d" ${RACONF}
 sed -i "/input_overlay_opacity/d" ${RACONF}
 sed -i "/input_overlay_show_inputs/d" ${RACONF}
-#sed -i "/custom_viewport_x/d" ${RACONF}
-#sed -i "/custom_viewport_y/d" ${RACONF}
-#sed -i "/custom_viewport_width/d" ${RACONF}
-#sed -i "/custom_viewport_height/d" ${RACONF}
+sed -i "/custom_viewport_x/d" ${RACONF}
+sed -i "/custom_viewport_y/d" ${RACONF}
+sed -i "/custom_viewport_width/d" ${RACONF}
+sed -i "/custom_viewport_height/d" ${RACONF}
 
 
 ## 2021-07-02 (konsumschaf)
