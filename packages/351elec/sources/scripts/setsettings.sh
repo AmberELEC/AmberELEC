@@ -469,6 +469,7 @@ BEZELDIR=(/tmp/overlays/bezels /storage/roms/bezels)
 # RG351V=640x480
 if [ "${EE_DEVICE}" == "RG351P" ]; then
 	declare -A SystemViewport=(
+		['standard']="1 1 479 319"
 		['gb']="80 16 320 288"
 		['gbc']="80 16 320 288"
 		['supervision']="80 0 320 320"
@@ -481,6 +482,7 @@ if [ "${EE_DEVICE}" == "RG351P" ]; then
 	)
 else #Must be the V then
 	declare -A SystemViewport=(
+		['standard']="1 1 639 479"
 		['gb']="80 24 480 432"
 		['gbc']="80 24 480 432"
 		['supervision']="80 0 480 480"
@@ -539,6 +541,12 @@ if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [
 else
 	# disable decorations
 	echo 'input_overlay_enable = "false"'		>> ${RAAPPENDCONF}
+	# set standard resolution for custom scaling
+	declare -a resolution=(${SystemViewport["standard"]})
+	echo "custom_viewport_x = \"${resolution[0]}\""			>> ${RAAPPENDCONF}
+	echo "custom_viewport_y = \"${resolution[1]}\""			>> ${RAAPPENDCONF}
+	echo "custom_viewport_width = \"${resolution[2]}\""		>> ${RAAPPENDCONF}
+	echo "custom_viewport_height = \"${resolution[3]}\""	>> ${RAAPPENDCONF}
 fi
 
 ##
