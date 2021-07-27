@@ -6,6 +6,12 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-07-27 (konsumschaf)
+## Copy es_features.cfg over on every update
+if [ -f /usr/config/emulationstation/es_features.cfg ]; then
+	cp /usr/config/emulationstation/es_features.cfg /storage/.emulationstation/.
+fi
+
 ## 2021-07-24 (konsumschaf)
 ## Remove all settings from retroarch.cfg that are set in setsettings.sh
 ## Retroarch uses the settings in retroarch.cfg if there is an override file that misses them
