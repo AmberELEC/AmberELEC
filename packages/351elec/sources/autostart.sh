@@ -92,9 +92,6 @@ rsync /usr/config/.OS* /storage/.config &
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 
-# Copy OpenBOR
-rsync --ignore-existing -raz /usr/config/openbor /storage &
-
 ## Not needed any more
 ## copy bezel if it doesn't exists
 #if [ ! -f "/storage/roms/bezels/default.cfg" ]; then
