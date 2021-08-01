@@ -90,7 +90,7 @@ printf "\033c" >> /dev/tty1
 
 IFS=$'\n' listsort=($(sort <<<"${list[*]}")); unset IFS
 
-text_viewer -w -y -t "Generation completed! Would you like to hide the other extensions and subfolders?" -m "\nGames detected: "$totf"\n\n ${listsort[*]}"
+text_viewer -w -y -t "Generation completed!" -m "\nWould you like to hide the other extensions and subfolders?\n\nGames detected: "$totf"\n\n ${listsort[*]}"
 response=$?
 
 case $response in

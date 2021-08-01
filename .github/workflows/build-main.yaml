@@ -6,7 +6,7 @@ on:
   push:
     paths-ignore:
       - '.github/**'
-      - 'README.me'
+      - 'README.md'
       - 'Dockerfile'
       - '.dockerignore'
     branches:
@@ -83,7 +83,7 @@ jobs:
             # Release Notes (Beta)
             This is a pre-release based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
     
-            Beta releases are unstable and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#contribution-help` section of discord.
+            Beta releases are unstable and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#beta-feedback` section of discord.
             
             See the [wiki](https://github.com/${{ github.event.repository.full_name }}/wiki/Contributing-to-351ELEC#]) for more info.
             

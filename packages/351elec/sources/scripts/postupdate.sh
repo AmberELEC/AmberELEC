@@ -6,13 +6,19 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
-## 2021-07-25:
+## 2021-08-01:
 ## Clear OpenBOR data folder
 if [ -d /storage/openbor ]; then
   if [ ! -f /storage/openbor/.openbor ]; then
     rm -rf /storage/openbor/*
     touch /storage/openbor/.openbor
   fi
+fi
+
+## 2021-07-27 (konsumschaf)
+## Copy es_features.cfg over on every update
+if [ -f /usr/config/emulationstation/es_features.cfg ]; then
+	cp /usr/config/emulationstation/es_features.cfg /storage/.emulationstation/.
 fi
 
 ## 2021-07-24 (konsumschaf)
@@ -66,11 +72,10 @@ sed -i "/input_overlay/d" ${RACONF}
 sed -i "/input_overlay_hide_in_menu/d" ${RACONF}
 sed -i "/input_overlay_opacity/d" ${RACONF}
 sed -i "/input_overlay_show_inputs/d" ${RACONF}
-#sed -i "/custom_viewport_x/d" ${RACONF}
-#sed -i "/custom_viewport_y/d" ${RACONF}
-#sed -i "/custom_viewport_width/d" ${RACONF}
-#sed -i "/custom_viewport_height/d" ${RACONF}
-
+sed -i "/custom_viewport_x/d" ${RACONF}
+sed -i "/custom_viewport_y/d" ${RACONF}
+sed -i "/custom_viewport_width/d" ${RACONF}
+sed -i "/custom_viewport_height/d" ${RACONF}
 
 ## 2021-07-25:
 ## Remove package drastic if still installed

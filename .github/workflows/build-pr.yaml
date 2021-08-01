@@ -5,7 +5,7 @@ on:
     # We don't need to run builds when these files change
     paths-ignore:
       - '.github/**'
-      - 'README.me'
+      - 'README.md'
       - 'Dockerfile'
       - '.dockerignore'
     branches:
