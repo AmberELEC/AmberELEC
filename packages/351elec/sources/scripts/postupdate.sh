@@ -18,6 +18,15 @@ if [ -f /usr/config/emulationstation/es_features.cfg ]; then
 	cp /usr/config/emulationstation/es_features.cfg /storage/.emulationstation/.
 fi
 
+## 2021-07-25:
+## Clear OpenBOR data folder
+if [ -d /storage/openbor ]; then
+  if [ ! -f /storage/openbor/.openbor ]; then
+    rm -rf /storage/openbor/*
+    touch /storage/openbor/.openbor
+  fi
+fi
+
 ## 2021-07-24 (konsumschaf)
 ## Remove all settings from retroarch.cfg that are set in setsettings.sh
 ## Retroarch uses the settings in retroarch.cfg if there is an override file that misses them
