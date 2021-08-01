@@ -12,6 +12,25 @@ if [ -d /storage/.advance ]; then
   rm -rf /storage/.advance/advmame.rc
 fi
 
+## 2021-08-01:
+## Check swapfile size and delete it if necessary
+. /etc/swap.conf
+if [ -f "$SWAPFILE" ]; then
+  if [ $(ls -l "$SWAPFILE" | awk '{print  $5}') -lt $(($SWAPFILESIZE*1024*1024)) ]; then
+    swapoff "$SWAPFILE"
+    rm -rf "$SWAPFILE"
+  fi
+fi
+
+## 2021-08-01:
+## Clear OpenBOR data folder
+if [ -d /storage/openbor ]; then
+  if [ ! -f /storage/openbor/.openbor ]; then
+    rm -rf /storage/openbor/*
+    touch /storage/openbor/.openbor
+  fi
+fi
+
 ## 2021-07-27 (konsumschaf)
 ## Copy es_features.cfg over on every update
 if [ -f /usr/config/emulationstation/es_features.cfg ]; then
