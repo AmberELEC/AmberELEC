@@ -19,36 +19,40 @@ make_target() {
   export APIDIR=$(get_build_dir mupen64plus-core)/.install_pkg/usr/local/include/mupen64plus
   export USE_GLES=1
   export SDL_CFLAGS="-I$SYSROOT_PREFIX/usr/include/SDL2 -D_REENTRANT"
-  export SDL_LDLIBS="-lSDL_net -lSDL2"
+  export SDL_LDLIBS="-lSDL2_net -lSDL2"
   export CROSS_COMPILE="$TARGET_PREFIX"
   export V=1
-  export NEW_DYNAREC=1
+  export VC=0
+  export DEBUG=1
+  BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
+  export LDFLAGS="-g"
+  export CFLAGS="-g ${CFLAGS} -O0"
   make -C projects/unix clean
-  make -C projects/unix PREFIX=${INSTALL}/usr/local all ${PKG_MAKE_OPTS_TARGET}
+  make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}
 }
 
 makeinstall_target() {
-  PREFIX=${INSTALL}/usr/local
-  LIBDIR=${PREFIX}/lib
-  BINDIR=${PREFIX}/bin
-  MANDIR=${PREFIX}/share/man
-  APPSDIR=${PREFIX}/share/applications
-  ICONSDIR=${PREFIX}/share/icons/hicolor
-  mkdir -p ${BINDIR}
-  cp ${PKG_BUILD}/projects/unix/mupen64plus ${BINDIR}
-  $STRIP ${BINDIR}/mupen64plus
-  chmod 0755 ${BINDIR}/mupen64plus
-  mkdir -p ${MANDIR}/man6
-  cp ${PKG_BUILD}/doc/mupen64plus.6 ${MANDIR}/man6
-  chmod 0644 ${MANDIR}/man6/mupen64plus.6
-  mkdir -p ${APPSDIR}
-  cp ${PKG_BUILD}/data/mupen64plus.desktop ${APPSDIR}
-  chmod 0644 ${APPSDIR}/mupen64plus.desktop
-  mkdir -p ${ICONSDIR}/48x48/apps
-  cp ${PKG_BUILD}/data/icons/48x48/apps/mupen64plus.png ${ICONSDIR}/48x48/apps
-  chmod 0644 ${ICONSDIR}/48x48/apps/mupen64plus.png
-  mkdir -p ${ICONSDIR}/scalable/apps
-  cp ${PKG_BUILD}/data/icons/scalable/apps/mupen64plus.svg ${ICONSDIR}/scalable/apps
-  chmod 0644 ${ICONSDIR}/scalable/apps/mupen64plus.svg
+  UPREFIX=${INSTALL}/usr/local
+  ULIBDIR=${UPREFIX}/lib
+  UBINDIR=${UPREFIX}/bin
+  UMANDIR=${UPREFIX}/share/man
+  UAPPSDIR=${UPREFIX}/share/applications
+  UICONSDIR=${UPREFIX}/share/icons/hicolor
+  mkdir -p ${UBINDIR}
+  cp ${PKG_BUILD}/projects/unix/mupen64plus ${UBINDIR}
+  #$STRIP ${UBINDIR}/mupen64plus
+  chmod 0755 ${UBINDIR}/mupen64plus
+  mkdir -p ${UMANDIR}/man6
+  cp ${PKG_BUILD}/doc/mupen64plus.6 ${UMANDIR}/man6
+  chmod 0644 ${UMANDIR}/man6/mupen64plus.6
+  mkdir -p ${UAPPSDIR}
+  cp ${PKG_BUILD}/data/mupen64plus.desktop ${UAPPSDIR}
+  chmod 0644 ${UAPPSDIR}/mupen64plus.desktop
+  mkdir -p ${UICONSDIR}/48x48/apps
+  cp ${PKG_BUILD}/data/icons/48x48/apps/mupen64plus.png ${UICONSDIR}/48x48/apps
+  chmod 0644 ${UICONSDIR}/48x48/apps/mupen64plus.png
+  mkdir -p ${UICONSDIR}/scalable/apps
+  cp ${PKG_BUILD}/data/icons/scalable/apps/mupen64plus.svg ${UICONSDIR}/scalable/apps
+  chmod 0644 ${UICONSDIR}/scalable/apps/mupen64plus.svg
 }
 

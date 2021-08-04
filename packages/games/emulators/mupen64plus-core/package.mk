@@ -18,18 +18,22 @@ make_target() {
   export HOST_CPU=aarch64
   export USE_GLES=1
   export SDL_CFLAGS="-I$SYSROOT_PREFIX/usr/include/SDL2 -D_REENTRANT"
-  export SDL_LDLIBS="-lSDL_net -lSDL2"
+  export SDL_LDLIBS="-lSDL2_net -lSDL2"
   export CROSS_COMPILE="$TARGET_PREFIX"
   export V=1
-  export NEW_DYNAREC=1
+  export VC=0
+  BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
+  export LDFLAGS="-g"
+  export CFLAGS="-g ${CFLAGS} -O0"
+  export DEBUG=1
   make -C projects/unix clean
-  make -C projects/unix PREFIX=${INSTALL}/usr/local all ${PKG_MAKE_OPTS_TARGET}
+  make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/local/lib
   cp ${PKG_BUILD}/projects/unix/libmupen64plus.so.2.0.0 ${INSTALL}/usr/local/lib
-  $STRIP ${INSTALL}/usr/local/lib/libmupen64plus.so.2.0.0
+  #$STRIP ${INSTALL}/usr/local/lib/libmupen64plus.so.2.0.0
   chmod 644 ${INSTALL}/usr/local/lib/libmupen64plus.so.2.0.0
   cp ${PKG_BUILD}/projects/unix/libmupen64plus.so.2 ${INSTALL}/usr/local/lib
   mkdir -p ${INSTALL}/usr/local/share/mupen64plus

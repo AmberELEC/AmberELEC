@@ -19,25 +19,29 @@ make_target() {
   export APIDIR=$(get_build_dir mupen64plus-core)/.install_pkg/usr/local/include/mupen64plus
   export USE_GLES=1
   export SDL_CFLAGS="-I$SYSROOT_PREFIX/usr/include/SDL2 -D_REENTRANT"
-  export SDL_LDLIBS="-lSDL_net -lSDL2"
+  export SDL_LDLIBS="-lSDL2_net -lSDL2"
   export CROSS_COMPILE="$TARGET_PREFIX"
   export V=1
-  export NEW_DYNAREC=1
+  export VC=0
+  BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
+  export LDFLAGS="-g"
+  export CFLAGS="-g ${CFLAGS} -O0"
+  export DEBUG=1
   make -C projects/unix clean
-  make -C projects/unix PREFIX=${INSTALL}/usr/local all ${PKG_MAKE_OPTS_TARGET}
+  make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}
 }
 
 makeinstall_target() {
-  PREFIX=${INSTALL}/usr/local
-  LIBDIR=${PREFIX}/lib
-  SHAREDIR=${PREFIX}/share/mupen64plus
-  PLUGINDIR=${LIBDIR}/mupen64plus
-  mkdir -p ${PLUGINDIR}
-  cp ${PKG_BUILD}/projects/unix/mupen64plus-input-sdl.so ${PLUGINDIR}
-  $STRIP ${PLUGINDIR}/mupen64plus-input-sdl.so
-  chmod 0644 ${PLUGINDIR}/mupen64plus-input-sdl.so
-  mkdir -p ${SHAREDIR}
-  cp ${PKG_BUILD}/data/InputAutoCfg.ini ${SHAREDIR}
-  chmod 0644 ${SHAREDIR}/InputAutoCfg.ini
+  UPREFIX=${INSTALL}/usr/local
+  ULIBDIR=${UPREFIX}/lib
+  USHAREDIR=${UPREFIX}/share/mupen64plus
+  UPLUGINDIR=${ULIBDIR}/mupen64plus
+  mkdir -p ${UPLUGINDIR}
+  cp ${PKG_BUILD}/projects/unix/mupen64plus-input-sdl.so ${UPLUGINDIR}
+  #$STRIP ${UPLUGINDIR}/mupen64plus-input-sdl.so
+  chmod 0644 ${UPLUGINDIR}/mupen64plus-input-sdl.so
+  mkdir -p ${USHAREDIR}
+  cp ${PKG_BUILD}/data/InputAutoCfg.ini ${USHAREDIR}
+  chmod 0644 ${USHAREDIR}/InputAutoCfg.ini
 }
 
