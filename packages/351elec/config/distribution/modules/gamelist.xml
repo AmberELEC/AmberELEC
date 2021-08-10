@@ -127,8 +127,8 @@
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
 		<genre>script</genre>
-		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
-		<image>./downloaded_images/filemanager.png</image>
+		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
+		<image>./downloaded_images/rclone-back.png</image>
 	</game>
 
 	<game>
@@ -140,8 +140,8 @@
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
 		<genre>script</genre>
-		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
-		<image>./downloaded_images/filemanager.png</image>
+		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
+		<image>./downloaded_images/rclone-restore.png</image>
 	</game>
 
 </gameList>
