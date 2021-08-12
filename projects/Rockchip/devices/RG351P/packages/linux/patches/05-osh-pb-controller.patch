@@ -62,34 +62,3 @@ index e9ae3d500..506d148dd 100644
 +
  	return bits_to_user(bits, len, size, p, compat_mode);
  }
- 
-diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
-index 5d11fea3c..e45ac874e 100644
---- a/drivers/input/joydev.c
-+++ b/drivers/input/joydev.c
-@@ -601,6 +601,12 @@ static long joydev_compat_ioctl(struct file *file,
- 		goto out;
- 	}
- 
-+	// [RG351P] OpenSimHardware OSH PB Controller
-+	if (!strcmp(joydev->handle.dev->name, "OpenSimHardware OSH PB Controller")) {
-+		joydev->nabs = 8;
-+		joydev->nkey = 12;
-+	}
-+
- 	switch (cmd) {
- 
- 	case JS_SET_TIMELIMIT:
-@@ -666,6 +672,12 @@ static long joydev_ioctl(struct file *file,
- 		goto out;
- 	}
- 
-+	// [RG351P] OpenSimHardware OSH PB Controller
-+	if (!strcmp(joydev->handle.dev->name, "OpenSimHardware OSH PB Controller")) {
-+		joydev->nabs = 8;
-+		joydev->nkey = 12;
-+	}
-+
- 	switch (cmd) {
- 
- 	case JS_SET_TIMELIMIT:
