@@ -27,20 +27,13 @@ index e9ae3d500..506d148dd 100644
  
  	switch (type) {
  
-@@ -824,6 +833,35 @@ static int handle_eviocgbit(struct input_dev *dev,
+@@ -824,6 +833,26 @@ static int handle_eviocgbit(struct input_dev *dev,
  	default: return -EINVAL;
  	}
  
 +	// [RG351P] OpenSimHardware OSH PB Controller
 +	if (dev->id.vendor == 0x1209 && dev->id.product == 0x3100) {
-+		if (type == EV_KEY) {
-+			for (nr = 0; nr < BTN_GAMEPAD; nr++) {
-+				clear_bit(nr, bits);
-+			}
-+			for (nr = BTN_MODE; nr < KEY_MAX; nr++) {
-+				clear_bit(nr, bits);
-+			}
-+		} else if (type == EV_ABS) {
++		if (type == EV_ABS) {
 +			for (nr = ABS_THROTTLE; nr <= ABS_BRAKE; nr++) {
 +				clear_bit(nr, bits);
 +			}
@@ -55,10 +48,39 @@ index e9ae3d500..506d148dd 100644
 +			dev->absinfo[ABS_RX].maximum = RG351P_ABS_RX_MAX;
 +			dev->absinfo[ABS_RZ].minimum = RG351P_ABS_RZ_MIN;	// Analog2 Y
 +			dev->absinfo[ABS_RZ].maximum = RG351P_ABS_RZ_MAX;
-+		} else if (type == EV_MSC) {
-+			clear_bit(MSC_SCAN, bits);
 +		}
 +	}
 +
  	return bits_to_user(bits, len, size, p, compat_mode);
  }
+ 
+diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+index 5d11fea3c..e45ac874e 100644
+--- a/drivers/input/joydev.c
++++ b/drivers/input/joydev.c
+@@ -601,6 +601,12 @@ static long joydev_compat_ioctl(struct file *file,
+ 		goto out;
+ 	}
+ 
++	// [RG351P] OpenSimHardware OSH PB Controller
++	if (!strcmp(joydev->handle.dev->name, "OpenSimHardware OSH PB Controller")) {
++		joydev->nabs = 8;
++		joydev->nkey = 12;
++	}
++
+ 	switch (cmd) {
+ 
+ 	case JS_SET_TIMELIMIT:
+@@ -666,6 +672,12 @@ static long joydev_ioctl(struct file *file,
+ 		goto out;
+ 	}
+ 
++	// [RG351P] OpenSimHardware OSH PB Controller
++	if (!strcmp(joydev->handle.dev->name, "OpenSimHardware OSH PB Controller")) {
++		joydev->nabs = 8;
++		joydev->nkey = 12;
++	}
++
+ 	switch (cmd) {
+ 
+ 	case JS_SET_TIMELIMIT:
