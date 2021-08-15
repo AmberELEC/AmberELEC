@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gdb"
-PKG_VERSION="8.2.1"
-PKG_SHA256="0a6a432907a03c5c8eaad3c3cffd50c00a40c3a5e3c4039440624bae703f2202"
+PKG_VERSION="10.1"
+PKG_SHA256="f82f1eceeec14a3afa2de8d9b0d3c91d5a3820e23e0a01bbb70ef9f0276b62c0"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/gdb/"
 PKG_URL="http://ftpmirror.gnu.org/gdb/$PKG_NAME-$PKG_VERSION.tar.xz"
@@ -16,6 +16,13 @@ PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
                            --disable-shared \
                            --enable-static \
                            --with-auto-load-safe-path=/ \
+			   --with-python=no \
+			   --with-guile=no \
+			   --with-mpfr=no \
+			   --with-intel-pt=no \
+			   --with-babeltrace=no \
+			   --with-expat=yes \
+			   --disable-source-highlight \
                            --disable-nls \
                            --disable-sim \
                            --without-x \
