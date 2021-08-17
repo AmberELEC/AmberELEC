@@ -1,0 +1,32 @@
+# Kodi Media Center language file
+# Addon Name: librespot
+msgid ""
+msgstr ""
+
+msgctxt "#30100"
+msgid "Configuration"
+msgstr ""
+
+msgctxt "#30101"
+msgid "Autoplay"
+msgstr ""
+
+msgctxt "#30102"
+msgid "Discovery"
+msgstr ""
+
+msgctxt "#30103"
+msgid "Username"
+msgstr ""
+
+msgctxt "#30104"
+msgid "Password"
+msgstr ""
+
+msgctxt "#30105"
+msgid "Name"
+msgstr ""
+
+msgctxt "#30106"
+msgid "RTP Port"
+msgstr ""

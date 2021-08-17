@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
+
+cd "$(readlink -f "$(dirname "$0")")/.."
+
+if [ -n "${PROJECT}" -a "$1" != "auto" ]; then
+  . config/options ""
+fi
+
+_find_latest_tcdir() {
+  local IFS=$'\n'
+
+  if [ -n "${THREAD_CONTROL}" ]; then
+    echo "${THREAD_CONTROL}"
+  else
+    for dir in $(ls -1td "${PWD}"/build.*/.threads 2>/dev/null); do
+      [ -f "${dir}/parallel.pid" ] && echo "${dir}" && break
+    done
+  fi
+  return 0
+}
+
+while [ : ]; do
+  echo "Waiting for build to start..."
+
+  while [ : ]; do
+    tcdir="$(_find_latest_tcdir)"
+
+    if [ -n "${tcdir}" ]; then
+      pid="$(cat "${tcdir}/parallel.pid" 2>/dev/null || true)"
+      [ -n "${pid}" ] && ps -p ${pid} &>/dev/null && break
+    fi
+
+    sleep 1.0
+  done
+
+  if [ "${THREADCOUNT}" = "0" ]; then
+    tail -Fn+0 --pid=${pid} "${tcdir}/status" 2>/dev/null | grep -vE "STALLED|IDLE"
+  else
+    tail -Fn+0 --pid=${pid} "${tcdir}/status" 2>/dev/null
+  fi
+
+  echo
+done

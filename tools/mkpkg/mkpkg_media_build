@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+# set media_build version you want to use
+if [ -z "$1" ]; then
+  MEDIA_BUILD_HASH="master"
+else
+  MEDIA_BUILD_HASH="$1"
+fi
+
+# name of the package
+DVB_MKPKG_FOLDER="$(pwd)"
+
+# remove old files
+echo "removing old sources ..."
+rm -rf media_build*/
+rm -rf media_tree/
+
+################################################################################
+
+# media_build dl
+echo "getting media_build sources ..."
+
+if [ ! -d media_build.git ]; then
+  git clone https://bitbucket.org/CrazyCat/media_build.git media_build/
+fi
+
+#get log
+cd media_build/
+  git pull
+  git checkout $MEDIA_BUILD_HASH
+  GIT_LOG_MEDIA_BUILD=`git log --pretty=oneline -n1`
+
+cd $DVB_MKPKG_FOLDER/
+
+# media_tree dl
+echo "getting sources ..."
+  if [ ! -d linux_media.git ]; then
+    git clone --depth=1 https://bitbucket.org/CrazyCat/linux_media.git -b latest media_tree
+  fi
+
+#get log
+cd media_tree/
+  git pull
+  GIT_LOG_MEDIA_TREE=`git log --pretty=oneline -n1`
+  GIT_REV=`git log -n1 --pretty=format:"%ad" --date=short`
+
+cd $DVB_MKPKG_FOLDER/
+
+################################################################################
+
+# collecting files from media_tree
+echo "create media_tree tar"
+cd media_build/linux
+make tar DIR="$DVB_MKPKG_FOLDER/media_tree/"
+
+cd $DVB_MKPKG_FOLDER
+
+# cleanup
+rm -rf media_tree/
+rm -rf media_build/.git/
+
+# log used versions into LE_versions
+echo "package include: \n\nmedia_build:\n$GIT_LOG_MEDIA_BUILD \n\nmedia_tree:\n$GIT_LOG_MEDIA_TREE \n" > media_build/LE_versions
+
+# rename buildfolder
+mv media_build/ media_build-$GIT_REV/
+
+################################################################################
+
+# pack sources
+echo "packing sources ..."
+tar cvJf media_build-$GIT_REV.tar.xz media_build-$GIT_REV
+
+echo "remove temporary sourcedir ..."
+rm -rf media_build-$GIT_REV

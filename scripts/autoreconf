@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+
+. config/options "${1}"
+
+if [ ! -f "${PKG_BUILD}/configure.in" \
+    -a ! -f "${PKG_BUILD}/configure.ac" ]; then
+  die "configure.in or configure.ac not found"
+fi
+
+if [ ! -f "${PKG_BUILD}/.autoreconf-done" ]; then
+  PARENT_PKG="${2}"
+
+  # lock package during autoreconf otherwise it is racy, eg. glib:host/glib:target building concurrently
+  pkg_lock "${PKG_NAME}" "reconf" "${PARENT_PKG}"
+
+  if [ ! -f "${PKG_BUILD}/.autoreconf-done" ]; then
+    pkg_lock_status "ACTIVE" "${PKG_NAME}" "reconf"
+
+    touch "${PKG_BUILD}/NEWS" "${PKG_BUILD}/AUTHORS" "${PKG_BUILD}/ChangeLog"
+    mkdir -p "${PKG_BUILD}/m4"
+
+    build_msg "CLR_AUTORECONF" "AUTORECONF" "${PKG_NAME}" "indent"
+
+    do_autoreconf "${PKG_BUILD}"
+    touch "${PKG_BUILD}/.autoreconf-done"
+
+    pkg_lock_status "UNLOCK" "${PKG_NAME}" "reconf" "configured"
+  else
+    pkg_lock_status "UNLOCK" "${PKG_NAME}" "reconf" "already configured"
+  fi
+fi

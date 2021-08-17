@@ -1,0 +1,1095 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+set -e
+
+[ -z "${DEBUG_LOG}" ] && DEBUG_LOG=/tmp/distro-tool.log
+
+LIBREELEC_DIR=$HOME/LibreELEC.tv
+TARGET_DIR=$HOME/sources
+DOWNLOAD_DIR=$HOME/download
+REVISION=
+PACKAGE=
+DRY_RUN=no
+IGNORE_ERRORS=no
+DOGIT=no
+CHECK_NEWER=yes
+CHECK_FILTER_TYPE=All
+CHECK_FILTER_CLASS=All
+PROGRESS=yes
+IS_MIRROR=yes
+VERBOSE=0
+PATH_FILTER=
+VERIFY_CHECKSUM=no
+WORKER_THREADS=16
+
+LOCKFILE=/tmp/distro_tool.lock
+WORKFILES_I=/tmp/distro_tool.in
+WORKFILES_O=/tmp/distro_tool.out
+WORKER_MAX=${WORKER_MAX:-$(grep "^processor[[:space:]]*:" /proc/cpuinfo | wc -l)}
+
+# Source in GIT_USERNAME and GIT_PASSWORD to avoid API limitations
+[ -f ~/.git.conf ] && source ~/.git.conf
+
+PYTHON_PROG='
+from __future__ import print_function
+import sys, os, json, codecs, re, threading, subprocess, glob, datetime, shutil, hashlib
+
+if sys.version_info >= (3, 0):
+  import queue as Queue
+  basestring = (str, bytes)
+else:
+  import Queue
+
+class MyUtility(object):
+  isPython3 = (sys.version_info >= (3, 0))
+
+  if sys.version_info >= (3, 1):
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+    sys.stderr = codecs.getwriter("utf-8")(sys.stderr.detach())
+  else:
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
+    sys.stderr = codecs.getwriter("utf-8")(sys.stderr)
+
+  search_major_minor_patch  = re.compile("[0-9]+\.[0-9]+\.[0-9]+")
+  extract_major_minor_patch = re.compile(".*([0-9]+\.[0-9]+\.[0-9]+).*")
+
+  search_major_minor        = re.compile("[0-9]+\.[0-9]+")
+  extract_major_minor       = re.compile(".*([0-9]+\.[0-9]+).*")
+
+  leading_zeros             = re.compile("^0[0-9]")
+
+  search_HTTP_OK            = re.compile("HTTP\/[1-9]\.[0-9] 200 OK", flags=re.IGNORECASE)
+  search_HTTP_NOT_FOUND     = re.compile("404 not found", flags=re.IGNORECASE)
+  search_HTTP_NOT_ALLOWED   = re.compile("405 method not allowed", flags=re.IGNORECASE)
+  search_HTTP_CODE          = re.compile("__HTTP_CODE__@([0-9]*)@")
+  search_CONTENT_TYPE       = re.compile("__CONTENT_TYPE__@(.*)@")
+
+  colours = {}
+  colours["red"]    = "\x1b[31m"
+  colours["green"]  = "\x1b[32m"
+  colours["yellow"] = "\x1b[33m"
+  colours["blue"]   = "\x1b[34m"
+  colours["magenta"]= "\x1b[35m"
+  colours["cyan"]   = "\x1b[36m"
+  colours["reset"]  = "\x1b(B\x1b[m"
+
+  @staticmethod
+  def colour(colour, text):
+    return "%s%s%s" % (MyUtility.colours[colour], text, MyUtility.colours["reset"])
+
+  @staticmethod
+  def logmsg(msgs, level, text):
+    msgs.append({"level": level, "text": text})
+
+  @staticmethod
+  def show(msgs, level, colour, prefix, text):
+    if colour:
+      tc = MyUtility.colours[colour]
+      tr = MyUtility.colours["reset"]
+    else:
+      tc = tr = ""
+    MyUtility.logmsg(msgs, level, "%s%-21s%s: %s" % (tc, prefix, tr, text))
+
+  @staticmethod
+  def runcommand(msgs, command, logfile=None, redacted=None):
+    MyUtility.logmsg(msgs, 3, "Running command: [%s]" % (redacted if redacted else command))
+    _logfile = open(logfile, "w") if logfile else subprocess.STDOUT
+    try:
+      if MyUtility.isPython3:
+        return (0, subprocess.check_output(command.split(" "), stderr=_logfile).decode("utf-8"))
+      else:
+        return (0, subprocess.check_output(command.split(" "), stderr=_logfile))
+    except  subprocess.CalledProcessError as cpe:
+      if MyUtility.isPython3:
+        # Clean up undecodable garbage in response (eg. libftdi1 error page)
+        output = bytearray()
+        for c in cpe.output:
+          if c <= 127:
+            output.append(c)
+
+        return (cpe.returncode, output.decode("utf-8"))
+      else:
+        return (cpe.returncode, cpe.output)
+    finally:
+      if logfile and _logfile:
+        _logfile.close()
+
+  @staticmethod
+  def readfile(filename):
+    inputfile = codecs.open(filename, "rb", encoding="utf-8")
+    data = inputfile.read()
+    inputfile.close()
+    return data
+
+  @staticmethod
+  def get_alternate_versions(package_version):
+    if not package_version:
+      return
+
+    if MyUtility.search_major_minor_patch.search(package_version):
+      mmp = True
+      ver = MyUtility.extract_major_minor_patch.search(package_version).group(1)
+    elif MyUtility.search_major_minor.search(package_version):
+      mmp = False
+      ver = MyUtility.extract_major_minor.search(package_version).group(1)
+    else:
+      return
+
+    # Split parts
+    parts_p0 = ver.split(".")
+    parts_p0_lz = ["", "", ""]
+    parts_p1 = [0, 0, 0]
+    parts_p1_lz = ["", "", ""]
+    c = 0
+    for p in parts_p0:
+      if c > 2: break
+      parts_p1[c] = int(p) + 1
+      # Add leading zeros if originally present
+      if MyUtility.leading_zeros.search(parts_p0[c]):
+        parts_p0_lz[c] = "0"
+      if parts_p0_lz[c] == "0" and parts_p1[c] < 10:
+        parts_p1_lz[c] = "0"
+      c += 1
+
+    if mmp:
+      tmp1 = "%s%d.%s%d.%s%d" % (parts_p1_lz[0], parts_p1[0], parts_p0_lz[1], 0, parts_p0_lz[2], 0)
+      yield package_version.replace(ver, tmp1)
+
+    # If minor or patch >= 10, then we are not sure if leading zeros are
+    # required, so try them anyway
+      if int(parts_p0[1]) >= 10 or int(parts_p0[2]) >= 10:
+        tmp2 = "%s%d.00.00" % (parts_p1_lz[0], parts_p1[0])
+        if tmp1 != tmp2:
+          yield package_version.replace(ver, tmp2)
+
+      tmp1 = "%s.%s%d.%s%d" % (parts_p0[0], parts_p1_lz[1], parts_p1[1], parts_p0_lz[2], 0)
+      yield package_version.replace(ver, tmp1)
+
+      if int(parts_p0[2]) >= 10:
+        tmp2 = "%s.%s%d.00" % (parts_p0[0], parts_p1_lz[1], parts_p1[1])
+        if tmp1 != tmp2:
+          yield package_version.replace(ver, tmp2)
+
+      tmp1 = "%s.%s.%s%d" % (parts_p0[0], parts_p0[1], parts_p1_lz[2], parts_p1[2])
+      yield package_version.replace(ver, tmp1)
+    else:
+      tmp1 = "%s%d.%s%d" % (parts_p1_lz[0], parts_p1[0], parts_p0_lz[1], 0)
+      yield package_version.replace(ver, tmp1)
+
+    # If minor or patch >= 10, then we are not sure if leading zeros are
+    # required, so try them anyway
+      if int(parts_p0[1]) >= 10:
+        tmp2 = "%s%d.00" % (parts_p1_lz[0], parts_p1[0])
+        if tmp1 != tmp2:
+          yield package_version.replace(ver, tmp2)
+
+      tmp1 = "%s.%s%d" % (parts_p0[0], parts_p1_lz[1], parts_p1[1])
+      yield package_version.replace(ver, tmp1)
+
+  @staticmethod
+  def get_latest_commit(msgs, package_url):
+    urlfields = package_url.split("/")
+    urlapi = "https://api.github.com/repos/%s/%s/commits" % (urlfields[3], urlfields[4])
+    tmpfile_data = "%s/%s" % (SCRATCH_DIR, threading.current_thread().name)
+    curl_args = "curl --verbose --silent --fail --location --connect-timeout 15 --max-time 60 --retry 3 --write-out __HTTP_CODE__@%{http_code}@\\n__CONTENT_TYPE__@%{content_type}@"
+
+    if GIT_USERNAME and GIT_PASSWORD:
+      curl_args += " -u %s:%s" % (GIT_USERNAME, GIT_PASSWORD)
+
+    if os.path.exists(tmpfile_data):
+      os.remove(tmpfile_data)
+
+    (result, headers) = MyUtility.runcommand(msgs, "%s --output %s --url %s" % (curl_args, tmpfile_data, urlapi), redacted=curl_args)
+
+    search_obj = MyUtility.search_HTTP_CODE.search(headers)
+    http_code = search_obj.group(1) if search_obj else ""
+    search_obj = MyUtility.search_CONTENT_TYPE.search(headers)
+    content_type = search_obj.group(1) if search_obj else ""
+
+    MyUtility.logmsg(msgs, 3, "CURL exit code: %d, http_code: %s, content type: [%s]" % (result, http_code, content_type))
+    MyUtility.logmsg(msgs, 3, "[\n%s]" % headers)
+
+    if os.path.exists(tmpfile_data):
+      data = MyUtility.readfile(tmpfile_data)
+      os.remove(tmpfile_data)
+      MyUtility.logmsg(msgs, 3, "GITHUB RESPONSE (first 1024 bytes): [\n%s\n]" % data[0:1024])
+      if http_code == "200" and data and content_type.startswith("application/json"):
+        jdata = json.loads(data)
+        if "message" not in jdata:
+          return jdata[0]["sha"]
+
+    return ""
+
+  @staticmethod
+  def have_package(package_name, package_source):
+    if IS_MIRROR:
+      return os.path.exists("%s/%s/%s" % (TARGET_DIR, package_name, package_source)) or \
+             os.path.exists("%s/%s/%s" % (DOWNLOAD_DIR, package_name, package_source))
+    else:
+      return os.path.exists("%s/%s" % (TARGET_DIR, package_source)) or \
+             os.path.exists("%s/%s" % (DOWNLOAD_DIR, package_source))
+
+    return False
+
+  @staticmethod
+  def remote_file_exists(msgs, url):
+    retry = 5
+    maxattempts = retry * 3
+    headers = ""
+    result = 0
+    HEAD_supported = True
+    ts = datetime.datetime.now()
+    curl_args = "curl --verbose --silent --fail --location --connect-timeout 15 --max-time 60 --retry 0 --write-out __HTTP_CODE__@%{http_code}@\\n__CONTENT_TYPE__@%{content_type}@"
+    http_code = ""
+    content_type = ""
+
+    MyUtility.logmsg(msgs, 3, "Remote headers for %s..." % url)
+
+    # Retry up to $retry times in case of transient errors. Do not count
+    # 35/56 as retries, could have several of these before a successful
+    # request - limit total number of retries as ${retry} * 3.
+    while retry > 0 and maxattempts > 0:
+      maxattempts -= 1
+      if stopped.is_set(): break
+      ts_cmd = datetime.datetime.now()
+      if HEAD_supported:
+        MyUtility.logmsg(msgs, 3, "%s --head --output - --url %s" % (curl_args, url))
+        (result, headers) = MyUtility.runcommand(msgs, "%s --head --output - --url %s" % (curl_args, url))
+      else:
+        MyUtility.logmsg(msgs, 3, "%s --range 0-1024 --output /dev/null --url %s" % (curl_args, url))
+        (result, headers) = MyUtility.runcommand(msgs, "%s --range 0-1024 --output /dev/null --url %s" % (curl_args, url))
+
+      search_obj = MyUtility.search_HTTP_CODE.search(headers)
+      http_code = search_obj.group(1) if search_obj else ""
+      search_obj = MyUtility.search_CONTENT_TYPE.search(headers)
+      content_type = search_obj.group(1) if search_obj else ""
+
+      tDelta = (datetime.datetime.now() - ts_cmd)
+      MyUtility.logmsg(msgs, 3, \
+        "CURL exit code: %d, http_code: %s, content type: [%s], remaining retries %d, time taken %f seconds" % \
+        (result, http_code, content_type, retry, tDelta.total_seconds()))
+
+      if result == 22:
+        # 404 Not Found
+        if http_code == "404" or MyUtility.search_HTTP_NOT_FOUND.search(headers):
+          break
+        # 403/405 Server does not support HEAD
+        elif HEAD_supported and (http_code in ["403", "405"] or MyUtility.search_HTTP_NOT_ALLOWED.search(headers)):
+          MyUtility.logmsg(msgs, 3, "HEAD not supported - retrying with range-limited GET")
+          HEAD_supported = False
+          continue
+
+      # Success or fatal error - no point continuing
+      #  0: CURLE_OK
+      #  6: CURLE_COULDNT_RESOLVE_HOST
+      #  7: CURLE_COULDNT_CONNECT
+      #  9: CURLE_REMOTE_ACCESS_DENIED
+      # 10: CURLE_FTP_ACCEPT_FAILED
+      # 19: CURLE_FTP_COULDNT_RETR_FILE
+      # 28: CURLE_OPERATION_TIMEDOUT
+      if result in [0, 6, 7, 9, 10, 19, 28]:
+        break
+
+      # Keep retrying following errors until success or failure.
+      # 35: CURLE_SSL_CONNECT_ERROR
+      # 56: CURLE_RECV_ERROR
+      if result not in [35, 56]:
+        retry -= 1
+
+    MyUtility.logmsg(msgs, 3, "[\n%s]" % headers)
+
+    # Success if HTTP 200 or 206 (partial content when using ranged request)
+    # A content_type of "text/html" indicates we were served an error page of
+    # some kind (eg. iperf) and not the requested file, which would be "application/<something>".
+    # "text/plain" indicates a misconfigured server (eg. libgcrypt, libgpg-error) so accept this.
+    # Some servers (eg. files.pythonhosted.org) will respond with "binary/octet-stream".
+    if http_code in ["200", "206"] or MyUtility.search_HTTP_OK.search(headers):
+      result = True if (content_type.startswith("application/") or \
+                        content_type.startswith("text/plain") or \
+                        content_type.startswith("binary/octet-stream")) else False
+    elif http_code == "350" and url.startswith("ftp:"):
+      result = True
+    else:
+      result = False
+
+    tDelta = (datetime.datetime.now() - ts)
+
+    MyUtility.show(msgs, 2 if VERBOSE == 2 else 3, None, "Remote File Exists", "%s (%s) %f seconds" % (result, url, tDelta.total_seconds()))
+
+    return result
+
+  # Calculate hash for chunked data
+  @staticmethod
+  def hash_bytestr_iter(bytesiter, hasher, ashexstr=True):
+    for block in bytesiter:
+      hasher.update(block)
+    return (hasher.hexdigest() if ashexstr else hasher.digest())
+
+  # Read file in blocks/chunks to be memory efficient
+  @staticmethod
+  def file_as_blockiter(afile, blocksize=65536):
+    with afile:
+      block = afile.read(blocksize)
+      while len(block) > 0:
+        yield block
+        block = afile.read(blocksize)
+
+  # Calculate sha256 hash for a file
+  @staticmethod
+  def calculate_sha256(fname):
+    try:
+      return MyUtility.hash_bytestr_iter(MyUtility.file_as_blockiter(open(fname, "rb")), hashlib.sha256())
+    except:
+      raise
+      return ""
+
+  # Use wget with same parameters as scripts/get is using
+  @staticmethod
+  def download_file(msgs, filename_data, filename_log, url):
+    retries=10
+    attempts=0
+
+    while attempts < retries:
+      if stopped.is_set(): break
+      attempts += 1
+      (result, output) = MyUtility.runcommand(msgs, "wget --output-file=- --timeout=30 --tries=3 --passive-ftp --no-check-certificate -O %s %s" % (filename_data, url), logfile=filename_log)
+      if result == 0:
+        return True
+
+    return False
+
+  @staticmethod
+  def get_package(msgs, package_name, package_source, package_url, package_sha):
+
+    onsource = MyUtility.remote_file_exists(msgs, package_url)
+    onmirror = MyUtility.remote_file_exists(msgs, "%s/%s/%s" % (DISTRO_MIRROR, package_name, package_source))
+
+    # If the only PKG_URL source is the DISTRO_SRC server...
+    if package_url.startswith(DISTRO_SOURCE):
+      # Warn the user if package is not found on either source or mirror
+      if not onsource and not onmirror:
+        MyUtility.show(msgs, 0, "magenta", "MKPKG REQUIRED?", "%s (%s) unable to download from DISTRO_SRC %s - we have no source!" % \
+          (package_name, package_url, MyUtility.colour("red", "and not on mirror")))
+        return False
+
+    if DRY_RUN:
+      text = "Package status: %s (%s)" % (package_name, package_source)
+      if not onsource and onmirror:
+        text = "%s %s" % (text, MyUtility.colour("yellow", "(found on mirror)"))
+      if onsource or onmirror:
+        MyUtility.show(msgs, 0, "green", "PACKAGE AVAILABLE", text)
+        return True
+      else:
+        MyUtility.show(msgs, 0, "red", "PACKAGE NOT AVAILABLE", text)
+        return False
+
+    tmpfile_data = "%s/%s" % (SCRATCH_DIR, threading.current_thread().name)
+    tmpfile_log  = "%s.log" % tmpfile_data
+
+    if os.path.exists(tmpfile_data):
+      os.remove(tmpfile_data)
+    if os.path.exists(tmpfile_log):
+      os.remove(tmpfile_log)
+
+    if VERIFY_CHECKSUM == True and package_sha and onmirror:
+      result = MyUtility.download_file(msgs, tmpfile_data, tmpfile_log, "%s/%s/%s" % (DISTRO_MIRROR, package_name, package_source))
+      calc_sha = MyUtility.calculate_sha256(tmpfile_data)
+
+      if os.path.exists(tmpfile_data):
+        os.remove(tmpfile_data)
+      if os.path.exists(tmpfile_log):
+        os.remove(tmpfile_log)
+
+      if calc_sha != package_sha:
+        MyUtility.show(msgs, 0, "yellow", "CHECKSUM MISMATCH FROM MIRROR - REFRESHING FROM SOURCE", "%s (%s)" % (package_name, package_url))
+        MyUtility.logmsg(msgs, 0, "Checksum mismatch - got [%s], expected [%s]" % (calc_sha, package_sha))
+        onmirror = False
+      else:
+        MyUtility.show(msgs, 1, "green", "Mirror checksum valid", "%s (%s)" % (package_name, package_source))
+        return True
+
+    if onsource:
+      result = MyUtility.download_file(msgs, tmpfile_data, tmpfile_log, package_url)
+    elif onmirror:
+      result = MyUtility.download_file(msgs, tmpfile_data, tmpfile_log, "%s/%s/%s" % (DISTRO_MIRROR, package_name, package_source))
+    else:
+      result = False
+
+    if result == False or not os.path.exists(tmpfile_data):
+      result = False
+      MyUtility.show(msgs, 0, "red", "DOWNLOAD FAILED!!", "%s (%s)" % (package_name, package_url))
+      if os.path.exists(tmpfile_log):
+        MyUtility.logmsg(msgs, 0, MyUtility.readfile(tmpfile_log))
+    else:
+      if package_sha:
+        calc_sha = MyUtility.calculate_sha256(tmpfile_data)
+        if calc_sha != package_sha:
+          result = False
+          MyUtility.show(msgs, 0, "red", "DOWNLOAD FAILED!!", "%s (%s)" % (package_name, package_url))
+          MyUtility.logmsg(msgs, 0, "Checksum mismatch - got [%s], wanted [%s]" % (calc_sha, package_sha))
+
+    if result == True:
+      MyUtility.show(msgs, 0, "green", "Successful Download", "%s (%s)" % (package_name, package_source))
+      if IS_MIRROR:
+        if not os.path.exists("%s/%s" % (DOWNLOAD_DIR, package_name)):
+          os.makedirs("%s/%s" % (DOWNLOAD_DIR, package_name))
+        shutil.move(tmpfile_data, "%s/%s/%s" % (DOWNLOAD_DIR, package_name, package_source))
+      else:
+        shutil.move(tmpfile_data, "%s/%s" % (DOWNLOAD_DIR, package_source))
+
+    if os.path.exists(tmpfile_data):
+      os.remove(tmpfile_data)
+    if os.path.exists(tmpfile_log):
+      os.remove(tmpfile_log)
+
+    return result
+
+  # Check for newer versions: "X+1.[0]0[.[0]0]" "X.[0]Y+1[.[0]0]" "X.[0]Y.[0]Z+1"
+  @staticmethod
+  def check_newer(msgs, package_name, package_url, package_ver):
+    alt_versions = []
+    is_git_rev = False
+
+    for v in MyUtility.get_alternate_versions(package_ver):
+      if v: alt_versions.append(v)
+
+    if alt_versions == []:
+      if not package_url.startswith("https://github.com/"):
+        return
+
+      if CHECK_FILTER_TYPE == "Ver":
+        return
+
+      is_git_rev = True
+
+      latestrev = MyUtility.get_latest_commit(msgs, package_url)
+
+      MyUtility.logmsg(msgs, 3, "Github latest commit [%s]" % latestrev)
+
+      if latestrev == "" or latestrev.startswith(package_ver):
+        return
+
+      alt_versions.append(latestrev[0:len(package_ver)])
+    elif CHECK_FILTER_TYPE == "Rev":
+      return
+
+    MyUtility.show(msgs, 2 if VERBOSE == 2 else 3, None, "Checking for newer", "%s, current version %s - checking %s" % (package_name, package_ver, ", ".join(alt_versions)))
+
+    newurl = package_url.replace(package_ver, "@@VER@@")
+
+    for newver in alt_versions:
+      url = newurl.replace("@@VER@@", newver)
+      if MyUtility.remote_file_exists(msgs, url):
+        if is_git_rev:
+          MyUtility.show(msgs, 0, "yellow", "New Rev Pkg available", "%s (%s => %s) %s" % (package_name, package_ver, newver, url))
+        else:
+          MyUtility.show(msgs, 0, "magenta","New Ver Pkg available", "%s (%s => %s) %s" % (package_name, package_ver, newver, url))
+        break
+
+  @staticmethod
+  def toUnicode(data):
+    if MyUtility.isPython3: return data
+
+    if isinstance(data, basestring):
+      if not isinstance(data, unicode):
+        try:
+          data = unicode(data, encoding="utf-8", errors="ignore")
+        except UnicodeDecodeError:
+          pass
+
+    return data
+
+  @staticmethod
+  def printout(data, end="\n"):
+    sys.stdout.write("%s%s" % (MyUtility.toUnicode(data), end))
+    sys.stdout.flush()
+
+  @staticmethod
+  def printerr(data, end="\n"):
+    sys.stderr.write("%s%s" % (MyUtility.toUnicode(data), end))
+    sys.stderr.flush()
+
+#
+# Thread
+#
+class MyThread(threading.Thread):
+  def __init__(self, input_queue, output_queue):
+    threading.Thread.__init__(self)
+    self.input_queue = input_queue
+    self.output_queue = output_queue
+
+  def run(self):
+    while not stopped.is_set():
+      try:
+        qItem = self.input_queue.get(block=False)
+        self.input_queue.task_done()
+
+        pkg_is_addon = (qItem["PKG_IS_ADDON"] == "Yes")
+        pkg_name = qItem["PKG_NAME"]
+        pkg_version = qItem["PKG_VERSION"]
+        pkg_url = qItem["PKG_URL"]
+        pkg_sha = qItem["PKG_SHA256"]
+        pkg_section = qItem["PKG_SECTION"]
+        pkg_source_name = qItem["PKG_SOURCE_NAME"]
+
+        msgs = []
+
+        if pkg_version == "" or pkg_version == "0.0invalid" or pkg_url == "":
+          if pkg_section != "virtual" and CHECK_FILTER_CLASS == "All" and CHECK_FILTER_TYPE == "All":
+            MyUtility.show(msgs, 0, "cyan", "UNKNOWN VER OR URL", "%s (ver [%s], url [%s])" % (pkg_name, pkg_version, pkg_url))
+            self.output_queue.put(msgs)
+          continue
+
+        tDelta_get_package = datetime.timedelta(0)
+        tDelta_check_newer = datetime.timedelta(0)
+
+        self.output_queue.put([{"start": True, "name": threading.current_thread().name, "data": {"url": pkg_url, "tstamp": datetime.datetime.now()}}])
+
+        MyUtility.logmsg(msgs, 3, ">>>>>>>>>>>>>>>>> %s, %s, %s, wanted sha256 %s" % (pkg_name, pkg_version, pkg_url, pkg_sha))
+
+        if not MyUtility.have_package(pkg_name, pkg_source_name) or (VERIFY_CHECKSUM and pkg_sha):
+          tStart = datetime.datetime.now()
+          if not stopped.is_set() and \
+             not MyUtility.get_package(msgs, pkg_name, pkg_source_name, pkg_url, pkg_sha):
+             if not IGNORE_ERRORS:
+               stopped.set()
+          tDelta_get_package = datetime.datetime.now() - tStart
+        else:
+          MyUtility.show(msgs, 1, "green", "Already downloaded", "%s (%s)" % (pkg_name, pkg_source_name))
+
+        if CHECK_NEWER and not stopped.is_set():
+          if (CHECK_FILTER_CLASS == "All") or \
+             (CHECK_FILTER_CLASS == "Main" and pkg_is_addon == False) or \
+             (CHECK_FILTER_CLASS == "Addons" and pkg_is_addon == True):
+            tStart = datetime.datetime.now()
+            MyUtility.check_newer(msgs, pkg_name, pkg_url, pkg_version)
+            tDelta_check_newer = datetime.datetime.now() - tStart
+
+        self.output_queue.put([{"stop": True, "name": threading.current_thread().name, "url": pkg_url}])
+
+        MyUtility.logmsg(msgs, 3, "<<<<<<<<<<<<<<<<< %s %s %s get_package %f check_newer %f" % \
+          (pkg_name, pkg_version, pkg_url, tDelta_get_package.total_seconds(), tDelta_check_newer.total_seconds()))
+
+        self.output_queue.put(msgs)
+
+      except Queue.Empty:
+        break
+
+    # This thread is going down...
+    self.output_queue.put(None)
+
+def main():
+  if not os.path.exists(SCRATCH_DIR):
+    os.makedirs(SCRATCH_DIR)
+  else:
+    for file in glob.glob("%s/*" % SCRATCH_DIR):
+      os.remove(file)
+
+  data = []
+  for line in sys.stdin: data.append(line)
+  if data == []:
+    sys.exit(1)
+
+  input_queue = Queue.Queue()
+  output_queue = Queue.Queue()
+
+  for item in sorted(json.loads("".join(data)), key=lambda k: k["PKG_NAME"]):
+    input_queue.put(item)
+
+  pcount = 0
+  pmax = input_queue.qsize()
+
+  # Create threads to process input queue
+  threadcount = input_queue.qsize() if input_queue.qsize() <= WORKER_THREADS else WORKER_THREADS
+  threads = []
+  for i in range(threadcount):
+    t = MyThread(input_queue, output_queue)
+    threads.append(t)
+    t.setDaemon(False)
+
+  # Start the threads...
+  for t in threads: t.start()
+
+  qtimeout = 10
+  running = {}
+  stopping = False
+
+  while threadcount > 0:
+    try:
+      qItem = output_queue.get(block=True, timeout=qtimeout)
+      output_queue.task_done()
+
+      if qItem is None:
+        threadcount -= 1
+        continue
+
+      finished = False
+
+      for msg in qItem:
+        if msg.get("start", False):
+          running[msg["name"]] = msg["data"]
+        elif msg.get("stop", False):
+          del running[msg["name"]]
+        elif "level" in msg:
+          finished = True
+          if VERBOSE >= msg["level"]:
+            if msg["level"] <= 2:
+              MyUtility.printout(msg["text"])
+            else:
+              MyUtility.printerr(msg["text"])
+
+      if not stopping and stopped.is_set():
+        stopping = True
+        MyUtility.printout(MyUtility.colour("red", "** STOPPING DUE TO FAILURE - WAITING FOR %d THREADS TO FINISH **" % threadcount))
+
+      # Do not enable progress when detailed debug logging is enabled as
+      # this will most likely be redirected to a file
+      if finished and PROGRESS and VERBOSE <= 2:
+        pcount += 1
+        MyUtility.printerr("Processing... %3d%% (%d threads active)\x1b[K\r" % ((pcount * 100 / pmax), threadcount), end="")
+
+    except Queue.Empty:
+      if VERBOSE >= 3 and len(running) != 0:
+        MyUtility.printerr("============ WAITING ON FOLLOWING %d THREADS ============" % len(running))
+        for t in running:
+          data = running[t]
+          MyUtility.printerr("SLOW RUNNING THREAD %s for %f secs: %s" % (t, (datetime.datetime.now() - data["tstamp"]).total_seconds(), data["url"]))
+
+  if PROGRESS and VERBOSE <= 2:
+    MyUtility.printerr("\r\x1b[K", end="")
+
+  sys.exit(1 if stopped.is_set() else 0)
+
+if __name__ == "__main__":
+  try:
+    args = sys.argv[1:]
+    DOWNLOAD_DIR = args[0]
+    TARGET_DIR = args[1]
+    DISTRO_SOURCE = args[2]
+    DISTRO_MIRROR = args[3]
+    IS_MIRROR = True if args[4] == "yes" else False
+    IGNORE_ERRORS = True if args[5] == "yes" else False
+    DRY_RUN = True if args[6] == "yes" else False
+    CHECK_NEWER = True if args[7] == "yes" else False
+    PROGRESS=True if args[8] == "yes" else False
+    WORKER_THREADS=int(args[9])
+    GIT_USERNAME = args[10]
+    GIT_PASSWORD = args[11]
+    CHECK_FILTER_CLASS = args[12]
+    CHECK_FILTER_TYPE = args[13]
+    VERIFY_CHECKSUM = True if args[14] == "yes" else False
+    VERBOSE = int(args[15])
+    SCRATCH_DIR="%s/.tmp" % DOWNLOAD_DIR
+
+    stopped = threading.Event()
+
+    main()
+  except (KeyboardInterrupt, SystemExit) as e:
+    if type(e) == SystemExit: sys.exit(int(str(e)))
+  except Exception:
+    raise
+'
+
+[ -z "${PROJECT}" ] && PROJECT=Generic
+[ -z "${ARCH}" ]    && ARCH=x86_64
+
+help() {
+  [ -n "$1" ] && echo -e "ERROR: Unknown argument [$1]\n"
+  cat <<EOF
+Usage: $(basename $0) -d|--download <path> [-t|--target <path>] [-l|--libreelec <path>]
+           [-m|--mirror] [-s|--source] [-a|-all] [-p|--package <package_name> [-r|--revision <revision>]]
+           [--git] [-n|--notnewer] [--check-main | --check-addons] [--check-ver | --check-rev] 
+           [--no-progress] [-T #|--threads #] [-U|--gituser] [-P|--gitpass] [--dry-run]
+           [--path-filter path] [--verify-checksum] [-v|--verbose] [-h|--help]
+
+Options:
+  -d, --download:        Directory path into which new package files will be downloaded - default is $HOME/download[1]
+  -t, --target:          Directory path for existing packages that are to be refreshed, default is $HOME/sources[2]
+  -l, --libreelec:       LibreELEC.tv repo, default is ${HOME}/LibreELEC.tv
+  -m, --mirror:          Target is mirror not source - mirror uses a hierarchical per-package folder structure
+  -s, --source:          Target is source not mirror - source uses a flattened file structure. Default is mirror
+  -a, --all:             Ignore download failures, continue processing all packages
+  -p, --package:         Package to process, otherwise process all packages
+  -r, --revision:        Version to use in place of PKG_VERSION, only applicable in conjunction with -p
+      --git:             Clone (if not available) or pull the LibreELEC.tv repository
+  -n, --notnewer:        Don't check for newer packages ('X.Y.Z+1' 'X.Y+1.0' 'X+1.0.0')
+      --check-main:      Check newer for main packages, ignore add-on packages
+      --check-addons:    Check newer for add-on packages, ignore main packages
+      --check-ver:       Check newer for version-based packages, ignore rev-based/github packages
+      --check-rev:       Check newer for rev-based/github packages, ignore version-based packages
+      --no-progress:     Do not show progress indicator
+  -T, --threads:         Number of download worker threads, default is 16
+  -U, --gituser:         Git username (or source from ~/.git.conf) - avoids API limits
+  -P, --gitpass:         Git password (or source from ~/.git.conf) - avoids API limits
+      --dry-run:         Don't actually download anything (will still git clone/pull if configured)
+      --path-filter      Restrict workload to specified path, eg. packages/x11 (recursive)
+      --verify-checksum: If checksum on mirror is no longer valid, attempt re-download of package from source
+  -v, --verbose:         Output more verbose sync information. Repeat for more detail
+  -h, --help:            This message
+
+  Note#1. The download directory will have the LibreELEC version appended (eg. /devel) unless it is a mirror, in which case "/mirror" will be appended.
+  Note#2. The target directory will have the LibreELEC version appended (eg. /devel) unless it is a mirror, in which case "/mirror" will be appended.
+EOF
+}
+
+get_libreelec_branch() {
+  cd $LIBREELEC_DIR
+  git rev-parse --abbrev-ref HEAD
+}
+
+# 1: LibreELEC variable, eg. LIBREELEC_VERSION
+get_libreelec_option() {
+  local variable="$1"
+  cd $LIBREELEC_DIR
+  source config/options ""
+  echo "${!variable}"
+}
+
+generate_work() {
+  local package_name="$1" revision="$2" path_filter="$3"
+  local packages pcount
+  local workfile_o
+  local tcount=0
+
+  [ ${PROGRESS} = yes ] && echo -en "Acquiring packages...\r" >&2
+
+  packages="$(get_packages "${package_name}" "${path_filter}")"
+  pcount="$(echo "${packages}" | wc -l)"
+
+  if [ -n "${package_name}" -a -z "${packages}" ]; then
+    if [ -n "${path_filter}" ]; then
+      echo "ERROR: ${package_name} is not a valid package when using filter ${path_filter} - package.mk does not exist" >&2
+    else
+      echo "ERROR: ${package_name} is not a valid package - package.mk does not exist" >&2
+    fi
+    exit 1
+  fi
+
+  rm -f ${WORKFILES_I}.* ${WORKFILES_O}.*
+
+  # Distribute packages across workers
+  tcount=0
+  for package_name in ${packages}; do
+    tcount=$((tcount + 1))
+    [ ${tcount} -gt ${WORKER_MAX} ] && tcount=1
+    echo "$package_name" >>$(printf "%s.%02d" "${WORKFILES_I}" ${tcount})
+  done
+
+  # Generate workload using multiple "threads" (cores, hopefully...)
+  init_progress
+
+  tcount=0
+
+  while [ : ]; do
+    tcount=$((tcount + 1))
+    [ ${tcount} -gt ${WORKER_MAX} ] && break
+    generate_work_worker ${pcount} ${tcount} ${revision} &
+  done
+  wait
+
+  end_progress
+
+  # Combine workloads
+  echo "["
+  tcount=0
+  while [ : ]; do
+    tcount=$((tcount + 1))
+    [ ${tcount} -gt ${WORKER_MAX} ] && break
+    workfile_o=$(printf "%s.%02d" "${WORKFILES_O}" ${tcount})
+    if [ -s ${workfile_o} ]; then
+      [ ${tcount} -ne 1 ] && echo ","
+      # Strip comma from line of file - not valid if this is the last file
+      sed '$ s/  },/  }/' ${workfile_o}
+    fi
+  done
+  echo "]"
+
+  # Clean up
+  rm -f ${WORKFILES_I}.* ${WORKFILES_O}.*
+}
+
+generate_work_worker() {
+  local pcount=$1 worker="$2" revision="$3"
+  local workfile_i="$(printf "%s.%02d" "${WORKFILES_I}" ${worker})"
+  local workfile_o="$(printf "%s.%02d" "${WORKFILES_O}" ${worker})"
+  local wanted_vars="PKG_NAME PKG_VERSION PKG_URL PKG_SHA256 PKG_DIR PKG_SECTION PKG_IS_ADDON PKG_SOURCE_NAME"
+  local package_name var comma PKG_URL PKG_SOURCE_NAME PKG_VERSION PKG_IS_ADDON
+
+  [ -f "${workfile_i}" ] || return 0
+  (
+    # Override exit function so that packages calling exit don't terminate this sub-shell
+    exit() {
+      :
+    }
+
+    cd $LIBREELEC_DIR
+
+    source config/options ""
+
+    while read -r package_name; do
+      [ ${PROGRESS} = yes ] && progress ${pcount}
+
+      source_package ${package_name} &>/dev/null || true
+      [ -z "${PKG_DIR}" ] && continue
+
+      if [ -n "${revision}" ]; then
+        PKG_URL="${PKG_URL/${PKG_VERSION}/${revision}}"
+        PKG_SOURCE_NAME="${PKG_SOURCE_NAME/${PKG_VERSION}/${revision}}"
+        PKG_VERSION="${revision}"
+        PKG_SHA256=
+      fi
+
+      PKG_IS_ADDON=No
+      [[ ${PKG_DIR/${LIBREELEC_DIR}/} =~ ^/packages/addons/.* ]] && PKG_IS_ADDON=Yes
+      [[ ${PKG_DIR/${LIBREELEC_DIR}/} =~ ^/packages/mediacenter/kodi-binary-addons/.* ]] && PKG_IS_ADDON=Yes
+
+      echo "  {" >>${workfile_o}
+      for var in ${wanted_vars}; do
+        [ "${var}" != "PKG_SOURCE_NAME" ] && comma="," || comma=
+        echo "    \"${var}\": \"${!var}\"${comma}" >>${workfile_o}
+      done
+      echo "  }," >>${workfile_o}
+    done < ${workfile_i}
+  )
+}
+
+check_exists() {
+  if [ -z "${!1}" ]; then
+    echo "ERROR: ${1} must not be undefined"
+    return 1
+  fi
+
+  [ -d ${!1} ] && return 0
+
+  echo "ERROR: ${1} ${!1} does not exist"
+  return 1
+}
+
+get_abs_path() {
+  echo "$(readlink -f $1)"
+}
+
+get_package_path() {
+  echo "$(basename "$(dirname "$0")") $0"
+}
+
+get_packages() {
+  local package_name="$1" path_filter="$2"
+  local anchor="@?+?@"
+
+  (
+    cd $LIBREELEC_DIR
+
+    # Generate package caches...
+    source config/options ""
+
+    cache_data="${BUILD}/.cache_package_global ${BUILD}/.cache_package_local"
+
+    if [ -n "${path_filter}" ]; then
+      if [ -n "${package_name}" ]; then
+        grep -F "/${path_filter}/" ${cache_data} | grep -F "/${package_name}${anchor}"
+      else
+        grep -F "/${path_filter}/" ${cache_data}
+      fi
+    else
+      if [ -n "${package_name}" ]; then
+        grep -F "/${package_name}${anchor}" ${cache_data}
+      else
+        cat ${cache_data}
+      fi
+    fi
+  ) | sed "s#${anchor}\$##g;s#/# #g" | awk '{print $NF}' | sort -u
+
+  return 0
+}
+
+init_progress() {
+  echo 0 > ${LOCKFILE}
+}
+
+progress() {
+  local count
+  (
+    flock -x 9
+    count=$(($(< ${LOCKFILE}) + 1))
+    echo "${count}" >${LOCKFILE}
+    printf "Generating workload... %3d%% (%d of %d)\r" $((count * 100 / $1)) ${count} $1 >&2
+  ) 9< "${LOCKFILE}"
+}
+
+end_progress() {
+  rm -f ${LOCKFILE}
+  printf "\033[K\r" >&2
+}
+
+exec_worker_prog() {
+  echo "${PYTHON_PROG}" >/tmp/distro-tool.py
+  python3 /tmp/distro-tool.py "${DOWNLOAD_DIR}" "${TARGET_DIR}" "${DISTRO_SOURCE}" "${DISTRO_MIRROR}" \
+                              "${IS_MIRROR}" "${IGNORE_ERRORS}" "${DRY_RUN}" "${CHECK_NEWER}" \
+                              "${PROGRESS}" "${WORKER_THREADS}" "${GIT_USERNAME}" "${GIT_PASSWORD}" \
+                              "${CHECK_FILTER_CLASS}" "${CHECK_FILTER_TYPE}" ${VERIFY_CHECKSUM} "${VERBOSE}"
+  rm -f /tmp/distro-tool.py
+}
+
+while [ : ]; do
+  [ -z "$1" ] && break
+  case $1 in
+    -d|--download)
+      shift
+      DOWNLOAD_DIR=$1
+      ;;
+    -l|--libreelec)
+      shift
+      LIBREELEC_DIR=$1
+      ;;
+    -t|--target)
+      shift
+      TARGET_DIR=$1
+      ;;
+    -a|--all)
+      IGNORE_ERRORS=yes
+      ;;
+    -p|--package)
+      shift
+      PACKAGE=$1
+      ;;
+    -r|--revision)
+      shift
+      REVISION=$1
+      ;;
+    -m|--mirror)
+      IS_MIRROR=yes
+      ;;
+    -s|--source)
+      IS_MIRROR=no
+      ;;
+    --dry-run|--dryrun)
+      DRY_RUN=yes
+      LINE_PREFIX="**DRY-RUN** "
+      ;;
+    --git)
+      DOGIT=yes
+      ;;
+    -n|--notnewer)
+      CHECK_NEWER=no
+      ;;
+    --check-ver)
+      CHECK_FILTER_TYPE=Ver
+      ;;
+    --check-rev)
+      CHECK_FILTER_TYPE=Rev
+      ;;
+    --check-addons)
+      CHECK_FILTER_CLASS=Addons
+      ;;
+    --check-main)
+      CHECK_FILTER_CLASS=Main
+      ;;
+    -T|--threads)
+      shift
+      [ $1 -gt 0 ] && WORKER_THREADS=$1
+      ;;
+    -U|--gituser)
+      shift
+      GIT_USERNAME=$1
+      ;;
+    -P|--gitpass)
+      shift
+      GIT_PASSWORD=$1
+      ;;
+    -v|--verbose)
+      VERBOSE=$((VERBOSE + 1))
+      ;;
+    --no-progress)
+      PROGRESS=no
+      ;;
+    --path-filter)
+      shift
+      PATH_FILTER=$1
+      ;;
+    --verify-checksum)
+      VERIFY_CHECKSUM=yes
+      ;;
+    -h|--help)
+      help
+      exit 0
+      ;;
+    *)
+      help "$1"
+      exit 0
+      ;;
+  esac
+  shift
+done
+
+[ -n "${PACKAGE}" -a ${VERBOSE} -eq 0 ] && VERBOSE=1
+
+if [ ${DOGIT} = yes ]; then
+  (
+    if [ -d ${LIBREELEC_DIR}/.git ]; then
+      cd ${LIBREELEC_DIR}
+      git pull
+    else
+      mkdir -p $(dirname "${LIBREELEC_DIR}") 2>/dev/null
+      cd $(dirname "${LIBREELEC_DIR}")
+      git clone https://github.com/LibreELEC/LibreELEC.tv.git $(basename "${LIBREELEC_DIR}")
+    fi
+  )
+fi
+
+check_exists LIBREELEC_DIR || exit
+LIBREELEC_DIR="$(get_abs_path "${LIBREELEC_DIR}")"
+
+DISTRO_SOURCE="$(get_libreelec_option DISTRO_SRC)"
+DISTRO_MIRROR="$(get_libreelec_option DISTRO_MIRROR)"
+LIBREELEC_VER="$(get_libreelec_option LIBREELEC_VERSION)"
+
+if [ ${IS_MIRROR} = no ]; then
+  TARGET_DIR="$(get_abs_path "${TARGET_DIR}/${LIBREELEC_VER}")"
+else
+  TARGET_DIR="$(get_abs_path "${TARGET_DIR}/mirror")"
+fi
+check_exists TARGET_DIR || exit
+
+if [ ${IS_MIRROR} = no ]; then
+  DOWNLOAD_DIR="$(get_abs_path "${DOWNLOAD_DIR}/${LIBREELEC_VER}")"
+else
+  DOWNLOAD_DIR="$(get_abs_path "${DOWNLOAD_DIR}/mirror")"
+fi
+check_exists DOWNLOAD_DIR || exit
+
+if [ -n "${REVISION}" -a -z "${PACKAGE}" ]; then
+  echo "ERROR: A single package must be specified with custom revision"
+  exit 1
+fi
+
+echo
+if [ ${IS_MIRROR} = yes ]; then
+  echo "Synchronising LibreELEC.tv (branch: $(get_libreelec_branch), version: ${LIBREELEC_VER}) with MIRROR server ${TARGET_DIR}"
+else
+  echo "Synchronising LibreELEC.tv (branch: $(get_libreelec_branch), version: ${LIBREELEC_VER}) with SOURCE server ${TARGET_DIR}"
+fi
+echo
+echo "Distro Source is: ${DISTRO_SOURCE}"
+echo "Distro Mirror is: ${DISTRO_MIRROR}"
+echo " Syncing against: ${TARGET_DIR}"
+echo "  Downloading to: ${DOWNLOAD_DIR}"
+if [ -n "${PATH_FILTER}" ]; then
+  echo "     Path filter: ${PATH_FILTER}"
+fi
+echo "     Check Newer: ${CHECK_NEWER^}  Class/Type: ${CHECK_FILTER_CLASS} / ${CHECK_FILTER_TYPE}"
+echo "         Dry run: ${DRY_RUN^}"
+if [ ${VERBOSE} -gt 2 ]; then
+  echo " Debugging level: ${VERBOSE} (${DEBUG_LOG})"
+  echo "  Worker Threads: ${WORKER_THREADS}"
+fi
+echo
+
+if [ ${VERBOSE} -gt 2 -a -n "${DEBUG_LOG}" ]; then
+  generate_work "${PACKAGE}" "${REVISION}" "${PATH_FILTER}" | exec_worker_prog 2>${DEBUG_LOG}
+else
+  generate_work "${PACKAGE}" "${REVISION}" "${PATH_FILTER}" | exec_worker_prog
+fi

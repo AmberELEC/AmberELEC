@@ -1,0 +1,2 @@
+ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/bin/sh -c 'echo out | /usr/bin/tee /sys/class/gpio/gpio77/direction'"
+ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="/bin/sh -c 'echo in | /usr/bin/tee /sys/class/gpio/gpio77/direction'"

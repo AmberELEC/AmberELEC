@@ -1,0 +1,12 @@
+[Unit]
+Description=PulseAudio Sound Service
+After=syslog.target local-fs.target
+
+[Service]
+Type=dbus
+BusName=org.pulseaudio.Server
+ExecStart=/usr/bin/pulseaudio --system --disallow-exit --exit-idle-time=-1 --disable-shm
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

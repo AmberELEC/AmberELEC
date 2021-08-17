@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+. /etc/profile
+oe_setup_addon service.net-snmp
+
+ADDON_ID=service.net-snmp
+ADDON_DIR="$HOME/.kodi/addons/$ADDON_ID"
+ADDON_HOME="$HOME/.kodi/userdata/addon_data/$ADDON_ID"
+
+PID=`cat /var/run/snmpd.pid`
+kill -TERM $PID

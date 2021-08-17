@@ -1,0 +1,69 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
+###
+### Simple script to build 351ELEC
+###
+
+if [ !"${ARCH}" == true ]
+then
+  echo "export ARCH before building."
+  exit 1
+fi
+
+export DISTRO=351ELEC
+export PROJECT=Rockchip
+
+echo "Building ${DISTRO} for ${DEVICE}"
+if [ ! -d "target" ]
+then
+  mkdir target
+fi
+
+# Clean a few packages to ensure the build date and version are updated
+for package in 351elec u-boot 351elec-emulationstation
+do
+  ./scripts/clean ${package}
+done
+
+if [ "${ARCH}" == "aarch64" ]
+then
+  make image
+elif [ "${ARCH}" == "arm" ]
+then
+  # Only build the 32bit packages that we need rather than the whole image
+  # to speed up the build process and save disk space.
+  for package in gcc retroarch retrorun pcsx_rearmed parallel-n64 parallel-n64_gln64 uae4arm
+  do
+    scripts/build ${package}
+    if [ ! $? == 0 ]
+    then
+      echo "Build failed..exiting."
+      exit 1
+    fi
+  
+    scripts/install ${package}
+    if [ ! $? == 0 ]
+    then
+      echo "Build failed..exiting."
+      exit 1
+    fi
+  done
+fi
+
+if [ ! $? == 0 ]
+then
+  echo "Build failed..exiting."
+  exit 1
+fi
+
+if [ "${ARCH}" == "aarch64" ]
+then
+  if [ -d "release/${ARCH}/${DEVICE}" ]
+  then
+    rm -rf "release/${ARCH}/${DEVICE}"
+  fi
+mkdir -p release/${ARCH}/${DEVICE}
+mv target/* "release/${ARCH}/${DEVICE}/"
+fi

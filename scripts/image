@@ -1,0 +1,478 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2016-2018 Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2018-present Team CoreELEC (https://coreelec.org)
+
+unset _CACHE_PACKAGE_LOCAL _CACHE_PACKAGE_GLOBAL _DEBUG_DEPENDS_LIST _DEBUG_PACKAGE_LIST
+
+. config/options ""
+. config/multithread
+. config/show_config
+
+show_config
+
+${SCRIPTS}/checkdeps
+
+# Setup both toolchain cmake configs to avoid potentially racy behaviour later.
+# Use a fork for host to isolate any variable modifications.
+( setup_toolchain host )
+setup_toolchain target
+
+function do_mkimage() {
+  # Variables used in mkimage script must be passed
+  env \
+    ROOT="${ROOT}" \
+    SCRIPTS="${SCRIPTS}" \
+    TOOLCHAIN="${TOOLCHAIN}" \
+    PROJECT_DIR="${PROJECT_DIR}" \
+    PROJECT="${PROJECT}" \
+    DEVICE="${DEVICE}" \
+    DISTRO="${DISTRO}" \
+    TARGET_IMG="${TARGET_IMG}" \
+    BUILD_NAME="${IMAGE_NAME}" \
+    IMAGE_NAME="${1:-${IMAGE_NAME}}" \
+    BOOTLOADER="${BOOTLOADER}" \
+    KERNEL_NAME="${KERNEL_NAME}" \
+    TARGET_KERNEL_ARCH="${TARGET_KERNEL_ARCH}" \
+    RELEASE_DIR="${RELEASE_DIR}" \
+    UUID_SYSTEM="${UUID_SYSTEM}" \
+    UUID_STORAGE="${UUID_STORAGE}" \
+    DISTRO_BOOTLABEL="${DISTRO_BOOTLABEL}" \
+    DISTRO_DISKLABEL="${DISTRO_DISKLABEL}" \
+    UBOOT_SYSTEM="${UBOOT_SYSTEM}" \
+    UBOOT_VERSION="${UBOOT_VERSION}" \
+    EXTRA_CMDLINE="${EXTRA_CMDLINE}" \
+    SYSTEM_SIZE="${SYSTEM_SIZE}" \
+    SYSTEM_PART_START="${SYSTEM_PART_START}" \
+    OVA_SIZE="${OVA_SIZE}" \
+    SUBDEVICE="${SUBDEVICE}" \
+    ${SCRIPTS}/mkimage
+}
+
+if [ -n "${CUSTOM_GIT_HASH}" ]; then
+  GIT_HASH="${CUSTOM_GIT_HASH}"
+else
+  GIT_HASH=$(git rev-parse HEAD)
+fi
+
+if [ "${LIBREELEC_VERSION}" = "devel" ]; then
+  GIT_ABBREV=${GIT_HASH:0:7}
+  DEVEL_VERSION=${LIBREELEC_VERSION}
+  case "${BUILD_PERIODIC}" in
+    nightly) LIBREELEC_VERSION=nightly-$(date +%Y%m%d)-${GIT_ABBREV};;
+    daily)   LIBREELEC_VERSION=daily-$(date +%Y%j)-${GIT_ABBREV};;
+    weekly)  LIBREELEC_VERSION=weekly-$(date +%G%V)-${GIT_ABBREV};;
+    monthly) LIBREELEC_VERSION=monthly-$(date +%Y%m)-${GIT_ABBREV};;
+    *)       LIBREELEC_VERSION=devel-$(date +%s);;
+  esac
+fi
+
+# Get origin url, fix git:// and git@github.com: urls if necessary
+ORIGIN_URL="$(git remote -v | awk '$1 == "origin" { print $2 }' | head -1 | sed 's#\.git$##;s#^git:#https:#;s#^git@github\.com:#https://github.com/#')"
+
+[ "${BUILDER_NAME,,}" = "official" ] && BUILDER_NAME=
+if [ "${OFFICIAL}" = "yes" ]; then
+  LIBREELEC_BUILD=$(echo `echo VDJabWFXTnBZV3dnTFNBek5URkZURVZESUVsVElFWlNSVVVnUVU1RUlFNVBWQ0JHVDFJZ1UwRk1SU0U9 | base64 --decode` | base64 --decode)
+else
+  if [ -n "${BUILDER_NAME}" ]; then
+    LIBREELEC_BUILD="${BUILDER_NAME}"
+  else
+    LIBREELEC_BUILD=$(echo `echo UTI5dGJYVnVhWFI1SUMwZ016VXhSVXhGUXlCSlV5QkdVa1ZGSUVGT1JDQk9UMVFnUms5U0lGTkJURVVo | base64 --decode` | base64 --decode)
+  fi
+fi
+
+if [ -n "${CUSTOM_VERSION}" ]; then
+  export LIBREELEC_VERSION="${CUSTOM_VERSION}"
+fi
+
+LIBREELEC_ARCH="${DEVICE:-${PROJECT}}.${TARGET_ARCH}"
+TARGET_VERSION="${LIBREELEC_ARCH}-${LIBREELEC_VERSION}"
+
+if [ -n "${CUSTOM_IMAGE_NAME}" ]; then
+  IMAGE_NAME="${CUSTOM_IMAGE_NAME}"
+else
+  if [ "${DEVEL_VERSION}" = "devel" ]; then
+    IMAGE_NAME="${DISTRONAME}-${LIBREELEC_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}"
+  else
+    IMAGE_NAME="${DISTRONAME}-${TARGET_VERSION}"
+  fi
+
+  if [ -n "${UBOOT_SYSTEM}" ] && [ "${UBOOT_SYSTEM}" != "${DEVICE:-${PROJECT}}" ]; then
+    IMAGE_NAME="${IMAGE_NAME}"
+  fi
+fi
+
+if [ -n "${IMAGE_SUFFIX}" ]; then
+  IMAGE_NAME="${IMAGE_NAME}-${IMAGE_SUFFIX}"
+fi
+
+echo "${IMAGE_NAME}" > ${BUILD}/BUILD_FILENAME
+
+# Setup fakeroot
+rm -rf ${FAKEROOT_SCRIPT}   # remove ${FAKEROOT_SCRIPT} if it exist
+touch ${FAKEROOT_SCRIPT}    # create an empty ${FAKEROOT_SCRIPT}
+chmod +x ${FAKEROOT_SCRIPT} # make ${FAKEROOT_SCRIPT} executable
+echo "chown -R 0:0 ${INSTALL}" >> ${FAKEROOT_SCRIPT}
+
+# Clean old install dirs
+rm -rf ${INSTALL}
+rm -rf ${STAMPS_INSTALL}
+mkdir -p ${INSTALL}
+
+# Create base layout of LibreELEC read-only file system
+for directory in etc dev proc run sys tmp usr var flash storage; do
+  mkdir -p ${INSTALL}/${directory}
+done
+
+# Build image contents
+MTADDONBUILD=no start_multithread_build image || die "Parallel build failure - see log for details. Time of failure: $(date)"
+
+echo "Successful build!  Building image root..." >&2
+
+# Create legacy sym links
+ln -sfn /var/media ${INSTALL}/media
+ln -sfn /usr/lib ${INSTALL}/lib
+ln -sfn /usr/bin ${INSTALL}/bin
+ln -sfn /usr/sbin ${INSTALL}/sbin
+
+if [ "${TARGET_ARCH}" = "x86_64" ]; then
+  ln -sfn /usr/lib ${INSTALL}/lib64
+  ln -sfn /usr/lib ${INSTALL}/usr/lib64
+fi
+
+echo "${TARGET_VERSION}" > ${INSTALL}/etc/release
+
+# Create /etc/os-release
+cat <<EOF >${INSTALL}/etc/os-release
+NAME="${DISTRONAME}"
+VERSION="${LIBREELEC_VERSION}"
+ID="coreelec"
+VERSION_ID="${OS_VERSION}"
+PRETTY_NAME="${DISTRONAME} (${LIBREELEC_BUILD}) ${LIBREELEC_VERSION}"
+HOME_URL="${HOME_URL}"
+WIKI_URL="${WIKI_URL}"
+BUG_REPORT_URL="${BUG_REPORT_URL}"
+BUILD_ID="${GIT_HASH}"
+OPENELEC_ARCH="${LIBREELEC_ARCH}"
+LIBREELEC_ARCH="${LIBREELEC_ARCH}"
+COREELEC_ARCH="${LIBREELEC_ARCH}"
+COREELEC_BUILD="${LIBREELEC_BUILD}"
+COREELEC_PROJECT="${PROJECT}"
+EOF
+[ -n "${DEVICE}" ] && echo "COREELEC_DEVICE=\"${DEVICE}\"" >> ${INSTALL}/etc/os-release
+[ -n "${BUILDER_NAME}" ] && echo "BUILDER_NAME=\"${BUILDER_NAME}\"" >> ${INSTALL}/etc/os-release
+[ -n "${BUILDER_VERSION}" ] && echo "BUILDER_VERSION=\"${BUILDER_VERSION}\"" >> ${INSTALL}/etc/os-release
+
+# Add release notes / changelog
+
+if [ -n "${RELEASE_NOTES}" ] && [ -f "${RELEASE_NOTES}" ]; then
+  cp "${RELEASE_NOTES}" ${INSTALL}/etc/release-notes
+else
+  echo "" > ${INSTALL}/etc/release-notes
+fi
+
+# Copy PROJECT related files to filesystem
+if [ -d "${PROJECT_DIR}/${PROJECT}/filesystem" ]; then
+  cp -PR ${PROJECT_DIR}/${PROJECT}/filesystem/* ${INSTALL}
+  # Install project specific systemd services
+  for service in ${PROJECT_DIR}/${PROJECT}/filesystem/usr/lib/systemd/system/*.service; do
+    if [ -f "${service}" ]; then
+      enable_service $(basename ${service})
+    fi
+  done
+fi
+
+# Copy DEVICE related files to filesystem
+if [ -n "${DEVICE}" -a -d "${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/filesystem" ]; then
+  cp -PR ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/filesystem/* ${INSTALL}
+  # Install device specific systemd services
+  for service in ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/filesystem/usr/lib/systemd/system/*.service; do
+    if [ -f "${service}" ]; then
+      enable_service $(basename ${service})
+    fi
+  done
+fi
+
+# Run depmod for base overlay modules
+MODVER=$(basename $(ls -d ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/*))
+find ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/ -name *.ko | \
+  sed -e "s,${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/,," \
+    > ${INSTALL}/usr/lib/kernel-overlays/base/lib/modules/${MODVER}/modules.order
+${TOOLCHAIN}/bin/depmod -b ${INSTALL}/usr/lib/kernel-overlays/base -a -e -F "${BUILD}/linux-$(kernel_version)/System.map" ${MODVER} 2>&1
+
+# Strip kernel modules
+for MOD in $(find ${INSTALL}/usr/lib/kernel-overlays/ -type f -name *.ko); do
+  ${TARGET_KERNEL_PREFIX}strip --strip-debug ${MOD}
+done
+
+# Symlink overlayed modules to /usr/lib/modules
+ln -sT /var/lib/modules ${INSTALL}/usr/lib/modules
+
+# Symlink overlayed firmware to /usr/lib/firmware
+ln -sT /var/lib/firmware ${INSTALL}/usr/lib/firmware
+
+if [ "${1}" = "system" -o "${1}" = "mkimage" -o "${1}" = "noobs" ]
+then
+  echo "Creating image..." >&2
+
+  # Make target dir
+  mkdir -p ${TARGET_IMG}
+  rm -rf ${TARGET_IMG}/${IMAGE_NAME}.kernel
+
+  # Copy kernel to target dir
+  cp -PR ${BUILD}/linux-$(kernel_version)/arch/${TARGET_KERNEL_ARCH}/boot/${KERNEL_TARGET} ${TARGET_IMG}/${IMAGE_NAME}.kernel
+  chmod 0644 ${TARGET_IMG}/${IMAGE_NAME}.kernel
+
+  # Set mksquashfs options for each compression method
+  if [ -z "${SQUASHFS_COMPRESSION_OPTION}" ]; then
+    if [ "${SQUASHFS_COMPRESSION:-gzip}" = "gzip" ]; then
+      SQUASHFS_COMPRESSION_OPTION="-Xcompression-level 9 -b 262144"
+    elif [ "${SQUASHFS_COMPRESSION}" = "lzo" ]; then
+      SQUASHFS_COMPRESSION_OPTION="-Xcompression-level 9 -b 524288"
+    elif [ "${SQUASHFS_COMPRESSION}" = "zstd" ]; then
+      SQUASHFS_COMPRESSION_OPTION="-Xcompression-level 22 -b 262144"
+    fi
+  fi
+
+  # Create squashfs file, default to gzip if no compression configured
+  echo "rm -rf \"${TARGET_IMG}/${IMAGE_NAME}.system\"" >> ${FAKEROOT_SCRIPT}
+  echo "${TOOLCHAIN}/bin/mksquashfs \"${BUILD}/image/system\" \"${TARGET_IMG}/${IMAGE_NAME}.system\" -noappend -comp ${SQUASHFS_COMPRESSION:-gzip} ${SQUASHFS_COMPRESSION_OPTION}" >> ${FAKEROOT_SCRIPT}
+
+  # Run fakeroot
+  ${TOOLCHAIN}/bin/fakeroot -- ${FAKEROOT_SCRIPT}
+  rm -rf ${FAKEROOT_SCRIPT}
+
+  # Set permissions
+  chmod 0644 ${TARGET_IMG}/${IMAGE_NAME}.system
+fi
+
+if [ "${1}" = "release" -o "${1}" = "mkimage" -o "${1}" = "noobs" ]; then
+
+  RELEASE_DIR="target/${IMAGE_NAME}"
+
+  # Cleanup
+  rm -rf ${RELEASE_DIR}
+
+  # Create release dir
+  mkdir -p ${RELEASE_DIR}
+
+  # Remove any previously created release images
+  rm -rf ${TARGET_IMG}/${IMAGE_NAME}.img.gz
+
+  if [ -n "${BOOTLOADER}" ]; then
+
+    BOOTLOADER_DIR="$(get_pkg_directory "${BOOTLOADER}")"
+
+    if [ -d ${BOOTLOADER_DIR}/files ]; then
+      cp -R ${BOOTLOADER_DIR}/files/* ${RELEASE_DIR}
+    fi
+
+    if find_file_path bootloader/release ${BOOTLOADER_DIR}/release; then
+      echo "Running ${FOUND_PATH}"
+      . ${FOUND_PATH}
+    fi
+  fi
+
+  cp ${ROOT}/README* ${RELEASE_DIR}
+  echo "${TARGET_VERSION}" > ${RELEASE_DIR}/RELEASE
+
+  if [ ! "${MEDIACENTER}" = "no" ]; then
+    echo "Kodi commit: $(get_pkg_version ${MEDIACENTER})" >> ${RELEASE_DIR}/RELEASE
+  fi
+
+  mkdir -p ${RELEASE_DIR}/licenses
+  cp ${ROOT}/licenses/* ${RELEASE_DIR}/licenses
+
+  mkdir -p ${RELEASE_DIR}/target
+  cp ${TARGET_IMG}/${IMAGE_NAME}.system ${RELEASE_DIR}/target/SYSTEM
+  cp ${TARGET_IMG}/${IMAGE_NAME}.kernel ${RELEASE_DIR}/target/KERNEL
+
+  # Create md5sum's
+  ( cd ${RELEASE_DIR};
+    md5sum -t target/SYSTEM > target/SYSTEM.md5;
+    md5sum -t target/KERNEL > target/KERNEL.md5;
+  )
+
+  # Create target directory
+  mkdir -p ${TARGET_IMG}
+
+  # Remove any previously created release tarballs
+  rm -rf ${TARGET_IMG}/${IMAGE_NAME}.tar
+
+  # Create release tarball
+  tar cf ${TARGET_IMG}/${IMAGE_NAME}.tar -C target ${IMAGE_NAME}
+
+  # Create sha256 checksum of tarball
+  ( cd ${TARGET_IMG}
+    sha256sum ${IMAGE_NAME}.tar > ${IMAGE_NAME}.tar.sha256
+  )
+
+  # Create image files if requested
+  if [[ ( "${1}" = "noobs" || "${1}" = "mkimage" ) && -n "${BOOTLOADER}" ]]; then
+    UUID_SYSTEM="$(date '+%d%m')-$(date '+%M%S')"
+    UUID_STORAGE="$(uuidgen)"
+
+    DEVICE_BOARDS=$(${SCRIPTS}/uboot_helper "${PROJECT}" "${DEVICE}")
+
+    if [ "${BOOTLOADER}" = "u-boot" -a -z "${UBOOT_SYSTEM}" -a -n "${DEVICE}" -a -n "${DEVICE_BOARDS}" ]; then
+      for UBOOT_SYSTEM in ${DEVICE_BOARDS}; do
+
+        # Re-install u-boot package
+        rm ${STAMPS_INSTALL}/u-boot/install_target
+        UBOOT_SYSTEM="${UBOOT_SYSTEM}" ${SCRIPTS}/install u-boot
+
+        # Re-run bootloader/release
+        if find_file_path bootloader/release ${BOOTLOADER_DIR}/release; then
+          echo "Running ${FOUND_PATH}"
+          . ${FOUND_PATH}
+        fi
+
+        do_mkimage "${IMAGE_NAME}-${UBOOT_SYSTEM}"
+      done
+    else
+      if [ -n "${SUBDEVICES}" ]; then
+        [ "${PROJECT}" = "Amlogic" -o "${PROJECT}" = "Amlogic-ng" ] && SUBDEVICES+=" Generic"
+        for SUBDEVICE in ${SUBDEVICES}; do
+          do_mkimage "${IMAGE_NAME}"
+        done
+      else
+        do_mkimage
+      fi
+    fi
+  fi
+
+  # Cleanup release dir
+  rm -rf ${RELEASE_DIR}
+
+  if [ "${1}" = "noobs" ]; then
+    echo "Creating \"${1}\" release tarball..."
+
+    RELEASE_DIR="${TARGET_IMG}/${IMAGE_NAME}-${1}"
+
+    # eg. LibreELEC_RPi, LibreELEC_RPi2 etc.
+    NOOBS_DISTRO="${DISTRONAME}_${DEVICE:-${PROJECT}}"
+
+    # Create release dir
+    mkdir -p ${RELEASE_DIR}/${NOOBS_DISTRO}
+
+    if [ -f ${DISTRO_DIR}/${DISTRO}/${DISTRONAME}_40x40.png ]; then
+      cp -PR ${DISTRO_DIR}/${DISTRO}/${DISTRONAME}_40x40.png ${RELEASE_DIR}/${NOOBS_DISTRO}/${NOOBS_DISTRO}.png
+    else
+      cp -PR ${DISTRO_DIR}/${DISTRO}/${DISTRONAME}.png ${RELEASE_DIR}/${NOOBS_DISTRO}/${NOOBS_DISTRO}.png
+    fi
+    cp -PR ${ROOT}/config/noobs/os.json ${RELEASE_DIR}/${NOOBS_DISTRO}
+    cp -PR ${ROOT}/config/noobs/partition_setup.sh ${RELEASE_DIR}/${NOOBS_DISTRO}
+    cp -PR ${ROOT}/config/noobs/partitions.json ${RELEASE_DIR}/${NOOBS_DISTRO}
+    if [ -d ${DISTRO_DIR}/${DISTRO}/noobs/marketing ]; then
+      tar cf ${RELEASE_DIR}/${NOOBS_DISTRO}/marketing.tar -C ${DISTRO_DIR}/${DISTRO}/noobs/marketing .
+    else
+      tar cf ${RELEASE_DIR}/${NOOBS_DISTRO}/marketing.tar -C ${ROOT}/config/noobs/marketing .
+    fi
+    cp ${ROOT}/README* ${RELEASE_DIR}/${NOOBS_DISTRO}
+
+    if [ -n "${NOOBS_HEX}" ]; then
+      sed -e "s%@NOOBS_HEX@%${NOOBS_HEX}%g" \
+          -i ${RELEASE_DIR}/${NOOBS_DISTRO}/os.json
+    else
+      sed -e "/@NOOBS_HEX@/d" \
+          -i ${RELEASE_DIR}/${NOOBS_DISTRO}/os.json
+    fi
+
+    sed -e "s%@DISTRONAME@%${DISTRONAME}%g" \
+        -e "s%@PROJECT@%${DEVICE:-${PROJECT}}%g" \
+        -e "s%@LIBREELEC_VERSION@%${LIBREELEC_VERSION}%g" \
+        -e "s%@RELEASE_DATE@%$(date +%F)%g" \
+        -e "s%@KERNEL_VERSION@%$(kernel_version)%g" \
+        -e "s%@DESCRIPTION@%${DESCRIPTION}%g" \
+        -e "s%@ROOT_PASSWORD@%${ROOT_PASSWORD}%g" \
+        -e "s%@NOOBS_SUPPORTED_MODELS@%${NOOBS_SUPPORTED_MODELS}%g" \
+        -i ${RELEASE_DIR}/${NOOBS_DISTRO}/os.json
+
+    sed -e "s%@DISTRONAME@%${DISTRONAME}%g" \
+        -e "s%@PROJECT@%${DEVICE:-${PROJECT}}%g" \
+        -e "s%@SYSTEM_SIZE@%${SYSTEM_SIZE}%g" \
+        -i ${RELEASE_DIR}/${NOOBS_DISTRO}/partitions.json
+
+    # Create System dir
+    mkdir -p ${RELEASE_DIR}/${NOOBS_DISTRO}/System
+
+    # Copy Bootloader
+    cp -PR ${INSTALL}/usr/share/bootloader/config.txt ${RELEASE_DIR}/${NOOBS_DISTRO}/System/
+    cp -PR ${INSTALL}/usr/share/bootloader/distroconfig.txt ${RELEASE_DIR}/${NOOBS_DISTRO}/System/
+    cp -PR ${INSTALL}/usr/share/bootloader/LICENCE* ${RELEASE_DIR}/${NOOBS_DISTRO}/System/
+    cp -PR ${INSTALL}/usr/share/bootloader/bootcode.bin ${RELEASE_DIR}/${NOOBS_DISTRO}/System/
+    cp -PR ${INSTALL}/usr/share/bootloader/fixup.dat ${RELEASE_DIR}/${NOOBS_DISTRO}/System/
+    cp -PR ${INSTALL}/usr/share/bootloader/start.elf ${RELEASE_DIR}/${NOOBS_DISTRO}/System/
+    [ -f ${INSTALL}/usr/share/bootloader/dt-blob.bin ] && cp -PR ${INSTALL}/usr/share/bootloader/dt-blob.bin ${RELEASE_DIR}/${NOOBS_DISTRO}/System/dt-blob.bin
+
+    # Copy system files
+    cp ${TARGET_IMG}/${IMAGE_NAME}.system ${RELEASE_DIR}/${NOOBS_DISTRO}/System/SYSTEM
+    cp ${TARGET_IMG}/${IMAGE_NAME}.kernel ${RELEASE_DIR}/${NOOBS_DISTRO}/System/kernel.img
+
+    for dtb in ${INSTALL}/usr/share/bootloader/*.dtb; do
+      if [ -f ${dtb} ]; then
+        cp -PR ${dtb} ${RELEASE_DIR}/${NOOBS_DISTRO}/System
+      fi
+    done
+
+    for overlay in ${INSTALL}/usr/share/bootloader/overlays/*; do
+      if [ -f ${overlay} ]; then
+        mkdir -p ${RELEASE_DIR}/${NOOBS_DISTRO}/System/overlays
+        cp -PR ${overlay} ${RELEASE_DIR}/${NOOBS_DISTRO}/System/overlays
+      fi
+    done
+
+    # Create md5sum's
+    ( cd ${RELEASE_DIR}/${NOOBS_DISTRO}/System;
+      md5sum -t SYSTEM > SYSTEM.md5;
+      md5sum -t kernel.img > kernel.img.md5;
+    )
+
+    # Copy additional files
+    mkdir -p ${RELEASE_DIR}/${NOOBS_DISTRO}/System/licenses
+    cp ${ROOT}/licenses/* ${RELEASE_DIR}/${NOOBS_DISTRO}/System/licenses
+
+    # Create Storage dir
+    mkdir -p ${RELEASE_DIR}/${NOOBS_DISTRO}/Storage
+
+    # Remove any previously created release tarball
+    rm -rf ${RELEASE_DIR}/${NOOBS_DISTRO}/System.tar.xz
+    rm -rf ${RELEASE_DIR}/${NOOBS_DISTRO}/Storage.tar.xz
+
+    # Create filesystem tarballs
+    ${TOOLCHAIN}/bin/fakeroot tar cJf ${RELEASE_DIR}/${NOOBS_DISTRO}/System.tar.xz -C ${RELEASE_DIR}/${NOOBS_DISTRO}/System/ .
+    ${TOOLCHAIN}/bin/fakeroot tar cJf ${RELEASE_DIR}/${NOOBS_DISTRO}/Storage.tar.xz -C ${RELEASE_DIR}/${NOOBS_DISTRO}/Storage/ .
+
+    # Remove filesystem dirs
+    rm -rf ${RELEASE_DIR}/${NOOBS_DISTRO}/System
+    rm -rf ${RELEASE_DIR}/${NOOBS_DISTRO}/Storage
+
+    # Remove any previously created release tarball
+    rm -rf ${TARGET_IMG}/${IMAGE_NAME}-${1}.tar
+
+    # Create release tarball
+    tar cf ${TARGET_IMG}/${IMAGE_NAME}-${1}.tar -C ${TARGET_IMG} ${IMAGE_NAME}-${1}
+
+    # Create sha256 checksum of tarball
+    ( cd ${TARGET_IMG}
+      sha256sum ${IMAGE_NAME}-${1}.tar > ${IMAGE_NAME}-${1}.tar.sha256
+    )
+  fi
+
+  if [ -d ${RELEASE_DIR} ]; then
+    # Cleanup release dir
+    rm -rf ${RELEASE_DIR}
+  fi
+fi
+
+# remove unneeded files in target folder
+if [ "$COREELEC_TARGET_REMOVE" = "kernel_system" ]; then
+  rm -f ${TARGET_IMG}/*.kernel
+  rm -f ${TARGET_IMG}/*.system
+elif [ "$COREELEC_TARGET_REMOVE" = "kernel_system_sha256" ]; then
+  rm -f ${TARGET_IMG}/*.kernel
+  rm -f ${TARGET_IMG}/*.system
+  rm -f ${TARGET_IMG}/*.sha256
+fi

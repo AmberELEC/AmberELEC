@@ -1,0 +1,55 @@
+* text=auto eol=lf
+*.patch -text
+
+# build directorys
+/build.*/
+/.fakeroot.*
+/.ccache-*
+/.env
+
+# automatically downloaded source files
+/sources/
+/.stamps/
+
+# prebuild target binarys to provide
+/target/
+
+# mkpkg temp
+mkpkg-temp
+
+# options
+/.libreelec
+
+# private working directory
+/.work/
+
+# dedicated filesystem
+/lost+found/
+
+# symlinks...
+/sources
+/.work
+
+# ccache
+/.ccache/
+
+# backup files
+*.orig
+
+# vim swap files
+*.swp
+
+# crap
+.DS_Store
+.directory
+
+repo/
+repo
+local.conf
+sx05re-kodi*.log
+
+packages/sx05re/experimental/
+
+release/
+
+.lastbuild

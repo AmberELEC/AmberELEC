@@ -1,0 +1,10 @@
+102
+- Update to 0.15.0
+
+101
+- Add streaming from Kodi
+- Keep daemon state
+- Rework settings
+
+100
+- Initial addon

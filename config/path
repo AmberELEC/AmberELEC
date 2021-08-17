@@ -1,0 +1,108 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+
+set -e
+
+# setup initial directorys (relative to root)
+  CONFIG=config
+  SCRIPTS=scripts
+  PACKAGES=packages
+  SOURCES=${SOURCES_DIR:-$ROOT/sources}
+  BUILD_ROOT=${BUILD_DIR:-$ROOT}
+  BUILD_BASE=build
+  TARGET_IMG=${TARGET_DIR:-$ROOT/target}
+  ADDONS=addons
+
+# include ARCH specific options
+  if [ -f config/arch.$TARGET_ARCH ]; then
+    . config/arch.$TARGET_ARCH
+  fi
+
+[ -z "${HOST_NAME}" ] && export HOST_NAME="$($LOCAL_CC -dumpmachine)"
+TARGET_NAME=$TARGET_GCC_ARCH-libreelec-linux-gnu${TARGET_ABI}
+
+BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}
+if [ "${LIBREELEC_VERSION}" = "devel" ] ; then
+  BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}
+fi
+
+if [ -n "$BUILD_SUFFIX" ]; then
+  BUILD=$BUILD-$BUILD_SUFFIX
+fi
+
+THREAD_CONTROL=${BUILD}/.threads
+
+TARGET_ADDONS="$TARGET_IMG/$ADDONS/$ADDON_PATH"
+ADDON_BUILD="$BUILD/$ADDONS/$1"
+STAMPS=$BUILD/.stamps
+STAMPS_INSTALL=$BUILD/image/.stamps
+DOCS=DOCS
+TOOLCHAIN=$BUILD/toolchain
+SYSROOT_PREFIX=$TOOLCHAIN/$TARGET_NAME/sysroot
+LIB_PREFIX=$SYSROOT_PREFIX/usr
+TARGET_PREFIX=$TOOLCHAIN/bin/$TARGET_NAME-
+
+FAKEROOT_SCRIPT=$BUILD/.fakeroot
+
+if [ -z "$INSTALL" ]; then
+  INSTALL=$BUILD/image/system
+fi
+
+. config/sources
+
+MAKE="$TOOLCHAIN/bin/make"
+
+XORG_PATH_DRI=/usr/lib/dri
+XORG_PATH_XKB=/usr/share/X11/xkb
+XORG_PATH_XKB_OUTPUT=/var/lib/xkb
+XORG_PATH_RGB=/usr/lib/X11/rgb
+XORG_PATH_MODULES=/usr/lib/xorg/modules
+XORG_PATH_DRIVERS=/usr/lib/xorg/modules/drivers
+
+. config/optimize
+
+# use ARM toolchain on 64/32 split builds
+if [ -z "$KERNEL_TOOLCHAIN" -a "$TARGET_KERNEL_ARCH" = "arm64" -a "$TARGET_ARCH" = "arm" ]; then
+  if [ "${MACHINE_HARDWARE_NAME}" = "x86_64" ]; then
+    KERNEL_TOOLCHAIN="aarch64-none-linux-gnu"
+  elif [ "${MACHINE_HARDWARE_NAME}" = "aarch64" ]; then
+    KERNEL_TOOLCHAIN="aarch64-none-elf"
+  else
+    die "No known toolchain available for ${MACHINE_HARDWARE_NAME}."
+  fi
+fi
+if [ -n "$KERNEL_TOOLCHAIN" ]; then
+  TARGET_KERNEL_PREFIX=$TOOLCHAIN/lib/gcc-arm-$KERNEL_TOOLCHAIN/bin/$KERNEL_TOOLCHAIN-
+else
+  TARGET_KERNEL_PREFIX=$TARGET_PREFIX
+fi
+
+if [ -z "$CCACHE_DIR" ]; then
+  export CCACHE_DIR=${BUILD_ROOT}/.ccache-${TARGET_ARCH}
+fi
+
+if [[ -z "$PATH" || ( "$PATH" != "$TOOLCHAIN/bin:$TOOLCHAIN/sbin" && "$PATH" = "${PATH#$TOOLCHAIN/bin:$TOOLCHAIN/sbin:}" ) ]]; then
+  export PATH="$TOOLCHAIN/bin:$TOOLCHAIN/sbin${PATH:+":$PATH"}"
+fi
+
+# redirect formatted output
+export BUILD_INDENT_SIZE=4
+SILENT_OUT=3
+VERBOSE_OUT=4
+
+if [ "$VERBOSE" = yes ]; then
+  exec 3>&1
+  exec 4>&1
+else
+  exec 3>&2
+  exec 4>/dev/null
+fi
+
+unset LD_LIBRARY_PATH
+
+# multilib? nah
+unset CONFIG_SITE
+
+# Ignore custom python installs...
+unset PYTHONHOME PYTHONPATH PYTHONSTARTUP
+export PYTHONNOUSERSITE=yes #disable PEP 370

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Lukas Rusak (lrusak@libreelec.tv)
+
+ADDON_DIR="/storage/.kodi/addons/service.system.docker"
+ADDON_HOME_DIR="/storage/.kodi/userdata/addon_data/service.system.docker"
+
+if [ ! -d "$ADDON_HOME_DIR/config" ]; then
+  mkdir -p $ADDON_HOME_DIR/config
+fi
+
+if [ ! -f "$ADDON_HOME_DIR/config/docker.conf" ]; then
+  cp $ADDON_DIR/config/docker.conf $ADDON_HOME_DIR/config/docker.conf
+fi
+
+if [ ! -d "$ADDON_HOME_DIR/docker" ]; then
+  mkdir -p $ADDON_HOME_DIR/docker
+fi
+
+if [ ! -d /var/lib/docker ]; then
+  ln -sf $ADDON_HOME_DIR/docker /var/lib/docker
+fi

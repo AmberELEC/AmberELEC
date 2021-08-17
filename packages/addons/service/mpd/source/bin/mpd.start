@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+. /etc/profile
+
+oe_setup_addon service.multimedia.mpd
+
+mkdir -p $ADDON_HOME/config
+mkdir -p $ADDON_HOME/log
+mkdir -p $ADDON_HOME/playlists
+mkdir -p $ADDON_HOME/music
+touch $ADDON_HOME/log/mpd.log
+touch $ADDON_HOME/mpd.db
+touch $ADDON_HOME/state
+
+chmod a+x $ADDON_DIR/bin/*
+
+if [ ! -f "$ADDON_HOME/config/mpd.conf" ]; then
+  cp $ADDON_DIR/config/mpd.conf $ADDON_HOME/config/mpd.conf
+fi
+
+exec mpd --no-daemon $ADDON_HOME/config/mpd.conf > /dev/null 2>&1

@@ -1,0 +1,21 @@
+Doom:
+  description: Players assume the role of a space marine fighting his way through hordes of invading demons through the 9 levels of Hell.
+  rating: 0.8
+  release_date: 19931210T000000
+  developer: id Software
+  publisher: GT Interactive
+
+  check_bios: DOOM1
+  commands:
+    - /usr/bin/runemu.sh "/storage/roms/ports/doom/doom1.wad" -Pports "${2}" -Cprboom "-SC${0}" &>>/tmp/logs/exec.log
+
+Doom 2:
+  description: A first-person shooter video game, the second title of id Software's Doom franchise. It was originally released for MS-DOS computers in 1994 and Macintosh computers in 1995.
+  rating: 0.9
+  release_date: 19941010T000000
+  developer: id Software
+  publisher: GT Interactive
+
+  check_bios: DOOM2
+  commands:
+    - /usr/bin/runemu.sh "/storage/roms/ports/doom2/doom2.wad" -Pports "${2}" -Cprboom "-SC${0}" &>>/tmp/logs/exec.log

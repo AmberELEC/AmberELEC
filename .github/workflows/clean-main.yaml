@@ -1,0 +1,15 @@
+name: clean-main
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: main
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          clean: false
+      - name: Build rg351
+        run: |
+            set -e
+            make docker-clean

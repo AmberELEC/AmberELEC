@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+
+. config/options "${1}"
+
+clean_package() {
+  build_msg "CLR_CLEAN" "CLEAN" "${1}" "indent"
+
+  if [ "${CLEAN_SOURCES}" = "true" ]; then
+    rm -rf "${SOURCES}/${1}"
+    return
+  fi
+
+  # Use a wilcard here to remove all versions of the package
+  for i in "${BUILD}/${1}-"*; do
+    if [ -d "${i}" -a -f "${i}/.libreelec-unpack" ]; then
+      . "${i}/.libreelec-unpack"
+      if [ "${STAMP_PKG_NAME}" = "${1}" ]; then
+        build_msg "CLR_WARNING" "*" "$(print_color "CLR_WARNING_DIM" "Removing ${i} ...")"
+        rm -rf "${i}"
+      fi
+    elif [ -d "${i}" -a -f "${i}/.libreelec-package" ]; then
+      # force clean if no stamp found (previous unpack failed)
+      . "${i}/.libreelec-package"
+      if [ "${INFO_PKG_NAME}" = "${1}" ]; then
+        build_msg "" "" "* Removing ${i} ..."
+        rm -rf "${i}"
+      fi
+    fi
+  done
+  rm -f "${STAMPS}/${1}/build_"*
+}
+
+if [ "${1}" = "--all" -a -n "${2}" ]; then
+  for build_dir in $(ls -1d "${ROOT}/build."*); do
+    load_build_config "${build_dir}" && "${SCRIPTS}/clean" "${2}"
+  done
+elif [ -n "${1}" ]; then
+  clean_package "${1}"
+fi
+

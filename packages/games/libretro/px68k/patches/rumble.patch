@@ -1,0 +1,26 @@
+diff --git a/libretro.c b/libretro.c
+index fc68189..b87787e 100644
+--- a/libretro.c
++++ b/libretro.c
+@@ -1362,13 +1362,17 @@ static void rumbleFrames(void)
+    {
+       if (opt_rumble_enabled && FDD_IsReading)
+       {
+-         rumble_cb(0, RETRO_RUMBLE_STRONG, 0x8000);
+-         rumble_cb(0, RETRO_RUMBLE_WEAK, 0x800);
++         FILE *fp;
++         fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++         fprintf(fp, "%u", 1);
++         fclose(fp);
+       }
+       else
+       {
+-         rumble_cb(0, RETRO_RUMBLE_STRONG, 0);
+-         rumble_cb(0, RETRO_RUMBLE_WEAK, 0);
++         FILE *fp;
++         fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++         fprintf(fp, "%u", 1000000);
++         fclose(fp);
+       }
+    }
+ 

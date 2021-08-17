@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
+
+while test $# -gt 0; do
+  case $1 in
+    --libs)
+      echo "-lfribidi"
+      ;;
+  esac
+  shift
+done

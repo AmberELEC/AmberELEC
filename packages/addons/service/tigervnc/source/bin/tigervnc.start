@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+. /etc/profile
+oe_setup_addon service.tigervnc
+
+if [ ! -f "$ADDON_HOME/passwd" ]
+then
+  cp "$ADDON_DIR/config/passwd" "$ADDON_HOME/passwd"
+fi
+
+x0vncserver -PasswordFile="$ADDON_HOME/passwd" -rfbport="$vnc_port"

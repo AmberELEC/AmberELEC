@@ -1,0 +1,61 @@
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+
+_get_file_already_downloaded() {
+  [ ! -f "${PACKAGE}" -o ! -f "${STAMP_URL}" -o ! -f "${STAMP_SHA}" ] && return 1
+  [ -n "${PKG_SHA256}" -a "$(cat ${STAMP_SHA} 2>/dev/null)" != "${PKG_SHA256}" ] && return 1
+  return 0
+}
+
+# Latest file already present, exit now...
+_get_file_already_downloaded && exit 0
+
+lock_source_dir "${1}"
+
+# Check again in case of concurrent access - if nothing needs to be downloaded, exit now...
+_get_file_already_downloaded && exit 0
+
+# At this point, we need to download something...
+build_msg "CLR_GET" "GET" "${1} (archive)" "indent"
+
+pkg_lock_status "GETPKG" "${PKG_NAME}" "unpack" "downloading package..."
+
+PACKAGE_MIRROR="${DISTRO_MIRROR}/${PKG_NAME}/${PKG_SOURCE_NAME}"
+[ "${VERBOSE}" != "yes" ] && WGET_OPT=-q
+WGET_CMD="wget --output-file=- --timeout=30 --tries=3 --passive-ftp --no-check-certificate -c ${WGET_OPT} --progress=bar:force --show-progress -O ${PACKAGE}"
+
+# unset LD_LIBRARY_PATH to stop wget from using toolchain/lib and loading libssl.so/libcrypto.so instead of host libraries
+unset LD_LIBRARY_PATH
+
+rm -f "${STAMP_URL}" "${STAMP_SHA}"
+
+NBWGET=10
+while [ ${NBWGET} -gt 0 ]; do
+  for url in "${PKG_URL}" "${PACKAGE_MIRROR}"; do
+    if [[ "$PKG_USETOKEN" == "yes" ]]; then
+      if [[ $url == https://github.com/* ]] && [[ -n $COREELEC_GHTOKEN ]]; then
+        WGET_HEADER=--header="Authorization: token $COREELEC_GHTOKEN"
+      fi
+    else
+      WGET_HEADER=--header=""
+    fi
+
+    rm -f "${PACKAGE}"
+    if ${WGET_CMD} "$WGET_HEADER" "${url}"; then
+      CALC_SHA256=$(sha256sum "${PACKAGE}" | cut -d" " -f1)
+
+      [ -z "${PKG_SHA256}" -o "${PKG_SHA256}" = "${CALC_SHA256}" ] && break 2
+
+      build_msg "CLR_WARNING" "WARNING" "Incorrect checksum calculated on downloaded file: got ${CALC_SHA256} wanted ${PKG_SHA256}"
+    fi
+  done
+  NBWGET=$((NBWGET - 1))
+done
+
+if [ ${NBWGET} -eq 0 ]; then
+  die "\nCannot get ${1} sources : ${PKG_URL}\nTry later!"
+else
+  build_msg "CLR_INFO" "INFO" "Calculated checksum: ${CALC_SHA256}"
+  echo "${PKG_URL}" > "${STAMP_URL}"
+  echo "${CALC_SHA256}" > "${STAMP_SHA}"
+fi

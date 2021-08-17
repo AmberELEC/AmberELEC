@@ -1,0 +1,55 @@
+
+# The purpose of this build is to allow a 'draft' release be created with the correct version, etc.
+# 
+#  This 'draft' release can be used as the basis for the 'real' release.
+#  NOTE: The draft is also marked as 'prerelease' so it can be rolled out to the 'beta' channel if desired.
+name: release-draft
+on:
+  workflow_dispatch:  # allows manual runs
+    inputs:
+      release_tag:
+        description: "Tag to release (ex: 20210603 - defaults to today)"
+        required: false
+      release_name:
+        description: "Name to use for release (ex: Crazy Hedgehog)"
+        required: false
+        default: RELEASE_NAME
+    
+jobs:
+  commits:
+      runs-on: ubuntu-20.04
+      steps:
+        - uses: actions/checkout@v2
+          name: checkout
+          with:
+            clean: false
+            fetch-depth: 0
+        - name: changes
+          id: changes
+          run: |
+              previous_tag=$(git describe --tags --abbrev=0  --match "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" --match "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]" )
+              echo "::set-output name=changes::$(git log ${previous_tag}..HEAD --no-merges --oneline|wc -l)"
+        - name: Get date for artifacts
+          id: date
+          run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        - name: Version
+          id: version
+          run: |
+             if [[ "${{github.event.inputs.release_tag}}" != "" ]]; then
+               echo "::set-output name=version::${{github.event.inputs.release_tag}}"
+             else
+               echo "::set-output name=version::$(date +'%Y%m%d')"
+             fi
+        - name: Repository Dispatch
+          if: steps.changes.outputs.changes != '0'
+          uses: peter-evans/repository-dispatch@v1
+          with:
+            token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+            repository: ${{ github.event.repository.full_name }}
+            event-type: release-draft
+            client-payload: |
+               { 
+                 "release_tag" : "${{steps.version.outputs.version}}",
+                 "release_name" : "${{github.events.inputs.release_name}}"
+               }
+            

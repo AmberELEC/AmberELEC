@@ -1,0 +1,73 @@
+name: build-pr
+on:
+  pull_request:
+  
+    # We don't need to run builds when these files change
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+      - 'Dockerfile'
+      - '.dockerignore'
+    branches:
+      - main
+    types: [opened, synchronize, ready_for_review]
+
+# Ensure that if there are multiple builds for a PR only 1 is queued
+# Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
+#          This makes it so that only commit 9 is enqueued to build rather than builds for 2-9 all being queued
+concurrency: 
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true #only 1 build at a time per PR
+jobs:
+  build:
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout (pull request)
+        with:
+          # clean: false ensures that we don't remove all the build files 
+          clean: false
+      
+      - name: Get date for artifacts
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+      - name: Get PR Version
+        id: version
+        run: echo "::set-output name=version::pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+      - name: Build rg351P
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            export DOCKER_WORK_DIR=/work
+            make docker-RG351P
+      - name: Build rg351V
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            export DOCKER_WORK_DIR=/work
+            make docker-RG351V
+      - name: Cleanup system artifacts (no .img in PR builds)
+        run: |
+            set -e
+            rm -rf release/aarch64/RG351*/*.system*
+            rm -rf release/aarch64/RG351*/*.kernel*
+            #PR's builds only include the .tar for speed
+            rm -rf release/aarch64/RG351*/*.img.gz*
+      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351V/
+      - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351P/

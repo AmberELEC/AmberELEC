@@ -1,0 +1,12 @@
+[Unit]
+Description=tinc for LibreELEC
+Documentation=http://tinc-vpn.org/docs/
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+ExecStart=/bin/sh /storage/.kodi/addons/service.system.tinc/bin/tinc.start
+Restart=on-failure
+
+[Install]
+WantedBy=kodi.target

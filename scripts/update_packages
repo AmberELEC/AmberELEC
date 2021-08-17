@@ -1,0 +1,57 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
+# Based on work by ToKe79 and Shanti Gilbert
+
+OPTIONS="distributions/351ELEC/options"
+RAPACKAGES="retroarch-assets retroarch-overlays libretro-database core-info glsl-shaders"
+EMUPACKAGES="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus"
+BLOCKLIST="config/blocklist"
+
+source "${OPTIONS}"
+PACKAGES_ALL=" ${RAPACKAGES} ${LIBRETRO_CORES} ${EMUPACKAGES}"
+
+for p in $PACKAGES_ALL
+do
+  PKG_PATH="./packages"
+  echo "Operating on ${p}"
+  f=$(find ${PKG_PATH} -wholename */${p}/package.mk)
+  if [ "$(grep ${p} ${BLOCKLIST})" ]
+  then
+    echo "Skipping ${p}"
+    continue
+  fi
+  echo "${p}: ${f}"
+  source config/options "${p}"
+  source "${f}"
+  PKG_SITE=$(echo ${PKG_URL} | sed 's/\/archive.*//g')
+  [ -n "${PKG_GIT_BRANCH}" ] && PKG_GIT_CLONE_BRANCH="${PKG_GIT_BRANCH}"
+  [ -n "${PKG_GIT_CLONE_BRANCH}" ] && GIT_HEAD="heads/${PKG_GIT_CLONE_BRANCH}" || GIT_HEAD="HEAD"
+  UPS_VERSION=`git ls-remote ${PKG_SITE} | grep ${GIT_HEAD}$ | awk '{ print substr($1,1,40) }'`
+  if [ "${UPS_VERSION}" == "${PKG_VERSION}" ]; then
+    echo "${PKG_NAME} is up to date (${UPS_VERSION})"
+  else
+    echo "${PKG_NAME} updated from ${PKG_VERSION} to ${UPS_VERSION}"
+    sed -i "s/PKG_VERSION=\"${PKG_VERSION}/PKG_VERSION=\"${UPS_VERSION}/" $f
+  fi
+
+  if [ "${GET_HANDLER_SUPPORT}" != "git" ]; then
+
+   if grep -q PKG_SHA256 "${f}"; then
+    echo "PKG_SHA256 exists on ${f}, clearing"
+    sed -i "s/PKG_SHA256=.*\$/PKG_SHA256=\"\"/" ${f}
+   else
+    echo "PKG_SHA256 does not exists on ${f}, creating"
+    sed -i -e "s/PKG_VERSION=\"${UPS_VERSION}\(.*\)\"/PKG_VERSION=\"${UPS_VERSION}\1\"\nPKG_SHA256=\"\"/g" ${f}
+   fi
+   source "${f}"
+   ./scripts/get "${PKG_NAME}" >/dev/null
+   if [ "${p}" != "linux" ]; then
+     SHA=$(cat ./sources/${PKG_NAME}/${PKG_NAME}-${UPS_VERSION}.*.sha256)
+   else
+     SHA=$(cat ./sources/${PKG_NAME}/linux-$LINUX-${UPS_VERSION}.tar.gz.sha256)
+   fi
+   sed -e "/PKG_VERSION=\"${UPS_VERSION}\"/{ N; s/PKG_VERSION=\"${UPS_VERSION}\".*PKG_SHA256=\"\"/PKG_VERSION=\"${UPS_VERSION}\"\nPKG_SHA256=\"${SHA}\"/;}" -i ${f}
+ fi
+done

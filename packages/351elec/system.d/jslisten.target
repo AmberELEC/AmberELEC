@@ -1,0 +1,8 @@
+[Unit]
+Description=jslisten
+Requires=multi-user.target
+Conflicts=rescue.target
+AllowIsolate=yes
+
+[Install]
+Alias=default.target

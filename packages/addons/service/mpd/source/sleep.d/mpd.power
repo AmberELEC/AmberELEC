@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+. /etc/profile
+
+oe_setup_addon service.multimedia.mpd
+
+SERVICE="service.multimedia.mpd"
+
+if [ "$RESTART_ON_RESUME" == "true" ] ; then
+  case "$1" in
+    pre)
+      if systemctl is-active "$SERVICE" &>/dev/null ; then
+        systemctl stop "$SERVICE"
+      fi
+      ;;
+    post)
+      if systemctl is-enabled "$SERVICE" &>/dev/null ; then
+        systemctl start "$SERVICE"
+      fi
+      ;;
+  esac
+fi

@@ -1,0 +1,27 @@
+diff -rupN mgba-417eb53ec10c8de41335b13e69f8f28eb90c91c4.orig/src/platform/libretro/libretro.c mgba-417eb53ec10c8de41335b13e69f8f28eb90c91c4/src/platform/libretro/libretro.c
+ --- mgba-417eb53ec10c8de41335b13e69f8f28eb90c91c4.orig/src/platform/libretro/libretro.c	2020-12-01 18:59:59.638698704 -0500
+ +++ mgba-417eb53ec10c8de41335b13e69f8f28eb90c91c4/src/platform/libretro/libretro.c	2020-12-01 19:08:02.608690046 -0500
+ @@ -1503,12 +1503,19 @@ void retro_run(void) {
+  */
+
+  	if (rumbleCallback) {
+ +		FILE *fp;
+  		if (rumbleUp) {
+ -			rumbleCallback(0, RETRO_RUMBLE_STRONG, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
+ -			rumbleCallback(0, RETRO_RUMBLE_WEAK, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
+ +			//rumbleCallback(0, RETRO_RUMBLE_STRONG, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
+ +			//rumbleCallback(0, RETRO_RUMBLE_WEAK, rumbleUp * 0xFFFF / (rumbleUp + rumbleDown));
+ +			fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
+ +			fprintf(fp, "10");
+ +			fclose(fp);
+  		} else {
+ -			rumbleCallback(0, RETRO_RUMBLE_STRONG, 0);
+ -			rumbleCallback(0, RETRO_RUMBLE_WEAK, 0);
+ +			//rumbleCallback(0, RETRO_RUMBLE_STRONG, 0);
+ +			//rumbleCallback(0, RETRO_RUMBLE_WEAK, 0);
+ +			fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
+ +			fprintf(fp, "1000000");
+ +			fclose(fp);
+  		}
+  		rumbleUp = 0;
+  		rumbleDown = 0;

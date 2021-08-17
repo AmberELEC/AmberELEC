@@ -1,0 +1,16 @@
+103
+- update MariaDB to 10.3.14
+  include mysqldump program
+  add user kodi@localhost to allow localhost connections
+  
+102
+- do not change password on addon update
+
+101
+- update MariaDB to 10.3.12
+  removed optimizer_search_depth from config file to speed it up
+  moved some paths for logs to addon home
+  added alias for service name (mariadb == service.mariadb)
+
+100
+- initial version

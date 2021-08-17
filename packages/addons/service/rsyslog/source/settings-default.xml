@@ -1,0 +1,11 @@
+<settings version="2">
+    <setting id="RSYSLOG_IP_NAME_FQDN" default="true"></setting>
+    <setting id="RSYSLOG_JOURNAL_LOGGING" default="true">false</setting>
+    <setting id="RSYSLOG_KODI_LOGGING">true</setting>
+    <setting id="RSYSLOG_MANUAL" default="true">false</setting>
+    <setting id="RSYSLOG_PORT">514</setting>
+    <setting id="RSYSLOG_PROTOCOL" default="true">UDP</setting>
+    <setting id="RSYSLOG_WIZARD" default="true">false</setting>
+    <setting id="RSYSLOG_ZLIB_COMPRESSION" default="true">false</setting>
+    <setting id="RSYSLOG_ZLIB_COMPRESSION_LEVEL" default="true">0</setting>
+</settings>

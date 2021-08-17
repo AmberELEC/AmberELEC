@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+
+. /etc/profile
+oe_setup_addon browser.chrome
+
+ICON=$ADDON_DIR/resources/icon.png
+CONTROL_FILE=/tmp/curl.done
+DATA_FILE=/tmp/curl.data
+
+# check for enough free disk space
+if [ $(df . | awk 'END {print $4}') -lt 400000 ]; then
+  kodi-send --action="Notification(Not enough disk space, at least 400MB are required,30000,${ICON})" >/dev/null
+  exit 0;
+fi
+
+# remove install status and folders
+if [ -f $ADDON_DIR/extract.ok ]; then
+  rm $ADDON_DIR/extract.ok
+fi
+
+if [ -d $ADDON_DIR/chrome-bin ]; then
+  rm -rf $ADDON_DIR/chrome-bin
+fi
+
+if [ -d $ADDON_DIR/tmp_download ]; then
+  rm -rf $ADDON_DIR/tmp_download
+fi
+
+# create tmp download dir
+mkdir -p $ADDON_DIR/tmp_download
+cd $ADDON_DIR/tmp_download
+
+echo "Downloading Chrome"
+
+# download chrome
+rm -f ${CONTROL_FILE} ${DATA_FILE}
+(
+  curl -# -O -C - https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 2>${DATA_FILE}
+  touch ${CONTROL_FILE}
+) | \
+  while [ : ]; do
+    [ -f ${DATA_FILE} ] && prog="$(tr '\r' '\n' < ${DATA_FILE} | tail -n 1 | sed -r 's/^[# ]+/#/;s/^[^0-9]*//g')" || prog=
+    kodi-send --action="Notification(Downloading Chrome,"${prog:-0.0%}",3000,${ICON})" >/dev/null
+    [ -f ${CONTROL_FILE} ] && break
+    sleep 4
+  done
+
+rm -f ${CONTROL_FILE} ${DATA_FILE}
+
+## extract chrome
+# extrat chrome.deb
+kodi-send --action="Notification(Extracting Chrome,starting,1000,${ICON})" >/dev/null
+ar -x google-chrome-stable_current_amd64.deb
+
+# extract data.tar.xz to chrome-bin directory
+mkdir $ADDON_DIR/chrome-bin
+tar xf data.tar.xz --strip-components=4 -C $ADDON_DIR/chrome-bin ./opt/google/chrome
+
+# cleanup
+rm -rf $ADDON_DIR/tmp_download
+touch $ADDON_DIR/extract.ok
+kodi-send --action="Notification(Extracting Chrome,finished,1000,${ICON})" >/dev/null

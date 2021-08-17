@@ -1,0 +1,61 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2020-present Fewtarius
+
+MIN=3
+MAX=255
+STEP=3
+
+# Ensure set_ee_setting exists in all contexts
+if ! type set_ee_setting  >/dev/null
+then
+  source /etc/profile
+fi
+
+if [ ! -f /sys/class/backlight/backlight/brightness ]
+then
+  echo "ERROR: There is no BRIGHTNESS object to manage."
+  exit 1
+fi
+
+stepUp() {
+  getBrightness
+  MYBRIGHTNESS=$?
+  NEWBRIGHTNESS=$((${MYBRIGHTNESS}+${STEP}))
+  if (( ${NEWBRIGHTNESS} > ${MAX} ))
+  then
+    NEWBRIGHTNESS=${MAX}
+  fi
+  echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
+  set_ee_setting system.brightness ${NEWBRIGHTNESS}
+}
+
+stepDown() {
+  getBrightness
+  MYBRIGHTNESS=$?
+  NEWBRIGHTNESS=$((${MYBRIGHTNESS}-${STEP}))
+  if (( ${NEWBRIGHTNESS} < ${MIN} ))
+  then
+    NEWBRIGHTNESS=${MIN}
+  fi
+  echo "${NEWBRIGHTNESS}" > /sys/class/backlight/backlight/brightness
+  set_ee_setting system.brightness ${NEWBRIGHTNESS}
+}
+getBrightness() {
+  local BRIGHTNESS=$(cat /sys/class/backlight/backlight/brightness)
+  return ${BRIGHTNESS}
+}
+
+
+case ${1} in
+        "up")
+	  stepUp ${BRIGHTNESS}
+        ;;
+        "down")
+          stepDown ${BRIGHTNESS}
+        ;;
+        *)
+	  getBrightness
+	  echo $?
+	;;
+esac

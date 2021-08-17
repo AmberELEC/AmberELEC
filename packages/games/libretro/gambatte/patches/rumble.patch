@@ -1,0 +1,35 @@
+diff --git a/libgambatte/libretro/libretro.cpp b/libgambatte/libretro/libretro.cpp
+index b0f1ee1..d68c5ee 100644
+--- a/libgambatte/libretro/libretro.cpp
++++ b/libgambatte/libretro/libretro.cpp
+@@ -594,8 +594,15 @@ static void apply_rumble(void)
+    if (strength == rumble_strength_last)
+       return;
+ 
+-   rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK, strength);
+-   rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, strength);
++   if (rumble_level == 0){
++      return;
++   }
++
++   uint pwm_duty_cycle = 1000000 - static_cast<int>((static_cast<double>(strength) / 65535.0) * 1000000.0);
++   FILE *fp;
++   fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++   fprintf(fp, "%u", pwm_duty_cycle);
++   fclose(fp);
+ 
+    rumble_strength_last = strength;
+ }
+@@ -610,8 +617,10 @@ static void deactivate_rumble(void)
+        (rumble_strength_last == 0))
+       return;
+ 
+-   rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK, 0);
+-   rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, 0);
++   FILE *fp;
++   fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++   fprintf(fp, "%u", 1000000);
++   fclose(fp);
+ 
+    rumble_strength_last = 0;
+ }

@@ -1,0 +1,137 @@
+name: build-main
+on:
+  repository_dispatch:
+    types: [release-beta, release-draft]
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+      - 'Dockerfile'
+      - '.dockerignore'
+    branches:
+      - main
+# Ensure that if there are multiple builds for main only 1 is queued during a build
+# Example: 1st commit in main starts a build then 2-9 commits come in during the first build.
+#          'concurrency' makes it so that only commit 9 is enqueued to build rather builds 2-9 all runing a build.
+concurrency: 
+  group: main
+
+jobs:
+  build:
+    runs-on: main
+    steps:
+      - uses: hmarr/debug-action@v2
+        name: debug
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          clean: false
+      - name: Get date for artifacts
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+           set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
+           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+               echo "::set-output name=version::${{ github.event.client_payload.release_tag }}"
+           else
+               echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+           fi
+      - name: Build rg351P
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            make DOCKER_WORK_DIR=/work docker-RG351P
+
+      - name: Build rg351V
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            make DOCKER_WORK_DIR=/work docker-RG351V
+
+      - name: Cleanup system artifacts
+        run: |
+            set -e
+            rm -rf release/aarch64/RG351*/*.system*
+            rm -rf release/aarch64/RG351*/*.kernel*
+      - name: Archive RG351V (${{github.sha}})
+        uses: actions/upload-artifact@v2
+        if: github.event.client_payload.release_tag == ''
+        with:
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+          path: |
+            release/aarch64/RG351V/
+      - name: Archive RG351P (${{github.sha}})
+        if: github.event.client_payload.release_tag == ''
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+          path: |
+            release/aarch64/RG351P/
+      - name: Create pre-release
+        if: github.event.action == 'release-beta'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.version.outputs.version }}"
+          body: |
+            # Release Notes (Beta)
+            This is a pre-release based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
+    
+            Beta releases are unstable and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#beta-feedback` section of discord.
+            
+            See the [wiki](https://github.com/${{ github.event.repository.full_name }}/wiki/Contributing-to-351ELEC#]) for more info.
+            
+            ### Changes (since last beta version):
+            ${{ github.event.client_payload.release_notes }}
+            
+            ### Upgrade Instructions
+            You can update to this release using the`beta` channel on your device.  This is the recommended way to use beta versions.
+            
+             **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
+
+            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*"
+          prerelease: true
+          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+          repo: 351ELEC-beta
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v1
+        if: github.event.action == 'release-draft'
+        with:
+          tag_name: "${{ steps.version.outputs.version }}"
+          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.client_payload.release_name }}"
+          body: |
+            # Release Notes
+            Welcome to the ${{ github.event.client_payload.release_name}} (${{ steps.version.outputs.version }}) release.
+            
+            General:
+            
+            New Stuff:
+
+            Fixes:
+            
+            **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
+
+            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+
+          files: |
+            release/aarch64/RG351P/*
+            release/aarch64/RG351V/*
+          prerelease: true
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+

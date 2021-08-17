@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6d28847f..1b7ecc5e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -498,7 +498,7 @@ add_library (${csoscam} STATIC ${csoscam_srcs} ${csoscam_hdrs})
+ 
+ set (exe_name "oscam")
+ add_executable (${exe_name} ${exe_srcs} ${exe_hdrs})
+-target_link_libraries (${exe_name} ${csoscam} ${csmodules} ${csreaders} csctapi cscrypt minilzo)
++target_link_libraries (${exe_name} ${csoscam} ${csmodules} ${csreaders} csctapi cscrypt minilzo udev)
+ if(HAVE_LIBRT AND HAVE_LIBUSB)
+ 	if (LIBUSBDIR)
+ 		set (libusb_link "imp_libusb")
+diff --git a/utils/CMakeLists.txt b/utils/CMakeLists.txt
+index 6790913e..a603d3ee 100644
+--- a/utils/CMakeLists.txt
++++ b/utils/CMakeLists.txt
+@@ -12,7 +12,7 @@ file (GLOB all_srcs ${exe_srcs})
+ 
+ set (util_name "list_smargo")
+ add_executable (${util_name} ${exe_srcs} ${exe_hdrs})
+-target_link_libraries (${util_name} ${libusb_link} ${rt_link} ${setupapi_link} ${ole32_link} ${shell32_link} ${pthread_link} ${dl_link})
++target_link_libraries (${util_name} ${libusb_link} ${rt_link} ${setupapi_link} ${ole32_link} ${shell32_link} ${pthread_link} ${dl_link} udev)
+ #----------------------- printout resume -----------------------------
+ 
+ message (STATUS "Utils: operating system: ${OSCamOperatingSystem}")
