@@ -6,7 +6,7 @@
 # Create rclone dir if it does not exist
 mkdir -p /storage/roms/gamedata/rclone/
 
-# Source CLOUD_SAVE_PATH and CLOUD_SAVE_REMOTE
+# Source CLOUD_SYNC_PATH and CLOUD_SYNC_REMOTE
 CLOUD_SYNC_CONFIG="/storage/roms/gamedata/rclone/cloud-sync.conf"
 if [ ! -f "$CLOUD_SYNC_CONFIG" ]; then
     cp /usr/config/cloud-sync.conf "$CLOUD_SYNC_CONFIG"
@@ -35,7 +35,7 @@ case $response in
 
     21)
         clear > /dev/console
-        rclone sync "$CLOUD_SAVE_REMOTE":"$CLOUD_SAVE_PATH" /storage/roms/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf --log-level DEBUG --log-file /tmp/logs/cloud-sync.log 2>&1 > /dev/console
+        rclone sync "$CLOUD_SYNC_REMOTE":"$CLOUD_SYNC_PATH" /storage/roms/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf --log-level DEBUG --log-file /tmp/logs/cloud-sync.log 2>&1 > /dev/console
         text_viewer -m "Backup restored!" -t "351ELEC Cloud Save Restore"
         ;;
 esac
