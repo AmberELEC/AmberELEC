@@ -74,7 +74,7 @@ docker-%: PWD := $(shell pwd)
 docker-%: DOCKER_CMD:= $(shell if which docker 2>/dev/null 1>/dev/null; then echo "docker"; elif which podman 2>/dev/null 1>/dev/null; then echo "podman"; fi)
 
 # Podman requires some extra args (`--userns=keep-id` and `--security-opt=label=disable`).  Set those args if using podman 
-docker-%: PODMAN_ARGS:= $(shell if ! which docker 2>/dev/null 1>/dev/null && which podman 2> /dev/null 1> /dev/null; then echo "--userns=keep-id --security-opt=label=disable"; fi)
+docker-%: PODMAN_ARGS:= $(shell if ! which docker 2>/dev/null 1>/dev/null && which podman 2> /dev/null 1> /dev/null; then echo "--userns=keep-id --security-opt=label=disable -v /proc/mounts:/etc/mtab"; fi)
 
 # Use 'sudo' if docker ps doesn't work.  In theory, other things than missing sudo could cause this.  But sudo needed is a common issue and easy to fix.
 docker-%: SUDO := $(shell if which docker 2> /dev/null 1> /dev/null && ! docker ps -q 2> /dev/null 1> /dev/null ; then echo "sudo"; fi)
