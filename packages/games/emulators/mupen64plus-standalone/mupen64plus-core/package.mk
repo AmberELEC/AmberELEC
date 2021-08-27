@@ -41,5 +41,15 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/local/include/mupen64plus
   cp ${PKG_BUILD}/src/api/m64p_*.h ${INSTALL}/usr/local/include/mupen64plus
   chmod 0644 ${INSTALL}/usr/local/include/mupen64plus/*
+
+
+  mkdir -p ${INSTALL}/storage/.config/mupen64plus
+  cp ${PKG_DIR}/config/mupen64plus.cfg ${INSTALL}/storage/.config/mupen64plus
+  chmod 644 ${INSTALL}/storage/.config/mupen64plus/mupen64plus.cfg
+  cp ${PKG_DIR}/config/InputAutoCfg.ini ${INSTALL}/storage/.config/mupen64plus
+  chmod 644 ${INSTALL}/storage/.config/mupen64plus/InputAutoCfg.ini
+  mkdir -p ${INSTALL}/usr/bin
+  cp ${PKG_DIR}/m64p.sh ${INSTALL}/usr/bin
+  chmod 755 ${INSTALL}/usr/bin/m64p.sh
 }
 
