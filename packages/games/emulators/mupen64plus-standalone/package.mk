@@ -10,4 +10,3 @@ PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain mupen64plus-core mupen64plus-ui-console mupen64plus-audio-sdl mupen64plus-rsp-hle mupen64plus-video-rice mupen64plus-video-glide64mk2"
 PKG_SECTION="virtual"
 PKG_LONGDESC="Meta package for installing the different Mupen64Plus standalone modules"
-
