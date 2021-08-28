@@ -23,9 +23,6 @@ make_target() {
   export V=1
   export VC=0
   BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
-  export LDFLAGS="-g"
-  export CFLAGS="-g ${CFLAGS} -O0"
-  export DEBUG=1
   make -C projects/unix clean
   make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}
 }

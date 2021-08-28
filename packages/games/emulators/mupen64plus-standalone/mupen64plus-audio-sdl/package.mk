@@ -23,10 +23,7 @@ make_target() {
   export CROSS_COMPILE="$TARGET_PREFIX"
   export V=1
   export VC=0
-  export DEBUG=1
   BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
-  export LDFLAGS="-g"
-  export CFLAGS="-g ${CFLAGS} -O0"
   make -C projects/unix clean
   make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}
 }
