@@ -5,7 +5,7 @@ if [[ ! -f "/storage/roms/gamedata/mupen64plus/InitAutoCfg.ini" ]]; then
 	cp /usr/local/share/mupen64plus/InputAutoCfg.ini /storage/roms/gamedata/mupen64plus/
 fi
 
-if [[ ! -f "/storage/.corfig/mupen64plus/mupen64plus.cfg" ]]; then
+if [[ ! -f "/storage/.config/mupen64plus/mupen64plus.cfg" ]]; then
 	mkdir -p /storage/.config/mupen64plus
 	cp /usr/local/share/mupen64plus/mupen64plus.cfg /storage/.config/mupen64plus/
 fi
