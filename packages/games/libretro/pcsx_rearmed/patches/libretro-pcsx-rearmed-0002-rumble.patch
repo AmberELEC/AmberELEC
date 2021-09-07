@@ -1,43 +1,26 @@
-diff -rupN pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028.orig/frontend/libretro.c pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028/frontend/libretro.c
---- pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028.orig/frontend/libretro.c	2020-11-14 05:24:47.393610340 -0500
-+++ pcsx_rearmed-19b9695a71f15ef0bf61c7c3cfd6c98ec5ccb028/frontend/libretro.c	2020-12-01 19:34:56.617170400 -0500
-@@ -486,14 +486,33 @@ void pl_timing_prepare(int is_pal)
+diff --git a/frontend/libretro.c b/frontend/libretro.c
+index d0a0da7..1c20ba9 100644
+--- a/frontend/libretro.c
++++ b/frontend/libretro.c
+@@ -495,8 +495,19 @@ void plat_trigger_vibrate(int pad, int low, int high)
  
- void plat_trigger_vibrate(int pad, int low, int high)
- {
--   if (!rumble_cb)
-+    if (!rumble_cb)
-       return;
- 
--   if (in_enable_vibration)
--   {
+    if (in_enable_vibration)
+    {
 -      rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
 -      rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
--   }
-+    /* if (in_enable_vibration)
-+    {
-+       rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
-+       rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
-+    } */
-+
-+    FILE *fp;
-+    if (in_enable_vibration)
-+    {
-+      if(high <= 0x80)
-+      {
-+        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
-+        fprintf(fp, "1000000");
-+        fclose(fp);
++      int total_strength;
++      if(high > 0){
++         total_strength = 1000000 - (((double)high * 1000000) / 255.0);
++      } else if (low > 0){
++         total_strength = 100000; //We only have one motor, so this will have to do to make it weak enough
++      } else {
++         total_strength = 1000000; //turn it off
 +      }
-+      else
-+      {
-+        fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
-+        fprintf(fp, "10");
-+        fclose(fp);
-+      }
-+      //rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
-+      //rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
-+    }
++      
++      FILE *fp;
++      fp = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
++      fprintf(fp, "%u", total_strength);
++      fclose(fp);
+    }
  }
  
- void pl_update_gun(int *xn, int *yn, int *xres, int *yres, int *in)
