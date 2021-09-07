@@ -3,9 +3,18 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2021-present Xargon (https://github.com/XargonWan)
 
+# Create rclone dir if it does not exist
+mkdir -p /storage/roms/gamedata/rclone/
+
+# Source CLOUD_SYNC_PATH and CLOUD_SYNC_REMOTE
+CLOUD_SYNC_CONFIG="/storage/roms/gamedata/rclone/cloud-sync.conf"
+if [ ! -f "$CLOUD_SYNC_CONFIG" ]; then
+    cp /usr/config/cloud-sync.conf "$CLOUD_SYNC_CONFIG"
+fi
+source "$CLOUD_SYNC_CONFIG"
+
 # If the rclone rules don't exist it will copy the default ones
 if [ ! -f /storage/roms/gamedata/rclone/cloud-sync-rules.conf ]; then
-    mkdir -p /storage/roms/gamedata/rclone/
     cp /usr/config/cloud-sync-rules.conf /storage/roms/gamedata/rclone/
 fi
 
@@ -26,7 +35,7 @@ case $response in
 
     21)
         clear > /dev/console
-        rclone sync /storage/roms/ 351remote:/351backup/ --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf --log-level DEBUG --log-file /tmp/logs/cloud-sync.log 2>&1 > /dev/console
+        rclone sync /storage/roms/ "$CLOUD_SYNC_REMOTE":"$CLOUD_SYNC_PATH" --filter-from /roms/gamedata/rclone/cloud-sync-rules.conf -P --config /roms/gamedata/rclone/rclone.conf --log-level DEBUG --log-file /tmp/logs/cloud-sync.log 2>&1 > /dev/console
         text_viewer -m "Backup completed!" -t "351ELEC Cloud Save Backup"
         ;;
 esac
