@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! -f "/storage/roms/gamedata/mupen64plus/InitAutoCfg.ini" ]]; then
+if [[ ! -f "/storage/roms/gamedata/mupen64plusa/InitAutoCfg.ini" ]]; then
 	mkdir -p /storage/roms/gamedata/mupen64plusa
 	cp /usr/local/share/mupen64plus/InputAutoCfg.ini /storage/roms/gamedata/mupen64plusa/
 fi
