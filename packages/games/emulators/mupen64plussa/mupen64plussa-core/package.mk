@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
-PKG_NAME="mupen64plusa-core"
+PKG_NAME="mupen64plussa-core"
 PKG_VERSION="c44352d72dc05005bd23e826e0acb4267aa00719"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
