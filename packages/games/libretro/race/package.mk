@@ -20,7 +20,8 @@
 ################################################################################
 
 PKG_NAME="race"
-PKG_VERSION="8402277aad01e6dedf7c636e9ba17fffc7beef96"
+PKG_VERSION="f40270b04a297880ff425bb9347c98726a02eded"
+PKG_SHA256="0540f13c715a8ab87227ed069a2b793a0356c91c81d71a427d6e6fb1bf99703d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

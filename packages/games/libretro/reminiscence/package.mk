@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="reminiscence"
-PKG_VERSION="b065c21af69e432f578524839c192a4061773d6e"
-PKG_SHA256="f14d8e12c386432996238cb30a87b656ff7577fe8590aab3c34b563d36f16e56"
+PKG_VERSION="87fce6a58b875d520eb11d0ca905877f1d2ca1fc"
+PKG_SHA256="606521c046d75fff19d4526264fb19e7bea4f518d8d120d23f750125f44de1db"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/libretro/REminiscence"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
