@@ -1,7 +1,7 @@
-diff --git a/menu/drivers/ozone/ozone.c b/menu/drivers/ozone/ozone.c
+diff --git a/menu/drivers/ozone.c b/menu/drivers/ozone.c
 index f736b7398d..4e8dd68b4b 100644
---- a/menu/drivers/ozone/ozone.c
-+++ b/menu/drivers/ozone/ozone.c
+--- a/menu/drivers/ozone.c
++++ b/menu/drivers/ozone.c
 @@ -705,7 +705,7 @@ static void *ozone_init(void **userdata, bool video_is_threaded)
     ozone->last_width        = width;
     ozone->last_height       = height;
