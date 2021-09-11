@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
-PKG_NAME="mupen64plusa-core"
+PKG_NAME="mupen64plussa-core"
 PKG_VERSION="c44352d72dc05005bd23e826e0acb4267aa00719"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-core/archive/${PKG_VERSION}.tar.gz"
 PKG_SHA256="9bb29bd87a421f549a838bc181fd8adab1a434e8877d3064fa7d057ab5bcab7f"
-PKG_DEPENDS_TARGET="toolchain ${OPENGLES} libpng17 SDL2 SDL2_net zlib freetype nasm:host"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} boost libpng17 SDL2 SDL2_net zlib freetype nasm:host"
 PKG_SHORTDESC="mupen64plus"
 PKG_LONGDESC="Mupen64Plus Standalone"
 PKG_TOOLCHAIN="manual"
