@@ -21,11 +21,6 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=0 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
 
-if [ "${DEVICE}" = "RG351V" ]
-then
-  PKG_PATCH_DIRS="RG351V"
-fi
-
 makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/distribution/configs/locale
 	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/distribution/configs/locale/

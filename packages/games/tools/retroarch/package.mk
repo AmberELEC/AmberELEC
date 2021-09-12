@@ -27,8 +27,8 @@ PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-asse
 PKG_LONGDESC="Reference frontend for the libretro API."
 GET_HANDLER_SUPPORT="git"
 
-if [ ${PROJECT} = "Amlogic-ng" ]; then
-  PKG_PATCH_DIRS="${PROJECT}"
+if [[ "$DEVICE" == RG351V ]]; then
+  PKG_PATCH_DIRS="$DEVICE"
 fi
 
 if [[ "$DEVICE" =~ RG351 ]]; then
@@ -73,7 +73,7 @@ else
                              --enable-mali_fbdev"
 fi
 
-if [[ "$DEVICE" == "RG351P" ]]
+if [[ "$DEVICE" =~ "RG351" ]]
 then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-odroidgo2"
 fi
