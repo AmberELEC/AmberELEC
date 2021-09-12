@@ -63,7 +63,7 @@ else
 fi
 
 # freej2me needs the JDK to be downloaded on the first run
-if [ ${EMU} == "freej2me_libretro" ]; then
+if [[ ${EMU} == "freej2me_libretro" ]]; then
   /usr/bin/freej2me.sh
   JAVA_HOME='/storage/jdk'
   export JAVA_HOME
@@ -72,7 +72,7 @@ if [ ${EMU} == "freej2me_libretro" ]; then
 fi
 
 # easyrpg needs runtime files to be downloaded on the first run
-if [ ${EMU} == "easyrpg_libretro" ]; then
+if [[ ${EMU} == "easyrpg_libretro" ]]; then
   /usr/bin/easyrpg.sh
 fi
 

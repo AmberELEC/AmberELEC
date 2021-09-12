@@ -153,7 +153,7 @@ Rick Dangerous:
 
   check_bios: RickDangerous
   commands:
-    - /usr/bin/runemu.sh "/storage/roms/ports/xrick/data.zip" -Pports "${2}" -Cxrick "-SC${0}" &>>/tmp/logs/exec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/xrick/" -Pports "${2}" -Cxrick "-SC${0}" &>>/tmp/logs/exec.log
 
 Prince of Persia:
   description: SDLPoP is an open-source port of Prince of Persia that runs natively on Windows and Linux. It is based on a disassembly of the DOS version.
