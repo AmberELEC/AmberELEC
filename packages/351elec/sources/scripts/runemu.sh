@@ -266,6 +266,13 @@ then
 				jslisten set "lzdoom"
 				RUNTHIS='${TBASH} /usr/bin/lzdoom.sh "${ROMNAME}"'
 			fi
+                ;;
+		"solarus")
+			if [ "$EMU" = "solarus" ]
+			then
+				jslisten set "solarus-run"
+				RUNTHIS='${TBASH} /usr/bin/solarus.sh "${ROMNAME}"'
+			fi
 		;;
 		"n64")
 			jslisten set "mupen64plussa retroarch"
