@@ -1,3 +1,2 @@
 amiberry # releases 4.x don't work, needs testing if reenabled
 duckstation # binary blob
-PPSSPPSDL # last working version b74ecd5fa020d31818ce669544944f766e74f16d, hotkey patch needs to be redone from scratch
