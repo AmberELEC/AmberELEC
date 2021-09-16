@@ -2,40 +2,40 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="f7ace3b8ee33e97e156f3b07f416301e885472c5"
+PKG_VERSION="2229bea92a9a4d3c61a56b6465983dc270996b4a"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
-PKG_GIT_CLONE_BRANCH="v1.11-hotfixes"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip libpng17 SDL2 zlib zip vulkan-loader"
 PKG_SHORTDESC="PPSSPPDL"
 PKG_LONGDESC="PPSSPP Standalone"
 GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+lto"
 
-PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
-                       -DUSE_SYSTEM_FFMPEG=ON \
-                       -DUSE_WAYLAND_WSI=OFF \
-                       -DUSING_FBDEV=ON \
-		       -DCMAKE_BUILD_TYPE=Release \
-		       -DCMAKE_SYSTEM_NAME=Linux \
-		       -DUSING_EGL=OFF \
-		       -DUSING_GLES2=ON \
-                       -DVULKAN=OFF \
-                       -DARM_NO_VULKAN=ON \
-                       -DUSING_X11_VULKAN=OFF \
-                       -DBUILD_SHARED_LIBS=OFF \
-		       -DANDROID=OFF \
-		       -DWIN32=OFF \
-		       -DAPPLE=OFF \
-		       -DCMAKE_CROSSCOMPILING=ON \
-		       -DUSING_QT_UI=OFF \
-		       -DUNITTEST=OFF \
-		       -DSIMULATOR=OFF \
-		       -DHEADLESS=OFF \
-                       -fpermissive"
+PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=OFF \
+			-DUSE_WAYLAND_WSI=OFF \
+			-DUSE_VULKAN_DISPLAY_KHR=OFF \
+			-DUSING_FBDEV=ON \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_SYSTEM_NAME=Linux \
+			-DUSING_EGL=OFF \
+			-DUSING_GLES2=ON \
+			-DVULKAN=OFF \
+			-DARM_NO_VULKAN=ON \
+			-DUSING_X11_VULKAN=OFF \
+			-DBUILD_SHARED_LIBS=OFF \
+			-DANDROID=OFF \
+			-DWIN32=OFF \
+			-DAPPLE=OFF \
+			-DCMAKE_CROSSCOMPILING=ON \
+			-DUSING_QT_UI=OFF \
+			-DUNITTEST=OFF \
+			-DSIMULATOR=OFF \
+			-DHEADLESS=OFF \
+			-DUSE_DISCORD=OFF \
+			-fpermissive"
 
 pre_configure_target() {
   sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
@@ -49,7 +49,6 @@ pre_make_target() {
   find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
   find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;
 }
-
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
