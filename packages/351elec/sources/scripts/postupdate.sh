@@ -6,6 +6,12 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-09-17:
+## Reset advanemame config
+if [ -d /storage/.advance ]; then
+  rm -rf /storage/.advance/advmame.rc
+fi
+
 ## 2021-07-27 (konsumschaf)
 ## Copy es_features.cfg over on every update
 if [ -f /usr/config/emulationstation/es_features.cfg ]; then
