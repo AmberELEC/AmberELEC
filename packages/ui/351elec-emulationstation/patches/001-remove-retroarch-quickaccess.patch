@@ -1,0 +1,31 @@
+diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
+index 4b7fb000..19bad921 100644
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -3813,16 +3813,16 @@ void GuiMenu::openQuitMenu_batocera_static(Window *window, bool quickAccessMenu,
+ 		}, _("NO"), nullptr));
+ 	}, "iconRestart");
+ 
+-	s->addEntry(_("START RETROARCH"), false, [window] {
+-		window->pushGui(new GuiMsgBox(window, _("REALLY START RETROARCH?"), _("YES"),
+-			[] {
+-			remove("/var/lock/start.games");
+-            runSystemCommand("touch /var/lock/start.retro", "", nullptr);
+-			runSystemCommand("systemctl start retroarch.service", "", nullptr);
+-			Scripting::fireEvent("quit", "retroarch");
+-			quitES(QuitMode::QUIT);
+-		}, _("NO"), nullptr));
+-	}, "iconControllers");
++	//s->addEntry(_("START RETROARCH"), false, [window] {
++	//	window->pushGui(new GuiMsgBox(window, _("REALLY START RETROARCH?"), _("YES"),
++	//		[] {
++	//		remove("/var/lock/start.games");
++        //    runSystemCommand("touch /var/lock/start.retro", "", nullptr);
++	//		runSystemCommand("systemctl start retroarch.service", "", nullptr);
++	//		Scripting::fireEvent("quit", "retroarch");
++	//		quitES(QuitMode::QUIT);
++	//	}, _("NO"), nullptr));
++	//}, "iconControllers");
+ 
+ #endif
+ 
