@@ -22,15 +22,6 @@ if [ -f "$SWAPFILE" ]; then
   fi
 fi
 
-## 2021-08-01:
-## Clear OpenBOR data folder
-if [ -d /storage/openbor ]; then
-  if [ ! -f /storage/openbor/.openbor ]; then
-    rm -rf /storage/openbor/*
-    touch /storage/openbor/.openbor
-  fi
-fi
-
 ## 2021-07-27 (konsumschaf)
 ## Copy es_features.cfg over on every update
 if [ -f /usr/config/emulationstation/es_features.cfg ]; then
@@ -183,4 +174,3 @@ fi
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
-
