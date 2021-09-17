@@ -6,6 +6,12 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-09-17:
+## Reset advanemame config
+if [ -d /storage/.advance ]; then
+  rm -rf /storage/.advance/advmame.rc
+fi
+
 ## 2021-08-01:
 ## Check swapfile size and delete it if necessary
 . /etc/swap.conf
