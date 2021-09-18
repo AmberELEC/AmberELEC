@@ -26,7 +26,6 @@ PKG_MAKE_OPTS_TARGET=" config=release ARCH="
 }
 
 make_target() {
-  sed -i 's/\/\/ free(sramName);/free(sramName);/g' src/main.cpp
   make config=release ARCH=
 }
 
