@@ -96,7 +96,7 @@ function get_setting() {
 
 ##
 ## Global Setting that have to stay in retroarch.cfg
-## All setttings that should applay when retroarch is as standalone
+## All setttings that should apply when retroarch is run as standalone
 ##
 
 ## Wifi
@@ -149,43 +149,53 @@ get_setting "retroachievements"
 for i in "${!RETROARCHIVEMENTS[@]}"; do
 	if [[ "${RETROARCHIVEMENTS[$i]}" = "${PLATFORM}" ]]; then
 		if [ "${EES}" == "1" ]; then
-		echo 'cheevos_enable = "true"' >> ${RAAPPENDCONF}
-		get_setting "retroachievements.username"
-		echo "cheevos_username = \"${EES}\"" >> ${RAAPPENDCONF}
-		get_setting "retroachievements.password"
-		echo "cheevos_password = \"${EES}\"" >> ${RAAPPENDCONF}
+			echo 'cheevos_enable = "true"' >> ${RAAPPENDCONF}
+			get_setting "retroachievements.username"
+			echo "cheevos_username = \"${EES}\"" >> ${RAAPPENDCONF}
+			get_setting "retroachievements.password"
+			echo "cheevos_password = \"${EES}\"" >> ${RAAPPENDCONF}
 
-		# retroachievements_hardcore_mode
-		get_setting "retroachievements.hardcore"
-		[ "${EES}" == "1" ] && echo 'cheevos_hardcore_mode_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
+			# retroachievements_hardcore_mode
+			get_setting "retroachievements.hardcore"
+			[ "${EES}" == "1" ] && echo 'cheevos_hardcore_mode_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
 
-		# retroachievements_leaderboards
-		get_setting "retroachievements.leaderboards"
-		if [ "${EES}" == "enabled" ]; then
-			echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF}
-		elif [ "${EES}" == "trackers only" ]; then
-			echo 'cheevos_leaderboards_enable = "trackers"' >> ${RAAPPENDCONF}
-		elif [ "${EES}" == "notifications only" ]; then
-			echo 'cheevos_leaderboards_enable = "notifications"' >> ${RAAPPENDCONF}
+			# retroachievements_leaderboards
+			get_setting "retroachievements.leaderboards"
+			if [ "${EES}" == "enabled" ]; then
+				echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF}
+			elif [ "${EES}" == "trackers only" ]; then
+				echo 'cheevos_leaderboards_enable = "trackers"' >> ${RAAPPENDCONF}
+			elif [ "${EES}" == "notifications only" ]; then
+				echo 'cheevos_leaderboards_enable = "notifications"' >> ${RAAPPENDCONF}
+			else
+				echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
+			fi
+
+			# retroachievements_verbose_mode
+			get_setting "retroachievements.verbose"
+			[ "${EES}" == "1" ] && echo 'cheevos_verbose_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+
+			# retroachievements_automatic_screenshot
+			get_setting "retroachievements.screenshot"
+			[ "${EES}" == "1" ] && echo 'cheevos_auto_screenshot = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_richpresence_enable
+			get_setting "retroachievements.richpresence"
+			[ "${EES}" == "1" ] && echo 'cheevos_richpresence_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_richpresence_enable = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_challenge_indicators
+			get_setting "retroachievements.challengeindicators"
+			[ "${EES}" == "1" ] && echo 'cheevos_challenge_indicators = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
 		else
+			echo 'cheevos_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_username = ""' >> ${RAAPPENDCONF}
+			echo 'cheevos_password = ""' >> ${RAAPPENDCONF}
+			echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
-		fi
-
-		# retroachievements_verbose_mode
-		get_setting "retroachievements.verbose"
-		[ "${EES}" == "1" ] && echo 'cheevos_verbose_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
-
-		# retroachievements_automatic_screenshot
-		get_setting "retroachievements.screenshot"
-		[ "${EES}" == "1" ] && echo 'cheevos_auto_screenshot = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
-		else
-		echo 'cheevos_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_username = ""' >> ${RAAPPENDCONF}
-		echo 'cheevos_password = ""' >> ${RAAPPENDCONF}
-		echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_richpresence_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
 		fi
 	fi
 done
