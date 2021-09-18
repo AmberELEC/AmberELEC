@@ -21,8 +21,8 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/Makefile linux.new/arch/arm64
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo2-linux.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo2-linux-v11.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo3-linux.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-rg351p-linux.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-rg351p-linux-oc.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-rg351v-linux.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-rg351v-linux-oc.dtb
  
  always		:= $(dtb-y)
  subdir-y	:= $(dts-dirs)
@@ -163,7 +163,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/Makefile.orig linux.new/arch/
 +dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo2-linux.dtb
 +dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo2-linux-v11.dtb
 +dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-odroidgo3-linux.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-rg351p-linux.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3326-rg351v-linux.dtb
 +
 +always		:= $(dtb-y)
 +subdir-y	:= $(dts-dirs)
@@ -197,9 +197,9 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/px30.dtsi linux.new/arch/arm6
  
  		rockchip,max-volt = <1175000>;
  		rockchip,evb-irdrop = <25000>;
-diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts
---- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts	2021-04-04 07:38:57.631333400 -0400
+diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts
+--- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts	1969-12-31 19:00:00.000000000 -0500
++++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts	2021-04-04 07:38:57.631333400 -0400
 @@ -0,0 +1,1025 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
@@ -1227,9 +1227,9 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux.dts linux
 +/* DON'T PUT ANYTHING BELOW HERE.  PUT IT ABOVE PINCTRL */
 +/* DON'T PUT ANYTHING BELOW HERE.  PUT IT ABOVE PINCTRL */
 +/* DON'T PUT ANYTHING BELOW HERE.  PUT IT ABOVE PINCTRL */
-diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts
---- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts	1969-12-31 19:00:00.000000000 -0500
-+++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351p-linux-oc.dts	2021-04-04 07:38:12.539028211 -0400
+diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts
+--- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts	1969-12-31 19:00:00.000000000 -0500
++++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts	2021-04-04 07:38:12.539028211 -0400
 @@ -0,0 +1,1055 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
