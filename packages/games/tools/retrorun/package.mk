@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="retrorun"
-PKG_VERSION="2272ef9116cf51f2486febadc3a59a96a48b9857"
+PKG_VERSION="f61e00360555d8d3e2993480ee74da1c6411fa16"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/retrorun-go2"
