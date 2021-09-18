@@ -9,6 +9,7 @@ dir_rom /storage/roms/mame
 dir_sample /storage/roms/mame/samples
 dir_snap /storage/roms/mame/snap
 dir_sta /storage/roms/mame/nvram
+device_video sdl
 device_keyboard sdl
 display_magnifysize 320
 display_resize none

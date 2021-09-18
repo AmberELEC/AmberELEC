@@ -56,12 +56,14 @@ if [[ $EMULATOR = "libretro" ]]; then
 elif [[ $EMULATOR = "retrorun" ]]; then
 	EMU="${CORE}_libretro"
 	RETRORUN="yes"
+elif [[ $EMULATOR = "mupen64plussa" ]]; then
+	EMU="M64P"
 else
 	EMU="${CORE}"
 fi
 
 # freej2me needs the JDK to be downloaded on the first run
-if [ ${EMU} == "freej2me_libretro" ]; then
+if [[ ${EMU} == "freej2me_libretro" ]]; then
   /usr/bin/freej2me.sh
   JAVA_HOME='/storage/jdk'
   export JAVA_HOME
@@ -70,7 +72,7 @@ if [ ${EMU} == "freej2me_libretro" ]; then
 fi
 
 # easyrpg needs runtime files to be downloaded on the first run
-if [ ${EMU} == "easyrpg_libretro" ]; then
+if [[ ${EMU} == "easyrpg_libretro" ]]; then
   /usr/bin/easyrpg.sh
 fi
 
@@ -264,12 +266,19 @@ then
 				jslisten set "lzdoom"
 				RUNTHIS='${TBASH} /usr/bin/lzdoom.sh "${ROMNAME}"'
 			fi
+                ;;
+		"solarus")
+			if [ "$EMU" = "solarus" ]
+			then
+				jslisten set "solarus-run"
+				RUNTHIS='${TBASH} /usr/bin/solarus.sh "${ROMNAME}"'
+			fi
 		;;
 		"n64")
-			jslisten set "mupen64plus retroarch"
+			jslisten set "mupen64plussa retroarch"
 			if [ "$EMU" = "M64P" ]
 			then
-				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${CORE}" "${ROMNAME}"'
 			fi
 		;;
 		"amiga"|"amigacd32")

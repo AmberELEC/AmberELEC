@@ -46,13 +46,9 @@ Commander Keen:
     - jslisten set "/usr/bin/killall ${PORT}"
     - rm -f /storage/.CommanderGenius
     - ln -sf /usr/local/CommanderGenius /storage/.CommanderGenius
-    - mkdir -p /tmp/bin
-    - cp -f /usr/local/bin/${PORT} /tmp/bin
-    - patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/${PORT}
     - cd /storage/roms/ports/cgenius
-    - /tmp/bin/${PORT} &>>/tmp/logs/exec.log
+    - /usr/local/bin/${PORT} &>>/tmp/logs/exec.log
     - jslisten stop
-    - rm -f /tmp/bin/${PORT}
 
 Diablo:
   description: Diablo build for modern operating systems - Diablo is an action role-playing hack and slash video game developed by Blizzard North and released by Blizzard Entertainment in early January 1997.
@@ -153,7 +149,7 @@ Rick Dangerous:
 
   check_bios: RickDangerous
   commands:
-    - /usr/bin/runemu.sh "/storage/roms/ports/xrick/data.zip" -Pports "${2}" -Cxrick "-SC${0}" &>>/tmp/logs/exec.log
+    - /usr/bin/runemu.sh "/storage/roms/ports/xrick/" -Pports "${2}" -Cxrick "-SC${0}" &>>/tmp/logs/exec.log
 
 Prince of Persia:
   description: SDLPoP is an open-source port of Prince of Persia that runs natively on Windows and Linux. It is based on a disassembly of the DOS version.
