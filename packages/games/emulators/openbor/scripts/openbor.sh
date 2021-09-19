@@ -38,7 +38,7 @@ SAVES="${CONFIGDIR}/Saves"
 
 # Run OpenBOR in the config folder
   cd "${CONFIGDIR}"
-  LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.1 SDL_AUDIODRIVER=alsa OpenBOR
+  LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 SDL_AUDIODRIVER=alsa OpenBOR
 
 # We stop the fake keyboard
   killall gptokeyb &
