@@ -186,6 +186,14 @@ for i in "${!RETROARCHIVEMENTS[@]}"; do
 			# cheevos_challenge_indicators
 			get_setting "retroachievements.challengeindicators"
 			[ "${EES}" == "1" ] && echo 'cheevos_challenge_indicators = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_test_unofficial
+			get_setting "retroachievements.testunofficial"
+			[ "${EES}" == "1" ] && echo 'cheevos_test_unofficial = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_test_unofficial = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_unlock_sound_enable
+			get_setting "retroachievements.soundenable"
+			[ "${EES}" == "1" ] && echo 'cheevos_unlock_sound_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_unlock_sound_enable = "false"' >> ${RAAPPENDCONF}
 		else
 			echo 'cheevos_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_username = ""' >> ${RAAPPENDCONF}
@@ -193,6 +201,8 @@ for i in "${!RETROARCHIVEMENTS[@]}"; do
 			echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_test_unofficial = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_unlock_sound_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_richpresence_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
