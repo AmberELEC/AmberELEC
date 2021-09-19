@@ -12,12 +12,12 @@ fi
 
 case $1 in
 	"m64p_gl64mk2")
-		LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/local/bin/mupen64plus --configdir /storage/.config/mupen64plussa --gfx mupen64plus-video-glide64mk2 "$2"
+		/usr/local/bin/mupen64plus --configdir /storage/.config/mupen64plussa --gfx mupen64plus-video-glide64mk2 "$2"
 	;;
 	"m64p_rice")
-		LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/local/bin/mupen64plus --configdir /storage/.config/mupen64plussa --gfx mupen64plus-video-rice "$2"
+		/usr/local/bin/mupen64plus --configdir /storage/.config/mupen64plussa --gfx mupen64plus-video-rice "$2"
 	;;
 	*)
-		LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/local/bin/mupen64plus --configdir /storage/.config/mupen64plussa --gfx mupen64plus-video-rice "$2"
+		/usr/local/bin/mupen64plus --configdir /storage/.config/mupen64plussa --gfx mupen64plus-video-rice "$2"
 	;;
 esac
