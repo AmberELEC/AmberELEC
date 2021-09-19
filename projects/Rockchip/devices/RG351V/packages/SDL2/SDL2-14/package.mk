@@ -61,7 +61,8 @@ pre_configure_target(){
   export LDFLAGS="${LDFLAGS} -lrga"
 }
 
-post_makeinstall_target() {
-  sed -e "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
-  rm -rf $INSTALL/usr/bin
+makeinstall_target() {
+  mkdir -p $INSTALL/usr/lib
+  cp $PKG_BUILD/.${TARGET_NAME}/libSDL2-2.0.so.0.14.0 $INSTALL/usr/lib
+  chmod +x $INSTALL/usr/lib/libSDL2-2.0.so.0.14.0
 }
