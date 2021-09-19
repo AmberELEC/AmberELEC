@@ -6,6 +6,10 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-09-19:
+## Replace libretro settings in distribution.conf
+sed -i 's/.emulator=libretro/.emulator=retroarch/g' /storage/.config/distribution/configs/distribution.conf
+
 ## 2021-09-17:
 ## Reset advanemame config
 if [ -d /storage/.advance ]; then
