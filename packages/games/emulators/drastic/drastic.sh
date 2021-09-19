@@ -23,9 +23,5 @@ fi
 
 cd /storage/drastic/aarch64/drastic/
 maxperf
-if [[ "$EE_DEVICE" == RG351P ]]; then
-  LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.1 ./drastic "$1" >> $EXECLOG 2>&1
-else
-  LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 ./drastic "$1" >> $EXECLOG 2>&1
-fi
+LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 ./drastic "$1" >> $EXECLOG 2>&1
 normperf
