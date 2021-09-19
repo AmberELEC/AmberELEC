@@ -31,7 +31,7 @@ makeinstall_target() {
 		libpthread* \
 		libudev.so* \
 		libusb-1.0* \
-		libSDL2-2.0* \
+		libSDL2* \
 		libavcodec* \
 		libavformat* \
 		libavutil* \
