@@ -3,12 +3,12 @@
 
 	<game>
 		<path>./File Manager.sh</path>
-		<name>Start File Manager</name>
-		<desc>DinguxCommander File Manager.</desc>
-		<developer>shantigilbert </developer>
-		<publisher>Emuelec</publisher>
+		<name>File Manager</name>
+		<desc>Dual panel file manager</desc>
+		<developer>351ELEC </developer>
+		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
-		<releasedate>2020</releasedate>
+		<releasedate>2021</releasedate>
 		<genre>script</genre>
 		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
 		<image>./downloaded_images/filemanager.png</image>
@@ -18,23 +18,36 @@
 		<path>./Start PPSSPP.sh</path>
 		<name>Start PPSSPP</name>
 		<desc>Run the PPSSPP emulator without starting a game.</desc>
-		<developer>fewtarius</developer>
+		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
-		<releasedate>2020</releasedate>
+		<releasedate>2021</releasedate>
 		<genre>script</genre>
 		<thumbnail>./downloaded_images/ppsspp-thumb.png</thumbnail>
 		<image>./downloaded_images/ppsspp.png</image>
 	</game>
 
 	<game>
+		<path>./Start ScummVM.sh</path>
+		<name>Start ScummVM</name>
+		<desc>Run the ScummVM emulator without starting a game.</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>script</genre>
+		<thumbnail>./downloaded_images/scummvm-thumb.png</thumbnail>
+		<image>./downloaded_images/scummvm.png</image>
+	</game>
+
+	<game>
 		<path>./Start 32bit Retroarch.sh</path>
 		<name>Start 32bit RetroArch</name>
 		<desc>Run 32bit RetroArch</desc>
-		<developer>fewtarius</developer>
+		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
-		<releasedate>2020</releasedate>
+		<releasedate>2021</releasedate>
 		<genre>script</genre>
 		<thumbnail>./downloaded_images/retroarch32-thumb.png</thumbnail>
 		<image>./downloaded_images/retroarch32.png</image>
@@ -44,10 +57,10 @@
 		<path>./Start 64bit Retroarch.sh</path>
 		<name>Start 64bit RetroArch</name>
 		<desc>Run 64bit RetroArch</desc>
-		<developer>fewtarius</developer>
+		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
-		<releasedate>2020</releasedate>
+		<releasedate>2021</releasedate>
 		<genre>script</genre>
 		<thumbnail>./downloaded_images/retroarch64-thumb.png</thumbnail>
 		<image>./downloaded_images/retroarch64.png</image>
@@ -57,26 +70,13 @@
 		<path>./Remove ._ Files.sh</path>
 		<name>Run Remove ._ Files</name>
 		<desc>Removes hidden ._ files created by the MacOS filesystem</desc>
-		<developer>fewtarius</developer>
+		<developer>351ELEC</developer>
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
 		<genre>script</genre>
 		<thumbnail>./downloaded_images/clean-thumb.png</thumbnail>
 		<image>./downloaded_images/clean.png</image>
-	</game>
-
-	<game>
-		<path>./copy_splash.sh</path>
-		<name>Copy new 351ELEC Splash</name>
-		<desc>Imports the new 351ELEC splash screen</desc>
-		<developer>351ELEC</developer>
-		<publisher>351ELEC</publisher>
-		<rating>1.0</rating>
-		<releasedate>2021</releasedate>
-		<genre>script</genre>
-		<thumbnail>./downloaded_images/splash-thumb.png</thumbnail>
-		<image>./downloaded_images/splash.png</image>
 	</game>
 
 	<game>
