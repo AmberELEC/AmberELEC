@@ -431,13 +431,15 @@ load_modules() {
 }
 
 set_consolefont() {
-  local vres
+  local hres
 
   progress "Set console font"
   if [ -e /dev/fb0 ]; then
-    vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
-    if [ $vres -gt "$BIGFONT" ]; then
-      setfont -C /dev/tty0 ter-v32b.psf
+    hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
+    if [ $hres == "640" ]; then
+      setfont -C /dev/tty0 ter-v20n.psf
+    else
+      setfont -C /dev/tty0 ter-v14n.psf
     fi
   fi
 }
@@ -852,7 +854,7 @@ check_update() {
   if [ "$UPDATE_DISABLED" = "yes" ]; then
     echo "Updating is not supported on netboot"
     do_cleanup
-    StartProgress countdown "Normal startup in 10s... " 10 "NOW"
+    StartProgress countdown "Normal startup in 5s... " 5 "NOW"
     return 0
   fi
 
@@ -942,7 +944,7 @@ check_update() {
       if [ -z "$OFFSET" ]; then
         echo "Could not find a valid system partition in image file!"
         do_cleanup
-        StartProgress countdown "Normal startup in 10s... " 10 "NOW"
+        StartProgress countdown "Normal startup in 5s... " 5 "NOW"
         return 0
       fi
     fi
@@ -1083,7 +1085,7 @@ check_update() {
   update_file "System" "$UPDATE_SYSTEM" "/flash/$IMAGE_SYSTEM"
   update_bootloader
   sync
-  StartProgress countdown "Update complete. Reboot in 10s... " 10 "NOW"
+  StartProgress countdown "Update complete. Reboot in 5s... " 5 "NOW"
   do_cleanup
   sync
   do_reboot
@@ -1318,9 +1320,9 @@ debug_msg "Unique identifier for this client: ${MACHINE_UID:-NOT AVAILABLE}"
 # main boot sequence
 for BOOT_STEP in \
     load_modules \
-    set_consolefont \
     check_disks \
     mount_flash \
+    set_consolefont \
     cleanup_flash \
     update_bootmenu \
     load_splash \

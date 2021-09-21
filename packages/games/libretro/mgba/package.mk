@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="mgba"
-PKG_VERSION="4f3fcfac78f0ecd5e6309cc2a3f439650de2d529"
-PKG_SHA256="4133868db08b548c4615865e1a3fb46db89c654cfe739335a225fec7970ba231"
+PKG_VERSION="70ed83cf849ddd620d9ad66e0fc46980184dda89"
+PKG_SHA256="5737a0803ffe3254043e764a7ac6ffb7dd20386d8421c33598d6223ac1214b9b"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MPLv2.0"
@@ -42,7 +42,7 @@ make_target() {
   if [[ "$ARCH" =~ "arm" ]]; then
     make -f Makefile.libretro platform=unix-armv HAVE_NEON=1
   else
-    make -f Makefile.libretro platform=armv8_a35
+    make -f Makefile.libretro platform=goadvance
   fi
 }
 

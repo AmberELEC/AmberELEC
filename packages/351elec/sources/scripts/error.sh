@@ -1,31 +1,19 @@
 #!/usr/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2021-present 351ELEC
 
 . /etc/profile
-source /storage/.config/distribution/scriptmodules/helpers.sh
-
-MEDITATION=$(echo $* | md5sum | awk '{print $1}')
-MEDITATION=${MEDITATION^^}
-
-ERROR="
-\e[31m
-###########################################################
-# Software Failure. Check Log Files for more information. #
-#           Guru Meditation #${MEDITATION:0:17}            #
-###########################################################
-\e[39m
-
-"
 
 clear >/dev/console
-message_stream "${ERROR}" 0
 if [ -n "$1" ]
 then
-  message_stream "$*" 0
+  text_viewer -w -e -t "BIOS ERROR" -m "$*"
 else
-  tail -n 15 /tmp/logs/es_launch_stderr.log >/dev/console
+  ERROR=$(tail -n 25 /tmp/logs/es_launch_stderr.log)
+  if [ !-z "${ERROR}" ];
+  then
+    text_viewer -w -e -t ERROR -m "${ERROR}"
+  fi
 fi
 
-sleep 10
 clear >/dev/console

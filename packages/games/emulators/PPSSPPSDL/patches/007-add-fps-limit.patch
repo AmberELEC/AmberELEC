@@ -52,11 +52,11 @@ diff -rupN ppsspp.orig/libretro/libretro.cpp ppsspp.new/libretro/libretro.cpp
 +++ ppsspp.new/libretro/libretro.cpp	2021-02-10 09:33:32.159611076 -0500
 @@ -201,6 +201,7 @@ static RetroOption<int> ppsspp_rendering
  static RetroOption<bool> ppsspp_auto_frameskip("ppsspp_auto_frameskip", "Auto Frameskip", false);
- static RetroOption<int> ppsspp_frameskip("ppsspp_frameskip", "Frameskip", 0, 10);
- static RetroOption<int> ppsspp_frameskiptype("ppsspp_frameskiptype", "Frameskip Type", { {"number of frames", 0}, {"percent of fps", 1} });
+ static RetroOption<int> ppsspp_frameskip("ppsspp_frameskip", "Frameskip", { "Off", "1", "2", "3", "4", "5", "6", "7", "8" });
+ static RetroOption<int> ppsspp_frameskiptype("ppsspp_frameskiptype", "Frameskip Type", { {"Number of frames", 0}, {"Percent of FPS", 1} });
 +static RetroOption<int> ppsspp_force_max_fps("ppsspp_force_max_fps", "Force Max FPS", { {"Auto", 0}, {"10", 10}, {"20", 20}, {"30", 30}, {"40", 40}, {"50", 50}, {"60", 60}, {"70", 70}, {"80", 80} });
- static RetroOption<int> ppsspp_internal_resolution("ppsspp_internal_resolution", "Internal Resolution (restart)", 1, { "480x272", "960x544", "1440x816", "1920x1088", "2400x1360", "2880x1632", "3360x1904", "3840x2176", "4320x2448", "4800x2720" });
- static RetroOption<int> ppsspp_button_preference("ppsspp_button_preference", "Confirmation Button", { { "cross", PSP_SYSTEMPARAM_BUTTON_CROSS }, { "circle", PSP_SYSTEMPARAM_BUTTON_CIRCLE } });
+ static RetroOption<int> ppsspp_internal_resolution("ppsspp_internal_resolution", "Internal Resolution (Restart)", 1, { "480x272", "960x544", "1440x816", "1920x1088", "2400x1360", "2880x1632", "3360x1904", "3840x2176", "4320x2448", "4800x2720" });
+ static RetroOption<int> ppsspp_button_preference("ppsspp_button_preference", "Confirmation Button", { { "Cross", PSP_SYSTEMPARAM_BUTTON_CROSS }, { "Circle", PSP_SYSTEMPARAM_BUTTON_CIRCLE } });
  static RetroOption<bool> ppsspp_fast_memory("ppsspp_fast_memory", "Fast Memory (Speedhack)", true);
 @@ -228,6 +229,7 @@ void retro_set_environment(retro_environ
     vars.push_back(ppsspp_auto_frameskip.GetOptions());

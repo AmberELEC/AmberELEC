@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="0b5f5a2962d2c130c6734cb6945611c8416cb799"
-PKG_SHA256="eb8f04b161f623eed8a00d40a910930dae6f3d60449137aa233c264606e83d26"
+PKG_VERSION="94c9b28630d0f55006f77bc71c0d7ad741c56521"
+PKG_SHA256="8514f4b13d581080bfa480c0efa744ce098577abee4cecc03362c4bf08bd853c"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
@@ -15,13 +15,12 @@ PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graph
 
 pre_configure_target() { 
   sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure
-  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --enable-optimizations --opengl-mode=gles2 --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --enable-vkeybd"
+  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --enable-c++11 --disable-debug --enable-release --enable-vkeybd --opengl-mode=gles2 --force-opengl-game-es2"
 }
 
 post_makeinstall_target() {
-  mkdir -p $INSTALL/usr/config/scummvm/extra 
+  mkdir -p $INSTALL/usr/config/scummvm/
   cp -rf $PKG_DIR/config/* $INSTALL/usr/config/scummvm/
-  cp -rf $PKG_BUILD/backends/vkeybd/packs/*.zip $INSTALL/usr/config/scummvm/extra
 
   mv $INSTALL/usr/local/bin $INSTALL/usr/
   cp -rf $PKG_DIR/bin/* $INSTALL/usr/bin
@@ -30,6 +29,14 @@ post_makeinstall_target() {
   for i in appdata applications doc icons man; do
     rm -rf "$INSTALL/usr/local/share/$i"
   done
- 
+
+  for i in residualvm.zip scummmodern.zip scummclassic.zip; do
+    rm -rf "$INSTALL/usr/local/share/scummvm/$i"
+  done
+
+  if [[ "$DEVICE" == RG351P ]]; then
+    mkdir -p $INSTALL/usr/local/share/scummvm/
+    cp -rf $PKG_DIR/scummremastered.zip $INSTALL/usr/local/share/scummvm/
+  fi
 }
 

@@ -101,6 +101,20 @@ sed -i "/custom_viewport_y/d" ${RACONF}
 sed -i "/custom_viewport_width/d" ${RACONF}
 sed -i "/custom_viewport_height/d" ${RACONF}
 
+## 2021-07-25:
+## Remove package drastic if still installed
+if [ -x /storage/.config/packages/drastic/uninstall.sh ]; then
+        /usr/bin/351elec-es-packages remove drastic
+fi
+# forced drastic removal to allow upgrade after every image update
+if [ ! -d "/storage/roms/gamedata/drastic" ]
+then
+  mkdir -p "/storage/roms/gamedata/drastic"
+  ln -sf /storage/roms/gamedata/drastic /storage/drastic
+else
+  rm -f /storage/roms/gamedata/drastic/drastic.sh
+  rm -f /storage/roms/gamedata/drastic/aarch64/drastic/drastic
+fi
 
 ## 2021-07-25:
 ## Remove package drastic if still installed

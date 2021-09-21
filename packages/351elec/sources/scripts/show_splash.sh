@@ -17,11 +17,11 @@ if [ "$ROMNAME" == "shutdown" ]
 then
   if [ "${hres}" = "640" ]
   then
-    cols="36"
-    rows="16"
+    cols="29"
+    rows="13"
   else
     cols="26"
-    rows="10"
+    rows="12"
   fi
   clear >/dev/console
   echo -ne "\033[${rows};${cols}H" >/dev/console
@@ -50,7 +50,7 @@ else
   fi
   if [ "${hres}" = "640" ]
   then
-    cols="20"
+    cols="12"
   else
     cols="10"
   fi

@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="7a28919ca7fa3f4c1e81ad06c60ebceec9b1e2f8"
+PKG_VERSION="4f5d608c802c929dced1faaad8d274a1ab29cf2f"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -14,27 +14,28 @@ PKG_LONGDESC="PPSSPP Standalone"
 GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+lto"
 
-PKG_CMAKE_OPTS_TARGET+="-DARMV7=ON  \
-                       -DUSE_SYSTEM_FFMPEG=ON \
-                       -DUSE_WAYLAND_WSI=OFF \
-                       -DUSING_FBDEV=ON \
-		       -DCMAKE_BUILD_TYPE=Release \
-		       -DCMAKE_SYSTEM_NAME=Linux \
-		       -DUSING_EGL=OFF \
-		       -DUSING_GLES2=ON \
-                       -DVULKAN=OFF \
-                       -DARM_NO_VULKAN=ON \
-                       -DUSING_X11_VULKAN=OFF \
-                       -DBUILD_SHARED_LIBS=OFF \
-		       -DANDROID=OFF \
-		       -DWIN32=OFF \
-		       -DAPPLE=OFF \
-		       -DCMAKE_CROSSCOMPILING=ON \
-		       -DUSING_QT_UI=OFF \
-		       -DUNITTEST=OFF \
-		       -DSIMULATOR=OFF \
-		       -DHEADLESS=OFF \
-                       -fpermissive"
+PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=OFF \
+			-DUSE_WAYLAND_WSI=OFF \
+			-DUSE_VULKAN_DISPLAY_KHR=OFF \
+			-DUSING_FBDEV=ON \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_SYSTEM_NAME=Linux \
+			-DUSING_EGL=OFF \
+			-DUSING_GLES2=ON \
+			-DVULKAN=OFF \
+			-DARM_NO_VULKAN=ON \
+			-DUSING_X11_VULKAN=OFF \
+			-DBUILD_SHARED_LIBS=OFF \
+			-DANDROID=OFF \
+			-DWIN32=OFF \
+			-DAPPLE=OFF \
+			-DCMAKE_CROSSCOMPILING=ON \
+			-DUSING_QT_UI=OFF \
+			-DUNITTEST=OFF \
+			-DSIMULATOR=OFF \
+			-DHEADLESS=OFF \
+			-DUSE_DISCORD=OFF \
+			-fpermissive"
 
 pre_configure_target() {
   sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
@@ -48,7 +49,6 @@ pre_make_target() {
   find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
   find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;
 }
-
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin

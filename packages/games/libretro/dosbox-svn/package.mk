@@ -38,23 +38,10 @@ PKG_BUILD_FLAGS="-lto"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  if [ "$ARCH" = "aarch64" ]; then
-    make -C libretro target=arm64 WITH_EMBEDDED_SDL=0
-  elif [ "$ARCH" = "arm" ]; then
-    make -C libretro target=arm WITH_EMBEDDED_SDL=0
-  elif [ "$ARCH" = "x86_64" ]; then
-    make -C libretro target=x86_64 WITH_EMBEDDED_SDL=0
-  elif [ "$ARCH" = "i386" ]; then 
-    make -C libretro target=x86 WITH_EMBEDDED_SDL=0
-  else
-    make -C libretro WITH_EMBEDDED_SDL=0
-  fi
+  make -C libretro target=arm64 WITH_EMBEDDED_SDL=0
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   cp $PKG_BUILD/libretro/dosbox_svn_libretro.so $INSTALL/usr/lib/libretro
-
-  mkdir -p $INSTALL/usr/config/distribution/configs/dosbox
-  cp $PKG_DIR/config/*.conf $INSTALL/usr/config/distribution/configs/dosbox
 }
