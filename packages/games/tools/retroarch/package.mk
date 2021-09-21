@@ -32,7 +32,7 @@ if [[ "$DEVICE" == RG351V ]]; then
 fi
 
 if [[ "$DEVICE" =~ RG351 ]]; then
-PKG_DEPENDS_TARGET+=" libdrm librga"
+  PKG_DEPENDS_TARGET+=" libdrm librga"
 fi
 
 # Pulseaudio Support
@@ -50,6 +50,8 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
                            --enable-udev \
                            --disable-opengl1 \
                            --disable-opengl \
+			   --disable-vulkan \
+			   --disable-vulkan_display \
                            --enable-egl \
                            --enable-opengles \
                            --disable-wayland \
@@ -60,16 +62,13 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
                            --disable-vg \
                            --disable-sdl \
                            --enable-sdl2 \
-                           --enable-ffmpeg"
+                           --disable-ffmpeg"
 
 if [[ "$DEVICE" =~ RG351 ]]
 then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-opengles3 \
                              --enable-kms \
                              --disable-mali_fbdev"
-else
-  PKG_CONFIGURE_OPTS_TARGET+=" --disable-kms \
-                             --enable-mali_fbdev"
 fi
 
 if [[ "$DEVICE" =~ "RG351" ]]
