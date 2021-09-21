@@ -98,7 +98,14 @@ for d in "${SOURCES}/${1}/${1}-"* ; do
         fi
         if [ "${GIT_FOUND}" = "yes" ]; then
           build_msg "CLR_GET" "GIT PULL" "${1}"
-          git pull
+
+          # If there is an error with 'git pull', just reclone
+          if ! git pull; then
+              cd "${opwd}"
+              build_msg "CLR_CLEAN" "DELETE" "(${d})"
+              GIT_FOUND=NO
+              rm -rf "${d}"
+          fi
           cd "${opwd}"
         fi
       else
