@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="snes9x2005_plus"
-PKG_VERSION="f53deef14f98c659fe9bbd7684656ee88977acbd"
-PKG_SHA256="fea72213ad61eec550351a02002839036f1ab1b1c1ecf8d6e58a92c638f346c8"
+PKG_VERSION="5a0ef7339e5eb875fc486c7459ee26b506eaf087"
+PKG_SHA256="74a714d930c539173fb7c01537b0b66310798314663b5d549d6458f5e3d184c7"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="Non-commercial"

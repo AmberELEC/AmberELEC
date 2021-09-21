@@ -2,12 +2,11 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-video-glide64mk2"
-PKG_VERSION="f0c92d93a29633ca7d9bcbb93a79baaca1f3f353"
+PKG_VERSION="5ac60b38e2c9d9dea3c21fd341b03799841b0b5f"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-video-glide64mk2"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-video-glide64mk2/archive/${PKG_VERSION}.tar.gz"
-PKG_SHA256="cdfa70ae19ddbd5cdcf492d0bc7da947a60add9cd6ca2501558d04fc74007802"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} boost libpng17 SDL2 SDL2_net zlib freetype nasm:host mupen64plussa-core"
 PKG_SHORTDESC="mupen64plus-video-glide64mk2"
 PKG_LONGDESC="Mupen64Plus Standalone Glide64 Video Driver"
