@@ -31,12 +31,12 @@ makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
 	cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
 	rm -rf $INSTALL/usr/config/emulationstation/resources/logo.png
-	ln -sf /storage/.config/emulationstation/resources $INSTALL/usr/bin/resources
 
 	mkdir -p $INSTALL/usr/lib/python2.7
 	cp -rf $PKG_DIR/bluez/* $INSTALL/usr/lib/python2.7
 
 	mkdir -p $INSTALL/usr/bin
+	ln -sf /storage/.config/emulationstation/resources $INSTALL/usr/bin/resources
 	cp -rf $PKG_BUILD/emulationstation $INSTALL/usr/bin
 
 	mkdir -p $INSTALL/etc/emulationstation/
