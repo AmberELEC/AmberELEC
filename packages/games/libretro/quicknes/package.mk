@@ -39,16 +39,10 @@ PKG_AUTORECONF="no"
 VERSION=${LIBREELEC_VERSION}
 
 make_target() {
-if [ "${ARCH}" != "aarch64" ]; then
-  make platform=armv8-neon-hardfloat-cortex-a53
-fi
+  make
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  if [ "${ARCH}" != "aarch64" ]; then
-    cp quicknes_libretro.so $INSTALL/usr/lib/libretro/
-  else
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/quicknes-*/.install_pkg/usr/lib/libretro/quicknes_libretro.so $INSTALL/usr/lib/libretro/
-  fi
+  cp quicknes_libretro.so $INSTALL/usr/lib/libretro/
 }
