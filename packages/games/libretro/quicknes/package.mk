@@ -36,9 +36,11 @@ PKG_BUILD_FLAGS="-gold"
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
-VERSION="${PKG_VERSION:0:7}"
 
 make_target() {
+  VERSION='GIT_VERSION ?= '
+  VERSION+=${PKG_VERSION:0:7}
+  sed -i "s/GIT_VERSION ?= \" \$(shell git describe --dirty --always --tags)\"/${VERSION}/g" $PKG_BUILD/Makefile
   make
 }
 
