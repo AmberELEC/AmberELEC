@@ -33,7 +33,7 @@ PKG_SHORTDESC="Neko Project II kai"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  VERSION="${PKG_VERSION:0:8}"
+  VERSION="${PKG_VERSION:0:7}"
   cd $PKG_BUILD/sdl
   make NP2KAI_VERSION=$VERSION NP2KAI_HASH=$VERSION
 }

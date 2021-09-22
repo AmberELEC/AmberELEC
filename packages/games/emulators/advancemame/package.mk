@@ -24,7 +24,7 @@ pre_configure_target() {
 }
 
 pre_make_target() {
-  VERSION="${PKG_VERSION:0:8}"
+  VERSION="${PKG_VERSION:0:7}"
   echo $VERSION > $PKG_BUILD/.version
 }
 
