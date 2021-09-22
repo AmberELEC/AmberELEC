@@ -3,6 +3,7 @@
 
 PKG_NAME="mupen64plussa-rsp-hle"
 PKG_VERSION="88093cb43499eff53d343653cddcae2132af17ef"
+PKG_SHA256="ca2f2c583b73f37d4c1e02a0b4e665275126e6e4cfda2e367087e879f0fd73e2"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-rsp-hle"

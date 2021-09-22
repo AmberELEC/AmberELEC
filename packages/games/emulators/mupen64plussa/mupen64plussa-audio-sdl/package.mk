@@ -3,6 +3,7 @@
 
 PKG_NAME="mupen64plussa-audio-sdl"
 PKG_VERSION="af6af5b1fd4fdb435c836be15371dd047f395c4d"
+PKG_SHA256="265ccdd56736f9cb4144196ad6673d2728a8ebd1e7b9c4280a632c3a343be261"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-audio-sdl"
