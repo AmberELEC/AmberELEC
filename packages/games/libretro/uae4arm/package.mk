@@ -36,7 +36,6 @@ PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 PKG_BUILD_FLAGS="-lto"
-VERSION=${LIBREELEC_VERSION}
 
 make_target() {
   if [ "${ARCH}" != "aarch64" ]; then
