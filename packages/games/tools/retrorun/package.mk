@@ -10,7 +10,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng"
 PKG_TOOLCHAIN="make"
 GET_HANDLER_SUPPORT="git"
-VERSION=${LIBREELEC_VERSION}
 
 pre_make_target() {
   mkdir -p src/go2

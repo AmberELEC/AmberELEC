@@ -22,7 +22,6 @@ make_target() {
 }
 
 makeinstall_target() {
-  VERSION=${LIBREELEC_VERSION}
   INSTALLTO="/usr/lib/libretro/"
 
   mkdir -p ${INSTALL}${INSTALLTO}

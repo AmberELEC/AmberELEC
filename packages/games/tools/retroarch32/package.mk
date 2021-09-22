@@ -11,7 +11,6 @@ PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
   cd ${PKG_BUILD}
-  VERSION=${LIBREELEC_VERSION}
   INSTALLTO="/usr/lib/libretro/"
 
   mkdir -p ${INSTALL}${INSTALLTO}
