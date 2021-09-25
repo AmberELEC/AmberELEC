@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
-MIN=3
-MAX=255
-STEP=3
+MIN=1
+MAX=100
+STEP=1
 
 # Ensure set_ee_setting exists in all contexts
 if ! type set_ee_setting  >/dev/null
