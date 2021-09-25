@@ -4,7 +4,7 @@
 
 . /etc/profile
 
-DEVICE="/storage/.config/.OS_ARCH"
+DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 if [ "$DEVICE" == "RG351P" ]; then
   BASEDTB="rk3326-rg351p-linux"

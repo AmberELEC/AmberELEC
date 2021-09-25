@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
 
-DEVICE="/storage/.config/.OS_ARCH"
+DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 if [ "$DEVICE" == "RG351P" ]; then
   MIN=1
