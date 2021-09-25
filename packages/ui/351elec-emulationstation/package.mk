@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="4b051e2710200025c50e7ddf5aa0696507d8b538"
+PKG_VERSION="fdcc526e2ba3df2bee5034a0810bab90cbccf357"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
