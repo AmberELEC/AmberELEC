@@ -262,9 +262,9 @@ then
 fi
 
 # Ensure user doesn't get "locked out" with super low brightness
-if [[ "${BRIGHTNESS}" -lt "1" ]]
+if [[ "${BRIGHTNESS}" -lt "3" ]]
 then
-  BRIGHTNESS=1
+  BRIGHTNESS=3
 fi
 BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
 echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness

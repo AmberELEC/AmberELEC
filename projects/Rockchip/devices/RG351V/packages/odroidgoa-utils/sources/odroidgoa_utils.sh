@@ -63,7 +63,7 @@ if [ "${1}" == "bright" ]; then
 STEPS="1"
 CURRENTBRIGHT=$(cat /sys/class/backlight/backlight/brightness)
 MAXBRIGHT="100" #$(cat /sys/class/backlight/backlight/max_brightness)
-MINBRIGHT="1"
+MINBRIGHT="2"
 	if [ "${2}" == "+" ]; then
 		STEPBRIGHT=$(($CURRENTBRIGHT+$STEPS))
 	elif [ "${2}" == "-" ]; then
