@@ -4,12 +4,14 @@
 
 . /etc/profile
 
-DEVICE="/storage/.config/.OS_ARCH"
+DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 if [ "$DEVICE" == "RG351P" ]; then
   BASEDTB="rk3326-rg351p-linux"
 elif [ "$DEVICE" == "RG351V" ]; then
   BASEDTB="rk3326-rg351v-linux"
+elif [ "$DEVICE" == "RG351MP" ]; then
+  BASEDTB="rk3326-rg351mp-linux"
 fi
 
 MOUNT="/flash"

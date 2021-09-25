@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="4b051e2710200025c50e7ddf5aa0696507d8b538"
+PKG_VERSION="fdcc526e2ba3df2bee5034a0810bab90cbccf357"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
@@ -20,6 +20,12 @@ GET_HANDLER_SUPPORT="git"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=0 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
+
+pre_configure_target() {
+  cd $PKG_BUILD
+  sed -i "s|SMOOTH GAMES|BILINEAR FILTER|g" es-app/src/guis/GuiMenu.cpp
+}
+
 
 makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/distribution/configs/locale

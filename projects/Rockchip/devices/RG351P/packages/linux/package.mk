@@ -1,23 +1,22 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="linux"
+PKG_VERSION="49392f1f5b28e6b73e4551dc0a33a1aaa54e2ee9"
+PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kernel.org"
 PKG_DEPENDS_HOST="ccache:host openssl:host"
 PKG_DEPENDS_TARGET="toolchain linux:host cpio:host kmod:host xz:host wireless-regdb keyutils $KERNEL_EXTRA_DEPENDS_TARGET"
 PKG_DEPENDS_INIT="toolchain"
 PKG_NEED_UNPACK="$LINUX_DEPENDS $(get_pkg_directory busybox)"
-PKG_LONGDESC="This package contains the kernel for the OGA and patches for the RG351P/M"
+PKG_LONGDESC="This package contains the kernel for the RG351P/M/V/MP"
 PKG_IS_KERNEL_PKG="yes"
 PKG_STAMP="$KERNEL_TARGET $KERNEL_MAKE_EXTRACMD"
 
 PKG_PATCH_DIRS="$LINUX"
-
-PKG_VERSION="fbfe5c30bf5643f44cc8c87c9b53b1ba2a0bfa49"
-#PKG_SHA256=""
-PKG_URL="https://github.com/hardkernel/linux/archive/$PKG_VERSION.tar.gz"
 
 PKG_KERNEL_CFG_FILE=$(kernel_config_path) || die
 
