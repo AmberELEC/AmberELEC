@@ -4,7 +4,7 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="linux"
-PKG_VERSION="34c2ce103c50e5003d312ca357c81bf9102fae81"
+PKG_VERSION="4bfec3e87c6944b8ce3d7f318903455a66ac9d26"
 PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kernel.org"
