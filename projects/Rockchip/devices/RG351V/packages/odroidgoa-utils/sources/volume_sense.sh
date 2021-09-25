@@ -40,8 +40,8 @@ VOLUME_REPEAT_MOD=8
 
 # Brightness repeat
 # brightness repeat speed is faster (every 4th repeat event) 
-#  as there are many stops (0-255 by increments of 3)
-BRIGHTNESS_REPEAT_MOD=4
+#  as there are many stops (0-100 by increments of 1)
+BRIGHTNESS_REPEAT_MOD=8
 
 # Variable to keep track of Fn being currently pressed
 FUNC_PRESSED=no

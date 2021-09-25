@@ -258,13 +258,13 @@ normperf
 BRIGHTNESS=$(get_ee_setting system.brightness)
 if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
 then
-  BRIGHTNESS=255
+  BRIGHTNESS=100
 fi
 
 # Ensure user doesn't get "locked out" with super low brightness
-if [[ "${BRIGHTNESS}" -lt "12" ]]
+if [[ "${BRIGHTNESS}" -lt "1" ]]
 then
-  BRIGHTNESS=12
+  BRIGHTNESS=1
 fi
 BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
 echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness
