@@ -42,7 +42,7 @@ if [ "${1}" == "setaudio" ];then
 fi
 
 if [ "${1}" == "vol" ];then
-VOLSTEP=5
+VOLSTEP=1
 CURRENTVOL=$(get_ee_setting "audio.volume")
 MAXVOL=100
 MINVOL=0
