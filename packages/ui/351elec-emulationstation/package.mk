@@ -52,13 +52,13 @@ makeinstall_target() {
         cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
         cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation
 
-	# set the correct default theme for P or V models
+	# set the correct default theme for P/M or V/MP models
 	# there are both default themes in es_settings.cfg
-	# delete es-theme-art-book-3-2 on V
-	if [ "${DEVICE}" = "RG351V" ]; then
+	# delete es-theme-art-book-3-2 on V/MP
+	if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]; then
 		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
 	fi
-	# delete es-theme-art-book-4-3 on P
+	# delete es-theme-art-book-4-3 on P/M
 	if [ "${DEVICE}" = "RG351P" ]; then
                 sed -i "/value=\"es-theme-art-book-4-3\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
         fi

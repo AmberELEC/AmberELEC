@@ -365,7 +365,7 @@ def get_args():
                              "daily" is for backwards compatibility and maps to "release"
                              ''')
     parser.add_argument('--device',
-                        choices=['RG351P', 'RG351V'],
+                        choices=['RG351P', 'RG351V', 'RG351MP'],
                         help=f'Sets the appropriate device for testing.  Will fallback to contents of: {DEVICE_FILE}')
     parser.add_argument('--console',
                         default="/dev/console",

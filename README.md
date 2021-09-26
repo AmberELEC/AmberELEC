@@ -1,8 +1,8 @@
 # 351ELEC
 
-An open source firmware for the Anbernic RG351P/M/V devices.
+An open source firmware for the Anbernic RG351P/M/V/MP devices.
 
-351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V and is not compatible with other devices.
+351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V/MP and is not compatible with other devices.
 
 We have an active [wiki](https://351elec.github.io/351ELEC-pages) with [installation instructions](https://351elec.github.io/351ELEC-pages/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.github.io/351ELEC-pages/Getting-to-Know-351ELEC).
 
@@ -31,9 +31,9 @@ make world
 ```
 
 The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in 351ELEC/release.  Follow the installation steps to write your image to a microSD.
-It will build for both the RG351P/M and for the RG351V.
+It will build for the RG351P/M and RG351V and for the RG351MP.
 
-To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``.
+To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``, and just for the RG351MP ``make RG351MP``.
 
 ## Building from Source - Docker
 Building with Docker simplifies the build process as any dependencies, with the exception of `make`, are contained within the docker image - all CPU/RAM/Disk/build time requirements remain similar. 
