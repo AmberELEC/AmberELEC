@@ -1,0 +1,13 @@
+[Unit]
+Description=RG351P Low Power monitor
+ConditionPathExists=/sys/class/power_supply/battery/capacity
+Before=351elec.target
+
+[Service]
+Environment=HOME=/storage
+EnvironmentFile=/storage/.config/emulationstation/scripts/es_env.sh
+ExecStart=/usr/bin/battery.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
