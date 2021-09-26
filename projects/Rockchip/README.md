@@ -4,7 +4,7 @@ This project is for Rockchip SoC devices
 
 ## Devices
 
-Anbernic RG351P/V
+Anbernic RG351P/M/V/MP
 
 ## Links
 
