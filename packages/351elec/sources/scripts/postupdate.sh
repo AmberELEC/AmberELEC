@@ -189,7 +189,7 @@ fi
 ## Copy after new installation / missing logo.png
 if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
 	cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
-elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ]; then
+elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG351MP" ]; then
 	cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
 fi
 

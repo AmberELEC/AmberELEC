@@ -23,11 +23,13 @@ distclean:
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
-world: RG351P RG351V
+world: RG351P RG351V RG351MP
 
 RG351P: p-arm p-aarch64
 
 RG351V: v-arm v-aarch64
+
+RG351MP: mp-arm mp-aarch64
 
 p-arm:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
@@ -40,6 +42,12 @@ v-arm:
 
 v-aarch64:
 	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
+
+mp-arm:
+	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
+
+mp-aarch64:
+	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
 
 update:
 	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
@@ -73,7 +81,7 @@ docker-%: PWD := $(shell pwd)
 # Command to use (either `docker` or `podman`)
 docker-%: DOCKER_CMD:= $(shell if which docker 2>/dev/null 1>/dev/null; then echo "docker"; elif which podman 2>/dev/null 1>/dev/null; then echo "podman"; fi)
 
-# Podman requires some extra args (`--userns=keep-id` and `--security-opt=label=disable`).  Set those args if using podman 
+# Podman requires some extra args (`--userns=keep-id` and `--security-opt=label=disable`).  Set those args if using podman
 docker-%: PODMAN_ARGS:= $(shell if ! which docker 2>/dev/null 1>/dev/null && which podman 2> /dev/null 1> /dev/null; then echo "--userns=keep-id --security-opt=label=disable -v /proc/mounts:/etc/mtab"; fi)
 
 # Use 'sudo' if docker ps doesn't work.  In theory, other things than missing sudo could cause this.  But sudo needed is a common issue and easy to fix.

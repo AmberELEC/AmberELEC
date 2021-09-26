@@ -16,7 +16,7 @@ PKG_SHORTDESC="Two-pane commander for RetroFW and RG-350 (fork of Dingux Command
 pre_configure_target() {
   sed -i "s|sdl2-config|${SYSROOT_PREFIX}/usr/bin/sdl2-config|" Makefile
 
-  if [ "${DEVICE}" = "RG351V" ]
+  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]
   then
     PKG_MAKE_OPTS_TARGET=" RG351V=1 CC=$CXX"
   else
