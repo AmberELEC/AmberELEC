@@ -1,0 +1,22 @@
+From 05f35c242075973a6d0a99867521c2028cdc83fe Mon Sep 17 00:00:00 2001
+From: Sylvain Becker <sylvain.becker@gmail.com>
+Date: Mon, 19 Aug 2019 21:23:47 +0200
+Subject: [PATCH] Fix audio conversion U16_to_F32_SSE2 (bug 4186)
+
+---
+ src/audio/SDL_audiotypecvt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/audio/SDL_audiotypecvt.c b/src/audio/SDL_audiotypecvt.c
+index 280384eb36..740c8e2138 100644
+--- a/src/audio/SDL_audiotypecvt.c
++++ b/src/audio/SDL_audiotypecvt.c
+@@ -482,7 +482,7 @@ SDL_Convert_U16_to_F32_SSE2(SDL_AudioCVT *cvt, SDL_AudioFormat format)
+     if ((((size_t) src) & 15) == 0) {
+         /* Aligned! Do SSE blocks as long as we have 16 bytes available. */
+         const __m128 divby32768 = _mm_set1_ps(DIVBY32768);
+-        const __m128 minus1 = _mm_set1_ps(1.0f);
++        const __m128 minus1 = _mm_set1_ps(-1.0f);
+         while (i >= 8) {   /* 8 * 16-bit */
+             const __m128i ints = _mm_load_si128((__m128i const *) src);  /* get 8 sint16 into an XMM register. */
+             /* treat as int32, shift left to clear every other sint16, then back right with zero-extend. Now sint32. */
