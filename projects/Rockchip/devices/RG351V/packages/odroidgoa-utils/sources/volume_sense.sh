@@ -34,12 +34,12 @@ RELEASE='*value 0'
 REPEAT_PRESS="* value 2"
 
 # Volume repeat
-# volume repeat speed is slower (every 8th repeat event) 
-#  as there are only 20 stop (0-100 by increments of 1)
+# volume repeat speed is faster (every 3rd repeat event) 
+#  as there are many stops (0-100 by increments of 1)
 VOLUME_REPEAT_MOD=3
 
 # Brightness repeat
-# brightness repeat speed is faster (every 3th repeat event) 
+# brightness repeat speed is faster (every 3rd repeat event) 
 #  as there are many stops (0-100 by increments of 1)
 BRIGHTNESS_REPEAT_MOD=3
 
