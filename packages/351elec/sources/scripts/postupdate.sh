@@ -70,6 +70,8 @@ sed -i '/cheevos_unlock_sound_enable =/d' ${RACONF}
 sed -i '/cheevos_richpresence_enable =/d' ${RACONF}
 sed -i '/cheevos_challenge_indicators =/d' ${RACONF}
 sed -i '/cheevos_auto_screenshot =/d' ${RACONF}
+sed -i '/cheevos_badges_enable =/d' ${RACONF}
+sed -i '/cheevos_start_active =/d' ${RACONF}
 sed -i '/ai_service_mode =/d' ${RACONF}
 sed -i '/ai_service_enable =/d' ${RACONF}
 sed -i '/ai_service_source_lang =/d' ${RACONF}
@@ -100,6 +102,13 @@ sed -i "/custom_viewport_x/d" ${RACONF}
 sed -i "/custom_viewport_y/d" ${RACONF}
 sed -i "/custom_viewport_width/d" ${RACONF}
 sed -i "/custom_viewport_height/d" ${RACONF}
+# video filters
+sed -i "/video_filters =/d" ${RACONF}
+# wifi
+sed -i "/wifi_enabled =/d" ${RACONF}
+sed -i "/wifi_driver =/d" ${RACONF}
+# record driver
+sed -i "/record_driver =/d" ${RACONF}
 
 ## 2021-07-25:
 ## Remove package drastic if still installed
