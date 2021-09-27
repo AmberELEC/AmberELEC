@@ -10,7 +10,7 @@ on:
       - '.dockerignore'
     branches:
       - main
-    types: [opened, synchronize, ready_for_review]
+    types: [opened, synchronize, ready_for_review, labeled]
 
 # Ensure that if there are multiple builds for a PR only 1 is queued
 # Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
@@ -23,7 +23,7 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false || github.event.label.name == 'build' 
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
