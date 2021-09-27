@@ -34,14 +34,14 @@ RELEASE='*value 0'
 REPEAT_PRESS="* value 2"
 
 # Volume repeat
-# volume repeat speed is faster (every 3rd repeat event) 
+# volume repeat speed is faster (every 4th repeat event) 
 #  as there are many stops (0-100 by increments of 1)
-VOLUME_REPEAT_MOD=3
+VOLUME_REPEAT_MOD=4
 
 # Brightness repeat
-# brightness repeat speed is faster (every 3rd repeat event) 
+# brightness repeat speed is faster (every 4th repeat event) 
 #  as there are many stops (0-100 by increments of 1)
-BRIGHTNESS_REPEAT_MOD=3
+BRIGHTNESS_REPEAT_MOD=4
 
 # Variable to keep track of Fn being currently pressed
 FUNC_PRESSED=no
