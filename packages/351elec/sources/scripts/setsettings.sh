@@ -24,6 +24,7 @@ SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 RAAPPENDCONF="/tmp/raappend.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
+TMP_BEZEL="/tmp/351elec-bezel.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
 ROM="${2##*/}"
@@ -538,58 +539,111 @@ else #Must be the V then
 	)
 fi
 # Get configuration from distribution.conf and set to retroarch.cfg
-get_setting "bezel"
-if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
-	# set path
-	for p in ${BEZELDIR[@]}; do
-		if [ -d "${p}"/"${EES}" ]; then
-			path="${p}"/"${EES}"
-		fi
-	done
-	# is there a $ROM.cfg?
-	# excatctly the same / just the name / default
-	# Random bezels have to match $ROM./d+.cfg
-	for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
-		# Somehow the regex of the busybox find does not know about "+" WTF?
-		pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
-		readarray -t filelist < <(find "${path}" -regex "${pattern}" -exec basename "{}" \;)
-		count=${#filelist[*]}
-		if [ ${count} -gt 0 ]; then
-			ran=$(($RANDOM%${count}))
-			bezelcfg="${path}"/"${filelist[${ran}]}"
-			break
-		elif [ -f "${path}"/"${romname}".cfg ]; then
-			bezelcfg="${path}"/"${romname}".cfg
-			break
-		fi
-	done
-	# configure bezel
-	echo 'input_overlay_enable = "true"'		>> ${RAAPPENDCONF}
-	echo "input_overlay = \"${bezelcfg}\""		>> ${RAAPPENDCONF}
-	echo 'input_overlay_hide_in_menu = "true"'	>> ${RAAPPENDCONF}
-	echo 'input_overlay_opacity = "1.000000"'	>> ${RAAPPENDCONF}
-	echo 'input_overlay_show_inputs = "2"'		>> ${RAAPPENDCONF}
-	# delete / set scaling and aspect ratio:
-	sed -i "/video_scale_integer/d" ${RAAPPENDCONF}
-	sed -i "/aspect_ratio_index/d" ${RAAPPENDCONF}
-	echo 'video_scale_integer = "false"'	>> ${RAAPPENDCONF}
-	echo 'aspect_ratio_index = "23"'		>> ${RAAPPENDCONF}
-	# configure custom scaling
-	# needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
-	declare -a resolution=(${SystemViewport[${PLATFORM}]})
-	echo "custom_viewport_x = \"${resolution[0]}\""			>> ${RAAPPENDCONF}
-	echo "custom_viewport_y = \"${resolution[1]}\""			>> ${RAAPPENDCONF}
-	echo "custom_viewport_width = \"${resolution[2]}\""		>> ${RAAPPENDCONF}
-	echo "custom_viewport_height = \"${resolution[3]}\""	>> ${RAAPPENDCONF}
+BEZEL=$(get_ee_setting 'bezel' ${PLATFORM} "${ROM}")
+log "bezel: ${BEZEL} platform: ${PLATFORM} rom: ${ROM}"
+
+if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
+        # set path
+        for p in ${BEZELDIR[@]}; do
+                if [ -d "${p}"/"${BEZEL}" ]; then
+                        path="${p}"/"${BEZEL}"
+                fi
+        done
+        
+        BEZEL_SYSTEM=$(get_ee_setting 'bezel.system.override' ${PLATFORM} "${ROM}")
+        if [[ -z "${BEZEL_SYSTEM}" || "${BEZEL_SYSTEM}" == "AUTO" ]]; then
+          BEZEL_SYSTEM=${PLATFORM}
+        fi
+        BEZEL_SYSTEM_PNG=${path}/systems/${BEZEL_SYSTEM}.png
+        log "Bezel system png: ${BEZEL_SYSTEM_PNG}"
+ 
+        GAME_BEZEL_OVERRIDE=$(get_ee_setting 'bezel.game.override' ${PLATFORM} "${ROM}")
+
+        if [[ -z "${GAME_BEZEL_OVERRIDE}" || "${GAME_BEZEL_OVERRIDE}" == "auto" ]]; then
+
+                # is there a $ROM.cfg?
+                # excatctly the same / just the name / default
+                # Random bezels have to match $ROM./d+.cfg
+                for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
+                        # Somehow the regex of the busybox find does not know about "+" WTF?
+                        pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
+                        readarray -t filelist < <(find "${path}" -regex "${pattern}" -exec basename "{}" \;)
+                        count=${#filelist[*]}
+                        if [ ${count} -gt 0 ]; then
+                                ran=$(($RANDOM%${count}))
+                                game_cfg="${path}"/"${filelist[${ran}]}"
+                                break
+                        elif [ -f "${path}"/"${romname}".cfg ]; then
+                                game_cfg="${path}"/"${romname}".cfg
+                                break
+                        fi
+                done
+        else
+                game_cfg=${path}/systems/${BEZEL_SYSTEM}/games/${GAME_BEZEL_OVERRIDE}.cfg
+        fi
+        if [[ -f "${game_cfg}" ]]; then
+                log "game config file exists: ${game_cfg}"
+                contents=$(cat "${game_cfg}" |  awk '{$1=$1};1')  #awk strips off leading/trailing whitespace
+                BEZEL_SYSTEM_PNG=${path}/systems/${BEZEL_SYSTEM}/games/${contents}
+        fi
+        log "bezel png: ${BEZEL_SYSTEM_PNG}"
+        if [[ -f "${BEZEL_SYSTEM_PNG}" ]]; then
+                
+                # create the temporary bezel for retroarch
+                echo "overlays = 1" > ${TMP_BEZEL}
+                echo "overlay0_full_screen = true" >> ${TMP_BEZEL}
+                echo "overlay0_normalized = true" >> ${TMP_BEZEL}
+                echo "overlay0_overlay = \"${BEZEL_SYSTEM_PNG}\"" >> ${TMP_BEZEL}
+                count=0
+                if [[ -d "${path}/systems/${BEZEL_SYSTEM}/overlays/" ]]; then
+                        for overlay_png in $(ls -1 ${path}/systems/${BEZEL_SYSTEM}/overlays/*.png) ; do
+                                 
+                                overlay_name="${overlay_png%.*}"
+                                overlay_name="$(basename ${overlay_name})"
+                                overlay_setting=$(get_ee_setting "bezel.overlay.${overlay_name}" ${PLATFORM} "${ROM}") 
+                                if [[ "${overlay_setting}" == "0" ]];then
+                                        continue
+                                fi
+                                log "Adding overlay. name: ${overlay_name} overlay setting: ${overlay_setting} png: ${overlay_png}"
+                                echo "overlay0_desc${count}_overlay = \"${overlay_png}\"" >> ${TMP_BEZEL} 
+                                echo "overlay0_desc${count} = \"nul,0.5,0.5,rect,0.5,0.5\"" >> ${TMP_BEZEL}
+                                count=$(expr $count + 1)
+                        done
+                fi
+                echo "overlay0_descs = ${count}" >> ${TMP_BEZEL}
+                bezelcfg="${TMP_BEZEL}"
+        fi
+fi
+if [[ -n "${bezelcfg}" ]]; then
+        log "using bezel"
+        # configure bezel
+        echo 'input_overlay_enable = "true"'            >> ${RAAPPENDCONF}
+        echo "input_overlay = \"${bezelcfg}\""          >> ${RAAPPENDCONF}
+        echo 'input_overlay_hide_in_menu = "true"'      >> ${RAAPPENDCONF}
+        echo 'input_overlay_opacity = "1.000000"'       >> ${RAAPPENDCONF}
+        echo 'input_overlay_show_inputs = "2"'          >> ${RAAPPENDCONF}
+        # delete / set scaling and aspect ratio:
+        sed -i "/video_scale_integer/d" ${RAAPPENDCONF}
+        sed -i "/aspect_ratio_index/d" ${RAAPPENDCONF}
+        echo 'video_scale_integer = "false"'    >> ${RAAPPENDCONF}
+        echo 'aspect_ratio_index = "23"'                >> ${RAAPPENDCONF}
+        # configure custom scaling
+        # needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
+        declare -a resolution=(${SystemViewport[${PLATFORM}]})
+        echo "custom_viewport_x = \"${resolution[0]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_y = \"${resolution[1]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_width = \"${resolution[2]}\""             >> ${RAAPPENDCONF}
+        echo "custom_viewport_height = \"${resolution[3]}\""    >> ${RAAPPENDCONF}
 else
-	# disable decorations
-	echo 'input_overlay_enable = "false"'		>> ${RAAPPENDCONF}
-	# set standard resolution for custom scaling
-	declare -a resolution=(${SystemViewport["standard"]})
-	echo "custom_viewport_x = \"${resolution[0]}\""			>> ${RAAPPENDCONF}
-	echo "custom_viewport_y = \"${resolution[1]}\""			>> ${RAAPPENDCONF}
-	echo "custom_viewport_width = \"${resolution[2]}\""		>> ${RAAPPENDCONF}
-	echo "custom_viewport_height = \"${resolution[3]}\""	>> ${RAAPPENDCONF}
+        log "not using bezel"
+        # disable decorations
+        echo 'input_overlay_enable = "false"'           >> ${RAAPPENDCONF}
+        # set standard resolution for custom scaling
+        declare -a resolution=(${SystemViewport["standard"]})
+        echo "custom_viewport_x = \"${resolution[0]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_y = \"${resolution[1]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_width = \"${resolution[2]}\""             >> ${RAAPPENDCONF}
+        echo "custom_viewport_height = \"${resolution[3]}\""    >> ${RAAPPENDCONF}
 fi
 
 ##
