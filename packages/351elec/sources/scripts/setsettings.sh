@@ -99,15 +99,15 @@ function get_setting() {
 ## All setttings that should apply when retroarch is run as standalone
 ##
 
-## Wifi
-# Cleanup old settings first
-sed -i "/wifi_enabled/d" ${RACONF}
-# Get configuration from distribution.conf and set to retroarch.cfg
-if [ "$(get_ee_setting wifi.enabled)" = "1" ]; then
-	echo 'wifi_enabled = "true"' >> ${RACONF}
-else
-	echo 'wifi_enabled = "false"' >> ${RACONF}
-fi
+### Wifi
+## Cleanup old settings first
+#sed -i "/wifi_enabled/d" ${RACONF}
+## Get configuration from distribution.conf and set to retroarch.cfg
+#if [ "$(get_ee_setting wifi.enabled)" = "1" ]; then
+#	echo 'wifi_enabled = "true"' >> ${RACONF}
+#else
+#	echo 'wifi_enabled = "false"' >> ${RACONF}
+#fi
 
 # RA menu rgui, ozone, glui or xmb (fallback if everthing else fails)
 # if empty (auto in ES) do nothing to enable configuration in RA
@@ -191,6 +191,14 @@ for i in "${!RETROARCHIVEMENTS[@]}"; do
 			get_setting "retroachievements.testunofficial"
 			[ "${EES}" == "1" ] && echo 'cheevos_test_unofficial = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_test_unofficial = "false"' >> ${RAAPPENDCONF}
 
+			# cheevos_badges_enable
+			get_setting "retroachievements.badges"
+			[ "${EES}" == "1" ] && echo 'cheevos_badges_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_badges_enable = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_start_active
+			get_setting "retroachievements.active"
+			[ "${EES}" == "1" ] && echo 'cheevos_start_active = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_start_active = "false"' >> ${RAAPPENDCONF}
+
 			# cheevos_unlock_sound_enable
 			get_setting "retroachievements.soundenable"
 			[ "${EES}" == "1" ] && echo 'cheevos_unlock_sound_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_unlock_sound_enable = "false"' >> ${RAAPPENDCONF}
@@ -204,6 +212,8 @@ for i in "${!RETROARCHIVEMENTS[@]}"; do
 			echo 'cheevos_test_unofficial = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_unlock_sound_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_badges_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_start_active = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_richpresence_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
 		fi
@@ -323,6 +333,19 @@ else
 	echo 'video_shader_enable = "true"' >> ${RAAPPENDCONF}
 	echo "--set-shader /tmp/shaders/${EES}"
 fi
+
+## Filterset
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "filterset"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ]; then
+	echo 'video_filter = ""' >> ${RAAPPENDCONF}
+else
+	# Turn off RGA scaling first - just in case
+	sed -i "/video_ctx_scaling/d" ${RAAPPENDCONF}
+	echo 'video_ctx_scaling = "false"' >> ${RAAPPENDCONF}
+	echo "video_filter = \"/usr/share/video_filters/${EES}\"" >> ${RAAPPENDCONF}
+fi
+
 
 ## Rewind
 # Get configuration from distribution.conf and set to retroarch.cfg

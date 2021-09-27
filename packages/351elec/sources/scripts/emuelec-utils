@@ -13,12 +13,12 @@ function error() {
 }
 
 function audio() {
-	# This has to be expanded to check for new GLX devices running on Amlogic-ng, 
+	# This has to be expanded to check for new GLX devices running on Amlogic-ng,
 	# but right now its mostly used on ES to change audio to alsa before launching or else ES hangs on GXL devices.
-   if [[ "$1" == "alsa" ]]; then 
+   if [[ "$1" == "alsa" ]]; then
 		set_audio alsa
    elif [[ "$1" == "pulse" ]]; then
-		set_audio pulseaudio 
+		set_audio pulseaudio
    else
 		set_audio auto
    fi
@@ -122,7 +122,7 @@ function ee_backup() {
 
 function setemu(){
 ## workaround for ES performance with big conf files
-## This is no longer in use! 
+## This is no longer in use!
 
 EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
 [ ! -f "${EE_CONF}" ] && touch "${EE_CONF}"
@@ -150,15 +150,22 @@ EE_CONF="/storage/.config/distribution/configs/emuoptions.conf"
 }
 
 function getshaders() {
-	find /tmp/shaders -name '*.glslp' -print0 | 
-		while IFS= read -r -d '' line; do 
+	find /tmp/shaders -name '*.glslp' -print0 |
+		while IFS= read -r -d '' line; do
 		echo ${line#/tmp/shaders/},
+	done
+}
+
+function getfilters() {
+	find /usr/share/video_filters/ -name '*.filt' -print0 |
+			while IFS= read -r -d '' line; do
+			echo ${line#/usr/share/video_filters/},
 	done
 }
 
 function getip() {
 IP="$(ifconfig wlan0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')"
-  
+
   if [ -z "$IP" ]; then
 	 IP="$(ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')"
   fi
