@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
-# WARNING: This file gets overwritten when the version of EmuELEC changes
+# WARNING: This file gets overwritten when the version of 351ELEC changes
 # If you need to add/modify something on this file please use /storage/.emulationstation/scripts/getcores_override.sh
 
 case "$1" in

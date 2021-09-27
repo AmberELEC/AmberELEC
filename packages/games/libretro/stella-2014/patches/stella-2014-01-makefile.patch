@@ -4,7 +4,7 @@
  	        fpic     += -mmacosx-version-min=10.7
     endif
  
-+# EmuELEC for Amlogic devices
++# 351ELEC for Amlogic devices
 +else ifeq ($(platform), emuelec-arm64)
 +   TARGET := $(TARGET_NAME)_libretro.so
 +   fpic := -fPIC

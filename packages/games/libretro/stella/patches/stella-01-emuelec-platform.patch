@@ -4,7 +4,7 @@
        endif
     endif
  
-+# EmuELEC for Amlogic devices
++# 351ELEC for Amlogic devices
 +else ifeq ($(platform), emuelec)
 +   TARGET := $(TARGET_NAME)_libretro.so
 +   fpic := -fPIC

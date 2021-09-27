@@ -5,7 +5,7 @@
     WITH_DYNAREC=arm
     HAVE_NEON=1
 +   
-+# Emuelec Amlogic
++# 351ELEC Amlogic
 +else ifneq (,$(findstring Amlogic,$(platform)))
 +   TARGET := $(TARGET_NAME)_libretro.so
 +   LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T
@@ -36,7 +36,7 @@
 +		CPUFLAGS += -marm -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard  
 +	endif
 +
-+# Emuelec OdroidGoA
++# 351ELEC OdroidGoA
 +else ifneq (,$(findstring Odroidgoa,$(platform)))
 +   TARGET := $(TARGET_NAME)_libretro.so
 +   LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T

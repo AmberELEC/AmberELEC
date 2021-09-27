@@ -13,7 +13,7 @@
  		break;
  	}
 +*/
-+/* force 16bit for EmuELEC */
++/* force 16bit for 351ELEC */
 +			fb_state.flags |= VIDEO_DRIVER_FLAGS_DEFAULT_BGR16;
  
  	log_std(("video:fb: size %ux%u\n", target_size_x(), target_size_y()));

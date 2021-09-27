@@ -67,11 +67,11 @@ function inputconfiguration() {
     # check if we have the temporary input file
     [[ ! -f "$es_conf" ]] && return
 
-# EmuELEC: ES is doing something weird to es_temp so we try to clean it up
+# 351ELEC: ES is doing something weird to es_temp so we try to clean it up
 if cat "$es_conf" | grep "<></>"; then
 	sed -i '3d;4d;5d' "$es_conf"
 fi 
-# EmuELEC
+# 351ELEC
 
     local line
     while read line; do

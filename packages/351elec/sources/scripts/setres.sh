@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
-# Read the video output mode and set it for emuelec to avoid video flicking.
+# Read the video output mode and set it for 351ELEC to avoid video flicking.
 MODE=`cat /sys/class/display/mode`;
 
 if [ -e /proc/device-tree/t82x@d00c0000/compatible ]; then
@@ -80,7 +80,7 @@ case "$MODE" in
 esac
 
 fi 
-# End of reading the video output mode and setting it for emuelec to avoid video flicking.
+# End of reading the video output mode and setting it for 351ELEC to avoid video flicking.
 # The codes can be simplified with "elseif" sentences.
 # The codes for 480I and 576I are adjusted to avoid overscan.
 # Forece 720p50hz to 720p60hz and 1080i/p60hz to 1080i/p60hz since 50hz would make video very choppy.

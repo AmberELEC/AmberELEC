@@ -41,7 +41,7 @@ diff -rupN parallel-n64.orig/Makefile parallel-n64.new/Makefile
 -      endif
 -   endif
 + #######################################
-+   # EmuELEC 64bit ARMV8 - cross - No GL 
++   # 351ELEC 64bit ARMV8 - cross - No GL 
 +ifneq (,$(findstring emuelec64-armv8,$(platform)))
 +   CPUFLAGS += -DNO_ASM -DDONT_WANT_ARM_OPTIMIZATIONS -DARM_FIX -DCLASSIC -DARM64
 +   LDFLAGS += -static-libgcc #-static-libstdc++
