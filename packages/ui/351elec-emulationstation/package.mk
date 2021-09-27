@@ -16,6 +16,19 @@ PKG_SHORTDESC="Emulationstation emulator frontend"
 PKG_BUILD_FLAGS="-gold"
 GET_HANDLER_SUPPORT="git"
 
+##########################################################################################################
+# Uncomment the following lines (PKG_SITE, PKG_URL, GET_HANDLER_SUPPORT) to build locally from a git clone
+# of 351elec-emulationstation in your work directory.  Works with docker too if it's in the work directory.
+# ------------------------
+# To ensure the source gets updated , you must remove source before each build or it will not get rebuilt.  
+# So build similar to this:
+#   rm -rf ./sources/351elec-emulationstation/ \
+#      && DOCKER_WORK_DIR=/work DEVICE=RG351V ARCH=aarch64 PACKAGE=351elec-emulationstation make docker-package-clean docker-package
+##########################################################################################################
+#PKG_SITE="file:///work/351elec-emulationstation"
+#PKG_URL="$PKG_SITE"
+#GET_HANDLER_SUPPORT="file"
+
 # themes for Emulationstation
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
 
