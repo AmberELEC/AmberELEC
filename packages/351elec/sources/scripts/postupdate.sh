@@ -6,6 +6,10 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-09-27:
+## Force replacement of gamecontrollerdb.txt on update
+cp -f /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/.config/SDL-GameControllerDB/gamecontrollerdb.txt
+
 ## 2021-09-19:
 ## Replace libretro settings in distribution.conf
 sed -i 's/.emulator=libretro/.emulator=retroarch/g' /storage/.config/distribution/configs/distribution.conf
