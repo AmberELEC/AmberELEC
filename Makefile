@@ -1,4 +1,4 @@
-#test change
+#another test change
 BUILD_DIRS=build.*
 
 all:
