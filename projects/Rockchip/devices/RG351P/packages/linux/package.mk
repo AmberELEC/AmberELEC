@@ -5,7 +5,9 @@
 
 PKG_NAME="linux"
 PKG_VERSION="c8fb373f55d3adce9c75f0b0f94c93f566cb1930"
-PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
+PKG_URL="https://github.com/351ELEC/kernel_rg351.git"
+PKG_GIT_CLONE_BRANCH="main"
+GET_HANDLER_SUPPORT="git"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kernel.org"
 PKG_DEPENDS_HOST="ccache:host openssl:host"
