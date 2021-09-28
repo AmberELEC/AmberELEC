@@ -60,6 +60,13 @@ jobs:
             set -e
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.kernel*
+      - name: Cleanup system artifacts (no .img in non-release 'main' builds)
+        if: github.event.client_payload.release_tag == ''
+        run: |
+            set -e
+            #main builds only include the .tar for speed
+            rm -rf release/aarch64/RG351*/*.img.gz*
+
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v2
         if: github.event.client_payload.release_tag == ''
