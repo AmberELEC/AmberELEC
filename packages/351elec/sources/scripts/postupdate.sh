@@ -109,7 +109,7 @@ sed -i "/custom_viewport_height/d" ${RACONF}
 # video filters
 sed -i "/video_filters =/d" ${RACONF}
 # wifi (first line has stay else will come back if deleted)
-sed -i '/wifi_driver = "connmanctl"/wifi_driver = "null"/g' ${RACONF}
+sed -i 's/wifi_driver = "connmanctl"/wifi_driver = "null"/g' ${RACONF}
 sed -i "/wifi_driver =/d" ${RACONF}
 # record driver
 sed -i "/record_driver =/d" ${RACONF}
