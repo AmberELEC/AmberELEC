@@ -81,6 +81,7 @@ done
 
           # We don't care when you 'let go' ('release') the volume button
           if [[ "$line" == ${RELEASE} ]]; then
+             REPEAT_NUM=0
              continue
           fi
 
@@ -105,11 +106,17 @@ done
              continue
           fi
 
+          INCREMENT_AMOUNT=1
+          if [[ "${REPEAT_NUM}" -gt "75" ]]; then
+             INCREMENT_AMOUNT=5
+          elif [[ "${REPEAT_NUM}" -gt "25" ]]; then
+             INCREMENT_AMOUNT=2
+          fi
           # Run the commands to adjust volume/brightness
           if [[ "${line}" == ${VOL_UP} ]]; then
-            ${COMMAND} ${UP} > /dev/null
+            ${COMMAND} ${UP} ${INCREMENT_AMOUNT} > /dev/null
           elif [[ "${line}" == ${VOL_DOWN} ]]; then
-            ${COMMAND} ${DOWN} > /dev/null
+            ${COMMAND} ${DOWN} ${INCREMENT_AMOUNT} > /dev/null
           fi
         ;;
 

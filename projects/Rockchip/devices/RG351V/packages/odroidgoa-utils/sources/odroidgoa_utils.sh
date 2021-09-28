@@ -43,6 +43,9 @@ fi
 
 if [ "${1}" == "vol" ];then
 VOLSTEP=1
+if [ -n "${3}" ]; then
+  VOLSTEP="${3}"
+fi
 CURRENTVOL=$(get_ee_setting "audio.volume")
 MAXVOL=100
 MINVOL=0
