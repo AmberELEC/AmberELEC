@@ -19,14 +19,14 @@ set -o pipefail
 
 RG351_DEVICE='/dev/input/by-path/platform-rg351-keys-event'  # Device for volume key events
 
-RG351_CONTROLLER_DEVICE='/dev/input/event3' # Joystick events (for Fn key)
+RG351_CONTROLLER_DEVICE='/dev/input/event2' # Joystick events (for Fn key)
 
 VOL_EVENT='*(KEY_VOLUME*, value *' # This matches all volume events
 
 VOL_UP='*UP), value *'  # Differentiate 'up' volume event
 VOL_DOWN='*DOWN), value *' #Differentiate 'down' volume event
 
-V_FUNC_KEY_EVENT='*(BTN_TR2), value *' # Matches all RG351MP Fn key events
+V_FUNC_KEY_EVENT='*(BTN_TRIGGER_HAPPY4), value *' # Matches all RG351MP Fn key events
 
 # Matches if a button was pressed (1), released (0) or held down (2)
 PRESS='*value 1'
@@ -34,14 +34,10 @@ RELEASE='*value 0'
 REPEAT_PRESS="* value 2"
 
 # Volume repeat
-# volume repeat speed is faster (every 3rd repeat event) 
-#  as there are many stops (0-100 by increments of 1)
-VOLUME_REPEAT_MOD=3
+VOLUME_REPEAT_MOD=5
 
 # Brightness repeat
-# brightness repeat speed is faster (every 3rd repeat event) 
-#  as there are many stops (0-100 by increments of 1)
-BRIGHTNESS_REPEAT_MOD=3
+BRIGHTNESS_REPEAT_MOD=5
 
 # Variable to keep track of Fn being currently pressed
 FUNC_PRESSED=no
@@ -81,6 +77,7 @@ done
 
           # We don't care when you 'let go' ('release') the volume button
           if [[ "$line" == ${RELEASE} ]]; then
+             REPEAT_NUM=0
              continue
           fi
 
@@ -105,11 +102,17 @@ done
              continue
           fi
 
+          INCREMENT_AMOUNT=1
+          if [[ "${REPEAT_NUM}" -gt "75" ]]; then
+             INCREMENT_AMOUNT=5
+          elif [[ "${REPEAT_NUM}" -gt "25" ]]; then
+             INCREMENT_AMOUNT=2
+          fi   
           # Run the commands to adjust volume/brightness
           if [[ "${line}" == ${VOL_UP} ]]; then
-            ${COMMAND} ${UP} > /dev/null
+            ${COMMAND} ${UP} ${INCREMENT_AMOUNT} > /dev/null
           elif [[ "${line}" == ${VOL_DOWN} ]]; then
-            ${COMMAND} ${DOWN} > /dev/null
+            ${COMMAND} ${DOWN} ${INCREMENT_AMOUNT} > /dev/null
           fi
         ;;
 

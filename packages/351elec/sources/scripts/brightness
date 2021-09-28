@@ -5,9 +5,12 @@
 MIN=1
 MAX=100
 STEP=1
+if [[ -n "$2" ]]; then                               
+  STEP=$2                                               
+fi
 
 # Ensure set_ee_setting exists in all contexts
-if ! type set_ee_setting  >/dev/null
+if ! type set_ee_setting  &>/dev/null
 then
   source /etc/profile
 fi
