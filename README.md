@@ -4,14 +4,14 @@ An open source firmware for the Anbernic RG351P/M/V/MP devices.
 
 351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V/MP and is not compatible with other devices.
 
-We have an active [wiki](https://351elec.github.io/351ELEC-pages) with [installation instructions](https://351elec.github.io/351ELEC-pages/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.github.io/351ELEC-pages/Getting-to-Know-351ELEC).
+We have an active [wiki](https://351elec.de) with [installation instructions](https://351elec.de/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.de/Getting-to-Know-351ELEC).
 
 Visit us on our Discord! https://discord.gg/bmXtCt88Tz
 
 
-## [Installation](https://351elec.github.io/351ELEC-pages/Installation#overview)
+## Installation
 
-Please visit the wiki [Installation](https://351elec.github.io/351ELEC-pages/Installation#overview) page for installation instructions.
+Please visit the wiki [Installation](https://351elec.de/Installation#overview) page for installation instructions.
 
 ## Building from Source
 Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 100GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
