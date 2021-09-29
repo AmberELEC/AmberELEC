@@ -109,16 +109,6 @@ makeinstall_target() {
    # General configuration
    mkdir -p $INSTALL/usr/config/retroarch/
    cp -rf $PKG_DIR/sources/* $INSTALL/usr/config/retroarch/ 
-
-   # Remove all input mappings for the MP since they are all wrong
-   # When removed - they should default to the Go-Super controller defaults.
-   #   See: /packages/351elec/gamepads/Go-Super Gamepad.cfg
-   # In the future - we may use this approach for all devices.
-   if [[ "$DEVICE" = "RG351MP" ]]
-   then
-      sed -i -E '/^input_player[0-9]+.*$/d' $INSTALL/usr/config/retroarch/retroarch.cfg
-      sed -i -E '/^input_.*btn.*$/d' $INSTALL/usr/config/retroarch/retroarch.cfg
-   fi
  
 }
 
