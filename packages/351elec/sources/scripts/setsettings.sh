@@ -558,26 +558,34 @@ if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" 
         log "Bezel system png: ${BEZEL_SYSTEM_PNG}"
  
         GAME_BEZEL_OVERRIDE=$(get_ee_setting 'bezel.game.override' ${PLATFORM} "${ROM}")
+        log "Game bezel override: ${GAME_BEZEL_OVERRIDE}"
+        if [[ -z "${GAME_BEZEL_OVERRIDE}" || "${GAME_BEZEL_OVERRIDE}" == "AUTO" ]]; then
 
-        if [[ -z "${GAME_BEZEL_OVERRIDE}" || "${GAME_BEZEL_OVERRIDE}" == "auto" ]]; then
-
+                log "No game specific override found.  Looking for games"
                 # is there a $ROM.cfg?
                 # excatctly the same / just the name / default
                 # Random bezels have to match $ROM./d+.cfg
+                romdir="${path}/systems/${BEZEL_SYSTEM}/games"
+                pushd "${romdir}" &> /dev/null
                 for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
+                        log "Looking at: ${romdir}/${romname}"
                         # Somehow the regex of the busybox find does not know about "+" WTF?
                         pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
-                        readarray -t filelist < <(find "${path}" -regex "${pattern}" -exec basename "{}" \;)
+                        readarray -t filelist < <(find "${romdir}" -regex "${pattern}" -exec basename "{}" \;)
+                        log "file list: ${filelist}"
                         count=${#filelist[*]}
                         if [ ${count} -gt 0 ]; then
                                 ran=$(($RANDOM%${count}))
-                                game_cfg="${path}"/"${filelist[${ran}]}"
+                                game_cfg="${romdir}/${filelist[${ran}]}"
+                                log "Using random config: ${game_cfg}"
                                 break
-                        elif [ -f "${path}"/"${romname}".cfg ]; then
-                                game_cfg="${path}"/"${romname}".cfg
+                        elif [ -f "${romdir}/${romname}".cfg ]; then
+                                game_cfg="${romdir}/${romname}".cfg
+                                log "Using rom config: ${game_cfg}"
                                 break
                         fi
                 done
+                popd &> /dev/null
         else
                 game_cfg=${path}/systems/${BEZEL_SYSTEM}/games/${GAME_BEZEL_OVERRIDE}.cfg
         fi
