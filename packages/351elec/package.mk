@@ -27,7 +27,7 @@ make_target() {
 }
 
 makeinstall_target() {
-
+  sed -i "s/system.hostname=351ELEC/system.hostname=${DEVICE}/g" $PKG_DIR/config/distribution/configs/distribution.conf
   mkdir -p $INSTALL/usr/config/
   rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
   #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
