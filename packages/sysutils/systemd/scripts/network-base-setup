@@ -1,8 +1,12 @@
 #!/bin/sh
 
+. /etc/profile
+
+HOSTNAME=$(get_ee_setting system.hostname)
+
 # setup hostname
 if [ -f /storage/.cache/hostname ]; then
-  cat /storage/.cache/hostname > /proc/sys/kernel/hostname
+  echo $HOSTNAME > /proc/sys/kernel/hostname
 fi
 
 # setup /etc/hosts
