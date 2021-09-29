@@ -81,7 +81,7 @@ jobs:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
-      - name: Create pre-release
+      - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1
         with:
@@ -108,9 +108,21 @@ jobs:
 
           artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*"
           prerelease: true
+          draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           repo: 351ELEC-beta
-
+      - name: Switch draft to start showing release 
+        if: github.event.action == 'release-beta'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.version.outputs.version }}"
+          allowUpdates: true
+          draft: false
+          prerelease: true
+          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+          repo: 351ELEC-beta
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         if: github.event.action == 'release-draft'
