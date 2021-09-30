@@ -6,6 +6,11 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-09-30:
+## Remove any configurd ES joypads on upgrade
+rm -f /storage/joypads/*.cfg
+
+
 ## 2021-09-27:
 ## Force replacement of gamecontrollerdb.txt on update
 cp -f /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/.config/SDL-GameControllerDB/gamecontrollerdb.txt
