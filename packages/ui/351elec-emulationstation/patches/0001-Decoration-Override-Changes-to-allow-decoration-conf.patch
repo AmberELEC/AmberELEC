@@ -1,4 +1,4 @@
-From c6818d90700e331e45238b800ebd6e2fc62523dc Mon Sep 17 00:00:00 2001
+From 65e79018b7f933c359457fdcbd490d7f967c3146 Mon Sep 17 00:00:00 2001
 From: pkegg <pkegg>
 Date: Sun, 26 Sep 2021 10:53:00 -0600
 Subject: [PATCH] Decoration Override Changes to allow decoration configuration
@@ -8,9 +8,9 @@ Subject: [PATCH] Decoration Override Changes to allow decoration configuration
  es-app/CMakeLists.txt                    |   6 +-
  es-app/src/guis/GuiDecorationOptions.cpp | 231 +++++++++++++++++++++++
  es-app/src/guis/GuiDecorationOptions.h   |  24 +++
- es-app/src/guis/GuiMenu.cpp              |  39 +++-
+ es-app/src/guis/GuiMenu.cpp              |  44 ++++-
  es-app/src/guis/GuiMenu.h                |   1 +
- 5 files changed, 296 insertions(+), 5 deletions(-)
+ 5 files changed, 299 insertions(+), 7 deletions(-)
  create mode 100644 es-app/src/guis/GuiDecorationOptions.cpp
  create mode 100644 es-app/src/guis/GuiDecorationOptions.h
 
@@ -307,7 +307,7 @@ index 00000000..9a177a0c
 +
 +#endif // ES_APP_GUIS_GUI_DECORATION_OPTIONS_H
 diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index 2e324904..a7a4547f 100644
+index 2e324904..e13358cf 100644
 --- a/es-app/src/guis/GuiMenu.cpp
 +++ b/es-app/src/guis/GuiMenu.cpp
 @@ -10,6 +10,7 @@
@@ -346,18 +346,26 @@ index 2e324904..a7a4547f 100644
  	// decorations
  	if (ApiSystem::getInstance()->isScriptingSupported(ApiSystem::DECORATIONS))
  	{
-@@ -2277,7 +2289,17 @@ void GuiMenu::openGamesSettings_batocera()
- 			{
- 				SystemConf::getInstance()->set("global.bezel", decorations->getSelected() == _("NONE") ? "none" : decorations->getSelected() == _("AUTO") ? "" : decorations->getSelected());
- 			});
--#if !defined(WIN32) || defined(_DEBUG)
+@@ -2272,12 +2284,23 @@ void GuiMenu::openGamesSettings_batocera()
+ 					(SystemConf::getInstance()->get("global.bezel") == "none" && *it == _("NONE")) ||
+ 					(SystemConf::getInstance()->get("global.bezel") == "" && *it == _("AUTO")));
+ 
++			if (decorations->getSelectedName() == "")
++			{
++				decorations->selectFirstItem();
++			}
++
+ 			s->addWithLabel(_("DECORATION"), decorations);
+-			s->addSaveFunc([decorations]
 +
 +			decorations->setSelectedChangedCallback([decorations](std::string value)
-+			{
+ 			{
+-				SystemConf::getInstance()->set("global.bezel", decorations->getSelected() == _("NONE") ? "none" : decorations->getSelected() == _("AUTO") ? "" : decorations->getSelected());
 +				LOG(LogDebug) << "Setting bezel on change to: " << value;
 +
 +				SystemConf::getInstance()->set("global.bezel", Utils::String::toLower(value));
-+			});
+ 			});
+-#if !defined(WIN32) || defined(_DEBUG)
 +
 +//351elec - stretch bezels does not have a place in 351elec
 +#ifndef _ENABLEEMUELEC
@@ -365,7 +373,7 @@ index 2e324904..a7a4547f 100644
  			// stretch bezels
  			auto bezel_stretch_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("STRETCH BEZELS (4K & ULTRAWIDE)"));
  			bezel_stretch_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get("global.bezel_stretch") != "0" && SystemConf::getInstance()->get("global.bezel_stretch") != "1");
-@@ -2293,7 +2315,7 @@ void GuiMenu::openGamesSettings_batocera()
+@@ -2293,7 +2316,7 @@ void GuiMenu::openGamesSettings_batocera()
  #endif
  		}
  	}
@@ -374,7 +382,7 @@ index 2e324904..a7a4547f 100644
  	// latency reduction
  	s->addEntry(_("LATENCY REDUCTION"), true, [this] { openLatencyReductionConfiguration(mWindow, "global"); });
  
-@@ -4310,9 +4332,20 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
+@@ -4310,9 +4333,20 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
  			systemConfiguration->addWithLabel(_("DECORATION"), decorations);
  			systemConfiguration->addSaveFunc([decorations, configName]
  			{
