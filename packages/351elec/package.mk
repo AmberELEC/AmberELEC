@@ -52,7 +52,7 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/share/retroarch-overlays
   if [ "$DEVICE" == "RG351P" ]; then
     cp -r $PKG_DIR/overlay-p/* $INSTALL/usr/share/retroarch-overlays
-  elif [ "$DEVICE" == "RG351V" ]; then
+  elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ]; then
     cp -r $PKG_DIR/overlay-v/* $INSTALL/usr/share/retroarch-overlays
   fi
 
