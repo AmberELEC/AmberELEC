@@ -540,6 +540,9 @@ else #Must be the V then
 fi
 # Get configuration from distribution.conf and set to retroarch.cfg
 BEZEL=$(get_ee_setting 'bezel' ${PLATFORM} "${ROM}")
+if [[ -z "${BEZEL}" ]]; then
+   BEZEL=default                                             
+fi 
 log "bezel: ${BEZEL} platform: ${PLATFORM} rom: ${ROM}"
 
 if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
