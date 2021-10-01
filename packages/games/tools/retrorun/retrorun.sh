@@ -10,7 +10,7 @@ sleep 1
 echo 'confguring inputs'
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 echo 'confguring inputs on device:'$EE_DEVICE
-if [[ "$EE_DEVICE" == "RG351V" ]]
+if [[ "$EE_DEVICE" == "RG351V" ]] || [[ "$EE_DEVICE" == "RG351MP" ]]
 then
 	ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 else
@@ -28,15 +28,23 @@ then
     echo 'enabling FPS in the logs'
     FPS="-f"
 fi
+GPIO_JOYPAD=''
+if [[ "$EE_DEVICE" == "RG351MP" ]]
+then
+    echo 'GPIO joypad'
+    GPIO_JOYPAD="-g"
+fi
+
+
 sleep 1
 if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]] || [[ "$1" =~ "uae4arm" ]]
 then
     echo 'using 32bit'
   	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS -n -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
 else
 	echo 'using 64bit'
-	/usr/bin/retrorun --triggers $FPS -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 fi
 sleep 1
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
