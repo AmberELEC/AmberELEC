@@ -30,12 +30,13 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/config/SDL-GameControllerDB
   cp $PKG_DIR/SDL_GameControllerDB/gamecontrollerdb.txt $INSTALL/usr/config/SDL-GameControllerDB
 
-  sed -i "s/system.hostname=351ELEC/system.hostname=${DEVICE}/g" $PKG_DIR/config/distribution/configs/distribution.conf
   mkdir -p $INSTALL/usr/config/
   rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
   #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
   ln -sf /storage/.config/distribution $INSTALL/distribution
   find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
+
+  sed -i "s/system.hostname=351ELEC/system.hostname=${DEVICE}/g" $INSTALL/usr/config/distribution/configs/distribution.conf
 
   echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
 
