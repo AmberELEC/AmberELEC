@@ -333,7 +333,7 @@ then
 		esac
 elif [ -n "${RETRORUN}" ]
 then
-
+	jslisten set "retrorun retrorun32"
 	$VERBOSE && log "Configuring retrorun emulator started"
 	$VERBOSE && log "platform: ${PLATFORM}"
 	$VERBOSE && log "core: ${EMU}"
@@ -343,7 +343,7 @@ else
 	$VERBOSE && log "Configuring for a libretro core"
 
 	### Set jslisten to kill the appropriate retroarch
-	jslisten set "retroarch"
+	jslisten set "retroarch retroarch32"
 
 	### Check if we need retroarch 32 bits or 64 bits
 	RABIN="retroarch"
