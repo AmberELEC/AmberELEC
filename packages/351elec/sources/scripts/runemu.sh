@@ -275,7 +275,7 @@ then
 			fi
 		;;
 		"n64")
-			jslisten set "mupen64plussa retroarch"
+			jslisten set "mupen64plus retroarch"
 			if [ "$EMU" = "M64P" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${CORE}" "${ROMNAME}"'
