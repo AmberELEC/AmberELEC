@@ -63,4 +63,5 @@ pre_configure_target(){
 post_makeinstall_target() {
   sed -e "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
   rm -rf $INSTALL/usr/bin
+  chmod +x $INSTALL/usr/lib/libSDL2-2.0.so.0.10.0
 }
