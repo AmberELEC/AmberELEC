@@ -15,4 +15,5 @@ makeinstall_target() {
 
 	mkdir -p $INSTALL/usr/lib/systemd/system-sleep/
 	cp sleep.sh $INSTALL/usr/lib/systemd/system-sleep/sleep
+	chmod +x $INSTALL/usr/lib/systemd/system-sleep/sleep
 }
