@@ -100,6 +100,7 @@ function ee_backup() {
         "restore")
                 systemctl stop emustation
                 unzip -o ${BACKUPFILE} -d /
+                /usr/bin/postupdate.sh
                 sleep 3
                 systemctl start emustation
         ;;
