@@ -212,41 +212,33 @@ then
 		"atari2600")
 			if [ "$EMU" = "STELLASA" ]
 			then
-				jslisten set "stella retroarch"
+				jslisten set "stella"
 				RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
 			fi
 		;;
 		"atarist")
 			if [ "$EMU" = "HATARISA" ]
 			then
-				jslisten set "hatari retroarch"
+				jslisten set "hatari"
 				RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
 			fi
 		;;
 		"openbor")
-				jslisten set "OpenBOR retroarch"
+				jslisten set "OpenBOR"
 				RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 		"setup")
 				RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
-		"dreamcast")
-			jslisten set "reicast retroarch"
-			if [ "$EMU" = "REICASTSA" ]
-			then
-				RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
-				cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
-			fi
-		;;
 		"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
-			jslisten set "advmame retroarch"
+			jslisten set "advmame"
 			if [ "$EMU" = "AdvanceMame" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/advmame.sh "${ROMNAME}"'
 			fi
 		;;
 		"nds")
-			jslisten set "drastic retroarch"
+			jslisten set "drastic"
 			RUNTHIS='${TBASH} /usr/bin/drastic.sh "${ROMNAME}"'
 		;;
 		"pico-8")
@@ -275,32 +267,32 @@ then
 			fi
 		;;
 		"n64")
-			jslisten set "mupen64plus retroarch"
+			jslisten set "mupen64plus"
 			if [ "$EMU" = "M64P" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${CORE}" "${ROMNAME}"'
 			fi
 		;;
 		"amiga"|"amigacd32")
-			jslisten set "amiberry retroarch"
+			jslisten set "amiberry"
 			if [ "$EMU" = "AMIBERRY" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
 			fi
 		;;
 		"scummvm")
-			jslisten set "scummvm retroarch"
+			jslisten set "scummvm"
 			RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		;;
 		"daphne")
-			jslisten set "hypseus retroarch"
+			jslisten set "hypseus"
 			if [ "$EMU" = "HYPSEUS" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/hypseus.start.sh "${ROMNAME}"'
 			fi
 		;;
 		"pc")
-			jslisten set "dosbox dosbox-x retroarch"
+			jslisten set "dosbox dosbox-x"
 			if [ "$EMU" = "DOSBOXSDL2" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
@@ -310,7 +302,7 @@ then
 			fi
 		;;
 		"psp"|"pspminis")
-			jslisten set "PPSSPPSDL retroarch"
+			jslisten set "PPSSPPSDL"
 			if [ "$EMU" = "PPSSPPSDL" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
@@ -468,9 +460,6 @@ else
 	eval ${RUNTHIS} &>>${OUTPUT_LOG}
 	ret_error=$?
 fi
-
-# remove emu.cfg if platform was reicast
-[ -f /storage/.config/reicast/emu.cfg ] && rm /storage/.config/reicast/emu.cfg
 
 clear_screen
 
