@@ -6,6 +6,17 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-10-04
+## Remove old bezel configs
+### Done in a single sed to keep performance fast
+sed -i '/global.bezel=0/d;
+        /gb.bezel=351ELEC-Gameboy/d;
+        /gamegear.bezel=351ELEC-Gamegear/d;
+        /gbc.bezel=351ELEC-GameboyColor/d;
+        /pokemini.bezel=351ELEC-PokemonMini/d;
+        /supervision.bezel=351ELEC-Supervision/d;
+        ' /storage/.config/distribution/configs/distribution.conf
+
 ## 2021-09-30:
 ## Remove any configurd ES joypads on upgrade
 rm -f /storage/joypads/*.cfg
