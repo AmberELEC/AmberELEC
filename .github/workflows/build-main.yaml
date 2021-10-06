@@ -152,10 +152,10 @@ jobs:
 
             Fixes:
             
-            **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
+            **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz) |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
             **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
 
           files: |

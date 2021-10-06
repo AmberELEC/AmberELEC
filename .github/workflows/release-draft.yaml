@@ -50,6 +50,6 @@ jobs:
             client-payload: |
                { 
                  "release_tag" : "${{steps.version.outputs.version}}",
-                 "release_name" : "${{github.events.inputs.release_name}}"
+                 "release_name" : "${{github.event.inputs.release_name}}"
                }
             
