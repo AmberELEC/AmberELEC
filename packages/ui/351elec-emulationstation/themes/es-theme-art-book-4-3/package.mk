@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020 Shanti Gilbert (https://github.com/shantigilbert)
-# Copyright (C) 2020 351ELEC team (https://github.com/351ELEC/351ELEC)
+# Copyright (C) 2021 351ELEC team (https://github.com/351ELEC/351ELEC)
 
 PKG_NAME="es-theme-art-book-4-3"
 PKG_REV="1"
