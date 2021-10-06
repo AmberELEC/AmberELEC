@@ -6,6 +6,7 @@ fi
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
+sleep 0.2
 echo 'confguring inputs'
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 echo 'confguring inputs on device:'$EE_DEVICE
@@ -33,7 +34,7 @@ then
     GPIO_JOYPAD="-g"
 fi
 
-
+sleep 0.2
 if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]] || [[ "$1" =~ "uae4arm" ]]
 then
     echo 'using 32bit'
@@ -43,7 +44,7 @@ else
 	echo 'using 64bit'
 	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 fi
-sleep 1
+sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 kill $(pidof rg351p-js2xbox)
 echo 'end!'

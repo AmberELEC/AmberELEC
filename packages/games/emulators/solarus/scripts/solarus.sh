@@ -4,6 +4,13 @@
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 
 [[ ! -d "/storage/roms/gamedata/solarus/" ]] && mkdir -p "/storage/roms/gamedata/solarus/"
-solarus-run -fullscreen=yes -joypad-deadzone=32767 -quit-combo=6+7 "${1}"
+
+DEVICE=$(cat /storage/.config/.OS_ARCH)
+
+if [[ "$DEVICE" == RG351MP ]]; then
+  solarus-run -fullscreen=yes -joypad-deadzone=32767 -quit-combo=12+13 "${1}"
+else
+  solarus-run -fullscreen=yes -joypad-deadzone=32767 -quit-combo=7+6 "${1}"
+fi
 
 exit 0
