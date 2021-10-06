@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020 Shanti Gilbert (https://github.com/shantigilbert)
-# Copyright (C) 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
+# Copyright (C) 2020 351ELEC team (https://github.com/351ELEC/351ELEC)
 
 PKG_NAME="es-theme-art-book-4-3"
 PKG_REV="1"
-PKG_VERSION="29f8112c0bd947a6798d2f4531ba2744a747d48a"
+PKG_VERSION="3c26cdaec68145225d112c59ecfec7e944af1ee1"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
 PKG_SITE="https://github.com/szalik-rg351/es-theme-art-book-4-3"
