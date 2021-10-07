@@ -6,6 +6,14 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+## 2021-10-07
+## Copy es_input.cfg over on every update
+## This prevents a user with an old es_input from getting the 'input config scree'
+### I don't believe there is a use case where a user needed to customize es_input.xml intentionally
+if [ -f /usr/config/emulationstation/es_input.cfg ]; then
+	cp /usr/config/emulationstation/es_input.cfg /storage/.emulationstation/
+fi
+
 ## 2021-10-04
 ## Remove old bezel configs
 ### Done in a single sed to keep performance fast
