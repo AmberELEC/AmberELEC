@@ -10,6 +10,7 @@ on:
       - '.dockerignore'
     branches:
       - main
+      - dev
     types: [opened, synchronize, ready_for_review, labeled]
 
 # Ensure that if there are multiple builds for a PR only 1 is queued
