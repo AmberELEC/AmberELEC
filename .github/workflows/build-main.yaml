@@ -11,6 +11,7 @@ on:
       - '.dockerignore'
     branches:
       - main
+      - dev
 # Ensure that if there are multiple builds for main only 1 is queued during a build
 # Example: 1st commit in main starts a build then 2-9 commits come in during the first build.
 #          'concurrency' makes it so that only commit 9 is enqueued to build rather builds 2-9 all runing a build.
