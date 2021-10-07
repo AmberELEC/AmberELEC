@@ -24,7 +24,7 @@ if [ -n "$PKG_LOAD_ADDR" ]; then
 fi
 
 cat >$INSTALL/usr/share/bootloader/boot.ini <<EOF
-ODROIDGO2-UBOOT-CONFIG
+odroidgoa-uboot-config
 
 setenv fdt_addr_r "0x01f00000"
 setenv dtb_name "rk3326-rg351v-linux.dtb"
@@ -32,7 +32,6 @@ setenv loadaddr "${PKG_LOAD_ADDR}"
 setenv scriptaddr "0x00500000"
 setenv kernel_addr_r "0x02008000"
 
-gpio clear 15
 sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351v-linux.dtb.conf
 
 EOF
