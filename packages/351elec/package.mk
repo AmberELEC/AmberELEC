@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch32 retroarch-overlays imagemagick retrorun"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch32 imagemagick retrorun"
 PKG_SHORTDESC="351ELEC Meta Package"
 PKG_LONGDESC="351ELEC Meta Package"
 PKG_IS_ADDON="no"
@@ -81,7 +81,7 @@ makeinstall_target() {
 
 post_install() {
 # Remove unnecesary Retroarch Assets and overlays
-  for i in branding glui nuklear nxrgui pkg switch wallpapers zarch COPYING; do
+  for i in branding nuklear nxrgui pkg switch wallpapers zarch COPYING; do
     rm -rf "$INSTALL/usr/share/retroarch-assets/$i"
   done
 
@@ -89,9 +89,9 @@ post_install() {
     rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
   done
 
-  for i in borders effects gamepads ipad keyboards misc; do
-    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
-  done
+#  for i in borders effects gamepads ipad keyboards misc; do
+#    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
+#  done
   mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
   cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target
