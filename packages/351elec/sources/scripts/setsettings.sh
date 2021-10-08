@@ -308,7 +308,7 @@ done
 	echo "aspect_ratio_index = \"${i}\"" >> ${RAAPPENDCONF}
 fi
 
-## Video Smooth
+## Bilinear filtering
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "smooth"
 [ "${EES}" == "1" ] && echo 'video_smooth = "true"' >> ${RAAPPENDCONF} || echo 'video_smooth = "false"' >> ${RAAPPENDCONF}
