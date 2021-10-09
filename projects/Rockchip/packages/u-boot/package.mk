@@ -17,7 +17,7 @@ PKG_STAMP="$UBOOT_SYSTEM"
 PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 [ -n "$DEVICE" ] && PKG_NEED_UNPACK+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/bootloader"
 
-PKG_VERSION="1163768d630ea5f19b7228c0675c60589c67e281"
+PKG_VERSION="d9502f68e870dcc7a40f03383e1c1fe83566de6a"
 PKG_GIT_CLONE_SINGLE="yes"
 PKG_GIT_CLONE_DEPTH="1"
 PKG_URL="https://github.com/351ELEC/uboot_rg351.git"
@@ -62,10 +62,10 @@ makeinstall_target() {
           -i $INSTALL/usr/share/bootloader/canupdate.sh
     fi
     if [ "$DEVICE" == "RG351P" ]; then
-      cp -f $PKG_BUILD/arch/arm/dts/rg351p-kernel.dtb $INSTALL/usr/share/bootloader
+      cp -f $PKG_BUILD/arch/arm/dts/rg351p-uboot.dtb $INSTALL/usr/share/bootloader
     elif [ "$DEVICE" == "RG351V" ]; then
-      cp -f $PKG_BUILD/arch/arm/dts/rg351v-kernel.dtb $INSTALL/usr/share/bootloader
+      cp -f $PKG_BUILD/arch/arm/dts/rg351v-uboot.dtb $INSTALL/usr/share/bootloader
     elif [ "$DEVICE" == "RG351MP" ]; then
-      cp -f $PKG_BUILD/arch/arm/dts/rg351mp-kernel.dtb $INSTALL/usr/share/bootloader
+      cp -f $PKG_BUILD/arch/arm/dts/rg351mp-uboot.dtb $INSTALL/usr/share/bootloader
     fi
 }
