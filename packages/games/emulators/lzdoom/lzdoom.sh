@@ -18,7 +18,7 @@ params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
 if [[ "$EE_DEVICE" == RG351P ]]; then
   params+=" -width 480 -height 320"
 fi
-if [[ "$EE_DEVICE" == RG351V ]]; then
+if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
   params+=" -width 640 -height 480"
 fi
 
