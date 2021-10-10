@@ -3,6 +3,7 @@
 
 PKG_NAME="pcsx_rearmed"
 PKG_VERSION="4b914a1d9165a34c444d4943b4c98bae213819dc"
+PKG_SHA256="e394a5140ce3fda4c3e4087ebc2b3a4401f4ec79aec9d385845687aee4950879"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -12,7 +13,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="ARM optimized PCSX fork"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed -gold"
-PKG_GIT_CLONE_BRANCH="sk_hacks"
+PKG_GIT_CLONE_BRANCH="cdrom_audio_fix_attempt"
 
 make_target() {
   cd ${PKG_BUILD}

@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-pcfx"
-PKG_VERSION="b4fb37bc18eb63366f96e44727dfebcb9c69c313"
-PKG_SHA256="be084ce4368488b8187bd52f6f5f881e3313230cfc02886f2239263f609b1224"
+PKG_VERSION="a1f1734509dd6acb11269f118d61f480ae8dbacf"
+PKG_SHA256="76f22fc238748fb7c63d260f725cae6fa3bd7797ad595ab8116a5c15b7c05e04"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
