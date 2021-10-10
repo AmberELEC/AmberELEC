@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch32 retroarch-overlays imagemagick retrorun"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch32 imagemagick retrorun"
 PKG_SHORTDESC="351ELEC Meta Package"
 PKG_LONGDESC="351ELEC Meta Package"
 PKG_IS_ADDON="no"
@@ -18,7 +18,7 @@ PKG_TOOLCHAIN="make"
 
 PKG_EXPERIMENTAL=""
 PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus ecwolf lzdoom drastic duckstation mupen64plussa"
-PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders MC linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl"
+PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
 
@@ -81,7 +81,7 @@ makeinstall_target() {
 
 post_install() {
 # Remove unnecesary Retroarch Assets and overlays
-  for i in branding glui nuklear nxrgui pkg switch wallpapers zarch COPYING; do
+  for i in branding nuklear nxrgui pkg switch wallpapers zarch COPYING; do
     rm -rf "$INSTALL/usr/share/retroarch-assets/$i"
   done
 
@@ -89,9 +89,9 @@ post_install() {
     rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
   done
 
-  for i in borders effects gamepads ipad keyboards misc; do
-    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
-  done
+#  for i in borders effects gamepads ipad keyboards misc; do
+#    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
+#  done
   mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
   cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target

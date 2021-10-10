@@ -31,11 +31,11 @@ mkdir -p $RELEASE_DIR/3rdparty/bootloader
   done
   UBOOT_DTS_DIR=$(get_build_dir u-boot)/arch/arm/dts/
   if [ "$DEVICE" == "RG351P" ]; then
-    cp -f $UBOOT_DTS_DIR/rg351p-kernel.dtb $RELEASE_DIR/3rdparty/bootloader
+    cp -f $UBOOT_DTS_DIR/rg351p-uboot.dtb $RELEASE_DIR/3rdparty/bootloader
   elif [ "$DEVICE" == "RG351V" ]; then
-    cp -f $UBOOT_DTS_DIR/rg351v-kernel.dtb $RELEASE_DIR/3rdparty/bootloader
+    cp -f $UBOOT_DTS_DIR/rg351v-uboot.dtb $RELEASE_DIR/3rdparty/bootloader
   elif [ "$DEVICE" == "RG351MP" ]; then
-    cp -f $UBOOT_DTS_DIR/rg351mp-kernel.dtb $RELEASE_DIR/3rdparty/bootloader
+    cp -f $UBOOT_DTS_DIR/rg351mp-uboot.dtb $RELEASE_DIR/3rdparty/bootloader
   fi
   
 LE_TMP=$(mktemp -d)
