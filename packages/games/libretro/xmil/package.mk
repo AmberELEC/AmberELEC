@@ -24,5 +24,4 @@ make_target() {
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   cp $PKG_BUILD/libretro/x1_libretro.so $INSTALL/usr/lib/libretro/
-  cp x1_libretro.info $INSTALL/usr/lib/libretro/
 }
