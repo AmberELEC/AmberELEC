@@ -18,7 +18,7 @@ params=" --config ${CONFIG_FILE} --savedir ${SAVE_DIR}"
 if [[ "$EE_DEVICE" == RG351P ]]; then
   params+=" --res 480 320"
 fi
-if [[ "$EE_DEVICE" == RG351V ]]; then
+if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
   params+=" --res 640 480"
 fi
 
