@@ -2,8 +2,7 @@
 # Copyright (C) 2020 Trond Haugland (trondah@gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="65ead111f56d95a8099b7d996bd1c623219037de"
-PKG_SHA256="6bbee35c1076b1afe585b9a1ebc7ac33e9cc353bfeb84e06aa5087cbf2786035"
+PKG_VERSION="4b914a1d9165a34c444d4943b4c98bae213819dc"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -13,6 +12,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="ARM optimized PCSX fork"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed -gold"
+PKG_GIT_CLONE_BRANCH="sk_hacks"
 
 make_target() {
   cd ${PKG_BUILD}
