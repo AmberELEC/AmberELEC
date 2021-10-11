@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="lzdoom"
-PKG_VERSION="96a09d44718d62e22e37e3495efdcf55300bf19c"
+PKG_VERSION="8f48280f1a2b09b6478a88125b4f21144c9cafc8"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
@@ -12,6 +12,11 @@ PKG_SHORTDESC="LZDoom"
 PKG_LONGDESC="ZDoom is a family of enhanced ports of the Doom engine for running on modern operating systems. It runs on Windows, Linux, and OS X, and adds new features not found in the games as originally published by id Software."
 GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
+
+if [ "${DEVICE}" = "RG351MP" ]
+then
+  PKG_PATCH_DIRS="RG351MP"
+fi
 
 pre_build_host() {
 HOST_CMAKE_OPTS=""
@@ -39,7 +44,11 @@ makeinstall_target() {
   cp $PKG_BUILD/.$TARGET_NAME/lzdoom $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/config/distribution/lzdoom
-  cp $PKG_DIR/config/* $INSTALL/usr/config/distribution/lzdoom
+  if [ "${DEVICE}" = "RG351MP" ]; then
+    cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/lzdoom
+  else
+    cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/lzdoom
+  fi
   cp $PKG_BUILD/.$TARGET_NAME/*.pk3 $INSTALL/usr/config/distribution/lzdoom
   cp -r $PKG_BUILD/.$TARGET_NAME/soundfonts $INSTALL/usr/config/distribution/lzdoom
   cp -r $PKG_BUILD/.$TARGET_NAME/fm_banks $INSTALL/usr/config/distribution/lzdoom  
