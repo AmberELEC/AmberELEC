@@ -45,3 +45,9 @@ makeinstall_target() {
   make install INSTALLDIR="$INSTALL/usr/share/common-shaders"
   cp -r $PKG_DIR/shaders/* $INSTALL/usr/share/common-shaders
 }
+
+post_makeinstall_target() {
+  cp $PKG_DIR/removeshaders.sh .
+  chmod 755 removeshaders.sh
+  /bin/sh removeshaders.sh $INSTALL
+}
