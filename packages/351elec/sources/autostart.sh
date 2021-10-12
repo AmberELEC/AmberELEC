@@ -79,7 +79,7 @@ if [ ! -d "/storage/.config/distribution" ]
 then
   rsync -a /usr/config/distribution /storage/.config/distribution &
 else
-  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs --exclude=ports --exclude=lzdoom.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution &
+  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs --exclude=lzdoom.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution &
 fi
 
 # Clean cache garbage when boot up.
@@ -103,16 +103,15 @@ rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
 
 # Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports &
+rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/ports &
 
 # Wait for the rsync processes to finish.
 wait
 
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
-  cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
+  cp -f /usr/config/ports/gamelist.xml /storage/roms/ports
 fi
-rm -rf /storage/.config/distribution/ports
 
 # End Automatic updates
 
