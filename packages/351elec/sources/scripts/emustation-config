@@ -76,7 +76,7 @@ if [ $? == "0" ]
 then
   charmap="UTF-8"
   lang="${locale}.${charmap}"
-  locpath="/storage/.config/distribution/configs/locale"
+  locpath="/storage/.config/emulationstation/locale"
   i18npath="$locpath/i18n"
   localepath="$locpath/$lang"
 
@@ -87,7 +87,7 @@ then
     normperf
   fi
 
-  export LOCPATH=$locpat
+  export LOCPATH=$locpath
   export LANG=$lang
   export LANGUAGE=$lang
   systemctl import-environment LANG

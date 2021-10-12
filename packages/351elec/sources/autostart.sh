@@ -82,6 +82,14 @@ else
   rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs --exclude=lzdoom.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution &
 fi
 
+# Sync ES locale
+if [ ! -d "/storage/.config/emulationstation/locale" ]
+then
+  rsync -a /usr/config/locale /storage/.config/emulationstation/locale &
+else
+  rsync -a --delete /usr/config/locale /storage/.config/emulationstation/locale &
+fi
+
 # Clean cache garbage when boot up.
 rsync -a --delete /tmp/cache/ /storage/.cache/cores/ &
 
@@ -107,6 +115,11 @@ rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/ports &
 
 # Wait for the rsync processes to finish.
 wait
+
+if [ ! -L "/storage/.config/emulationstation/locale" ]
+then
+  ln -sf "/usr/config/locale" "/storage/.config/distribution/configs/locale"
+fi
 
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then

@@ -41,11 +41,11 @@ pre_configure_target() {
 
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/distribution/configs/locale
-	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/distribution/configs/locale/
+	mkdir -p $INSTALL/usr/config/locale
+	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/locale/
 
 	mkdir -p $INSTALL/usr/lib
-	ln -sf /storage/.config/distribution/configs/locale $INSTALL/usr/lib/locale
+	ln -sf /storage/.config/emulationstation/locale $INSTALL/usr/lib/locale
 
 	mkdir -p $INSTALL/usr/config/emulationstation/resources
 	cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
@@ -89,5 +89,5 @@ makeinstall_target() {
 post_install() {
 	enable_service emustation.service
 	mkdir -p $INSTALL/usr/share
-	ln -sf /storage/.config/distribution/configs/locale $INSTALL/usr/share/locale
+	ln -sf /storage/.config/emulationstation/locale $INSTALL/usr/share/locale
 }
