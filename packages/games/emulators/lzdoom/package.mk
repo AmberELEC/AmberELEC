@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="lzdoom"
-PKG_VERSION="8f48280f1a2b09b6478a88125b4f21144c9cafc8"
+PKG_VERSION="221c48ea54a5add14c9814df9d0e19fe10ce9542"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
@@ -19,7 +19,7 @@ then
 fi
 
 pre_build_host() {
-HOST_CMAKE_OPTS=""
+  HOST_CMAKE_OPTS=""
 }
 
 make_host() {
