@@ -6,6 +6,14 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+# Sync ES locale only after update
+if [ ! -d "/storage/.config/emulationstation/locale" ]
+then
+  rsync -a /usr/config/locale/ /storage/.config/emulationstation/locale/ &
+else
+  rsync -a --delete /usr/config/locale/ /storage/.config/emulationstation/locale/ &
+fi
+
 ## 2021-10-07
 ## Copy es_input.cfg over on every update
 ## This prevents a user with an old es_input from getting the 'input config scree'
