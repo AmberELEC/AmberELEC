@@ -34,7 +34,7 @@ makeinstall_host() {
 pre_configure_target() {
 PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
                         -DFORCE_CROSSCOMPILE=ON \
-                        -DIMPORT_EXECUTABLES=$PKG_BUILD/.$HOST_NAME/ImportExecutables.cmake
+                        -DIMPORT_EXECUTABLES=$PKG_BUILD/.$HOST_NAME/ImportExecutables.cmake \
                         -DCMAKE_BUILD_TYPE=Release"
 }
 
