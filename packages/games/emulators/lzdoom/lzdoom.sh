@@ -21,10 +21,10 @@ mkdir -p ${SAVE_DIR}
 params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
 
 if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" -width 360 -height 240 +set vid_fps 1 +set cl_capfps 0"
+  params+=" -width 360 -height 240 +vid_fps 1 +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
 fi
 if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
-  params+=" -width 320 -height 240 +set vid_fps 1 +set cl_capfps 0"
+  params+=" -width 320 -height 240 +vid_fps 1 +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
 fi
 
 # EXT can be wad, WAD, iwad, IWAD, pwad, PWAD or doom
