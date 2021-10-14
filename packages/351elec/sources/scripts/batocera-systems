@@ -413,7 +413,7 @@ systems = {
                                                               {"md5": "", "file": "bios/quasi88/N88_KNJ2.ROM"}]},
 
     # Nintendo
-    "fds":         {"name": "Nintendo Family Computer Disk System", "biosFiles": [{"md5": "7bfe8c0540ed4bd6a0f1e2a0f0118ced", "file": "bios/NstDatabase.xml"},
+    "fds":         {"name": "Nintendo Family Computer Disk System", "biosFiles": [{"md5": "", "file": "bios/NstDatabase.xml"},
                                                                                   {"md5": "ca30b50f880eb660a320674ed365ef7a", "file": "bios/disksys.rom"}]},
 
     "gb":          {"name": "Game Boy", "biosFiles":                             [{"md5": "32fbbd84168d3482956eb3c5051637f5", "file": "bios/gb_bios.bin"},
