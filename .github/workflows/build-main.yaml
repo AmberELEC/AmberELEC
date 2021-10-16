@@ -112,7 +112,7 @@ jobs:
             ${{ github.event.client_payload.release_notes }}
             
             ### Upgrade Instructions
-            You can update to this release using the`beta` channel on your device.  This is the recommended way to use beta versions.
+            You can update to this release using the `beta` channel on your device. This is the recommended way to use beta versions.
             
              **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
 
