@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="1cd51db89fe0411b42473b9bf13e2ab0ad625bfe"
+PKG_VERSION="932d4da7e70c0f0f3a1ab230051691ba5176e05d"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
@@ -20,7 +20,7 @@ GET_HANDLER_SUPPORT="git"
 # Uncomment the following lines (PKG_SITE, PKG_URL, GET_HANDLER_SUPPORT) to build locally from a git clone
 # of 351elec-emulationstation in your work directory.  Works with docker too if it's in the work directory.
 # ------------------------
-# To ensure the source gets updated , you must remove source before each build or it will not get rebuilt.  
+# To ensure the source gets updated , you must remove source before each build or it will not get rebuilt.
 # So build similar to this:
 #   rm -rf ./sources/351elec-emulationstation/ \
 #      && DOCKER_WORK_DIR=/work DEVICE=RG351V ARCH=aarch64 PACKAGE=351elec-emulationstation make docker-package-clean docker-package
