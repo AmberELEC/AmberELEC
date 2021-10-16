@@ -12,7 +12,7 @@
 
 . /etc/profile
 
-RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx supervision tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
+RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psp psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx supervision tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 # The following systems are listed as they don't need the Analogue D-Pad mode on RA
@@ -541,8 +541,8 @@ fi
 # Get configuration from distribution.conf and set to retroarch.cfg
 BEZEL=$(get_ee_setting 'bezel' ${PLATFORM} "${ROM}")
 if [[ -z "${BEZEL}" ]]; then
-   BEZEL=default                                             
-fi 
+   BEZEL=default
+fi
 log "bezel: ${BEZEL} platform: ${PLATFORM} rom: ${ROM}"
 
 if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
@@ -552,14 +552,14 @@ if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" 
                         path="${p}"/"${BEZEL}"
                 fi
         done
-        
+
         BEZEL_SYSTEM=$(get_ee_setting 'bezel.system.override' ${PLATFORM} "${ROM}")
         if [[ -z "${BEZEL_SYSTEM}" || "${BEZEL_SYSTEM}" == "AUTO" ]]; then
           BEZEL_SYSTEM=${PLATFORM}
         fi
         BEZEL_SYSTEM_PNG=${path}/systems/${BEZEL_SYSTEM}.png
         log "Bezel system png: ${BEZEL_SYSTEM_PNG}"
- 
+
         GAME_BEZEL_OVERRIDE=$(get_ee_setting 'bezel.game.override' ${PLATFORM} "${ROM}")
         log "Game bezel override: ${GAME_BEZEL_OVERRIDE}"
         if [[ -z "${GAME_BEZEL_OVERRIDE}" || "${GAME_BEZEL_OVERRIDE}" == "AUTO" ]]; then
@@ -599,7 +599,7 @@ if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" 
         fi
         log "bezel png: ${BEZEL_SYSTEM_PNG}"
         if [[ -f "${BEZEL_SYSTEM_PNG}" ]]; then
-                
+
                 # create the temporary bezel for retroarch
                 echo "overlays = 1" > ${TMP_BEZEL}
                 echo "overlay0_full_screen = true" >> ${TMP_BEZEL}
@@ -608,15 +608,15 @@ if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" 
                 count=0
                 if [[ -d "${path}/systems/${BEZEL_SYSTEM}/overlays/" ]]; then
                         for overlay_png in $(ls -1 ${path}/systems/${BEZEL_SYSTEM}/overlays/*.png) ; do
-                                 
+
                                 overlay_name="${overlay_png%.*}"
                                 overlay_name="$(basename ${overlay_name})"
-                                overlay_setting=$(get_ee_setting "bezel.overlay.${overlay_name}" ${PLATFORM} "${ROM}") 
+                                overlay_setting=$(get_ee_setting "bezel.overlay.${overlay_name}" ${PLATFORM} "${ROM}")
                                 if [[ "${overlay_setting}" == "0" ]];then
                                         continue
                                 fi
                                 log "Adding overlay. name: ${overlay_name} overlay setting: ${overlay_setting} png: ${overlay_png}"
-                                echo "overlay0_desc${count}_overlay = \"${overlay_png}\"" >> ${TMP_BEZEL} 
+                                echo "overlay0_desc${count}_overlay = \"${overlay_png}\"" >> ${TMP_BEZEL}
                                 echo "overlay0_desc${count} = \"nul,0.5,0.5,rect,0.5,0.5\"" >> ${TMP_BEZEL}
                                 count=$(expr $count + 1)
                         done
