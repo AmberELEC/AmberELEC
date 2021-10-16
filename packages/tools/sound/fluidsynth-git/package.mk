@@ -16,7 +16,7 @@ pre_configure_target() {
                          -Denable-readline=0 \
                          -Denable-oss=0 \
                          -Denable-pulseaudio=1 \
-                         -Denable-libsndfile=0"
+                         -Denable-libsndfile=1"
 }
 
 post_makeinstall_target() {
