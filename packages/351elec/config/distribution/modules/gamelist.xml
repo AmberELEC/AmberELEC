@@ -9,7 +9,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
 		<image>./downloaded_images/filemanager.png</image>
 	</game>
@@ -22,7 +22,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/ppsspp-thumb.png</thumbnail>
 		<image>./downloaded_images/ppsspp.png</image>
 	</game>
@@ -35,7 +35,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/scummvm-thumb.png</thumbnail>
 		<image>./downloaded_images/scummvm.png</image>
 	</game>
@@ -48,7 +48,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/retroarch32-thumb.png</thumbnail>
 		<image>./downloaded_images/retroarch32.png</image>
 	</game>
@@ -61,7 +61,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/retroarch64-thumb.png</thumbnail>
 		<image>./downloaded_images/retroarch64.png</image>
 	</game>
@@ -74,7 +74,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/clean-thumb.png</thumbnail>
 		<image>./downloaded_images/clean.png</image>
 	</game>
@@ -87,7 +87,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/usb-thumb.png</thumbnail>
 		<image>./downloaded_images/usb.png</image>
 	</game>
@@ -100,7 +100,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/psx_m3u_generator-thumb.png</thumbnail>
 		<image>./downloaded_images/psx_m3u_generator.png</image>
 	</game>
@@ -113,7 +113,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/psx_delete_m3u-thumb.png</thumbnail>
 		<image>./downloaded_images/psx_delete_m3u.png</image>
 	</game>
@@ -126,7 +126,7 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
 		<image>./downloaded_images/rclone-back.png</image>
 	</game>
@@ -139,22 +139,22 @@
 		<publisher>351ELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2021</releasedate>
-		<genre>script</genre>
+		<genre>Script</genre>
 		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
 		<image>./downloaded_images/rclone-restore.png</image>
 	</game>
 
-        <game>
-                <path>./351Files.sh</path>
-                <name>351Files</name>
-                <desc>Single panel file manager</desc>
-                <developer>Tardigrade</developer>
-                <publisher>non-commercial</publisher>
-                <rating>1.0</rating>
-                <releasedate>2021</releasedate>
-                <genre>script</genre>
-                <thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
-                <image>./downloaded_images/filemanager.png</image>
-        </game>
+	<game>
+		<path>./351Files.sh</path>
+		<name>351Files</name>
+		<desc>Single panel file manager</desc>
+		<developer>Tardigrade</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
+		<image>./downloaded_images/filemanager.png</image>
+	</game>
 
 </gameList>
