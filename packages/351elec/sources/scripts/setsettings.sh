@@ -361,14 +361,14 @@ fi
 ## Autosave
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "autosave"
-if [ "${EES}" == false ] || [ "${EES}" == "1" ]; then
-	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
-	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
-	AUTOLOAD=true
-else
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 	echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
 	AUTOLOAD=false
+else
+	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+	AUTOLOAD=true
 fi
 
 ## Snapshots
