@@ -6,12 +6,24 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+# set savestate_thumbnail_enable = true (required for savestate menu in ES)
+sed -i "/savestate_thumbnail_enable =/d" ${RACONF}
+echo "savestate_thumbnail_enable = "true"" >> ${RACONF}
+
 # Sync ES locale only after update
 if [ ! -d "/storage/.config/emulationstation/locale" ]
 then
   rsync -a /usr/config/locale/ /storage/.config/emulationstation/locale/ &
 else
   rsync -a --delete /usr/config/locale/ /storage/.config/emulationstation/locale/ &
+fi
+
+# Sync ES resources after update
+if [ ! -d "/storage/.config/emulationstation/resources" ]
+then
+  rsync -a /usr/config/emulationstation/resources/ /storage/.config/emulationstation/resources/ &
+else
+  rsync -a --delete /usr/config/emulationstation/resources/ /storage/.config/emulationstation/resources/ &
 fi
 
 ## 2021-10-07
