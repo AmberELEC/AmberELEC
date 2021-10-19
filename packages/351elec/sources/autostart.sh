@@ -245,7 +245,7 @@ fi
 
 ## Only call postupdate once after an UPDATE
 if [ "UPDATE" == "$(cat /storage/.config/boot.hint)" ]; then
-        echo -en '\e[0;0H\e[37mExecuting postupdate...\e[0m' >/dev/console
+	echo -en '\e[0;0H\e[37mExecuting postupdate...\e[0m' >/dev/console
 	/usr/bin/postupdate.sh
 	echo "OK" > /storage/.config/boot.hint
 fi
