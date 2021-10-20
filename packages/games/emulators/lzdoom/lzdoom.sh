@@ -11,6 +11,11 @@ RUN_DIR="/storage/roms/doom"
 CONFIG="/storage/.config/distribution/lzdoom/lzdoom.ini"
 SAVE_DIR="/storage/roms/gamedata/lzdoom"
 
+if [ ! -L "/storage/.config/lzdoom" ]
+then
+  ln -sf "/storage/.config/distribution/lzdoom" "/storage/.config/lzdoom"
+fi
+
 if [ ! -f "/storage/.config/distribution/lzdoom/lzdoom.ini" ]
 then
   cp -rf /usr/config/distribution/lzdoom/lzdoom.ini /storage/.config/distribution/lzdoom/
