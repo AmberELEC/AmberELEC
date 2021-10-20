@@ -120,62 +120,8 @@ fi
 
 # End Automatic updates
 
-# Set video mode, this has to be done before starting ES
-#DEFE=$(get_ee_setting ee_videomode)
-#
-#if [ "${DEFE}" != "Custom" ]; then
-#    [ ! -z "${DEFE}" ] && echo "${DEFE}" > /sys/class/display/mode
-#fi
-#
-#if [ -s "/storage/.config/EE_VIDEO_MODE" ]; then
-#        echo $(cat /storage/.config/EE_VIDEO_MODE) > /sys/class/display/mode
-#elif [ -s "/flash/EE_VIDEO_MODE" ]; then
-#        echo $(cat /flash/EE_VIDEO_MODE) > /sys/class/display/mode
-#fi
-
-# finally we correct the FB according to video mode
-/usr/bin/setres.sh
-
-# handle SSH
-DEFE=$(get_ee_setting ee_ssh.enabled)
-
-case "$DEFE" in
-"0")
-	systemctl stop sshd
-	rm /storage/.cache/services/sshd.conf
-	;;
-"1")
-	mkdir -p /storage/.cache/services/
-	touch /storage/.cache/services/sshd.conf
-	systemctl start sshd
-	;;
-*)
-	systemctl stop sshd
-	rm /storage/.cache/services/sshd.conf
-	;;
-esac
-
-# handle SAMBA
-DEFE=$(get_ee_setting ee_samba.enabled)
-
-case "$DEFE" in
-"0")
-	systemctl stop nmbd
-	systemctl stop smbd
-	rm /storage/.cache/services/smb.conf
-	;;
-"1")
-	mkdir -p /storage/.cache/services/
-	touch /storage/.cache/services/smb.conf
-	systemctl start nmbd
-	systemctl start smbd
-	;;
-*)
-	systemctl stop nmbd
-	systemctl stop smbd
-	rm /storage/.cache/services/smb.conf
-	;;
-esac
+# start services
+/usr/bin/startservices.sh &
 
 # Show splash Screen
 /usr/bin/show_splash.sh intro &
