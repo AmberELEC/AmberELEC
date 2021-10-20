@@ -9,3 +9,4 @@ source /etc/profile
 jslisten set "killall retroarch"
 
 /usr/bin/retroarch
+/usr/bin/clear-retroarch.sh

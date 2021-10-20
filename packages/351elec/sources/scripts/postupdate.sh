@@ -92,70 +92,7 @@ fi
 ## 2021-07-24 (konsumschaf)
 ## Remove all settings from retroarch.cfg that are set in setsettings.sh
 ## Retroarch uses the settings in retroarch.cfg if there is an override file that misses them
-sed -i '/video_scale_integer =/d' ${RACONF}
-sed -i '/video_ctx_scaling =/d' ${RACONF}
-sed -i '/video_shader =/d' ${RACONF}
-sed -i '/video_shader_enable =/d' ${RACONF}
-sed -i '/video_smooth =/d' ${RACONF}
-sed -i '/aspect_ratio_index =/d' ${RACONF}
-sed -i '/rewind_enable =/d' ${RACONF}
-sed -i '/run_ahead_enabled =/d' ${RACONF}
-sed -i '/run_ahead_frames =/d' ${RACONF}
-sed -i '/run_ahead_secondary_instance =/d' ${RACONF}
-sed -i "/state_slot =/d" ${RACONF}
-sed -i '/savestate_auto_save =/d' ${RACONF}
-sed -i '/savestate_auto_load =/d' ${RACONF}
-sed -i '/savestates_in_content_dir =/d' ${RACONF}
-sed -i '/savestate_directory =/d' ${RACONF}
-sed -i '/cheevos_enable =/d' ${RACONF}
-sed -i '/cheevos_username =/d' ${RACONF}
-sed -i '/cheevos_password =/d' ${RACONF}
-sed -i '/cheevos_hardcore_mode_enable =/d' ${RACONF}
-sed -i '/cheevos_leaderboards_enable =/d' ${RACONF}
-sed -i '/cheevos_verbose_enable =/d' ${RACONF}
-sed -i '/cheevos_test_unofficial =/d' ${RACONF}
-sed -i '/cheevos_unlock_sound_enable =/d' ${RACONF}
-sed -i '/cheevos_richpresence_enable =/d' ${RACONF}
-sed -i '/cheevos_challenge_indicators =/d' ${RACONF}
-sed -i '/cheevos_auto_screenshot =/d' ${RACONF}
-sed -i '/cheevos_badges_enable =/d' ${RACONF}
-sed -i '/cheevos_start_active =/d' ${RACONF}
-sed -i '/ai_service_mode =/d' ${RACONF}
-sed -i '/ai_service_enable =/d' ${RACONF}
-sed -i '/ai_service_source_lang =/d' ${RACONF}
-sed -i '/ai_service_url =/d' ${RACONF}
-sed -i "/input_libretro_device_p1/d" ${RACONF}
-sed -i "/fps_show/d" ${RACONF}
-sed -i "/netplay =/d" ${RACONF}
-sed -i "/netplay_ip_port/d" ${RACONF}
-sed -i "/netplay_delay_frames/d" ${RACONF}
-sed -i "/netplay_nickname/d" ${RACONF}
-sed -i "/netplay_client_swap_input/d" ${RACONF}
-sed -i "/netplay_ip_port/d" ${RACONF}
-sed -i "/netplay_server_ip/d" ${RACONF}
-sed -i "/netplay_client_swap_input/d" ${RACONF}
-sed -i "/netplay_spectator_mode_enable/d" ${RACONF}
-sed -i "/netplay_use_mitm_server/d" ${RACONF}
-sed -i "/netplay_ip_address/d" ${RACONF}
-sed -i "/netplay_mitm_server/d" ${RACONF}
-sed -i "/netplay_mode/d" ${RACONF}
-sed -i "/input_player1_analog_dpad_mode/d" ${RACONF}
-# bezels
-sed -i "/input_overlay_enable/d" ${RACONF}
-sed -i "/input_overlay/d" ${RACONF}
-sed -i "/input_overlay_hide_in_menu/d" ${RACONF}
-sed -i "/input_overlay_opacity/d" ${RACONF}
-sed -i "/input_overlay_show_inputs/d" ${RACONF}
-sed -i "/custom_viewport_x/d" ${RACONF}
-sed -i "/custom_viewport_y/d" ${RACONF}
-sed -i "/custom_viewport_width/d" ${RACONF}
-sed -i "/custom_viewport_height/d" ${RACONF}
-# video filters
-sed -i "/video_filters =/d" ${RACONF}
-# wifi (first line has stay else will come back if deleted)
-sed -i 's/wifi_driver = "connmanctl"/wifi_driver = "null"/g' ${RACONF}
-# record driver
-sed -i "/record_driver =/d" ${RACONF}
+/usr/bin/clear-retroarch.sh
 
 ## 2021-07-25:
 ## Remove package drastic if still installed
