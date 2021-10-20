@@ -11,6 +11,11 @@ CONFIG_DIR="/storage/.config/distribution/ecwolf"
 CONFIG_FILE="${CONFIG_DIR}/ecwolf.cfg"
 SAVE_DIR="/storage/roms/gamedata/ecwolf"
 
+if [ ! -L "/storage/.config/ecwolf" ]
+then
+  ln -sf "/storage/.config/distribution/ecwolf" "/storage/.config/ecwolf"
+fi
+
 if [ ! -f "/storage/.config/distribution/ecwolf/ecwolf.cfg" ]
 then
   cp -rf /usr/config/distribution/ecwolf/ecwolf.cfg /storage/.config/distribution/ecwolf/
