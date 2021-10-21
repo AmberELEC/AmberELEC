@@ -189,3 +189,7 @@ fi
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
+
+# Clear Executing postupdate... message
+echo -ne "\033[$1;$1H" >/dev/console
+echo "                       " > /dev/console
