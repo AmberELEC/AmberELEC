@@ -11,3 +11,7 @@ PKG_DEPENDS_HOST="ccache:host"
 PKG_LONGDESC="GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS"
 
 PKG_CONFIGURE_OPTS_HOST="--disable-nls --disable-acl --without-selinux"
+
+post_install() {
+  echo -e "\nca_directory = /usr/lib/ssl" >> $INSTALL/etc/wgetrc
+}
