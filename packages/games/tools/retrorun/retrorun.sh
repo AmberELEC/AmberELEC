@@ -8,16 +8,16 @@
 echo 'starting retrorun emulator...'
 
 CORE="$1"
-ROM="$2"
+ROM="${2##*/}"
 PLATFORM="$3"
-CONF="/storage/.config/distribution/configs/retrorun.cfg"
+CONF="/storage/.config/distribution/configs/distribution.conf"
+RRCONF="/storage/.config/distribution/configs/retrorun.cfg"
 
-if [ ! -f ${CONF} ]; then
+if [ ! -f ${RRCONF} ]; then
   cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
 fi
 
 function get_setting() {
-	log "Get Settings function (${1})"
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
 	EES=$(sed -n "${PAT}" "${CONF}" | head -1)
@@ -38,64 +38,68 @@ function get_setting() {
 # Auto Save
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "auto_save"
+echo ${EES}
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	sed -i "/^retrorun_auto_save/d" ${CONF}
-	echo 'retrorun_auto_save = false' >> ${CONF}
+	sed -i "/^retrorun_auto_save/d" ${RRCONF}
+	echo 'retrorun_auto_save = false' >> ${RRCONF}
 else
-	sed -i "/^retrorun_auto_save/d" ${CONF}
-	echo 'retrorun_auto_save = ${EES}' >> ${CONF}
+	sed -i "/^retrorun_auto_save/d" ${RRCONF}
+	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
+echo ${EES}
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	sed -i "/^retrorun_auto_save/d" ${CONF}
-	echo 'retrorun_aspect_ratio = auto' >> ${CONF}
+	sed -i "/^retrorun_aspect_ratio/d" ${RRCONF}
+	echo 'retrorun_aspect_ratio = auto' >> ${RRCONF}
 else
-	sed -i "/^retrorun_auto_save/d" ${CONF}
-	echo 'retrorun_aspect_ratio = ${EES}' >> ${CONF}
+	sed -i "/^retrorun_aspect_ratio/d" ${RRCONF}
+	echo "retrorun_aspect_ratio = ${EES}" >> ${RRCONF}
 fi
 
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "internal_resolution"
+echo ${EES}
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [ "${CORE}" == "parallel_n64" ]; then
-		sed -i "/^parallel-n64-screensize/d" ${CONF}
-		echo 'parallel-n64-screensize = 640x480' >> ${CONF}
-	elif [ "${CORE}" == "parallel_n64_gln64" ]; then
-		sed -i "/^parallel-n64_gln64-screensize/d" ${CONF}
-		echo 'parallel-n64_gln64-screensize = 640x480' >> ${CONF}
-	elif [ "${CORE}" == "flycast" ]; then
-		sed -i "/^flycast_internal_resolution/d" ${CONF}
-		echo 'flycast_internal_resolution = 640x480' >> ${CONF}
+	if [[ "${CORE}" =~ "parallel_n64_gln64" ]]; then
+		sed -i "/^parallel-n64_gln64-screensize/d" ${RRCONF}
+		echo 'parallel-n64_gln64-screensize = 640x480' >> ${RRCONF}
+	elif [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
+		echo 'parallel-n64-screensize = 640x480' >> ${RRCONF}
+	elif [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_internal_resolution/d" ${RRCONF}
+		echo 'flycast_internal_resolution = 640x480' >> ${RRCONF}
 	fi
 else
-	if [ "${CORE}" == "parallel_n64" ]; then
-		sed -i "/^parallel-n64-screensize/d" ${CONF}
-		echo 'parallel-n64-screensize = ${EES}' >> ${CONF}
-	elif [ "${CORE}" == "parallel_n64_gln64" ]; then
-		sed -i "/^parallel-n64_gln64-screensize/d" ${CONF}
-		echo 'parallel-n64_gln64-screensize = ${EES}' >> ${CONF}
-	elif [ "${CORE}" == "flycast" ]; then
-		sed -i "/^flycast_internal_resolution/d" ${CONF}
-		echo 'flycast_internal_resolution = ${EES}' >> ${CONF}
+	if [[ "${CORE}" =~ "parallel_n64_gln64" ]]; then
+		sed -i "/^parallel-n64_gln64-screensize/d" ${RRCONF}
+		echo "parallel-n64_gln64-screensize = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
+		echo "parallel-n64-screensize = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_internal_resolution/d" ${RRCONF}
+		echo "flycast_internal_resolution = ${EES}" >> ${RRCONF}
 	fi
 fi
 
 # Threaded Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "threaded_rendering"
+echo ${EES}
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [ "${CORE}" == "flycast" ]; then
-		sed -i "/^flycast_threaded_rendering/d" ${CONF}
-		echo 'flycast_threaded_rendering = enabled' >> ${CONF}
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_threaded_rendering/d" ${RRCONF}
+		echo 'flycast_threaded_rendering = enabled' >> ${RRCONF}
 	fi
 else
-	if [ "${CORE}" == "flycast" ]; then
-		sed -i "/^flycast_threaded_rendering/d" ${CONF}
-		echo 'flycast_threaded_rendering = ${EES}' >> ${CONF}
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_threaded_rendering/d" ${RRCONF}
+		echo "flycast_threaded_rendering = ${EES}" >> ${RRCONF}
 	fi
 fi
 
