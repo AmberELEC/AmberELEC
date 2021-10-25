@@ -79,7 +79,7 @@ if [ ! -d "/storage/.config/distribution" ]
 then
   rsync -a /usr/config/distribution/ /storage/.config/distribution/ &
 else
-  rsync -a --delete --exclude=custom_start.sh --exclude=configs --exclude=lzdoom.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution/ &
+  rsync -a --delete --exclude=custom_start.sh --exclude=configs --exclude=lzdoom.ini --exclude=gzdoom.ini --exclude=raze.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution/ &
 fi
 
 # Clean cache garbage when boot up.
