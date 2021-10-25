@@ -257,6 +257,17 @@ then
 			then
 				jslisten set "lzdoom"
 				RUNTHIS='${TBASH} /usr/bin/lzdoom.sh "${ROMNAME}"'
+			elif [ "$EMU" = "gzdoom" ]
+			then
+				jslisten set "gzdoom"
+				RUNTHIS='${TBASH} /usr/bin/gzdoom.sh "${ROMNAME}"'
+			fi
+                ;;
+		"build")
+			if [ "$EMU" = "raze" ]
+			then
+				jslisten set "raze"
+				RUNTHIS='${TBASH} /usr/bin/raze.sh "${ROMNAME}"'
 			fi
                 ;;
 		"solarus")
