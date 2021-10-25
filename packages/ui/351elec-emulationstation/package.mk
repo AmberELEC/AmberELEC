@@ -32,13 +32,7 @@ GET_HANDLER_SUPPORT="git"
 # themes for Emulationstation
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
 
-PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=0 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=1"
-
-pre_configure_target() {
-  cd $PKG_BUILD
-  sed -i "s|SMOOTH GAMES|BILINEAR FILTER|g" es-app/src/guis/GuiMenu.cpp
-}
-
+PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0"
 
 makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/locale
