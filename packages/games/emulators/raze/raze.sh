@@ -10,6 +10,11 @@ RUN_DIR="/storage/roms/build"
 CONFIG="/storage/.config/distribution/raze/raze.ini"
 SAVE_DIR="/storage/roms/gamedata/raze"
 
+if [ ! -L "/storage/.config/raze" ]
+then
+  ln -sf "/storage/.config/distribution/raze" "/storage/.config/raze"
+fi
+
 if [ ! -f "/storage/.config/distribution/raze/raze.ini" ]
 then
   cp -rf /usr/config/distribution/raze/raze.ini /storage/.config/distribution/raze/

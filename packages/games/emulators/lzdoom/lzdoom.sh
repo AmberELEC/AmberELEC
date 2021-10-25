@@ -1,7 +1,6 @@
 #!/usr/bin/bash
 
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC/351ELEC)
 
 . /etc/profile
