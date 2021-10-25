@@ -1,7 +1,7 @@
-diff --git a/src/common/menu/menu.cpp b/src/common/menu/menu.cpp
+diff --git a/source/common/menu/menu.cpp b/source/common/menu/menu.cpp
 index 05ae2073f..b8e6b8210 100644
---- a/src/common/menu/menu.cpp
-+++ b/src/common/menu/menu.cpp
+--- a/source/common/menu/menu.cpp
++++ b/source/common/menu/menu.cpp
 @@ -694,12 +694,12 @@ bool M_Responder (event_t *ev)
  			{
  			case KEY_JOY2:
