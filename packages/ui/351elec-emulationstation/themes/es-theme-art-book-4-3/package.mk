@@ -4,7 +4,7 @@
 
 PKG_NAME="es-theme-art-book-4-3"
 PKG_REV="1"
-PKG_VERSION="f497208990b4cbdcea151ca7fa393c6f0cd9fdf0"
+PKG_VERSION="53d50fccbd8510daf46d4d349846d28f0565a42a"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
 PKG_SITE="https://github.com/szalik-rg351/es-theme-art-book-4-3"
