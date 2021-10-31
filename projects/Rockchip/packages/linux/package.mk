@@ -18,6 +18,10 @@ PKG_STAMP="$KERNEL_TARGET $KERNEL_MAKE_EXTRACMD"
 
 PKG_PATCH_DIRS="$LINUX"
 
+if [[ "$DEVICE" == RG351V ]]; then
+  PKG_PATCH_DIRS="${DEVICE} ${LINUX}"
+fi
+
 PKG_KERNEL_CFG_FILE=$(kernel_config_path) || die
 
 if [ -n "$KERNEL_TOOLCHAIN" ]; then
