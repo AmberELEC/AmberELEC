@@ -46,9 +46,9 @@ if [ -e /storage/.please_resize_me ] ; then
     StartProgress spinner "Checking file system... " "e2fsck -f -p ${PART} &>/dev/null"
     StartProgress spinner "Resizing file system... " "resize2fs ${PART} &>/dev/null"
     GAMESSTART="$(echo $(parted -m ${DISK} print all | awk 'BEGIN {FS=":"} /^2/ {gsub ("[A-Z]",""); print $3}') + 17 | bc)"
-    StartProgress spinner "Creating EXFAT partition..." "parted -s -a optimal -m ${DISK} mkpart primary ntfs ${GAMESSTART}MB 100% &>/dev/null"
+    StartProgress spinner "Creating exFAT partition..." "parted -s -a optimal -m ${DISK} mkpart primary ntfs ${GAMESSTART}MB 100% &>/dev/null"
     partprobe &>/dev/null
-    StartProgress spinner "Formatting EXFAT partition..." "mkfs.exfat -n GAMES ${DISK}p3 &>/dev/null"
+    StartProgress spinner "Formatting exFAT partition..." "mkfs.exfat -n GAMES ${DISK}p3 &>/dev/null"
     StartProgress countdown "Rebooting in 5s...     " 5 "NOW"
   fi
 fi

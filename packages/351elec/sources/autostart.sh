@@ -105,13 +105,14 @@ cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
 # Move ports to the FAT volume
 rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/ports &
 
+# Sync ES locale if missing
+if [ ! -d "/storage/.config/emulationstation/locale" ]
+then
+  rsync -a /usr/config/locale/ /storage/.config/emulationstation/locale/ &
+fi
+
 # Wait for the rsync processes to finish.
 wait
-
-if [ ! -L "/storage/.config/emulationstation/locale" ]
-then
-  ln -sf "/usr/config/locale" "/storage/.config/distribution/configs/locale"
-fi
 
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then

@@ -151,7 +151,7 @@ fi
 
 ## 2021-05-15:
 ## MC needs the config
-if [ -z $(ls -A /storage/.config/mc/) ]; then
+if [[ -z $(ls -A /storage/.config/mc/) ]]; then
 	rsync -a /usr/config/mc/* /storage/.config/mc
 fi
 
