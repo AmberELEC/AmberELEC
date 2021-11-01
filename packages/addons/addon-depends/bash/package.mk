@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2016-2020 Team LibreELEC
-# Copyright (C) 2020-preset 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2020-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="bash"
 PKG_VERSION="4.4.18"
