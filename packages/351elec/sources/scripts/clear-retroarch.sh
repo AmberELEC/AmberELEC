@@ -53,6 +53,7 @@ sed -i '
         /netplay_mitm_server/d;
         /netplay_mode/d;
         /netplay_nickname/d;
+        /netplay_public_announce/d;
         /netplay_server_ip/d;
         /netplay_spectator_mode_enable/d;
         /netplay_use_mitm_server/d;
