@@ -252,7 +252,7 @@ else
 
 	# relay
 	get_setting "netplay.relay"
-	if [[ ! -z "${EES}" && "${EES}" != "none" ]]; then
+	if [[ ! -z "${EES}" && "${EES}" != "false" ]]; then
 		echo 'netplay_use_mitm_server = true' >> ${RAAPPENDCONF}
 		echo "netplay_mitm_server = ${EES}" >> ${RAAPPENDCONF}
 	else
@@ -267,6 +267,8 @@ else
 	# spectator mode
 	get_setting "netplay.spectator"
 	[ "${EES}" == "1" ] && echo 'netplay_spectator_mode_enable = true' >> ${RAAPPENDCONF} || echo 'netplay_spectator_mode_enable = false' >> ${RAAPPENDCONF}
+	get_setting "netplay_public_announce"
+	[ "${EES}" == "1" ] && echo 'netplay_public_announce = true' >> ${RAAPPENDCONF} || echo 'netplay_public_announce = false' >> ${RAAPPENDCONF}
 fi
 
 ## AI Translation Service
