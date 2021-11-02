@@ -87,19 +87,19 @@ else
 	fi
 fi
 
-# Threaded Rendering
+# Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
-get_setting "threaded_rendering"
+get_setting "synchronous_rendering"
 echo ${EES}
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" =~ "flycast" ]]; then
-		sed -i "/^flycast_threaded_rendering/d" ${RRCONF}
-		echo 'flycast_threaded_rendering = enabled' >> ${RRCONF}
+		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
+		echo 'flycast_synchronous_rendering = enabled' >> ${RRCONF}
 	fi
 else
 	if [[ "${CORE}" =~ "flycast" ]]; then
-		sed -i "/^flycast_threaded_rendering/d" ${RRCONF}
-		echo "flycast_threaded_rendering = ${EES}" >> ${RRCONF}
+		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
+		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
 fi
 
