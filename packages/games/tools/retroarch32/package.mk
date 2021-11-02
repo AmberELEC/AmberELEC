@@ -4,7 +4,7 @@
 PKG_NAME="retroarch32"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPLv2"
-PKG_DEPENDS_TARGET="toolchain retroarch SDL2 SDL2-14 libsndfile"
+PKG_DEPENDS_TARGET="toolchain retroarch SDL2 SDL2-14 libsndfile libmodplug"
 PKG_SHORTDESC="ARM 32bit retroarch bundle for aarch64"
 PKG_PRIORITY="optional"
 PKG_TOOLCHAIN="manual"
@@ -31,6 +31,7 @@ makeinstall_target() {
 		libudev.so* \
 		libusb-1.0* \
 		libSDL2* \
+		libmodplug* \
 		libsndfile* \
 		libavcodec* \
 		libavformat* \
