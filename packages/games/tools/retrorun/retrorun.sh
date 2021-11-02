@@ -59,6 +59,18 @@ else
 	echo "retrorun_aspect_ratio = ${EES}" >> ${RRCONF}
 fi
 
+# Show FPS
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "show_fps"
+echo ${EES}
+if [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
+	echo 'retrorun_fps_counter = disabled' >> ${RRCONF}
+else
+	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
+	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
+fi
+
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "internal_resolution"
