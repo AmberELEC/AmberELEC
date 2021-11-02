@@ -34,6 +34,6 @@ configure_target() {
                         --enable-ccache \
                         --enable-pic \
                         --enable-static \
-			--enable-vp8 \
-			--enable-vp9
+                        --enable-vp8 \
+                        --enable-vp9
 }
