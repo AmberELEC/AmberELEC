@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="liblcf"
-PKG_VERSION="01b73de93cf80185fcdf3ffd4737dfdb9111a85e"
+PKG_VERSION="bb9f9e2fd745d9a60a6d226eb666c259d87720aa"
 PKG_ARCH="any"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/EasyRPG/liblcf"
@@ -29,7 +29,7 @@ GET_HANDLER_SUPPORT="git"
 PKG_USE_CMAKE="yes"
 PKG_TOOLCHAIN="cmake"
 
-PKG_CMAKE_OPTS_TARGET="-DCMAKE_BUILD_TYPE=Release"
+PKG_CMAKE_OPTS_TARGET="-DCMAKE_BUILD_TYPE=Release -DDISABLE_ICU=ON"
 
 pre_make_target() {
   find $PKG_BUILD -name flags.make -exec sed -i "s:isystem :I:g" \{} \;

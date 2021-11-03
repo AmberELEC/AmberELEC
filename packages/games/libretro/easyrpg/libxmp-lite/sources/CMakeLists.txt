@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-project(xmp-lite VERSION 4.5.0 LANGUAGES C)
+project(xmp-lite VERSION 4.4.1 LANGUAGES C)
 
 add_library(xmp-lite
 	include/libxmp-lite/xmp.h
