@@ -283,9 +283,9 @@ else
 	[[ "$AI_LANG" == "false" ]] && AI_LANG="0"
 	get_setting "ai_service_url"
 	AI_URL=${EES}
-	echo "ai_service_source_lang = \"${AI_LANG}\"" >> ${RAAPPENDCONF}
+	echo "ai_service_target_lang = \"${AI_LANG}\"" >> ${RAAPPENDCONF}
 	if [ "${AI_URL}" == "false" ] || [ "${AI_URL}" == "auto" ] || [ "${AI_URL}" == "none" ]; then
-		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=${AI_LANG}" >> ${RAAPPENDCONF}
 	else
 		echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
 	fi
