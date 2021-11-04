@@ -14,7 +14,6 @@ RACONF="/storage/.config/retroarch/retroarch.cfg"
 sed -i '
         # delete lines
         /ai_service_enable =/d;
-        /ai_service_mode =/d;
         /ai_service_target_lang =/d;
         /ai_service_url =/d;
         /aspect_ratio_index =/d;
