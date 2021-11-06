@@ -116,6 +116,16 @@ else
 fi
 
 
+FORCE_ANALOG_STICK='-n'
+# Force left analog stick to DPAD
+# Get configuration from distribution.conf and set to FORCE_ANALOG_STICK
+get_setting "force_right_analog_stick"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        FORCE_ANALOG_STICK='-n'
+else
+        FORCE_ANALOG_STICK=''
+fi
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
@@ -153,10 +163,10 @@ if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
 then
     echo 'using 32bit'
   	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD $FORCE_ANALOG_STICK -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
 else
 	echo 'using 64bit'
-	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD $FORCE_ANALOG_STICK -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 fi
 sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
