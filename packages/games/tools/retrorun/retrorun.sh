@@ -39,7 +39,7 @@ function get_setting() {
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "auto_save"
 echo ${EES}
-if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_auto_save/d" ${RRCONF}
 	echo 'retrorun_auto_save = false' >> ${RRCONF}
 else
@@ -51,7 +51,7 @@ fi
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
 echo ${EES}
-if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_aspect_ratio/d" ${RRCONF}
 	echo 'retrorun_aspect_ratio = auto' >> ${RRCONF}
 else
@@ -59,11 +59,23 @@ else
 	echo "retrorun_aspect_ratio = ${EES}" >> ${RRCONF}
 fi
 
+# Show FPS
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "show_fps"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
+	echo 'retrorun_fps_counter = disabled' >> ${RRCONF}
+else
+	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
+	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
+fi
+
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "internal_resolution"
 echo ${EES}
-if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" =~ "parallel_n64_gln64" ]]; then
 		sed -i "/^parallel-n64_gln64-screensize/d" ${RRCONF}
 		echo 'parallel-n64_gln64-screensize = 640x480' >> ${RRCONF}
@@ -91,10 +103,10 @@ fi
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "synchronous_rendering"
 echo ${EES}
-if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" =~ "flycast" ]]; then
 		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
-		echo 'flycast_synchronous_rendering = enabled' >> ${RRCONF}
+		echo 'flycast_synchronous_rendering = disabled' >> ${RRCONF}
 	fi
 else
 	if [[ "${CORE}" =~ "flycast" ]]; then
@@ -103,6 +115,18 @@ else
 	fi
 fi
 
+
+# Force left analog stick to DPAD
+# Get configuration from distribution.conf and set to FORCE_ANALOG_STICK
+get_setting "force_left_analog_stick"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+	echo 'retrorun_force_left_analog_stick = auto' >> ${RRCONF}
+else
+	sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+	echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
+fi
 
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
@@ -141,10 +165,10 @@ if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
 then
     echo 'using 32bit'
   	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
 else
 	echo 'using 64bit'
-	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 fi
 sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
