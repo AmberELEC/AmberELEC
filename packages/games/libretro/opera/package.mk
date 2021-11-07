@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="opera"
-PKG_VERSION="7369aa80f2e965036f705a311e5d5f30ab98cc14"
-PKG_SHA256="8b4d50ace3afc277ea727ad81bd689797bbe76ee6eea8bf86063fb94b4c56619"
+PKG_VERSION="fef06b06127736544f6ebb4f703efd01b6e018dd"
+PKG_SHA256="415c1aab5466e663fbf12ac80de06b6d3a69520db11440b7f2473f62d043f1d3"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="LGPL with additional notes"

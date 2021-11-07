@@ -94,7 +94,7 @@ def main():
         sys.exit(1)
 
     message_stream(
-        f"\nUpdating to current release: {current_release} from: {args.existing_release}\n")
+        f"\nUpdating to: {current_release} from: {args.existing_release}\n")
     message_stream(f"\nDownloading (each # = 1.25%)... \n")
     downloaded_file = download_update(
         current_release, args.existing_release, args.device, args.org, args.repo, args.update_dir, show_progress)
