@@ -47,6 +47,20 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
+
+# Force left analog stick to DPAD
+# Get configuration from distribution.conf and set to FORCE_ANALOG_STICK
+get_setting "force_left_analog_stick"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+        echo 'retrorun_force_left_analog_stick = false' >> ${RRCONF}
+else
+        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+        echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
+fi
+
+
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
@@ -70,6 +84,7 @@ else
 	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
+
 
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -114,20 +129,6 @@ else
 		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
 fi
-
-
-# Force left analog stick to DPAD
-# Get configuration from distribution.conf and set to FORCE_ANALOG_STICK
-get_setting "force_left_analog_stick"
-echo ${EES}
-if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
-	echo 'retrorun_force_left_analog_stick = auto' >> ${RRCONF}
-else
-	sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
-	echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
-fi
-
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'

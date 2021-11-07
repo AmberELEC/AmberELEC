@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="mame2003-plus"
-PKG_VERSION="3a65c930b9589218909d25b0bdb9bfeb0852133d"
-PKG_SHA256="ccb08642bf29613dca8001196a0387223452a1fad8957812b76be3fd0261ec29"
+PKG_VERSION="8f69baf45f8e42873f10eefd749763ec9482e3b5"
+PKG_SHA256="e4fb9e607391c838c06bf3118fd44049e358b9a6618b7b56f262186a5decadd4"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"

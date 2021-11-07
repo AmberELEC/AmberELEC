@@ -6,6 +6,13 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 
+# 2021-11-03 (konsumschaf)
+# Remove the 2 minutes popup setting from distribution.conf
+# Remove old setting for popup (notification.display_time)
+sed -i '/int name="audio.display_titles_time" value="120"/d;
+        /int name="notification.display_time"/d;
+       ' /storage/.config/emulationstation/es_settings.cfg
+
 # set savestate_thumbnail_enable = true (required for savestate menu in ES)
 sed -i "/savestate_thumbnail_enable =/d" ${RACONF}
 echo "savestate_thumbnail_enable = "true"" >> ${RACONF}

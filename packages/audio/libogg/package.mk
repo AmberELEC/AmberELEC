@@ -3,7 +3,7 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libogg"
-PKG_VERSION="1.3.4"
+PKG_VERSION="1.3.5"
 #PKG_SHA256=""
 PKG_LICENSE="BSD"
 PKG_SITE="https://www.xiph.org/ogg/"
