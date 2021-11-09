@@ -56,7 +56,8 @@ pre_configure_target(){
                          -DVIDEO_OPENGLES=ON \
                          -DVIDEO_VULKAN=OFF \
                          -DVIDEO_KMSDRM=ON \
-                         -DPULSEAUDIO=ON"
+                         -DPULSEAUDIO=ON \
+                         -DINSTALL_SDL2_CONFIG=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
 

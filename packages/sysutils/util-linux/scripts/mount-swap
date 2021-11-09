@@ -10,13 +10,6 @@ if [ -f /storage/.config/swap.conf ]; then
   . /storage/.config/swap.conf
 fi
 
-if [ -f "$SWAPFILE" ]; then
-  if [ $(ls -l "$SWAPFILE" | awk '{print  $5}') -lt $(($SWAPFILESIZE*1024*1024)) ]; then
-    swapoff "$SWAPFILE"
-    rm -rf "$SWAPFILE"
-  fi
-fi
-
 if [ -e /dev/.storage_netboot ] ; then
   logger -t Boot "### netbooting... swap disabled ###"
   exit 0
