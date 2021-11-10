@@ -48,9 +48,9 @@ else
 fi
 
 
-# Force left analog stick to DPAD
-# Get configuration from distribution.conf and set to FORCE_ANALOG_STICK
-get_setting "force_left_analog_stick"
+# Map left analog to DPAD
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "map_left_analog_to_dpad"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
         sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
@@ -84,7 +84,6 @@ else
 	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
-
 
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -130,6 +129,8 @@ else
 	fi
 fi
 
+
+
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
@@ -166,7 +167,7 @@ if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
 then
     echo 'using 32bit'
   	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 else
 	echo 'using 64bit'
 	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
