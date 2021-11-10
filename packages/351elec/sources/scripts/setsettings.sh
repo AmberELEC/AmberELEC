@@ -277,17 +277,41 @@ get_setting "ai_service_enabled"
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	echo 'ai_service_enable = "false"' >> ${RAAPPENDCONF}
 else
+	# Translation table to get the values RA needs
+	declare -A LangCodes=( 	["false"]="0"
+							["En"]="1"
+							["Fr"]="3"
+							["Pt"]="49"
+							["De"]="5"
+							["El"]="30"
+							["Es"]="2"
+							["Cs"]="8"
+							["Da"]="9"
+							["Hr"]="11"
+							["Hu"]="35"
+							["It"]="4"
+							["Ja"]="6"
+							["Ko"]="12"
+							["Nl"]="7"
+							["Nn"]="46"
+							["Po"]="48"
+							["Ro"]="50"
+							["Ru"]="51"
+							["Sv"]="10"
+							["Tr"]="59"
+							["Zh"]="13"
+                  		)
 	echo 'ai_service_enable = "true"' >> ${RAAPPENDCONF}
 	get_setting "ai_target_lang"
 	AI_LANG=${EES}
-	[[ "$AI_LANG" == "false" ]] && AI_LANG="0"
+	# [[ "$AI_LANG" == "false" ]] && AI_LANG="0"
 	get_setting "ai_service_url"
 	AI_URL=${EES}
-	echo "ai_service_source_lang = \"${AI_LANG}\"" >> ${RAAPPENDCONF}
+	echo "ai_service_target_lang = \"${LangCodes[${AI_LANG}]}\"" >> ${RAAPPENDCONF}
 	if [ "${AI_URL}" == "false" ] || [ "${AI_URL}" == "auto" ] || [ "${AI_URL}" == "none" ]; then
-		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=${AI_LANG}" >> ${RAAPPENDCONF}
 	else
-		echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+		echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=${AI_LANG}" >> ${RAAPPENDCONF}
 	fi
 fi
 

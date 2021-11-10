@@ -12,6 +12,6 @@ diff -rupN libmali.orig/meson.build libmali.new/meson.build
  subversion = get_option('subversion')
 -platform = get_option('platform')
 +platform = 'gbm'
- 
- message('Building for ' + '|'.join([arch, gpu, version, subversion, platform]))
- 
+ opencl_icd = get_option('opencl-icd')
+ vendor_package = get_option('vendor-package')
+ wrapper_packages = get_option('wrapper-packages')

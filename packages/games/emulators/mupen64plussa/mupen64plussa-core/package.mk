@@ -2,13 +2,13 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-core"
-PKG_VERSION="12eb4ddfeac0a5038c033d0dc212be90d2172170"
-PKG_SHA256="04aa6b3c2e6a82bd1a4c5f3569f4f6bc97a3fad163febedfb4929454a7f8921f"
+PKG_VERSION="db0f7365f2c2b8bbae523b2503e660d09d4a2a85"
+PKG_SHA256="a2b9715eee132ba8410ab82690571f2cfc36ea9cbec4c505e04acaf2deb91c87"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-core"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-core/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain ${OPENGLES} boost libpng17 SDL2 SDL2_net zlib freetype nasm:host"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} boost libpng SDL2 SDL2_net zlib freetype nasm:host"
 PKG_SHORTDESC="mupen64plus"
 PKG_LONGDESC="Mupen64Plus Standalone"
 PKG_TOOLCHAIN="manual"

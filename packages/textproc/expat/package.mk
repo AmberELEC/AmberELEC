@@ -2,8 +2,8 @@
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 
 PKG_NAME="expat"
-PKG_VERSION="2.2.5"
-PKG_SHA256="d9dc32efba7e74f788fcc4f212a43216fc37cf5f23f4c2339664d473353aedf6"
+PKG_VERSION="2.4.1"
+PKG_SHA256="2f9b6a580b94577b150a7d5617ad4643a4301a6616ff459307df3e225bcfbf40"
 PKG_LICENSE="OSS"
 PKG_SITE="http://expat.sourceforge.net/"
 PKG_URL="https://github.com/libexpat/libexpat/releases/download/R_${PKG_VERSION//./_}/${PKG_NAME}-${PKG_VERSION}.tar.bz2"

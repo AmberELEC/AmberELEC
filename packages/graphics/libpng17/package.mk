@@ -32,5 +32,5 @@ post_makeinstall_target() {
       -e "s:libs=\"-lpng17\":libs=\"-lpng17 -lz\":g" \
       -i $SYSROOT_PREFIX/usr/bin/libpng*-config
 
- # rm -rf $INSTALL/usr/bin
+ rm -rf $INSTALL/usr/lib/libpng.so
 }
