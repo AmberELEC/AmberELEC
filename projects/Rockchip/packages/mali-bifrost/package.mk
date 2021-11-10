@@ -3,13 +3,13 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="mali-bifrost"
-PKG_VERSION="43b24f4a2c7cda2144210e6ca6c62eaaf8a29497"
-PKG_SHA256="1b6b81d29d352595c2f2ace495c311bd0189d55352b5c4bc6d5a2022eafb9a39"
+PKG_VERSION="ad4c28932c3d07c75fc41dd4a3333f9013a25e7f"
+PKG_SHA256="8b7bd1f969e778459d79a51e5f58c26eda0b818580966daba16ee2fc08f4c151"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
 PKG_SITE="https://github.com/rockchip-linux/libmali"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain libdrm vulkan-loader vulkan-tools"
+PKG_DEPENDS_TARGET="toolchain libdrm"
 PKG_LONGDESC="The Mali GPU library used in Rockchip Platform for Odroidgo Advance"
 
 if [ $ARCH == "aarch64" ]

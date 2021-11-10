@@ -20,8 +20,6 @@ pre_configure_target() {
 CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
 CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
 CFLAGS+=" -I$(get_build_dir linux)/tools/include"
-
-PKG_MAKE_OPTS_TARGET=" config=release ARCH="
 }
 
 make_target() {
@@ -32,6 +30,7 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
   if [ "${ARCH}" != "aarch64" ]; then
     cp retrorun $INSTALL/usr/bin/retrorun32
+    patchelf --set-interpreter /usr/lib32/ld-linux-armhf.so.3 $INSTALL/usr/bin/retrorun32
   else
     cp retrorun $INSTALL/usr/bin
     cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin

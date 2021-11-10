@@ -2,13 +2,13 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="1f502b8f948c9607a3d5127531461878752b5d81"
+PKG_VERSION="4d3890547464bd184ed58b21e3d9c4b80dec743d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
-PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip SDL2 zlib zip vulkan-loader"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip SDL2 zlib zip"
 PKG_SHORTDESC="PPSSPPDL"
 PKG_LONGDESC="PPSSPP Standalone"
 GET_HANDLER_SUPPORT="git"
@@ -34,8 +34,7 @@ PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=OFF \
 			-DUNITTEST=OFF \
 			-DSIMULATOR=OFF \
 			-DHEADLESS=OFF \
-			-DUSE_DISCORD=OFF \
-			-fpermissive"
+			-DUSE_DISCORD=OFF"
 
 pre_configure_target() {
   sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
