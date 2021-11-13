@@ -17,6 +17,7 @@ sed -i '
         /ai_service_target_lang =/d;
         /ai_service_url =/d;
         /aspect_ratio_index =/d;
+        /audio_filter_dir =/d;
         /cheevos_auto_screenshot =/d;
         /cheevos_badges_enable =/d;
         /cheevos_challenge_indicators =/d;
@@ -67,7 +68,8 @@ sed -i '
         /savestates_in_content_dir =/d;
         /state_slot =/d;
         /video_ctx_scaling =/d;
-        /video_filters =/d;
+        /video_filter =/d;
+        /video_filter_dir =/d;
         /video_scale_integer =/d;
         /video_shader =/d;
         /video_shader_enable =/d;

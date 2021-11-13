@@ -8,5 +8,5 @@ source /etc/profile
 
 jslisten set "killall retroarch"
 
-/usr/bin/retroarch
+/usr/bin/retroarch --appendconfig /usr/config/retroarch/retroarch64bit-append.cfg
 /usr/bin/clear-retroarch.sh
