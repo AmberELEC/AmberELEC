@@ -8,9 +8,12 @@ PKG_ARCH="arm aarch64"
 PKG_LICENSE="LGPL"
 PKG_DEPENDS_TARGET="toolchain libevdev librga"
 PKG_SITE="https://github.com/navy1978/libgo2"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="$PKG_SITE.git"
 PKG_LONGDESC="Support library for the ODROID-GO Advance "
 PKG_TOOLCHAIN="make"
+GET_HANDLER_SUPPORT="git"
+
+
 
 if [ "${DEVICE}" = "RG351P" ]
 then
