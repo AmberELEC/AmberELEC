@@ -6,7 +6,7 @@ PKG_VERSION="0f1dedabd1bb1af84e368e00b3ededbb9fce996f"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/SDL2"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio"
+PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio libsamplerate"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
 PKG_TOOLCHAIN="cmake-make"
 
@@ -28,8 +28,8 @@ pre_configure_target(){
                          -DARTS_SHARED=OFF \
                          -DNAS=OFF \
                          -DNAS_SHARED=OFF \
-                         -DLIBSAMPLERATE=OFF \
-                         -DLIBSAMPLERATE_SHARED=OFF \
+                         -DLIBSAMPLERATE=ON \
+                         -DLIBSAMPLERATE_SHARED=ON \
                          -DSNDIO=OFF \
                          -DDISKAUDIO=OFF \
                          -DDUMMYAUDIO=OFF \
