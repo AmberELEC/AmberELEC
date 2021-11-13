@@ -23,7 +23,7 @@ fi
 mkdir -p ${SAVE_DIR}
 
 params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
-params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
+params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +cl_nomeleeblur 1 +vid_fps 1"
 
 EXT=${1#*.}
 
