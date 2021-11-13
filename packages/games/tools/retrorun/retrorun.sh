@@ -47,6 +47,20 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
+
+# Map left analog to DPAD
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "map_left_analog_to_dpad"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+        echo 'retrorun_force_left_analog_stick = false' >> ${RRCONF}
+else
+        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+        echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
+fi
+
+
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
@@ -153,10 +167,10 @@ if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
 then
     echo 'using 32bit'
   	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3"  -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 else
 	echo 'using 64bit'
-	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -n -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
 fi
 sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick

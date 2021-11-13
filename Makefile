@@ -23,13 +23,20 @@ distclean:
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
-world: RG351P RG351V RG351MP
+world:
+	RG351P RG351V RG351MP
 
-RG351P: p-arm p-aarch64
+RG351P:
+	DEVICE=RG351P ARCH=arm ./scripts/build_distro
+	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
 
-RG351V: v-arm v-aarch64
+RG351V:
+	DEVICE=RG351V ARCH=arm ./scripts/build_distro
+	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
 
-RG351MP: mp-arm mp-aarch64
+RG351MP:
+	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
+	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
 
 p-arm:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro

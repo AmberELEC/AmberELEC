@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="e740f34b4e152c416d75ec8ef9ce88e07c0e70c6"
+PKG_VERSION="05d0cdb6f5f82ca000585031bfe1a7cf22c8afaa"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/351ELEC/retrorun-go2"
@@ -17,11 +17,9 @@ pre_make_target() {
 }
 
 pre_configure_target() {
-CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
-CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
-CFLAGS+=" -I$(get_build_dir linux)/tools/include"
-
-PKG_MAKE_OPTS_TARGET=" config=release ARCH="
+  CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
+  CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
+  CFLAGS+=" -I$(get_build_dir linux)/tools/include"
 }
 
 make_target() {

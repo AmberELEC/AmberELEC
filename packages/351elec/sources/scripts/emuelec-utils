@@ -160,7 +160,7 @@ function getshaders() {
 function getfilters() {
 	find /usr/share/video_filters/ -name '*.filt' -print0 |
 			while IFS= read -r -d '' line; do
-			echo ${line#/usr/share/video_filters/},
+			echo ${line#/usr/share/retroarch/filters/64bit/video/},
 	done
 }
 
