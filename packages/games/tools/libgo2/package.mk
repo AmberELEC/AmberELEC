@@ -2,12 +2,12 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="libgo2"
-PKG_VERSION="5878bedaf6f1ec0726cf9a6c6e2577134a5a1245"
+PKG_VERSION="bc992566bb86f2fe0c8d981d4db46e2e2beb5b0e"
 PKG_SHA256="89ad1cf229d581fa8e4498f4f4c526215176e79885e935bd7dc48c5872655f92"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="LGPL"
 PKG_DEPENDS_TARGET="toolchain libevdev librga"
-PKG_SITE="https://github.com/navy1978/libgo2"
+PKG_SITE="https://github.com/OtherCrashOverride/libgo2"
 PKG_URL="$PKG_SITE.git"
 PKG_LONGDESC="Support library for the ODROID-GO Advance "
 PKG_TOOLCHAIN="make"
