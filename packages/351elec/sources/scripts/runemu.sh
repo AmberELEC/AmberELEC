@@ -375,7 +375,7 @@ else
 		SNAPSHOT=""
 	fi
 
-	CORE=${EMU%%_*}
+#	CORE=${EMU%%_*}
 
 	### Configure netplay
 	if [[ ${NETPLAY} != "No" ]]; then
