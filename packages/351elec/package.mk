@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch32 imagemagick retrorun"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch lib32 imagemagick retrorun"
 PKG_SHORTDESC="351ELEC Meta Package"
 PKG_LONGDESC="351ELEC Meta Package"
 PKG_IS_ADDON="no"
@@ -51,7 +51,7 @@ makeinstall_target() {
   ln -sf /storage/roms/opt $INSTALL/opt
 
   mkdir -p $INSTALL/usr/lib
-  ln -s /usr/lib32/ld-2.32.so $INSTALL/usr/lib/ld-linux-armhf.so.3
+  ln -s /usr/lib32/ld-linux-armhf.so.3 $INSTALL/usr/lib/ld-linux-armhf.so.3
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays
   if [ "$DEVICE" == "RG351P" ]; then
