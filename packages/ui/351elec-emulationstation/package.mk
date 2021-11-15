@@ -34,6 +34,12 @@ PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0"
 
+pre_configure_target() {
+  if [ -f ~/developer_settings.conf ]; then
+    . ~/developer_settings.conf
+  fi
+}
+
 makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/locale
 	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/locale/
