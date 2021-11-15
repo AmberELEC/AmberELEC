@@ -23,4 +23,6 @@ makeinstall_target() {
   cp -v  CAPSImg/libcapsimage.so.5.1 ${INSTALL}/usr/lib/
   ln -sf libcapsimage.so.5.1 ${INSTALL}/usr/lib/libcapsimage.so.5
   ln -sf libcapsimage.so.5.1 ${INSTALL}/usr/lib/libcapsimage.so
+  mkdir -p ${INSTALL}/usr/local/include/caps5
+  cp -v LibIPF/* ${INSTALL}/usr/local/include/caps5
 }
