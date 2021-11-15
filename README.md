@@ -14,7 +14,7 @@ Visit us on our Discord! https://discord.gg/bmXtCt88Tz
 Please visit the wiki [Installation](https://351elec.de/Installation#overview) page for installation instructions.
 
 ## Building from Source
-Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 100GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
+Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
 
 ```
 sudo apt update && sudo apt upgrade
