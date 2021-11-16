@@ -416,6 +416,17 @@ else
 	echo 'rewind_enable = "false"' >> ${RAAPPENDCONF}
 fi
 
+## Incrementalsave
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "incrementalsavestates"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	echo 'savestate_auto_index = "false"' >> ${RAAPPENDCONF}
+	echo 'savestate_max_keep = "50"' >> ${RAAPPENDCONF}
+else
+	echo 'savestate_auto_index = "true"' >> ${RAAPPENDCONF}
+	echo 'savestate_max_keep = "0"' >> ${RAAPPENDCONF}
+fi
+
 ## Autosave
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "autosave"
