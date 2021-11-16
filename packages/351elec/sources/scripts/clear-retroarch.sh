@@ -62,9 +62,11 @@ sed -i '
         /run_ahead_enabled =/d;
         /run_ahead_frames =/d;
         /run_ahead_secondary_instance =/d;
+        /savestate_auto_index =/d;
         /savestate_auto_load =/d;
         /savestate_auto_save =/d;
         /savestate_directory =/d;
+        /savestate_max_keep =/d;
         /savestates_in_content_dir =/d;
         /state_slot =/d;
         /video_ctx_scaling =/d;
