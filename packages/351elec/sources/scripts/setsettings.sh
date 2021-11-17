@@ -35,6 +35,11 @@ LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
+#Autosave
+AUTOSAVE="$@"
+AUTOSAVE="${AUTOSAVE#*--autosave=*}"
+AUTOSAVE="${AUTOSAVE% --*}"
+
 #Snapshot
 SNAPSHOT="$@"
 SNAPSHOT="${SNAPSHOT#*--snapshot=*}"
@@ -416,7 +421,7 @@ else
 	echo 'rewind_enable = "false"' >> ${RAAPPENDCONF}
 fi
 
-## Incrementalsave
+## Incrementalsavestates
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "incrementalsavestates"
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
@@ -449,14 +454,18 @@ then
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
 		echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
-		echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+		if [ ${AUTOSAVE} == "0" ]; then
+			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+		else
+			echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+                fi
 		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
 	else
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
 		echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 		echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-		echo 'state_slot = "0"' >> ${RAAPPENDCONF}
+		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
 	fi
 fi
 
