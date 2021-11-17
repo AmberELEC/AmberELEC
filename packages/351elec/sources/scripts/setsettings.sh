@@ -438,35 +438,25 @@ get_setting "autosave"
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 	echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-	AUTOLOAD=false
 else
 	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
 	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
-	AUTOLOAD=true
 fi
 
 ## Snapshots
 echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RAAPPENDCONF}
 if [ ! -z ${SNAPSHOT} ]
 then
-	if [ ${AUTOLOAD} == true ]
-	then
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
 		if [ ${AUTOSAVE} == "0" ]; then
 			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 		else
 			echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
                 fi
 		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
-	else
-		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
-		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
-		echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
-	fi
 fi
 
 ## Runahead
@@ -492,7 +482,7 @@ if [ $RA == 1 ]; then
 fi
 
 
-## D-Pad to Analogue support, option in ES is missng atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
+## D-Pad to Analogue support, option in ES is missing atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "analogue"
 (for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
