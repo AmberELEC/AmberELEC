@@ -230,7 +230,7 @@ then
 		"setup")
 				RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
-		"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
+		"mame"|"arcade")
 			jslisten set "advmame"
 			if [ "$EMU" = "AdvanceMame" ]
 			then
