@@ -42,6 +42,9 @@ pre_configure_target() {
 }
 
 make_target() {
+  unset ARCH
+  unset DISTRO
+  unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
   make $PKG_MAKE_OPTS_TARGET OVERRIDE_CC=$CC OVERRIDE_CXX=$CXX OVERRIDE_LD=$LD AR=$AR $MAKEFLAGS
 }
