@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="5346a93a5d0fd0aec3298e1234fc5584c1c620ca"
+PKG_VERSION="da1ed0d851c20c7b57c34c2eef12adcd3ca674e9"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
@@ -33,6 +33,12 @@ GET_HANDLER_SUPPORT="git"
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0"
+
+pre_configure_target() {
+  if [ -f ~/developer_settings.conf ]; then
+    . ~/developer_settings.conf
+  fi
+}
 
 makeinstall_target() {
 	mkdir -p $INSTALL/usr/config/locale

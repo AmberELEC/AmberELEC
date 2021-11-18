@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="capsimg"
-PKG_VERSION="5d306bb19bc4382367a1e489fb36768fd224b5e6"
-PKG_SHA256="340a4a167a1d457076d133f14ceb3f8fe20773511c3bc37b1dd633e6b81b2da8"
+PKG_VERSION="457d420848145de6541e47296405b1938830900a"
+PKG_SHA256="d32c4d802301e33abef067837a20bc8bc5d9769154820b99408c6a967e8cd402"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/FrodeSolheim/capsimg"
 PKG_URL="https://github.com/FrodeSolheim/capsimg/archive/${PKG_VERSION}.tar.gz"
@@ -14,8 +14,9 @@ PKG_TOOLCHAIN="make"
 PKG_MAKE_OPTS_TARGET="-C CAPSImg"
 
 pre_configure_target() {
-  ./bootstrap.fs
-  ./configure.fs --host=${TARGET_NAME}
+  cd ..
+  ./bootstrap
+  ./configure --host=${TARGET_NAME}
 }
 
 makeinstall_target() {
