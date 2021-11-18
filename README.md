@@ -2,6 +2,10 @@
 
 An open source firmware for the Anbernic RG351P/M/V/MP devices.
 
+[![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg)](https://github.com/351ELEC/351ELEC/releases/latest)
+[![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue)](https://github.com/351ELEC/351ELEC/blob/main/licenses/GPL2.txt)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?logo=discord)](https://discord.gg/bmXtCt88Tz)
+
 351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V/MP and is not compatible with other devices.
 
 We have an active [wiki](https://351elec.de) with [installation instructions](https://351elec.de/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.de/Getting-to-Know-351ELEC).
