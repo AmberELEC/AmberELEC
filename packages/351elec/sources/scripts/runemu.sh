@@ -209,13 +209,6 @@ if [ -z ${RETROARCH} ] &&  [ -z ${RETRORUN} ]
 then
 	$VERBOSE && log "Configuring for a non-libretro emulator"
 	case ${PLATFORM} in
-		"atari2600")
-			if [ "$EMU" = "STELLASA" ]
-			then
-				jslisten set "stella"
-				RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
-			fi
-		;;
 		"atarist")
 			if [ "$EMU" = "HATARISA" ]
 			then
