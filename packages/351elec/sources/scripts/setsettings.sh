@@ -449,7 +449,7 @@ if [ ! -z ${SNAPSHOT} ]
 then
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		if [ ${AUTOSAVE} == "0" ]; then
+		if [ ${AUTOSAVE} == "0" ] || [ ${AUTOSAVE} == "" ]; then
 			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
 			echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 		else
