@@ -34,11 +34,7 @@ PKG_TOOLCHAIN="make"
 
 make_target() {
   cd svn-current/trunk
-  if [ "$ARCH" == "arm" ]; then
-    make -f makefile.libretro platform=armv CC=$CC CXX=$CXX
-  else
-    make -f makefile.libretro CC=$CC CXX=$CXX
-  fi
+  make -f makefile.libretro
 }
 
 makeinstall_target() {
