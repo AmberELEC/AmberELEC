@@ -1,8 +1,8 @@
 # Software Information
-display_name = "Arcade (FB Alpha)"
+display_name = "Arcade (FB Alpha 2019)"
 authors = "Team FB Alpha"
 supported_extensions = "iso|zip|7z"
-corename = "FB Alpha"
+corename = "FB Alpha 2019"
 license = "Non-commercial"
 permissions = ""
 display_version = "v0.2.97.44"
@@ -17,4 +17,4 @@ systemid = "fb_alpha"
 supports_no_game = "false"
 notes = "(!) The BIOS files must be inside the ROM directory."
 
-description = "Based on a snapshot of the Final Burn Alpha codebase from circa 2018, 'FB Alpha' is compatible with FB Alpha v0.2.97.29 ROM sets. Most users should use up-to-date FBNeo instead and should only fall back to this core if their device is not capable of running that core."
+description = "Based on a snapshot of the Final Burn Alpha codebase from circa 2019, 'FB Alpha 2019' is compatible with FB Alpha v0.2.97.44 ROM sets. Most users should use up-to-date FBNeo instead and should only fall back to this core if their device is not capable of running that core."
