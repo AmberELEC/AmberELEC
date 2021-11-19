@@ -449,12 +449,12 @@ if [ ! -z ${SNAPSHOT} ]
 then
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		if [ ${AUTOSAVE} == "0" ] || [ ${AUTOSAVE} == "" ]; then
-			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-			echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
-		else
+		if [ ${AUTOSAVE} == "1" ]; then
 			echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
 			echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+		else
+			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
                 fi
 		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
 fi
