@@ -2,8 +2,7 @@
 # Copyright (C) 2019 Trond Haugland (trondah@gmail.com)
 
 PKG_NAME="mame"
-PKG_VERSION="0ffe64c81b23ab19fb2ec46389f3acaea1cdd7f9"
-PKG_SHA256="2261dc03715cb182aef653a147fd24bf99c7610640e7df3168f1c7de8eb1d49e"
+PKG_VERSION="031ac783585e7d5156a6f87a9ba20d88caf94ad6"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mame"
@@ -14,42 +13,39 @@ PKG_SHORTDESC="MAME - Multiple Arcade Machine Emulator"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-lto"
 
-PTR64="0"
-NOASM="0"
-
-if [ "$ARCH" == "arm" ]; then
-  NOASM="1"
-elif [ "$ARCH" == "x86_64" ]; then
-  PTR64="1"
-fi
 
 PKG_MAKE_OPTS_TARGET="REGENIE=1 \
 		      VERBOSE=1 \
 		      NOWERROR=1 \
 		      OPENMP=1 \
 		      CROSS_BUILD=1 \
-		      TOOLS=1 \
+		      TOOLS=0 \
 		      RETRO=1 \
-		      PTR64=$PTR64 \
-		      NOASM=$NOASM \
+		      PTR64=0 \
+		      NOASM=0 \
 		      PYTHON_EXECUTABLE=python3 \
 		      CONFIG=libretro \
 		      LIBRETRO_OS=unix \
-		      LIBRETRO_CPU=$ARCH \
-		      PLATFORM=$ARCH \
+		      LIBRETRO_CPU= \
+		      PLATFORM=arm64 \
 		      ARCH= \
 		      TARGET=mame \
-		      SUBTARGET=arcade \
+		      SUBTARGET=mame \
 		      OSD=retro \
 		      USE_SYSTEM_LIB_EXPAT=1 \
 		      USE_SYSTEM_LIB_ZLIB=1 \
 		      USE_SYSTEM_LIB_FLAC=1 \
 		      USE_SYSTEM_LIB_SQLITE3=1"
 
+pre_configure_target() {
+  sed -i "s/-static-libstdc++//g" scripts/genie.lua
+}
+
 make_target() {
   unset ARCH
   unset DISTRO
   unset PROJECT
+  export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
   make $PKG_MAKE_OPTS_TARGET OVERRIDE_CC=$CC OVERRIDE_CXX=$CXX OVERRIDE_LD=$LD AR=$AR $MAKEFLAGS
 }
 

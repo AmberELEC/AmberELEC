@@ -209,13 +209,6 @@ if [ -z ${RETROARCH} ] &&  [ -z ${RETRORUN} ]
 then
 	$VERBOSE && log "Configuring for a non-libretro emulator"
 	case ${PLATFORM} in
-		"atari2600")
-			if [ "$EMU" = "STELLASA" ]
-			then
-				jslisten set "stella"
-				RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
-			fi
-		;;
 		"atarist")
 			if [ "$EMU" = "HATARISA" ]
 			then
@@ -230,7 +223,7 @@ then
 		"setup")
 				RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
-		"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
+		"mame"|"arcade")
 			jslisten set "advmame"
 			if [ "$EMU" = "AdvanceMame" ]
 			then
@@ -379,14 +372,22 @@ else
 
 	if [[ "$arguments" == *"-state_slot"* ]]; then
 		CONTROLLERCONFIG="${CONTROLLERCONFIG%% -state_slot*}"  # until -state is found
-		SNAPSHOT="${arguments#*-state_slot *}" # -state_slot x -autosave 1
-		SNAPSHOT="${SNAPSHOT%% -*}"  # we don't need -autosave 1 we asume its always 1
+		SNAPSHOT="${arguments#*-state_slot *}" # -state_slot x
+		SNAPSHOT="${SNAPSHOT%% -*}"
+		if [[ "$arguments" == *"-autosave"* ]]; then
+			CONTROLLERCONFIG="${CONTROLLERCONFIG%% -autosave*}"  # until -autosave is found
+			AUTOSAVE="${arguments#*-autosave *}" # -autosave x
+			AUTOSAVE="${AUTOSAVE%% -*}"
+		else
+			AUTOSAVE=""
+		fi
 	else
 		CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
 		SNAPSHOT=""
+		AUTOSAVE=""
 	fi
 
-	CORE=${EMU%%_*}
+#	CORE=${EMU%%_*}
 
 	### Configure netplay
 	if [[ ${NETPLAY} != "No" ]]; then
@@ -431,9 +432,9 @@ then
 fi
 
 if [[ ${PLATFORM} == "ports" ]]; then
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 else
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 fi
 SETSETTINGS_PID=$!
 

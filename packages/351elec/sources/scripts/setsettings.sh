@@ -17,6 +17,7 @@ NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi ne
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 # The following systems are listed as they don't need the Analogue D-Pad mode on RA
 NOANALOGUE=(n64 psx wonderswan wonderswancolor psp pspminis dreamcast)
+IS32BITCORE=(pcsx_rearmed parallel_n64)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/distribution/configs/distribution.conf"
@@ -33,6 +34,11 @@ SHADERSET=0
 LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
+
+#Autosave
+AUTOSAVE="$@"
+AUTOSAVE="${AUTOSAVE#*--autosave=*}"
+AUTOSAVE="${AUTOSAVE% --*}"
 
 #Snapshot
 SNAPSHOT="$@"
@@ -94,6 +100,25 @@ function get_setting() {
 
 	[ -z "${EES}" ] && EES="false"
 }
+
+function array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array}"; do
+        if [[ $element == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+## Logging
+log "setsettings.sh"
+log "Platform: ${PLATFORM}"
+log "ROM: ${ROM}"
+log "Core: ${CORE}"
 
 ##
 ## Global Setting that have to stay in retroarch.cfg
@@ -370,9 +395,21 @@ else
 	# Turn off RGA scaling first - just in case
 	sed -i "/video_ctx_scaling/d" ${RAAPPENDCONF}
 	echo 'video_ctx_scaling = "false"' >> ${RAAPPENDCONF}
-	echo "video_filter = \"/usr/share/video_filters/${EES}\"" >> ${RAAPPENDCONF}
+	if array_contains IS32BITCORE ${CORE}; then
+		echo "video_filter = \"/usr/share/retroarch/filters/32bit/video/${EES}\"" >> ${RAAPPENDCONF}
+	else
+		echo "video_filter = \"/usr/share/retroarch/filters/64bit/video/${EES}\"" >> ${RAAPPENDCONF}
+	fi
 fi
 
+## Set correct path for video- and audio-filters
+if array_contains IS32BITCORE ${CORE}; then
+	echo 'audio_filter_dir = "/usr/share/retroarch/filters/32bit/audio"' >> ${RAAPPENDCONF}
+	echo 'video_filter_dir = "/usr/share/retroarch/filters/32bit/video"' >> ${RAAPPENDCONF}
+else
+	echo 'audio_filter_dir = "/usr/share/retroarch/filters/64bit/audio"' >> ${RAAPPENDCONF}
+	echo 'video_filter_dir = "/usr/share/retroarch/filters/64bit/video"' >> ${RAAPPENDCONF}
+fi
 
 ## Rewind
 # Get configuration from distribution.conf and set to retroarch.cfg
@@ -384,37 +421,42 @@ else
 	echo 'rewind_enable = "false"' >> ${RAAPPENDCONF}
 fi
 
+## Incrementalsavestates
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "incrementalsavestates"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	echo 'savestate_auto_index = "false"' >> ${RAAPPENDCONF}
+	echo 'savestate_max_keep = "50"' >> ${RAAPPENDCONF}
+else
+	echo 'savestate_auto_index = "true"' >> ${RAAPPENDCONF}
+	echo 'savestate_max_keep = "0"' >> ${RAAPPENDCONF}
+fi
+
 ## Autosave
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "autosave"
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 	echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-	AUTOLOAD=false
 else
 	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
 	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
-	AUTOLOAD=true
 fi
 
 ## Snapshots
 echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RAAPPENDCONF}
 if [ ! -z ${SNAPSHOT} ]
 then
-	if [ ${AUTOLOAD} == true ]
-	then
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
-		echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+		if [ ${AUTOSAVE} == "1" ]; then
+			echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+		else
+			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
+                fi
 		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
-	else
-		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
-		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
-		echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-		echo 'state_slot = "0"' >> ${RAAPPENDCONF}
-	fi
 fi
 
 ## Runahead
@@ -440,7 +482,7 @@ if [ $RA == 1 ]; then
 fi
 
 
-## D-Pad to Analogue support, option in ES is missng atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
+## D-Pad to Analogue support, option in ES is missing atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "analogue"
 (for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0

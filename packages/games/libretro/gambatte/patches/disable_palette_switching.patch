@@ -1,0 +1,31 @@
+diff --git a/libgambatte/libretro/libretro.cpp b/libgambatte/libretro/libretro.cpp
+index e8a2b10..9b618f5 100644
+--- a/libgambatte/libretro/libretro.cpp
++++ b/libgambatte/libretro/libretro.cpp
+@@ -1120,8 +1120,7 @@ static void update_input_state(void)
+    bool turbo_b                = false;
+    bool palette_prev           = false;
+    bool palette_next           = false;
+-   bool palette_switch_enabled = (libretro_supports_set_variable &&
+-         internal_palette_active);
++   bool palette_switch_enabled = false;
+ 
+    if (libretro_supports_bitmasks)
+    {
+@@ -2229,14 +2228,14 @@ bool retro_load_game(const struct retro_game_info *info)
+    if (libretro_supports_ff_override)
+    {
+       if (libretro_supports_set_variable)
+-         environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc_ff_ps);
++         environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc_ff);
+       else
+          environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc_ff);
+    }
+    else
+    {
+       if (libretro_supports_set_variable)
+-         environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc_ps);
++         environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
+       else
+          environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
+    }

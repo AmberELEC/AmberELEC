@@ -19,7 +19,7 @@ import re
 logger = logging.getLogger(__name__)
 
 # Ensure downloads timeoout w/no data as normal timeout is infinite
-socket.setdefaulttimeout(15)
+socket.setdefaulttimeout(60)
 
 
 class CONSOLE:

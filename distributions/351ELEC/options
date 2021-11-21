@@ -211,7 +211,7 @@
   ADDON_URL="$ADDON_SERVER_URL/$ADDON_PATH"
 
 # Default size of system partition, in MB, eg. 512
-  SYSTEM_SIZE=1024
+  SYSTEM_SIZE=2048
 # Default system partition offset, in sectors, eg. 2048
   SYSTEM_PART_START=8192
 
@@ -221,7 +221,7 @@
   #DEBUG_GROUP_YES="kodi+"
 
 # Default supported get handlers (archive, git, file etc.)
-  GET_HANDLER_SUPPORT="archive"
+  GET_HANDLER_SUPPORT="archive git file"
 
 # Partition labels for USB/SD installation media
   DISTRO_BOOTLABEL="351ELEC"
@@ -258,8 +258,8 @@ dinothawr \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
-fba4arm \
 fbalpha2012 \
+fbalpha2019 \
 fbneo \
 fceumm \
 fmsx \
@@ -283,6 +283,7 @@ mame2000 \
 mame2003-plus \
 mame2010 \
 mame2015 \
+mame \
 meowpc98 \
 mgba \
 mrboom \

@@ -76,6 +76,9 @@ docker-%: DOCKER_IMAGE := "351elec/351elec-build:latest"
 #   Anytime this directory changes, you must run `make clean` similarly to moving the 351ELEC directory
 docker-%: DOCKER_WORK_DIR := $(shell if [ -n "${DOCKER_WORK_DIR}" ]; then echo ${DOCKER_WORK_DIR}; else echo $$(pwd); fi)
 
+# DEVELOPER_SETTINGS is a file containing developer speicific settings.  This will be mounted into the container if it exists
+docker-%: DEVELOPER_SETTINGS := $(shell if [ -f "${HOME}/developer_settings.conf" ]; then echo "-v \"${HOME}/developer_settings.conf:${HOME}/developer_settings.conf\""; else echo ""; fi)
+
 # UID is the user ID of current user - ensures docker sets file permissions properly
 docker-%: UID := $(shell id -u)
 
@@ -123,5 +126,5 @@ docker-image-push:
 
 # Wire up docker to call equivalent make files using % to match and $* to pass the value matched by %
 docker-%:
-	$(SUDO) $(DOCKER_CMD) run $(PODMAN_ARGS) $(INTERACTIVE) --env-file .env --rm --user $(UID):$(GID) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_IMAGE) $(COMMAND)
+	$(SUDO) $(DOCKER_CMD) run $(PODMAN_ARGS) $(INTERACTIVE) --env-file .env --rm --user $(UID):$(GID) $(DEVELOPER_SETTINGS) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_IMAGE) $(COMMAND)
 
