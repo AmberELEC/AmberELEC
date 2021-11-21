@@ -3,7 +3,7 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="openbor"
-PKG_VERSION="e6aec66221963f34476f8bcbf7730181216d7e75"
+PKG_VERSION="b00efbc7752cb55709dfc9fdfdfc7cfe78ddfb90"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/DCurrent/openbor"
 PKG_URL="$PKG_SITE.git"

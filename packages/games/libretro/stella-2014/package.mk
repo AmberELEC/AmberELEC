@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="stella-2014"
-PKG_VERSION="2f4855d8822ed6e84bbad713eb104ecd15ebcc0f"
-PKG_SHA256="96792054095f33febd834d87e5380290c3fc6ee3e13748ce949330f580594961"
+PKG_VERSION="934c7a2a44ef038af529b68950ddba4f7ea3478e"
+PKG_SHA256="8a4d10ce4646f0d474efc339e4db9211dd36bbf3089e98f236367368b231a8d9"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/libretro/stella2014-libretro"

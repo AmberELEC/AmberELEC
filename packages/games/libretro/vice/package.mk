@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="vice"
-PKG_VERSION="f290934c5efeaad73ea7850db0e73d437da9a088"
-PKG_SHA256="675aa5287751eb7d67a34aa7b98db2e112d352ee70747b9d55bc9d5c41bc81bb"
+PKG_VERSION="81e9837fe4aee32c2e88967fa2f0ca3de240f735"
+PKG_SHA256="0c91f6c2d8a144706e590f04f6abd9afcdefe8625c95497f576601e25d0cbf2b"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

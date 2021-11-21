@@ -20,7 +20,7 @@
 ################################################################################
 
 PKG_NAME="beetle-supafaust"
-PKG_VERSION="69553ca2b5c10d37f597081c3eb397503469df6c"
+PKG_VERSION="bdb287790df7e74ea1413361e2b07aef478a1be0"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
