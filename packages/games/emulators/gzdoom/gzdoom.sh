@@ -1,23 +1,23 @@
 #!/usr/bin/bash
 
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC/351ELEC)
+# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 . /etc/profile
 
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 RUN_DIR="/storage/roms/doom"
-CONFIG="/storage/.config/distribution/lzdoom/lzdoom.ini"
-SAVE_DIR="/storage/roms/gamedata/lzdoom"
+CONFIG="/storage/.config/distribution/gzdoom/gzdoom.ini"
+SAVE_DIR="/storage/roms/gamedata/gzdoom"
 
-if [ ! -L "/storage/.config/lzdoom" ]
+if [ ! -L "/storage/.config/gzdoom" ]
 then
-  ln -sf "/storage/.config/distribution/lzdoom" "/storage/.config/lzdoom"
+  ln -sf "/storage/.config/distribution/gzdoom" "/storage/.config/gzdoom"
 fi
 
-if [ ! -f "/storage/.config/distribution/lzdoom/lzdoom.ini" ]
+if [ ! -f "/storage/.config/distribution/gzdoom/gzdoom.ini" ]
 then
-  cp -rf /usr/config/distribution/lzdoom/lzdoom.ini /storage/.config/distribution/lzdoom/
+  cp -rf /usr/config/distribution/gzdoom/gzdoom.ini /storage/.config/distribution/gzdoom/
 fi
 
 mkdir -p ${SAVE_DIR}
@@ -25,10 +25,10 @@ mkdir -p ${SAVE_DIR}
 params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
 
 if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" -width 360 -height 240 +vid_fps 1 +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
+  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
 fi
 if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
-  params+=" -width 320 -height 240 +vid_fps 1 +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
+  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
 fi
 
 # EXT can be wad, WAD, iwad, IWAD, pwad, PWAD or doom
@@ -50,4 +50,4 @@ else
 fi
 
 cd "${RUN_DIR}"
-LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/bin/lzdoom ${params} >/tmp/logs/lzdoom.log 2>&1
+LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/bin/gzdoom ${params} >/tmp/logs/gzdoom.log 2>&1
