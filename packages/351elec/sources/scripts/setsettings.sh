@@ -85,7 +85,8 @@ function doexit() {
 function get_setting() {
 	log "Get Settings function (${1})"
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
-	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
+	escaped_rom_name=$(echo "${ROM}" | sed -E 's|([][])|\\\1|g')
+	PAT="s|^${PLATFORM}\[\"${escaped_rom_name}\"\][\.-]${1}=\(.*\)|\1|p"
 	EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 
 	if [ -z "${EES}" ]; then
@@ -100,6 +101,7 @@ function get_setting() {
 
 	[ -z "${EES}" ] && EES="false"
 }
+
 
 function array_contains () {
     local array="$1[@]"
