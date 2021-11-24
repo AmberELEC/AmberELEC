@@ -3,6 +3,7 @@ import sys
 
 import json
 import urllib.request
+from urllib.request import Request, urlopen
 import time
 import argparse
 import logging
@@ -360,9 +361,10 @@ def get_args():
                         help='Github repository. Allows testing with repo releases other than 351ELEC')
     parser.add_argument('--band',
                         default="release",
-                        choices=['release', 'beta', 'daily'],
+                        choices=['release', 'beta', 'prerelease', 'daily'],
                         help='''Update "band" ("channel"). Allows determining what latest release to get. 
                              "daily" is for backwards compatibility and maps to "release"
+                             "beta" is for backwards compatibility and will map to 'prerelease'
                              ''')
     parser.add_argument('--device',
                         choices=['RG351P', 'RG351V', 'RG351MP'],
@@ -398,6 +400,9 @@ def get_args():
     
     if args.band == "daily":
         args.band = "release"
+    if args.band == "beta":
+        args.band = "prerelease"
+
     if not args.device:
         if os.path.isfile(DEVICE_FILE):
             args.device = load_file_to_string(DEVICE_FILE).strip()
@@ -424,8 +429,13 @@ def get_current_release(org, repo, band, page=0, per_page=100):
     """
     api = f"https://api.github.com/repos/{org}/{repo}"
     try:
-        response = urllib.request.urlopen(
-            f"{api}/releases?per_page={per_page}&page={page}")
+        req = Request(f"{api}/releases?per_page={per_page}&page={page}")
+
+        if os.getenv("GITHUB_TOKEN", "") != "":
+          token=os.getenv("GITHUB_TOKEN","")
+          req.add_header('Authorization' , f"token {token}")
+        response = urlopen(req)
+
     except Exception as e:
 
         # This should be rare unless we check for releases more than 60 times an hour
@@ -440,8 +450,7 @@ def get_current_release(org, repo, band, page=0, per_page=100):
                 except Exception as e:
                     logger.debug(
                         "Could not parse expiration from timestamp", e)
-            raise UpdateError()(
-                f"Github rate limit exceeded.  Try again after: {rate_expiration}")
+            raise UpdateError(f"Github rate limit exceeded.  Try again after: {rate_expiration}")
         else:
             raise e
     releases_string = response.read().decode('utf-8')
@@ -460,13 +469,15 @@ def get_current_release(org, repo, band, page=0, per_page=100):
 
 
     if current_release == None and link:
+        page=page+1
         current_release = get_current_release(org, repo, band, page)
     return current_release
 
 # Returns the release_tag if it can parse, otherwise None
 # Example valid releases:
 # band = release: 20210603, 20210603-1   
-# band = beta: beta-20210603_1010, 20210603, 20210603-1 20210603_1010
+# band = prerelease: prerelease-20210603_1010, 20210603, 20210603-1 20210603_1010
+
 def parse_release(release_tag,band):
     try:
         #Temporarily strip off the `-1` modifiers used for hotfix for date parsing.
@@ -477,15 +488,16 @@ def parse_release(release_tag,band):
         time.strptime(temp_release, '%Y%m%d')
         return release_tag
     except Exception as e:
-        if band == "beta":
+        if band == "prerelease":
             try:
-              temp_release = re.sub("beta-","",release_tag)
+              temp_release = re.sub("prerelease-", "", release_tag)
               logger.debug(f"temp_release : {temp_release}")
               time.strptime(temp_release, '%Y%m%d_%H%M')
+
               return release_tag
             except Exception as ex:
-              logger.info("Could not parse release as 'beta' release")
-
+              logger.debug(f"Could not parse release: {release_tag} as 'prerelease'")
+              logger.debug(ex)
         logger.info(f"Could not parse release: {release_tag}.  Ignoring...")
         logger.debug("Parsing exception", e)
     return None
