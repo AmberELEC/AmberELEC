@@ -404,6 +404,9 @@ else
 			NETPLAY_IP="${NETPLAY_IP%% *}"  # until a space is found
 			set_ee_setting "netplay.client.ip" "${NETPLAY_IP}"
 			set_ee_setting "netplay.client.port" "${NETPLAY_PORT}"
+			RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|--connect ${NETPLAY_IP}\|${NETPLAY_PORT} --config|")
+		else
+			RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --config|")
 		fi
 
 	fi
