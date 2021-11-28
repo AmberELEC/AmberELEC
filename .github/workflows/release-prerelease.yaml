@@ -1,15 +1,15 @@
 
-# The purpose of this build is to allow a 'beta' release be created.
-#  Typically, it will be created every day if there are new commits since the last tag (beta)
+# The purpose of this build is to allow a 'prerelease' release be created.
+#  Typically, it will be created every day if there are new commits since the last tag (prerelease)
 #  It can also be run manually.
-name: release-beta
+name: release-prerelease
 on:
   schedule:
     - cron:  '0 20 * * *'
   workflow_dispatch:  # allows manual runs
     
 jobs:
-  launch-beta-release-if-needed:
+  launch-prerelease-release-if-needed:
       runs-on: ubuntu-20.04
       steps:
         #- uses: hmarr/debug-action@v2
@@ -30,19 +30,19 @@ jobs:
           id: changes
           run: |
           
-              #Figure out last beta date by converting the latest 351ELEC-beta tag into a date and 
+              #Figure out last prerelease date by converting the latest 351ELEC-prerelease tag into a date and 
               # looking for commits in 351ELEC newer than that date
-              git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease beta
-              pushd beta
-              last_tag=$(git tag -l | grep "beta-" | tail -1)
-              last_beta_formatted=$(echo ${last_tag} | sed 's/beta-//g ; s/_/ /g')
-              last_beta_date=$(date -d"${last_beta_formatted}")
-              echo "last beta date: ${last_beta_date}"
+              git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease prerelease
+              pushd prerelease
+              last_tag=$(git tag -l | tail -1)
+              last_prerelease_formatted=$(echo ${last_tag} | sed 's/prerelease-//g ; s/_/ /g')
+              last_prerelease_date=$(date -d"${last_prerelease_formatted}")
+              echo "last prerelease date: ${last_prerelease_date}"
               popd
               
-              echo ::set-output name=changes::$(git log --after="${last_beta_date}" --oneline | wc -l)
+              echo ::set-output name=changes::$(git log --after="${last_prerelease_date}" --oneline | wc -l)
               
-              release_notes="$(git log --after=\\"${last_beta_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
+              release_notes="$(git log --after=\\"${last_prerelease_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
               
               # The below lines translate linebreaks so they can be set into the 'release_notes' variable
               release_notes="${release_notes//'%'/'%25'}"
@@ -60,10 +60,10 @@ jobs:
           with:
             token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
             repository: ${{ steps.full_name.outputs.full_name }}
-            event-type: release-beta
+            event-type: release-prerelease
             client-payload: |
                {
-                 "release_tag" : "beta-${{steps.date.outputs.date}}",
+                 "release_tag" : "prerelease-${{steps.date.outputs.date}}",
                  "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
                }
             
