@@ -1,7 +1,7 @@
 name: build-main
 on:
   repository_dispatch:
-    types: [release-beta, release-draft]
+    types: [release-beta, release-prerelease, release-draft]
   workflow_dispatch:
   push:
     paths-ignore:
@@ -96,20 +96,57 @@ jobs:
           path: |
             release/aarch64/RG351MP/
       - name: Create pre-release as draft at first to hide during uploads
+        if: github.event.action == 'release-prerelease'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.version.outputs.version }}"
+          body: |
+            # Release Notes (Prerelease)
+            This is a prerelease based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
+    
+            Prereleases and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#pre-release-feedback` section of discord.
+            
+            See the [wiki](https://351elec.de/Contributing-to-351ELEC) for more info.
+            
+            ### Changes (since last prerelease version):
+            ${{ github.event.client_payload.release_notes }}
+            
+            ### Upgrade Instructions
+            You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
+            
+             **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
+
+            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
+
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*"
+          prerelease: true
+          draft: true
+          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+          repo: 351ELEC-prerelease
+      - name: Switch draft to start showing release 
+        if: github.event.action == 'release-prerelease'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.version.outputs.version }}"
+          allowUpdates: true
+          draft: false
+          prerelease: true
+          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+          repo: 351ELEC-prerelease
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+
+      #This can be removed after no more 'bridge' betas are needed
+      - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
             # Release Notes (Beta)
-            This is a pre-release based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
-    
-            Beta releases are unstable and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#beta-feedback` section of discord.
-            
-            See the [wiki](https://351elec.de/Contributing-to-351ELEC) for more info.
-            
-            ### Changes (since last beta version):
-            ${{ github.event.client_payload.release_notes }}
+            This beta is provided as a OTA bridge to the new pre-releases
             
             ### Upgrade Instructions
             You can update to this release using the `beta` channel on your device. This is the recommended way to use beta versions.
@@ -117,14 +154,14 @@ jobs:
              **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-beta/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
 
           artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
-          repo: 351ELEC-beta
+          repo: 351ELEC-prerelease
       - name: Switch draft to start showing release 
         if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1
@@ -134,7 +171,7 @@ jobs:
           draft: false
           prerelease: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
-          repo: 351ELEC-beta
+          repo: 351ELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
       - name: Create draft release
