@@ -7,7 +7,9 @@ on:
   #schedule:
   #  - cron:  '0 20 * * *'
   workflow_dispatch:  # allows manual runs
-    
+env:
+  BRANCH: main
+
 jobs:
   launch-beta-release-if-needed:
       runs-on: ubuntu-20.04
@@ -19,7 +21,8 @@ jobs:
           with:
             clean: false
             fetch-depth: 0
-            
+            ref: "${{env.BRANCH}}"
+
         # We get the full name from git here as in the case of 'cron', it is not available on the event
         - name: repository full name
           id: full_name
@@ -63,6 +66,7 @@ jobs:
             event-type: release-beta
             client-payload: |
                {
+                 "branch" : "${{ env.BRANCH }}",
                  "release_tag" : "beta-${{steps.date.outputs.date}}",
                  "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
                }
