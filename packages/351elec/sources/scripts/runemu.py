@@ -186,13 +186,6 @@ def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: st
 	if rom_path:
 		command.append(rom_path)
 	
-	#TODO: This stuff here
-#                 "ports")
-#                         PORTCORE="${arguments##*-C}"  # read from -C onwards
-#                         EMU="${PORTCORE%% *}_libretro"  # until a space is found
-#                         PORTSCRIPT="${arguments##*-SC}"  # read from -SC onwards
-#                 ;;
-
 	return command
 
 def get_retrorun_command(rom: Path, platform: str, core: str) -> 'Sequence[Union[str, Path]]':
