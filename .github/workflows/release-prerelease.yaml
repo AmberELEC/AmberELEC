@@ -38,7 +38,7 @@ jobs:
               # looking for commits in 351ELEC newer than that date
               git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease prerelease
               pushd prerelease
-              last_tag=$(git tag -l | tail -1)
+              last_tag=$(git tag -l | grep "prerelease-" | tail -1)
               last_prerelease_formatted=$(echo ${last_tag} | sed 's/prerelease-//g ; s/_/ /g')
               last_prerelease_date=$(date -d"${last_prerelease_formatted}")
               echo "last prerelease date: ${last_prerelease_date}"
