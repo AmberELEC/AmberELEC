@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Xargon (https://github.com/XargonWan)
 
 PKG_NAME="rclone"
-PKG_VERSION="1.55.1"
+PKG_VERSION="1.57.0"
 PKG_ARCH="aarch64"
 PKG_URL="https://downloads.rclone.org/v$PKG_VERSION/rclone-v$PKG_VERSION-linux-arm64.zip"
 PKG_SECTION="tools"
