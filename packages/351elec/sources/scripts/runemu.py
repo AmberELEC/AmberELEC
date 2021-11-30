@@ -198,7 +198,7 @@ def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequenc
 	return [BASH_EXE, '/usr/bin/m64p.sh', video_plugin, rom]
 
 def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]') -> 'Sequence[Union[str, Path]]':
-	if rom and (rom.suffix == '.sh' or platform == 'shell'):
+	if rom and (rom.suffix == '.sh' or platform == 'tools'):
 		#If the ROM is a shell script then just execute it
 		return [rom]
 	elif emulator == 'retroarch':
