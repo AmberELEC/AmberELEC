@@ -53,13 +53,13 @@ def bluetooth_toggle(_: bool):
 	#TODO: Hmm I'm not actually sure we need to reimplement this?
 	pass
 
-def download_things_if_needed(emu):
-	if emu == 'freej2me':
+def download_things_if_needed(core):
+	if core == 'freej2me':
 		#freej2me needs the JDK to be downloaded on the first run
 		subprocess.run('/usr/bin/freej2me.sh', check=True)
 		os.environ['JAVA_HOME']='/storage/jdk'
 		os.environ['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
-	elif emu == 'easyrpg_libretro':
+	elif core == 'easyrpg':
 		# easyrpg needs runtime files to be downloaded on the first run
 		subprocess.run('/usr/bin/easyrpg.sh', check=True)
 		
@@ -261,7 +261,7 @@ def main():
 	init_log()
 	log(f'Args: {args}')
 
-	download_things_if_needed(emulator)
+	download_things_if_needed(core)
 
 	if get_elec_setting('maxperf', platform, rom.name if rom else None) == '1':
 		if verbose:
