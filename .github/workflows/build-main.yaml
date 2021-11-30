@@ -25,10 +25,19 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
         name: debug
+      - name: get current branch as it may not be 'default branch;
+        id: branch
+        run: |
+            branch_arg="${{ github.event.client_payload.branch }}"
+            if [[ -z "$branch_arg" ]]; then
+              branch_arg="$GITHUB_REF_NAME"
+            fi
+            echo "::set-output name=branch::$branch_arg"
       - uses: actions/checkout@v2
         name: checkout
         with:
           clean: false
+          ref: "${{ steps.branch.outputs.branch }}"
       - name: Get date for artifacts
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"

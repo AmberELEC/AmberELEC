@@ -6,8 +6,11 @@ name: release-prerelease
 on:
   schedule:
     - cron:  '0 20 * * *'
+      
   workflow_dispatch:  # allows manual runs
-    
+env:
+  BRANCH: main
+
 jobs:
   launch-prerelease-release-if-needed:
       runs-on: ubuntu-20.04
@@ -19,6 +22,7 @@ jobs:
           with:
             clean: false
             fetch-depth: 0
+            ref: "${{env.BRANCH}}"
             
         # We get the full name from git here as in the case of 'cron', it is not available on the event
         - name: repository full name
@@ -34,7 +38,7 @@ jobs:
               # looking for commits in 351ELEC newer than that date
               git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease prerelease
               pushd prerelease
-              last_tag=$(git tag -l | tail -1)
+              last_tag=$(git tag -l | grep "prerelease-" | tail -1)
               last_prerelease_formatted=$(echo ${last_tag} | sed 's/prerelease-//g ; s/_/ /g')
               last_prerelease_date=$(date -d"${last_prerelease_formatted}")
               echo "last prerelease date: ${last_prerelease_date}"
@@ -63,6 +67,7 @@ jobs:
             event-type: release-prerelease
             client-payload: |
                {
+                 "branch" : "${{ env.BRANCH }}",
                  "release_tag" : "prerelease-${{steps.date.outputs.date}}",
                  "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
                }
