@@ -2,10 +2,10 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="288f163395f751c9fc4ab2f9e3035ed503748f29"
+PKG_VERSION="4ad52f998aeef3cc037c96003b530b5d7de837fe"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/351ELEC/retrorun-go2"
+PKG_SITE="https://github.com/navy1978/retrorun-go2"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
 PKG_TOOLCHAIN="make"
