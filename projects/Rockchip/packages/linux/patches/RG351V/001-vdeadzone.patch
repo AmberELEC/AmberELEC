@@ -1,0 +1,32 @@
+From 98863b2f24c77615c181d466220d593d730c89c0 Mon Sep 17 00:00:00 2001
+From: YonKuma <kumarei@gmail.com>
+Date: Sat, 23 Oct 2021 20:56:35 -0400
+Subject: [PATCH] Fix for V Deadzone
+
+---
+ drivers/input/evdev.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
+index 632e3797d98f..c7674d0be1c3 100644
+--- a/drivers/input/evdev.c
++++ b/drivers/input/evdev.c
+@@ -15,12 +15,12 @@
+ #define EVDEV_MIN_BUFFER_SIZE	64U
+ #define EVDEV_BUF_PACKETS	8
+ 
+-#define RG351P_ABS_Z_MIN 500
++#define RG351P_ABS_Z_MIN 700
+ #define RG351P_ABS_Z_MAX 3500
+ #define RG351P_ABS_RY_MIN 500
+ #define RG351P_ABS_RY_MAX 3500
+-#define RG351P_ABS_RX_MIN 500
+-#define RG351P_ABS_RX_MAX 3200
++#define RG351P_ABS_RX_MIN 700
++#define RG351P_ABS_RX_MAX 3500
+ #define RG351P_ABS_RZ_MIN 500
+ #define RG351P_ABS_RZ_MAX 3200
+ 
+-- 
+2.25.1
+

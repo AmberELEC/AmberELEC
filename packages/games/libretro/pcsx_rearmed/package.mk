@@ -2,7 +2,8 @@
 # Copyright (C) 2020 Trond Haugland (trondah@gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="31d1b18ba0408c684eaa63ce4be3b55d7e4b2aac"
+PKG_VERSION="f2585a3793deaa1aabf01b8713188d79bd0b57ee"
+PKG_SHA256="1242769138817c55878fba67d8ac73ccbd71d08a964d1f3a99318b01fac30877"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -12,6 +13,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="ARM optimized PCSX fork"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed -gold"
+PKG_GIT_CLONE_BRANCH="cdrom_audio_fix_attempt"
 
 make_target() {
   cd ${PKG_BUILD}
@@ -21,7 +23,6 @@ make_target() {
 }
 
 makeinstall_target() {
-  VERSION=${LIBREELEC_VERSION}
   INSTALLTO="/usr/lib/libretro/"
 
   mkdir -p ${INSTALL}${INSTALLTO}

@@ -1,0 +1,29 @@
+diff --git a/Core/KeyMapDefaults.cpp b/Core/KeyMapDefaults.cpp
+index 7862341e3..8d899ea78 100644
+--- a/Core/KeyMapDefaults.cpp
++++ b/Core/KeyMapDefaults.cpp
+@@ -229,18 +229,18 @@ static const DefMappingStruct defaultPadMapAndroid[] = {
+ };
+ 
+ static const DefMappingStruct defaultPadMap[] = {
+-	{CTRL_CROSS          , NKCODE_BUTTON_2},
+-	{CTRL_CIRCLE         , NKCODE_BUTTON_3},
+-	{CTRL_SQUARE         , NKCODE_BUTTON_4},
+-	{CTRL_TRIANGLE       , NKCODE_BUTTON_1},
++	{CTRL_CROSS          , NKCODE_BUTTON_3},
++	{CTRL_CIRCLE         , NKCODE_BUTTON_2},
++	{CTRL_SQUARE         , NKCODE_BUTTON_1},
++	{CTRL_TRIANGLE       , NKCODE_BUTTON_4},
+ 	{CTRL_UP             , NKCODE_DPAD_UP},
+ 	{CTRL_RIGHT          , NKCODE_DPAD_RIGHT},
+ 	{CTRL_DOWN           , NKCODE_DPAD_DOWN},
+ 	{CTRL_LEFT           , NKCODE_DPAD_LEFT},
+ 	{CTRL_START          , NKCODE_BUTTON_10},
+ 	{CTRL_SELECT         , NKCODE_BUTTON_9},
+-	{CTRL_LTRIGGER       , NKCODE_BUTTON_7},
+-	{CTRL_RTRIGGER       , NKCODE_BUTTON_8},
++	{CTRL_LTRIGGER       , NKCODE_BUTTON_6},
++	{CTRL_RTRIGGER       , NKCODE_BUTTON_5},
+ 	{VIRTKEY_AXIS_X_MIN, JOYSTICK_AXIS_X, -1},
+ 	{VIRTKEY_AXIS_X_MAX, JOYSTICK_AXIS_X, +1},
+ 	{VIRTKEY_AXIS_Y_MIN, JOYSTICK_AXIS_Y, +1},

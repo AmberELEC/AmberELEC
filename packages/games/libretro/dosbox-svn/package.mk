@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="dosbox-svn"
-PKG_VERSION="09d51778a98ccb5e798b7045ddee2323f3681ef2"
+PKG_VERSION="ba9e1819d6ce59d9a08bf6dbb80515bcc0eebe09"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -38,23 +38,10 @@ PKG_BUILD_FLAGS="-lto"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  if [ "$ARCH" = "aarch64" ]; then
-    make -C libretro target=arm64 WITH_EMBEDDED_SDL=0
-  elif [ "$ARCH" = "arm" ]; then
-    make -C libretro target=arm WITH_EMBEDDED_SDL=0
-  elif [ "$ARCH" = "x86_64" ]; then
-    make -C libretro target=x86_64 WITH_EMBEDDED_SDL=0
-  elif [ "$ARCH" = "i386" ]; then 
-    make -C libretro target=x86 WITH_EMBEDDED_SDL=0
-  else
-    make -C libretro WITH_EMBEDDED_SDL=0
-  fi
+  make -C libretro target=arm64 WITH_EMBEDDED_SDL=0
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   cp $PKG_BUILD/libretro/dosbox_svn_libretro.so $INSTALL/usr/lib/libretro
-
-  mkdir -p $INSTALL/usr/config/distribution/configs/dosbox
-  cp $PKG_DIR/config/*.conf $INSTALL/usr/config/distribution/configs/dosbox
 }

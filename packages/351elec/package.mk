@@ -3,13 +3,13 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec"
-PKG_VERSION=""
+PKG_VERSION="1.0"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch retroarch32 retroarch-overlays imagemagick retrorun"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch lib32 imagemagick retrorun"
 PKG_SHORTDESC="351ELEC Meta Package"
 PKG_LONGDESC="351ELEC Meta Package"
 PKG_IS_ADDON="no"
@@ -17,20 +17,18 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 PKG_EXPERIMENTAL=""
-PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus ecwolf lzdoom"
-PKG_TOOLS="ffmpeg libjpeg-turbo common-shaders glsl-shaders MC SDL_GameControllerDB linux-utils xmlstarlet CoreELEC-Debug-Scripts sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer rclone"
+PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa"
+PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports moonlight"
 
 make_target() {
-if [ "$PROJECT" == "Amlogic-ng" ]; then
-    cp -r $PKG_DIR/fbfix* $PKG_BUILD/
-    cd $PKG_BUILD/fbfix
-    $CC -O2 fbfix.c -o fbfix
-fi
+  echo
 }
 
 makeinstall_target() {
+  mkdir -p $INSTALL/usr/config/SDL-GameControllerDB
+  cp $PKG_DIR/SDL_GameControllerDB/gamecontrollerdb.txt $INSTALL/usr/config/SDL-GameControllerDB
 
   mkdir -p $INSTALL/usr/config/
   rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
@@ -38,13 +36,11 @@ makeinstall_target() {
   ln -sf /storage/.config/distribution $INSTALL/distribution
   find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
 
+  sed -i "s/system.hostname=351ELEC/system.hostname=${DEVICE}/g" $INSTALL/usr/config/distribution/configs/distribution.conf
+
   echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
 
-  if [[ "${DEVICE}" =~ RG351 ]]; then
-      echo "${DEVICE}" > $INSTALL/usr/config/.OS_ARCH
-  else
-      echo "${PROJECT}" > $INSTALL/usr/config/.OS_ARCH
-  fi
+  echo "${DEVICE}" > $INSTALL/usr/config/.OS_ARCH
 
   echo "$(date)" > $INSTALL/usr/config/.OS_BUILD_DATE
 
@@ -55,12 +51,12 @@ makeinstall_target() {
   ln -sf /storage/roms/opt $INSTALL/opt
 
   mkdir -p $INSTALL/usr/lib
-  ln -s /usr/lib32/ld-2.32.so $INSTALL/usr/lib/ld-linux-armhf.so.3
+  ln -s /usr/lib32/ld-linux-armhf.so.3 $INSTALL/usr/lib/ld-linux-armhf.so.3
 
   mkdir -p $INSTALL/usr/share/retroarch-overlays
   if [ "$DEVICE" == "RG351P" ]; then
     cp -r $PKG_DIR/overlay-p/* $INSTALL/usr/share/retroarch-overlays
-  elif [ "$DEVICE" == "RG351V" ]; then
+  elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ]; then
     cp -r $PKG_DIR/overlay-v/* $INSTALL/usr/share/retroarch-overlays
   fi
 
@@ -77,7 +73,7 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/share/bootloader
   if [ "$DEVICE" == "RG351P" ]; then
     find_file_path "splash/splash-480.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
-  elif [ "$DEVICE" == "RG351V" ]; then
+  elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ] ; then
     find_file_path "splash/splash-640.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
   fi
 
@@ -85,17 +81,17 @@ makeinstall_target() {
 
 post_install() {
 # Remove unnecesary Retroarch Assets and overlays
-  for i in branding glui nuklear nxrgui pkg switch wallpapers zarch COPYING; do
+  for i in branding nuklear nxrgui pkg switch wallpapers zarch COPYING; do
     rm -rf "$INSTALL/usr/share/retroarch-assets/$i"
   done
 
   for i in automatic dot-art flatui neoactive pixel retroactive retrosystem systematic convert.sh NPMApng2PMApng.py; do
-  rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
+    rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
   done
 
-  for i in borders effects gamepads ipad keyboards misc; do
-    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
-  done
+#  for i in borders effects gamepads ipad keyboards misc; do
+#    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
+#  done
   mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
   cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target

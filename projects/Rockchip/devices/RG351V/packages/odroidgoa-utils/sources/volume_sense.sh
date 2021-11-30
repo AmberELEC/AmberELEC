@@ -34,13 +34,13 @@ RELEASE='*value 0'
 REPEAT_PRESS="* value 2"
 
 # Volume repeat
-# volume repeat speed is slower (every 8th repeat event) 
-#  as there are only 20 stop (0-100 by increments of 5)
-VOLUME_REPEAT_MOD=8
+# volume repeat speed is faster (every 4th repeat event) 
+#  as there are many stops (0-100 by increments of 1)
+VOLUME_REPEAT_MOD=4
 
 # Brightness repeat
 # brightness repeat speed is faster (every 4th repeat event) 
-#  as there are many stops (0-255 by increments of 3)
+#  as there are many stops (0-100 by increments of 1)
 BRIGHTNESS_REPEAT_MOD=4
 
 # Variable to keep track of Fn being currently pressed
@@ -81,6 +81,7 @@ done
 
           # We don't care when you 'let go' ('release') the volume button
           if [[ "$line" == ${RELEASE} ]]; then
+             REPEAT_NUM=0
              continue
           fi
 
@@ -105,11 +106,17 @@ done
              continue
           fi
 
+          INCREMENT_AMOUNT=1
+          if [[ "${REPEAT_NUM}" -gt "75" ]]; then
+             INCREMENT_AMOUNT=5
+          elif [[ "${REPEAT_NUM}" -gt "25" ]]; then
+             INCREMENT_AMOUNT=2
+          fi
           # Run the commands to adjust volume/brightness
           if [[ "${line}" == ${VOL_UP} ]]; then
-            ${COMMAND} ${UP} > /dev/null
+            ${COMMAND} ${UP} ${INCREMENT_AMOUNT} > /dev/null
           elif [[ "${line}" == ${VOL_DOWN} ]]; then
-            ${COMMAND} ${DOWN} > /dev/null
+            ${COMMAND} ${DOWN} ${INCREMENT_AMOUNT} > /dev/null
           fi
         ;;
 

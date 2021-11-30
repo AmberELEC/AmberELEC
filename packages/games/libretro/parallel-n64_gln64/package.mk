@@ -3,11 +3,12 @@
 
 PKG_NAME="parallel-n64_gln64"
 PKG_VERSION="0a67445ce63513584d92e5c57ea87efe0da9b3bd"
+PKG_SHA256="141205571de2a5c0646ee4d33d32e71d86c8f4a75e43aba73c103c62cc15affd"
 PKG_REV="2"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/parallel-n64"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain $OPENGLES"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES core-info"
 PKG_SECTION="libretro"
 PKG_SHORTDESC="Optimized/rewritten Nintendo 64 emulator made specifically for Libretro. Originally based on Mupen64 Plus."
 PKG_LONGDESC="Optimized/rewritten Nintendo 64 emulator made specifically for Libretro. Originally based on Mupen64 Plus."
@@ -39,6 +40,8 @@ makeinstall_target() {
   if [[ "$DEVICE" =~ RG351 ]] && [[ "$ARCH" == "aarch64" ]]
   then
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/parallel-n64_gln64-*/.install_pkg/usr/lib/libretro/parallel_n64_gln64_libretro.so ${INSTALL}/usr/lib/libretro/parallel_n64_gln64_libretro.so
+    cp -vP $PKG_BUILD/../core-info-*/parallel_n64_libretro.info ${INSTALL}/usr/lib/libretro/parallel_n64_gln64_libretro.info
+    sed -i 's/ParaLLEl N64/ParaLLEl N64 GLN64/g' $INSTALL/usr/lib/libretro/parallel_n64_gln64_libretro.info
   else
     cp parallel_n64_libretro.so $INSTALL/usr/lib/libretro/parallel_n64_gln64_libretro.so
   fi

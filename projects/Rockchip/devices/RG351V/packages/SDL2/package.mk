@@ -2,16 +2,12 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="SDL2"
-PKG_VERSION="2.0.10"
+PKG_VERSION="2.0.10" # don't change!
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio"
+PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio libsamplerate"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
-
-if [ ${PROJECT} = "Amlogic-ng" ] || [ ${PROJECT} = "Amlogic" ]; then
-  PKG_PATCH_DIRS="Amlogic"
-fi
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm mali-bifrost librga"
 
@@ -31,8 +27,8 @@ pre_configure_target(){
                          -DARTS_SHARED=OFF \
                          -DNAS=OFF \
                          -DNAS_SHARED=OFF \
-                         -DLIBSAMPLERATE=OFF \
-                         -DLIBSAMPLERATE_SHARED=OFF \
+                         -DLIBSAMPLERATE=ON \
+                         -DLIBSAMPLERATE_SHARED=ON \
                          -DSNDIO=OFF \
                          -DDISKAUDIO=OFF \
                          -DDUMMYAUDIO=OFF \
@@ -60,11 +56,13 @@ pre_configure_target(){
                          -DVIDEO_OPENGLES=ON \
                          -DVIDEO_VULKAN=OFF \
                          -DVIDEO_KMSDRM=ON \
-                         -DPULSEAUDIO=ON"
+                         -DPULSEAUDIO=ON \
+                         -DINSTALL_SDL2_CONFIG=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
 
 post_makeinstall_target() {
   sed -e "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
   rm -rf $INSTALL/usr/bin
+  chmod +x $INSTALL/usr/lib/libSDL2-2.0.so.0.10.0
 }

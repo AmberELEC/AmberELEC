@@ -77,10 +77,9 @@ fi
 # Create the distribution directory if it doesn't exist, sync it if it does
 if [ ! -d "/storage/.config/distribution" ]
 then
-  rsync -a /usr/config/distribution /storage/.config/distribution &
+  rsync -a /usr/config/distribution/ /storage/.config/distribution/ &
 else
-  rsync -a --delete --exclude=custom_start.sh --exclude=locale --exclude=configs --exclude=ports \
-    /usr/config/distribution/ /storage/.config/distribution &
+  rsync -a --delete --exclude=custom_start.sh --exclude=configs --exclude=lzdoom.ini --exclude=gzdoom.ini --exclude=raze.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution/ &
 fi
 
 # Clean cache garbage when boot up.
@@ -91,9 +90,6 @@ rsync /usr/config/.OS* /storage/.config &
 
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
-
-# Copy OpenBOR
-rsync --ignore-existing -raz /usr/config/openbor /storage &
 
 ## Not needed any more
 ## copy bezel if it doesn't exists
@@ -107,75 +103,26 @@ rsync --ignore-existing -raz /usr/config/openbor /storage &
 cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
 
 # Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/distribution/ports/* /storage/roms/ports &
+rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/ports &
+
+# Sync ES locale if missing
+if [ ! -d "/storage/.config/emulationstation/locale" ]
+then
+  rsync -a /usr/config/locale/ /storage/.config/emulationstation/locale/ &
+fi
 
 # Wait for the rsync processes to finish.
 wait
 
 if [ ! -e "/storage/roms/ports/gamelist.xml" ]
 then
-  cp -f /usr/config/distribution/ports/gamelist.xml /storage/roms/ports
+  cp -f /usr/config/ports/gamelist.xml /storage/roms/ports
 fi
-rm -rf /storage/.config/distribution/ports
 
 # End Automatic updates
 
-# Set video mode, this has to be done before starting ES
-#DEFE=$(get_ee_setting ee_videomode)
-#
-#if [ "${DEFE}" != "Custom" ]; then
-#    [ ! -z "${DEFE}" ] && echo "${DEFE}" > /sys/class/display/mode
-#fi
-#
-#if [ -s "/storage/.config/EE_VIDEO_MODE" ]; then
-#        echo $(cat /storage/.config/EE_VIDEO_MODE) > /sys/class/display/mode
-#elif [ -s "/flash/EE_VIDEO_MODE" ]; then
-#        echo $(cat /flash/EE_VIDEO_MODE) > /sys/class/display/mode
-#fi
-
-# finally we correct the FB according to video mode
-/usr/bin/setres.sh
-
-# handle SSH
-DEFE=$(get_ee_setting ee_ssh.enabled)
-
-case "$DEFE" in
-"0")
-	systemctl stop sshd
-	rm /storage/.cache/services/sshd.conf
-	;;
-"1")
-	mkdir -p /storage/.cache/services/
-	touch /storage/.cache/services/sshd.conf
-	systemctl start sshd
-	;;
-*)
-	systemctl stop sshd
-	rm /storage/.cache/services/sshd.conf
-	;;
-esac
-
-# handle SAMBA
-DEFE=$(get_ee_setting ee_samba.enabled)
-
-case "$DEFE" in
-"0")
-	systemctl stop nmbd
-	systemctl stop smbd
-	rm /storage/.cache/services/smb.conf
-	;;
-"1")
-	mkdir -p /storage/.cache/services/
-	touch /storage/.cache/services/smb.conf
-	systemctl start nmbd
-	systemctl start smbd
-	;;
-*)
-	systemctl stop nmbd
-	systemctl stop smbd
-	rm /storage/.cache/services/smb.conf
-	;;
-esac
+# start services
+/usr/bin/startservices.sh &
 
 # Show splash Screen
 /usr/bin/show_splash.sh intro &
@@ -208,20 +155,10 @@ do
   fi
 done
 
-# Covers drastic
+# Create drastic gamedata folder
 if [ ! -d "${GAMEDATA}/drastic" ]
 then
-  if [ -d "/storage/drastic" ]
-  then
-    mv "/storage/drastic" "${GAMEDATA}/drastic"
-  else
-    mkdir "${GAMEDATA}/drastic"
-  fi
-fi
-
-if [ ! -L "/storage/drastic" ]
-then
-  rm -rf "/storage/drastic" 2>/dev/null
+  mkdir -p "${GAMEDATA}/drastic"
   ln -sf "${GAMEDATA}/drastic" "/storage/drastic"
 fi
 
@@ -255,7 +192,8 @@ fi
 
 ## Only call postupdate once after an UPDATE
 if [ "UPDATE" == "$(cat /storage/.config/boot.hint)" ]; then
-        /usr/bin/postupdate.sh
+	echo -en '\e[0;0H\e[37mExecuting postupdate...\e[0m' >/dev/console
+	/usr/bin/postupdate.sh
 	echo "OK" > /storage/.config/boot.hint
 fi
 
@@ -271,13 +209,13 @@ normperf
 BRIGHTNESS=$(get_ee_setting system.brightness)
 if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
 then
-  BRIGHTNESS=255
+  BRIGHTNESS=100
 fi
 
 # Ensure user doesn't get "locked out" with super low brightness
-if [[ "${BRIGHTNESS}" -lt "12" ]]
+if [[ "${BRIGHTNESS}" -lt "3" ]]
 then
-  BRIGHTNESS=12
+  BRIGHTNESS=3
 fi
 BRIGHTNESS=$(printf "%.0f" ${BRIGHTNESS})
 echo ${BRIGHTNESS} > /sys/class/backlight/backlight/brightness

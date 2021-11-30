@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="gw-libretro"
-PKG_VERSION="6b99e7711d75a8194bede3229e8cca5bc99f0687"
-PKG_SHA256="74d2bedc19b2922919bb98d8f8e74793ab0a4ae05470c86bf7ad0433f2385e70"
+PKG_VERSION="0f1ccca156388880bf4507ad44741f80945dfc6f"
+PKG_SHA256="bca59f2f7f1384e9a20db1d7dcfbe23ef288785d94dc3aabf7ab8a80d25e51cd"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"

@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="glsl-shaders"
-PKG_VERSION="d7928c31c778e70ea5a0ac27b2eba089d4138895"
-PKG_SHA256="caa7144dc10414f8ed062ce2befc184677776f0a28ca0d1447d7a1aa2824d9a3"
+PKG_VERSION="f57cc73ba3369fd4978d38e4bd350074181e1ea0"
+PKG_SHA256="d62b269720fe2177713224da25828b4259084fe90c1306c7a5f7fec5e4def0b8"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
@@ -44,4 +44,10 @@ configure_target() {
 makeinstall_target() {
   make install INSTALLDIR="$INSTALL/usr/share/common-shaders"
   cp -r $PKG_DIR/shaders/* $INSTALL/usr/share/common-shaders
+}
+
+post_makeinstall_target() {
+  cp $PKG_DIR/removeshaders.sh .
+  chmod 755 removeshaders.sh
+  /bin/sh removeshaders.sh $INSTALL
 }

@@ -19,7 +19,7 @@ then
   echo "Extract your purchased pico-8 binaries and place them in the pico-8 directory on your games partition" >/tmp/logs/exec.log
 fi
 
-cp /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/roms/pico-8/sdl_controllers.txt
+cp -f /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/roms/pico-8/sdl_controllers.txt
 
 unset MYARCH
 TEST=$(ldd /usr/bin/emulationstation | grep 64)

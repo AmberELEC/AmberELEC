@@ -98,7 +98,17 @@ for d in "${SOURCES}/${1}/${1}-"* ; do
         fi
         if [ "${GIT_FOUND}" = "yes" ]; then
           build_msg "CLR_GET" "GIT PULL" "${1}"
-          git pull
+
+          # If there is an error with 'git pull' or updating the submodules, just reclone
+          # NOTE: we run the submodule update twice if the clone already
+          #       exists - but deduplicating would complicate the logic quite a lot and
+          #       the second time is almost a no-op
+          if ! git pull || ! git submodule update --init --recursive ${GIT_SUBMODULE_PARAMS}; then
+              cd "${opwd}"
+              build_msg "CLR_CLEAN" "DELETE" "(${d})"
+              GIT_FOUND=NO
+              rm -rf "${d}"
+          fi
           cd "${opwd}"
         fi
       else

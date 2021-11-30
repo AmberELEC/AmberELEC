@@ -2,8 +2,7 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="hydracastlelabyrinth"
-PKG_VERSION="8397f0a01f4c602c7250574d53742676f105353f"
-PKG_SHA256="e065ee1a943c5dd9522fa95d7ea9fa6f502bf1eb29b01d7c03058fa924efe95e"
+PKG_VERSION="e112bdb3185bcb314263543aff87db66795f85ff"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL2"
@@ -22,6 +21,6 @@ pre_configure_target() {
 makeinstall_target() {
   mkdir -p $INSTALL/usr/local/bin
   cp $PKG_BUILD/.${TARGET_NAME}/hcl $INSTALL/usr/local/bin
-  mkdir -p $INSTALL/usr/config/distribution/ports/hcl
-  cp -rf $PKG_BUILD/data $INSTALL/usr/config/distribution/ports/hcl/
+  mkdir -p $INSTALL/usr/config/ports/hcl
+  cp -rf $PKG_BUILD/data $INSTALL/usr/config/ports/hcl/
 }

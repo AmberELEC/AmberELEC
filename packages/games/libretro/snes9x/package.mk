@@ -19,12 +19,12 @@
 ################################################################################
 
 PKG_NAME="snes9x"
-PKG_VERSION="ebe96e91de9f808f3fb12ca725bb61373541ab14"
-PKG_SHA256="c2c447e845d09c8860a1b641f6a3b65c55a17ad93df2b274bc1c01a8ca3377f3"
+PKG_VERSION="fb93aedd612537e233c6872a5d7ebe65e8169ade"
+PKG_SHA256="a9d1d690850375e2720597daa763d0e6644c4d20cc2eee0d0d4ec07d3497bdcd"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="Non-commercial"
-PKG_SITE="https://github.com/snes9xgit/snes9x"
+PKG_SITE="https://github.com/libretro/snes9x"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"

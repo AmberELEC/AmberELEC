@@ -21,10 +21,11 @@ configure_init() {
 }
 
 make_init() {
-  make ter-v32b.psf
+  make ter-v14n.psf
+  make ter-v20n.psf
 }
 
 makeinstall_init() {
   mkdir -p ${INSTALL}/usr/share/consolefonts
-    cp ter-v32b.psf ${INSTALL}/usr/share/consolefonts
+  cp -rf *.psf ${INSTALL}/usr/share/consolefonts
 }

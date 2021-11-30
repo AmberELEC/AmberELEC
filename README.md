@@ -1,32 +1,32 @@
 # 351ELEC
 
-An open source firmware for the Anbernic RG351P/M/V devices.
+An open source firmware for the Anbernic RG351P/M/V/MP devices.
 
-351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V and is not compatible with other devices.
+[![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg)](https://github.com/351ELEC/351ELEC/releases/latest)
+[![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue)](https://github.com/351ELEC/351ELEC/blob/main/licenses/GPL2.txt)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?logo=discord)](https://discord.gg/bmXtCt88Tz)
+
+[![Downloads Latest](https://img.shields.io/github/downloads/351ELEC/351ELEC/latest/total)](https://github.com/351ELEC/351ELEC/releases/latest)
+[![Downloads Beta](https://img.shields.io/github/downloads/351ELEC/351ELEC-beta/total?label=downloads%40beta)](https://github.com/351ELEC/351ELEC-beta/releases)
+
+351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V/MP and is not compatible with other devices.
+
+We have an active [wiki](https://351elec.de) with [installation instructions](https://351elec.de/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.de/Getting-to-Know-351ELEC).
 
 Visit us on our Discord! https://discord.gg/bmXtCt88Tz
 
 
 ## Installation
 
-351ELEC minimally requires an 8GB MicroSD, however the experience will be limited.  For an optimal configuration 32GB or more is recommended.
-
-To download 351ELEC, click Releases.
-
-* Decompress the image
-* Write the image to a microSD using your favorite image writer
-
-On the first boot, 351ELEC will expand the storage and games partitions and then reboot to configure the firmware.  It's normal for this process to take a minute or two.  After setting up for the first time, subsequent boots will be much faster.
-
-> RG351V users may use a large MicroSD in the first socket, or a smaller MicroSD with a larger card in the second socket.  The second card must have a single partition or whole card formatted with EXFAT, or EXT4.  FAT filesystems are not supported as it lacks support for filesystem features in use by 351ELEC. NTFS is not currently supported and may be added in a future release.
+Please visit the wiki [Installation](https://351elec.de/Installation#overview) page for installation instructions.
 
 ## Building from Source
-Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 100GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
+Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
 
 ```
 sudo apt update && sudo apt upgrade
 
-sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl zip binutils-aarch64-linux-gnu dos2unix p7zip-full
+sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl zip binutils-aarch64-linux-gnu dos2unix p7zip-full libvpx-dev meson
 
 git clone https://github.com/351ELEC/351ELEC.git 351ELEC  
 
@@ -38,9 +38,9 @@ make world
 ```
 
 The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in 351ELEC/release.  Follow the installation steps to write your image to a microSD.
-It will build for both the RG351P/M and for the RG351V.
+It will build for the RG351P/M, RG351V and for the RG351MP.
 
-To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``.
+To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``, and just for the RG351MP ``make RG351MP``.
 
 ## Building from Source - Docker
 Building with Docker simplifies the build process as any dependencies, with the exception of `make`, are contained within the docker image - all CPU/RAM/Disk/build time requirements remain similar. 

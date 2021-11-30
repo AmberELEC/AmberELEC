@@ -1,0 +1,22 @@
+diff --git a/menu/drivers/materialui.c b/menu/drivers/materialui.c
+index 4b2e7d8fb0..2e01a355aa 100644
+--- a/menu/drivers/materialui.c
++++ b/menu/drivers/materialui.c
+@@ -3539,7 +3539,7 @@ static void materialui_render(void *data,
+    /* Check whether screen dimensions, menu scale
+     * factor or layout optimisation settings have changed */
+    scale_factor = gfx_display_get_dpi_scale(p_disp, settings,
+-         width, height, false, false);
++         width, height, false, false) * 2.000f;
+ 
+    if ((scale_factor != mui->last_scale_factor) ||
+        (width != mui->last_width) ||
+@@ -7947,7 +7947,7 @@ static void *materialui_init(void **userdata, bool video_is_threaded)
+    mui->last_height                       = height;
+    mui->last_scale_factor                 = gfx_display_get_dpi_scale(
+          p_disp, settings, width, height,
+-         false, false);
++         false, false) * 2.000f;
+    mui->dip_base_unit_size                = mui->last_scale_factor 
+       * MUI_DIP_BASE_UNIT_SIZE;
+ 

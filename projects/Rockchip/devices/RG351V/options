@@ -30,8 +30,8 @@
 
   # Additional kernel make parameters (for example to specify the u-boot loadaddress)
     KERNEL_MAKE_EXTRACMD=""
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351p-linux.dtb"
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351p-linux-oc.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-linux.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-linux-oc.dtb"
     
   # Mali GPU family
     MALI_FAMILY="g31"
@@ -40,8 +40,8 @@
   # kernel serial console
     EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:0 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"
     
-    LINUX="RG351P"
-    UBOOT_SYSTEM="rg351p"
+    LINUX="RG351V"
+    UBOOT_SYSTEM="rg351v"
 
   # additional packages to install
     ADDITIONAL_PACKAGES="dtc 351elec"
@@ -186,7 +186,7 @@
   SWAP_ENABLED_DEFAULT="yes"
 
   # swapfile size if SWAP_SUPPORT=yes in MB
-  SWAPFILESIZE="128"
+  SWAPFILESIZE="384"
 
   # cron support (yes / no)
   CRON_SUPPORT="no"

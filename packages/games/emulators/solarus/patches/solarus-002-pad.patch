@@ -70,4 +70,3 @@ index 29ef124..d6ca5bb 100644
 +
    get_equipment().load_items();
  }
- 

@@ -155,7 +155,7 @@ function install_package() {
 				  unzip "${filename}" >/dev/null 2>&1
 				  rm "${filename}"
 				  echo "Installing ${filename} package"
-				  ./${package}/install.sh
+				  sh ./${package}/install.sh
 				  if [ $? == 0 ]
 				  then
 				    success_installed=1
@@ -187,7 +187,7 @@ function remove_package() {
 	success_removed=0
 		filename=${package}
 		if [ -d "${CONFIGDIR}/${package}" ]; then
-			${CONFIGDIR}/${package}/uninstall.sh
+			sh ${CONFIGDIR}/${package}/uninstall.sh
 			if [ $? == 0 ]
 			then
 		       	  rm -rf "${CONFIGDIR}"/"${filename}" && success_removed=1

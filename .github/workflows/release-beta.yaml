@@ -4,10 +4,12 @@
 #  It can also be run manually.
 name: release-beta
 on:
-  schedule:
-    - cron:  '0 20 * * *'
+  #schedule:
+  #  - cron:  '0 20 * * *'
   workflow_dispatch:  # allows manual runs
-    
+env:
+  BRANCH: main
+
 jobs:
   launch-beta-release-if-needed:
       runs-on: ubuntu-20.04
@@ -19,7 +21,8 @@ jobs:
           with:
             clean: false
             fetch-depth: 0
-            
+            ref: "${{env.BRANCH}}"
+
         # We get the full name from git here as in the case of 'cron', it is not available on the event
         - name: repository full name
           id: full_name
@@ -32,9 +35,9 @@ jobs:
           
               #Figure out last beta date by converting the latest 351ELEC-beta tag into a date and 
               # looking for commits in 351ELEC newer than that date
-              git clone https://github.com/${{ steps.full_name.outputs.full_name }}-beta beta
+              git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease beta
               pushd beta
-              last_tag=$(git tag -l | tail -1)
+              last_tag=$(git tag -l | grep "beta-" | tail -1)
               last_beta_formatted=$(echo ${last_tag} | sed 's/beta-//g ; s/_/ /g')
               last_beta_date=$(date -d"${last_beta_formatted}")
               echo "last beta date: ${last_beta_date}"
@@ -63,6 +66,7 @@ jobs:
             event-type: release-beta
             client-payload: |
                {
+                 "branch" : "${{ env.BRANCH }}",
                  "release_tag" : "beta-${{steps.date.outputs.date}}",
                  "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
                }

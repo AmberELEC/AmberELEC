@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="textviewer"
-PKG_VERSION="fee8c65e83d39a03c245bb205c577345d63b47d7"
+PKG_VERSION="6820fd6e036e33f3d56b036978e6ec3c870c6b28"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/lethal-guitar/TvTextViewer"
 PKG_URL="$PKG_SITE.git"
@@ -21,6 +21,13 @@ pre_configure_target() {
   sed -i 's|ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(ImColor(94, 11, 22, 255))); // Set window background to red|ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(100, 0, 0, 255)));\n    ImGui::PushStyleColor(ImGuiCol_NavHighlight, ImVec4(ImColor(180, 0, 0, 255)));\n    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(180, 0, 0, 255)));|g' main.cpp
   sed -i 's|ImColor(94, 11, 22,|ImColor(180, 0, 0,|g' main.cpp
   sed -i 's|BUTTON_START|BUTTON_INVALID|g' main.cpp
+
+  if [[ "$DEVICE" == "RG351P" ]]; then
+    sed -i 's|    ImGui::GetIO().Fonts->AddFontDefault(&config);|    ImGui::GetIO().Fonts->AddFontDefault(\&config);\n  }\n  else\n  {\n    ImFontConfig config;\n    config.SizePixels = 13;\n    ImGui::GetIO().Fonts->AddFontDefault(\&config);|g' main.cpp
+  else
+    sed -i 's|    ImGui::GetIO().Fonts->AddFontDefault(&config);|    ImGui::GetIO().Fonts->AddFontDefault(\&config);\n  }\n  else\n  {\n    ImFontConfig config;\n    config.SizePixels = 20;\n    ImGui::GetIO().Fonts->AddFontDefault(\&config);|g' main.cpp
+  fi
+
 }
 
 makeinstall_target(){

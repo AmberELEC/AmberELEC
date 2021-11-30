@@ -42,7 +42,10 @@ if [ "${1}" == "setaudio" ];then
 fi
 
 if [ "${1}" == "vol" ];then
-VOLSTEP=5
+VOLSTEP=1
+if [ -n "${3}" ]; then
+  VOLSTEP="${3}"
+fi
 CURRENTVOL=$(get_ee_setting "audio.volume")
 MAXVOL=100
 MINVOL=0
@@ -60,9 +63,9 @@ MINVOL=0
   fi    
 
 if [ "${1}" == "bright" ]; then
-STEPS="20"
+STEPS="1"
 CURRENTBRIGHT=$(cat /sys/class/backlight/backlight/brightness)
-MAXBRIGHT="255" #$(cat /sys/class/backlight/backlight/max_brightness)
+MAXBRIGHT="100" #$(cat /sys/class/backlight/backlight/max_brightness)
 MINBRIGHT="2"
 	if [ "${2}" == "+" ]; then
 		STEPBRIGHT=$(($CURRENTBRIGHT+$STEPS))

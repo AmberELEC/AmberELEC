@@ -12,11 +12,11 @@ PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_LONGDESC="Support library for the ODROID-GO Advance "
 PKG_TOOLCHAIN="make"
 
-if [ "${DEVICE}" = "RG351V" ]
+if [ "${DEVICE}" = "RG351P" ]
 then
-  PKG_PATCH_DIRS="RG351V"
-else
   PKG_PATCH_DIRS="RG351P"
+else
+  PKG_PATCH_DIRS="RG351V"
 fi
 
 PKG_MAKE_OPTS_TARGET=" config=release ARCH= INCLUDES=-I$SYSROOT_PREFIX/usr/include/libdrm -I$SYSROOT_PREFIX/usr/include "

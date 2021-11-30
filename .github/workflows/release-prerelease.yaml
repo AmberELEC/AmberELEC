@@ -1,0 +1,74 @@
+
+# The purpose of this build is to allow a 'prerelease' release be created.
+#  Typically, it will be created every day if there are new commits since the last tag (prerelease)
+#  It can also be run manually.
+name: release-prerelease
+on:
+  schedule:
+    - cron:  '0 20 * * *'
+      
+  workflow_dispatch:  # allows manual runs
+env:
+  BRANCH: main
+
+jobs:
+  launch-prerelease-release-if-needed:
+      runs-on: ubuntu-20.04
+      steps:
+        #- uses: hmarr/debug-action@v2
+        #  name: debug
+        - uses: actions/checkout@v2
+          name: checkout
+          with:
+            clean: false
+            fetch-depth: 0
+            ref: "${{env.BRANCH}}"
+            
+        # We get the full name from git here as in the case of 'cron', it is not available on the event
+        - name: repository full name
+          id: full_name
+          run: |
+               echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's|^.*github.com/||g' | sed 's/.git$//g')"
+        
+        - name: changes
+          id: changes
+          run: |
+          
+              #Figure out last prerelease date by converting the latest 351ELEC-prerelease tag into a date and 
+              # looking for commits in 351ELEC newer than that date
+              git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease prerelease
+              pushd prerelease
+              last_tag=$(git tag -l | tail -1)
+              last_prerelease_formatted=$(echo ${last_tag} | sed 's/prerelease-//g ; s/_/ /g')
+              last_prerelease_date=$(date -d"${last_prerelease_formatted}")
+              echo "last prerelease date: ${last_prerelease_date}"
+              popd
+              
+              echo ::set-output name=changes::$(git log --after="${last_prerelease_date}" --oneline | wc -l)
+              
+              release_notes="$(git log --after=\\"${last_prerelease_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
+              
+              # The below lines translate linebreaks so they can be set into the 'release_notes' variable
+              release_notes="${release_notes//'%'/'%25'}"
+              release_notes="${release_notes//$'\n'/'%0A'}"
+              release_notes="${release_notes//$'\r'/'%0D'}"
+
+              echo "::set-output name=release_notes::${release_notes}"
+        - name: Get date for artifacts
+          id: date
+          run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
+  
+        - name: Repository Dispatch
+          if: steps.changes.outputs.changes != '0'
+          uses: peter-evans/repository-dispatch@v1
+          with:
+            token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+            repository: ${{ steps.full_name.outputs.full_name }}
+            event-type: release-prerelease
+            client-payload: |
+               {
+                 "branch" : "${{ env.BRANCH }}",
+                 "release_tag" : "prerelease-${{steps.date.outputs.date}}",
+                 "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
+               }
+            

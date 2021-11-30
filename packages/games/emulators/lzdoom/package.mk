@@ -2,19 +2,23 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="lzdoom"
-PKG_VERSION="3b0921fcbed8578caccac64cda7a1321dae347b7"
+PKG_VERSION="0bf1014328938fbc8dd6051f1b770f926f783ba2"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/drfrag666/gzdoom"
+PKG_SITE="https://github.com/351ELEC/lzdoom"
 PKG_URL="${PKG_SITE}.git"
-PKG_GIT_CLONE_BRANCH="g3.3mgw"
 PKG_DEPENDS_TARGET="toolchain SDL2 lzdoom:host"
 PKG_SHORTDESC="LZDoom"
 PKG_LONGDESC="ZDoom is a family of enhanced ports of the Doom engine for running on modern operating systems. It runs on Windows, Linux, and OS X, and adds new features not found in the games as originally published by id Software."
 GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
+if [ "${DEVICE}" = "RG351MP" ]
+then
+  PKG_PATCH_DIRS="RG351MP"
+fi
+
 pre_build_host() {
-HOST_CMAKE_OPTS=""
+  HOST_CMAKE_OPTS=""
 }
 
 make_host() {
@@ -29,7 +33,7 @@ makeinstall_host() {
 pre_configure_target() {
 PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
                         -DFORCE_CROSSCOMPILE=ON \
-                        -DIMPORT_EXECUTABLES=$PKG_BUILD/.$HOST_NAME/ImportExecutables.cmake
+                        -DIMPORT_EXECUTABLES=$PKG_BUILD/.$HOST_NAME/ImportExecutables.cmake \
                         -DCMAKE_BUILD_TYPE=Release"
 }
 
@@ -39,8 +43,12 @@ makeinstall_target() {
   cp $PKG_BUILD/.$TARGET_NAME/lzdoom $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/config/distribution/lzdoom
-  cp $PKG_DIR/config/* $INSTALL/usr/config/distribution/lzdoom
+  if [ "${DEVICE}" = "RG351MP" ]; then
+    cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/lzdoom
+  else
+    cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/lzdoom
+  fi
   cp $PKG_BUILD/.$TARGET_NAME/*.pk3 $INSTALL/usr/config/distribution/lzdoom
   cp -r $PKG_BUILD/.$TARGET_NAME/soundfonts $INSTALL/usr/config/distribution/lzdoom
-  cp -r $PKG_BUILD/.$TARGET_NAME/fm_banks $INSTALL/usr/config/distribution/lzdoom  
+  cp -r $PKG_BUILD/.$TARGET_NAME/fm_banks $INSTALL/usr/config/distribution/lzdoom
 }

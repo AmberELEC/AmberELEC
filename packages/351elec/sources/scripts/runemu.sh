@@ -50,18 +50,20 @@ GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
 
 
 ### Determine if we're running a Libretro core and append the libretro suffix
-if [[ $EMULATOR = "libretro" ]]; then
+if [[ $EMULATOR = "retroarch" ]]; then
 	EMU="${CORE}_libretro"
-	LIBRETRO="yes"
+	RETROARCH="yes"
 elif [[ $EMULATOR = "retrorun" ]]; then
 	EMU="${CORE}_libretro"
 	RETRORUN="yes"
+elif [[ $EMULATOR = "mupen64plussa" ]]; then
+	EMU="M64P"
 else
 	EMU="${CORE}"
 fi
 
 # freej2me needs the JDK to be downloaded on the first run
-if [ ${EMU} == "freej2me_libretro" ]; then
+if [[ ${EMU} == "freej2me_libretro" ]]; then
   /usr/bin/freej2me.sh
   JAVA_HOME='/storage/jdk'
   export JAVA_HOME
@@ -70,14 +72,14 @@ if [ ${EMU} == "freej2me_libretro" ]; then
 fi
 
 # easyrpg needs runtime files to be downloaded on the first run
-if [ ${EMU} == "easyrpg_libretro" ]; then
+if [[ ${EMU} == "easyrpg_libretro" ]]; then
   /usr/bin/easyrpg.sh
 fi
 
 ### If we're running a port, assume it's libretro
 ### Re-evaluate as not all ports may be libretro cores
 ### perhaps rewrite to use ^ functionality
-[[ ${PLATFORM} = "ports" ]] && LIBRETRO="yes"
+[[ ${PLATFORM} = "ports" ]] && RETROARCH="yes"
 
 # check if we started as host for a game
 if [[ "$arguments" == *"--host"* ]]; then
@@ -203,49 +205,34 @@ bluetooth disable
 jslisten stop
 
 ### Per emulator/core configurations
-if [ -z ${LIBRETRO} ] &&  [ -z ${RETRORUN} ]
+if [ -z ${RETROARCH} ] &&  [ -z ${RETRORUN} ]
 then
 	$VERBOSE && log "Configuring for a non-libretro emulator"
 	case ${PLATFORM} in
-		"atari2600")
-			if [ "$EMU" = "STELLASA" ]
-			then
-				jslisten set "stella retroarch"
-				RUNTHIS='${TBASH} /usr/bin/stella.sh "${ROMNAME}"'
-			fi
-		;;
 		"atarist")
 			if [ "$EMU" = "HATARISA" ]
 			then
-				jslisten set "hatari retroarch"
+				jslisten set "hatari"
 				RUNTHIS='${TBASH} /usr/bin/hatari.start "${ROMNAME}"'
 			fi
 		;;
 		"openbor")
-				jslisten set "OpenBOR retroarch"
+				jslisten set "OpenBOR"
 				RUNTHIS='${TBASH} /usr/bin/openbor.sh "${ROMNAME}"'
 		;;
 		"setup")
 				RUNTHIS='${TBASH} "${ROMNAME}"'
 		;;
-		"dreamcast")
-			jslisten set "reicast retroarch"
-			if [ "$EMU" = "REICASTSA" ]
-			then
-				RUNTHIS='${TBASH} /usr/bin/reicast.sh "${ROMNAME}"'
-				cp -rf /storage/.config/reicast/emu_new.cfg /storage/.config/reicast/emu.cfg
-			fi
-		;;
-		"mame"|"arcade"|"capcom"|"cps1"|"cps2"|"cps3")
-			jslisten set "advmame retroarch"
+		"mame"|"arcade")
+			jslisten set "advmame"
 			if [ "$EMU" = "AdvanceMame" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/advmame.sh "${ROMNAME}"'
 			fi
 		;;
 		"nds")
-			jslisten set "drastic retroarch"
-			RUNTHIS='${TBASH} /storage/drastic/drastic.sh "${ROMNAME}"'
+			jslisten set "drastic"
+			RUNTHIS='${TBASH} /usr/bin/drastic.sh "${ROMNAME}"'
 		;;
 		"pico-8")
 			jslisten set "pico8_dyn"
@@ -263,35 +250,53 @@ then
 			then
 				jslisten set "lzdoom"
 				RUNTHIS='${TBASH} /usr/bin/lzdoom.sh "${ROMNAME}"'
+			elif [ "$EMU" = "gzdoom" ]
+			then
+				jslisten set "gzdoom"
+				RUNTHIS='${TBASH} /usr/bin/gzdoom.sh "${ROMNAME}"'
+			fi
+                ;;
+		"build")
+			if [ "$EMU" = "raze" ]
+			then
+				jslisten set "raze"
+				RUNTHIS='${TBASH} /usr/bin/raze.sh "${ROMNAME}"'
+			fi
+                ;;
+		"solarus")
+			if [ "$EMU" = "solarus" ]
+			then
+				jslisten set "solarus-run"
+				RUNTHIS='${TBASH} /usr/bin/solarus.sh "${ROMNAME}"'
 			fi
 		;;
 		"n64")
-			jslisten set "mupen64plus retroarch"
+			jslisten set "mupen64plus"
 			if [ "$EMU" = "M64P" ]
 			then
-				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${CORE}" "${ROMNAME}"'
 			fi
 		;;
 		"amiga"|"amigacd32")
-			jslisten set "amiberry retroarch"
+			jslisten set "amiberry"
 			if [ "$EMU" = "AMIBERRY" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
 			fi
 		;;
 		"scummvm")
-			jslisten set "scummvm retroarch"
+			jslisten set "scummvm"
 			RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		;;
 		"daphne")
-			jslisten set "hypseus retroarch"
+			jslisten set "hypseus"
 			if [ "$EMU" = "HYPSEUS" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/hypseus.start.sh "${ROMNAME}"'
 			fi
 		;;
 		"pc")
-			jslisten set "dosbox dosbox-x retroarch"
+			jslisten set "dosbox dosbox-x"
 			if [ "$EMU" = "DOSBOXSDL2" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/dosbox.start -conf "${GAMEFOLDER}dosbox-SDL2.conf"'
@@ -301,7 +306,7 @@ then
 			fi
 		;;
 		"psp"|"pspminis")
-			jslisten set "PPSSPPSDL retroarch"
+			jslisten set "PPSSPPSDL"
 			if [ "$EMU" = "PPSSPPSDL" ]
 			then
 				RUNTHIS='${TBASH} /usr/bin/ppsspp.sh "${ROMNAME}"'
@@ -324,7 +329,7 @@ then
 		esac
 elif [ -n "${RETRORUN}" ]
 then
-
+	jslisten set "retrorun retrorun32"
 	$VERBOSE && log "Configuring retrorun emulator started"
 	$VERBOSE && log "platform: ${PLATFORM}"
 	$VERBOSE && log "core: ${EMU}"
@@ -334,11 +339,11 @@ else
 	$VERBOSE && log "Configuring for a libretro core"
 
 	### Set jslisten to kill the appropriate retroarch
-	jslisten set "retroarch"
+	jslisten set "retroarch retroarch32"
 
 	### Check if we need retroarch 32 bits or 64 bits
 	RABIN="retroarch"
-	if [[ "${CORE}" =~ "pcsx_rearmed" ]] || [[ "${CORE}" =~ "parallel_n64" ]] || [[ "${CORE}" =~ "uae4arm" ]]
+	if [[ "${CORE}" =~ "pcsx_rearmed" ]] || [[ "${CORE}" =~ "parallel_n64" ]]
 	then
 		export LD_LIBRARY_PATH="/usr/lib32"
 		RABIN="retroarch32"
@@ -367,23 +372,28 @@ else
 
 	if [[ "$arguments" == *"-state_slot"* ]]; then
 		CONTROLLERCONFIG="${CONTROLLERCONFIG%% -state_slot*}"  # until -state is found
-		SNAPSHOT="${arguments#*-state_slot *}" # -state_slot x -autosave 1
-		SNAPSHOT="${SNAPSHOT%% -*}"  # we don't need -autosave 1 we asume its always 1
+		SNAPSHOT="${arguments#*-state_slot *}" # -state_slot x
+		SNAPSHOT="${SNAPSHOT%% -*}"
+		if [[ "$arguments" == *"-autosave"* ]]; then
+			CONTROLLERCONFIG="${CONTROLLERCONFIG%% -autosave*}"  # until -autosave is found
+			AUTOSAVE="${arguments#*-autosave *}" # -autosave x
+			AUTOSAVE="${AUTOSAVE%% -*}"
+		else
+			AUTOSAVE=""
+		fi
 	else
 		CONTROLLERCONFIG="${CONTROLLERCONFIG%% --*}"  # until a -- is found
 		SNAPSHOT=""
+		AUTOSAVE=""
 	fi
 
-	CORE=${EMU%%_*}
+#	CORE=${EMU%%_*}
 
 	### Configure netplay
 	if [[ ${NETPLAY} != "No" ]]; then
 		NETPLAY_NICK=$(get_ee_setting netplay.nickname)
 		[[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="351ELEC"
-		NETPLAY="$(echo ${NETPLAY} | sed "s|--nick|--nick \"${NETPLAY_NICK}\"|")"
-
-		RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --config|")
-
+		
 		if [[ "${NETPLAY}" == *"connect"* ]]; then
 			NETPLAY_PORT="${arguments##*--port }"  # read from -netplayport  onwards
 			NETPLAY_PORT="${NETPLAY_PORT%% *}"  # until a space is found
@@ -391,6 +401,9 @@ else
 			NETPLAY_IP="${NETPLAY_IP%% *}"  # until a space is found
 			set_ee_setting "netplay.client.ip" "${NETPLAY_IP}"
 			set_ee_setting "netplay.client.port" "${NETPLAY_PORT}"
+			RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|--connect ${NETPLAY_IP}\|${NETPLAY_PORT} --nick ${NETPLAY_NICK} --config|")
+		else
+			RUNTHIS=$(echo ${RUNTHIS} | sed "s|--config|${NETPLAY} --nick ${NETPLAY_NICK} --config|")
 		fi
 
 	fi
@@ -419,9 +432,9 @@ then
 fi
 
 if [[ ${PLATFORM} == "ports" ]]; then
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 else
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 fi
 SETSETTINGS_PID=$!
 
@@ -459,9 +472,6 @@ else
 	eval ${RUNTHIS} &>>${OUTPUT_LOG}
 	ret_error=$?
 fi
-
-# remove emu.cfg if platform was reicast
-[ -f /storage/.config/reicast/emu.cfg ] && rm /storage/.config/reicast/emu.cfg
 
 clear_screen
 

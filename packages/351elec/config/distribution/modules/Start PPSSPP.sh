@@ -8,4 +8,6 @@ source /etc/profile
 
 jslisten set "killall PPSSPPSDL"
 
+cp -rf /storage/.config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/roms/gamedata/ppsspp/assets/gamecontrollerdb.txt
+
 /usr/bin/PPSSPPSDL

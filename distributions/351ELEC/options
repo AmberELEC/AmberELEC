@@ -17,7 +17,7 @@
   HOME_URL="https://github.com/351ELEC/351ELEC"
 
 # Documentation URL
-  WIKI_URL="https://github.com/351ELEC/351ELEC/wiki"
+  WIKI_URL="https://351elec.de"
 
 # Where to report bugs
   BUG_REPORT_URL="https://github.com/351ELEC/351ELEC/issues"
@@ -165,10 +165,10 @@
   SWAP_SUPPORT="yes"
 
 # swap support enabled per default (yes / no)
-  SWAP_ENABLED_DEFAULT="no"
+  SWAP_ENABLED_DEFAULT="yes"
 
 # swapfile size if SWAP_SUPPORT=yes in MB
-  SWAPFILESIZE="128"
+  SWAPFILESIZE="384"
 
 # additional packages to install:
 # Space separated list is supported,
@@ -192,7 +192,7 @@
 
 # Distribution Specific source location
   DISTRO_MIRROR="http://sources.libreelec.tv/mirror"
-  DISTRO_SRC="https://github.com/fewtarius/351ELEC"
+  DISTRO_SRC="https://github.com/351ELEC/351ELEC"
 
 # Addon Server Url
   ADDON_SERVER_URL=""
@@ -211,7 +211,7 @@
   ADDON_URL="$ADDON_SERVER_URL/$ADDON_PATH"
 
 # Default size of system partition, in MB, eg. 512
-  SYSTEM_SIZE=1024
+  SYSTEM_SIZE=2048
 # Default system partition offset, in sectors, eg. 2048
   SYSTEM_PART_START=8192
 
@@ -221,7 +221,7 @@
   #DEBUG_GROUP_YES="kodi+"
 
 # Default supported get handlers (archive, git, file etc.)
-  GET_HANDLER_SUPPORT="archive"
+  GET_HANDLER_SUPPORT="archive git file"
 
 # Partition labels for USB/SD installation media
   DISTRO_BOOTLABEL="351ELEC"
@@ -236,10 +236,6 @@
 # IR remote keymaps supported in default config
   IR_REMOTE_KEYMAPS="rc6_mce xbox_360 xbox_one"
 
-
-# start SX05RE added options
-  
-LAKKA_MIRROR="http://sources.lakka.tv"
 
 LIBRETRO_CORES="2048 \
 81 \
@@ -259,21 +255,22 @@ cap32 \
 crocods \
 daphne \
 dinothawr \
-duckstation \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
-fba4arm \
 fbalpha2012 \
+fbalpha2019 \
 fbneo \
 fceumm \
 fmsx \
 flycast \
+freechaf \
 freeintv \
 freej2me \
 fuse-libretro \
 gambatte \
 gearboy \
+gearcoleco \
 gearsystem \
 genesis-plus-gx \
 genesis-plus-gx-wide \
@@ -286,6 +283,7 @@ mame2000 \
 mame2003-plus \
 mame2010 \
 mame2015 \
+mame \
 meowpc98 \
 mgba \
 mrboom \
@@ -309,6 +307,7 @@ prosystem \
 puae \
 px68k \
 quasi88 \
+quicknes \
 race \
 reminiscence \
 sameboy \
@@ -333,162 +332,4 @@ vbam \
 vecx \
 vice \
 yabasanshiro \
-xmil" 
-
-LIBRETRO_EXTRA_CORES="chailove \
-crocods \
-daphne \
-desmume \
-desmume-2015 \
-easyrpg \
-lutro \
-melonds \
-mesen \
-pocketcdg \
-snes9x2005 \
-yabause \
-virtualjaguar"
-
-  RA_PLAYLIST_NAMES=""\
-"Atari - 2600.lpl;"\
-"Atari - 5200.lpl;"\
-"Atari - 7800.lpl;"\
-"Atari - Jaguar.lpl;"\
-"Atari - Lynx.lpl;"\
-"Atari - ST.lpl;"\
-"Bandai - WonderSwan Color.lpl;"\
-"Bandai - WonderSwan.lpl;"\
-"Cave Story.lpl;"\
-"ChaiLove.lpl;"\
-"Coleco - ColecoVision.lpl;"\
-"Commodore - 64 (PP).lpl;"\
-"Commodore - 64 (Tapes).lpl;"\
-"Commodore - 64.lpl;"\
-"Commodore - Amiga.lpl;"\
-"Commodore - Plus-4.lpl;"\
-"Commodore - VIC20.lpl;"\
-"Dinothawr.lpl;"\
-"DOOM.lpl;"\
-"DOS.lpl;"\
-"FBNeo - Arcade Games.lpl;"\
-"Flashback.lpl;"\
-"GCE - Vectrex.lpl;"\
-"Lutro.lpl;"\
-"Magnavox - Odyssey2.lpl;"\
-"MAME 2003-Plus.lpl;"\
-"MAME 2010.lpl;"\
-"Mattel - Intellivision.lpl;"\
-"Microsoft - MSX2.lpl;"\
-"Microsoft - MSX.lpl;"\
-"NEC - PC Engine SuperGrafx.lpl;"\
-"NEC - PC Engine - TurboGrafx 16.lpl;"\
-"Nintendo - Famicom Disk System.lpl;"\
-"Nintendo - Game Boy Advance (e-Cards).lpl;"\
-"Nintendo - Game Boy Advance.lpl;"\
-"Nintendo - Game Boy Color.lpl;"\
-"Nintendo - Game Boy.lpl;"\
-"Nintendo - GameCube.lpl;"\
-"Nintendo - Nintendo 3DS.lpl;"\
-"Nintendo - Nintendo 64.lpl;"\
-"Nintendo - Nintendo DS.lpl;"\
-"Nintendo - Nintendo DS Decrypted.lpl;"\
-"Nintendo - Nintendo DS (Download Play) (BETA).lpl;"\
-"Nintendo - Nintendo DSi Decrypted.lpl;"\
-"Nintendo - Nintendo DSi (DLC).lpl;"\
-"Nintendo - Nintendo Entertainment System.lpl;"\
-"Nintendo - Satellaview.lpl;"\
-"Nintendo - Super Nintendo Entertainment System.lpl;"\
-"Nintendo - Virtual Boy.lpl;"\
-"Nintendo - Wii.lpl;"\
-"Nintendo - Pokemon Mini (PokeMini).lpl;"\
-"Quake.lpl;"\
-"ScummVM.lpl;"\
-"Sega - 32X.lpl;"\
-"Sega - Dreamcast.lpl;"\
-"Sega - Game Gear.lpl;"\
-"Sega - Master System - Mark III.lpl;"\
-"Sega - Mega Drive - Genesis.lpl;"\
-"Sega - PICO.lpl;"\
-"Sega - SG-1000.lpl;"\
-"Sega - Saturn.lpl;"\
-"Sinclair - ZX Spectrum +3.lpl;"\
-"SNK - Neo Geo Pocket Color.lpl;"\
-"SNK - Neo Geo Pocket.lpl;"\
-"Sony - PlayStation 2.lpl;"\
-"Sony - PlayStation Portable.lpl;"\
-"Sony - PlayStation.lpl;"\
-"Thomson - MOTO.lpl;"\
-"TIC-80.lpl;"\
-"The 3DO Company - 3DO.lpl"
-
-  RA_PLAYLIST_CORES=""\
-"/tmp/cores/stella_libretro.so;"\
-"/tmp/cores/atari800_libretro.so;"\
-"/tmp/cores/prosystem_libretro.so;"\
-"/tmp/cores/virtualjaguar_libretro.so;"\
-"/tmp/cores/handy_libretro.so;"\
-"/tmp/cores/hatari_libretro.so;"\
-"/tmp/cores/beetle_wswan_libretro.so;"\
-"/tmp/cores/beetle_wswan_libretro.so;"\
-"/tmp/cores/nxengine_libretro.so;"\
-"/tmp/cores/chailove_libretro.so;"\
-"/tmp/cores/bluemsx_libretro.so;"\
-"/tmp/cores/vice_x64_libretro.so;"\
-"/tmp/cores/vice_x64_libretro.so;"\
-"/tmp/cores/vice_x64_libretro.so;"\
-"/tmp/cores/puae_libretro.so;"\
-"/tmp/cores/vice_xplus4_libretro.so;"\
-"/tmp/cores/vice_xvic_libretro.so;"\
-"/tmp/cores/dinothawr_libretro.so;"\
-"/tmp/cores/prboom_libretro.so;"\
-"/tmp/cores/dosbox_libretro.so;"\
-"/tmp/cores/fbneo_libretro.so;"\
-"/tmp/cores/reminiscence_libretro.so;"\
-"/tmp/cores/vecx_libretro.so;"\
-"/tmp/cores/lutro_libretro.so;"\
-"/tmp/cores/o2em_libretro.so;"\
-"/tmp/cores/mame2003_plus_libretro.so;"\
-"/tmp/cores/mame2010_libretro.so;"\
-"/tmp/cores/freeintv_libretro.so;"\
-"/tmp/cores/bluemsx_libretro.so;"\
-"/tmp/cores/bluemsx_libretro.so;"\
-"/tmp/cores/beetle_supergrafx_libretro.so;"\
-"/tmp/cores/beetle_pce_fast_libretro.so;"\
-"/tmp/cores/nestopia_libretro.so;"\
-"/tmp/cores/mgba_libretro.so;"\
-"/tmp/cores/mgba_libretro.so;"\
-"/tmp/cores/gambatte_libretro.so;"\
-"/tmp/cores/gambatte_libretro.so;"\
-"/tmp/cores/dolphin_libretro.so;"\
-"/tmp/cores/citra_libretro.so;"\
-"/tmp/cores/parallel_n64_libretro.so;"\
-"/tmp/cores/desmume_libretro.so;"\
-"/tmp/cores/desmume_libretro.so;"\
-"/tmp/cores/desmume_libretro.so;"\
-"/tmp/cores/desmume_libretro.so;"\
-"/tmp/cores/desmume_libretro.so;"\
-"/tmp/cores/nestopia_libretro.so;"\
-"/tmp/cores/snes9x2010_libretro.so;"\
-"/tmp/cores/snes9x2010_libretro.so;"\
-"/tmp/cores/beetle_vb_libretro.so;"\
-"/tmp/cores/dolphin_libretro.so;"\
-"/tmp/cores/pokemini_libretro.so;"\
-"/tmp/cores/tyrquake_libretro.so;"\
-"/tmp/cores/scummvm_libretro.so;"\
-"/tmp/cores/picodrive_libretro.so;"\
-"/tmp/cores/flycast_libretro.so;"\
-"/tmp/cores/genesis_plus_gx_libretro.so;"\
-"/tmp/cores/genesis_plus_gx_libretro.so;"\
-"/tmp/cores/genesis_plus_gx_libretro.so;"\
-"/tmp/cores/picodrive_libretro.so;"\
-"/tmp/cores/genesis_plus_gx_libretro.so;"\
-"/tmp/cores/yabause_libretro.so;"\
-"/tmp/cores/fuse_libretro.so;"\
-"/tmp/cores/beetle_ngp_libretro.so;"\
-"/tmp/cores/beetle_ngp_libretro.so;"\
-"/tmp/cores/play_libretro.so;"\
-"/tmp/cores/ppsspp_libretro.so;"\
-"/tmp/cores/pcsx_rearmed_libretro.so;"\
-"/tmp/cores/theodore_libretro.so;"\
-"/tmp/cores/tic80_libretro.so;"\
-"/tmp/cores/4do_libretro.so"
+xmil"

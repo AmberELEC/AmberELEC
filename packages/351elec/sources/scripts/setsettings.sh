@@ -12,11 +12,12 @@
 
 . /etc/profile
 
-RETROARCHIVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx supervision tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
+RETROACHIEVEMENTS=(arcade atari2600 atari7800 atarilynx colecovision famicom fbn fds gamegear gb gba gbah gbc gbch gbh genesis genh ggh intellivision mastersystem megacd megadrive megadrive-japan msx msx2 n64 neogeo neogeocd nes nesh ngp ngpc odyssey2 pcengine pcenginecd pcfx pokemini psp psx sega32x segacd sfc sg-1000 snes snesh snesmsu1 supergrafx supervision tg16 tg16cd vectrex virtualboy wonderswan wonderswancolor)
 NOREWIND=(sega32x psx zxspectrum odyssey2 mame n64 dreamcast atomiswave naomi neogeocd saturn psp pspminis)
 NORUNAHEAD=(psp sega32x n64 dreamcast atomiswave naomi neogeocd saturn)
 # The following systems are listed as they don't need the Analogue D-Pad mode on RA
 NOANALOGUE=(n64 psx wonderswan wonderswancolor psp pspminis dreamcast)
+IS32BITCORE=(pcsx_rearmed parallel_n64)
 
 INDEXRATIOS=(4/3 16/9 16/10 16/15 21/9 1/1 2/1 3/2 3/4 4/1 9/16 5/4 6/5 7/9 8/3 8/7 19/12 19/14 30/17 32/9 config squarepixel core custom)
 CONF="/storage/.config/distribution/configs/distribution.conf"
@@ -24,6 +25,7 @@ SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 RAAPPENDCONF="/tmp/raappend.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
+TMP_BEZEL="/tmp/351elec-bezel.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
 ROM="${2##*/}"
@@ -32,6 +34,11 @@ SHADERSET=0
 LOGSDIR="/tmp/logs"
 LOGFILE="exec.log"
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
+
+#Autosave
+AUTOSAVE="$@"
+AUTOSAVE="${AUTOSAVE#*--autosave=*}"
+AUTOSAVE="${AUTOSAVE% --*}"
 
 #Snapshot
 SNAPSHOT="$@"
@@ -78,7 +85,8 @@ function doexit() {
 function get_setting() {
 	log "Get Settings function (${1})"
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
-	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
+	escaped_rom_name=$(echo "${ROM}" | sed -E 's|([][])|\\\1|g')
+	PAT="s|^${PLATFORM}\[\"${escaped_rom_name}\"\][\.-]${1}=\(.*\)|\1|p"
 	EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 
 	if [ -z "${EES}" ]; then
@@ -94,20 +102,40 @@ function get_setting() {
 	[ -z "${EES}" ] && EES="false"
 }
 
+
+function array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array}"; do
+        if [[ $element == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+## Logging
+log "setsettings.sh"
+log "Platform: ${PLATFORM}"
+log "ROM: ${ROM}"
+log "Core: ${CORE}"
+
 ##
 ## Global Setting that have to stay in retroarch.cfg
-## All setttings that should applay when retroarch is as standalone
+## All setttings that should apply when retroarch is run as standalone
 ##
 
-## Wifi
-# Cleanup old settings first
-sed -i "/wifi_enabled/d" ${RACONF}
-# Get configuration from distribution.conf and set to retroarch.cfg
-if [ "$(get_ee_setting wifi.enabled)" = "1" ]; then
-	echo 'wifi_enabled = "true"' >> ${RACONF}
-else
-	echo 'wifi_enabled = "false"' >> ${RACONF}
-fi
+### Wifi
+## Cleanup old settings first
+#sed -i "/wifi_enabled/d" ${RACONF}
+## Get configuration from distribution.conf and set to retroarch.cfg
+#if [ "$(get_ee_setting wifi.enabled)" = "1" ]; then
+#	echo 'wifi_enabled = "true"' >> ${RACONF}
+#else
+#	echo 'wifi_enabled = "false"' >> ${RACONF}
+#fi
 
 # RA menu rgui, ozone, glui or xmb (fallback if everthing else fails)
 # if empty (auto in ES) do nothing to enable configuration in RA
@@ -146,46 +174,76 @@ get_setting "showFPS"
 ## RetroAchievements / Cheevos
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "retroachievements"
-for i in "${!RETROARCHIVEMENTS[@]}"; do
-	if [[ "${RETROARCHIVEMENTS[$i]}" = "${PLATFORM}" ]]; then
+for i in "${!RETROACHIEVEMENTS[@]}"; do
+	if [[ "${RETROACHIEVEMENTS[$i]}" = "${PLATFORM}" ]]; then
 		if [ "${EES}" == "1" ]; then
-		echo 'cheevos_enable = "true"' >> ${RAAPPENDCONF}
-		get_setting "retroachievements.username"
-		echo "cheevos_username = \"${EES}\"" >> ${RAAPPENDCONF}
-		get_setting "retroachievements.password"
-		echo "cheevos_password = \"${EES}\"" >> ${RAAPPENDCONF}
+			echo 'cheevos_enable = "true"' >> ${RAAPPENDCONF}
+			get_setting "retroachievements.username"
+			echo "cheevos_username = \"${EES}\"" >> ${RAAPPENDCONF}
+			get_setting "retroachievements.password"
+			echo "cheevos_password = \"${EES}\"" >> ${RAAPPENDCONF}
 
-		# retroachievements_hardcore_mode
-		get_setting "retroachievements.hardcore"
-		[ "${EES}" == "1" ] && echo 'cheevos_hardcore_mode_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
+			# retroachievements_hardcore_mode
+			get_setting "retroachievements.hardcore"
+			[ "${EES}" == "1" ] && echo 'cheevos_hardcore_mode_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
 
-		# retroachievements_leaderboards
-		get_setting "retroachievements.leaderboards"
-		if [ "${EES}" == "enabled" ]; then
-			echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF}
-		elif [ "${EES}" == "trackers only" ]; then
-			echo 'cheevos_leaderboards_enable = "trackers"' >> ${RAAPPENDCONF}
-		elif [ "${EES}" == "notifications only" ]; then
-			echo 'cheevos_leaderboards_enable = "notifications"' >> ${RAAPPENDCONF}
+			# retroachievements_leaderboards
+			get_setting "retroachievements.leaderboards"
+			if [ "${EES}" == "enabled" ]; then
+				echo 'cheevos_leaderboards_enable = "true"' >> ${RAAPPENDCONF}
+			elif [ "${EES}" == "trackers only" ]; then
+				echo 'cheevos_leaderboards_enable = "trackers"' >> ${RAAPPENDCONF}
+			elif [ "${EES}" == "notifications only" ]; then
+				echo 'cheevos_leaderboards_enable = "notifications"' >> ${RAAPPENDCONF}
+			else
+				echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
+			fi
+
+			# retroachievements_verbose_mode
+			get_setting "retroachievements.verbose"
+			[ "${EES}" == "1" ] && echo 'cheevos_verbose_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+
+			# retroachievements_automatic_screenshot
+			get_setting "retroachievements.screenshot"
+			[ "${EES}" == "1" ] && echo 'cheevos_auto_screenshot = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_richpresence_enable
+			get_setting "retroachievements.richpresence"
+			[ "${EES}" == "1" ] && echo 'cheevos_richpresence_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_richpresence_enable = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_challenge_indicators
+			get_setting "retroachievements.challengeindicators"
+			[ "${EES}" == "1" ] && echo 'cheevos_challenge_indicators = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_test_unofficial
+			get_setting "retroachievements.testunofficial"
+			[ "${EES}" == "1" ] && echo 'cheevos_test_unofficial = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_test_unofficial = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_badges_enable
+			get_setting "retroachievements.badges"
+			[ "${EES}" == "1" ] && echo 'cheevos_badges_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_badges_enable = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_start_active
+			get_setting "retroachievements.active"
+			[ "${EES}" == "1" ] && echo 'cheevos_start_active = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_start_active = "false"' >> ${RAAPPENDCONF}
+
+			# cheevos_unlock_sound_enable
+			get_setting "retroachievements.soundenable"
+			[ "${EES}" == "1" ] && echo 'cheevos_unlock_sound_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_unlock_sound_enable = "false"' >> ${RAAPPENDCONF}
 		else
+			echo 'cheevos_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_username = ""' >> ${RAAPPENDCONF}
+			echo 'cheevos_password = ""' >> ${RAAPPENDCONF}
+			echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
 			echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
-		fi
-
-		# retroachievements_verbose_mode
-		get_setting "retroachievements.verbose"
-		[ "${EES}" == "1" ] && echo 'cheevos_verbose_enable = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
-
-		# retroachievements_automatic_screenshot
-		get_setting "retroachievements.screenshot"
-		[ "${EES}" == "1" ] && echo 'cheevos_auto_screenshot = "true"' >> ${RAAPPENDCONF} || echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
-		else
-		echo 'cheevos_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_username = ""' >> ${RAAPPENDCONF}
-		echo 'cheevos_password = ""' >> ${RAAPPENDCONF}
-		echo 'cheevos_hardcore_mode_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_leaderboards_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
-		echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_verbose_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_test_unofficial = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_unlock_sound_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_auto_screenshot = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_badges_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_start_active = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_richpresence_enable = "false"' >> ${RAAPPENDCONF}
+			echo 'cheevos_challenge_indicators = "false"' >> ${RAAPPENDCONF}
 		fi
 	fi
 done
@@ -221,7 +279,7 @@ else
 
 	# relay
 	get_setting "netplay.relay"
-	if [[ ! -z "${EES}" && "${EES}" != "none" ]]; then
+	if [[ ! -z "${EES}" && "${EES}" != "false" ]]; then
 		echo 'netplay_use_mitm_server = true' >> ${RAAPPENDCONF}
 		echo "netplay_mitm_server = ${EES}" >> ${RAAPPENDCONF}
 	else
@@ -236,6 +294,8 @@ else
 	# spectator mode
 	get_setting "netplay.spectator"
 	[ "${EES}" == "1" ] && echo 'netplay_spectator_mode_enable = true' >> ${RAAPPENDCONF} || echo 'netplay_spectator_mode_enable = false' >> ${RAAPPENDCONF}
+	get_setting "netplay_public_announce"
+	[ "${EES}" == "1" ] && echo 'netplay_public_announce = true' >> ${RAAPPENDCONF} || echo 'netplay_public_announce = false' >> ${RAAPPENDCONF}
 fi
 
 ## AI Translation Service
@@ -244,17 +304,41 @@ get_setting "ai_service_enabled"
 if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	echo 'ai_service_enable = "false"' >> ${RAAPPENDCONF}
 else
+	# Translation table to get the values RA needs
+	declare -A LangCodes=( 	["false"]="0"
+							["En"]="1"
+							["Fr"]="3"
+							["Pt"]="49"
+							["De"]="5"
+							["El"]="30"
+							["Es"]="2"
+							["Cs"]="8"
+							["Da"]="9"
+							["Hr"]="11"
+							["Hu"]="35"
+							["It"]="4"
+							["Ja"]="6"
+							["Ko"]="12"
+							["Nl"]="7"
+							["Nn"]="46"
+							["Po"]="48"
+							["Ro"]="50"
+							["Ru"]="51"
+							["Sv"]="10"
+							["Tr"]="59"
+							["Zh"]="13"
+                  		)
 	echo 'ai_service_enable = "true"' >> ${RAAPPENDCONF}
 	get_setting "ai_target_lang"
 	AI_LANG=${EES}
-	[[ "$AI_LANG" == "false" ]] && AI_LANG="0"
+	# [[ "$AI_LANG" == "false" ]] && AI_LANG="0"
 	get_setting "ai_service_url"
 	AI_URL=${EES}
-	echo "ai_service_source_lang = \"${AI_LANG}\"" >> ${RAAPPENDCONF}
+	echo "ai_service_target_lang = \"${LangCodes[${AI_LANG}]}\"" >> ${RAAPPENDCONF}
 	if [ "${AI_URL}" == "false" ] || [ "${AI_URL}" == "auto" ] || [ "${AI_URL}" == "none" ]; then
-		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+		echo "ai_service_url = \"http://ztranslate.net/service?api_key=BATOCERA&mode=Fast&output=png&target_lang=${AI_LANG}" >> ${RAAPPENDCONF}
 	else
-		echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=\"${AI_LANG}\"" >> ${RAAPPENDCONF}
+		echo "ai_service_url = \"${AI_URL}&mode=Fast&output=png&target_lang=${AI_LANG}" >> ${RAAPPENDCONF}
 	fi
 fi
 
@@ -277,7 +361,7 @@ done
 	echo "aspect_ratio_index = \"${i}\"" >> ${RAAPPENDCONF}
 fi
 
-## Video Smooth
+## Bilinear filtering
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "smooth"
 [ "${EES}" == "1" ] && echo 'video_smooth = "true"' >> ${RAAPPENDCONF} || echo 'video_smooth = "false"' >> ${RAAPPENDCONF}
@@ -304,6 +388,31 @@ else
 	echo "--set-shader /tmp/shaders/${EES}"
 fi
 
+## Filterset
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "filterset"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ]; then
+	echo 'video_filter = ""' >> ${RAAPPENDCONF}
+else
+	# Turn off RGA scaling first - just in case
+	sed -i "/video_ctx_scaling/d" ${RAAPPENDCONF}
+	echo 'video_ctx_scaling = "false"' >> ${RAAPPENDCONF}
+	if array_contains IS32BITCORE ${CORE}; then
+		echo "video_filter = \"/usr/share/retroarch/filters/32bit/video/${EES}\"" >> ${RAAPPENDCONF}
+	else
+		echo "video_filter = \"/usr/share/retroarch/filters/64bit/video/${EES}\"" >> ${RAAPPENDCONF}
+	fi
+fi
+
+## Set correct path for video- and audio-filters
+if array_contains IS32BITCORE ${CORE}; then
+	echo 'audio_filter_dir = "/usr/share/retroarch/filters/32bit/audio"' >> ${RAAPPENDCONF}
+	echo 'video_filter_dir = "/usr/share/retroarch/filters/32bit/video"' >> ${RAAPPENDCONF}
+else
+	echo 'audio_filter_dir = "/usr/share/retroarch/filters/64bit/audio"' >> ${RAAPPENDCONF}
+	echo 'video_filter_dir = "/usr/share/retroarch/filters/64bit/video"' >> ${RAAPPENDCONF}
+fi
+
 ## Rewind
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "rewind"
@@ -314,37 +423,42 @@ else
 	echo 'rewind_enable = "false"' >> ${RAAPPENDCONF}
 fi
 
+## Incrementalsavestates
+# Get configuration from distribution.conf and set to retroarch.cfg
+get_setting "incrementalsavestates"
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	echo 'savestate_auto_index = "false"' >> ${RAAPPENDCONF}
+	echo 'savestate_max_keep = "50"' >> ${RAAPPENDCONF}
+else
+	echo 'savestate_auto_index = "true"' >> ${RAAPPENDCONF}
+	echo 'savestate_max_keep = "0"' >> ${RAAPPENDCONF}
+fi
+
 ## Autosave
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "autosave"
-if [ "${EES}" == false ] || [ "${EES}" == "1" ]; then
-	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
-	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
-	AUTOLOAD=true
-else
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
 	echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-	AUTOLOAD=false
+else
+	echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+	echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
 fi
 
 ## Snapshots
 echo 'savestate_directory = "'"${SNAPSHOTS}/${PLATFORM}"'"' >> ${RAAPPENDCONF}
 if [ ! -z ${SNAPSHOT} ]
 then
-	if [ ${AUTOLOAD} == true ]
-	then
 		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
 		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
-		echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+		if [ ${AUTOSAVE} == "1" ]; then
+			echo 'savestate_auto_load = "true"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "true"' >> ${RAAPPENDCONF}
+		else
+			echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
+			echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
+                fi
 		echo "state_slot = \"${SNAPSHOT}\"" >> ${RAAPPENDCONF}
-	else
-		sed -i "/savestate_auto_load =/d" ${RAAPPENDCONF}
-		sed -i "/savestate_auto_save =/d" ${RAAPPENDCONF}
-		echo 'savestate_auto_save = "false"' >> ${RAAPPENDCONF}
-		echo 'savestate_auto_load = "false"' >> ${RAAPPENDCONF}
-		echo 'state_slot = "0"' >> ${RAAPPENDCONF}
-	fi
 fi
 
 ## Runahead
@@ -370,7 +484,7 @@ if [ $RA == 1 ]; then
 fi
 
 
-## D-Pad to Analogue support, option in ES is missng atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
+## D-Pad to Analogue support, option in ES is missing atm but is managed as global.analogue=1 in distribution.conf (that is made by postupdate.sh)
 # Get configuration from distribution.conf and set to retroarch.cfg
 get_setting "analogue"
 (for e in "${NOANALOGUE[@]}"; do [[ "${e}" == "${PLATFORM}" ]] && exit 0; done) && RA=1 || RA=0
@@ -469,68 +583,148 @@ BEZELDIR=(/tmp/overlays/bezels /storage/roms/bezels)
 # RG351V=640x480
 if [ "${EE_DEVICE}" == "RG351P" ]; then
 	declare -A SystemViewport=(
+		['standard']="1 1 479 319"
 		['gb']="80 16 320 288"
 		['gbc']="80 16 320 288"
 		['supervision']="80 0 320 320"
 		['gamegear']="80 16 320 288"
 		['pokemini']="96 64 288 192"
+		['ngp']="80 8 320 304"
+		['ngpc']="80 8 320 304"
+		['wonderswan']="16 16 448 288"
+		['wonderswancolor']="16 16 448 288"
 	)
 else #Must be the V then
 	declare -A SystemViewport=(
+		['standard']="1 1 639 479"
 		['gb']="80 24 480 432"
 		['gbc']="80 24 480 432"
 		['supervision']="80 0 480 480"
 		['gamegear']="80 24 480 432"
 		['pokemini']="128 112 384 256"
+		['ngp']="80 12 480 456"
+		['ngpc']="80 12 480 456"
+		['wonderswan']="96 96 448 288"
+		['wonderswancolor']="96 96 448 288"
 	)
 fi
 # Get configuration from distribution.conf and set to retroarch.cfg
-get_setting "bezel"
-if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
-	# set path
-	for p in ${BEZELDIR[@]}; do
-		if [ -d "${p}"/"${EES}" ]; then
-			path="${p}"/"${EES}"
-		fi
-	done
-	# is there a $ROM.cfg?
-	# excatctly the same / just the name / default
-	# Random bezels have to match $ROM./d+.cfg
-	for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
-		# Somehow the regex of the busybox find does not know about "+" WTF?
-		pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
-		readarray -t filelist < <(find "${path}" -regex "${pattern}" -exec basename "{}" \;)
-		count=${#filelist[*]}
-		if [ ${count} -gt 0 ]; then
-			ran=$(($RANDOM%${count}))
-			bezelcfg="${path}"/"${filelist[${ran}]}"
-			break
-		elif [ -f "${path}"/"${romname}".cfg ]; then
-			bezelcfg="${path}"/"${romname}".cfg
-			break
-		fi
-	done
-	# configure bezel
-	echo 'input_overlay_enable = "true"'		>> ${RAAPPENDCONF}
-	echo "input_overlay = \"${bezelcfg}\""		>> ${RAAPPENDCONF}
-	echo 'input_overlay_hide_in_menu = "true"'	>> ${RAAPPENDCONF}
-	echo 'input_overlay_opacity = "1.000000"'	>> ${RAAPPENDCONF}
-	echo 'input_overlay_show_inputs = "2"'		>> ${RAAPPENDCONF}
-	# delete / set scaling and aspect ratio:
-	sed -i "/video_scale_integer/d" ${RAAPPENDCONF}
-	sed -i "/aspect_ratio_index/d" ${RAAPPENDCONF}
-	echo 'video_scale_integer = "false"'	>> ${RAAPPENDCONF}
-	echo 'aspect_ratio_index = "23"'		>> ${RAAPPENDCONF}
-	# configure custom scaling
-	# needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
-	declare -a resolution=(${SystemViewport[${PLATFORM}]})
-	echo "custom_viewport_x = \"${resolution[0]}\""			>> ${RAAPPENDCONF}
-	echo "custom_viewport_y = \"${resolution[1]}\""			>> ${RAAPPENDCONF}
-	echo "custom_viewport_width = \"${resolution[2]}\""		>> ${RAAPPENDCONF}
-	echo "custom_viewport_height = \"${resolution[3]}\""	>> ${RAAPPENDCONF}
+BEZEL=$(get_ee_setting 'bezel' ${PLATFORM} "${ROM}")
+if [[ -z "${BEZEL}" ]]; then
+   BEZEL=default
+fi
+log "bezel: ${BEZEL} platform: ${PLATFORM} rom: ${ROM}"
+
+if [ "${BEZEL}" != "false" ] && [ "${BEZEL}" != "none" ] && [ "${BEZEL}" != "0" ] && [ ${SystemViewport[${PLATFORM}]+_} ]; then
+        # set path
+        for p in ${BEZELDIR[@]}; do
+                if [ -d "${p}"/"${BEZEL}" ]; then
+                        path="${p}"/"${BEZEL}"
+                fi
+        done
+
+        BEZEL_SYSTEM=$(get_ee_setting 'bezel.system.override' ${PLATFORM} "${ROM}")
+        if [[ -z "${BEZEL_SYSTEM}" || "${BEZEL_SYSTEM}" == "AUTO" ]]; then
+          BEZEL_SYSTEM=${PLATFORM}
+        fi
+        BEZEL_SYSTEM_PNG=${path}/systems/${BEZEL_SYSTEM}.png
+        log "Bezel system png: ${BEZEL_SYSTEM_PNG}"
+
+        GAME_BEZEL_OVERRIDE=$(get_ee_setting 'bezel.game.override' ${PLATFORM} "${ROM}")
+        log "Game bezel override: ${GAME_BEZEL_OVERRIDE}"
+        if [[ -z "${GAME_BEZEL_OVERRIDE}" || "${GAME_BEZEL_OVERRIDE}" == "AUTO" ]]; then
+
+                log "No game specific override found.  Looking for games"
+                # is there a $ROM.cfg?
+                # excatctly the same / just the name / default
+                # Random bezels have to match $ROM./d+.cfg
+                romdir="${path}/systems/${BEZEL_SYSTEM}/games"
+                pushd "${romdir}" &> /dev/null
+                for romname in "${ROM%.*}" "${ROM%% (*}" "default"; do
+                        log "Looking at: ${romdir}/${romname}"
+                        # Somehow the regex of the busybox find does not know about "+" WTF?
+                        pattern=".*${romname}"\\.[0-9][0-9]*\\.cfg
+                        readarray -t filelist < <(find "${romdir}" -regex "${pattern}" -exec basename "{}" \;)
+                        log "file list: ${filelist}"
+                        count=${#filelist[*]}
+                        if [ ${count} -gt 0 ]; then
+                                ran=$(($RANDOM%${count}))
+                                game_cfg="${romdir}/${filelist[${ran}]}"
+                                log "Using random config: ${game_cfg}"
+                                break
+                        elif [ -f "${romdir}/${romname}".cfg ]; then
+                                game_cfg="${romdir}/${romname}".cfg
+                                log "Using rom config: ${game_cfg}"
+                                break
+                        fi
+                done
+                popd &> /dev/null
+        else
+                game_cfg=${path}/systems/${BEZEL_SYSTEM}/games/${GAME_BEZEL_OVERRIDE}.cfg
+        fi
+        if [[ -f "${game_cfg}" ]]; then
+                log "game config file exists: ${game_cfg}"
+                contents=$(cat "${game_cfg}" |  awk '{$1=$1};1')  #awk strips off leading/trailing whitespace
+                BEZEL_SYSTEM_PNG=${path}/systems/${BEZEL_SYSTEM}/games/${contents}
+        fi
+        log "bezel png: ${BEZEL_SYSTEM_PNG}"
+        if [[ -f "${BEZEL_SYSTEM_PNG}" ]]; then
+
+                # create the temporary bezel for retroarch
+                echo "overlays = 1" > ${TMP_BEZEL}
+                echo "overlay0_full_screen = true" >> ${TMP_BEZEL}
+                echo "overlay0_normalized = true" >> ${TMP_BEZEL}
+                echo "overlay0_overlay = \"${BEZEL_SYSTEM_PNG}\"" >> ${TMP_BEZEL}
+                count=0
+                if [[ -d "${path}/systems/${BEZEL_SYSTEM}/overlays/" ]]; then
+                        for overlay_png in $(ls -1 ${path}/systems/${BEZEL_SYSTEM}/overlays/*.png) ; do
+
+                                overlay_name="${overlay_png%.*}"
+                                overlay_name="$(basename ${overlay_name})"
+                                overlay_setting=$(get_ee_setting "bezel.overlay.${overlay_name}" ${PLATFORM} "${ROM}")
+                                if [[ "${overlay_setting}" == "0" ]];then
+                                        continue
+                                fi
+                                log "Adding overlay. name: ${overlay_name} overlay setting: ${overlay_setting} png: ${overlay_png}"
+                                echo "overlay0_desc${count}_overlay = \"${overlay_png}\"" >> ${TMP_BEZEL}
+                                echo "overlay0_desc${count} = \"nul,0.5,0.5,rect,0.5,0.5\"" >> ${TMP_BEZEL}
+                                count=$(expr $count + 1)
+                        done
+                fi
+                echo "overlay0_descs = ${count}" >> ${TMP_BEZEL}
+                bezelcfg="${TMP_BEZEL}"
+        fi
+fi
+if [[ -n "${bezelcfg}" ]]; then
+        log "using bezel"
+        # configure bezel
+        echo 'input_overlay_enable = "true"'            >> ${RAAPPENDCONF}
+        echo "input_overlay = \"${bezelcfg}\""          >> ${RAAPPENDCONF}
+        echo 'input_overlay_hide_in_menu = "true"'      >> ${RAAPPENDCONF}
+        echo 'input_overlay_opacity = "1.000000"'       >> ${RAAPPENDCONF}
+        echo 'input_overlay_show_inputs = "2"'          >> ${RAAPPENDCONF}
+        # delete / set scaling and aspect ratio:
+        sed -i "/video_scale_integer/d" ${RAAPPENDCONF}
+        sed -i "/aspect_ratio_index/d" ${RAAPPENDCONF}
+        echo 'video_scale_integer = "false"'    >> ${RAAPPENDCONF}
+        echo 'aspect_ratio_index = "23"'                >> ${RAAPPENDCONF}
+        # configure custom scaling
+        # needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
+        declare -a resolution=(${SystemViewport[${PLATFORM}]})
+        echo "custom_viewport_x = \"${resolution[0]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_y = \"${resolution[1]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_width = \"${resolution[2]}\""             >> ${RAAPPENDCONF}
+        echo "custom_viewport_height = \"${resolution[3]}\""    >> ${RAAPPENDCONF}
 else
-	# disable decorations
-	echo 'input_overlay_enable = "false"'		>> ${RAAPPENDCONF}
+        log "not using bezel"
+        # disable decorations
+        echo 'input_overlay_enable = "false"'           >> ${RAAPPENDCONF}
+        # set standard resolution for custom scaling
+        declare -a resolution=(${SystemViewport["standard"]})
+        echo "custom_viewport_x = \"${resolution[0]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_y = \"${resolution[1]}\""                 >> ${RAAPPENDCONF}
+        echo "custom_viewport_width = \"${resolution[2]}\""             >> ${RAAPPENDCONF}
+        echo "custom_viewport_height = \"${resolution[3]}\""    >> ${RAAPPENDCONF}
 fi
 
 ##

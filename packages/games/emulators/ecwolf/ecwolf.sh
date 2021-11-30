@@ -11,6 +11,16 @@ CONFIG_DIR="/storage/.config/distribution/ecwolf"
 CONFIG_FILE="${CONFIG_DIR}/ecwolf.cfg"
 SAVE_DIR="/storage/roms/gamedata/ecwolf"
 
+if [ ! -L "/storage/.config/ecwolf" ]
+then
+  ln -sf "/storage/.config/distribution/ecwolf" "/storage/.config/ecwolf"
+fi
+
+if [ ! -f "/storage/.config/distribution/ecwolf/ecwolf.cfg" ]
+then
+  cp -rf /usr/config/distribution/ecwolf/ecwolf.cfg /storage/.config/distribution/ecwolf/
+fi
+
 mkdir -p ${SAVE_DIR}
 
 params=" --config ${CONFIG_FILE} --savedir ${SAVE_DIR}"
@@ -18,7 +28,7 @@ params=" --config ${CONFIG_FILE} --savedir ${SAVE_DIR}"
 if [[ "$EE_DEVICE" == RG351P ]]; then
   params+=" --res 480 320"
 fi
-if [[ "$EE_DEVICE" == RG351V ]]; then
+if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
   params+=" --res 640 480"
 fi
 

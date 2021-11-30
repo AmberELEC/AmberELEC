@@ -5,12 +5,13 @@ on:
     # We don't need to run builds when these files change
     paths-ignore:
       - '.github/**'
-      - 'README.me'
+      - 'README.md'
       - 'Dockerfile'
       - '.dockerignore'
     branches:
       - main
-    types: [opened, synchronize, ready_for_review]
+      - dev
+    types: [opened, synchronize, ready_for_review, labeled]
 
 # Ensure that if there are multiple builds for a PR only 1 is queued
 # Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
@@ -20,10 +21,11 @@ concurrency:
   cancel-in-progress: true #only 1 build at a time per PR
 jobs:
   build:
+    timeout-minutes: 1440
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false || github.event.label.name == 'build' 
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
@@ -52,6 +54,12 @@ jobs:
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             export DOCKER_WORK_DIR=/work
             make docker-RG351V
+      - name: Build rg351MP
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            export DOCKER_WORK_DIR=/work
+            make docker-RG351MP
       - name: Cleanup system artifacts (no .img in PR builds)
         run: |
             set -e
@@ -71,3 +79,9 @@ jobs:
           name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351P/
+      - name: Archive RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351MP/

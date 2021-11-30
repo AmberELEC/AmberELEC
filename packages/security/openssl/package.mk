@@ -102,8 +102,8 @@ post_makeinstall_target() {
     ln -sf /run/libreelec/cacert.pem $INSTALL/etc/pki/tls/cacert.pem
   mkdir -p $INSTALL/etc/pki/tls/certs
     ln -sf /run/libreelec/cacert.pem $INSTALL/etc/pki/tls/certs/ca-bundle.crt
-  mkdir -p $INSTALL/usr/lib/ssl
-    ln -sf /run/libreelec/cacert.pem $INSTALL/usr/lib/ssl/cert.pem
+  mkdir -p $INSTALL/usr/lib
+    ln -sf /etc/ssl $INSTALL/usr/lib/ssl
 }
 
 post_install() {

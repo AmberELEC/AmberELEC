@@ -13,16 +13,4 @@ fi
 
 cd ~/.config/distribution/configs/hypseus/
 
-mkdir -p /tmp/bin ||:
-
-cp -f /usr/bin/hypseus /tmp/bin
-
-### Hypseus bugs out with SDL 2.0.12, until we can fix it...
-patchelf --replace-needed libSDL2-2.0.so.0 libSDL2-2.0.so.0.10.0 /tmp/bin/hypseus
-
-### You cannot call hypseus with a fully qualified path or it loses its mind.
-PATH=/tmp/bin:$PATH
-
 hypseus "$name" vldp -framefile "$dir/$name.txt" -fullscreen -useoverlaysb 2 $params
-
-rm -f /tmp/bin/hypseus

@@ -1,29 +1,44 @@
-#!/bin/bash
+#!/bin/sh
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2020-present RedWolfTech
-# Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
-OPENBOR="/storage/openbor"
-# Create symlink to game .pak in proper location
-if [ ! -d "${OPENBOR}/Paks" ]
-then
-  mkdir ${OPENBOR}/Paks
-fi
+# OpenBOR only works with Pak files, if you have an extracted game you will need to create a pak first.
 
-ln -sf "${1}" /storage/openbor/Paks/Game.pak
+pakname=$(basename "$1")
+pakname="${pakname%.*}"
 
-### Maybe we can integrate this better so it uses the ES configurations
-### but for now, a quick fix.
+CONFIGDIR="/storage/openbor"
+PAKS="${CONFIGDIR}/Paks"
+SAVES="${CONFIGDIR}/Saves"
 
-rm -f /storage/.config/retroarch/config/PPSSPP/EBOOT.cfg /storage/.config/retroarch/config/PPSSPP/PPSSPP.opt
-cat <<EOF >/storage/.config/retroarch/config/PPSSPP/EBOOT.cfg
-aspect_ratio_index = "7"
-video_ctx_scaling = "true"
-EOF
+# Make sure the folders exists
+  mkdir -p "${CONFIGDIR}"
+  mkdir -p "${PAKS}"
+  mkdir -p "${SAVES}"
 
-# Run retroarch PSP core and start OpenBOR engine
-/usr/bin/retroarch -L /tmp/cores/ppsspp_libretro.so /storage/openbor/EBOOT.PBP
+# Check if master.cfg exists
+  if [ ! -f "${CONFIGDIR}/master.cfg" ]; then
+    cp -f "/usr/config/openbor/master.cfg" "${CONFIGDIR}/"
+  fi
 
-# Remove symlink to game .pak when done
-rm -f /storage/openbor/Paks/Game.pak
-rm -f /storage/.config/retroarch/config/PPSSPP/EBOOT.cfg
+# Clear PAKS folder to avoid getting the launcher on next run
+  rm -rf ${PAKS}/*
+
+# make a symlink to the pak
+  ln -sf "$1" "${PAKS}"
+
+# only create symlink to master.cfg if its the first time running the pak
+  if [ ! -f "${SAVES}/${pakname}.cfg" ]; then
+    ln -sf "${CONFIGDIR}/master.cfg" "${SAVES}/${pakname}.cfg"
+  fi
+
+# We start the fake keyboard
+  gptokeyb openbor &
+
+# Run OpenBOR in the config folder
+  cd "${CONFIGDIR}"
+  LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 SDL_AUDIODRIVER=alsa OpenBOR
+
+# We stop the fake keyboard
+  killall gptokeyb &

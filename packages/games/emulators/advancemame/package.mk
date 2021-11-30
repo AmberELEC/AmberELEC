@@ -24,38 +24,36 @@ pre_configure_target() {
 }
 
 pre_make_target() {
-VERSION="351ELEC-v${LIBREELEC-VERSION}-${PKG_VERSION:0:7}"
-echo $VERSION > $PKG_BUILD/.version
+  VERSION="${PKG_VERSION:0:7}"
+  echo $VERSION > $PKG_BUILD/.version
 }
 
 make_target() {
-cd $PKG_BUILD
-./autogen.sh
-./configure --prefix=/usr --datadir=/usr/share/ --datarootdir=/usr/share/ --host=armv8a-libreelec-linux --enable-fb --enable-freetype --with-freetype-prefix=$SYSROOT_PREFIX/usr/ --enable-slang
-make mame
+  cd $PKG_BUILD
+  ./autogen.sh
+  ./configure --prefix=/usr --datadir=/usr/share/ --datarootdir=/usr/share/ --host=armv8a-libreelec-linux --enable-fb --enable-freetype --with-freetype-prefix=$SYSROOT_PREFIX/usr/ --enable-slang
+  make mame
 }
 
 makeinstall_target() {
  : not
 }
 
-post_make_target() { 
-mkdir -p $INSTALL/usr/share/advance
-if [ "$DEVICE" == "OdroidGoAdvance" ] || [[ "$DEVICE" =~ RG351 ]]; then
-   cp -r $PKG_DIR/config/advmame.rc_oga $INSTALL/usr/share/advance/advmame.rc
-else
-   cp -r $PKG_DIR/config/advmame.rc $INSTALL/usr/share/advance/advmame.rc
-fi
-   
-mkdir -p $INSTALL/usr/bin
-   cp -r $PKG_DIR/bin/* $INSTALL/usr/bin
-chmod +x $INSTALL/usr/bin/advmame.sh
-
-cp -r $PKG_BUILD/obj/mame/linux/blend/advmame $INSTALL/usr/bin
-cp -r $PKG_BUILD/support/category.ini $INSTALL/usr/share/advance
-cp -r $PKG_BUILD/support/sysinfo.dat $INSTALL/usr/share/advance
-cp -r $PKG_BUILD/support/history.dat $INSTALL/usr/share/advance
-cp -r $PKG_BUILD/support/hiscore.dat $INSTALL/usr/share/advance
-cp -r $PKG_BUILD/support/event.dat $INSTALL/usr/share/advance
-CFLAGS=$OLDCFLAGS
+post_make_target() {
+  mkdir -p $INSTALL/usr/share/advance
+  if [ "${DEVICE}" = "RG351MP" ]; then
+    cp -r $PKG_DIR/config/RG351MP/advmame.rc $INSTALL/usr/share/advance/advmame.rc
+  else
+    cp -r $PKG_DIR/config/RG351P/advmame.rc $INSTALL/usr/share/advance/advmame.rc
+  fi
+  mkdir -p $INSTALL/usr/bin
+  cp -r $PKG_DIR/bin/* $INSTALL/usr/bin
+  chmod +x $INSTALL/usr/bin/advmame.sh
+  cp -r $PKG_BUILD/obj/mame/linux/blend/advmame $INSTALL/usr/bin
+  cp -r $PKG_BUILD/support/category.ini $INSTALL/usr/share/advance
+  cp -r $PKG_BUILD/support/sysinfo.dat $INSTALL/usr/share/advance
+  cp -r $PKG_BUILD/support/history.dat $INSTALL/usr/share/advance
+  cp -r $PKG_BUILD/support/hiscore.dat $INSTALL/usr/share/advance
+  cp -r $PKG_BUILD/support/event.dat $INSTALL/usr/share/advance
+  CFLAGS=$OLDCFLAGS
 }
