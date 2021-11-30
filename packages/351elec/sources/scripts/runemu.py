@@ -113,6 +113,7 @@ standalone_emulators: 'Mapping[str, Tuple[str, Sequence[Optional[str]]]]' = {
 	'HYPSEUS': ('hypseus', ['/usr/bin/hypseus.start.sh', None]),
 	'PPSSPPSDL': ('PPSSPPSDL', ['/usr/bin/ppsspp.sh', None]),
 	'mpv': ('mpv', ['/usr/bin/mpv_video.sh', None]),
+	'pico8': ('pico8_dyn', ['/usr/bin/pico-8.sh', None]),
 }
 
 def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str], emulator: str) -> 'Sequence[Union[str, Path]]':
@@ -120,18 +121,11 @@ def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str]
 		log('Running a standalone emulator:')
 		log(f'platform: {platform}')
 		log(f'emulator: {emulator}')
-	#Core is not actually relevant (other than Mupen64Plus)
+	#Core is not actually relevant (other than Mupen64Plus which is in another function)
 	command: 'List[Union[str, Path]]' = [BASH_EXE]
-	if platform == 'pico-8':
-		#<emulator> is not actually used right now there in es_systems.cfg
-		jslisten_exe = 'pico8_dyn'
-		#command += ['/usr/bin/pico-8.sh', rom]
-		command.append('/usr/bin/pico-8.sh')
-		if rom:
-			command.append(rom)
-	else:
-		jslisten_exe, placeholder_args = standalone_emulators[emulator]
-		command += [arg for arg in (rom if arg is None else arg for arg in placeholder_args) if arg]
+	
+	jslisten_exe, placeholder_args = standalone_emulators[emulator]
+	command += [arg for arg in (rom if arg is None else arg for arg in placeholder_args) if arg]
 
 	jslisten_set(jslisten_exe)
 	return command
