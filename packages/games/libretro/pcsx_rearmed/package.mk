@@ -13,7 +13,6 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="ARM optimized PCSX fork"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed -gold"
-PKG_GIT_CLONE_BRANCH="cdrom_audio_fix_attempt"
 
 make_target() {
   cd ${PKG_BUILD}
