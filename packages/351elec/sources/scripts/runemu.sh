@@ -393,7 +393,7 @@ else
 	if [[ ${NETPLAY} != "No" ]]; then
 		NETPLAY_NICK=$(get_ee_setting netplay.nickname)
 		[[ -z "$NETPLAY_NICK" ]] && NETPLAY_NICK="351ELEC"
-		
+
 		if [[ "${NETPLAY}" == *"connect"* ]]; then
 			NETPLAY_PORT="${arguments##*--port }"  # read from -netplayport  onwards
 			NETPLAY_PORT="${NETPLAY_PORT%% *}"  # until a space is found
@@ -432,9 +432,9 @@ then
 fi
 
 if [[ ${PLATFORM} == "ports" ]]; then
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${PORTSCRIPT}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.py --platform "${PLATFORM}" --rom "${PORTSCRIPT}" --core "${CORE}" --controllers "${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
 else
-	(/usr/bin/setsettings.sh "${PLATFORM}" "${ROMNAME}" "${CORE}" --controllers="${CONTROLLERCONFIG}" --autosave="${AUTOSAVE}" --snapshot="${SNAPSHOT}" >${SHADERTMP}) &
+	(/usr/bin/setsettings.py --platform "${PLATFORM}" --rom "${ROMNAME}" --core "${CORE}" --controllers "${CONTROLLERCONFIG}" --autosave "${AUTOSAVE}" --snapshot "${SNAPSHOT}" >${SHADERTMP}) &
 fi
 SETSETTINGS_PID=$!
 
