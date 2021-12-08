@@ -42,7 +42,6 @@ sed -i '
         /input_overlay_hide_in_menu/d;
         /input_overlay_opacity/d;
         /input_overlay_show_inputs/d;
-        /input_player1_analog_dpad_mode/d;
         /netplay =/d;
         /netplay_client_swap_input/d;
         /netplay_client_swap_input/d;
