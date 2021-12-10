@@ -238,6 +238,10 @@ then
 			jslisten set "pico8_dyn"
 			RUNTHIS='${TBASH} /usr/bin/pico-8.sh "${ROMNAME}"'
 		;;
+		"piece")
+			jslisten set "piemu"
+			RUNTHIS='${TBASH} /usr/local/bin/piemu.sh "${ROMNAME}"'
+		;;
 		"ecwolf")
 			jslisten set "ecwolf"
 			if [ "$EMU" = "ecwolf" ]
