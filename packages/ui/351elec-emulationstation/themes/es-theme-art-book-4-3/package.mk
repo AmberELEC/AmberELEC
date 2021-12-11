@@ -4,10 +4,10 @@
 
 PKG_NAME="es-theme-art-book-4-3"
 PKG_REV="1"
-PKG_VERSION="b619b52eb97a24b166b97bd23e1c47e9c0c5b63a"
+PKG_VERSION="6b4c29171887d43493db911d9d9e551649167829"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
-PKG_SITE="https://github.com/szalik-rg351/es-theme-art-book-4-3"
+PKG_SITE="https://github.com/szalik-rg351/es-theme-art-book-4-3-v2"
 PKG_URL="$PKG_SITE.git"
 GET_HANDLER_SUPPORT="git"
 PKG_SHORTDESC="ArtBook"
