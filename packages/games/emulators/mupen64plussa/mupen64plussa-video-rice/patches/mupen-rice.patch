@@ -1,0 +1,76 @@
+diff --git a/src/Config.cpp b/src/Config.cpp
+index 961a1c7..1b4ef28 100644
+--- a/src/Config.cpp
++++ b/src/Config.cpp
+@@ -425,6 +425,12 @@ static void ReadConfiguration(void)
+     windowSetting.uDisplayWidth = ConfigGetParamInt(l_ConfigVideoGeneral, "ScreenWidth");
+     windowSetting.uDisplayHeight = ConfigGetParamInt(l_ConfigVideoGeneral, "ScreenHeight");
+     windowSetting.bVerticalSync = ConfigGetParamBool(l_ConfigVideoGeneral, "VerticalSync");
++    windowSetting.uResolutionWidth = ConfigGetParamInt(l_ConfigVideoRice, "ResolutionWidth");
++    if (windowSetting.uResolutionWidth) {
++        windowSetting.uXOffset = (windowSetting.uResolutionWidth - windowSetting.uDisplayWidth)/2;
++    } else {
++        windowSetting.uXOffset = 0;
++    }
+ 
+     defaultRomOptions.N64FrameBufferEmuType = ConfigGetParamInt(l_ConfigVideoRice, "FrameBufferSetting");
+     defaultRomOptions.N64FrameBufferWriteBackControl = ConfigGetParamInt(l_ConfigVideoRice, "FrameBufferWriteBackControl");
+diff --git a/src/OGLRender.cpp b/src/OGLRender.cpp
+index 6f9d0e2..6618d21 100644
+--- a/src/OGLRender.cpp
++++ b/src/OGLRender.cpp
+@@ -935,7 +935,7 @@ void OGLRender::UpdateScissor()
+         uint32 height = (gRDP.scissor.right*gRDP.scissor.bottom)/width;
+         glEnable(GL_SCISSOR_TEST);
+         OPENGL_CHECK_ERRORS;
+-        glScissor(0, int(height*windowSetting.fMultY+windowSetting.statusBarHeightToUse),
++        glScissor(windowSetting.uXOffset, int(height*windowSetting.fMultY+windowSetting.statusBarHeightToUse),
+             int(width*windowSetting.fMultX), int(height*windowSetting.fMultY) );
+         OPENGL_CHECK_ERRORS;
+     }
+@@ -956,13 +956,13 @@ void OGLRender::ApplyRDPScissor(bool force)
+         uint32 height = (gRDP.scissor.right*gRDP.scissor.bottom)/width;
+         glEnable(GL_SCISSOR_TEST);
+         OPENGL_CHECK_ERRORS;
+-        glScissor(0, int(height*windowSetting.fMultY+windowSetting.statusBarHeightToUse),
++        glScissor(windowSetting.uXOffset, int(height*windowSetting.fMultY+windowSetting.statusBarHeightToUse),
+             int(width*windowSetting.fMultX), int(height*windowSetting.fMultY) );
+         OPENGL_CHECK_ERRORS;
+     }
+     else
+     {
+-        glScissor(int(gRDP.scissor.left*windowSetting.fMultX), int((windowSetting.uViHeight-gRDP.scissor.bottom)*windowSetting.fMultY+windowSetting.statusBarHeightToUse),
++        glScissor(int(gRDP.scissor.left*windowSetting.fMultX + windowSetting.uXOffset), int((windowSetting.uViHeight-gRDP.scissor.bottom)*windowSetting.fMultY+windowSetting.statusBarHeightToUse),
+             int((gRDP.scissor.right-gRDP.scissor.left)*windowSetting.fMultX), int((gRDP.scissor.bottom-gRDP.scissor.top)*windowSetting.fMultY ));
+         OPENGL_CHECK_ERRORS;
+     }
+@@ -976,7 +976,7 @@ void OGLRender::ApplyScissorWithClipRatio(bool force)
+ 
+     glEnable(GL_SCISSOR_TEST);
+     OPENGL_CHECK_ERRORS;
+-    glScissor(windowSetting.clipping.left, int((windowSetting.uViHeight-gRSP.real_clip_scissor_bottom)*windowSetting.fMultY)+windowSetting.statusBarHeightToUse,
++    glScissor(windowSetting.clipping.left + windowSetting.uXOffset, int((windowSetting.uViHeight-gRSP.real_clip_scissor_bottom)*windowSetting.fMultY)+windowSetting.statusBarHeightToUse,
+         windowSetting.clipping.width, windowSetting.clipping.height);
+     OPENGL_CHECK_ERRORS;
+ 
+@@ -1019,7 +1019,7 @@ void OGLRender::glViewportWrapper(GLint x, GLint y, GLsizei width, GLsizei heigh
+         mflag=flag;
+         glLoadIdentity();
+         OPENGL_CHECK_ERRORS;
+-        glViewport(x,y,width,height);
++        glViewport(windowSetting.uXOffset + x,y,width,height);
+         OPENGL_CHECK_ERRORS;
+     }
+ }
+diff --git a/src/Video.h b/src/Video.h
+index 7fbbcaa..25812c9 100644
+--- a/src/Video.h
++++ b/src/Video.h
+@@ -37,6 +37,7 @@ typedef struct {
+     float   fViWidth, fViHeight;
+     unsigned short        uViWidth, uViHeight;
+     unsigned short        uDisplayWidth, uDisplayHeight;
++    unsigned short        uResolutionWidth, uXOffset;
+     
+     BOOL    bDisplayFullscreen;
+     BOOL    bVerticalSync;

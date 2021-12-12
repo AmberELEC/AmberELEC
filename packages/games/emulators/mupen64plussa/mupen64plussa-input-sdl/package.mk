@@ -39,7 +39,7 @@ makeinstall_target() {
   #$STRIP ${UPLUGINDIR}/mupen64plus-input-sdl.so
   chmod 0644 ${UPLUGINDIR}/mupen64plus-input-sdl.so
   mkdir -p ${USHAREDIR}
-  cp ${PKG_DIR}/config/InputAutoCfg.ini ${USHAREDIR}
+  cp ${PKG_DIR}/config/* ${USHAREDIR}
   chmod 644 ${USHAREDIR}/InputAutoCfg.ini
 }
 
