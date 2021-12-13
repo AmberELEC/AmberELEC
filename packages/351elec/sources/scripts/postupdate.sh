@@ -5,6 +5,32 @@
 ## Config Files
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
+LAST_UPDATE_FILE="/storage/.lastupdateversion"
+
+LAST_UPDATE_VERSION="0"
+if [[ -f "${LAST_UPDATE_FILE}" ]]; then
+
+  #The following parsing should work for all the below permuations: (anything with 8 digits as a date)
+  #
+  # PR: pr-740-2021-12-04-20211208_1753-3781bcc
+  # Beta: beta-20211130_1728
+  # Prerelease: prerelease-20211130_1728
+  # Release: 20211122
+  # Release - patch: 20211122-1
+  PATTERN="s|.*([0-9]{8}).*|\1|g"
+  LAST_UPDATE_VERSION="$(cat "$LAST_UPDATE_FILE" | grep -E "$PATTERN" sed -E "s|$PATTERN|\1|g" )"
+  
+  # If we cannot parse last update version - set to large date that will never execute - this prevents dev versions causing strangeness
+  if [[ -z "${LAST_UPDATE_VERSION}" ]]; then
+    LAST_UPDATE_VERSION="99999999"
+  fi
+fi
+echo "last update version: ${LAST_UPDATE_VERSION}"
+
+# For changes that should only be run if upgrading "Pineapple Forest" - use PR's date to include betas/prerelease before this change
+if [[ "$LAST_UPDATE_VERSION" -le "20211213" ]]; then
+  echo "Running update"
+fi
 
 # 2021-11-03 (konsumschaf)
 # Remove the 2 minutes popup setting from distribution.conf
@@ -196,6 +222,9 @@ fi
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
+
+## Allows only performing updates from specific versions
+echo Last Update: $(cat /storage/.config/.OS_VERSION) > "${LAST_UPDATE_FILE}"
 
 # Clear Executing postupdate... message
 echo -ne "\033[$1;$1H" >/dev/console
