@@ -25,8 +25,8 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   # Prerelease: prerelease-20211130_1728
   # Release: 20211122
   # Release - patch: 20211122-1
-  PATTERN="s|.*([0-9]{8}).*|\1|g"
-  LAST_UPDATE_VERSION="$(cat "$LAST_UPDATE_FILE" | grep -E "$PATTERN" sed -E "s|$PATTERN|\1|g" )"
+  PATTERN='.*([0-9]{8}).*'
+  LAST_UPDATE_VERSION="$(cat "$LAST_UPDATE_FILE" | grep -E "$PATTERN" | sed -E "s|$PATTERN|\1|g" )"
   
   # If we cannot parse last update version - set to large date that will never execute - this prevents dev versions causing strangeness
   if [[ -z "${LAST_UPDATE_VERSION}" ]]; then
@@ -87,31 +87,31 @@ sed -i '/global.bezel=0/d;
 ### - Doing this after other bezel changes from 2021-10-04 so empty values are consistent for upgrades prior to pineapple forrest.
 ### - Only running for versions less than current date - this ensures if user sets to 'auto' after upgrade, settings will be 'off' as desired
 if [[ "$LAST_UPDATE_VERSION" -le "20211215" ]]; then
-  grep -qx 'global.bezel=' "${CONF}"|| echo 'global.bezel=default"' >> "${CONF}"
+  grep -qF 'global.bezel=' "${CONF}"|| echo 'global.bezel=default' >> "${CONF}"
 
-  grep -qx 'gamegear.bezel.overlay.grid=' "${CONF}"|| echo 'gamegear.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'gamegear.bezel.overlay.shadow=' "${CONF}"|| echo 'gamegear.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'gamegear.bezel.overlay.grid=' "${CONF}"|| echo 'gamegear.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'gamegear.bezel.overlay.shadow=' "${CONF}"|| echo 'gamegear.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'gb.bezel.overlay.grid=' "${CONF}"|| echo 'gb.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'gb.bezel.overlay.shadow=' "${CONF}"|| echo 'gb.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'gb.bezel.overlay.grid=' "${CONF}"|| echo 'gb.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'gb.bezel.overlay.shadow=' "${CONF}"|| echo 'gb.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'gbc.bezel.overlay.grid=' "${CONF}"|| echo 'gbc.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'gbc.bezel.overlay.shadow=' "${CONF}"|| echo 'gbc.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'gbc.bezel.overlay.grid=' "${CONF}"|| echo 'gbc.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'gbc.bezel.overlay.shadow=' "${CONF}"|| echo 'gbc.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'ngp.bezel.overlay.grid=' "${CONF}"|| echo 'ngp.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'ngp.bezel.overlay.shadow=' "${CONF}"|| echo 'ngp.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'ngp.bezel.overlay.grid=' "${CONF}"|| echo 'ngp.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'ngp.bezel.overlay.shadow=' "${CONF}"|| echo 'ngp.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'ngpc.bezel.overlay.grid=' "${CONF}"|| echo 'ngpc.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'ngpc.bezel.overlay.shadow=' "${CONF}"|| echo 'ngpc.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'ngpc.bezel.overlay.grid=' "${CONF}"|| echo 'ngpc.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'ngpc.bezel.overlay.shadow=' "${CONF}"|| echo 'ngpc.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'pokemini.bezel.overlay.grid=' "${CONF}"|| echo 'pokemini.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'pokemini.bezel.overlay.shadow=' "${CONF}"|| echo 'pokemini.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'pokemini.bezel.overlay.grid=' "${CONF}"|| echo 'pokemini.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'pokemini.bezel.overlay.shadow=' "${CONF}"|| echo 'pokemini.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'supervision.bezel.overlay.grid=' "${CONF}"|| echo 'supervision.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'supervision.bezel.overlay.shadow=' "${CONF}"|| echo 'supervision.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'supervision.bezel.overlay.grid=' "${CONF}"|| echo 'supervision.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'supervision.bezel.overlay.shadow=' "${CONF}"|| echo 'supervision.bezel.overlay.shadow=1' >> "${CONF}"
 
-  grep -qx 'wonderswan.bezel.overlay.grid=' "${CONF}"|| echo 'wonderswan.bezel.overlay.grid=1"' >> "${CONF}"
-  grep -qx 'wonderswan.bezel.overlay.shadow=' "${CONF}"|| echo 'wonderswan.bezel.overlay.shadow=1"' >> "${CONF}"
+  grep -qF 'wonderswan.bezel.overlay.grid=' "${CONF}"|| echo 'wonderswan.bezel.overlay.grid=1' >> "${CONF}"
+  grep -qF 'wonderswan.bezel.overlay.shadow=' "${CONF}"|| echo 'wonderswan.bezel.overlay.shadow=1' >> "${CONF}"
 fi
 
 ## 2021-09-30:
@@ -260,7 +260,7 @@ fi
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
 
 ## Allows only performing updates from specific versions
-echo Last Update: $(cat /storage/.config/.OS_VERSION) > "${LAST_UPDATE_FILE}"
+echo $(cat /storage/.config/.OS_VERSION) > "${LAST_UPDATE_FILE}"
 
 # Clear Executing postupdate... message
 echo -ne "\033[$1;$1H" >/dev/console
