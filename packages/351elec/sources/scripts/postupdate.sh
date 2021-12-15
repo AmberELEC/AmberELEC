@@ -7,6 +7,14 @@ CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 LAST_UPDATE_FILE="/storage/.lastupdateversion"
 
+
+# 2021-12-15
+## Parse LAST_UPDATE_VERSION.  This variable will be the date of the previous upgrade. Ex: 20211222.
+## - This variable can be used to execute upgrade logic only when crossing a version threshold.
+##   - Greater than/less than checks should always be used to avoid assuming a user is coming from a specific version.
+##   - Logic should still work if run multiple times in case of upgrade/downgrade/upgrade scenario.
+## - For versions prior to the addition of .lastupdateversion (pineapple forest, etc), this number will be 0.
+## - For versions which can't be parsed (custom builds), the number will be set to all 9's so it is greater than all dates
 LAST_UPDATE_VERSION="0"
 if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 
@@ -26,11 +34,6 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   fi
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
-
-# For changes that should only be run if upgrading "Pineapple Forest" - use PR's date to include betas/prerelease before this change
-if [[ "$LAST_UPDATE_VERSION" -le "20211213" ]]; then
-  echo "Running update"
-fi
 
 # 2021-11-03 (konsumschaf)
 # Remove the 2 minutes popup setting from distribution.conf
@@ -77,6 +80,39 @@ sed -i '/global.bezel=0/d;
         /pokemini.bezel=351ELEC-PokemonMini/d;
         /supervision.bezel=351ELEC-Supervision/d;
         ' /storage/.config/distribution/configs/distribution.conf
+
+## 2021-12-15
+## Do not break automatic bezel support for users upgrading from pineapple forrest.
+## Pineapple Forest bezels assumed 'auto' would mean 'on', but should be 'off'
+### - Doing this after other bezel changes from 2021-10-04 so empty values are consistent for upgrades prior to pineapple forrest.
+### - Only running for versions less than current date - this ensures if user sets to 'auto' after upgrade, settings will be 'off' as desired
+if [[ "$LAST_UPDATE_VERSION" -le "20211215" ]]; then
+  grep -qx 'global.bezel=' "${CONF}"|| echo 'global.bezel=default"' >> "${CONF}"
+
+  grep -qx 'gamegear.bezel.overlay.grid=' "${CONF}"|| echo 'gamegear.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'gamegear.bezel.overlay.shadow=' "${CONF}"|| echo 'gamegear.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'gb.bezel.overlay.grid=' "${CONF}"|| echo 'gb.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'gb.bezel.overlay.shadow=' "${CONF}"|| echo 'gb.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'gbc.bezel.overlay.grid=' "${CONF}"|| echo 'gbc.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'gbc.bezel.overlay.shadow=' "${CONF}"|| echo 'gbc.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'ngp.bezel.overlay.grid=' "${CONF}"|| echo 'ngp.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'ngp.bezel.overlay.shadow=' "${CONF}"|| echo 'ngp.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'ngpc.bezel.overlay.grid=' "${CONF}"|| echo 'ngpc.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'ngpc.bezel.overlay.shadow=' "${CONF}"|| echo 'ngpc.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'pokemini.bezel.overlay.grid=' "${CONF}"|| echo 'pokemini.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'pokemini.bezel.overlay.shadow=' "${CONF}"|| echo 'pokemini.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'supervision.bezel.overlay.grid=' "${CONF}"|| echo 'supervision.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'supervision.bezel.overlay.shadow=' "${CONF}"|| echo 'supervision.bezel.overlay.shadow=1"' >> "${CONF}"
+
+  grep -qx 'wonderswan.bezel.overlay.grid=' "${CONF}"|| echo 'wonderswan.bezel.overlay.grid=1"' >> "${CONF}"
+  grep -qx 'wonderswan.bezel.overlay.shadow=' "${CONF}"|| echo 'wonderswan.bezel.overlay.shadow=1"' >> "${CONF}"
+fi
 
 ## 2021-09-30:
 ## Remove any configurd ES joypads on upgrade
