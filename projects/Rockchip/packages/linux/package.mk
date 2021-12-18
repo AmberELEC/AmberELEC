@@ -4,15 +4,21 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="linux"
-PKG_VERSION="55500401e033bed0ccf9dcf1bab48105d6f9d1e8"
-PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
+if [[ "$DEVICE" =~ RG351 ]]; then
+  PKG_VERSION="55500401e033bed0ccf9dcf1bab48105d6f9d1e8"
+  PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
+elif [[ "$DEVICE" =~ RG552 ]]; then
+  PKG_VERSION="1c186e37cc957dde37f2872d697927cfc2c5808f"
+  PKG_URL="https://github.com/dhwz/kernel_rg552/archive/$PKG_VERSION.tar.gz"
+fi
+
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kernel.org"
 PKG_DEPENDS_HOST="ccache:host openssl:host"
 PKG_DEPENDS_TARGET="toolchain linux:host cpio:host kmod:host xz:host wireless-regdb keyutils $KERNEL_EXTRA_DEPENDS_TARGET"
 PKG_DEPENDS_INIT="toolchain"
 PKG_NEED_UNPACK="$LINUX_DEPENDS $(get_pkg_directory busybox)"
-PKG_LONGDESC="This package contains the kernel for the RG351P/M/V/MP"
+PKG_LONGDESC="This package contains the kernel for the RG351P/M/V/MP and RG552"
 PKG_IS_KERNEL_PKG="yes"
 PKG_STAMP="$KERNEL_TARGET $KERNEL_MAKE_EXTRACMD"
 

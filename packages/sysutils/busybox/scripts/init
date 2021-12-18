@@ -60,21 +60,36 @@ MACHINE_UID="$(awk '/^Serial/{s='0000000' $3; print substr(s, length(s) - 7)}' /
 # common functions
 . /functions
 
-# Enable GPIO 77 for power LED manipulation
-echo 77 > /sys/class/gpio/export
+if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+  # Enable WIFI GPIO for WIFI manipulation
+  echo 113 > /sys/class/gpio/export
 
-# Enable WIFI GPIO for WIFI manipulation
-echo 5 > /sys/class/gpio/export
+  # Power up the WIFI device
+  echo out > /sys/class/gpio/gpio113/direction
+  echo 1 > /sys/class/gpio/gpio113/value
 
-# Power up the WIFI device
-echo out > /sys/class/gpio/gpio5/direction
-echo 1 >  /sys/class/gpio/gpio5/value
+  # Enable PWM for rumble and turn rumble off during startup.
+  echo 0 > /sys/class/pwm/pwmchip3/export
+  echo 1000000 > /sys/class/pwm/pwmchip3/pwm0/period
+  echo 1 > /sys/class/pwm/pwmchip3/pwm0/enable
+  echo 0 > /sys/class/pwm/pwmchip3/pwm0/duty_cycle
+else
+  # Enable GPIO 77 for power LED manipulation
+  echo 77 > /sys/class/gpio/export
 
-# Enable PWM for rumble and turn rumble off during startup.
-echo 0 > /sys/class/pwm/pwmchip0/export
-echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
-echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
-echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+  # Enable WIFI GPIO for WIFI manipulation
+  echo 5 > /sys/class/gpio/export
+
+  # Power up the WIFI device
+  echo out > /sys/class/gpio/gpio5/direction
+  echo 1 >  /sys/class/gpio/gpio5/value
+
+  # Enable PWM for rumble and turn rumble off during startup.
+  echo 0 > /sys/class/pwm/pwmchip0/export
+  echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
+  echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
+  echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+fi
 
 # script functions
 progress() {
@@ -436,8 +451,11 @@ set_consolefont() {
   progress "Set console font"
   if [ -e /dev/fb0 ]; then
     hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
-    if [ $hres == "640" ]; then
+    vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
+    if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351V" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
       setfont -C /dev/tty0 ter-v20n.psf
+    elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+      setfont -C /dev/tty0 ter-v32n.psf
     else
       setfont -C /dev/tty0 ter-v14n.psf
     fi
@@ -475,6 +493,10 @@ load_splash() {
         if [ "$set_default_res" = "yes" ]; then
           fbset -g 1024 768 1024 768 32
         fi
+      fi
+
+      if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+        fbset -g 1152 1920 1152 1920 32
       fi
 
       # load splash
@@ -721,9 +743,9 @@ mount_games() {
           mount /dev/${DEV} /storage/roms >/dev/null 2>&1
           break
         else
-	  echo "Unsupported games filesystem detected. Please reformat with ExFAT or EXT4."
+	  echo "Unsupported games filesystem detected. Please reformat with exFAT or ext4."
 	  echo ""
-	  StartProgress countdown "Shutting down in 5... " 5 "NOW"
+	  StartProgress countdown "Shutting down in 5... " 30 "NOW"
 	  sync
 	  poweroff
 	fi
@@ -1309,7 +1331,7 @@ SILENT_OUT=3
 
 # If the network is up (due to the use of the "ip" kernel parameter) and a DNS
 # server is known, allow the libc resolver to use it
-grep '^\(nameserver\|domain\) ' /proc/net/pnp | grep -v '^nameserver 0\.0\.0\.0$' > /etc/resolv.conf
+#grep '^\(nameserver\|domain\) ' /proc/net/pnp | grep -v '^nameserver 0\.0\.0\.0$' > /etc/resolv.conf
 
 if [ "${boot%%=*}" = "FILE" ]; then
   error "check arguments" "boot argument can't be FILE type..."

@@ -72,7 +72,7 @@ makeinstall_target() {
 		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
 	fi
 	# delete es-theme-art-book-4-3 on P/M
-	if [ "${DEVICE}" = "RG351P" ]; then
+	if [ "${DEVICE}" = "RG351P" ] || [ "${DEVICE}" = "RG552" ]; then
                 sed -i "/value=\"es-theme-art-book-4-3\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
         fi
 

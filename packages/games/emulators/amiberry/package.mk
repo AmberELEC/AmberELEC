@@ -33,13 +33,12 @@ pre_configure_target() {
       ;;
   esac
  
-if [[ "$DEVICE" =~ RG351 ]]; then
-if [ $ARCH == "arm" ]; then
-AMIBERRY_PLATFORM="RK3326"
-else 
-AMIBERRY_PLATFORM="pi64"
-fi
-
+if [[ "$DEVICE" =~ RG351 ]] || [[ "$DEVICE" =~ RG552 ]]; then
+  if [ $ARCH == "arm" ]; then
+    AMIBERRY_PLATFORM="RK3326"
+  else 
+    AMIBERRY_PLATFORM="pi64"
+  fi
 fi
 
 sed -i "s|AS     = as|AS     \?= as|" Makefile

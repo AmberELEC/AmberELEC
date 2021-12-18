@@ -26,10 +26,10 @@ makeinstall_init() {
 
   mkdir -p $INSTALL/splash
     find_file_path splash/splash.conf && cp ${FOUND_PATH} $INSTALL/splash
-    if [ "$DEVICE" == "OdroidGoAdvance" ] || [[ "$DEVICE" =~ RG351 ]]; then
+    if [[ "$DEVICE" =~ RG552 ]] || [[ "$DEVICE" =~ RG351 ]]; then
 		find_file_path "splash/splash-480.png" && cp ${FOUND_PATH} $INSTALL/splash
 		find_file_path "splash/splash-640.png" && cp ${FOUND_PATH} $INSTALL/splash
-		find_file_path "splash/splash-1080.png" && cp ${FOUND_PATH} $INSTALL/splash
+		find_file_path "splash/splash-1920.png" && cp ${FOUND_PATH} $INSTALL/splash
     else
 		find_file_path "splash/splash-*.png" && cp ${FOUND_PATH} $INSTALL/splash
     fi

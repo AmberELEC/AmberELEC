@@ -18,7 +18,7 @@ PKG_BUILD_FLAGS="-lto"
 if [[ "$ARCH" == "arm" ]]; then
 	PKG_MAKE_OPTS_TARGET=" platform=${PROJECT}"
 
-	if [[ "${DEVICE}" =~ RG351 ]]; then
+	if [[ "${DEVICE}" =~ RG351 ]] || [[ "${DEVICE}" =~ RG552 ]]; then
 		PKG_MAKE_OPTS_TARGET=" platform=Odroidgoa"
 	fi
 else

@@ -1,0 +1,17 @@
+diff -rupN libmali.orig/meson.build libmali.new/meson.build
+--- libmali.orig/meson.build	2021-01-09 07:31:33.485938946 -0500
++++ libmali.new/meson.build	2021-01-11 21:41:58.504950085 -0500
+@@ -12,10 +12,10 @@ else
+   arch = host_machine.cpu_family()
+ endif
+ 
+-gpu = get_option('gpu')
+-version = get_option('version')
++gpu = 'midgard-t86x'
++version = 'r18p0'
+ subversion = get_option('subversion')
+-platform = get_option('platform')
++platform = 'gbm'
+ opencl_icd = get_option('opencl-icd')
+ vendor_package = get_option('vendor-package')
+ wrapper_packages = get_option('wrapper-packages')

@@ -57,7 +57,7 @@ pre_configure_target() {
     ;;
   esac
  
- if [[ "$DEVICE" =~ RG351 ]]; then 
+ if [[ "$DEVICE" =~ RG351 ]] || [[ "$DEVICE" =~ RG552 ]]; then 
 	if [[ "$ARCH" == "arm" ]]; then
 		CFLAGS="$CFLAGS -DLINUX -DEGL_API_FB"
 		CPPFLAGS="$CPPFLAGS -DLINUX -DEGL_API_FB"

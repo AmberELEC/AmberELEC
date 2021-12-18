@@ -67,7 +67,7 @@ else
   esac
 fi
   
- if [[ "$DEVICE" =~ RG351 ]]; then
+ if [[ "$DEVICE" =~ RG351 ]] || [[ "$DEVICE" =~ RG552 ]]; then
 	if [ "$ARCH" == "arm" ]; then
 	PKG_MAKE_OPTS_TARGET+=" platform=classic_armv8_a35"
 	else

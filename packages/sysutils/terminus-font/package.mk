@@ -23,6 +23,7 @@ configure_init() {
 make_init() {
   make ter-v14n.psf
   make ter-v20n.psf
+  make ter-v32n.psf
 }
 
 makeinstall_init() {

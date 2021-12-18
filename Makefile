@@ -43,6 +43,10 @@ RG351MP:
 	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
 
+RG552:
+	DEVICE=RG552 ARCH=arm ./scripts/build_distro
+	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
+
 p-arm:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
 

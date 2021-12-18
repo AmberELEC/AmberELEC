@@ -75,6 +75,8 @@ makeinstall_target() {
     find_file_path "splash/splash-480.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
   elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ] ; then
     find_file_path "splash/splash-640.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
+  elif [ "$DEVICE" == "RG552" ]; then
+    find_file_path "splash/splash-1920.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
   fi
 
 }

@@ -17,10 +17,23 @@ PKG_STAMP="$UBOOT_SYSTEM"
 PKG_NEED_UNPACK="$PROJECT_DIR/$PROJECT/bootloader"
 [ -n "$DEVICE" ] && PKG_NEED_UNPACK+=" $PROJECT_DIR/$PROJECT/devices/$DEVICE/bootloader"
 
-PKG_VERSION="2b575e133fa1280dcf07f0bc5ebc4e6a48ea7132"
-PKG_GIT_CLONE_SINGLE="yes"
-PKG_GIT_CLONE_DEPTH="1"
-PKG_URL="https://github.com/351ELEC/uboot_rg351.git"
+if [[ "$DEVICE" =~ RG351 ]]; then
+  PKG_VERSION="2b575e133fa1280dcf07f0bc5ebc4e6a48ea7132"
+  PKG_GIT_CLONE_SINGLE="yes"
+  PKG_GIT_CLONE_DEPTH="1"
+  PKG_URL="https://github.com/351ELEC/uboot_rg351.git"
+#elif [[ "$DEVICE" =~ RG552 ]]; then
+#  PKG_VERSION="1cbbeba154f6cd0b336562a889409a9df904c991"
+#  PKG_GIT_CLONE_SINGLE="yes"
+#  PKG_GIT_CLONE_DEPTH="1"
+#  PKG_URL="https://github.com/SummerSunGenius/RG552_uboot.git"
+elif [[ "$DEVICE" =~ RG552 ]]; then
+  PKG_VERSION="c03942ddc9e88d86d919504299905e4e8b0003cd"
+  PKG_GIT_CLONE_SINGLE="yes"
+  PKG_GIT_CLONE_DEPTH="1"
+  PKG_URL="https://github.com/u-boot/u-boot.git"
+fi
+
 GET_HANDLER_SUPPORT="git"
 
 post_patch() {
