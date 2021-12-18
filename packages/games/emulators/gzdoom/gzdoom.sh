@@ -24,13 +24,6 @@ mkdir -p ${SAVE_DIR}
 
 params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
 
-if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
-fi
-if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
-  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
-fi
-
 # EXT can be wad, WAD, iwad, IWAD, pwad, PWAD or doom
 EXT=${1#*.}
 
@@ -47,6 +40,13 @@ if [ ${EXT} == "doom" ]; then
     done < "${1}"
 else
   params+=" -iwad ${1}"
+fi
+
+if [[ "$EE_DEVICE" == RG351P ]]; then
+  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
+fi
+if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
+  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
 fi
 
 cd "${RUN_DIR}"

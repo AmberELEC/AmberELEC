@@ -25,13 +25,6 @@ mkdir -p ${SAVE_DIR}
 
 params=" --config ${CONFIG_FILE} --savedir ${SAVE_DIR}"
 
-if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" --res 480 320"
-fi
-if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
-  params+=" --res 640 480"
-fi
-
 # data can be SD2 SD3 SOD WL6 or N3D and it's passed as the ROM
 DATA=${1#*.}
 
@@ -60,6 +53,13 @@ if [ ${DATA} == "ecwolf" ]; then
   done < "${1}"
 else
   params+=" --data ${DATA}"
+fi
+
+if [[ "$EE_DEVICE" == RG351P ]]; then
+  params+=" --res 480 320"
+fi
+if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
+  params+=" --res 640 480"
 fi
 
 cd "${CONFIG_DIR}"
