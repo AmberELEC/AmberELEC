@@ -261,7 +261,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         # Relay
         if value := config.get_setting('netplay.relay'):
             ra_append_dict['netplay_use_mitm_server'] = "true"
-            ra_append_dict['netplay_mitm_server'] = f'"{value}"'
+            ra_append_dict['netplay_mitm_server'] = value
         else:
             ra_append_dict['netplay_use_mitm_server'] = "false"
         ra_append_dict['netplay_delay_frames'] = config.get_setting('netplay.frames')
@@ -314,6 +314,9 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
 
     # Video Integer Scale
     ra_append_dict['video_scale_integer'] = config.get_bool_string("integerscale")
+
+    # Video Integer Scale Overscale
+    ra_append_dict['video_scale_integer_overscale'] = config.get_bool_string("integerscaleoverscale")
 
     # RGA Scaling / CTX Scaling
     ra_append_dict['video_ctx_scaling'] = config.get_bool_string("rgascale")
@@ -606,8 +609,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     logger.log('done ...')
     return shader_path
 
-# Parse Arguments in here
-# Put setsettings function in here
+# Main (if we are run as a script and not as a module)
 if __name__ == '__main__':
     # Arguments
     parser = ArgumentParser(description="Convert ES settings from distribution.conf to RetroArch configuration in raappend.conf.")
