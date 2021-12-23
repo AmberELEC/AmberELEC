@@ -72,6 +72,7 @@ sed -i '
         /video_filter =/d;
         /video_filter_dir =/d;
         /video_scale_integer =/d;
+        /video_scale_integer_overscale =/d;
         /video_shader =/d;
         /video_shader_enable =/d;
         /video_smooth =/d;
