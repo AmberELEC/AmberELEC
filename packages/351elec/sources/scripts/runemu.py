@@ -130,7 +130,7 @@ def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str]
 	jslisten_set(jslisten_exe)
 	return command
 
-def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: str, args: 'Mapping[str, str]') -> 'Sequence[Union[str, Path]]':
+def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: str, args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
 	if verbose:
 		log('Running a libretro core via RetroArch')
 		log(f'platform: {platform}')
@@ -176,6 +176,9 @@ def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: st
 
 	if core == 'fbneo' and platform == 'neocd':
 		command += ['--subsystem', platform]
+	if shader_arg:
+		#Returned from setsettings, this is of the form "--shader-set /tmp/shaders/blahblahblah", apparently actually needed even if video_shader is set in RA_APPEND_CONF
+		command += shlex.split(shader_arg)
 	command += ['--config', RA_TEMP_CONF, '--appendconfig', RA_APPEND_CONF]
 	if rom_path:
 		command.append(rom_path)
@@ -197,14 +200,14 @@ def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequenc
 	jslisten_set('mupen64plus')
 	return [BASH_EXE, '/usr/bin/m64p.sh', video_plugin, rom]
 
-def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]') -> 'Sequence[Union[str, Path]]':
+def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
 	if rom and (rom.suffix == '.sh' or platform == 'tools'):
 		#If the ROM is a shell script then just execute it
 		return [rom]
 	elif emulator == 'retroarch':
 		if not core:
 			raise ValueError('runemu.py was called improperly, tried to launch RetroArch with no core')
-		return get_retroarch_command(rom, platform, core, args)
+		return get_retroarch_command(rom, platform, core, args, shader_arg)
 	elif emulator == 'retrorun':
 		if not rom:
 			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no game')
@@ -223,6 +226,25 @@ def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional
 		if not emulator:
 			raise ValueError('runemu.py was called improperly, tried to launch a standard emulator with no emulator')
 		return get_standalone_emulator_command(rom, platform, emulator)
+
+def setsettings(rom, core, platform, args):
+	#Note!!! When #740 is merged, replace this with:
+	#(from setsettings import set_settings goes at the top)
+	#return set_settings(rom_name=rom, core=core, platform=platform, controllers=args['controllers'], autosave=args.get('autosave'), snapshot=args.get('state_slot'))
+	#I guess then this doesn't need to be a function
+
+	setsettings_args = ['/usr/bin/setsettings.sh', platform, rom, core]
+	if 'controllers' in args:
+		setsettings_args.append('--controllers=' + args['controllers'])
+	if 'autosave' in args: #Automatically added by ES even if not specified; if autosave is enabled
+		setsettings_args.append('--autosave=' + args['autosave'])
+	#Automatically added by ES even if not specified; if autosave is enabled, if not, setsettings.sh (as it is now) expects this argument anyway
+	setsettings_args.append('--snapshot=' + args.get('state_slot', ''))
+
+	if verbose:
+		log(f'Executing setsettings: {setsettings_args}')
+	setsettings_proc = subprocess.run(['' if arg is None else arg for arg in setsettings_args], stdout=subprocess.PIPE, check=True)
+	return setsettings_proc.stdout
 
 def main():
 	i = 0
@@ -265,24 +287,13 @@ def main():
 	bluetooth_toggle(False)
 	jslisten_stop()
 	
-	#TODO: This will be a Python module in future, for now it turns out we don't actually need the shader line from its stdout
-	setsettings_args = ['/usr/bin/setsettings.sh', platform, rom, core]
-	if 'controllers' in args:
-		setsettings_args.append('--controllers=' + args['controllers'])
-	if 'autosave' in args: #Automatically added by ES even if not specified; if autosave is enabled
-		setsettings_args.append('--autosave=' + args['autosave'])
-	#Automatically added by ES even if not specified; if autosave is enabled, if not, setsettings.sh (as it is now) expects this argument anyway
-	setsettings_args.append('--snapshot=' + args.get('state_slot', ''))
-	
-	if verbose:
-		log(f'Executing setsettings: {setsettings_args}')
-	subprocess.run(['' if arg is None else arg for arg in setsettings_args], stdout=subprocess.DEVNULL, check=True)
+	shader_arg = setsettings(rom, core, platform, args)
 
 	if core and not emulator:
 		#This is called from the inside of a port .sh that runs a libretro port (e.g. 2048, tyrQuake, etc), it makes no sense otherwise
 		emulator = 'retroarch'
 
-	command = get_command(rom, platform, emulator, core, args)
+	command = get_command(rom, platform, emulator, core, args, shader_arg)
 	
 	clear_screen()
 	if verbose:
