@@ -37,6 +37,7 @@ def jslisten_stop():
 
 def get_elec_setting(setting_name, platform=None, rom=None):
 	#From distribution.conf
+	#Potentially this can be reimplemented in Python if that turns out to be a good idea
 	return call_profile_func('get_ee_setting', setting_name, platform, rom)
 
 def set_elec_setting(setting_name, value):
@@ -48,10 +49,6 @@ def get_es_setting(setting_type, setting_name):
 
 def check_bios(platform, core, emulator, game, log_path):
 	call_profile_func('ee_check_bios', platform, core, emulator, game, log_path)
-
-def bluetooth_toggle(_: bool):
-	#TODO: Hmm I'm not actually sure we need to reimplement this?
-	pass
 
 def download_things_if_needed(core):
 	if core == 'freej2me':
@@ -83,7 +80,7 @@ def cleanup_and_quit(return_code):
 	if verbose:
 		log('Cleaning up and exiting')
 
-	bluetooth_toggle(True)
+	#bluetooth_toggle(True)
 	jslisten_stop()
 	clear_screen()
 	subprocess.run([BASH_EXE, '/usr/bin/show_splash.sh', 'exit'], check=False) #This seems to always return 1
@@ -284,7 +281,7 @@ def main():
 	set_elec_setting('netplay.client.port', 'disable')
 
 	clear_screen()
-	bluetooth_toggle(False)
+	#bluetooth_toggle(False) #I'm not sure this does anything useful here, so I haven't reimplemented it
 	jslisten_stop()
 	
 	shader_arg = setsettings(rom, core, platform, args)
