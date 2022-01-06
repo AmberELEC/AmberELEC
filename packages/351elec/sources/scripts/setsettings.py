@@ -244,9 +244,10 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Netplay
     if config.get_setting("netplay"):
         ra_append_dict['netplay'] = "true"
-        # Disable Cheevos Hardcore Mode to allow savestates
-        if 'cheevos_hardcore_mode_enable' in ra_append_dict:
-            ra_append_dict['cheevos_hardcore_mode_enable'] = "false"
+        # Not needed any more?
+        ## Disable Cheevos Hardcore Mode to allow savestates
+        #if 'cheevos_hardcore_mode_enable' in ra_append_dict:
+        #    ra_append_dict['cheevos_hardcore_mode_enable'] = "false"
         # Host or Client
         value = config.get_setting('netplay.mode')
         if value == 'host':
