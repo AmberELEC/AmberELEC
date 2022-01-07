@@ -224,7 +224,7 @@ def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional
 			raise ValueError('runemu.py was called improperly, tried to launch a standard emulator with no emulator')
 		return get_standalone_emulator_command(rom, platform, emulator)
 
-def setsettings(rom, core, platform, args):
+def setsettings(rom, core, platform, args) -> str:
 	#Note!!! When #740 is merged, replace this with:
 	#(from setsettings import set_settings goes at the top)
 	#return set_settings(rom_name=rom, core=core, platform=platform, controllers=args['controllers'], autosave=args.get('autosave'), snapshot=args.get('state_slot'))
@@ -240,7 +240,7 @@ def setsettings(rom, core, platform, args):
 
 	if verbose:
 		log(f'Executing setsettings: {setsettings_args}')
-	setsettings_proc = subprocess.run(['' if arg is None else arg for arg in setsettings_args], stdout=subprocess.PIPE, check=True)
+	setsettings_proc = subprocess.run(['' if arg is None else arg for arg in setsettings_args], stdout=subprocess.PIPE, check=True, universal_newlines=True)
 	return setsettings_proc.stdout
 
 def main():
