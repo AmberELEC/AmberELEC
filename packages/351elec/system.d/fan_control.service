@@ -1,0 +1,9 @@
+[Unit]
+Description=Fan control
+
+[Service]
+ExecStart=/usr/bin/fan_control.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target 
