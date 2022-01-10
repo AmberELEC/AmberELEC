@@ -41,7 +41,8 @@ PKG_CMAKE_OPTS_TARGET="-DBUILD_PLAYER=OFF \
                        -DBUILD_SOKOL=OFF \
                        -DBUILD_SDL=OFF \
                        -DBUILD_DEMO_CARTS=OFF \
-                       -DBUILD_LIBRETRO=ON"
+                       -DBUILD_LIBRETRO=ON \
+                       -DCMAKE_BUILD_TYPE=Release"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
