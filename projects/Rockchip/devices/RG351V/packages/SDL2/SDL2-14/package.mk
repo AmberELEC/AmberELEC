@@ -10,7 +10,7 @@ PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio libsamp
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
 PKG_TOOLCHAIN="cmake-make"
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm mali-bifrost librga"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm $OPENGLES librga"
 
 pre_configure_target(){
   PKG_CMAKE_OPTS_TARGET="-DSDL_STATIC=OFF \

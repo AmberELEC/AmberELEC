@@ -9,7 +9,7 @@ PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio libsamplerate"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm mali-bifrost librga"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm $OPENGLES librga"
 
 pre_configure_target(){
   PKG_CMAKE_OPTS_TARGET="-DSDL_STATIC=OFF \
