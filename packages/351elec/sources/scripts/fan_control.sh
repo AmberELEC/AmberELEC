@@ -8,8 +8,8 @@ FAN=/sys/class/hwmon/hwmon0/pwm1
 CPU=/sys/class/hwmon/hwmon1/temp1_input
 GPU=/sys/class/hwmon/hwmon2/temp1_input
 
-let TEMP_MIN=35000 #everything below this will turn off the fan
-let TEMP_MAX=45000 #everything above this will turn fan to max
+let TEMP_MIN=55000 #everything below this will turn off the fan
+let TEMP_MAX=65000 #everything above this will turn fan to max
 let TEMP_PREV=40000  # last temp measured (previous cicle)
 let TEMP_CURRENT=0  # current temp measured (current cicle)
 
