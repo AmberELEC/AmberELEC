@@ -156,7 +156,7 @@ then
     FPS="-f"
 fi
 GPIO_JOYPAD=''
-if [[ "$EE_DEVICE" == "RG351MP" ]]
+if [[ "$EE_DEVICE" == "RG351MP" ]] || [[ "$EE_DEVICE" == "RG552" ]]
 then
     echo 'GPIO joypad'
     GPIO_JOYPAD="-g"
