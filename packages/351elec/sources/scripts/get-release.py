@@ -467,6 +467,14 @@ def get_current_release(org, repo, band, page=0, per_page=100):
             current_release = tag_name
             break
 
+    # For 'prerelease', if we did not find a matching tag, look for 'beta' too
+    # This makes it possible for something like 552_beta repo to work
+    if band == "prerelease" and current_release == None:
+        for release in releases:
+            tag_name = parse_release(release['tag_name'], "beta")
+            if tag_name:
+                current_release = tag_name
+                break
 
     if current_release == None and link:
         page=page+1
@@ -488,16 +496,15 @@ def parse_release(release_tag,band):
         time.strptime(temp_release, '%Y%m%d')
         return release_tag
     except Exception as e:
-        if band == "prerelease":
-            try:
-              temp_release = re.sub("prerelease-", "", release_tag)
-              logger.debug(f"temp_release : {temp_release}")
-              time.strptime(temp_release, '%Y%m%d_%H%M')
+        try:
+            temp_release = re.sub(f"{band}-", "", release_tag)
+            logger.debug(f"temp_release : {temp_release}")
+            time.strptime(temp_release, '%Y%m%d_%H%M')
 
-              return release_tag
-            except Exception as ex:
-              logger.debug(f"Could not parse release: {release_tag} as 'prerelease'")
-              logger.debug(ex)
+            return release_tag
+        except Exception as ex:
+            logger.debug(f"Could not parse release: {release_tag} as '{band}'")
+            logger.debug(ex)
         logger.info(f"Could not parse release: {release_tag}.  Ignoring...")
         logger.debug("Parsing exception", e)
     return None
