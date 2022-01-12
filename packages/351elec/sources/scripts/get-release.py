@@ -412,7 +412,13 @@ def get_args():
     if not args.existing_release:
         args.existing_release = get_existing_release()
     
-    args.existing_release = parse_release(args.existing_release, args.band)
+    existing_release = parse_release(args.existing_release, args.band)
+
+    #In case of beta, we need to check if it's a beta release too. Otherwise it will not parse due to channel being 'prerelease'
+    #TODO: If we end up with a lot of different bands - we may need to refactor this in the future
+    if not existing_release:
+      existing_release = parse_release(args.existing_release, "beta")
+    args.existing_release = existing_release
     return args
 
 
