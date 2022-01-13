@@ -13,7 +13,7 @@ PKG_PRIORITY="optional"
 PKG_SECTION="tools"
 PKG_SHORTDESC="A Single panel file Manager tailored for Anbernic 351 devices: RG351V/MP and RG351P/M. Can be easily adapted to any Linux-based device."
 
-if [ "${DEVICE}" = "RG351MP" ]
+if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]
 then
   PKG_PATCH_DIRS="RG351MP"
 fi

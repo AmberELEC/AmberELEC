@@ -12,7 +12,7 @@ PKG_LONGDESC="Raze is a fork of Build engine games backed by GZDoom tech and com
 GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
-if [ ! "${DEVICE}" = "RG351MP" ]
+if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ]
 then
   PKG_PATCH_DIRS="RG351P"
 fi

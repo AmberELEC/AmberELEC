@@ -23,7 +23,7 @@ mkdir -p $INSTALL/usr/bin
 cp $PKG_DIR/scripts/* $INSTALL/usr/bin
 
 mkdir -p $INSTALL/usr/config/solarus
-if [[ "$DEVICE" == RG351MP ]]; then
+if [[ "$DEVICE" == RG351MP ]] || [[ "$DEVICE" == RG552 ]]; then
   cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/solarus
 else
   cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/solarus

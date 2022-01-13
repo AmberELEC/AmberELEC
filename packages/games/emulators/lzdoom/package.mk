@@ -12,7 +12,7 @@ PKG_LONGDESC="ZDoom is a family of enhanced ports of the Doom engine for running
 GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
-if [ "${DEVICE}" = "RG351MP" ]
+if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]
 then
   PKG_PATCH_DIRS="RG351MP"
 fi

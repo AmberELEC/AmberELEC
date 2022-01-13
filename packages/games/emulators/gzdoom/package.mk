@@ -13,7 +13,7 @@ PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on
 GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
-if [ ! "${DEVICE}" = "RG351MP" ]
+if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ]
 then
   PKG_PATCH_DIRS="RG351P"
 fi
