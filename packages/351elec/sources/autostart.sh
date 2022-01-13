@@ -169,7 +169,7 @@ then
   then
     mv "/storage/remappings" "${GAMEDATA}/remappings"
   else
-    cp -rf "/usr/config/remappings" "${GAMEDATA}/remappings"
+    mkdir -p "${GAMEDATA}/remappings"
   fi
 fi
 
