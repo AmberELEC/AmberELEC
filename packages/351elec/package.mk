@@ -36,6 +36,14 @@ makeinstall_target() {
   ln -sf /storage/.config/distribution $INSTALL/distribution
   find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
 
+  if [ "$DEVICE" == "RG351P" ]; then
+    cp $INSTALL/usr/config/distribution/configs/distribution.conf.351p $INSTALL/usr/config/distribution/configs/distribution.conf
+  elif  [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ]; then
+    cp $INSTALL/usr/config/distribution/configs/distribution.conf.351v $INSTALL/usr/config/distribution/configs/distribution.conf
+  elif [ "$DEVICE" == "RG552" ]; then
+    cp $INSTALL/usr/config/distribution/configs/distribution.conf.552  $INSTALL/usr/config/distribution/configs/distribution.conf
+  fi
+
   sed -i "s/system.hostname=351ELEC/system.hostname=${DEVICE}/g" $INSTALL/usr/config/distribution/configs/distribution.conf
 
   echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
