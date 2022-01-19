@@ -26,6 +26,10 @@ if [[ "$DEVICE" == RG351V ]]; then
   PKG_PATCH_DIRS="${DEVICE}"
 fi
 
+if [[ "$DEVICE" == RG552 ]]; then
+  PKG_PATCH_DIRS="${DEVICE}"
+fi
+
 PKG_KERNEL_CFG_FILE=$(kernel_config_path) || die
 
 if [ -n "$KERNEL_TOOLCHAIN" ]; then
