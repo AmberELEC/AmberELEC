@@ -13,9 +13,18 @@
 #
 
 ARCH="$(cat /storage/.config/.OS_ARCH)"
+if [ "${ARCH}" == "RG351P" ]; then
+  DEVICE="RG351P"
+elif [ "${ARCH}" == "RG351V" ]; then
+  DEVICE="RG351V"
+elif [ "${ARCH}" == "RG351MP" ]; then
+  DEVICE="RG351MP"
+elif [ "${ARCH}" == "RG552" ]; then
+  DEVICE="RG552"
+fi
 DISTRO="351ELEC"
 CONFIGDIR="/storage/.config/packages"
-PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC/main/metadata/${ARCH}/packages.cfg"
+PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC-metadata/main/${ARCH}/packages.cfg"
 LOCALPACKAGELIST="/storage/.config/packages.cfg"
 
 # Community Package List Schema
