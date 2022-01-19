@@ -14,6 +14,10 @@ if [[ "$DEVICE" == RG351V ]]; then
   PKG_PATCH_DIRS="$DEVICE"
 fi
 
+if [[ "$DEVICE" =~ RG351 ]]; then
+  PKG_PATCH_DIRS="ui-patches"
+fi
+
 pre_configure_target() {
   TARGET_CONFIGURE_OPTS=""
   PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
