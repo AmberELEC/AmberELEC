@@ -222,3 +222,6 @@ updates.type=prerelease
 
 # Comment out below line when 351ELEC has normal prereleases/releases for 552 and beta is no longer needed
 updates.github.repo=552_beta
+
+# fan profile - controls fan speed (values: default/performance/quiet)
+fan.profile=default
