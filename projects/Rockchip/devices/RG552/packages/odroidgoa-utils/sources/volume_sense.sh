@@ -19,7 +19,7 @@ set -o pipefail
 
 RG351_DEVICE='/dev/input/by-path/platform-volume-keys-event'  # Device for volume key events
 
-RG351_CONTROLLER_DEVICE='/dev/input/event2' # Joystick events (for Fn key)
+RG351_CONTROLLER_DEVICE='/dev/input/by-path/platform-odroidgo3-joypad-event-joystick' # Joystick events (for Fn key)
 
 VOL_EVENT='*(KEY_VOLUME*, value *' # This matches all volume events
 
