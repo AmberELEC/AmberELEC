@@ -26,6 +26,10 @@ else
 
 fi
 
+if [[ "$DEVICE" == RG351P ]] || [[ "$DEVICE" == RG351V ]]; then
+  PKG_PATCH_DIRS="rumble"
+fi
+
 pre_configure_target() {
   sed -i 's/info->library_name = "ParaLLEl N64";/info->library_name = "ParaLLEl N64 GLN64";/g' $PKG_BUILD/libretro/libretro.c
   sed -i 's/"GFX Plugin; auto|glide64|gln64|rice/"GFX Plugin; gln64|auto|glide64|rice/g' $PKG_BUILD/libretro/libretro.c

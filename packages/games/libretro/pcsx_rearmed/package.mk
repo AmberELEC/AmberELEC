@@ -14,6 +14,10 @@ PKG_SHORTDESC="ARM optimized PCSX fork"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed -gold"
 
+if [[ "$DEVICE" == RG351P ]] || [[ "$DEVICE" == RG351V ]]; then
+  PKG_PATCH_DIRS="rumble"
+fi
+
 make_target() {
   cd ${PKG_BUILD}
   if [ ! "${ARCH}" = "aarch64" ]; then

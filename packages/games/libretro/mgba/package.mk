@@ -37,6 +37,10 @@ PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 PKG_USE_CMAKE="no"
 
+if [[ "$DEVICE" == RG351P ]] || [[ "$DEVICE" == RG351V ]]; then
+  PKG_PATCH_DIRS="rumble"
+fi
+
 make_target() {
   cd $PKG_BUILD
   if [[ "$ARCH" =~ "arm" ]]; then

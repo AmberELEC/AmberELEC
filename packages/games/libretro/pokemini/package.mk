@@ -36,6 +36,10 @@ PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
+if [[ "$DEVICE" == RG351P ]] || [[ "$DEVICE" == RG351V ]]; then
+  PKG_PATCH_DIRS="rumble"
+fi
+
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   cp pokemini_libretro.so $INSTALL/usr/lib/libretro/
