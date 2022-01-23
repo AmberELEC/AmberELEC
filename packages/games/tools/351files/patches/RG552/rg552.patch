@@ -13,7 +13,7 @@ diff --git a/src/def.h b/src/def.h
 index 92d1a01..db4fec4 100644
 --- a/src/def.h
 +++ b/src/def.h
-@@ -85,6 +85,21 @@
+@@ -85,6 +85,22 @@
     #define KEYBOARD_MARGIN          8
     #define KEYBOARD_KEY_SPACING     4
 
@@ -26,16 +26,17 @@ index 92d1a01..db4fec4 100644
 +   #define FONT_NAME                "NotoSans-Regular.ttf"
 +   #define FONT_NAME_MONO           "NotoSansMono-Regular.ttf"
 +   #define FONT_SIZE                48
-+   #define LINE_HEIGHT              76
++   #define LINE_HEIGHT              72
 +   #define ICON_SIZE                58
 +   #define MARGIN_X                 24
 +   #define KEYBOARD_MARGIN          19
 +   #define KEYBOARD_KEY_SPACING     10
++   #define KEYBOARD_SYMBOL_SIZE     58
 +
  // Paramaters for desktop PC
  #else
     #define SCREEN_WIDTH             640
-@@ -124,7 +139,25 @@
+@@ -124,7 +139,26 @@
  #define VIEWER_SCROLL_SPEED      20
 
  // Button events
@@ -58,6 +59,7 @@ index 92d1a01..db4fec4 100644
 +   #define BUTTON_HELD_PAGEUP             SDL_JoystickGetButton(g_joystick, 4) || SDL_JoystickGetButton(g_joystick, 6)
 +   #define BUTTON_HELD_PAGEDOWN           SDL_JoystickGetButton(g_joystick, 5) || SDL_JoystickGetButton(g_joystick, 7)
 +   #define BUTTON_HELD_SELECT             SDL_JoystickGetButton(g_joystick, 2)
++   #define BUTTON_HELD_VALIDATE           SDL_JoystickGetButton(g_joystick, 1)
 +#elif defined(DEVICE_RG351P)
     #define BUTTON_PRESSED_UP              event.type == SDL_JOYHATMOTION && event.jhat.value == SDL_HAT_UP
     #define BUTTON_PRESSED_DOWN            event.type == SDL_JOYHATMOTION && event.jhat.value == SDL_HAT_DOWN
