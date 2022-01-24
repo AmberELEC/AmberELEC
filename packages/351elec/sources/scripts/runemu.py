@@ -2,15 +2,15 @@
 
 import datetime
 import os
-import sys
 import shlex
 import subprocess
+import sys
 from pathlib import Path
-
 from typing import TYPE_CHECKING, Optional
+
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
-	from typing import Mapping, Sequence, Tuple, Union, List
+	from typing import List, Mapping, Sequence, Tuple, Union
 
 LOGS_DIR = Path('/tmp/logs')
 BASH_EXE = '/usr/bin/bash'
@@ -95,22 +95,24 @@ def clear_screen():
 	with open('/dev/console', 'wb') as console:
 		subprocess.run('clear', stdout=console, check=True)
 
-standalone_emulators: 'Mapping[str, Tuple[str, Sequence[Optional[str]]]]' = {
-	#None is replaced with the rom path here
-	'STELLASA': ('stella', ['/usr/bin/stella.sh', None]),
-	'HATARISA': ('hatari', ['/usr/bin/hatari.start', None]),
-	'OPENBOR': ('openbor', ['/usr/bin/openbor.sh', None]),
-	'AdvanceMame': ('advmame', ['/usr/bin/advmame.sh', None]),
-	'drastic': ('drastic', ['/usr/bin/drastic.sh', None]),
-	'ecwolf': ('ecwolf', ['/usr/bin/ecwolf.sh', None]),
-	'lzdoom': ('lzdoom', ['/usr/bin/lzdoom.sh', None]),
-	'solarus': ('solarus-run', ['/usr/bin/solarus.sh', None]),
-	'AMIBERRY': ('amiberry', ['/usr/bin/amiberry.start', None]),
-	'SCUMMVMSA': ('scummvm', ['/usr/bin/scummvm.start', 'sa', None]),
-	'HYPSEUS': ('hypseus', ['/usr/bin/hypseus.start.sh', None]),
-	'PPSSPPSDL': ('PPSSPPSDL', ['/usr/bin/ppsspp.sh', None]),
-	'mpv': ('mpv', ['/usr/bin/mpv_video.sh', None]),
-	'pico8': ('pico8_dyn', ['/usr/bin/pico-8.sh', None]),
+standalone_emulators: 'Mapping[str, Tuple[str, Sequence[str]]]' = {
+	'AMIBERRY': ('amiberry', ['/usr/bin/amiberry.start', '<path>']),
+	'AdvanceMame': ('advmame', ['/usr/bin/advmame.sh', '<path>']),
+	'HATARISA': ('hatari', ['/usr/bin/hatari.start', '<path>']),
+	'HYPSEUS': ('hypseus', ['/usr/bin/hypseus.start.sh', '<path>']),
+	'OPENBOR': ('openbor', ['/usr/bin/openbor.sh', '<path>']),
+	'PPSSPPSDL': ('PPSSPPSDL', ['/usr/bin/ppsspp.sh', '<path>']),
+	'SCUMMVMSA': ('scummvm', ['/usr/bin/scummvm.start', 'sa', '<path>']),
+	'STELLASA': ('stella', ['/usr/bin/stella.sh', '<path>']),
+	'drastic': ('drastic', ['/usr/bin/drastic.sh', '<path>']),
+	'ecwolf': ('ecwolf', ['/usr/bin/ecwolf.sh', '<path>']),
+	'gzdoom': ('gzdoom', ['/usr/bin/gzdoom.sh', '<path>']),
+	'lzdoom': ('lzdoom', ['/usr/bin/lzdoom.sh', '<path>']),
+	'mpv': ('mpv', ['/usr/bin/mpv_video.sh', '<path>']),
+	'pico8': ('pico8_dyn', ['/usr/bin/pico-8.sh', '<path>']),
+	'piemu': ('piemu', ['/usr/bin/piemu.sh', '<path>']),
+	'raze': ('raze', ['/usr/bin/raze.sh', '<path>']),
+	'solarus': ('solarus-run', ['/usr/bin/solarus.sh', '<path>']),
 }
 
 def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str], emulator: str) -> 'Sequence[Union[str, Path]]':
@@ -122,7 +124,7 @@ def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str]
 	command: 'List[Union[str, Path]]' = [BASH_EXE]
 	
 	jslisten_exe, placeholder_args = standalone_emulators[emulator]
-	command += [arg for arg in (rom if arg is None else arg for arg in placeholder_args) if arg]
+	command += [arg for arg in (rom if arg == '<path>' else arg for arg in placeholder_args) if arg]
 
 	jslisten_set(jslisten_exe)
 	return command
