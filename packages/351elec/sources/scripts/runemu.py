@@ -62,7 +62,6 @@ def download_things_if_needed(core):
 		
 def log(text):
 	if should_log:
-		LOGS_DIR.mkdir(parents=True, exist_ok=True)
 		with LOG_PATH.open('at', encoding='utf-8') as log_file:
 			print(text, file=log_file)
 	else:
@@ -71,6 +70,7 @@ def log(text):
 def init_log():
 	if should_log:
 		LOG_PATH.unlink(missing_ok=True)
+		LOGS_DIR.mkdir(parents=True, exist_ok=True)
 		LOG_PATH.touch()
 		LOG_PATH.write_text(f'Emulation run log: Started at {datetime.datetime.now()}\n', encoding='utf-8')
 	else:
