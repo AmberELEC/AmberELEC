@@ -18,15 +18,18 @@ RA_TEMP_CONF = '/storage/.config/retroarch/retroarch.cfg'
 RA_APPEND_CONF = '/tmp/raappend.cfg'
 LOG_PATH = LOGS_DIR / 'exec.log'
 
-#Hmm I guess these are just global variables for now
-should_log = False
-verbose = False
-temp_file = None
-
 def call_profile_func(function_name, *args):
 	#We are going to want to call some stuff from /etc/profile, they are defined in ../profile.d/99-distribution.conf
 	proc = subprocess.run(f'. /etc/profile && {shlex.quote(function_name)} {shlex.join(args)}', shell=True, stdout=subprocess.PIPE, check=True, text=True)
 	return proc.stdout.strip('\n')
+
+def get_es_setting(setting_type, setting_name):
+	#from es_settings.cfg (XML)
+	return call_profile_func('get_es_setting', setting_type, setting_name)
+
+#Not sure why these were originally two variables? Should we always log?
+should_log = get_es_setting('string', 'logLevel') != 'minimal'
+verbose = get_es_setting('string', 'logLevel') != 'minimal'
 
 def jslisten_set(*exe_names):
 	#exe_names are passed as one argument, intended for killall to use them later
@@ -42,10 +45,6 @@ def get_elec_setting(setting_name, platform=None, rom=None):
 
 def set_elec_setting(setting_name, value):
 	call_profile_func('set_ee_setting', setting_name, value)
-
-def get_es_setting(setting_type, setting_name):
-	#from es_settings.cfg (XML)
-	return call_profile_func('get_es_setting', setting_type, setting_name)
 
 def check_bios(platform, core, emulator, game, log_path):
 	call_profile_func('ee_check_bios', platform, core, emulator, game, log_path)
@@ -66,15 +65,6 @@ def log(text):
 			print(text, file=log_file)
 	else:
 		print('runemu.py:', text)
-
-def init_log():
-	if should_log:
-		LOG_PATH.unlink(missing_ok=True)
-		LOGS_DIR.mkdir(parents=True, exist_ok=True)
-		LOG_PATH.touch()
-		LOG_PATH.write_text(f'Emulation run log: Started at {datetime.datetime.now()}\n', encoding='utf-8')
-	else:
-		print('Emulation run log: Started at', datetime.datetime.now())		
 
 def cleanup_and_quit(return_code):
 	if verbose:
@@ -259,14 +249,12 @@ def main():
 	core = args.get('core')
 	emulator = args.get('emulator')
 		
-	global should_log, verbose
-	if get_es_setting('string', 'logLevel') == 'minimal':
-		should_log = False #TODO: Are these variables effectively doing the same thing?
-		verbose = False
-	else:
-		should_log = True
-		verbose = True
-	init_log()
+	if should_log:
+		LOG_PATH.unlink(missing_ok=True)
+		LOGS_DIR.mkdir(parents=True, exist_ok=True)
+		LOG_PATH.touch()
+
+	log(f'Emulation run log: Started at {datetime.datetime.now()}')
 	log(f'Args: {args}')
 
 	download_things_if_needed(core)
