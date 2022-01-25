@@ -303,9 +303,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             '9/16': '10', '5/4': '11', '6/5': '12', '7/9': '13', '8/3': '14',
             '8/7': '15', '19/12': '16', '19/14': '17', '30/17': '18',
             '32/9': '19', 'config': '20', 'squarepixel': '21', 'core': '22',
-            'custom': '23',
+            'custom': '23', 'full' : '24',
         }
-        ra_append_dict['aspect_ratio_index'] = index_rations[ratio]
+        if ratio in index_rations:
+            ra_append_dict['aspect_ratio_index'] = index_rations[ratio]
+        else:
+            ra_append_dict['aspect_ratio_index'] = "22"
     else:
         # 22 is the "Core Provided" aspect ratio and its set by default if no other is selected
         ra_append_dict['aspect_ratio_index'] = "22"
