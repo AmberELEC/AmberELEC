@@ -226,6 +226,12 @@ set_ee_setting system.brightness ${BRIGHTNESS}
 if [ "$(get_ee_setting wifi.enabled)" == "0" ]
 then
   connmanctl disable wifi
+  # Power down the WIFI device
+  if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+    echo 0 > /sys/class/gpio/gpio113/value
+  else
+    echo 0 > /sys/class/gpio/gpio5/value
+  fi
 fi
 
 # What to start at boot?

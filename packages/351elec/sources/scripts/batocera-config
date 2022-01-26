@@ -294,6 +294,13 @@ EOF
 	    then
 		echo "Passphrase=${psk}" >> "/storage/.cache/connman/wifi.config"
 	    fi
+            # Power up the WIFI device
+            if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+              echo 1 > /sys/class/gpio/gpio113/value
+            else
+              echo 1 > /sys/class/gpio/gpio5/value
+            fi
+	    sleep 3
 	    connmanctl enable wifi || exit 1
 	    connmanctl scan   wifi || exit 1
             exit 0
@@ -305,12 +312,25 @@ EOF
                     exit 1
                 fi
             fi
+            # Power up the WIFI device
+            if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+              echo 1 > /sys/class/gpio/gpio113/value
+            else
+              echo 1 > /sys/class/gpio/gpio5/value
+            fi
+	    sleep 3
 	    connmanctl enable wifi || exit 1
 	    connmanctl scan   wifi || exit 1
 	    exit 0
         fi
         if [[ "$mode" == "disable" ]]; then
 	    connmanctl disable wifi
+            # Power down the WIFI device
+            if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+              echo 0 > /sys/class/gpio/gpio113/value
+            else
+              echo 0 > /sys/class/gpio/gpio5/value
+            fi
             exit $?
         fi
 	if [[ "$mode" == "list" ]]; then
