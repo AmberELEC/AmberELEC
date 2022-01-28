@@ -14,7 +14,7 @@ source /etc/profile
 function set_fan_variables() {
   let FAN_SLEEP=15 # how long to sleep before reevaluating
   let FAN_OFF=0 # fan off
-  let FAN_MIN=59 # fan min speed (below 59 the fan starts briefly and then stops, making more noise)
+  let FAN_MIN=78 # fan min speed (below 78 the fan is so close to stopping, rotating the device can cause it to stop)
   let FAN_MAX=255 # fan max speed
   let TEMP_MIN=40000 #everything below this will turn off the fan
   let TEMP_MAX=70000 #everything above this will turn fan to max
