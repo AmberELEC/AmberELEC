@@ -1,0 +1,7 @@
+#!/bin/bash
+# This script is called by emulationstation every time the gamelist gets re-scaned
+
+# Execute the LaunchBox Importer:
+if [ -d /roms/LaunchBox ]; then
+   /usr/bin/klbi.py
+fi
