@@ -5,11 +5,11 @@
 
 PKG_NAME="linux"
 if [[ "$DEVICE" =~ RG351 ]]; then
-  PKG_VERSION="55500401e033bed0ccf9dcf1bab48105d6f9d1e8"
+  PKG_VERSION="83b7412fbde88a443c8014fbdf7e8d56197534b5"
   PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
 elif [[ "$DEVICE" =~ RG552 ]]; then
-  PKG_VERSION="55dbeb3d8e4b7eb8fed84afa58b6abbeda33f621"
-  PKG_URL="https://github.com/dhwz/kernel_rg552/archive/$PKG_VERSION.tar.gz"
+  PKG_VERSION="df54f043e38c37e0a5bd6af5ed145589951d994b"
+  PKG_URL="https://github.com/351ELEC/kernel_rg552/archive/$PKG_VERSION.tar.gz"
 fi
 
 PKG_LICENSE="GPL"
