@@ -129,7 +129,21 @@ else
 	fi
 fi
 
-
+# PSX CPU Clock
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_cpu_clock"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" =~ "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
+		echo 'pcsx_rearmed_psxclock = 57' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" =~ "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
+		echo "pcsx_rearmed_psxclock = ${EES}" >> ${RRCONF}
+	fi
+fi
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
