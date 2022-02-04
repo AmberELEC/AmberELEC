@@ -109,7 +109,7 @@ def _load_customized_standalone_emulators():
 	try:
 		with open('/storage/.config/standalone_emulators', 'rt', encoding='utf-8') as f:
 			for line in f:
-				if ': ' not in line:
+				if ': ' not in line or line.startswith('#'):
 					continue
 				name, rest = line.rstrip().split(': ', 1)
 				args = rest.split(' ')
