@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
-	from typing import List, Mapping, Sequence, Tuple, Union
+	from typing import List, Mapping, Sequence, Tuple, Union, MutableMapping
 
 LOGS_DIR = Path('/tmp/logs')
 BASH_EXE = '/usr/bin/bash'
@@ -85,7 +85,7 @@ def clear_screen():
 	with open('/dev/console', 'wb') as console:
 		subprocess.run('clear', stdout=console, check=True)
 
-standalone_emulators: 'Mapping[str, Tuple[str, Sequence[str]]]' = {
+standalone_emulators: 'MutableMapping[str, Tuple[str, Sequence[str]]]' = {
 	'AMIBERRY': ('amiberry', ['/usr/bin/amiberry.start', '<path>']),
 	'AdvanceMame': ('advmame', ['/usr/bin/advmame.sh', '<path>']),
 	'HATARISA': ('hatari', ['/usr/bin/hatari.start', '<path>']),
@@ -104,6 +104,25 @@ standalone_emulators: 'Mapping[str, Tuple[str, Sequence[str]]]' = {
 	'raze': ('raze', ['/usr/bin/raze.sh', '<path>']),
 	'solarus': ('solarus-run', ['/usr/bin/solarus.sh', '<path>']),
 }
+
+def _load_customized_standalone_emulators():
+	try:
+		with open('/storage/.config/standalone_emulators', 'rt', encoding='utf-8') as f:
+			for line in f:
+				if ': ' not in line:
+					continue
+				name, rest = line.rstrip().split(': ', 1)
+				args = rest.split(' ')
+				kill_name = name
+				#If name of exe to kill was not listed, assume it is the same as the emulator name
+				if not args[0].startswith('/'):
+					kill_name = args[0]
+					args = args[1:]
+				standalone_emulators[name] = (kill_name, args)
+	except (FileNotFoundError, ValueError):
+		pass
+
+_load_customized_standalone_emulators()
 
 def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str], emulator: str) -> 'Sequence[Union[str, Path]]':
 	if verbose:
