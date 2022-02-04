@@ -166,8 +166,11 @@ def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: st
 			path = Path(rom.read_text(encoding='utf-8').split('"')[1])
 			rom_path = path / 'game'
 
-	jslisten_set('retroarch', 'retroarch32')
+	jslisten_set(retroarch_binary)
 	command: 'List[Union[str, Path]]' = [os.path.join('/usr/bin/', retroarch_binary), '-L', Path('/tmp/cores/', f'{core}_libretro.so')]
+	
+	if verbose:
+		command.append('--verbose')
 
 	if 'host' in args or 'connect' in args:
 		netplay_nick = get_elec_setting('netplay.nickname')
