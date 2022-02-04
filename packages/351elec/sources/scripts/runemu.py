@@ -18,12 +18,12 @@ RA_TEMP_CONF = '/storage/.config/retroarch/retroarch.cfg'
 RA_APPEND_CONF = '/tmp/raappend.cfg'
 LOG_PATH = LOGS_DIR / 'exec.log'
 
-def call_profile_func(function_name, *args):
+def call_profile_func(function_name: str, *args: str) -> str:
 	#We are going to want to call some stuff from /etc/profile, they are defined in ../profile.d/99-distribution.conf
 	proc = subprocess.run(f'. /etc/profile && {shlex.quote(function_name)} {shlex.join(args)}', shell=True, stdout=subprocess.PIPE, check=True, text=True)
 	return proc.stdout.strip('\n')
 
-def get_es_setting(setting_type, setting_name):
+def get_es_setting(setting_type: str, setting_name: str) -> str:
 	#from es_settings.cfg (XML)
 	return call_profile_func('get_es_setting', setting_type, setting_name)
 
@@ -31,7 +31,7 @@ def get_es_setting(setting_type, setting_name):
 should_log = get_es_setting('string', 'logLevel') != 'minimal'
 verbose = get_es_setting('string', 'logLevel') != 'minimal'
 
-def jslisten_set(*exe_names):
+def jslisten_set(*exe_names: str):
 	#exe_names are passed as one argument, intended for killall to use them later
 	call_profile_func('jslisten', 'set', shlex.join(exe_names))
 
