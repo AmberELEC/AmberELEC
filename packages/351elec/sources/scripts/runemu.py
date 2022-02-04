@@ -7,6 +7,7 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
+from time import perf_counter
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
@@ -259,6 +260,8 @@ def setsettings(rom, core, platform, args) -> str:
 	return setsettings_proc.stdout
 
 def main():
+	time_started = perf_counter()
+
 	i = 0
 	args = {}
 	while i < len(sys.argv):
@@ -307,6 +310,7 @@ def main():
 	
 	clear_screen()
 	if verbose:
+		log(f'Took {perf_counter() - time_started} seconds to start up')
 		log(f'Executing game: {rom}')
 		log(f'Executing {command}')
 	with LOG_PATH.open('at', encoding='utf-8') as log_file:
