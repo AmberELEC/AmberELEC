@@ -28,8 +28,9 @@ def get_es_setting(setting_type: str, setting_name: str) -> str:
 	return call_profile_func('get_es_setting', setting_type, setting_name)
 
 #Not sure why these were originally two variables? Should we always log?
-should_log = get_es_setting('string', 'logLevel') != 'minimal'
-verbose = get_es_setting('string', 'logLevel') != 'minimal'
+log_level = get_es_setting('string', 'logLevel')
+should_log = log_level != 'minimal'
+verbose = log_level != 'minimal'
 
 def jslisten_set(*exe_names: str):
 	#exe_names are passed as one argument, intended for killall to use them later
