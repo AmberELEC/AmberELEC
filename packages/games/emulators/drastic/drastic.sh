@@ -22,6 +22,4 @@ then
 fi
 
 cd /storage/drastic/aarch64/drastic/
-maxperf
 LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 ./drastic "$1" >> $EXECLOG 2>&1
-normperf

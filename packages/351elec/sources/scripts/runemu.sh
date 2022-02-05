@@ -48,6 +48,8 @@ ROMNAME="$1"
 BASEROMNAME=${ROMNAME##*/}
 GAMEFOLDER="${ROMNAME//${BASEROMNAME}}"
 
+message_stream "runemu.sh may be removed in a future version of 351ELEC. If you have customized es_systems configurations using it, please update them to use runemu.py instead" 0.01
+sleep 0.5
 
 ### Determine if we're running a Libretro core and append the libretro suffix
 if [[ $EMULATOR = "retroarch" ]]; then
