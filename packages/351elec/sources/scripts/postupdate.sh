@@ -116,8 +116,9 @@ fi
 
 ## 2021-09-30:
 ## Remove any configurd ES joypads on upgrade
-rm -f /storage/joypads/*.cfg
-
+if [ ! -f /storage/joypads/dont_delete_me ]; then
+  rm -f /storage/joypads/*.cfg
+fi
 
 ## 2021-09-27:
 ## Force replacement of gamecontrollerdb.txt on update
