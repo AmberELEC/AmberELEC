@@ -95,7 +95,6 @@ standalone_emulators: 'MutableMapping[str, Tuple[str, Sequence[str]]]' = {
 	'OPENBOR': ('openbor', ['/usr/bin/openbor.sh', '<path>']),
 	'PPSSPPSDL': ('PPSSPPSDL', ['/usr/bin/ppsspp.sh', '<path>']),
 	'SCUMMVMSA': ('scummvm', ['/usr/bin/scummvm.start', 'sa', '<path>']),
-	'STELLASA': ('stella', ['/usr/bin/stella.sh', '<path>']),
 	'drastic': ('drastic', ['/usr/bin/drastic.sh', '<path>']),
 	'ecwolf': ('ecwolf', ['/usr/bin/ecwolf.sh', '<path>']),
 	'gzdoom': ('gzdoom', ['/usr/bin/gzdoom.sh', '<path>']),
@@ -132,10 +131,9 @@ def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str]
 		log(f'platform: {platform}')
 		log(f'emulator: {emulator}')
 	#Core is not actually relevant (other than Mupen64Plus which is in another function)
-	command: 'List[Union[str, Path]]' = [BASH_EXE]
 	
 	jslisten_exe, placeholder_args = standalone_emulators[emulator]
-	command += [arg for arg in (rom if arg == '<path>' else arg for arg in placeholder_args) if arg]
+	command = [arg for arg in (rom if arg == '<path>' else arg for arg in placeholder_args) if arg]
 
 	jslisten_set(jslisten_exe)
 	return command
