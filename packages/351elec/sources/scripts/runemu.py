@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 from time import perf_counter
+from setsettings import set_settings
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
@@ -238,30 +239,11 @@ def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional
 			raise ValueError('runemu.py was called improperly, tried to launch a standard emulator with no emulator')
 		return get_standalone_emulator_command(rom, platform, emulator)
 
-def setsettings(rom, core, platform, args) -> str:
-	#Note!!! When #740 is merged, replace this with:
-	#(from setsettings import set_settings goes at the top)
-	#return set_settings(rom_name=rom, core=core, platform=platform, controllers=args['controllers'], autosave=args.get('autosave'), snapshot=args.get('state_slot'))
-	#I guess then this doesn't need to be a function
-
-	setsettings_args = ['/usr/bin/setsettings.sh', platform, rom, core]
-	if 'controllers' in args:
-		setsettings_args.append('--controllers=' + args['controllers'])
-	if 'autosave' in args: #Automatically added by ES even if not specified; if autosave is enabled
-		setsettings_args.append('--autosave=' + args['autosave'])
-	#Automatically added by ES even if not specified; if autosave is enabled, if not, setsettings.sh (as it is now) expects this argument anyway
-	setsettings_args.append('--snapshot=' + args.get('state_slot', ''))
-
-	if verbose:
-		log(f'Executing setsettings: {setsettings_args}')
-	setsettings_proc = subprocess.run(['' if arg is None else arg for arg in setsettings_args], stdout=subprocess.PIPE, check=True, universal_newlines=True)
-	return setsettings_proc.stdout
-
 def main():
 	time_started = perf_counter()
 
 	i = 0
-	args = {}
+	args: dict[str, str] = {}
 	while i < len(sys.argv):
 		if sys.argv[i].startswith('--'):
 			args[sys.argv[i][2:]] = sys.argv[i + 1]
@@ -298,7 +280,7 @@ def main():
 	#bluetooth_toggle(False) #I'm not sure this does anything useful here, so I haven't reimplemented it
 	jslisten_stop()
 	
-	shader_arg = setsettings(rom, core, platform, args)
+	shader_arg = set_settings(rom_name=str(rom) if rom else '', core=core if core else '', platform=platform if platform else '', controllers=args.get('controllers', ''), autosave=args.get('autosave', ''), snapshot=args.get('state_slot', ''))
 
 	if core and not emulator:
 		#This is called from the inside of a port .sh that runs a libretro port (e.g. 2048, tyrQuake, etc), it makes no sense otherwise
