@@ -92,6 +92,9 @@ updates.type=release
 ## The global value will be used for all emulators, except if the value
 ## is redefined in the emulator
 
+## Bezel on by default
+global.bezel=default
+
 ## Retroarch menu driver, ozone (default), rgui or xmb
 global.retroarch.menu_driver=ozone
 
@@ -200,10 +203,16 @@ fbn.ratio=core
 fbn.rgascale=1
 fds.ratio=4/3
 fds.rgascale=1
+gamegear.bezel.overlay.grid=1
+gamegear.bezel.overlay.shadow=1
 gamegear.integerscale=1
+gb.bezel.overlay.grid=1
+gb.bezel.overlay.shadow=1
 gb.integerscale=1
 gba.ratio=3/2
 gbah.ratio=3/2
+gbc.bezel.overlay.grid=1
+gbc.bezel.overlay.shadow=1
 gbc.integerscale=1
 gbch.integerscale=1
 gbh.integerscale=1
@@ -245,7 +254,11 @@ nes.ratio=4/3
 nes.rgascale=1
 nesh.ratio=4/3
 nesh.rgascale=1
+ngp.bezel.overlay.grid=1
+ngp.bezel.overlay.shadow=1
 ngp.integerscale=1
+ngpc.bezel.overlay.grid=1
+ngpc.bezel.overlay.shadow=1
 ngpc.intergerscale=1
 odyssey2.ratio=4/3
 odyssey2.rgascale=1
@@ -261,6 +274,8 @@ pcenginecd.rgascale=1
 pcfx.maxperf=1
 pcfx.ratio=4/3
 pcfx.rgascale=1
+pokemini.bezel.overlay.grid=1
+pokemini.bezel.overlay.shadow=1
 pokemini.ratio=3/2
 psp.maxperf=1
 pspminis.maxperf=1
@@ -284,6 +299,8 @@ snesmsu1.ratio=4/3
 snesmsu1.rgascale=1
 supergrafx.ratio=4/3
 supergrafx.rgascale=1
+supervision.bezel.overlay.grid=1
+supervision.bezel.overlay.shadow=1
 supervision.integerscale=1
 tg16.ratio=4/3
 tg16.rgascale=1
@@ -299,7 +316,11 @@ videopac.ratio=4/3
 videopac.rgascale=1
 virtualboy.integerscale=1
 virtualboy.maxperf=1
+wonderswan.bezel.overlay.grid=1
+wonderswan.bezel.overlay.shadow=1
 wonderswan.integerscale=1
+wonderswancolor.bezel.overlay.grid=1
+wonderswancolor.bezel.overlay.shadow=1
 wonderswancolor.integerscale=1
 x68000.ratio=4/3
 x68000.rgascale=1
@@ -307,9 +328,3 @@ zxspectrum.ratio=4/3
 zxspectrum.rgascale=1
 zx81.ratio=4/3
 zx81.rgascale=1
-
-# 552 beta defaults to looking for pre-releases
-updates.type=prerelease
-
-# Comment out below line when 351ELEC has normal prereleases/releases for 552 and beta is no longer needed
-updates.github.repo=552_beta
