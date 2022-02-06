@@ -76,7 +76,7 @@ def cleanup_and_quit(return_code):
 	#bluetooth_toggle(True)
 	jslisten_stop()
 	clear_screen()
-	subprocess.run([BASH_EXE, '/usr/bin/show_splash.sh', 'exit'], check=False) #This seems to always return 1
+	#subprocess.run([BASH_EXE, '/usr/bin/show_splash.sh', 'exit'], check=False) #This seems to always return 1
 	#subprocess.check_call([BASH_EXE, '/usr/bin/setres.sh'])
 	call_profile_func('normperf')
 	call_profile_func('set_audio', 'default')
