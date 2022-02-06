@@ -1,8 +1,8 @@
 diff --git a/frontend/drivers/platform_unix.c b/frontend/drivers/platform_unix.c
-index e54d3d4d62..1440ab95aa 100644
+index 0266397c5a..75a1e6efb1 100644
 --- a/frontend/drivers/platform_unix.c
 +++ b/frontend/drivers/platform_unix.c
-@@ -2001,11 +2001,6 @@ static void frontend_unix_deinit(void *data)
+@@ -2053,12 +2053,6 @@ static void frontend_unix_deinit(void *data)
     android_app_destroy(android_app);
  #endif
  
@@ -11,14 +11,15 @@ index e54d3d4d62..1440ab95aa 100644
 -   if (settings->uints.screen_brightness != DEFAULT_SCREEN_BRIGHTNESS)
 -      frontend_unix_set_screen_brightness(DEFAULT_SCREEN_BRIGHTNESS);
 -#endif
+-
+    frontend_unix_set_gamemode(false);
  }
  
- static void frontend_unix_init(void *data)
 diff --git a/frontend/frontend_driver.c b/frontend/frontend_driver.c
-index efe819513a..7da4e9bb97 100644
+index 90e4ae6ee0..615e061bd1 100644
 --- a/frontend/frontend_driver.c
 +++ b/frontend/frontend_driver.c
-@@ -518,7 +518,7 @@ bool frontend_driver_can_set_screen_brightness(void)
+@@ -519,7 +519,7 @@ bool frontend_driver_can_set_screen_brightness(void)
  {
     frontend_state_t *frontend_st   = &frontend_driver_st;
     frontend_ctx_driver_t *frontend = frontend_st->current_frontend_ctx;

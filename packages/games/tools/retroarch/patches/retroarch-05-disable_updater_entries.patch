@@ -1,11 +1,19 @@
 diff --git a/menu/menu_displaylist.c b/menu/menu_displaylist.c
-index 57eeca4327..d39fd1fd64 100644
+index b4758bb82a..1778c364e1 100644
 --- a/menu/menu_displaylist.c
 +++ b/menu/menu_displaylist.c
-@@ -12021,29 +12021,29 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
-             }
+@@ -12255,37 +12255,37 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif
- #endif
+ 
+ #ifdef HAVE_COMPRESSION
+-            if (menu_entries_append_enum(info->list,
+-                     msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DOWNLOAD_CORE_SYSTEM_FILES),
+-                     msg_hash_to_str(MENU_ENUM_LABEL_DOWNLOAD_CORE_SYSTEM_FILES),
+-                     MENU_ENUM_LABEL_DOWNLOAD_CORE_SYSTEM_FILES,
+-                     MENU_SETTING_ACTION, 0, 0))
+-               count++;
+-#endif
+-
 -            if (settings->bools.menu_show_legacy_thumbnail_updater)
 -            {
 -               if (menu_entries_append_enum(info->list,
@@ -29,6 +37,14 @@ index 57eeca4327..d39fd1fd64 100644
 -                     MENU_ENUM_LABEL_DOWNLOAD_CORE_CONTENT_DIRS,
 -                     MENU_SETTING_ACTION, 0, 0))
 -               count++;
++            //if (menu_entries_append_enum(info->list,
++            //         msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DOWNLOAD_CORE_SYSTEM_FILES),
++            //         msg_hash_to_str(MENU_ENUM_LABEL_DOWNLOAD_CORE_SYSTEM_FILES),
++            //         MENU_ENUM_LABEL_DOWNLOAD_CORE_SYSTEM_FILES,
++            //         MENU_SETTING_ACTION, 0, 0))
++            //   count++;
++#endif
++
 +            //if (settings->bools.menu_show_legacy_thumbnail_updater)
 +            //{
 +            //   if (menu_entries_append_enum(info->list,
@@ -55,7 +71,7 @@ index 57eeca4327..d39fd1fd64 100644
  
  #ifdef HAVE_COMPRESSION
              if (settings->bools.menu_show_core_updater)
-@@ -12057,20 +12057,20 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -12299,20 +12299,20 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
              }
  
  #ifdef HAVE_UPDATE_ASSETS
@@ -88,7 +104,7 @@ index 57eeca4327..d39fd1fd64 100644
  
              if (menu_entries_append_enum(info->list,
                       msg_hash_to_str(MENU_ENUM_LABEL_VALUE_UPDATE_CHEATS),
-@@ -12090,12 +12090,12 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -12332,12 +12332,12 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif
  #endif
  #if !defined(_3DS)
@@ -107,7 +123,7 @@ index 57eeca4327..d39fd1fd64 100644
  
  #if defined(HAVE_CG) || defined(HAVE_GLSL) || defined(HAVE_SLANG) || defined(HAVE_HLSL)
              if (video_shader_is_supported(RARCH_SHADER_CG))
-@@ -12108,15 +12108,15 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -12350,15 +12350,15 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
                    count++;
              }
  
@@ -132,7 +148,7 @@ index 57eeca4327..d39fd1fd64 100644
  
              if (video_shader_is_supported(RARCH_SHADER_SLANG))
              {
-@@ -12133,10 +12133,10 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -12375,10 +12375,10 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif
  
  #ifdef HAVE_NETWORKING

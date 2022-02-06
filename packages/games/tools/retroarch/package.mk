@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="retroarch"
-PKG_VERSION="fca72f67d19eea58939f0123d2e91a5cec9120ee"
+PKG_VERSION="2febc16e2e65d440e28e06f856729c9edc95dca9"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"

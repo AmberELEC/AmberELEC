@@ -1,0 +1,41 @@
+diff --git a/menu/menu_setting.c b/menu/menu_setting.c
+index 803ad77a53..2da9e909d6 100644
+--- a/menu/menu_setting.c
++++ b/menu/menu_setting.c
+@@ -19796,21 +19796,21 @@ static bool setting_append_list(
+                   SD_FLAG_NONE);
+             (*list)[list_info->index - 1].change_handler = samba_enable_toggle_change_handler;
+ 
+-            CONFIG_BOOL(
+-                  list, list_info,
+-                  &settings->bools.bluetooth_enable,
+-                  MENU_ENUM_LABEL_BLUETOOTH_ENABLE,
+-                  MENU_ENUM_LABEL_VALUE_BLUETOOTH_ENABLE,
+-                  true,
+-                  MENU_ENUM_LABEL_VALUE_OFF,
+-                  MENU_ENUM_LABEL_VALUE_ON,
+-                  &group_info,
+-                  &subgroup_info,
+-                  parent_group,
+-                  general_write_handler,
+-                  general_read_handler,
+-                  SD_FLAG_NONE);
+-            (*list)[list_info->index - 1].change_handler = bluetooth_enable_toggle_change_handler;
++            //CONFIG_BOOL(
++            //      list, list_info,
++            //      &settings->bools.bluetooth_enable,
++            //      MENU_ENUM_LABEL_BLUETOOTH_ENABLE,
++            //      MENU_ENUM_LABEL_VALUE_BLUETOOTH_ENABLE,
++            //      true,
++            //      MENU_ENUM_LABEL_VALUE_OFF,
++            //      MENU_ENUM_LABEL_VALUE_ON,
++            //      &group_info,
++            //      &subgroup_info,
++            //      parent_group,
++            //      general_write_handler,
++            //      general_read_handler,
++            //      SD_FLAG_NONE);
++            //(*list)[list_info->index - 1].change_handler = bluetooth_enable_toggle_change_handler;
+ 
+ #ifdef HAVE_WIFI
+             CONFIG_BOOL(
