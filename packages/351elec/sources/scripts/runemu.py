@@ -3,22 +3,26 @@
 import datetime
 import os
 import shlex
+import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
 from time import perf_counter
+from typing import TYPE_CHECKING, Optional
+
 from setsettings import set_settings
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
-	from typing import List, Mapping, Sequence, Tuple, Union, MutableMapping
+	from typing import List, Mapping, MutableMapping, Sequence, Tuple, Union
 
 LOGS_DIR = Path('/tmp/logs')
 BASH_EXE = '/usr/bin/bash'
 RA_TEMP_CONF = '/storage/.config/retroarch/retroarch.cfg'
 RA_APPEND_CONF = '/tmp/raappend.cfg'
 LOG_PATH = LOGS_DIR / 'exec.log'
+temp_folder = Path('/tmp/runemu')
 
 def call_profile_func(function_name: str, *args: str) -> str:
 	#We are going to want to call some stuff from /etc/profile, they are defined in ../profile.d/99-distribution.conf
@@ -73,6 +77,9 @@ def cleanup_and_quit(return_code):
 	if verbose:
 		log('Cleaning up and exiting')
 
+	if temp_folder.is_dir():
+		shutil.rmtree(temp_folder)
+
 	#bluetooth_toggle(True)
 	jslisten_stop()
 	clear_screen()
@@ -88,23 +95,37 @@ def clear_screen():
 	with open('/dev/console', 'wb') as console:
 		subprocess.run('clear', stdout=console, check=True)
 
-standalone_emulators: 'MutableMapping[str, Tuple[str, Sequence[str]]]' = {
-	'AMIBERRY': ('amiberry', ['/usr/bin/amiberry.start', '<path>']),
-	'AdvanceMame': ('advmame', ['/usr/bin/advmame.sh', '<path>']),
-	'HATARISA': ('hatari', ['/usr/bin/hatari.start', '<path>']),
-	'HYPSEUS': ('hypseus', ['/usr/bin/hypseus.start.sh', '<path>']),
-	'OPENBOR': ('openbor', ['/usr/bin/openbor.sh', '<path>']),
-	'PPSSPPSDL': ('PPSSPPSDL', ['/usr/bin/ppsspp.sh', '<path>']),
-	'SCUMMVMSA': ('scummvm', ['/usr/bin/scummvm.start', 'sa', '<path>']),
-	'drastic': ('drastic', ['/usr/bin/drastic.sh', '<path>']),
-	'ecwolf': ('ecwolf', ['/usr/bin/ecwolf.sh', '<path>']),
-	'gzdoom': ('gzdoom', ['/usr/bin/gzdoom.sh', '<path>']),
-	'lzdoom': ('lzdoom', ['/usr/bin/lzdoom.sh', '<path>']),
-	'mpv': ('mpv', ['/usr/bin/mpv_video.sh', '<path>']),
-	'pico8': ('pico8_dyn', ['/usr/bin/pico-8.sh', '<path>']),
-	'piemu': ('piemu', ['/usr/bin/piemu.sh', '<path>']),
-	'raze': ('raze', ['/usr/bin/raze.sh', '<path>']),
-	'solarus': ('solarus-run', ['/usr/bin/solarus.sh', '<path>']),
+def extract_to_temp_folder(path: Path) -> Path:
+	#Ensure that things like RetroArch per-folder overrides or save sorting options will still work as expected
+	temp_subfolder = temp_folder.joinpath(path.parent.name)
+	#7z path needs to be given explicitly so it can find 7z.so
+	subprocess.check_call(['/usr/bin/7z', 'e', f'-o{str(temp_subfolder)}', path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+	#We don't know what filename was inside the archive, so just grab whatever was first
+	return next(temp_subfolder.iterdir())
+
+@dataclass(frozen=True)
+class StandaloneEmulator():
+	jskill_name: str
+	args: 'Sequence[str]'
+	should_extract: bool = False
+
+standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
+	'AMIBERRY': StandaloneEmulator('amiberry', ['/usr/bin/amiberry.start', '<path>']),
+	'AdvanceMame': StandaloneEmulator('advmame', ['/usr/bin/advmame.sh', '<path>']),
+	'HATARISA': StandaloneEmulator('hatari', ['/usr/bin/hatari.start', '<path>']),
+	'HYPSEUS': StandaloneEmulator('hypseus', ['/usr/bin/hypseus.start.sh', '<path>']),
+	'OPENBOR': StandaloneEmulator('openbor', ['/usr/bin/openbor.sh', '<path>']),
+	'PPSSPPSDL': StandaloneEmulator('PPSSPPSDL', ['/usr/bin/ppsspp.sh', '<path>']),
+	'SCUMMVMSA': StandaloneEmulator('scummvm', ['/usr/bin/scummvm.start', 'sa', '<path>']),
+	'drastic': StandaloneEmulator('drastic', ['/usr/bin/drastic.sh', '<path>']),
+	'ecwolf': StandaloneEmulator('ecwolf', ['/usr/bin/ecwolf.sh', '<path>']),
+	'gzdoom': StandaloneEmulator('gzdoom', ['/usr/bin/gzdoom.sh', '<path>']),
+	'lzdoom': StandaloneEmulator('lzdoom', ['/usr/bin/lzdoom.sh', '<path>']),
+	'mpv': StandaloneEmulator('mpv', ['/usr/bin/mpv_video.sh', '<path>']),
+	'pico8': StandaloneEmulator('pico8_dyn', ['/usr/bin/pico-8.sh', '<path>']),
+	'piemu': StandaloneEmulator('piemu', ['/usr/bin/piemu.sh', '<path>']),
+	'raze': StandaloneEmulator('raze', ['/usr/bin/raze.sh', '<path>']),
+	'solarus': StandaloneEmulator('solarus-run', ['/usr/bin/solarus.sh', '<path>']),
 }
 
 def _load_customized_standalone_emulators():
@@ -116,11 +137,15 @@ def _load_customized_standalone_emulators():
 				name, rest = line.rstrip().split(': ', 1)
 				args = rest.split(' ')
 				kill_name = name
+				should_extract = False
 				#If name of exe to kill was not listed, assume it is the same as the emulator name
 				if not args[0].startswith('/'):
 					kill_name = args[0]
 					args = args[1:]
-				standalone_emulators[name] = (kill_name, args)
+					if args[-1] == 'should_extract':
+						args = args[:-1]
+						should_extract = True
+				standalone_emulators[name] = StandaloneEmulator(kill_name, args, should_extract)
 	except (FileNotFoundError, ValueError):
 		pass
 
@@ -133,10 +158,14 @@ def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str]
 		log(f'emulator: {emulator}')
 	#Core is not actually relevant (other than Mupen64Plus which is in another function)
 	
-	jslisten_exe, placeholder_args = standalone_emulators[emulator]
-	command = [arg for arg in (rom if arg == '<path>' else arg for arg in placeholder_args) if arg]
+	emu = standalone_emulators[emulator]
+	path = rom
+	if rom and emu.should_extract and rom.suffix in {'.zip', '.7z', '.gz', '.bz2'}:
+		path = extract_to_temp_folder(rom)
 
-	jslisten_set(jslisten_exe)
+	command = [arg for arg in (path if arg == '<path>' else arg for arg in emu.args) if arg]
+
+	jslisten_set(emu.jskill_name)
 	return command
 
 def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: str, args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
@@ -204,13 +233,18 @@ def get_retrorun_command(rom: Path, platform: str, core: str) -> 'Sequence[Union
 		log(f'platform: {platform}')
 		log(f'core: {core}')
 	jslisten_set('retrorun', 'retrorun32')
+	
 	return [BASH_EXE, '/usr/bin/retrorun.sh', core_path, rom, platform]
 
 def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequence[Union[str, Path]]':
 	if verbose:
 		log(f'Running Mupen64Plus standalone with {video_plugin} plugin')
 	jslisten_set('mupen64plus')
-	return [BASH_EXE, '/usr/bin/m64p.sh', video_plugin, rom]
+	path = rom
+	if rom and rom.suffix in {'.zip', '.7z', '.gz', '.bz2'}:
+		path = extract_to_temp_folder(rom)
+
+	return [BASH_EXE, '/usr/bin/m64p.sh', video_plugin, path]
 
 def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
 	if rom and (rom.suffix == '.sh' or platform == 'tools'):
@@ -292,7 +326,7 @@ def main():
 		emulator = 'retroarch'
 
 	command = get_command(rom, platform, emulator, core, args, shader_arg)
-	
+
 	clear_screen()
 	if verbose:
 		log(f'Took {perf_counter() - time_started} seconds to start up')
@@ -304,6 +338,7 @@ def main():
 	clear_screen()
 	if verbose:
 		log(f'Process return code: {completed_process.returncode}')
+	
 	if completed_process.returncode == 0:
 		cleanup_and_quit(0)
 	else:
