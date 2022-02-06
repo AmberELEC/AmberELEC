@@ -342,4 +342,6 @@ fi
 
 # cleanup
 cleanup
+rm "${TARGET_IMG}/${BUILD_NAME}.kernel"
+rm "${TARGET_IMG}/${BUILD_NAME}.system"
 exit
