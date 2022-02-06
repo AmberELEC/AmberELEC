@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="d59b31238e5df58b477e859e9cd3222d2c4bab5b"
-PKG_SHA256="1bc387a954dc43213f718fc2081680905aabc0d7326cefa7bbcbe25ac5d94cd8"
+PKG_VERSION="dc5c7503f82b8dfbacad05b889740690ee428baa"
+PKG_SHA256="94e03cde0e071b058135a6cde0fd35c4ff49c4e3ade045037d3e922918905e2b"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
@@ -15,7 +15,7 @@ PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graph
 
 pre_configure_target() { 
   sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure
-  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --disable-debug --enable-release --enable-vkeybd --opengl-mode=gles2 --force-opengl-game-es2"
+  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --disable-debug --enable-release --enable-vkeybd --opengl-mode=gles2"
 }
 
 post_makeinstall_target() {

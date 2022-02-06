@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="gzdoom"
-PKG_VERSION="5e931f344a91e65d58d2374f3e98740974613272"
+PKG_VERSION="d30504f224234ac3be2f7ff5072f8f91df70b66f"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
