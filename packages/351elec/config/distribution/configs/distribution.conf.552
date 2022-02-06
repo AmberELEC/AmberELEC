@@ -203,6 +203,7 @@ psp.maxperf=1
 psp.ratio=squarepixel
 pspminis.maxperf=1
 pspminis.ratio=squarepixel
+psx.integerscaleoverscale=1
 saturn.ratio=squarepixel
 segacd.ratio=squarepixel
 supervision.ratio=squarepixel
