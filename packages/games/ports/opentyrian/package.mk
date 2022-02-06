@@ -15,9 +15,18 @@ PKG_TOOLCHAIN="make"
 PKG_GIT_BRANCH="sdl2"
 
 makeinstall_target() {
+  cd $PKG_BUILD
+  rm -f tyrian21.zip
+  rm -rf tyrian21
+  wget -O tyrian21.zip https://www.camanis.net/tyrian/tyrian21.zip
+  unzip $PKG_BUILD/tyrian21.zip
+
   mkdir -p $INSTALL/usr/local/bin
   cp opentyrian $INSTALL/usr/local/bin
   
   mkdir -p $INSTALL/usr/config/opentyrian
   cp -r $PKG_DIR/config/* $INSTALL/usr/config/opentyrian
+
+  mkdir -p $INSTALL/usr/config/ports/opentyrian
+  cp -rf $PKG_BUILD/tyrian21/* $INSTALL/usr/config/ports/opentyrian
 }

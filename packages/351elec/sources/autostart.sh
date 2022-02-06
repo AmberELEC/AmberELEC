@@ -102,8 +102,8 @@ rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 # Copy pico-8
 cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
 
-# Move ports to the FAT volume
-rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/ports &
+# Move ports to the GAMES volume
+rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/homebrew &
 
 # Sync ES locale if missing
 if [ ! -d "/storage/.config/emulationstation/locale" ]
@@ -114,9 +114,9 @@ fi
 # Wait for the rsync processes to finish.
 wait
 
-if [ ! -e "/storage/roms/ports/gamelist.xml" ]
+if [ ! -e "/storage/roms/homebrew/gamelist.xml" ]
 then
-  cp -f /usr/config/ports/gamelist.xml /storage/roms/ports
+  cp -f /usr/config/ports/gamelist.xml /storage/roms/homebrew
 fi
 
 # End Automatic updates
@@ -177,17 +177,6 @@ if [ ! -L "/storage/remappings" ]
 then
    rm -rf "/storage/remappings" 2>/dev/null
    ln -sf "${GAMEDATA}/remappings" "/storage/remappings"
-fi
-
-# Migrate pico-8 binaries if they exist
-if [ -e "/storage/roms/ports/pico-8/pico8_dyn" ]
-then
-  if [ ! -d "/storage/roms/pico-8" ]
-  then
-    mkdir -p "/storage/roms/pico-8"
-  fi
-  mv "/storage/roms/ports/pico-8/"* "/storage/roms/pico-8"
-  rm -rf "/storage/roms/ports/pico-8" &
 fi
 
 ## Only call postupdate once after an UPDATE

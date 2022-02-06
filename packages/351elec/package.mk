@@ -56,7 +56,8 @@ makeinstall_target() {
 
   ## Compatibility links for ports
   ln -s /storage/roms $INSTALL/roms
-  ln -sf /storage/roms/opt $INSTALL/opt
+  ln -s /roms/ports/PortMaster $INSTALL/portmaster
+  #ln -sf /storage/roms/opt $INSTALL/opt
 
   mkdir -p $INSTALL/usr/lib
   ln -s /usr/lib32/ld-linux-armhf.so.3 $INSTALL/usr/lib/ld-linux-armhf.so.3
