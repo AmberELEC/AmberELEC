@@ -398,6 +398,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Auto Frame Relay
     ra_append_dict['video_frame_delay_auto'] = config.get_bool_string("video_frame_delay_auto")
 
+    # maxperf / CPU Governor
+    if config.get_setting('maxperf'):
+        ra_append_dict['cpu_scaling_mode'] = '2'
+    else:
+        ra_append_dict['cpu_scaling_mode'] = '4'
+
     #
     # Settings for special cores
     #
@@ -476,33 +482,54 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # List of possible Bezel Folders
     bezel_dir = ('/tmp/overlays/bezels', '/storage/roms/bezels')
     # Define the resolutions of the different systems (0:x 1:y 2:width 3:height) as seen in Scaling -> Aspect Ration -> Custom
-    # RG351P/M=480x320
-    # RG351V/MP=640x480
+    # Devices (width x hight)
+    #   RG351P/M = 480x320
+    #   RG351V/MP = 640x480
+    #   RG552 = 1920x1152
+    # Consoles (width x hight)
+    #   GB/GBC/GG = 160x144
+    #   supervision = 160x160
+    #   Pokemini = 96x64
+    #   ngp/ngpc = 160x152
+    #   wonderswan/wonderswancolor = 224×144
     if device_name == "RG351P":
         system_viewport = {
-            'standard': (1, 1, 479, 319),
-            'gb': (80, 16, 320, 288),
-            'gbc': (80, 16, 320, 288),
-            'supervision': (80, 0, 320, 320),
-            'gamegear': (80, 16, 320, 288),
-            'pokemini': (96, 64, 288, 192),
-            'ngp': (80, 8, 320, 304),
-            'ngpc': (80, 8, 320, 304),
-            'wonderswan': (16, 16, 448, 288),
-            'wonderswancolor': (16, 16, 448, 288),
+            'standard': (1, 1, 479, 319),          # max-1
+            'gb': (80, 16, 320, 288),              # x2
+            'gbc': (80, 16, 320, 288),             # x2
+            'supervision': (80, 0, 320, 320),      # x2
+            'gamegear': (80, 16, 320, 288),        # x2
+            'pokemini': (96, 64, 288, 192),        # x3
+            'ngp': (80, 8, 320, 304),              # x2
+            'ngpc': (80, 8, 320, 304),             # x2
+            'wonderswan': (16, 16, 448, 288),      # x2
+            'wonderswancolor': (16, 16, 448, 288), # x2
         }
-    else: # Must be the V or MP then
+    elif device_name == "RG351V" or device_name == "RG351MP":
         system_viewport = {
-            'standard': (1, 1, 639, 479),
-            'gb': (80, 24, 480, 432),
-            'gbc': (80, 24, 480, 432),
-            'supervision': (80, 0, 480, 480),
-            'gamegear': (80, 24, 480, 432),
-            'pokemini': (128, 112, 384, 256),
-            'ngp': (80, 12, 480, 456),
-            'ngpc': (80, 12, 480, 456),
-            'wonderswan': (96, 96, 448, 288),
-            'wonderswancolor': (96, 96, 448, 288),
+            'standard': (1, 1, 639, 479),          # max-1
+            'gb': (80, 24, 480, 432),              # x3
+            'gbc': (80, 24, 480, 432),             # x3
+            'supervision': (80, 0, 480, 480),      # x3
+            'gamegear': (80, 24, 480, 432),        # x3
+            'pokemini': (128, 112, 384, 256),      # x4
+            'ngp': (80, 12, 480, 456),             # x3
+            'ngpc': (80, 12, 480, 456),            # x3
+            'wonderswan': (96, 96, 448, 288),      # x2
+            'wonderswancolor': (96, 96, 448, 288), # x2
+        }
+    elif device_name == "RG552":
+        system_viewport = {
+            'standard': (1, 1, 1919, 1151),         # max-1
+            'gb': (320, 0, 1280, 1152),             # x8
+            'gbc': (320, 0, 1280, 1152),            # x8
+            'supervision': (400, 16, 1120, 1120),   # x7
+            'gamegear': (320, 0, 1280, 1152),       # x8
+            'pokemini': (96, 0, 1728, 1152),        # x18
+            'ngp': (400, 44, 1120, 1064),           # x7
+            'ngpc': (400, 44, 1120, 1064),          # x7
+            'wonderswan': (64, 0, 1792, 1152),      # x8
+            'wonderswancolor': (64, 0, 1792, 1152), # x8
         }
 
     if (bezel := config.get_setting('bezel')) and platform in system_viewport:
