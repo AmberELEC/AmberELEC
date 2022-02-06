@@ -237,8 +237,7 @@
   IR_REMOTE_KEYMAPS="rc6_mce xbox_360 xbox_one"
 
 
-LIBRETRO_CORES="2048 \
-81 \
+LIBRETRO_CORES="81 \
 atari800 \
 beetle-gba \
 beetle-lynx \
@@ -250,11 +249,9 @@ beetle-supergrafx \
 beetle-vb \
 beetle-wswan \
 bluemsx \
-cannonball \
 cap32 \
 crocods \
 daphne \
-dinothawr \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
@@ -286,7 +283,6 @@ mame2015 \
 mame \
 meowpc98 \
 mgba \
-mrboom \
 mupen64plus \
 mupen64plus-nx \
 neocd_libretro \
@@ -309,7 +305,6 @@ px68k \
 quasi88 \
 quicknes \
 race \
-reminiscence \
 sameboy \
 sameduck \
 scummvm \
@@ -323,8 +318,6 @@ stella-2014 \
 swanstation \
 TIC-80 \
 tgbdual \
-tyrquake \
-xrick \
 uae4arm \
 uzem \
 vba-next \
