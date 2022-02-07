@@ -39,7 +39,7 @@ class Logger:
     def __init__(self):
         if not os.path.isdir(self.dir):
             os.makedirs(self.dir)
-        self.file_handle = open(f'{self.dir}/{self.file}',"w")
+        self.file_handle = open(f'{self.dir}/{self.file}',"a+")
 
     def log(self, text: str) -> None:
         self.file_handle.write(f'{self.script_basename}: {text}\n')
@@ -283,7 +283,11 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             "Ro": "50", "Ru": "51", "Sv": "10", "Tr": "59", "Zh": "13",
         }
         ai_lang = config.get_setting('ai_target_lang')
-        ra_append_dict['ai_service_target_lang'] = f'{LangCodes[ai_lang]}'
+        if ai_lang in LangCodes:
+            ra_append_dict['ai_service_target_lang'] = f'{LangCodes[ai_lang]}'
+        else:
+            # use English as default
+            ra_append_dict['ai_service_target_lang'] = "1"
         if ai_url := config.get_setting('ai_service_url'):
             ra_append_dict['ai_service_url'] = f'{ai_url}&mode=Fast&output=png&target_lang={ai_lang}'
         else:
@@ -296,6 +300,8 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     #
 
     # Ratio
+    # default to 22 (core provided) if case anything goes wrong
+    ra_append_dict['aspect_ratio_index'] = "22"
     if ratio := config.get_setting('ratio'):
         index_rations = {
             '4/3': '0', '16/9': '1', '16/10': '2', '16/15': '3', '21/9': '4',
@@ -307,11 +313,6 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         }
         if ratio in index_rations:
             ra_append_dict['aspect_ratio_index'] = index_rations[ratio]
-        else:
-            ra_append_dict['aspect_ratio_index'] = "22"
-    else:
-        # 22 is the "Core Provided" aspect ratio and its set by default if no other is selected
-        ra_append_dict['aspect_ratio_index'] = "22"
 
     # Bilinear filtering
     ra_append_dict['video_smooth'] = config.get_bool_string("smooth")
@@ -649,7 +650,7 @@ if __name__ == '__main__':
     parser.add_argument("--rom", help="ROM file name", required=True)
     parser.add_argument("--controllers", help="controller config", default="-p1index 0")
     parser.add_argument("--autosave", help="autosave", default="0")
-    parser.add_argument("--snapshot", help="snapshot", default="0")
+    parser.add_argument("--snapshot", help="snapshot", default="")
     args = parser.parse_args()
     shader_path = set_settings(rom_name=args.rom, core=args.core, platform=args.platform, controllers=args.controllers, autosave=args.autosave, snapshot=args.snapshot)
     if shader_path:
