@@ -70,18 +70,23 @@ jobs:
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351MP
+      - name: Build rg552
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            make DOCKER_WORK_DIR=/work docker-RG552
 
       - name: Cleanup system artifacts
         run: |
             set -e
-            rm -rf release/aarch64/RG351*/*.system*
-            rm -rf release/aarch64/RG351*/*.kernel*
+            rm -rf release/aarch64/RG*/*.system*
+            rm -rf release/aarch64/RG*/*.kernel*
       - name: Cleanup system artifacts (no .img in non-release 'main' builds)
         if: github.event.client_payload.release_tag == ''
         run: |
             set -e
             #main builds only include the .tar for speed
-            rm -rf release/aarch64/RG351*/*.img.gz*
+            rm -rf release/aarch64/RG*/*.img.gz*
 
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v2
@@ -104,6 +109,13 @@ jobs:
           name: RG351MP-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351MP/
+      - name: Archive RG552 (${{github.sha}})
+        if: github.event.client_payload.release_tag == ''
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+          path: |
+            release/aarch64/RG552/
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-prerelease'
         uses: ncipollo/release-action@v1
@@ -123,13 +135,13 @@ jobs:
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
             
-             **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
+             **IMPORTANT NOTE**: There are **four different images** below, one for the **RG351P/M**, **RG351V**, **RG351MP** and **RG552**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG552](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)** | **[RG552](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar)**
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
@@ -166,7 +178,7 @@ jobs:
             **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
             **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/351ELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
@@ -202,13 +214,14 @@ jobs:
             **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG552](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG552](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar)**
 
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
             release/aarch64/RG351MP/*
+            release/aarch64/RG552/*
           prerelease: true
           draft: true
         env:
