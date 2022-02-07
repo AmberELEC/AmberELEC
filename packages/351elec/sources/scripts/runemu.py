@@ -248,6 +248,11 @@ def main():
 		if sys.argv[i].startswith('--'):
 			args[sys.argv[i][2:]] = sys.argv[i + 1]
 			i += 1
+			continue
+		if sys.argv[i].startswith('-'):
+			args[sys.argv[i][1:]] = sys.argv[i + 1]
+			i += 1
+			continue
 		i += 1
 
 	rom = Path(args['rom']) if 'rom' in args else None
