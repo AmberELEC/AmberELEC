@@ -107,7 +107,9 @@ post_install() {
   cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   ln -sf 351elec.target $INSTALL/usr/lib/systemd/system/default.target
   enable_service 351elec-autostart.service
-  enable_service fan_control.service
+  if [[ "${DEVICE}" == "RG552" ]]; then
+    enable_service fan_control.service
+  fi
 
   echo "" >$INSTALL/etc/issue
   echo "  _________  _ _____ _     _____ ____ " >>$INSTALL/etc/issue
