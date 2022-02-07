@@ -15,10 +15,9 @@ from setsettings import set_settings
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
-	from typing import List, Mapping, MutableMapping, Sequence, Tuple, Union
+	from typing import List, Mapping, MutableMapping, Sequence, Union
 
 LOGS_DIR = Path('/tmp/logs')
-BASH_EXE = '/usr/bin/bash'
 RA_TEMP_CONF = '/storage/.config/retroarch/retroarch.cfg'
 RA_APPEND_CONF = '/tmp/raappend.cfg'
 LOG_PATH = LOGS_DIR / 'exec.log'
@@ -83,8 +82,8 @@ def cleanup_and_quit(return_code):
 	#bluetooth_toggle(True)
 	jslisten_stop()
 	clear_screen()
-	#subprocess.run([BASH_EXE, '/usr/bin/show_splash.sh', 'exit'], check=False) #This seems to always return 1
-	#subprocess.check_call([BASH_EXE, '/usr/bin/setres.sh'])
+	#subprocess.run(['/usr/bin/bash', '/usr/bin/show_splash.sh', 'exit'], check=False) #This seems to always return 1
+	#subprocess.check_call(['/usr/bin/bash', '/usr/bin/setres.sh'])
 	call_profile_func('normperf')
 	call_profile_func('set_audio', 'default')
 	sys.exit(return_code)
@@ -234,7 +233,7 @@ def get_retrorun_command(rom: Path, platform: str, core: str) -> 'Sequence[Union
 		log(f'core: {core}')
 	jslisten_set('retrorun', 'retrorun32')
 	
-	return [BASH_EXE, '/usr/bin/retrorun.sh', core_path, rom, platform]
+	return ['/usr/bin/retrorun.sh', core_path, rom, platform]
 
 def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequence[Union[str, Path]]':
 	if verbose:
@@ -244,7 +243,7 @@ def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequenc
 	if rom and rom.suffix in {'.zip', '.7z', '.gz', '.bz2'}:
 		path = extract_to_temp_folder(rom)
 
-	return [BASH_EXE, '/usr/bin/m64p.sh', video_plugin, path]
+	return ['/usr/bin/m64p.sh', video_plugin, path]
 
 def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
 	if rom and (rom.suffix == '.sh' or platform == 'tools'):
