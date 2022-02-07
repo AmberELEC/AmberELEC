@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 LOGS_DIR = Path('/tmp/logs')
 RA_TEMP_CONF = '/storage/.config/retroarch/retroarch.cfg'
 RA_APPEND_CONF = '/tmp/raappend.cfg'
-LOG_PATH = LOGS_DIR / 'exec.log'
+log_path = LOGS_DIR / 'exec.log'
 temp_folder = Path('/tmp/runemu')
 
 def call_profile_func(function_name: str, *args: str) -> str:
@@ -32,17 +32,15 @@ def get_es_setting(setting_type: str, setting_name: str) -> str:
 	#from es_settings.cfg (XML)
 	return call_profile_func('get_es_setting', setting_type, setting_name)
 
-#Not sure why these were originally two variables? Should we always log?
-log_level = get_es_setting('string', 'logLevel')
-should_log = log_level != 'minimal'
-verbose = log_level != 'minimal'
+log_level = get_es_setting('string', 'LogLevel') #If set to default, would equal empty string
 
 def jslisten_set(*exe_names: str):
 	#exe_names are passed as one argument, intended for killall to use them later
 	call_profile_func('jslisten', 'set', shlex.join(exe_names))
 
 def jslisten_stop():
-	call_profile_func('jslisten', 'stop')
+	#call_profile_func('jslisten', 'stop')
+	subprocess.check_call(['systemctl', 'stop', 'jslisten'])
 
 def get_elec_setting(setting_name, platform=None, rom=None):
 	#From distribution.conf
@@ -52,29 +50,16 @@ def get_elec_setting(setting_name, platform=None, rom=None):
 def set_elec_setting(setting_name, value):
 	call_profile_func('set_ee_setting', setting_name, value)
 
-def check_bios(platform, core, emulator, game, log_path):
-	call_profile_func('ee_check_bios', platform, core, emulator, game, log_path)
+def check_bios(platform, core, emulator, game, log_path_):
+	call_profile_func('ee_check_bios', platform, core, emulator, game, log_path_)
 
-def download_things_if_needed(core):
-	if core == 'freej2me':
-		#freej2me needs the JDK to be downloaded on the first run
-		subprocess.run('/usr/bin/freej2me.sh', check=True)
-		os.environ['JAVA_HOME']='/storage/jdk'
-		os.environ['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
-	elif core == 'easyrpg':
-		# easyrpg needs runtime files to be downloaded on the first run
-		subprocess.run('/usr/bin/easyrpg.sh', check=True)
-		
 def log(text):
-	if should_log:
-		with LOG_PATH.open('at', encoding='utf-8') as log_file:
-			print(text, file=log_file)
-	else:
-		print('runemu.py:', text)
+	with log_path.open('at', encoding='utf-8') as log_file:
+		print(text, file=log_file)
 
 def cleanup_and_quit(return_code):
-	if verbose:
-		log('Cleaning up and exiting')
+	if log_level == 'debug':
+		log(f'Cleaning up and exiting with return code {return_code}')
 
 	if temp_folder.is_dir():
 		shutil.rmtree(temp_folder)
@@ -89,7 +74,7 @@ def cleanup_and_quit(return_code):
 	sys.exit(return_code)
 
 def clear_screen():
-	if verbose:
+	if log_level == 'debug':
 		log('Clearing screen')
 	with open('/dev/console', 'wb') as console:
 		subprocess.run('clear', stdout=console, check=True)
@@ -151,7 +136,7 @@ def _load_customized_standalone_emulators():
 _load_customized_standalone_emulators()
 
 def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str], emulator: str) -> 'Sequence[Union[str, Path]]':
-	if verbose:
+	if log_level != 'minimal':
 		log('Running a standalone emulator:')
 		log(f'platform: {platform}')
 		log(f'emulator: {emulator}')
@@ -168,7 +153,7 @@ def get_standalone_emulator_command(rom: Optional[Path], platform: Optional[str]
 	return command
 
 def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: str, args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
-	if verbose:
+	if log_level != 'minimal':
 		log('Running a libretro core via RetroArch')
 		log(f'platform: {platform}')
 		log(f'core: {core}')
@@ -198,7 +183,7 @@ def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: st
 	jslisten_set(retroarch_binary)
 	command: 'List[Union[str, Path]]' = [os.path.join('/usr/bin/', retroarch_binary), '-L', Path('/tmp/cores/', f'{core}_libretro.so')]
 	
-	if verbose:
+	if log_level != 'minimal':
 		command.append('--verbose')
 
 	if 'host' in args or 'connect' in args:
@@ -227,7 +212,7 @@ def get_retroarch_command(rom: Optional[Path], platform: Optional[str], core: st
 
 def get_retrorun_command(rom: Path, platform: str, core: str) -> 'Sequence[Union[str, Path]]':
 	core_path = Path('/tmp/cores/', f'{core}_libretro.so')
-	if verbose:
+	if log_level != 'minimal':
 		log('Running a libretro core via retrorun')
 		log(f'platform: {platform}')
 		log(f'core: {core}')
@@ -236,7 +221,7 @@ def get_retrorun_command(rom: Path, platform: str, core: str) -> 'Sequence[Union
 	return ['/usr/bin/retrorun.sh', core_path, rom, platform]
 
 def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequence[Union[str, Path]]':
-	if verbose:
+	if log_level != 'minimal':
 		log(f'Running Mupen64Plus standalone with {video_plugin} plugin')
 	jslisten_set('mupen64plus')
 	path = rom
@@ -245,32 +230,75 @@ def get_mupen64plus_standalone_command(rom: Path, video_plugin: str) -> 'Sequenc
 
 	return ['/usr/bin/m64p.sh', video_plugin, path]
 
-def get_command(rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]', shader_arg: str) -> 'Sequence[Union[str, Path]]':
-	if rom and (rom.suffix == '.sh' or platform == 'tools'):
-		#If the ROM is a shell script then just execute it
-		return [rom]
-	elif emulator == 'retroarch':
-		if not core:
-			raise ValueError('runemu.py was called improperly, tried to launch RetroArch with no core')
-		return get_retroarch_command(rom, platform, core, args, shader_arg)
-	elif emulator == 'retrorun':
-		if not rom:
-			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no game')
-		if not platform:
-			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no platform')
-		if not core:
-			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no core')
-		return get_retrorun_command(rom, platform, core)
-	elif emulator == 'mupen64plussa':
-		if not rom:
-			raise ValueError('runemu.py was called improperly, tried to launch Mupen64Plus with no game')
-		if not core:
-			raise ValueError('runemu.py was called improperly, tried to launch Mupen64Plus with no video plugin')
-		return get_mupen64plus_standalone_command(rom, core)
-	else:
-		if not emulator:
-			raise ValueError('runemu.py was called improperly, tried to launch a standard emulator with no emulator')
-		return get_standalone_emulator_command(rom, platform, emulator)
+class EmuRunner():
+	def __init__(self, rom: Optional[Path], platform: Optional[str], emulator: Optional[str], core: Optional[str], args: 'Mapping[str, str]') -> None:
+		self.rom = rom
+		self.platform = platform
+		self.emulator = emulator
+		self.core = core
+		self.args = args
+
+	def download_things_if_needed(self) -> None:
+		if self.core == 'freej2me':
+			#freej2me needs the JDK to be downloaded on the first run
+			subprocess.run('/usr/bin/freej2me.sh', check=True)
+			os.environ['JAVA_HOME']='/storage/jdk'
+			os.environ['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
+		elif self.core == 'easyrpg':
+			# easyrpg needs runtime files to be downloaded on the first run
+			subprocess.run('/usr/bin/easyrpg.sh', check=True)
+
+	def toggle_max_performance(self) -> None:
+		if get_elec_setting('maxperf', self.platform, self.rom.name if self.rom else None) == '1':
+			if log_level == 'debug':
+				log('Enabling max performance as requested')
+			call_profile_func('maxperf')
+		else:
+			call_profile_func('normperf')
+
+	def set_settings(self) -> str:
+		rom_name = str(self.rom) if self.rom else ''
+		core = self.core if self.core else ''
+		platform = self.platform if self.platform else ''
+		return set_settings(rom_name, core, platform, controllers=self.args.get('controllers', ''), autosave=self.args.get('autosave', ''), snapshot=self.args.get('state_slot', ''))
+
+	def get_command(self, shader_arg: str='') -> 'Sequence[Union[str, Path]]':			
+		is_libretro_port = self.core and not self.emulator
+		#If true this was called from the inside of a port .sh that runs a libretro port (e.g. 2048, tyrQuake, etc), it makes no sense otherwise
+
+		if self.rom and (self.rom.suffix == '.sh' or self.platform == 'tools'):
+			#If the ROM is a shell script then just execute it
+			return [self.rom]
+		elif self.emulator == 'retroarch' or is_libretro_port:
+			if not self.core:
+				raise ValueError('runemu.py was called improperly, tried to launch RetroArch with no core')
+			return get_retroarch_command(self.rom, self.platform, self.core, self.args, shader_arg)
+		elif self.emulator == 'retrorun':
+			if not self.rom:
+				raise ValueError('runemu.py was called improperly, tried to launch retrorun with no game')
+			if not self.platform:
+				raise ValueError('runemu.py was called improperly, tried to launch retrorun with no platform')
+			if not self.core:
+				raise ValueError('runemu.py was called improperly, tried to launch retrorun with no core')
+			return get_retrorun_command(self.rom, self.platform, self.core)
+		elif self.emulator == 'mupen64plussa':
+			if not self.rom:
+				raise ValueError('runemu.py was called improperly, tried to launch Mupen64Plus with no game')
+			if not self.core:
+				raise ValueError('runemu.py was called improperly, tried to launch Mupen64Plus with no video plugin')
+			return get_mupen64plus_standalone_command(self.rom, self.core)
+		else:
+			if not self.emulator:
+				raise ValueError('runemu.py was called improperly, tried to launch a standard emulator with no emulator')
+			return get_standalone_emulator_command(self.rom, self.platform, self.emulator)
+
+	def run(self, command: 'Sequence[Union[str, Path]]') -> None:
+		clear_screen()
+		if log_level != 'minimal':
+			log(f'Executing game: {self.rom}')
+			log(f'Executing {command}')
+		with log_path.open('at', encoding='utf-8') as log_file:
+			subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, check=True, text=True)
 
 def main():
 	time_started = perf_counter()
@@ -293,54 +321,37 @@ def main():
 	core = args.get('core')
 	emulator = args.get('emulator')
 		
-	if should_log:
-		LOG_PATH.unlink(missing_ok=True)
-		LOGS_DIR.mkdir(parents=True, exist_ok=True)
-		LOG_PATH.touch()
-
+	log_path.unlink(missing_ok=True)
+	LOGS_DIR.mkdir(parents=True, exist_ok=True)
+	log_path.touch()
+	
 	log(f'Emulation run log: Started at {datetime.datetime.now()}')
 	log(f'Args: {args}')
 
-	download_things_if_needed(core)
+	runner = EmuRunner(rom, platform, emulator, core, args)
 
-	if get_elec_setting('maxperf', platform, rom.name if rom else None) == '1':
-		if verbose:
-			log('Enabling max performance as requested')
-		call_profile_func('maxperf')
-	else:
-		call_profile_func('normperf')
-	
+	runner.download_things_if_needed()
+	runner.toggle_max_performance()
+
 	#Disable netplay by default
 	set_elec_setting('netplay.client.ip', 'disable')
 	set_elec_setting('netplay.client.port', 'disable')
 
-	clear_screen()
 	#bluetooth_toggle(False) #I'm not sure this does anything useful here, so I haven't reimplemented it
 	jslisten_stop()
-	
-	shader_arg = set_settings(rom_name=str(rom) if rom else '', core=core if core else '', platform=platform if platform else '', controllers=args.get('controllers', ''), autosave=args.get('autosave', ''), snapshot=args.get('state_slot', ''))
 
-	if core and not emulator:
-		#This is called from the inside of a port .sh that runs a libretro port (e.g. 2048, tyrQuake, etc), it makes no sense otherwise
-		emulator = 'retroarch'
-
-	command = get_command(rom, platform, emulator, core, args, shader_arg)
-
-	clear_screen()
-	if verbose:
+	shader_arg = runner.set_settings()
+	command = runner.get_command(shader_arg)
+	if log_level != 'minimal':
 		log(f'Took {perf_counter() - time_started} seconds to start up')
-		log(f'Executing game: {rom}')
-		log(f'Executing {command}')
-	with LOG_PATH.open('at', encoding='utf-8') as log_file:
-		completed_process = subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, check=False, text=True)
-
 	clear_screen()
-	if verbose:
-		log(f'Process return code: {completed_process.returncode}')
-	
-	if completed_process.returncode == 0:
-		cleanup_and_quit(0)
-	else:
+
+	try:
+		runner.run(command)
+		exit_code = 0
+	except subprocess.CalledProcessError as cpe:
+		log(f'Process exited improperly with return code {cpe.returncode}')
+		exit_code = 1
 		requires_bios = {'atari5200', 'atari800', 'atari7800', 'atarilynx', 'colecovision', 'amiga', 'amigacd32', 'o2em', 'intellivision', 'pcengine', 'pcenginecd', 'pcfx', 'fds', 'segacd', 'saturn', 'dreamcast', 'naomi', 'atomiswave', 'x68000', 'neogeo', 'neogeocd', 'msx', 'msx2', 'sc-3000'}
 		if platform in requires_bios:
 			if platform == 'msx2':
@@ -351,8 +362,10 @@ def main():
 				platform_to_check = 'amiga'
 			else:
 				platform_to_check = platform
-			check_bios(platform_to_check, core, emulator, rom, LOG_PATH)
-		cleanup_and_quit(1)
+			check_bios(platform_to_check, core, emulator, rom, log_path)
+	finally:
+		cleanup_and_quit(exit_code)
+	
 
 if __name__ == '__main__':
 	main()
