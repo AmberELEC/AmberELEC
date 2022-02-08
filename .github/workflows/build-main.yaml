@@ -1,7 +1,7 @@
 name: build-main
 on:
   repository_dispatch:
-    types: [release-beta, release-prerelease, release-draft]
+    types: [release-beta, release-prerelease, release-draft, release-dev]
   workflow_dispatch:
   push:
     paths-ignore:
@@ -156,6 +156,45 @@ jobs:
           prerelease: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           repo: 351ELEC-prerelease
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+      - name: Create dev release as draft at first to hide during uploads
+        if: github.event.action == 'release-dev'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.version.outputs.version }}"
+          body: |
+            # Release Notes (Dev - Unsuppported)
+            This is an **unsupported dev release** based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
+
+            Unless you were asked by a developer to use this build or **are** a developer.  **Do not use this build.**
+            
+            ### Changes (since last dev build):
+            ${{ github.event.client_payload.release_notes }}
+            
+            ### Upgrade Instructions
+            You can update to this release using the `prerelease` channel on your device if you take the following steps:
+            - Under`System Settings` -> `Developer` (`Updates` section), set the following:
+              -`GITHUB ORG` = `351dev`
+              -`GITHUB REPO` = `builds`
+
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
+          prerelease: true
+          draft: true
+          token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
+          owner: 351dev
+          repo: dev-builds
+      - name: Switch draft to start showing release 
+        if: github.event.action == 'release-dev'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.version.outputs.version }}"
+          allowUpdates: true
+          draft: false
+          prerelease: true
+          token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
+          owner: 351dev
+          repo: dev-builds
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
 
