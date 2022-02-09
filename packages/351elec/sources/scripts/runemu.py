@@ -244,7 +244,7 @@ def main():
 
 	i = 0
 	args: dict[str, str] = {}
-	while i < len(sys.argv):
+	while i < len(sys.argv)-1:
 		if sys.argv[i].startswith('--'):
 			args[sys.argv[i][2:]] = sys.argv[i + 1]
 			i += 1

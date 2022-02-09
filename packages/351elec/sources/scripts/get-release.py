@@ -361,7 +361,7 @@ def get_args():
                         help='Github repository. Allows testing with repo releases other than 351ELEC')
     parser.add_argument('--band',
                         default="release",
-                        choices=['release', 'beta', 'prerelease', 'daily'],
+                        choices=['release', 'beta', 'prerelease', 'daily', 'dev'],
                         help='''Update "band" ("channel"). Allows determining what latest release to get. 
                              "daily" is for backwards compatibility and maps to "release"
                              "beta" is for backwards compatibility and will map to 'prerelease'
@@ -418,6 +418,8 @@ def get_args():
     #TODO: If we end up with a lot of different bands - we may need to refactor this in the future
     if not existing_release:
       existing_release = parse_release(args.existing_release, "beta")
+    if not existing_release:
+      existing_release = parse_release(args.existing_release, "dev")
     args.existing_release = existing_release
     return args
 
@@ -478,6 +480,11 @@ def get_current_release(org, repo, band, page=0, per_page=100):
     if band == "prerelease" and current_release == None:
         for release in releases:
             tag_name = parse_release(release['tag_name'], "beta")
+            if tag_name:
+                current_release = tag_name
+                break
+        for release in releases:
+            tag_name = parse_release(release['tag_name'], "dev")
             if tag_name:
                 current_release = tag_name
                 break
