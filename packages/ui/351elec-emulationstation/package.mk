@@ -65,6 +65,11 @@ makeinstall_target() {
         cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
         cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation
 
+    # Set the correct playback device for the RG552 - this makes the 'volume overlay' work
+    if [ "${DEVICE}" = "RG552" ]; then
+		sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' $INSTALL/usr/config/emulationstation/es_settings.cfg
+	fi
+
 	# set the correct default theme for P/M or V/MP models
 	# there are both default themes in es_settings.cfg
 	# delete es-theme-art-book-3-2 on V/MP

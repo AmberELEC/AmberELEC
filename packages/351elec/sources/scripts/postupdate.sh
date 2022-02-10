@@ -6,7 +6,7 @@
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 LAST_UPDATE_FILE="/storage/.lastupdateversion"
-
+DEVICE="$(cat /storage/.config/.OS_ARCH)"
 
 # 2021-12-15
 ## Parse LAST_UPDATE_VERSION.  This variable will be the date of the previous upgrade. Ex: 20211222.
@@ -34,6 +34,19 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   fi
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
+
+
+## 2022-02-11
+## During the beta period, the RG552 used a 'softvol' plugin for asound due to sound issues in kernel
+## This reverts it as new kernel supports sound playback.  We only want to revert once as it's moderately supported to
+## update your asound.conf manually.
+##
+## Additionally, DAC is the name of playback device instead of Playback, so update that in es_settings.
+if [[ "$DEVICE" == "RG552" && "$LAST_UPDATE_VERSION" -le "20220211" ]]; then
+  cp /usr/config/asound.conf /storage/.config/asound.conf
+  sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' /storage/.config/emulationstation/es_settings.cfg
+fi
+
 
 # 2021-11-03 (konsumschaf)
 # Remove the 2 minutes popup setting from distribution.conf
