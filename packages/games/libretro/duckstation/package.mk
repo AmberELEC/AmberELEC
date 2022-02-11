@@ -5,7 +5,7 @@
 PKG_NAME="duckstation"
 PKG_VERSION="1.0"
 PKG_ARCH="aarch64"
-PKG_URL="https://www.duckstation.org/libretro/duckstation_libretro_linux_aarch64.zip"
+PKG_URL="https://web.archive.org/web/20220106162052if_/https://www.duckstation.org/libretro/duckstation_libretro_linux_aarch64.zip"
 PKG_SECTION="libretro"
 PKG_SHORTDESC="DuckStation - PlayStation 1, aka. PSX Emulator"
 PKG_TOOLCHAIN="manual"
