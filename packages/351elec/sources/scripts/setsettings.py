@@ -497,9 +497,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         system_viewport = {
             'standard': (1, 1, 479, 319),          # max-1
             'gb': (80, 16, 320, 288),              # x2
+            'gbh': (80, 16, 320, 288),             # x2
             'gbc': (80, 16, 320, 288),             # x2
+            'gbch': (80, 16, 320, 288),            # x2
             'supervision': (80, 0, 320, 320),      # x2
             'gamegear': (80, 16, 320, 288),        # x2
+            'ggh': (80, 16, 320, 288),             # x2
             'pokemini': (96, 64, 288, 192),        # x3
             'ngp': (80, 8, 320, 304),              # x2
             'ngpc': (80, 8, 320, 304),             # x2
@@ -510,9 +513,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         system_viewport = {
             'standard': (1, 1, 639, 479),          # max-1
             'gb': (80, 24, 480, 432),              # x3
+            'gbh': (80, 24, 480, 432),             # x3
             'gbc': (80, 24, 480, 432),             # x3
+            'gbch': (80, 24, 480, 432),            # x3
             'supervision': (80, 0, 480, 480),      # x3
             'gamegear': (80, 24, 480, 432),        # x3
+            'ggh': (80, 24, 480, 432),             # x3
             'pokemini': (128, 112, 384, 256),      # x4
             'ngp': (80, 12, 480, 456),             # x3
             'ngpc': (80, 12, 480, 456),            # x3
@@ -523,9 +529,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         system_viewport = {
             'standard': (1, 1, 1919, 1151),         # max-1
             'gb': (320, 0, 1280, 1152),             # x8
+            'gbh': (320, 0, 1280, 1152),            # x8
             'gbc': (320, 0, 1280, 1152),            # x8
+            'gbch': (320, 0, 1280, 1152),           # x8
             'supervision': (400, 16, 1120, 1120),   # x7
             'gamegear': (320, 0, 1280, 1152),       # x8
+            'ggh': (320, 0, 1280, 1152),            # x8
             'pokemini': (96, 0, 1728, 1152),        # x18
             'ngp': (400, 44, 1120, 1064),           # x7
             'ngpc': (400, 44, 1120, 1064),          # x7
