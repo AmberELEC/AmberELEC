@@ -59,7 +59,7 @@ MINVOL=0
 	fi
 	[ "$STEPVOL" -ge "$MAXVOL" ] && STEPVOL="$MAXVOL"
 	[ "$STEPVOL" -le "$MINVOL" ] && STEPVOL="$MINVOL"
-	amixer set 'Playback' ${STEPVOL}%
+	amixer set 'DAC' ${STEPVOL}%
 	set_ee_setting "audio.volume" ${STEPVOL}
   fi    
 

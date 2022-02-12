@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 PKG_NAME="klbi"
-PKG_VERSION="c1de59df5fd7ac64fba9401906d5823e6995bbea"
+PKG_VERSION="bde3cedb24c2f00edf7c496dc35548622603bd4a"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
