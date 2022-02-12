@@ -251,6 +251,8 @@ class EmuRunner():
 			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no game')
 		if not self.platform:
 			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no platform')
+		if not self.core:
+			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no platform')
 
 		core_path = Path('/tmp/cores/', f'{self.core}_libretro.so')
 		if log_level != 'minimal':
@@ -258,8 +260,13 @@ class EmuRunner():
 			log(f'platform: {self.platform}')
 			log(f'core: {self.core}')
 		jslisten_set('retrorun', 'retrorun32')
-		
-		return ['/usr/bin/retrorun.sh', core_path, self.rom, self.platform]
+
+		path = self.rom
+		if self.rom.suffix in {'.zip', '.7z', '.gz', '.bz2'} and self.platform not in {'arcade', 'naomi', 'atomiswave', 'daphne', 'fbneo', 'mame'}:
+			path = extract_archive(self.rom)
+			self.temp_files.append(path)
+			
+		return ['/usr/bin/retrorun.sh', core_path, path, self.platform]
 
 	def get_mupen64plus_standalone_command(self) -> 'Sequence[Union[str, Path]]':
 		if not self.rom:
@@ -270,7 +277,7 @@ class EmuRunner():
 			log(f'Running Mupen64Plus standalone with {self.core} video plugin')
 		jslisten_set('mupen64plus')
 		path = self.rom
-		if self.rom and self.rom.suffix in {'.zip', '.7z', '.gz', '.bz2'}:
+		if self.rom.suffix in {'.zip', '.7z', '.gz', '.bz2'}:
 			path = extract_archive(self.rom)
 			self.temp_files.append(path)
 			
