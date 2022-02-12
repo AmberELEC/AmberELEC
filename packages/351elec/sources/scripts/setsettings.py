@@ -113,6 +113,7 @@ def delete_lines(file_path: str, lines: tuple) -> None:
 
 # Append dictionary to the end of a file
 def write_file(file_path: str, dictionary: dict, separator: str = ' = ', quote_sign: str = '"') -> None:
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, "a") as file:
         for (key, value) in dictionary.items():
             file.write(f'{key}{separator}{quote_sign}{value}{quote_sign}\n')
