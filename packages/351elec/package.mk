@@ -9,7 +9,7 @@ PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation 351elec-webui retroarch lib32 imagemagick retrorun klbi"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES 351elec-emulationstation retroarch lib32 imagemagick retrorun klbi"
 PKG_SHORTDESC="351ELEC Meta Package"
 PKG_LONGDESC="351ELEC Meta Package"
 PKG_IS_ADDON="no"
@@ -21,6 +21,10 @@ PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummv
 PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports"
+
+if [[ "${DEVICE}" == "RG552" ]]; then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET 351elec-webui"
+fi
 
 make_target() {
   echo
