@@ -36,13 +36,13 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  mkdir -p ${INSTALL}/usr/local/bin
-  cp ${PKG_BUILD}/.aarch64-libreelec-linux-gnueabi/piemu ${INSTALL}/usr/local/bin
-  chmod 755 ${INSTALL}/usr/local/bin/piemu
-  cp ${PKG_BUILD}/.aarch64-libreelec-linux-gnueabi/tools/mkpfi ${INSTALL}/usr/local/bin
-  chmod 755 ${INSTALL}/usr/local/bin/mkpfi
-  cp ${PKG_BUILD}/.aarch64-libreelec-linux-gnueabi/tools/pfar ${INSTALL}/usr/local/bin
-  chmod 755 ${INSTALL}/usr/local/bin/pfar
-  cp ${PKG_DIR}/bin/piemu.sh ${INSTALL}/usr/local/bin
-  chmod 755 ${INSTALL}/usr/local/bin/piemu.sh
+  mkdir -p ${INSTALL}/usr/bin
+  cp ${PKG_BUILD}/.aarch64-libreelec-linux-gnueabi/piemu ${INSTALL}/usr/bin
+  chmod 755 ${INSTALL}/usr/bin/piemu
+  cp ${PKG_BUILD}/.aarch64-libreelec-linux-gnueabi/tools/mkpfi ${INSTALL}/usr/bin
+  chmod 755 ${INSTALL}/usr/bin/mkpfi
+  cp ${PKG_BUILD}/.aarch64-libreelec-linux-gnueabi/tools/pfar ${INSTALL}/usr/bin
+  chmod 755 ${INSTALL}/usr/bin/pfar
+  cp ${PKG_DIR}/bin/piemu.sh ${INSTALL}/usr/bin
+  chmod 755 ${INSTALL}/usr/bin/piemu.sh
 }
