@@ -30,15 +30,15 @@ if [[ "$EXTENSION" == "pex" ]]; then
 		dos2unix "$GAMEFOLDER/$BASEROMNAME.pfs"
 		cat "$GAMEFOLDER/$BASEROMNAME.pfs" | xargs -I % cp % $RUN_DIR
 		cd $RUN_DIR
-		/usr/local/bin/mkpfi "$BIOS_DIR/all.bin"
-		cat "$GAMEFOLDER/$BASEROMNAME.pfs" | xargs -I  % /usr/local/bin/pfar piece.pfi -a %
+		/usr/bin/mkpfi "$BIOS_DIR/all.bin"
+		cat "$GAMEFOLDER/$BASEROMNAME.pfs" | xargs -I  % /usr/bin/pfar piece.pfi -a %
 	else
 		cp $ROMNAME $RUN_DIR
-		/usr/local/bin/mkpfi "$BIOS_DIR/all.bin"
-		/usr/local/bin/pfar piece.pfi -a "$ROMFILE"
+		/usr/bin/mkpfi "$BIOS_DIR/all.bin"
+		/usr/bin/pfar piece.pfi -a "$ROMFILE"
 		if [[ -f "$GAMEFOLDER/$BASEROMNAME.sav" ]]; then
 			cp "$GAMEFOLDER/$BASEROMNAME.sav" $RUN_DIR
-			/usr/local/bin/pfar piece.pfi -a "$ROMFILE.sav"
+			/usr/bin/pfar piece.pfi -a "$ROMFILE.sav"
 		fi
 	fi
 fi
@@ -47,8 +47,8 @@ if [[ "$EXTENSION" == "pfs" ]]; then
 	cd $GAMEFOLDER
 	xargs -a $ROMNAME cp -t $RUN_DIR
 	cd $RUN_DIR
-	/usr/local/bin/mkpfi "$BIOS_DIR/all.bin"
-	cat $ROMNAME | xargs -I  % /usr/local/bin/pfar piece.pfi -a %
+	/usr/bin/mkpfi "$BIOS_DIR/all.bin"
+	cat $ROMNAME | xargs -I  % /usr/bin/pfar piece.pfi -a %
 fi
 
-/usr/local/bin/piemu
+/usr/bin/piemu
