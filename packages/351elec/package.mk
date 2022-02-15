@@ -22,6 +22,10 @@ PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-li
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports"
 
+if [[ "${DEVICE}" == "RG552" ]]; then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET 351elec-webui"
+fi
+
 make_target() {
   echo
 }

@@ -52,6 +52,7 @@ PKG_CONFIGURE_OPTS_TARGET="${UTILLINUX_CONFIG_DEFAULT} \
                            --enable-libsmartcols \
                            --enable-losetup \
                            --enable-fsck \
+                           --enable-schedutils \
                            --enable-fstrim \
                            --enable-blkid \
                            --enable-lscpu"

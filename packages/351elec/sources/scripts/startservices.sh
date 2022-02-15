@@ -46,3 +46,20 @@ case "$DEFE" in
 	rm /storage/.cache/services/smb.conf
 	;;
 esac
+
+# handle WEBUI
+DEFE=$(get_ee_setting ee_webui.enabled)
+
+case "$DEFE" in
+"1")
+	mkdir -p /storage/.cache/services/
+	touch /storage/.cache/services/webui.conf
+	systemctl start webui
+	systemctl start webui
+	;;
+*)
+	systemctl stop webui
+	systemctl stop webui
+	rm /storage/.cache/services/webui.conf
+	;;
+esac
