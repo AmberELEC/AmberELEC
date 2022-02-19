@@ -576,12 +576,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
                     full_list = [entry.name for entry in it if entry.is_file() and entry.name.endswith('.cfg')]
                 for romname in (full_name, short_name , 'default'):
                     logger.log(f'Looking at: {romdir}/{romname}')
-                    file_list = [file for file in full_list if re.fullmatch(fr'{romname}\.[0-9]+\.cfg', file)]
+                    file_list = [file for file in full_list if re.fullmatch(fr'{re.escape(romname)}\.[0-9]+\.cfg', file)]
                     if len(file_list) > 0:
                         game_cfg = f'{romdir}/{random.choice(file_list)}'
                         logger.log(f'Using random config: {game_cfg}')
                         break
-                    elif os.path.isfile(f'{romname}.cfg'):
+                    elif os.path.isfile(f'{romdir}/{romname}.cfg'):
                         game_cfg = f'{romdir}/{romname}.cfg'
                         logger.log(f'Using ROM config: {game_cfg}')
                         break
