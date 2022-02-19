@@ -88,6 +88,9 @@ system.timezone=Europe/London
 updates.enabled=1
 updates.type=release
 
+# fan profile - controls fan speed (values: default/performance/quiet)
+fan.profile=default
+
 # ------------ H - HERE IT IS - GLOBAL EMULATOR CONFIGURATION ------------ #
 ## The global value will be used for all emulators, except if the value
 ## is redefined in the emulator
@@ -216,13 +219,3 @@ wonderswan.ratio=squarepixel
 wonderswan.shaderset=handheld/lcd3x.glslp
 wonderswancolor.ratio=squarepixel
 wonderswancolor.shaderset=handheld/lcd3x.glslp
-
-
-# 552 beta defaults to looking for pre-releases
-updates.type=prerelease
-
-# Comment out below line when 351ELEC has normal prereleases/releases for 552 and beta is no longer needed
-updates.github.repo=552_beta
-
-# fan profile - controls fan speed (values: default/performance/quiet)
-fan.profile=default
