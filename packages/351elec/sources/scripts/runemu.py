@@ -141,15 +141,15 @@ class EmuRunner():
 		self.emulator = emulator
 		self.core = core
 		self.args = args
-
 		self.temp_files: 'List[Path]' = [] #Files that we extracted from archives, etc. to clean up later
+		self.environment = os.environ.copy()
 
 	def download_things_if_needed(self) -> None:
 		if self.core == 'freej2me':
 			#freej2me needs the JDK to be downloaded on the first run
 			subprocess.run('/usr/bin/freej2me.sh', check=True)
-			os.environ['JAVA_HOME']='/storage/jdk'
-			os.environ['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
+			self.environment['JAVA_HOME']='/storage/jdk'
+			self.environment['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
 		elif self.core == 'easyrpg':
 			# easyrpg needs runtime files to be downloaded on the first run
 			subprocess.run('/usr/bin/easyrpg.sh', check=True)
@@ -196,7 +196,7 @@ class EmuRunner():
 		retroarch_binary = 'retroarch'
 		if self.core in {'pcsx_rearmed', 'parallel_n64'}:
 			retroarch_binary = 'retroarch32'
-			os.environ['LD_LIBRARY_PATH'] = '/usr/lib32'
+			self.environment['LD_LIBRARY_PATH'] = '/usr/lib32'
 		
 		rom_path: 'Optional[Union[str, Path]]' = self.rom
 
@@ -288,8 +288,8 @@ class EmuRunner():
 		#If true this was called from the inside of a port .sh that runs a libretro port (e.g. 2048, tyrQuake, etc), it makes no sense otherwise
 
 		if self.rom and (self.rom.suffix == '.sh' or self.platform == 'tools'):
-			#If the ROM is a shell script then just execute it
-			return [self.rom]
+			#If the ROM is a shell script then just execute it (tools, ports, Pico-8 splore, ScummVM scanner, etc)
+			return ['/usr/bin/bash', '-l', self.rom]
 		elif self.emulator == 'retroarch' or is_libretro_port:
 			return self.get_retroarch_command(shader_arg)
 		elif self.emulator == 'retrorun':
@@ -305,7 +305,7 @@ class EmuRunner():
 			log(f'Executing game: {self.rom}')
 			log(f'Executing {command}')
 		with log_path.open('at', encoding='utf-8') as log_file:
-			subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, check=True, text=True)
+			subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, check=True, text=True, env=self.environment)
 
 	def cleanup_temp_files(self) -> None:
 		for temp_file in self.temp_files:
