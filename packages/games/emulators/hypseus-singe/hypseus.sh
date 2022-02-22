@@ -6,6 +6,10 @@
 
 . /etc/profile
 
+ROM="${1##*/}"
+PLATFORM="daphne"
+CONF="/storage/.config/distribution/configs/distribution.conf"
+
 function get_setting() {
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
