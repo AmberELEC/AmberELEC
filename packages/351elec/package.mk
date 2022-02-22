@@ -17,8 +17,8 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 PKG_EXPERIMENTAL=""
-PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu"
-PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl"
+PKG_EMUS="$LIBRETRO_CORES advancemame PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu"
+PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip patchelf valgrind strace gdb apitrace rg351p-js2xbox gptokeyb odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl sdljoytest"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python pygobject coreutils"
 PKG_DEPENDS_TARGET+=" $PKG_TOOLS $PKG_RETROPIE_DEP $PKG_EMUS $PKG_EXPERIMENTAL ports"
 

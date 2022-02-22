@@ -35,6 +35,13 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-02-20
+## Delete old hypseus folder after upgrading to hypseus-singe
+if [[ ! -f "/storage/.config/distribution/configs/hypseus/.hypseus-singe" ]]; then
+  rm -rf /storage/.config/distribution/configs/hypseus
+  cp -rf /usr/config/distribution/configs/hypseus /storage/.config/distribution/configs/
+  touch /storage/.config/distribution/configs/hypseus/.hypseus-singe
+fi
 
 ## 2022-02-11
 ## During the beta period, the RG552 used a 'softvol' plugin for asound due to sound issues in kernel
@@ -46,7 +53,6 @@ if [[ "$DEVICE" == "RG552" && "$LAST_UPDATE_VERSION" -le "20220211" ]]; then
   cp /usr/config/asound.conf /storage/.config/asound.conf
   sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' /storage/.config/emulationstation/es_settings.cfg
 fi
-
 
 # 2021-11-03 (konsumschaf)
 # Remove the 2 minutes popup setting from distribution.conf

@@ -96,7 +96,7 @@ standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
 	'AMIBERRY': StandaloneEmulator('amiberry', ['/usr/bin/amiberry.start', '<path>']),
 	'AdvanceMame': StandaloneEmulator('advmame', ['/usr/bin/advmame.sh', '<path>']),
 	'HATARISA': StandaloneEmulator('hatari', ['/usr/bin/hatari.start', '<path>']),
-	'HYPSEUS': StandaloneEmulator('hypseus', ['/usr/bin/hypseus.start.sh', '<path>']),
+	'HYPSEUS': StandaloneEmulator('hypseus', ['/usr/bin/hypseus.sh', '<path>']),
 	'OPENBOR': StandaloneEmulator('openbor', ['/usr/bin/openbor.sh', '<path>']),
 	'PPSSPPSDL': StandaloneEmulator('PPSSPPSDL', ['/usr/bin/ppsspp.sh', '<path>']),
 	'SCUMMVMSA': StandaloneEmulator('scummvm', ['/usr/bin/scummvm.start', 'sa', '<path>']),
