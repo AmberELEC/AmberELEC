@@ -536,17 +536,18 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'supervision': (400, 16, 1120, 1120),   # x7
             'gamegear': (320, 0, 1280, 1152),       # x8
             'ggh': (320, 0, 1280, 1152),            # x8
-            'pokemini': (96, 0, 1728, 1152),        # x18
+            'pokemini': (384, 192, 1152, 768),      # x12
             'ngp': (400, 44, 1120, 1064),           # x7
             'ngpc': (400, 44, 1120, 1064),          # x7
             'wonderswan': (64, 0, 1792, 1152),      # x8
             'wonderswancolor': (64, 0, 1792, 1152), # x8
         }
 
+    bezel_cfg = None
+
     if (bezel := config.get_setting('bezel')) and platform in system_viewport:
         logger.log(f'bezel: {bezel} platform: {platform} rom: {rom_name}')
         tmp_bezel = "/tmp/351elec-bezel.cfg"
-        bezel_cfg = ''
         game_cfg = ''
         # set path
         path = ''
@@ -618,31 +619,31 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             write_file(tmp_bezel, tmp_bezel_dict)
             bezel_cfg = tmp_bezel
 
-        if bezel_cfg:
-            logger.log('using bezel')
-            # configure bezel
-            ra_append_dict['input_overlay_enable'] = 'true'
-            ra_append_dict['input_overlay'] = bezel_cfg
-            ra_append_dict['input_overlay_hide_in_menu'] = 'true'
-            ra_append_dict['input_overlay_opacity'] = '1.000000'
-            ra_append_dict['input_overlay_show_inputs'] = '2'
-            ra_append_dict['video_scale_integer'] = 'false'
-            ra_append_dict['aspect_ratio_index'] = '23'
-            # configure custom scaling
-            # needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
-            ra_append_dict['custom_viewport_x'] = system_viewport[platform][0]
-            ra_append_dict['custom_viewport_y'] = system_viewport[platform][1]
-            ra_append_dict['custom_viewport_width'] = system_viewport[platform][2]
-            ra_append_dict['custom_viewport_height'] = system_viewport[platform][3]
-        else:
-            logger.log('not using bezel')
-            # disable decorations
-            ra_append_dict['input_overlay_enable'] = 'false'
-            # set standard resolution for custom scaling
-            ra_append_dict['custom_viewport_x'] = system_viewport['standard'][0]
-            ra_append_dict['custom_viewport_y'] = system_viewport['standard'][1]
-            ra_append_dict['custom_viewport_width'] = system_viewport['standard'][2]
-            ra_append_dict['custom_viewport_height'] = system_viewport['standard'][3]
+    if bezel_cfg is not None:
+        logger.log('using bezel')
+        # configure bezel
+        ra_append_dict['input_overlay_enable'] = 'true'
+        ra_append_dict['input_overlay'] = bezel_cfg
+        ra_append_dict['input_overlay_hide_in_menu'] = 'true'
+        ra_append_dict['input_overlay_opacity'] = '1.000000'
+        ra_append_dict['input_overlay_show_inputs'] = '2'
+        ra_append_dict['video_scale_integer'] = 'false'
+        ra_append_dict['aspect_ratio_index'] = '23'
+        # configure custom scaling
+        # needs some grouping to reflect the hack systems as well (i. e. gb=gb, gbh, gbc and gbch)
+        ra_append_dict['custom_viewport_x'] = system_viewport[platform][0]
+        ra_append_dict['custom_viewport_y'] = system_viewport[platform][1]
+        ra_append_dict['custom_viewport_width'] = system_viewport[platform][2]
+        ra_append_dict['custom_viewport_height'] = system_viewport[platform][3]
+    else:
+        logger.log('not using bezel')
+        # disable decorations
+        ra_append_dict['input_overlay_enable'] = 'false'
+        # set standard resolution for custom scaling
+        ra_append_dict['custom_viewport_x'] = system_viewport['standard'][0]
+        ra_append_dict['custom_viewport_y'] = system_viewport['standard'][1]
+        ra_append_dict['custom_viewport_width'] = system_viewport['standard'][2]
+        ra_append_dict['custom_viewport_height'] = system_viewport['standard'][3]
 
     # Write the raappend.cfg
     logger.log('Write raappend.cfg')
