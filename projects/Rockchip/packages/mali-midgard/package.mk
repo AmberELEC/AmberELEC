@@ -1,16 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="mali-midgard"
 PKG_VERSION="ad4c28932c3d07c75fc41dd4a3333f9013a25e7f"
-#PKG_SHA256="8b7bd1f969e778459d79a51e5f58c26eda0b818580966daba16ee2fc08f4c151"
+PKG_SHA256="8b7bd1f969e778459d79a51e5f58c26eda0b818580966daba16ee2fc08f4c151"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
-PKG_SITE="https://github.com/rockchip-linux/libmali"
+PKG_SITE="https://github.com/351ELEC/libmali"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libdrm"
-PKG_LONGDESC="The Mali GPU library used in Rockchip Platform for Odroidgo Advance"
+PKG_LONGDESC="The Mali GPU library used in Rockchip Platform for RK3399"
 
 if [ $ARCH == "aarch64" ]
 then
