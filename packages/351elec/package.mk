@@ -71,6 +71,8 @@ makeinstall_target() {
     cp -r $PKG_DIR/overlay-p/* $INSTALL/usr/share/retroarch-overlays
   elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ]; then
     cp -r $PKG_DIR/overlay-v/* $INSTALL/usr/share/retroarch-overlays
+  elif [ "$DEVICE" == "RG552" ]; then
+    cp -r $PKG_DIR/overlay-552/* $INSTALL/usr/share/retroarch-overlays
   fi
 
   mkdir -p $INSTALL/usr/share/libretro-database

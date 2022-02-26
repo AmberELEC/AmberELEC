@@ -95,6 +95,9 @@ fan.profile=default
 ## The global value will be used for all emulators, except if the value
 ## is redefined in the emulator
 
+## Bezel on by default
+global.bezel=default
+
 ## Retroarch menu driver, ozone (default), rgui or xmb
 global.retroarch.menu_driver=ozone
 
@@ -172,22 +175,28 @@ atarilynx.shaderset=handheld/lcd3x.glslp
 atomiswave.maxperf=1
 dreamcast.maxperf=1
 fbn.ratio=squarepixel
+gamegear.bezel.overlay.grid=1
+gamegear.bezel.overlay.shadow=1
 gamegear.ratio=squarepixel
-gamegear.shaderset=handheld/lcd3x.glslp
+gb.bezel.overlay.grid=1
+gb.bezel.overlay.shadow=1
 gb.ratio=squarepixel
-gb.shaderset=handheld/lcd3x.glslp
 gba.ratio=squarepixel
 gba.shaderset=handheld/lcd3x.glslp
 gbah.ratio=squarepixel
 gbah.shaderset=handheld/lcd3x.glslp
+gbc.bezel.overlay.grid=1
+gbc.bezel.overlay.shadow=1
 gbc.ratio=squarepixel
-gbc.shaderset=handheld/lcd3x.glslp
+gbch.bezel.overlay.grid=1
+gbch.bezel.overlay.shadow=1
 gbch.ratio=squarepixel
-gbch.shaderset=handheld/lcd3x.glslp
+gbh.bezel.overlay.grid=1
+gbh.bezel.overlay.shadow=1
 gbh.ratio=squarepixel
-gbh.shaderset=handheld/lcd3x.glslp
+ggh.bezel.overlay.grid=1
+ggh.bezel.overlay.shadow=1
 ggh.ratio=squarepixel
-ggh.shaderset=handheld/lcd3x.glslp
 j2me.maxperf=1
 megadrive.ratio=squarepixel
 mame.autosave=0
@@ -209,8 +218,9 @@ pspminis.ratio=squarepixel
 psx.integerscaleoverscale=1
 saturn.ratio=squarepixel
 segacd.ratio=squarepixel
+supervision.bezel.overlay.grid=1
+supervision.bezel.overlay.shadow=1
 supervision.ratio=squarepixel
-supervision.shaderset=handheld/lcd3x.glslp
 uzebox.integerscale=1
 vectrex.ratio=3/4
 virtualboy.maxperf=1
