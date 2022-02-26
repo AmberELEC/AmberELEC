@@ -77,7 +77,7 @@ post_makeinstall_target() {
         -e "s|^# AllowHostnameUpdates.*|AllowHostnameUpdates = false|g" \
         -e "s|^# PersistentTetheringMode.*|PersistentTetheringMode = true|g" \
         -e "s|^# SingleConnectedTechnology.*|SingleConnectedTechnology = true|g" \
-        -e "s|^# NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb|NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb,docker,veth,zt|g"
+        -e "s|^# NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb|NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb,docker,veth,zt,p2p|g"
 
   mkdir -p $INSTALL/usr/share/connman/
     cp $PKG_DIR/config/settings $INSTALL/usr/share/connman/
