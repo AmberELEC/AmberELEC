@@ -80,8 +80,6 @@ makeinstall_target() {
     do
       find $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
-    rm -f ${INSTALL}/usr/lib32/libmali.so
-    ln -sf libmali.so.1 ${INSTALL}/usr/lib32/libmali.so
     chmod -f +x ${INSTALL}/usr/lib32/* || :
   fi
 }

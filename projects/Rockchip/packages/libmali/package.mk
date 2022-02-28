@@ -32,34 +32,36 @@ post_makeinstall_target() {
 	fi
 
 	mkdir -p $INSTALL/usr/lib/
-	cp $PKG_BUILD/$ARCHDIR/$BLOB $INSTALL/usr/lib/libmali.so
+	cp $PKG_BUILD/$ARCHDIR/$BLOB $INSTALL/usr/lib/libmali.so.1
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libmali.so
 
-	ln -sf libmali.so $INSTALL/usr/lib/libEGL.so
-	ln -sf libmali.so $INSTALL/usr/lib/libEGL.so.1
-	ln -sf libmali.so $INSTALL/usr/lib/libgbm.so
-	ln -sf libmali.so $INSTALL/usr/lib/libgbm.so.1
-	ln -sf libmali.so $INSTALL/usr/lib/libGLESv2.so
-	ln -sf libmali.so $INSTALL/usr/lib/libGLESv2.so.2
-	ln -sf libmali.so $INSTALL/usr/lib/libGLESv3.so
-	ln -sf libmali.so $INSTALL/usr/lib/libGLESv3.so.3
-	ln -sf libmali.so $INSTALL/usr/lib/libGLESv1_CM.so
-	ln -sf libmali.so $INSTALL/usr/lib/libGLESv1_CM.so.1
-	ln -sf libmali.so $INSTALL/usr/lib/libGLES_CM.so
-	ln -sf libmali.so $INSTALL/usr/lib/libGLES_CM.so.1
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libEGL.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libEGL.so.1
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libgbm.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libgbm.so.1
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLESv2.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLESv2.so.2
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLESv3.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLESv3.so.3
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLESv1_CM.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLESv1_CM.so.1
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLES_CM.so
+	ln -sf libmali.so.1 $INSTALL/usr/lib/libGLES_CM.so.1
 
 	mkdir -p $SYSROOT_PREFIX/usr/lib
-	cp $PKG_BUILD/$ARCHDIR/$BLOB $SYSROOT_PREFIX/usr/lib/libmali.so
+	cp $PKG_BUILD/$ARCHDIR/$BLOB $SYSROOT_PREFIX/usr/lib/libmali.so.1
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libmali.so
 
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libEGL.so
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libEGL.so.1
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libgbm.so
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libgbm.so.1
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv2.so
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv2.so.2
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv3.so
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv3.so.3
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv1_CM.so
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLESv1_CM.so.1
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLES_CM.so
-	ln -sf libmali.so $SYSROOT_PREFIX/usr/lib/libGLES_CM.so.1
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libEGL.so
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libEGL.so.1
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libgbm.so
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libgbm.so.1
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLESv2.so
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLESv2.so.2
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLESv3.so
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLESv3.so.3
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLESv1_CM.so
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLESv1_CM.so.1
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLES_CM.so
+	ln -sf libmali.so.1 $SYSROOT_PREFIX/usr/lib/libGLES_CM.so.1
 }
