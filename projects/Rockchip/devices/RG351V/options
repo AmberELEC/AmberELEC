@@ -35,7 +35,7 @@
     
   # Mali GPU family
     MALI_FAMILY="g31"
-    OPENGLES="mali-bifrost"
+    OPENGLES="libmali"
 
   # kernel serial console
     EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:0 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"

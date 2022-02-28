@@ -33,8 +33,8 @@
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3399-rg552-linux.dtb"
     
   # Mali GPU family
-    MALI_FAMILY="t860"
-    OPENGLES="mali-midgard"
+    MALI_FAMILY="t86x"
+    OPENGLES="libmali"
 
   # kernel serial console
     EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"
