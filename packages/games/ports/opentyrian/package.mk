@@ -2,8 +2,8 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="opentyrian"
-PKG_VERSION="84b820f852f3f6b812b4d00d6b3906adbbf3bbdb"
-#PKG_SHA256=""
+PKG_VERSION="09af3a17e487f4564845e6e5d22e1042e0608273"
+PKG_SHA256="d2d8ce933b0699aed696b271efa093663a14175e81cda52cc8832b6dd4339879"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL2"
@@ -12,7 +12,6 @@ PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2"
 PKG_LONGDESC="An open-source port of the DOS shoot-em-up Tyrian."
 PKG_TOOLCHAIN="make"
-PKG_GIT_BRANCH="sdl2"
 
 makeinstall_target() {
   cd $PKG_BUILD

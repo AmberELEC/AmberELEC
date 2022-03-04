@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="handy"
-PKG_VERSION="4302003d76a455b791cca3efc9abaeef80d022d1"
-PKG_SHA256="1e1cb473f241303f3876e0fe08627395a901e7e7c318ce74372e4c7d68cb7de6"
+PKG_VERSION="5145f79bb746f6d9c0b340c2f9cc4bf059848924"
+PKG_SHA256="fcb505d6f2c88af621e485af59c2ca9d073b419bc05edf28d2a47a453c3f21be"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="Zlib"
