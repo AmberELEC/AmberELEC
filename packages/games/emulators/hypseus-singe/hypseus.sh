@@ -7,7 +7,7 @@
 . /etc/profile
 
 ROM="${1##*/}"
-PLATFORM="daphne"
+PLATFORM="laserdisc"
 CONF="/storage/.config/distribution/configs/distribution.conf"
 
 function get_setting() {

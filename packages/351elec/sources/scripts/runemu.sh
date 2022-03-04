@@ -294,11 +294,11 @@ then
 			jslisten set "scummvm"
 			RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
 		;;
-		"daphne")
+		"laserdisc")
 			jslisten set "hypseus"
-			if [ "$EMU" = "HYPSEUS" ]
+			if [ "$EMU" = "hypseus_singe" ]
 			then
-				RUNTHIS='${TBASH} /usr/bin/hypseus.start.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/hypseus.sh "${ROMNAME}"'
 			fi
 		;;
 		"pc")

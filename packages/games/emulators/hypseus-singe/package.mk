@@ -18,8 +18,8 @@ PKG_CMAKE_OPTS_TARGET=" ./src"
 
 pre_configure_target() {
   mkdir -p $INSTALL/usr/config/distribution/configs/hypseus
-  ln -fs /storage/roms/daphne/roms $INSTALL/usr/config/distribution/configs/hypseus/roms
-  ln -fs /storage/roms/daphne/roms $INSTALL/usr/config/distribution/configs/hypseus/singe
+  ln -fs /storage/roms/laserdisc/roms $INSTALL/usr/config/distribution/configs/hypseus/roms
+  ln -fs /storage/roms/laserdisc/roms $INSTALL/usr/config/distribution/configs/hypseus/singe
   ln -fs /usr/share/daphne/sound $INSTALL/usr/config/distribution/configs/hypseus/sound
   ln -fs /usr/share/daphne/fonts $INSTALL/usr/config/distribution/configs/hypseus/fonts
   ln -fs /usr/share/daphne/pics $INSTALL/usr/config/distribution/configs/hypseus/pics
