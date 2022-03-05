@@ -22,14 +22,13 @@ do_list() {
 }
 
 do_scanlist() {
-    ip link set dev p2p0 down
     connmanctl scan wifi >/dev/null 2>/dev/null
     do_list
 }
 
 case "${ACTION}" in
     "list")
-	do_scanlist
+	do_list
 	;;
     "scanlist")
 	do_scanlist
