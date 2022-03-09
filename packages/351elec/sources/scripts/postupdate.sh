@@ -35,6 +35,10 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-03-09
+## Force update of /storage/roms/bios/freej2me-lr.jar to latest version
+cp -rf /usr/config/distribution/freej2me/freej2me-lr.jar /storage/roms/bios
+
 ## 2022-02-20
 ## Delete old hypseus folder after upgrading to hypseus-singe
 if [[ ! -f "/storage/.config/distribution/configs/hypseus/.hypseus-singe" ]]; then
