@@ -109,6 +109,7 @@ standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
 	'piemu': StandaloneEmulator('piemu', ['/usr/bin/bash', '-l', '/usr/bin/piemu.sh', '<path>']),
 	'raze': StandaloneEmulator('raze', ['/usr/bin/raze.sh', '<path>']),
 	'solarus': StandaloneEmulator('solarus-run', ['/usr/bin/solarus.sh', '<path>']),
+	'yabasanshiroSA': StandaloneEmulator('yabasanshiro', ['/usr/bin/yabasanshiro.sh', '<path>']),
 }
 
 def _load_customized_standalone_emulators():

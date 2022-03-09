@@ -1,0 +1,49 @@
+diff --git a/yabause/src/nanovg/nanovg_osdcore.c b/yabause/src/nanovg/nanovg_osdcore.c
+index 520c93e9..78e7d0c7 100644
+--- a/yabause/src/nanovg/nanovg_osdcore.c
++++ b/yabause/src/nanovg/nanovg_osdcore.c
+@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ 
+ #if defined(_OGLES3_)
+ #include <GLES3/gl3.h>
+-#include <GLES3/gl3ext.h>
+ #else
+ #include "ygl.h"
+ #endif
+diff --git a/yabause/src/retro_arena/CMakeLists.txt b/yabause/src/retro_arena/CMakeLists.txt
+index d767aa81..f0a12d5b 100644
+--- a/yabause/src/retro_arena/CMakeLists.txt
++++ b/yabause/src/retro_arena/CMakeLists.txt
+@@ -22,7 +22,7 @@ add_subdirectory(pugixml)
+ add_subdirectory(nanogui-sdl)
+ 
+ #include( ../glfw/external_zlib.cmake )
+-include( ${CMAKE_SOURCE_DIR}/CMake/Packages/external_libpng.cmake )
++#include( ${CMAKE_SOURCE_DIR}/CMake/Packages/external_libpng.cmake )
+ 
+ #------------------------------------------------------------------------------
+ # nlohmann/json
+diff --git a/yabause/src/threads.h b/yabause/src/threads.h
+index 45d3ef49..243539a3 100644
+--- a/yabause/src/threads.h
++++ b/yabause/src/threads.h
+@@ -115,6 +115,7 @@ void YabThreadUSleep( unsigned int stime );
+ 
+ int YabCopyFile(const char * src, const char * dst);
+ int YabMakeCleanDir( const char * dirname );
++#include <core.h>
+ int YabNanosleep(u64 ns);
+ 
+ ///////////////////////////////////////////////////////////////////////////
+diff --git a/yabause/src/ygl.h b/yabause/src/ygl.h
+index f674228d..bfa42b0f 100644
+--- a/yabause/src/ygl.h
++++ b/yabause/src/ygl.h
+@@ -50,7 +50,6 @@ extern "C" {
+     #include <glsm/glsm.h>
+ #elif defined(__ANDROID__)
+     #include <GLES3/gl31.h>
+-    #include <GLES3/gl3ext.h>
+     #include <EGL/egl.h>
+ 
+ 
