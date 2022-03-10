@@ -50,4 +50,4 @@ if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
 fi
 
 cd "${RUN_DIR}"
-LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/bin/gzdoom ${params} >/tmp/logs/gzdoom.log 2>&1
+/usr/bin/gzdoom ${params} >/tmp/logs/gzdoom.log 2>&1

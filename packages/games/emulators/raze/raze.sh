@@ -41,5 +41,5 @@ fi
 
 if [[ ! "RUN_DIR" == "/storage/roms/build" ]]; then
   cd "${RUN_DIR}"
-  LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.14.0 /usr/bin/raze ${params} >/tmp/logs/raze.log 2>&1
+  /usr/bin/raze ${params} >/tmp/logs/raze.log 2>&1
 fi
