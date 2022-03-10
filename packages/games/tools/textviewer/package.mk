@@ -24,6 +24,8 @@ pre_configure_target() {
 
   if [[ "$DEVICE" == "RG351P" ]]; then
     sed -i 's|    ImGui::GetIO().Fonts->AddFontDefault(&config);|    ImGui::GetIO().Fonts->AddFontDefault(\&config);\n  }\n  else\n  {\n    ImFontConfig config;\n    config.SizePixels = 13;\n    ImGui::GetIO().Fonts->AddFontDefault(\&config);|g' main.cpp
+  elif [[ "$DEVICE" == "RG552" ]]; then
+    sed -i 's|    ImGui::GetIO().Fonts->AddFontDefault(&config);|    ImGui::GetIO().Fonts->AddFontDefault(\&config);\n  }\n  else\n  {\n    ImFontConfig config;\n    config.SizePixels = 48;\n    ImGui::GetIO().Fonts->AddFontDefault(\&config);|g' main.cpp
   else
     sed -i 's|    ImGui::GetIO().Fonts->AddFontDefault(&config);|    ImGui::GetIO().Fonts->AddFontDefault(\&config);\n  }\n  else\n  {\n    ImFontConfig config;\n    config.SizePixels = 20;\n    ImGui::GetIO().Fonts->AddFontDefault(\&config);|g' main.cpp
   fi
