@@ -42,7 +42,6 @@ fi
 
 
 mkdir -p "/storage/roms/saturn/yabasanshiro/"
-mkdir -p "/storage/roms/bios/yabasanshiro/"
 
 BIOS=""
 

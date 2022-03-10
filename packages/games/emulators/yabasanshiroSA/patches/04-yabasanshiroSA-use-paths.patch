@@ -11,7 +11,7 @@
      mkdir(home_dir.c_str(), 0700);
    }  
 -  std::string bckup_dir = home_dir + "backup.bin";
-+  std::string bckup_dir = "/storage/roms/bios/yabasanshiro/backup.bin";
++  std::string bckup_dir = "/storage/roms/saturn/yabasanshiro/backup.bin";
    strcpy( buppath, bckup_dir.c_str() );
    strcpy( s_savepath, home_dir.c_str() );
    g_keymap_filename = home_dir + "keymapv2.json";
