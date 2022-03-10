@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present 351ELEC Team
 
 PKG_NAME="351elec-webui"
-PKG_VERSION="f5caf80aabd5cf33c401b5fc173dfb6922d51bb2"
+PKG_VERSION="a3758240a64fa535ed4af41e621ac57a4ac6c9e7"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
