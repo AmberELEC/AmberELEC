@@ -11,15 +11,27 @@ diff --git a/src/video/kmsdrm/SDL_kmsdrmmouse.c b/src/video/kmsdrm/SDL_kmsdrmmou
 index b22fc8e..c9d7700 100644
 --- a/src/video/kmsdrm/SDL_kmsdrmmouse.c
 +++ b/src/video/kmsdrm/SDL_kmsdrmmouse.c
-@@ -202,7 +202,7 @@ KMSDRM_DumpCursorToBO(SDL_VideoDisplay *display, SDL_Cursor *cursor)
-         for (j = 0; j < curdata->w; j++) {
-             pixel = ((uint32_t*)curdata->buffer)[i * curdata->w + j];
-             legacy_alpha_premultiply_ARGB8888 (&pixel);
--            SDL_memcpy(ready_buffer + (i * dispdata->cursor_w) + j, &pixel, 4);
-+            SDL_memcpy(ready_buffer + ((curdata->w - j + 1) * dispdata->cursor_w) + i, &pixel, 4);
-         }
+@@ -156,6 +156,7 @@
+     uint8_t *src_row;
+ 
+     int i;
++    int j;
+     int ret;
+ 
+     if (!curdata || !dispdata->cursor_bo) {
+@@ -176,8 +177,10 @@
+ 
+     /* Copy from the cursor buffer to a buffer that we can dump to the GBM BO. */
+     for (i = 0; i < curdata->h; i++) {
+-        src_row = &((uint8_t*)curdata->buffer)[i * curdata->w * 4];
+-        SDL_memcpy(ready_buffer + (i * bo_stride), src_row, 4 * curdata->w);
++        for (j = 0; j < curdata->w; j++) {
++            src_row = ((uint32_t*)curdata->buffer)[i * curdata->w + j];
++            SDL_memcpy(ready_buffer + ((curdata->w - j + 1) * bo_stride) + i, &src_row, 4);
++        }
      }
  
+     /* Dump the cursor buffer to our GBM BO. */
 @@ -216,10 +216,10 @@ KMSDRM_DumpCursorToBO(SDL_VideoDisplay *display, SDL_Cursor *cursor)
      bo_handle = KMSDRM_gbm_bo_get_handle(dispdata->cursor_bo).u32;
      if (curdata->hot_x == 0 && curdata->hot_y == 0) {

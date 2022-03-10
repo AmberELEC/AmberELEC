@@ -2,14 +2,19 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="SDL2"
-PKG_VERSION="2.0.10" # don't change!
+PKG_VERSION="2.0.20"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio libsamplerate"
+PKG_DEPENDS_HOST="toolchain:host distutilscross:host"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
 
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm $OPENGLES librga"
+
+if [ "${DEVICE}" = "RG351P" ] || [ "${DEVICE}" = "RG552" ]; then
+  PKG_PATCH_DIRS="rotation"
+fi
 
 pre_configure_target(){
   PKG_CMAKE_OPTS_TARGET="-DSDL_STATIC=OFF \
@@ -62,7 +67,6 @@ pre_configure_target(){
 }
 
 post_makeinstall_target() {
-  sed -e "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
+  sed -e "s:\(['=LI]\)/usr:\\1${SYSROOT_PREFIX}/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
   rm -rf $INSTALL/usr/bin
-  chmod +x $INSTALL/usr/lib/libSDL2-2.0.so.0.10.0
 }
