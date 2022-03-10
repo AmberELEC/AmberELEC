@@ -11,6 +11,8 @@ GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="pi4"
 PKG_BUILD_FLAGS="+speed"
 
+PKG_PATCH_DIRS="${DEVICE}"
+
 pre_patch() {
   find $(echo "${PKG_BUILD}" | cut -f1 -d\ ) -type f -exec dos2unix -q {} \;
 }
