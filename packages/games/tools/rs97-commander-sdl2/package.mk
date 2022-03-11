@@ -2,7 +2,7 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="rs97-commander-sdl2"
-PKG_VERSION="51aac5e769a1d58bc015350156670a52280e7be5"
+PKG_VERSION="c03ba09e4b537d3b6652c00a377465a1a1f899f6"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
