@@ -27,13 +27,36 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   # Release - patch: 20211122-1
   PATTERN='.*([0-9]{8}).*'
   LAST_UPDATE_VERSION="$(cat "$LAST_UPDATE_FILE" | grep -E "$PATTERN" | sed -E "s|$PATTERN|\1|g" )"
-  
+
   # If we cannot parse last update version - set to large date that will never execute - this prevents dev versions causing strangeness
   if [[ -z "${LAST_UPDATE_VERSION}" ]]; then
     LAST_UPDATE_VERSION="99999999"
   fi
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
+
+## 2022-03-12
+## Move any existing daphne data from daphne to laserdisc system (if laserdisc system is empty)
+if [[ -d "/storage/roms/daphne" ]] && [[ "$(ls -A /storage/roms/daphne/*.daphne)" ]]; then
+  if [[ -d "/storage/roms/laserdisc/roms" ]] && [[ ! "$(ls -A /storage/roms/laserdisc/roms)" ]]; then
+    rmdir /storage/roms/laserdisc/roms
+  fi
+  if [ ! "$(ls -A /storage/roms/laserdisc)" ]; then
+    mkdir /storage/roms/laserdisc/roms
+    mv /storage/roms/daphne/*.daphne /storage/roms/laserdisc
+    mv /storage/roms/daphne/roms /storage/roms/laserdisc
+    mv /storage/roms/daphne/images /storage/roms/laserdisc
+    mv /storage/roms/daphne/videos /storage/roms/laserdisc
+    mv /storage/roms/daphne/gamelist.xml /storage/roms/laserdisc
+    rm -rf /storage/roms/daphne
+    rm /storage/.config/distribution/configs/hypseus/roms
+    ln -fs /storage/roms/laserdisc/roms /storage/.config/distribution/configs/hypseus/roms
+    rm /storage/.config/distribution/configs/hypseus/singe
+    ln -fs /storage/roms/laserdisc/roms /storage/.config/distribution/configs/hypseus/singe
+  fi
+elif [[ -d "/storage/roms/laserdisc/sound" ]]; then
+  rm -rf /storage/roms/laserdisc/sound
+fi
 
 ## 2022-03-09
 ## Force update of /storage/roms/bios/freej2me-lr.jar to latest version
