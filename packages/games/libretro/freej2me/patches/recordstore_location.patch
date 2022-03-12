@@ -1,0 +1,15 @@
+diff --git a/src/javax/microedition/rms/RecordStore.java b/src/javax/microedition/rms/RecordStore.java
+index ff9fccd..1ba2077 100644
+--- a/src/javax/microedition/rms/RecordStore.java
++++ b/src/javax/microedition/rms/RecordStore.java
+@@ -70,8 +70,8 @@ public class RecordStore
+ 
+ 		appname = Mobile.getPlatform().loader.suitename;
+ 
+-		rmsPath = "rms/"+appname;
+-		rmsFile = "rms/"+appname+"/"+recordStoreName;
++		rmsPath = "/roms/j2me/rms/"+appname;
++		rmsFile = "/roms/j2me/rms/"+appname+"/"+recordStoreName;
+ 
+ 		try
+ 		{
