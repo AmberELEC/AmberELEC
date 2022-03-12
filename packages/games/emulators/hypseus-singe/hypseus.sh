@@ -40,6 +40,9 @@ fi
 dir="${1}"
 name=${dir##*/}
 name=${name%.*}
+ext=${dir##*/}
+ext=${ext,,}
+ext=${ext#*.}
 config="/storage/.config/distribution/configs/hypseus"
 configfile="${config}/hypinput.ini"
 
@@ -139,8 +142,10 @@ fi
 
 cd "${config}"
 
-if [[ -f "${dir}/${name}.singe" ]]; then
+if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
 	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -retropath $TIPHAT $params
-else
+elif [[ "${ext}" == "daphne" ]]; then
 	hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $TIPHAT $params
+else
+	text_viewer -w -t "ERROR! No supported game found!" -m "No supported LaserDisc game was found, please go to https://351elec.de/System-Laserdisc for further information!"
 fi
