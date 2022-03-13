@@ -149,7 +149,7 @@ if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
 	sleep 0.1
 	umount "/storage/roms/laserdisc/${name}.daphne"
 	rmdir "/storage/roms/laserdisc/${name}.daphne"
-elif [[ "${ext}" == "daphne" ]]; then
+elif [[ "${ext}" == "daphne" ]] && [[ ! -f "${dir}/${name}.singe" ]]; then
 	hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $TIPHAT $params
 else
 	text_viewer -e -w -t "No supported LaserDisc game found!" -m "Please go to https://351elec.de/System-Laserdisc for further information!"
