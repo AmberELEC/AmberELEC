@@ -143,9 +143,14 @@ fi
 cd "${config}"
 
 if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
+	mkdir "/storage/roms/laserdisc/${name}.daphne"
+	mount -obind ${dir} "/storage/roms/laserdisc/${name}.daphne"
 	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -retropath $TIPHAT $params
+	sleep 0.1
+	umount "/storage/roms/laserdisc/${name}.daphne"
+	rmdir "/storage/roms/laserdisc/${name}.daphne"
 elif [[ "${ext}" == "daphne" ]]; then
 	hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $TIPHAT $params
 else
-	text_viewer -w -t "ERROR! No supported game found!" -m "No supported LaserDisc game was found, please go to https://351elec.de/System-Laserdisc for further information!"
+	text_viewer -e -w -t "No supported LaserDisc game found!" -m "Please go to https://351elec.de/System-Laserdisc for further information!"
 fi
