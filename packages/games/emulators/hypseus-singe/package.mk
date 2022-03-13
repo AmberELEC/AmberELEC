@@ -3,7 +3,7 @@
 # Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="hypseus-singe"
-PKG_VERSION="0f6b78ebd0a8b78b7b817357898648315bbb32a6"
+PKG_VERSION="a8c54caecf396de6616302a6d21ff9df7b100ce3"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL3"
