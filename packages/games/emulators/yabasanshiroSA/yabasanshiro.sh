@@ -64,7 +64,7 @@ if [ "${HLEBIOS}" != 1 ]; then
     if [ -e "/storage/roms/bios/saturn_bios.bin" ]; then
         BIOS="-b /storage/roms/bios/saturn_bios.bin"
     else
-        text_viewer -w -t "Notice! Yabasanshiro BIOS Missing!" -m "/storage/roms/bios/saturn_bios.bin was not found!\n\nYabasanshiro will continue to load with HLE BIOS\n\nTo avoid this message please copy saturn_bios.bin with checksum af5828fdff51384f99b3c4926be27762 to /storage/roms/bios/\n\nOr select \"USE HLE BIOS\" on the emulator options"
+        text_viewer -e -w -t "Notice! Yabasanshiro BIOS Missing!" -m "/storage/roms/bios/saturn_bios.bin was not found!\n\nYabasanshiro will continue to load with HLE BIOS\n\nTo avoid this message please copy saturn_bios.bin with checksum af5828fdff51384f99b3c4926be27762 to /storage/roms/bios/\n\nOr select \"USE HLE BIOS\" on the emulator options"
         BIOS=""
     fi
 fi
