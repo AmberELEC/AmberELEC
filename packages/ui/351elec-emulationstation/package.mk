@@ -30,7 +30,7 @@ GET_HANDLER_SUPPORT="git"
 #GET_HANDLER_SUPPORT="file"
 
 # themes for Emulationstation
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
+PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-next"
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0 -D${DEVICE}=1"
 
@@ -65,21 +65,10 @@ makeinstall_target() {
         cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
         cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation
 
-    # Set the correct playback device for the RG552 - this makes the 'volume overlay' work
-    if [ "${DEVICE}" = "RG552" ]; then
+        # Set the correct playback device for the RG552 - this makes the 'volume overlay' work
+        if [ "${DEVICE}" = "RG552" ]; then
 		sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' $INSTALL/usr/config/emulationstation/es_settings.cfg
 	fi
-
-	# set the correct default theme for P/M or V/MP models
-	# there are both default themes in es_settings.cfg
-	# delete es-theme-art-book-3-2 on V/MP
-	if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
-		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
-	fi
-	# delete es-theme-art-book-4-3 on P/M
-	if [ "${DEVICE}" = "RG351P" ]; then
-                sed -i "/value=\"es-theme-art-book-4-3\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
-        fi
 
 	chmod +x $INSTALL/usr/config/emulationstation/scripts/*
 	chmod +x $INSTALL/usr/config/emulationstation/scripts/configscripts/*

@@ -35,6 +35,14 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-03-14
+## Switch default theme when coming from pineapple forrest or prereleases after pineapple forrest
+## For users from pineapple forrest - do a one time switch of default theme to es-theme-art-book-next
+if [[ "$LAST_UPDATE_VERSION" -le "20220314" ]]; then
+  sed -i 's/value="es-theme-art-book-3-2"/value="es-theme-art-book-next"/g;
+          s/value="es-theme-art-book-4-3"/value="es-theme-art-book-next"/g' /storage/.config/emulationstation/es_settings.cfg
+fi
+
 ## 2022-03-12
 ## Move any existing daphne data from daphne to laserdisc system (if laserdisc system is empty)
 if [[ -d "/storage/roms/daphne" ]] && [[ "$(ls -A /storage/roms/daphne/*.daphne)" ]]; then
