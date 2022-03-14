@@ -58,6 +58,8 @@ makeinstall_target() {
 		libdrm* \
 		librga* \
 		libpng* \
+		libjpeg* \
+		libturbojpeg* \
 		libgo2* \
 		libevdev* \
 		librockchip_mpp* \
