@@ -195,7 +195,7 @@ class EmuRunner():
 			log(f'platform: {self.platform}')
 			log(f'core: {self.core}')
 		retroarch_binary = 'retroarch'
-		if self.core in {'pcsx_rearmed', 'parallel_n64'}:
+		if self.core in {'pcsx_rearmed', 'parallel_n64', 'parallel_n64_gln64'}:
 			retroarch_binary = 'retroarch32'
 			self.environment['LD_LIBRARY_PATH'] = '/usr/lib32'
 		
