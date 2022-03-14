@@ -74,6 +74,13 @@ if [ ! -L "$CONFIG_DIR" ]; then
   ln -sf $CONFIG_DIR2 $CONFIG_DIR
 fi
 
+# Setup default artbook symlink for use in ES
+DEFAULT_THEME_USR=/usr/config/emulationstation/themes/es-theme-art-book-next/
+DEFAULT_THEME_STORAGE=/storage/.config/emulationstation/themes/es-theme-art-book-next-default
+if [ ! -e "$DEFAULT_THEME_STORAGE" ]; then
+  ln -s $DEFAULT_THEME_USR $DEFAULT_THEME_STORAGE
+fi
+
 # Create the distribution directory if it doesn't exist, sync it if it does
 if [ ! -d "/storage/.config/distribution" ]
 then
