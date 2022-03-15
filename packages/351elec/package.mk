@@ -98,7 +98,7 @@ makeinstall_target() {
 
 post_install() {
 # Remove unnecesary Retroarch Assets and overlays
-  for i in branding nuklear nxrgui pkg switch wallpapers zarch COPYING; do
+  for i in FlatUX Automatic Systematic branding nuklear nxrgui pkg switch wallpapers zarch COPYING; do
     rm -rf "$INSTALL/usr/share/retroarch-assets/$i"
   done
 
