@@ -131,6 +131,7 @@ post_install() {
   cp $PKG_DIR/sources/autostart.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/shutdown.sh $INSTALL/usr/bin
   cp $PKG_DIR/sources/pico-8.sh $INSTALL/usr/bin
+  cp $PKG_DIR/sources/pico-8.sh $INSTALL/usr/config/distribution/modules/Start Pico-8.sh
   cp ${PKG_DIR}/sources/scripts/* $INSTALL/usr/bin
 
   rm -f $INSTALL/usr/bin/{sh,bash,busybox,sort}
@@ -146,13 +147,4 @@ post_install() {
   echo "chmod 4755 $INSTALL/usr/bin/bash" >> $FAKEROOT_SCRIPT
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
-
-# Remove scripts from OdroidGoAdvance build
-if [[ ${DEVICE} =~ RG351 ]]; then
- for i in "01 - Get ES Themes" "03 - wifi" "10 - Force Update" "04 - Configure Reicast" "07 - Skyscraper" "09 - system info"; do
-  xmlstarlet ed -L -P -d "/gameList/game[name='${i}']" $INSTALL/usr/config/usr/bin/modules/gamelist.xml 2>/dev/null ||:
-  rm "$INSTALL/usr/config/usr/bin/modules/${i}.sh" 2>/dev/null ||:
- done
-fi
-
 }

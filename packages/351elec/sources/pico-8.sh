@@ -1,6 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
 
 # Source predefined functions and variables
 . /etc/profile
@@ -13,23 +14,14 @@ else
   OPTIONS="-splore"
 fi
 
-if [ ! -d "/storage/roms/pico-8" ]
-then
-  mkdir -p "/storage/roms/pico-8"
-  echo "Extract your purchased pico-8 binaries and place them in the pico-8 directory on your games partition" >/tmp/logs/exec.log
-fi
-
+mkdir -p "/storage/roms/pico-8"
 cp -f /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/roms/pico-8/sdl_controllers.txt
 
-unset MYARCH
-TEST=$(ldd /usr/bin/emulationstation | grep 64)
-if [ $? == 0 ]
-then
-  patchelf --set-interpreter /usr/lib32/ld-linux-armhf.so.3 /storage/roms/pico-8/pico8_dyn
-  export LD_LIBRARY_PATH=/usr/lib32
+if [ ! -f "/storage/roms/pico-8/pico8_64" ] || [ ! -f "/storage/roms/pico-8/pico8.dat" ]; then
+  text_viewer -e -w -t "Missing Pico-8 binaries!" -m "Extract your purchased pico8_64 and pico8.dat and place them in the pico-8 directory on your games partition."
+else
+  /storage/roms/pico-8/pico8_64 -home -root_path /storage/roms/pico-8 -joystick 0 ${OPTIONS} "${CART}"
 fi
-
-/storage/roms/pico-8/pico8_dyn -home -root_path /storage/roms/pico-8 -joystick 0 ${OPTIONS} "${CART}"
 
 ret_error=$?
 

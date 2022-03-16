@@ -106,9 +106,6 @@ rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 #fi
 ##
 
-# Copy pico-8
-cp -f  "/usr/bin/pico-8.sh" "/storage/roms/pico-8/Start Pico-8.sh" &
-
 # Move ports to the GAMES volume
 rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/homebrew &
 

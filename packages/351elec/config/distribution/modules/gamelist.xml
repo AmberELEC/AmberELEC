@@ -28,6 +28,19 @@
 	</game>
 
 	<game>
+		<path>./Start Pico-8.sh</path>
+		<name>Start Pico-8</name>
+		<desc>Run the Pico-8 emulator without starting a game.</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/pico8-thumb.png</thumbnail>
+		<image>./downloaded_images/pico8.png</image>
+	</game>
+
+	<game>
 		<path>./Start ScummVM.sh</path>
 		<name>Start ScummVM</name>
 		<desc>Run the ScummVM emulator without starting a game.</desc>
