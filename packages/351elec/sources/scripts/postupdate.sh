@@ -35,6 +35,10 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-03-16
+## Disable splash screen
+  sed -i 's/ee_splash.enabled=1/ee_splash.enabled=0/g;' ${CONF}
+
 ## 2022-03-14
 ## Switch default theme when coming from pineapple forrest or prereleases after pineapple forrest
 ## For users from pineapple forrest - do a one time switch of default theme to es-theme-art-book-next
