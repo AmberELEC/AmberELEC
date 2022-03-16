@@ -21,6 +21,9 @@ pre_configure_target() {
 post_makeinstall_target() {
   mkdir -p $INSTALL/usr/config/scummvm/
   cp -rf $PKG_DIR/config/* $INSTALL/usr/config/scummvm/
+  
+  mkdir -p $INSTALL/usr/config/distribution/modules/
+  cp "$PKG_DIR/Scan ScummVM Games.sh" $INSTALL/usr/config/distribution/modules/
 
   mv $INSTALL/usr/local/bin $INSTALL/usr/
   cp -rf $PKG_DIR/bin/* $INSTALL/usr/bin

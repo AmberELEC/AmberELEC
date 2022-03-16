@@ -14,9 +14,9 @@ rp_registerAllModules
 joy2keyStart
 ear >/dev/console
 message_stream "Scanning for games...\n" 0
-bash /usr/bin/scummvm.start add
+bash /usr/bin/scummvm.sh add
 message_stream "Adding games...\n" 0
-bash /usr/bin/scummvm.start create
+bash /usr/bin/scummvm.sh create
 message_stream "Restarting EmulationStation...\n" 0
 systemctl restart emustation
 clear >/dev/console

@@ -54,6 +54,19 @@
 	</game>
 
 	<game>
+		<path>./Scan ScummVM Games.sh</path>
+		<name>Scan ScummVM Games</name>
+		<desc>Scan for newly added ScummVM games.</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/scummvm_scan-thumb.png</thumbnail>
+		<image>./downloaded_images/scummvm_scan.png</image>
+	</game>
+
+	<game>
 		<path>./Start 32bit Retroarch.sh</path>
 		<name>Start 32bit RetroArch</name>
 		<desc>Run 32bit RetroArch</desc>

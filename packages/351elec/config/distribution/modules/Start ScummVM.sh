@@ -8,4 +8,4 @@ source /etc/profile
 
 jslisten set "killall scummvm"
 
-/usr/bin/scummvm.start sa
+/usr/bin/scummvm.sh sa

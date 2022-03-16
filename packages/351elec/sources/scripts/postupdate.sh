@@ -36,6 +36,16 @@ fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
 ## 2022-03-16
+## Move any existing scummvm data from gamedata to the scummvm system folder
+if [[ -d "/storage/roms/scummvm" ]]; then
+  if [[ -d "/storage/roms/gamedata/scummvm/games" ]]; then
+    rm -rf "/storage/roms/gamedata/scummvm/games/_Scan ScummVM Games.sh"
+    mv /storage/roms/gamedata/scummvm/games/* /storage/roms/scummvm
+    rmdir /storage/roms/gamedata/scummvm/games
+  fi
+fi
+
+## 2022-03-16
 ## Disable splash screen
   sed -i 's/ee_splash.enabled=1/ee_splash.enabled=0/g;' ${CONF}
 

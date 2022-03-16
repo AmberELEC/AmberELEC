@@ -292,7 +292,7 @@ then
 		;;
 		"scummvm")
 			jslisten set "scummvm"
-			RUNTHIS='${TBASH} /usr/bin/scummvm.start sa "${ROMNAME}"'
+			RUNTHIS='${TBASH} /usr/bin/scummvm.sh sa "${ROMNAME}"'
 		;;
 		"laserdisc")
 			jslisten set "hypseus"
@@ -427,7 +427,7 @@ else
                 "scummvm")
 			GAMEDIR=$(cat "${ROMNAME}" | awk 'BEGIN {FS="\""}; {print $2}')
 			cd "${GAMEDIR}"
-			RUNTHIS='${TBASH} /usr/bin/scummvm.start libretro .'
+			RUNTHIS='${TBASH} /usr/bin/scummvm.sh libretro .'
                 ;;
         esac
 fi
