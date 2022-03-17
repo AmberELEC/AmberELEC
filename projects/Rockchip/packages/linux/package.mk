@@ -5,7 +5,7 @@
 
 PKG_NAME="linux"
 if [[ "$DEVICE" =~ RG351 ]]; then
-  PKG_VERSION="83b7412fbde88a443c8014fbdf7e8d56197534b5"
+  PKG_VERSION="171226e5734cb0acf5c339bcbf63dbfb7fa8c9b4"
   PKG_URL="https://github.com/351ELEC/kernel_rg351/archive/$PKG_VERSION.tar.gz"
 elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_VERSION="69e62fbbf5074c999553d8496403677bb7b5f27b"
@@ -249,8 +249,12 @@ make_target() {
 makeinstall_target() {
   if [ "$BOOTLOADER" = "u-boot" ]; then
     mkdir -p $INSTALL/usr/share/bootloader
+    mkdir -p $INSTALL/usr/share/timing_fix
     for dtb in arch/$TARGET_KERNEL_ARCH/boot/dts/*.dtb arch/$TARGET_KERNEL_ARCH/boot/dts/*/*.dtb; do
-      if [ -f $dtb ]; then
+      if [ -f $dtb ] && [[ "$dtb" =~ "timing_fix" ]]; then
+        cp -v $dtb $INSTALL/usr/share/timing_fix
+        rename.ul -- '-timing_fix' '' $INSTALL/usr/share/timing_fix/*.dtb 2>/dev/null || :
+      elif [ -f $dtb ]; then
         cp -v $dtb $INSTALL/usr/share/bootloader
       fi
     done
