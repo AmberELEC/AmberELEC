@@ -238,6 +238,7 @@
 
 
 LIBRETRO_CORES="81 \
+arduous \
 atari800 \
 beetle-gba \
 beetle-lynx \
