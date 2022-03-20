@@ -36,7 +36,11 @@ makeinstall_target() {
 
   mkdir -p $INSTALL/usr/config/
   rsync -av $PKG_DIR/config/* $INSTALL/usr/config/
-  #cp -rf $PKG_DIR/config/* $INSTALL/usr/config/
+
+  if [ ! "$DEVICE" == "RG351MP" ] && [ ! "$DEVICE" == "RG351V" ]; then
+    rm -rf $INSTALL/usr/config/distribution/modules/display_fix.sh
+  fi
+
   ln -sf /storage/.config/distribution $INSTALL/distribution
   find $INSTALL/usr/config/distribution/ -type f -exec chmod o+x {} \;
 

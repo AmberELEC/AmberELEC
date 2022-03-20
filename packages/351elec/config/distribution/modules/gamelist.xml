@@ -183,4 +183,17 @@
 		<image>./downloaded_images/filemanager.png</image>
 	</game>
 
+	<game>
+		<path>./display_fix.sh</path>
+		<name>Display timing Fix</name>
+		<desc>This will fix display timing issues for some RG351MP/V devices.</desc>
+		<developer>351ELEC</developer>
+		<publisher>351ELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2022</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/timing-thumb.png</thumbnail>
+		<image>./downloaded_images/timing.png</image>
+	</game>
+
 </gameList>
