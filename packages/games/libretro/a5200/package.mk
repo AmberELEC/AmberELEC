@@ -8,16 +8,12 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
-PKG_SHORTDESC="arduous for libretro"
-PKG_LONGDESC="arduous for libretro/"
+PKG_SHORTDESC="a5200 - Port of Atari 5200 emulator for GCW0"
+PKG_LONGDESC="a5200 - Port of Atari 5200 emulator for GCW0"
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
-
-#pre_configure_target() {
-  #export CXXFLAGS="$CXXFLAGS -Wno-error=maybe-uninitialized"
-#}
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro

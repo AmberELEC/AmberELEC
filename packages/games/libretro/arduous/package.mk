@@ -9,7 +9,7 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
 PKG_SHORTDESC="arduous for libretro"
-PKG_LONGDESC="arduous for libretro/"
+PKG_LONGDESC="arduous for libretro"
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="cmake-make"
