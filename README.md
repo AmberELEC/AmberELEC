@@ -1,24 +1,21 @@
-# 351ELEC
-
-An open source firmware for the Anbernic RG351P/M/V/MP devices.
-
-[![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg)](https://github.com/351ELEC/351ELEC/releases/latest)
+<img src="https://351elec.de/images/351ELEC-logo.svg" alt="351ELEC Logo" style="width: 200px"><br />An open source firmware for the Anbernic RG351P/M/V/MP and RG552 devices.<p>
+[![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg?label=latest%20release)](https://github.com/351ELEC/351ELEC/releases/latest)
 [![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue)](https://github.com/351ELEC/351ELEC/blob/main/licenses/GPL2.txt)
-[![Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?logo=discord)](https://discord.com/invite/R9Er7hkRMe)
+[![Discord](https://img.shields.io/discord/777665344289898536?label=chat%20on%20discord&logo=discord)](https://discord.com/invite/R9Er7hkRMe)
+[![Downloads Latest](https://img.shields.io/github/downloads/351ELEC/351ELEC/latest/total?label=downloads%40latest%20release)](https://github.com/351ELEC/351ELEC/releases/latest)
+[![Downloads Prerelease](https://img.shields.io/github/downloads/351ELEC/351ELEC-prerelease/total?label=downloads%40prerelease%20builds)](https://github.com/351ELEC/351ELEC-prerelease/releases)
 
-[![Downloads Latest](https://img.shields.io/github/downloads/351ELEC/351ELEC/latest/total)](https://github.com/351ELEC/351ELEC/releases/latest)
-[![Downloads Prerelease](https://img.shields.io/github/downloads/351ELEC/351ELEC-prerelease/total?label=downloads%40prerelease)](https://github.com/351ELEC/351ELEC-prerelease/releases)
 
 351ELEC is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).  It is intended for use only on the RG351P/M/V/MP and is not compatible with other devices.
 
-We have an active [wiki](https://351elec.de) with [installation instructions](https://351elec.de/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.de/Getting-to-Know-351ELEC).
+We have a [Website](https://351elec.de) with [installation instructions](https://351elec.de/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.de/Getting-to-Know-351ELEC).
 
 Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 
 
 ## Installation
 
-Please visit the wiki [Installation](https://351elec.de/Installation#overview) page for installation instructions.
+Please visit our Website [Installation](https://351elec.de/Installation#overview) page for installation instructions.
 
 ## Building from Source
 Building 351ELEC from source is a fairly simple process.  It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space.  The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
@@ -38,9 +35,9 @@ make world
 ```
 
 The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in 351ELEC/release.  Follow the installation steps to write your image to a microSD.
-It will build for the RG351P/M, RG351V and for the RG351MP.
+It will build for the RG351P/M, RG351V, RG351MP and for the RG552.
 
-To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``, and just for the RG351MP ``make RG351MP``.
+To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``, and just for the RG351MP ``make RG351MP``, and just for the RG552 ``make RG552``.
 
 ## Building from Source - Docker
 Building with Docker simplifies the build process as any dependencies, with the exception of `make`, are contained within the docker image - all CPU/RAM/Disk/build time requirements remain similar. 
