@@ -4,7 +4,7 @@ An open source firmware for the Anbernic RG351P/M/V/MP devices.
 
 [![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg)](https://github.com/351ELEC/351ELEC/releases/latest)
 [![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue)](https://github.com/351ELEC/351ELEC/blob/main/licenses/GPL2.txt)
-[![Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?logo=discord)](https://discord.gg/bmXtCt88Tz)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?logo=discord)](https://discord.com/invite/R9Er7hkRMe)
 
 [![Downloads Latest](https://img.shields.io/github/downloads/351ELEC/351ELEC/latest/total)](https://github.com/351ELEC/351ELEC/releases/latest)
 [![Downloads Prerelease](https://img.shields.io/github/downloads/351ELEC/351ELEC-prerelease/total?label=downloads%40prerelease)](https://github.com/351ELEC/351ELEC-prerelease/releases)
@@ -13,7 +13,7 @@ An open source firmware for the Anbernic RG351P/M/V/MP devices.
 
 We have an active [wiki](https://351elec.de) with [installation instructions](https://351elec.de/Installation#overview) and a lot of information on how to [get started using 351ELEC](https://351elec.de/Getting-to-Know-351ELEC).
 
-Visit us on our Discord! https://discord.gg/bmXtCt88Tz
+Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 
 
 ## Installation
