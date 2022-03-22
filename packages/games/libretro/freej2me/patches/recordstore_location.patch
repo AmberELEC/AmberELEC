@@ -1,5 +1,5 @@
 diff --git a/src/javax/microedition/rms/RecordStore.java b/src/javax/microedition/rms/RecordStore.java
-index ff9fccd..1ba2077 100644
+index ff9fccd..57c5696 100644
 --- a/src/javax/microedition/rms/RecordStore.java
 +++ b/src/javax/microedition/rms/RecordStore.java
 @@ -70,8 +70,8 @@ public class RecordStore
@@ -13,3 +13,21 @@ index ff9fccd..1ba2077 100644
  
  		try
  		{
+@@ -244,7 +244,7 @@ public class RecordStore
+ 	{
+ 		try
+ 		{
+-			File fstore = new File("rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
++			File fstore = new File("/roms/j2me/rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
+ 			fstore.delete();
+ 		}
+ 		catch (Exception e)
+@@ -347,7 +347,7 @@ public class RecordStore
+ 		//System.out.println("List Record Stores");
+ 		if(rmsPath==null)
+ 		{
+-			rmsPath = "rms/"+Mobile.getPlatform().loader.name;
++			rmsPath = "/roms/j2me/rms/"+Mobile.getPlatform().loader.name;
+ 			try
+ 			{
+ 				Files.createDirectories(Paths.get(rmsPath));
