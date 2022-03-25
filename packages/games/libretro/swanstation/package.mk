@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
-# Maintenance 2020 351ELEC team (https://github.com/fewtarius/351ELEC)
+# Copyright (C) 2020-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="swanstation"
 PKG_VERSION="74b958ceae11a1b72ba17d5b783b5eb1a6166701"

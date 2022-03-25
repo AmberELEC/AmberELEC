@@ -4,7 +4,7 @@
 
 _(You've likely already done this if you're reading this from a local repo...)_
 
- - `git clone https://github.com/fewtarius/351ELEC.git 351ELEC`
+ - `git clone https://github.com/351ELEC/351ELEC.git 351ELEC`
 
 ## Build the container
 

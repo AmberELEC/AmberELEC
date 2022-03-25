@@ -17,7 +17,7 @@
 #  http://www.gnu.org/copyleft/gpl.html
 #
 #  ---
-#  2020 maintenance by 351ELEC team (https://github.com/fewtarius/351ELEC)
+#  2020 maintenance by 351ELEC (https://github.com/351ELEC)
 ################################################################################
 
 PKG_NAME="cannonball"

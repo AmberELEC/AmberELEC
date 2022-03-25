@@ -1,6 +1,6 @@
 ################################################################################
 #
-#  Copyright (C) 2020      351ELEC team (https://github.com/fewtarius/351ELEC)
+#  Copyright (C) 2020-present 351ELEC (https://github.com/351ELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
