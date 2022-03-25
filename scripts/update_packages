@@ -36,7 +36,7 @@ do
     sed -i "s/PKG_VERSION=\"${PKG_VERSION}/PKG_VERSION=\"${UPS_VERSION}/" $f
   fi
 
-  if [ "${GET_HANDLER_SUPPORT}" != "git" ]; then
+  if [[ ! "${PKG_URL}" =~ git$ ]]; then
 
    if grep -q PKG_SHA256 "${f}"; then
     echo "PKG_SHA256 exists on ${f}, clearing"
@@ -48,10 +48,12 @@ do
    source "${f}"
    ./scripts/get "${PKG_NAME}" >/dev/null
    if [ "${p}" != "linux" ]; then
-     SHA=$(cat ./sources/${PKG_NAME}/${PKG_NAME}-${UPS_VERSION}.*.sha256)
+     SHA=$(cat ./sources/${PKG_NAME}/${PKG_NAME}-${UPS_VERSION}.*.sha256 ||:)
    else
-     SHA=$(cat ./sources/${PKG_NAME}/linux-$LINUX-${UPS_VERSION}.tar.gz.sha256)
+     SHA=$(cat ./sources/${PKG_NAME}/linux-$LINUX-${UPS_VERSION}.tar.gz.sha256 ||:)
    fi
    sed -e "/PKG_VERSION=\"${UPS_VERSION}\"/{ N; s/PKG_VERSION=\"${UPS_VERSION}\".*PKG_SHA256=\"\"/PKG_VERSION=\"${UPS_VERSION}\"\nPKG_SHA256=\"${SHA}\"/;}" -i ${f}
+  else
+   sed "/^PKG_SHA256=/d" -i ${f}
  fi
 done

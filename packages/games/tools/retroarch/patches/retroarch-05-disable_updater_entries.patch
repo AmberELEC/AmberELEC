@@ -2,10 +2,10 @@ diff --git a/menu/menu_displaylist.c b/menu/menu_displaylist.c
 index b4758bb82a..1778c364e1 100644
 --- a/menu/menu_displaylist.c
 +++ b/menu/menu_displaylist.c
-@@ -12255,37 +12255,37 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -12785,37 +12785,37 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif
- 
- #ifdef HAVE_COMPRESSION
+
+ #if defined(HAVE_COMPRESSION) && !defined(HAVE_MIST)
 -            if (menu_entries_append_enum(info->list,
 -                     msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DOWNLOAD_CORE_SYSTEM_FILES),
 -                     msg_hash_to_str(MENU_ENUM_LABEL_DOWNLOAD_CORE_SYSTEM_FILES),
@@ -68,7 +68,7 @@ index b4758bb82a..1778c364e1 100644
 +            //         MENU_ENUM_LABEL_DOWNLOAD_CORE_CONTENT_DIRS,
 +            //         MENU_SETTING_ACTION, 0, 0))
 +            //   count++;
- 
+
  #ifdef HAVE_COMPRESSION
              if (settings->bools.menu_show_core_updater)
 @@ -12299,20 +12299,20 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
