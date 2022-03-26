@@ -27,7 +27,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SHORTDESC="Speex audio processing library"
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="configure"
 
 PKG_IS_ADDON="no"

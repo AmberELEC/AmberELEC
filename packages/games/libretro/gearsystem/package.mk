@@ -32,7 +32,6 @@ PKG_SECTION="libretro"
 PKG_SHORTDESC="Gearsystem is a Sega Master System / Game Gear / SG-1000 emulator written in C++"
 PKG_LONGDESC="Gearsystem is a Sega Master System / Game Gear / SG-1000 emulator written in C++"
 PKG_TOOLCHAIN="make"
-GET_HANDLER_SUPPORT="git"
 
 make_target() {
   make -C platforms/libretro/

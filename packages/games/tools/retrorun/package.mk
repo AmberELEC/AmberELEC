@@ -9,7 +9,6 @@ PKG_SITE="https://github.com/351ELEC/retrorun-go2"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
 PKG_TOOLCHAIN="make"
-GET_HANDLER_SUPPORT="git"
 
 pre_make_target() {
   mkdir -p src/go2

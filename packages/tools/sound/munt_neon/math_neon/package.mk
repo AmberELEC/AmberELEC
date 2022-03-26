@@ -9,7 +9,6 @@ PKG_SITE="https://github.com/asakous/math_neon"
 PKG_URL="https://github.com/asakous/math_neon.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="This project implements the cmath functions and some optimised matrix functions with the aim of increasing the floating point performance of ARM Cortex A-8 based platforms. As well as implementing the functions in ARM NEON assembly, they sacrifice error checking and some accuracy to achieve better performance"
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="make"
 
 

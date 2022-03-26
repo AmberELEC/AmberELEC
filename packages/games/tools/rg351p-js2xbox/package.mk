@@ -9,7 +9,6 @@ PKG_SITE="https://github.com/christianhaitian/RG351P_virtual-gamepad"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_TOOLCHAIN="make"
-GET_HANDLER_SUPPORT="git"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin

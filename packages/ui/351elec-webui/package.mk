@@ -9,14 +9,13 @@ PKG_ARCH="any"
 PKG_LICENSE="GPL"
 
 PKG_URL="https://github.com/351ELEC/351ELEC-webui.git"
-GET_HANDLER_SUPPORT="git"
 
 PKG_DEPENDS_TARGET="Python3"
 PKG_SHORTDESC="351ELEC Web Interface"
 PKG_TOOLCHAIN="manual"
 
 ##########################################################################################################
-#  LOCAL DEV - if you would like to make changes to 351elec-webui locally - uncomment the following two params (PKG_URL, GET_HANDLER_SUPPORT)
+#  LOCAL DEV - if you would like to make changes to 351elec-webui locally - uncomment the following param PKG_URL
 #  and build as follows.  If you don't use docker and DOCKER_WORK_DIR=/work, update PKG_URL to match your system
 # ------------------------
 # To ensure the source gets updated , you must remove source before each build or it will not get rebuilt.
@@ -24,7 +23,6 @@ PKG_TOOLCHAIN="manual"
 #   rm -rf ./sources/351elec-webui/ && DOCKER_WORK_DIR=/work DEVICE=RG552 ARCH=aarch64 PACKAGE=351elec-webui make docker-package-clean docker-package
 ##########################################################################################################
 #PKG_URL="file:///work/351elec-webui"
-#GET_HANDLER_SUPPORT="file"
 
 makeinstall_target() {
   WEB_UI_DIR="${INSTALL}/usr/share/351elec-webui"

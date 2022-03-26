@@ -14,7 +14,6 @@ PKG_SECTION="libretro"
 PKG_SHORTDESC="Libretro port of X Millennium Sharp X1 emulator"
 PKG_LONGDESC="Libretro port of X Millennium Sharp X1 emulator"
 PKG_TOOLCHAIN="make"
-GET_HANDLER_SUPPORT="git"
 
 make_target() {
   cd $PKG_BUILD

@@ -27,7 +27,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain opus"
 PKG_PRIORITY="optional"
 PKG_SHORTDESC="Stand-alone decoder library for .opus streams"
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="configure"
 
 pre_configure_target() {

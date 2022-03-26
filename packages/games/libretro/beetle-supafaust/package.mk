@@ -29,7 +29,6 @@ PKG_URL="$PKG_SITE.git"
 #PKG_GIT_CLONE_BRANCH="hd"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SHORTDESC="Super Nintendo (Super Famicom) emulator"
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="make"
 
 PKG_IS_ADDON="no"

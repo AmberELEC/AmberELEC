@@ -7,7 +7,6 @@ PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 boost openal-soft ${OPENGLES} zlib"
 PKG_LONGDESC="Yabause is a Sega Saturn emulator and took over as Yaba Sanshiro"
 PKG_TOOLCHAIN="cmake-make"
-GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="pi4"
 PKG_BUILD_FLAGS="+speed"
 

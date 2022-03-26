@@ -9,7 +9,6 @@ PKG_SITE="https://github.com/EmuELEC/gptokeyb"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libevdev SDL2"
 PKG_TOOLCHAIN="make"
-GET_HANDLER_SUPPORT="git"
 
 pre_make_target() {
   cp -f $PKG_DIR/Makefile $PKG_BUILD

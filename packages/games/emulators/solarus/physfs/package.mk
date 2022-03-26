@@ -9,7 +9,6 @@ PKG_SITE="https://github.com/icculus/physfs"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain glm"
 PKG_SHORTDESC="PhysicsFS; a portable, flexible file i/o abstraction."
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
 configure_target() {
