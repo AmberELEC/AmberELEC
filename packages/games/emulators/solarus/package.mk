@@ -10,7 +10,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain luajit glm libmodplug physfs"
 PKG_SHORTDESC="Action-RPG/Adventure 2D game engine"
 PKG_TOOLCHAIN="cmake-make"
-GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
 
 pre_configure_target() {

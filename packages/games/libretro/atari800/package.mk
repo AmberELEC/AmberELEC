@@ -31,7 +31,6 @@ PKG_SECTION="libretro"
 PKG_SHORTDESC="atari800 3.1.0 for libretro/libco WIP"
 PKG_LONGDESC="atari800 3.1.0 for libretro/libco WIP"
 PKG_TOOLCHAIN="auto"
-GET_HANDLER_SUPPORT="git"
 
 
 PKG_MAKE_OPTS_TARGET="platform=emuelec GIT_VERSION=${PKG_VERSION:0:7}"

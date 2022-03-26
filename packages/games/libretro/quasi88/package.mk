@@ -14,7 +14,6 @@ PKG_SECTION="libretro"
 PKG_SHORTDESC="A port of QUASI88, a PC-8800 series emulator by Showzoh Fukunaga, to the libretro API"
 PKG_LONGDESC="A port of QUASI88, a PC-8800 series emulator by Showzoh Fukunaga, to the libretro API"
 PKG_TOOLCHAIN="make"
-GET_HANDLER_SUPPORT="git"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro

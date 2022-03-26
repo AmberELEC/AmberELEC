@@ -15,7 +15,6 @@ PKG_SHORTDESC="Powerful and versatile game scraper written in c++ "
 PKG_TOOLCHAIN="make"
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="make" 
 
 configure_target() {

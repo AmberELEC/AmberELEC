@@ -35,7 +35,6 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_URL="https://github.com/u-boot/u-boot.git"
 fi
 
-GET_HANDLER_SUPPORT="git"
 
 post_patch() {
   if [ -n "$UBOOT_SYSTEM" ] && find_file_path bootloader/config; then

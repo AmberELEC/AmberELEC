@@ -30,7 +30,6 @@ PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
 PKG_SHORTDESC="An unofficial libretro port of the EasyRPG/Player."
 PKG_LONGDESC="An unofficial libretro port of the EasyRPG/Player."
-GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+pic"
 
 PKG_IS_ADDON="no"

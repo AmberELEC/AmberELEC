@@ -12,7 +12,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 libvorbis"
 PKG_LONGDESC="Hypseus is a fork of Daphne. A program that lets one play the original versions of many laserdisc arcade games on one's PC."
 PKG_TOOLCHAIN="cmake"
-GET_HANDLER_SUPPORT="git"
 
 PKG_CMAKE_OPTS_TARGET=" ./src"
 

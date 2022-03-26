@@ -8,7 +8,6 @@ PKG_SITE="https://github.com/asakous/munt"
 PKG_URL="https://github.com/asakous/munt.git"
 PKG_DEPENDS_TARGET="toolchain math_neon"
 PKG_LONGDESC="A software synthesiser emulating pre-GM MIDI devices such as the Roland MT-32."
-GET_HANDLER_SUPPORT="git"
 PKG_CMAKE_OPTS_TARGET="-Dmunt_WITH_MT32EMU_QT=0 \
                        -Dmunt_WITH_MT32EMU_SMF2WAV=0 \
                        -Dlibmt32emu_SHARED=1"

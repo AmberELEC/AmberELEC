@@ -16,7 +16,6 @@ PKG_LONGDESC="NeoCD-Libretro is a complete rewrite of NeoCD from scratch in mode
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
-GET_HANDLER_SUPPORT="git"
 
 make_target() {
 cd $PKG_BUILD

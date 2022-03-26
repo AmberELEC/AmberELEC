@@ -260,8 +260,8 @@ fbalpha2012 \
 fbalpha2019 \
 fbneo \
 fceumm \
-fmsx \
 flycast \
+fmsx \
 freechaf \
 freeintv \
 freej2me \
@@ -272,19 +272,17 @@ gearcoleco \
 gearsystem \
 genesis-plus-gx \
 genesis-plus-gx-wide \
-gme \
 gpsp \
 gw-libretro \
 handy \
 hatari \
+mame \
 mame2000 \
 mame2003-plus \
 mame2010 \
 mame2015 \
-mame \
 meowpc98 \
 mgba \
-mupen64plus \
 mupen64plus-nx \
 neocd_libretro \
 nestopia \
@@ -305,8 +303,8 @@ px68k \
 quasi88 \
 quicknes \
 race \
-sameboy \
 same_cdi \
+sameboy \
 sameduck \
 scummvm \
 smsplus-gx \
@@ -317,12 +315,12 @@ snes9x2010 \
 stella \
 stella-2014 \
 swanstation \
-TIC-80 \
 tgbdual \
+TIC-80 \
 uae4arm \
 uzem \
-vba-next \
 vbam \
+vba-next \
 vecx \
 vice \
 xmil"

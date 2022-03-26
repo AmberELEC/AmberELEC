@@ -10,7 +10,6 @@ PKG_DEPENDS_HOST="toolchain zmusic:host"
 PKG_DEPENDS_TARGET="toolchain SDL2 gzdoom:host zmusic"
 PKG_SHORTDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
-GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="cmake-make"
 
 if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ]
