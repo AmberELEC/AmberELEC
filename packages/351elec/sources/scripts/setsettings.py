@@ -194,12 +194,12 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
 
     # Retroachievements / Cheevos
     retro_achievements = {
-        'arcade', 'atari2600', 'atari7800', 'atarilynx', 'colecovision',
+        'arcade', 'atari2600', 'atari7800', 'atarilynx', 'colecovision', 'dreamcast',
         'famicom', 'fbn', 'fds', 'gamegear', 'gb', 'gba', 'gbah', 'gbc', 'gbch',
         'gbh', 'genesis', 'genh', 'ggh', 'intellivision', 'mastersystem',
         'megacd', 'megadrive', 'megadrive-japan', 'msx', 'msx2', 'n64',
         'neogeo', 'neogeocd', 'nes', 'nesh', 'ngp', 'ngpc', 'odyssey2',
-        'pcengine', 'pcenginecd', 'pcfx', 'pokemini', 'psp', 'psx', 'sega32x',
+        'pcengine', 'pcenginecd', 'pcfx', 'pokemini', 'psp', 'psx', 'saturn', 'sega32x',
         'segacd', 'sfc', 'sg-1000', 'snes', 'snesh', 'snesmsu1', 'supergrafx',
         'supervision', 'tg16', 'tg16cd', 'vectrex', 'virtualboy', 'wonderswan',
         'wonderswancolor',
@@ -494,6 +494,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     #   Pokemini = 96x64
     #   ngp/ngpc = 160x152
     #   wonderswan/wonderswancolor = 224×144
+    #   arduboy = 128x64
     if device_name == "RG351P":
         system_viewport = {
             'standard': (1, 1, 479, 319),          # max-1
@@ -528,19 +529,20 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         }
     elif device_name == "RG552":
         system_viewport = {
-            'standard': (1, 1, 1919, 1151),         # max-1
-            'gb': (320, 0, 1280, 1152),             # x8
-            'gbh': (320, 0, 1280, 1152),            # x8
-            'gbc': (320, 0, 1280, 1152),            # x8
-            'gbch': (320, 0, 1280, 1152),           # x8
-            'supervision': (400, 16, 1120, 1120),   # x7
-            'gamegear': (320, 0, 1280, 1152),       # x8
-            'ggh': (320, 0, 1280, 1152),            # x8
-            'pokemini': (384, 192, 1152, 768),      # x12
-            'ngp': (400, 44, 1120, 1064),           # x7
-            'ngpc': (400, 44, 1120, 1064),          # x7
-            'wonderswan': (64, 0, 1792, 1152),      # x8
-            'wonderswancolor': (64, 0, 1792, 1152), # x8
+            'standard': (1, 1, 1919, 1151),          # max-1
+            'gb': (320, 0, 1280, 1152),              # x8
+            'gbh': (320, 0, 1280, 1152),             # x8
+            'gbc': (320, 0, 1280, 1152),             # x8
+            'gbch': (320, 0, 1280, 1152),            # x8
+            'supervision': (400, 16, 1120, 1120),    # x7
+            'gamegear': (320, 0, 1280, 1152),        # x8
+            'ggh': (320, 0, 1280, 1152),             # x8
+            'pokemini': (384, 192, 1152, 768),       # x12
+            'ngp': (400, 44, 1120, 1064),            # x7
+            'ngpc': (400, 44, 1120, 1064),           # x7
+            'wonderswan': (512, 288, 896, 576),      # x4
+            'wonderswancolor': (512, 288, 896, 576), # x4
+            'arduboy': (448, 320, 1024,512),         # x8
         }
 
     bezel_cfg = None
