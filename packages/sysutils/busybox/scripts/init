@@ -67,12 +67,16 @@ if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
   # Power up the WIFI device
   echo out > /sys/class/gpio/gpio113/direction
   echo 1 > /sys/class/gpio/gpio113/value
+elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+  # Enable GPIO 77 for power LED manipulation
+  echo 77 > /sys/class/gpio/export
 
-#  # Enable PWM for rumble and turn rumble off during startup.
-#  echo 0 > /sys/class/pwm/pwmchip3/export
-#  echo 1000000 > /sys/class/pwm/pwmchip3/pwm0/period
-#  echo 1 > /sys/class/pwm/pwmchip3/pwm0/enable
-#  echo 0 > /sys/class/pwm/pwmchip3/pwm0/duty_cycle
+  # Enable WIFI GPIO for WIFI manipulation
+  echo 110 > /sys/class/gpio/export
+
+  # Power up the WIFI device
+  echo out > /sys/class/gpio/gpio110/direction
+  echo 1 >  /sys/class/gpio/gpio110/value
 else
   # Enable GPIO 77 for power LED manipulation
   echo 77 > /sys/class/gpio/export
