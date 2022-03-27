@@ -222,6 +222,8 @@ then
   # Power down the WIFI device
   if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
     echo 0 > /sys/class/gpio/gpio113/value
+  elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+    echo 0 > /sys/class/gpio/gpio110/value
   else
     echo 0 > /sys/class/gpio/gpio5/value
   fi

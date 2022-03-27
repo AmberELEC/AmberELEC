@@ -3,14 +3,14 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 # Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
 
-PKG_NAME="RTL8812AU"
-PKG_VERSION="0ae0e77ce386baba816ad30d27ede2e6bd7bef14"
+PKG_NAME="RTL8821CU"
+PKG_VERSION="4bdd7c8668562e43564cd5d786055633e591ad4d"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/morrownr/8812au-20210629"
-PKG_URL="https://github.com/morrownr/8812au-20210629/archive/$PKG_VERSION.tar.gz"
+PKG_SITE="https://github.com/morrownr/8821cu-20210118"
+PKG_URL="https://github.com/morrownr/8821cu-20210118/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="$LINUX_DEPENDS"
-PKG_LONGDESC="Realtek RTL8812AU Linux 4.4-5.x driver"
+PKG_LONGDESC="Realtek RTL8821CU Linux 4.4-5.x driver"
 PKG_IS_KERNEL_PKG="yes"
 
 pre_make_target() {
