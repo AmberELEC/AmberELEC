@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="cc0f047777bd2eceba8df86d50cd238cc68d5bf4"
+PKG_VERSION="2866ea0c42d764e95cbd5b5496206dc8ef5719fc"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/351ELEC/retrorun-go2"
