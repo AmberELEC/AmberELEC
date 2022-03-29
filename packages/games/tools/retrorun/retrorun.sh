@@ -113,6 +113,18 @@ else
 	fi
 fi
 
+
+
+if [[ "${CORE}" =~ "parallel_n64_gln64" ]]; then
+		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
+		echo "parallel-n64-gfxplugin = gln64" >> ${RRCONF}
+	elif [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
+		echo "parallel-n64-gfxplugin = rice" >> ${RRCONF}
+fi
+
+
+
 # Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "synchronous_rendering"
