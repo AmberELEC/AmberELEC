@@ -29,7 +29,7 @@ pre_make_target() {
 }
 
 pre_configure_target() {
-PKG_CMAKE_OPTS_TARGET="${PKG_BUILD}/yabause \
+PKG_CMAKE_OPTS_TARGET="${PKG_BUILD}/yabause -Wno-dev \
                          -DYAB_PORTS=retro_arena \
                          -DYAB_WANT_DYNAREC_DEVMIYAX=ON \
                          -DYAB_WANT_ARM7=ON \

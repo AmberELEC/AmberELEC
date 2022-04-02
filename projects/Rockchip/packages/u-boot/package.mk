@@ -22,11 +22,6 @@ if [[ "$DEVICE" =~ RG351 ]]; then
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/351ELEC/uboot_rg351.git"
-#elif [[ "$DEVICE" =~ RG552 ]]; then
-#  PKG_VERSION="1cbbeba154f6cd0b336562a889409a9df904c991"
-#  PKG_GIT_CLONE_SINGLE="yes"
-#  PKG_GIT_CLONE_DEPTH="1"
-#  PKG_URL="https://github.com/SummerSunGenius/RG552_uboot.git"
 elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_VERSION="734ad933766f0dbbeafe1b27211686940a5e6d16"
   PKG_GIT_CLONE_BRANCH=v2022.01-rc4
@@ -34,7 +29,6 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/u-boot/u-boot.git"
 fi
-
 
 post_patch() {
   if [ -n "$UBOOT_SYSTEM" ] && find_file_path bootloader/config; then
