@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
 
 PKG_NAME="raze"
-PKG_VERSION="012e1c3154c28fcc0b39460dae48e83aec3e78cc"
+PKG_VERSION="785bc171475021c3bb6f0ed3e9da0bb354f1af59"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/Raze"
 PKG_URL="${PKG_SITE}.git"
