@@ -10,7 +10,7 @@ PKG_LICENSE="GPL"
 
 PKG_URL="https://github.com/351ELEC/351ELEC-webui.git"
 
-PKG_DEPENDS_TARGET="Python3"
+PKG_DEPENDS_TARGET="Python3 setuptools:host"
 PKG_SHORTDESC="351ELEC Web Interface"
 PKG_TOOLCHAIN="manual"
 

@@ -3,11 +3,11 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="openssh"
-PKG_VERSION="8.3p1"
-PKG_SHA256="f2befbe0472fe7eb75d23340eb17531cb6b3aac24075e2066b41f814e12387b2"
+PKG_VERSION="8.9p1"
+PKG_SHA256="fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
 PKG_LICENSE="OSS"
 PKG_SITE="https://www.openssh.com/"
-PKG_URL="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_URL="https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain openssl zlib"
 PKG_LONGDESC="An open re-implementation of the SSH package."
 PKG_TOOLCHAIN="autotools"
@@ -33,25 +33,25 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_rpc_types_h=no \
                            --without-pam"
 
 pre_configure_target() {
-  export LD="$CC"
-  export LDFLAGS="$TARGET_CFLAGS $TARGET_LDFLAGS"
+  export LD="${CC}"
+  export LDFLAGS="${TARGET_CFLAGS} ${TARGET_LDFLAGS}"
 }
 
 post_makeinstall_target() {
-  rm -rf $INSTALL/usr/lib/openssh/ssh-keysign
-  rm -rf $INSTALL/usr/lib/openssh/ssh-pkcs11-helper
-  if [ ! $SFTP_SERVER = "yes" ]; then
-    rm -rf $INSTALL/usr/lib/openssh/sftp-server
+  rm -rf ${INSTALL}/usr/lib/openssh/ssh-keysign
+  rm -rf ${INSTALL}/usr/lib/openssh/ssh-pkcs11-helper
+  if [ ! ${SFTP_SERVER} = "yes" ]; then
+    rm -rf ${INSTALL}/usr/lib/openssh/sftp-server
   fi
-  rm -rf $INSTALL/usr/bin/ssh-add
-  rm -rf $INSTALL/usr/bin/ssh-agent
-  rm -rf $INSTALL/usr/bin/ssh-keyscan
+  rm -rf ${INSTALL}/usr/bin/ssh-add
+  rm -rf ${INSTALL}/usr/bin/ssh-agent
+  rm -rf ${INSTALL}/usr/bin/ssh-keyscan
 
   sed -e "s|^#PermitRootLogin.*|PermitRootLogin yes|g" \
       -e "s|^#StrictModes.*|StrictModes no|g" \
-      -i $INSTALL/etc/ssh/sshd_config
+      -i ${INSTALL}/etc/ssh/sshd_config
 
-  debug_strip $INSTALL/usr
+  debug_strip ${INSTALL}/usr
 }
 
 post_install() {

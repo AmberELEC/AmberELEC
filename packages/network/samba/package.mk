@@ -3,7 +3,7 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="samba"
-PKG_VERSION="4.14.4"
+PKG_VERSION="4.16.0"
 PKG_LICENSE="GPLv3+"
 PKG_SITE="https://www.samba.org"
 PKG_URL="https://download.samba.org/pub/samba/stable/${PKG_NAME}-${PKG_VERSION}.tar.gz"
@@ -61,7 +61,6 @@ configure_package() {
                       --without-ad-dc \
                       --without-automount \
                       --without-cluster-support \
-                      --without-dnsupdate \
                       --without-fam \
                       --without-gettext \
                       --without-gpgme \

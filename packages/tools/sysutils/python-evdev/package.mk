@@ -7,7 +7,7 @@ PKG_VERSION="5adc2abf1ec8a02c05c80cb1b3e34ba1d4237803"
 PKG_LICENSE="OSS"
 PKG_SITE="https://github.com/gvalkov/python-evdev"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain Python3:host Python3 distutilscross:host Python2"
+PKG_DEPENDS_TARGET="toolchain Python3:host Python3 distutilscross:host"
 PKG_LONGDESC="Userspace evdev events"
 PKG_TOOLCHAIN="manual"
 
@@ -30,8 +30,22 @@ makeinstall_target() {
 }
 
 post_makeinstall_target() {
-  for so in _ecodes _input _uinput
-  do
-    mv ${INSTALL}/usr/lib/python3.8/site-packages/evdev/${so}.cpython-38-x86_64-linux-gnu.so ${INSTALL}/usr/lib/python3.8/site-packages/evdev/${so}.cpython-38-aarch64-linux-gnu.so
-  done
+
+if [[ "$ARCH" == "arm" ]]; then
+	libname="arm-linux-gnueabihf.so"
+else
+	libname="aarch64-linux-gnu.so"
+fi
+
+  # Seems like there's an issue in the build system.
+  # C Modules get built using the correct target toolchain but the generated *.so
+  # file names use the arch from the host system
+  # tried to solve it but couldn't so I move them to the correct names for python
+  # to grab them
+  mv ${INSTALL}/usr/lib/python3.9/site-packages/evdev/_ecodes.cpython-39-* \
+    ${INSTALL}/usr/lib/python3.9/site-packages/evdev/_ecodes.cpython-39-${libname}
+  mv ${INSTALL}/usr/lib/python3.9/site-packages/evdev/_input.cpython-39-* \
+    ${INSTALL}/usr/lib/python3.9/site-packages/evdev/_input.cpython-39-${libname}
+  mv ${INSTALL}/usr/lib/python3.9/site-packages/evdev/_uinput.cpython-39-* \
+    ${INSTALL}/usr/lib/python3.9/site-packages/evdev/_uinput.cpython-39-${libname}
 }

@@ -20,6 +20,7 @@ makeinstall_target() {
       LIBS="ld-2.*.so \
 		ld-linux-armhf* \
 		libarmmem-v7l* \
+		libatomic* \
 		librt* \
 		libass* \
 		libasound* \

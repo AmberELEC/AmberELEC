@@ -4,14 +4,24 @@
 
 PKG_NAME="gcc"
 PKG_VERSION="10.3.0"
-PKG_LICENSE="GPL"
+PKG_SHA256="64f404c1a650f27fc33da242e1f2df54952e3963a49e06e73f6940f3223ac344"
+PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://gcc.gnu.org/"
-PKG_URL="https://bigsearcher.com/mirrors/gcc/releases/gcc-${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_URL="http://ftpmirror.gnu.org/gcc/${PKG_NAME}-${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_BOOTSTRAP="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host"
-PKG_DEPENDS_TARGET="toolchain gcc:host"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_DEPENDS_HOST="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host glibc"
 PKG_DEPENDS_INIT="toolchain"
 PKG_LONGDESC="This package contains the GNU Compiler Collection."
+
+case ${TARGET_ARCH} in
+  arm|riscv64)
+    OPTS_LIBATOMIC="--enable-libatomic"
+    ;;
+  *)
+    OPTS_LIBATOMIC="--disable-libatomic"
+    ;;
+esac
 
 GCC_COMMON_CONFIGURE_OPTS="--target=${TARGET_NAME} \
                            --with-sysroot=${SYSROOT_PREFIX} \
@@ -34,20 +44,20 @@ GCC_COMMON_CONFIGURE_OPTS="--target=${TARGET_NAME} \
                            --without-cloog \
                            --disable-libada \
                            --disable-libmudflap \
-                           --disable-libatomic \
                            --disable-libitm \
                            --disable-libquadmath \
                            --disable-libmpx \
                            --disable-libssp \
-			   --enable-__cxa_atexit"
+                           --enable-__cxa_atexit"
 
 PKG_CONFIGURE_OPTS_BOOTSTRAP="${GCC_COMMON_CONFIGURE_OPTS} \
                               --enable-languages=c \
                               --disable-libsanitizer \
                               --enable-cloog-backend=isl \
+                              --disable-libatomic \
                               --disable-shared \
+                              --disable-libgomp \
                               --disable-threads \
-			      --disable-libgomp \
                               --without-headers \
                               --with-newlib \
                               --disable-decimal-float \
@@ -55,6 +65,7 @@ PKG_CONFIGURE_OPTS_BOOTSTRAP="${GCC_COMMON_CONFIGURE_OPTS} \
 
 PKG_CONFIGURE_OPTS_HOST="${GCC_COMMON_CONFIGURE_OPTS} \
                          --enable-languages=c,c++ \
+                         ${OPTS_LIBATOMIC} \
                          --enable-decimal-float \
                          --enable-tls \
                          --enable-shared \
@@ -70,9 +81,20 @@ PKG_CONFIGURE_OPTS_HOST="${GCC_COMMON_CONFIGURE_OPTS} \
 pre_configure_host() {
   unset CPP
 }
-
 post_make_host() {
+  
+  if [ "${ARCH}" != "aarch64" ]; then 
+	# fix wrong link
+	rm -rf ${TARGET_NAME}/libgcc/libgcc_s.so
+	ln -sf libgcc_s.so.1 ${TARGET_NAME}/libgcc/libgcc_s.so
+  fi
+
   if [ ! "${BUILD_WITH_DEBUG}" = "yes" ]; then
+  
+  if [ "${ARCH}" != "aarch64" ]; then 
+    ${TARGET_PREFIX}strip ${TARGET_NAME}/libgcc/libgcc_s.so*
+  fi
+  
     ${TARGET_PREFIX}strip ${TARGET_NAME}/libgomp/.libs/libgomp.so*
     ${TARGET_PREFIX}strip ${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so*
   fi
@@ -128,6 +150,9 @@ makeinstall_target() {
     cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgcc/libgcc_s.so* ${INSTALL}/usr/lib
     cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgomp/.libs/libgomp.so* ${INSTALL}/usr/lib
     cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so* ${INSTALL}/usr/lib
+    if [ "${OPTS_LIBATOMIC}" = "--enable-libatomic" ]; then
+      cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libatomic/.libs/libatomic.so* ${INSTALL}/usr/lib
+    fi
 }
 
 configure_init() {
@@ -142,4 +167,3 @@ makeinstall_init() {
   mkdir -p ${INSTALL}/usr/lib
     cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgcc/libgcc_s.so* ${INSTALL}/usr/lib
 }
-

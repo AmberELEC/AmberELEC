@@ -6,14 +6,14 @@
 # remove old machine-id file
 [[ -f "/storage/.cache/machine-id" ]] && rm /storage/.cache/machine-id
 
-# If the machine id is in a tmpfs mount, unmount it
-[[ "$(/usr/bin/mount 2>/dev/null| grep [m]achine-id)" ]] && umount /storage/.cache/systemd-machine-id
-
 # test systemd-machine-id exists and is 32 hex chars or generate a new uuid
 MACHINEID="$(cat /storage/.cache/systemd-machine-id 2>/dev/null)"
 [ "${#MACHINEID}" != "32" ] && MACHINEID=
 [[ "${MACHINEID//[a-f0-9]/}" != "" ]] && MACHINEID=
 [ -z "${MACHINEID}" ] && MACHINEID=$(/usr/bin/dbus-uuidgen)
+
+# For first boot detection systemd may have overmounted the file
+umount /storage/.cache/systemd-machine-id >/dev/null 2>&1
 
 # persist uuid
 mkdir -p /storage/.cache
