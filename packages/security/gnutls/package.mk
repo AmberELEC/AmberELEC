@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gnutls"
-PKG_VERSION="3.7.0"
-PKG_SHA256="49e2a22691d252c9f24a9829b293a8f359095bc5a818351f05f1c0a5188a1df8"
+PKG_VERSION="3.7.3"
+PKG_SHA256="fc59c43bc31ab20a6977ff083029277a31935b8355ce387b634fa433f8f6c49a"
 PKG_LICENSE="LGPL2.1"
 PKG_SITE="https://gnutls.org"
 PKG_URL="https://www.gnupg.org/ftp/gcrypt/gnutls/v${PKG_VERSION:0:3}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
@@ -16,6 +16,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-doc \
                            --disable-guile \
                            --disable-libdane \
                            --disable-padlock \
+                           --disable-rpath \
                            --disable-tests \
                            --disable-tools \
                            --disable-valgrind-tests \
@@ -25,3 +26,7 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-doc \
                            --with-included-unistring \
                            --without-p11-kit \
                            --without-tpm"
+
+post_configure_target() {
+  libtool_remove_rpath libtool
+}

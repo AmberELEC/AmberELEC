@@ -138,7 +138,7 @@ then
   mkdir -p "${GAMEDATA}"
 fi
 
-for GAME in ppsspp dosbox scummvm retroarch hatari openbor opentyrian
+for GAME in ppsspp dosbox retroarch hatari
 do
   # Migrate or copy fresh data
   if [ ! -d "${GAMEDATA}/${GAME}" ]
