@@ -31,7 +31,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 ### Device (please complete the following information):
- - Version of 351ELEC that you are using
+ - Version of AmberELEC that you are using
 
 ### Additional context
 Add any other context about the problem here.
