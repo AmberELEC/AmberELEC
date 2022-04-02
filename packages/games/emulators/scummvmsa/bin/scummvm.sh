@@ -8,9 +8,12 @@
 
 CONFIG_DIR="/storage/.config/scummvm"
 ROMSPATH="/storage/roms/scummvm"
-BIOSPATH="${ROMSPATH}/bios"
+BIOSPATH="/storage/roms/bios"
 GAME=$2
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
+
+rm ${CONFIG_DIR}
+ln -sf /storage/roms/scummvm ${CONFIG_DIR}
 
 create_svm(){
   /usr/bin/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
@@ -23,7 +26,7 @@ create_svm(){
     )
 
     SVMPATH="$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | awk 'BEGIN {FS="="}; /path/ {print $2}')"
-    echo '--path="'${SVMPATH}'" '${id} >"ROMSPATH/${filename}.scummvm"
+    echo '--path="'${SVMPATH}'" '${id} >"${ROMSPATH}/${filename}.scummvm"
   done
 }
 
