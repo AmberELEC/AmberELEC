@@ -8,9 +8,13 @@
 
 CONFIG_DIR="/storage/.config/scummvm"
 ROMSPATH="/storage/roms/scummvm"
-BIOSPATH="${ROMSPATH}/bios"
+BIOSPATH="/storage/roms/bios"
 GAME=$2
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
+
+if [[ ! -f "${CONFIG_DIR}/.scummvm" ]]; then
+  rm ${CONFIG_DIR}
+fi
 
 create_svm(){
   /usr/bin/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
@@ -23,13 +27,14 @@ create_svm(){
     )
 
     SVMPATH="$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | awk 'BEGIN {FS="="}; /path/ {print $2}')"
-    echo '--path="'${SVMPATH}'" '${id} >"ROMSPATH/${filename}.scummvm"
+    echo '--path="'${SVMPATH}'" '${id} >"${ROMSPATH}/${filename}.scummvm"
   done
 }
 
-if [ ! -d "$CONFIG_DIR" ]; then
- mkdir -p $CONFIG_DIR
- cp -rf /usr/config/scummvm/* $CONFIG_DIR/
+if [ ! -d "${CONFIG_DIR}" ]; then
+ mkdir -p ${CONFIG_DIR}
+ cp -rf /usr/config/scummvm/* ${CONFIG_DIR}/
+ touch ${CONFIG_DIR}/.scummvm
 fi
 
 case $1 in
@@ -49,7 +54,7 @@ case $1 in
   "add")
     /usr/bin/scummvm --add --path="${ROMSPATH}" --recursive
     mkdir -p ${BIOSPATH}
-    cp $CONFIG_DIR/scummvm.ini ${BIOSPATH}/scummvm.ini
+    cp ${CONFIG_DIR}/scummvm.ini ${BIOSPATH}/scummvm.ini
   ;;
 
   "create")
