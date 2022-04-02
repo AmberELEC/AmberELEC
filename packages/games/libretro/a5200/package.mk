@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+
 PKG_NAME="a5200"
 PKG_VERSION="7eee43299d0abe28828dee2b86f100b066391866"
 PKG_REV="1"
