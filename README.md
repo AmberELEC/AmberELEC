@@ -1,4 +1,4 @@
-<img src="https://351elec.de/images/351ELEC-logo.svg" alt="351ELEC Logo" style="width: 200px"><br />An open source firmware for the Anbernic RG351P/M/V/MP and RG552 devices.<p>
+<img src="https://amberelec.org/images/transparent_amber_elec_horiz.svg" alt="AmberELEC Logo" style="width: 500px"><br />An open source firmware for the Anbernic RG351P/M/V/MP and RG552 devices.<p>
 [![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg?label=latest%20release)](https://github.com/351ELEC/351ELEC/releases/latest)
 [![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue)](https://github.com/351ELEC/351ELEC/blob/main/licenses/GPL2.txt)
 [![Discord](https://img.shields.io/discord/777665344289898536?label=chat%20on%20discord&logo=discord)](https://discord.com/invite/R9Er7hkRMe)<p>
