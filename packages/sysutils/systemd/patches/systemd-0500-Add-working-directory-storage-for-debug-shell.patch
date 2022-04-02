@@ -13,12 +13,11 @@ index 9f3868e106..d5f93f18a6 100644
 +++ b/units/debug-shell.service.in
 @@ -16,6 +16,7 @@ IgnoreOnIsolate=yes
  ConditionPathExists=@DEBUGTTY@
- 
+
  [Service]
 +WorkingDirectory=/storage
  Environment=ENV=/etc/profile
  ExecStart=/bin/sh -c 'echo -en "\033[?25h"; exec /bin/sh'
  Restart=always
--- 
+--
 2.17.1
-
