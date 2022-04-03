@@ -200,7 +200,7 @@ class EmuRunner():
 			self.environment['LD_LIBRARY_PATH'] = '/usr/lib32'
 		
 		rom_path: 'Optional[Path]' = self.rom
-		extension = self.rom.suffix if self.rom else None
+		extension = self.rom.suffix[1:] if self.rom else None
 
 		if self.emulator == 'mame':
 			#Allow es_systems to specify that a MAME driver should be used alongside libretro MAME + RetroArch
