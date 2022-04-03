@@ -109,7 +109,7 @@ fi
 
 # Parallel-N64 Graphic plug-in
 # Get configuration from distribution.conf and set to retrorun.cfg
-get_setting "gfxplugin"
+get_setting "gfx_plugin"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" =~ "parallel_n64" ]]; then
