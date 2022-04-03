@@ -6,7 +6,7 @@ PKG_VERSION=""
 PKG_SHA256=""
 PKG_ARCH="any"
 PKG_LICENSE="OSS"
-PKG_DEPENDS_TARGET="toolchain rs97-commander-sdl2 python-evdev enable-oga-sleep"
+PKG_DEPENDS_TARGET="toolchain rs97-commander-sdl2 enable-oga-sleep"
 PKG_SITE=""
 PKG_URL=""
 PKG_LONGDESC="Support scripts for the ODROID-GO Advance"
@@ -17,7 +17,6 @@ makeinstall_target() {
         cp headphone_sense.sh $INSTALL/usr/bin
 	cp battery.sh $INSTALL/usr/bin
         cp odroidgoa_utils.sh $INSTALL/usr/bin
-        #cp oga_events.py $INSTALL/usr/bin
 }
 
 post_install() {  
