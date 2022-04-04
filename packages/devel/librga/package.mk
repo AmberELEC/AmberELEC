@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="librga"
 PKG_VERSION="1fc02d56d97041c86f01bc1284b7971c6098c5fb"

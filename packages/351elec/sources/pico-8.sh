@@ -1,7 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
-# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 # Source predefined functions and variables
 . /etc/profile

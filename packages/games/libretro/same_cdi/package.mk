@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="same_cdi"
 PKG_VERSION="dcc76a5b6d3fb5da9ca29209e1a66bbc1396f83a"

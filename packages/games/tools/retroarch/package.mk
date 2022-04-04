@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retroarch"
 PKG_VERSION="b2ef25e20f2294ba0ba40ee63dbb81b02afee42e"

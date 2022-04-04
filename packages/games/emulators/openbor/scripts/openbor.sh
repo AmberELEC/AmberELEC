@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
-# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 # OpenBOR only works with Pak files, if you have an extracted game you will need to create a pak first.
 

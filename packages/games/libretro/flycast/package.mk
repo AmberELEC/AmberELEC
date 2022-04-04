@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="flycast"
 PKG_VERSION="e46d819c465ef342f5e9ef4c683231b17f56f206"

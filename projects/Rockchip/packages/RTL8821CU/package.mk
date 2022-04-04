@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
-# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL8821CU"
 PKG_VERSION="4bdd7c8668562e43564cd5d786055633e591ad4d"

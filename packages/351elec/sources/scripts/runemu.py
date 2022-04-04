@@ -256,7 +256,7 @@ class EmuRunner():
 		if 'host' in self.args or 'connect' in self.args:
 			netplay_nick = get_elec_setting('netplay.nickname')
 			if not netplay_nick:
-				netplay_nick = '351ELEC'
+				netplay_nick = 'AmberELEC'
 			if 'connect' in self.args:
 				set_elec_setting('netplay.client.port', self.args['port'])
 				set_elec_setting('netplay.client.ip', self.args['connect']) #We should now have parsed that properly so it's just a hostname/IP address, no --port argument
