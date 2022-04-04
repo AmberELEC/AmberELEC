@@ -90,10 +90,7 @@ fi
 get_setting "internal_resolution"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "parallel_n64_gln64" ]]; then
-		sed -i "/^parallel-n64_gln64-screensize/d" ${RRCONF}
-		echo 'parallel-n64_gln64-screensize = 640x480' >> ${RRCONF}
-	elif [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" =~ "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
 		echo 'parallel-n64-screensize = 640x480' >> ${RRCONF}
 	elif [[ "${CORE}" =~ "flycast" ]]; then
@@ -101,10 +98,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 		echo 'flycast_internal_resolution = 640x480' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "parallel_n64_gln64" ]]; then
-		sed -i "/^parallel-n64_gln64-screensize/d" ${RRCONF}
-		echo "parallel-n64_gln64-screensize = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" =~ "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
 		echo "parallel-n64-screensize = ${EES}" >> ${RRCONF}
 	elif [[ "${CORE}" =~ "flycast" ]]; then
@@ -112,6 +106,24 @@ else
 		echo "flycast_internal_resolution = ${EES}" >> ${RRCONF}
 	fi
 fi
+
+# Parallel-N64 Graphic plug-in
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "gfx_plugin"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
+		echo 'parallel-n64-gfxplugin = rice' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
+		echo "parallel-n64-gfxplugin = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+
 
 # Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
