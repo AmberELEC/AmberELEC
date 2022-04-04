@@ -35,6 +35,17 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-04-04
+## enforce update of retrorun.cfg and reotrarch-core-options.cfg
+cp -rf /usr/config/retroarch/retroarch-core-options.cfg /storage/roms/gamedata/retroarch/retroarch-core-options.cfg
+cp -rf /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/retrorun.cfg
+
+## 2022-04-04
+## enable new frameskip option for flycast core
+if [[ "$LAST_UPDATE_VERSION" -le "20220405" ]]; then
+  rm -rf /storage/roms/gamedata/retroarch/config/Flycast/Flycast.opt
+fi
+
 ## 2022-03-16
 ## Move any existing scummvm data from gamedata to the scummvm system folder
 if [[ -d "/storage/roms/scummvm" ]]; then
