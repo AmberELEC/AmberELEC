@@ -1,7 +1,7 @@
 From 4329ab08ecc02257f3a3dba08d970c952f3818c0 Mon Sep 17 00:00:00 2001
 From: dhwz <dhwz@gmx.net>
 Date: Thu, 7 Oct 2021 14:58:24 +0200
-Subject: [PATCH] build fixes for 351ELEC
+Subject: [PATCH] build fixes for AmberELEC
 
 ---
  Makefile                            | 1 +

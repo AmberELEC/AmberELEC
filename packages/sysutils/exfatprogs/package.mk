@@ -12,7 +12,7 @@ PKG_DEPENDS_TARGET="toolchain linux"
 PKG_LONGDESC="Userspace utilities for exfat"
 PKG_TOOLCHAIN="autotools"
 
-# 'mkfs.exfat' exists in the 'exfat' package and that is what ends up in the final 351ELEC image
+# 'mkfs.exfat' exists in the 'exfat' package and that is what ends up in the final AmberELEC image
 # In some cases, there is an error condition copying this file over the symlink from the 'exfat' package
 # Removing the mkfs.exfat file just avoids that entirely
 post_makeinstall_target() {

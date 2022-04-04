@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
-# Copyright (C) 2021-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="libmali"
 PKG_VERSION="9b1375cfb1e54f89f4f5ae574d809cca486970f5"
 PKG_SHA256="8075c69f7c1123c91fb0021931651a3948859421a47d03762e76310bce38d45c"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
-PKG_SITE="https://github.com/351ELEC/libmali"
+PKG_SITE="https://github.com/AmberELEC/libmali"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libdrm"
 PKG_LONGDESC="The Mali GPU library used in Rockchip Platform"
