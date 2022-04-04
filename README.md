@@ -1,12 +1,12 @@
 ![GitHub-Mark-Dark](https://camo.githubusercontent.com/9d21b94911995ca5ed907fd1688dae360411a1d792a6f4047962041ca12b0b02/68747470733a2f2f616d626572656c65632e6f72672f696d616765732f7472616e73706172656e745f616d6265725f656c65635f686f72697a2e7376672367682d6461726b2d6d6f64652d6f6e6c79#gh-dark-mode-only)
 ![GitHub-Mark-Light](https://camo.githubusercontent.com/1ecfd366cc8fc1bf3dab7a1f685280e2f88f0f43946a9ca784a044ef883fe375/68747470733a2f2f616d626572656c65632e6f72672f696d616765732f7472616e73706172656e745f626c61636b5f616d6265725f656c65635f686f72697a2e7376672367682d6c696768742d6d6f64652d6f6e6c79#gh-light-mode-only)
 <br />An open source firmware for the Anbernic RG351P/M/V/MP and RG552 devices.<p>
-[![GitHub Release](https://img.shields.io/github/release/351ELEC/351ELEC.svg?label=latest%20release&style=flat-square)](https://github.com/351ELEC/351ELEC/releases/latest)
-[![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue?style=flat-square)](https://github.com/351ELEC/351ELEC/blob/main/licenses/GPL2.txt)
+[![GitHub Release](https://img.shields.io/github/release/AmberELEC/AmberELEC.svg?label=latest%20release&style=flat-square)](https://github.com/AmberELEC/AmberELEC/releases/latest)
+[![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue?style=flat-square)](https://github.com/AmberELEC/AmberELEC/blob/main/licenses/GPL2.txt)
 [![Discord](https://img.shields.io/discord/777665344289898536?label=chat%20on%20discord&logo=discord&style=flat-square)](https://discord.com/invite/R9Er7hkRMe)
 <br />
-[![Downloads Latest](https://img.shields.io/github/downloads/351ELEC/351ELEC/latest/total?label=downloads%40latest%20release&style=flat-square)](https://github.com/351ELEC/351ELEC/releases/latest)
-[![Downloads Prerelease](https://img.shields.io/github/downloads/351ELEC/351ELEC-prerelease/total?label=downloads%40prerelease%20builds&style=flat-square)](https://github.com/351ELEC/351ELEC-prerelease/releases)
+[![Downloads Latest](https://img.shields.io/github/downloads/AmberELEC/AmberELEC/latest/total?label=downloads%40latest%20release&style=flat-square)](https://github.com/AmberELEC/AmberELEC/releases/latest)
+[![Downloads Prerelease](https://img.shields.io/github/downloads/AmberELEC/AmberELEC-prerelease/total?label=downloads%40prerelease%20builds&style=flat-square)](https://github.com/AmberELEC/AmberELEC-prerelease/releases)
 
 
 AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux). It is intended for use only on the RG351P/M/V/MP and RG552, it is not compatible with any other device.
@@ -28,7 +28,7 @@ sudo apt update && sudo apt upgrade
 
 sudo apt install gcc make git unzip wget xz-utils libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev rapidjson-dev libasound2-dev libgl1-mesa-dev build-essential libboost-all-dev cmake fonts-droid-fallback libvlc-dev libvlccore-dev vlc-bin texinfo premake4 golang libssl-dev curl patchelf xmlstarlet patchutils gawk gperf xfonts-utils default-jre python xsltproc libjson-perl lzop libncurses5-dev device-tree-compiler u-boot-tools rsync p7zip unrar libparse-yapp-perl zip binutils-aarch64-linux-gnu dos2unix p7zip-full libvpx-dev meson
 
-git clone https://github.com/351ELEC/351ELEC.git AmberELEC
+git clone https://github.com/AmberELEC/AmberELEC.git AmberELEC
 
 cd AmberELEC
 
@@ -57,7 +57,7 @@ New docker make commands:
 
 Example building with docker:
 ```
-git clone https://github.com/351ELEC/351ELEC.git AmberELEC
+git clone https://github.com/AmberELEC/AmberELEC.git AmberELEC
 cd AmberELEC
 make docker-clean
 make docker-world
@@ -79,7 +79,7 @@ When using [Personal Access Token](https://docs.github.com/en/github/authenticat
 
 ```
 ! [remote rejected] main -> main (refusing to allow a Personal Access Token to create or update workflow `.github/workflows/README.md` without `workflow` scope)
-error: failed to push some refs to 'https://github.com/my-351elec-fork/AmberELEC.git'
+error: failed to push some refs to 'https://github.com/my-AmberELEC-fork/AmberELEC.git'
 ```
 
 To fix, edit the [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to add `workflow` permissions (or create a new token with workflow permission).

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
-# Maintenance 2021-present 351ELEC (https://github.com/351ELEC)
+# Maintenance 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="drastic"
 PKG_VERSION="2.5.2.2"

@@ -1,0 +1,137 @@
+#!/bin/sh
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2020-present Fewtarius
+
+# Source predefined functions and variables
+. /etc/profile
+
+# Make sure retroarch is not running before starting emulationstation to avoid sound conflicts
+while pgrep -x /usr/bin/retroarch >/dev/null; do
+    systemctl stop retroarch
+    sleep 1
+done
+
+# Wait for the time specified in ee_load.delay setting in emuelec.conf
+LOADTIME=$(get_ee_setting ee_load.delay)
+sleep $LOADTIME
+
+# Lets try and find some roms on a mounted USB drive
+# name of the file we need to put in the roms folder in your USB or SDCARD
+ROMFILE="roms"
+
+# Only run the USB check if the ROMFILE does not exists in /storage/roms, this can help for manually created symlinks or network shares
+# or if you want to skip the USB rom mount for whatever reason
+if  [ ! -f "/storage/roms/$ROMFILE" ]; then
+
+# if the file is not present then we look for the file in connected USB media, and only return the first match
+FULLPATHTOROMS="$(find /media/*/roms/ -name $ROMFILE -maxdepth 1 | head -n 1)"
+
+if [[ -z "${FULLPATHTOROMS}" ]]; then
+# Can't find the ROMFILE, if the symlink exists, then remove it and restore the backup if it exists
+  if [ -L "/storage/roms" ]; then
+      rm /storage/roms
+     if [ -d "/storage/roms2" ]; then
+      mv /storage/roms2 /storage/roms
+     fi
+  fi
+else
+
+# We back up the roms folder just in case
+  mv /storage/roms /storage/roms2
+# we strip the name of the file.
+  PATHTOROMS=${FULLPATHTOROMS%$ROMFILE}
+
+# this might be overkill but we need to double check that there is no symlink to roms folder already
+# only delete the symlink if the ROMFILE is found.
+# this could be bad if you manually create the symlink, but if you do that, then you know how to edit this file :)
+# but we need to find a better way
+
+if  [ -L "/storage/roms" ]; then
+ rm /storage/roms
+fi
+
+# All the sanity checks have passed, we have a ROMFILE so we create the symlink to the roms in our USB
+    ln -sTf "$PATHTOROMS" /storage/roms
+  fi
+fi
+
+# Set audio to alsa if we are starting retroarch or default otherwise
+# Run /usr/bin/setsettings.sh to get the lastest changes in ES before starting RetroArch as well
+if [ "$1" == "retroarch" ]; then
+  set_audio alsa
+  /usr/bin/setsettings.sh
+else
+  set_audio default
+fi
+
+TZ=$(get_ee_setting system.timezone)
+echo -n "TIMEZONE=$TZ" > /storage/.cache/timezone
+systemctl restart tz-data.service
+
+# create charmap used for translations
+locale=$(get_ee_setting system.language)
+if [ $? == "0" ]
+then
+  charmap="UTF-8"
+  lang="${locale}.${charmap}"
+  locpath="/storage/.config/emulationstation/locale"
+  i18npath="$locpath/i18n"
+  localepath="$locpath/$lang"
+
+  if [ ! -d $localepath ]; then
+    export I18NPATH=$i18npath
+    maxperf
+    /usr/bin/localedef -f $charmap -i $locale $localepath
+    normperf
+  fi
+
+  export LOCPATH=$locpath
+  export LANG=$lang
+  export LANGUAGE=$lang
+  systemctl import-environment LANG
+  systemctl import-environment LOCPATH
+  systemctl import-environment I18NPATH
+  systemctl import-environment LANGUAGE
+fi
+
+# Initialize audio so the softvol mixer is created and audio is allowed to be changed
+# - This is the shortest, totally silent .wav I could create with audacity - duration is .001 seconds
+aplay /usr/bin/emustation-config-init.wav 
+
+if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
+  # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
+  /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
+fi
+
+if [[ ! -f "/storage/.newcfg" ]]; then
+  # we don't use es_systems.cfg in this folder anymore
+  # cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
+  touch /storage/.newcfg
+  echo -en '\e[20;0H                                        ' >/dev/console
+fi
+
+#BTENABLED=$(get_ee_setting ee_bluetooth.enabled)
+#if [[ "$BTENABLED" == "1" ]]; then
+
+# Search for bluetooth gamepads while ES loads.
+#(
+# Kill the BT agent if exists, in case of restart
+#NPID=$(pgrep -f batocera-bluetooth-agent)
+#if [[ ! -z "$NPID" ]]; then
+#	kill "$NPID"
+#fi
+#echo "AmberELEC Bluetooth Log" > /tmp/logs/bt.log
+#sleep 5
+#echo "Starting..." >> /tmp/logs/bt.log
+#python /storage/.config/distribution/scriptmodules/supplementary/bluetoothcontroller.py >> /tmp/logs/bt.log 2>&1
+
+# only start the bt agent if not already running
+#NPID=$(pgrep -f batocera-bluetooth-agent)
+#if [[ -z "$NPID" ]]; then
+# (systemd-run batocera-bluetooth-agent) || :
+#fi
+#) &
+#fi
+exit 0

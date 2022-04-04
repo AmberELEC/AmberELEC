@@ -10,4 +10,4 @@ Type=overlay
 Options=lowerdir=/usr/share/common-shaders,upperdir=/storage/shaders,workdir=/storage/.tmp/shaders-workdir
 
 [Install]
-WantedBy=351elec.target
+WantedBy=amberelec.target

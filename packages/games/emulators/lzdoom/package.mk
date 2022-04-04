@@ -4,7 +4,7 @@
 PKG_NAME="lzdoom"
 PKG_VERSION="4d143a036cc18aa5854d8f6751fb8eebe41549f8"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/351ELEC/lzdoom"
+PKG_SITE="https://github.com/AmberELEC/lzdoom"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 lzdoom:host"
 PKG_SHORTDESC="LZDoom"

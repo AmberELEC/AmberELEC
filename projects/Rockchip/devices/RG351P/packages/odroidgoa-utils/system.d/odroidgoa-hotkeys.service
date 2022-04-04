@@ -2,7 +2,7 @@
 Description=Odroid Go Advance Hotkeys
 ConditionPathExists=/dev/input/event0
 ConditionPathExists=/dev/input/event2
-Before=351elec.target
+Before=amberelec.target
 
 [Service]
 Environment=HOME=/storage

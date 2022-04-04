@@ -46,7 +46,7 @@
     UBOOT_SYSTEM="rg351mp"
 
   # additional packages to install
-    ADDITIONAL_PACKAGES="dtc 351elec"
+    ADDITIONAL_PACKAGES="dtc amberelec"
 
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,

@@ -4,7 +4,7 @@
 
 # Based on work by ToKe79 and Shanti Gilbert
 
-OPTIONS="distributions/351ELEC/options"
+OPTIONS="distributions/AmberELEC/options"
 RAPACKAGES="retroarch-assets libretro-database core-info glsl-shaders"
 EMUPACKAGES="$LIBRETRO_CORES advancemame hypseus-singe PPSSPPSDL amiberry hatarisa openbor scummvmsa solarus lzdoom gzdoom raze mupen64plussa-audio-sdl mupen64plussa-core mupen64plussa-input-sdl mupen64plussa-rsp-hle mupen64plussa-ui-console mupen64plussa-video-glide64mk2 mupen64plussa-video-rice hydracastlelabyrinth sdlpop opentyrian"
 BLOCKLIST="config/blocklist"

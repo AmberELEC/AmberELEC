@@ -6,7 +6,7 @@ PKG_VERSION=""
 PKG_LICENSE="various"
 PKG_SITE=""
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain 351elec"
+PKG_DEPENDS_TARGET="toolchain AmberELEC"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {

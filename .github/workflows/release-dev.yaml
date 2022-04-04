@@ -40,7 +40,7 @@ jobs:
           run: |
           
               #Figure out last dev build date by converting the latest 351dev/dev-builds tag into a date and 
-              # looking for commits in 351ELEC newer than that date
+              # looking for commits in AmberELEC newer than that date
               git clone https://github.com/${{ steps.dev_builds_full_name.outputs.full_name }} dev
               pushd dev
               last_tag=$(git tag -l | grep "dev-" | tail -1)
