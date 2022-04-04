@@ -150,7 +150,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     logger.log(f'Device: {device_name}')
 
     # Is the CORE 32 or 64bit?
-    if core in {'pcsx_rearmed', 'parallel_n64', 'parallel_n64_gln64'}:
+    if core in {'pcsx_rearmed', 'parallel_n64'}:
         bits='32bit'
     else:
         bits='64bit'
