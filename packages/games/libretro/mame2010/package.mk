@@ -1,7 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
-#      Copyright (C) 2020-present 351ELEC (https://github.com/351ELEC)
+#      Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

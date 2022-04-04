@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<gameList>
+
+	<game>
+		<path>./File Manager.sh</path>
+		<name>File Manager</name>
+		<desc>Dual panel file manager</desc>
+		<developer>AmberELEC </developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
+		<image>./downloaded_images/filemanager.png</image>
+	</game>
+
+	<game>
+		<path>./Start PPSSPP.sh</path>
+		<name>Start PPSSPP</name>
+		<desc>Run the PPSSPP emulator without starting a game.</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/ppsspp-thumb.png</thumbnail>
+		<image>./downloaded_images/ppsspp.png</image>
+	</game>
+
+	<game>
+		<path>./Start Pico-8.sh</path>
+		<name>Start Pico-8</name>
+		<desc>Run the Pico-8 emulator without starting a game.</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/pico8-thumb.png</thumbnail>
+		<image>./downloaded_images/pico8.png</image>
+	</game>
+
+	<game>
+		<path>./Start ScummVM.sh</path>
+		<name>Start ScummVM</name>
+		<desc>Run the ScummVM emulator without starting a game.</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/scummvm-thumb.png</thumbnail>
+		<image>./downloaded_images/scummvm.png</image>
+	</game>
+
+	<game>
+		<path>./Scan ScummVM Games.sh</path>
+		<name>Scan ScummVM Games</name>
+		<desc>Scan for newly added ScummVM games.</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/scummvm_scan-thumb.png</thumbnail>
+		<image>./downloaded_images/scummvm_scan.png</image>
+	</game>
+
+	<game>
+		<path>./Start 32bit Retroarch.sh</path>
+		<name>Start 32bit RetroArch</name>
+		<desc>Run 32bit RetroArch</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/retroarch32-thumb.png</thumbnail>
+		<image>./downloaded_images/retroarch32.png</image>
+	</game>
+
+	<game>
+		<path>./Start 64bit Retroarch.sh</path>
+		<name>Start 64bit RetroArch</name>
+		<desc>Run 64bit RetroArch</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/retroarch64-thumb.png</thumbnail>
+		<image>./downloaded_images/retroarch64.png</image>
+	</game>
+
+	<game>
+		<path>./Remove ._ Files.sh</path>
+		<name>Run Remove ._ Files</name>
+		<desc>Removes hidden ._ files created by the MacOS filesystem</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/clean-thumb.png</thumbnail>
+		<image>./downloaded_images/clean.png</image>
+	</game>
+
+	<game>
+		<path>./usbmount.sh</path>
+		<name>Mount/Unmount USB drive</name>
+		<desc>Mounts/Unmounts a USB drive connected to the OTG port</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/usb-thumb.png</thumbnail>
+		<image>./downloaded_images/usb.png</image>
+	</game>
+
+	<game>
+		<path>./psx_create_m3u.sh</path>
+		<name>PSX - Create m3u files</name>
+		<desc>Generate m3u files of psx games</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/psx_m3u_generator-thumb.png</thumbnail>
+		<image>./downloaded_images/psx_m3u_generator.png</image>
+	</game>
+
+	<game>
+		<path>./psx_delete_m3u.sh</path>
+		<name>PSX - Delete m3u files</name>
+		<desc>Delete m3u files of psx games</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/psx_delete_m3u-thumb.png</thumbnail>
+		<image>./downloaded_images/psx_delete_m3u.png</image>
+	</game>
+
+	<game>
+		<path>./cloud_backup.sh</path>
+		<name>Cloud Save Backup</name>
+		<desc>Backups your saves and system backup over the cloud</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
+		<image>./downloaded_images/rclone-back.png</image>
+	</game>
+
+	<game>
+		<path>./cloud_restore.sh</path>
+		<name>Cloud Save Restore</name>
+		<desc>Restore your saves and system backup from the cloud</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
+		<image>./downloaded_images/rclone-restore.png</image>
+	</game>
+
+	<game>
+		<path>./351Files.sh</path>
+		<name>351Files</name>
+		<desc>Single panel file manager</desc>
+		<developer>Tardigrade</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2021</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/filemanager-thumb.png</thumbnail>
+		<image>./downloaded_images/filemanager.png</image>
+	</game>
+
+	<game>
+		<path>./display_fix.sh</path>
+		<name>Display timing Fix</name>
+		<desc>This will fix display timing issues for some RG351MP/V devices.</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2022</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/timing-thumb.png</thumbnail>
+		<image>./downloaded_images/timing.png</image>
+	</game>
+
+</gameList>

@@ -82,7 +82,7 @@ package-clean:
 docker-%: DOCKER_IMAGE := "351elec/351elec-build:latest"
 
 # DOCKER_WORK_DIR is the directory in the Docker image - it used to be /work
-#   Anytime this directory changes, you must run `make clean` similarly to moving the 351ELEC directory
+#   Anytime this directory changes, you must run `make clean` similarly to moving the AmberELEC directory
 docker-%: DOCKER_WORK_DIR := $(shell if [ -n "${DOCKER_WORK_DIR}" ]; then echo ${DOCKER_WORK_DIR}; else echo $$(pwd); fi)
 
 # DEVELOPER_SETTINGS is a file containing developer speicific settings.  This will be mounted into the container if it exists
@@ -127,7 +127,7 @@ docker-image-pull:
 	$(SUDO) $(DOCKER_CMD) pull $(DOCKER_IMAGE)
 
 # Command: pushes the latest Docker image to dockerhub.  This is *not* needed to build. It updates the latest build image in dockerhub for everyone.
-# Only 351elec admins in dockerhub can do this.
+# Only AmberELEC admins in dockerhub can do this.
 #
 # You must login with: docker login --username <username> and provide either a password or token (from user settings -> security in dockerhub) before this will work.
 docker-image-push:

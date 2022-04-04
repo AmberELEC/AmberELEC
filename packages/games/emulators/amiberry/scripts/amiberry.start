@@ -14,7 +14,7 @@ AMIBERRY_LOG=/tmp/logs/amiberry.log
 MAX_DRIVES=4
 i=0
 
-echo "351ELEC Amiberry Log" > "$AMIBERRY_LOG"
+echo "AmberELEC Amiberry Log" > "$AMIBERRY_LOG"
 
 find_gamepad() {
 # Search for connected gamepads based s0 and extract the name to $GAMEPAD

@@ -2,7 +2,7 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
-# Copyright (C) 2022-present 351ELEC (https://github.com/351ELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 . /etc/profile
 
@@ -152,5 +152,5 @@ if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
 elif [[ "${ext}" == "daphne" ]] && [[ ! -f "${dir}/${name}.singe" ]]; then
 	hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $TIPHAT $params
 else
-	text_viewer -e -w -t "No supported LaserDisc game found!" -m "Please go to https://351elec.de/System-Laserdisc for further information!"
+	text_viewer -e -w -t "No supported LaserDisc game found!" -m "Please go to https://amberelec.org/System-Laserdisc for further information!"
 fi

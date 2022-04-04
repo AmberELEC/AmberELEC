@@ -21,7 +21,7 @@ DISTRO_DIR="${ROOT}/distributions"
 PROJECT_DIR="${ROOT}/projects"
 
 # determines DISTRO, if not forced by user
-DISTRO="${DISTRO:-351ELEC}"
+DISTRO="${DISTRO:-AmberELEC}"
 
 # determines PROJECT, if not forced by user
 PROJECT="${PROJECT:-Rockchip}"

@@ -1,16 +1,16 @@
 # Build Overview
-The build server is a single server with solid state disks (SSDs).  It runs two self-hosted Github action runners to perform builds. Conceptually, this is like using free GitHub actions except we register our own server to run the build. Using self-hosted runners is required as all known free options to run builds are too small (typically in disk size) to run the 351ELEC build.
+The build server is a single server with solid state disks (SSDs).  It runs two self-hosted Github action runners to perform builds. Conceptually, this is like using free GitHub actions except we register our own server to run the build. Using self-hosted runners is required as all known free options to run builds are too small (typically in disk size) to run the AmberELEC build.
 
 A major advantage of using GitHub actions with a self hosted server - as opposed to a full self hosted build system like Jenkins - is that the server is effectively stateless. Build folders are cached, but can easily be rebuilt, making it easy to replace the server.
 
 **Runners**
 - **main** Driven by [build-main.yaml](build-main.yaml)
   - **Logic**: An 'incremental' build (no `make clean`) is run on every commit to `main`.  All *build.* directories are saved between builds.
-  - If a 'full' build is required.  `make clean` can be run manually by 351ELEC admins via the Github UI.  Driven by: [clean-main.yaml](docs/clean-main.yaml)
+  - If a 'full' build is required.  `make clean` can be run manually by AmberELEC admins via the Github UI.  Driven by: [clean-main.yaml](docs/clean-main.yaml)
 - **Pull Requests**. Driven by [build-pr.yaml](build-pr.yaml)
   - **Logic**: An 'incremental' build (no `make clean`) is run on every PR which is from a previous committer. 
-    - Limiting the PRs built is done for security to ensure randomly submitted PRs are not built without some level of review (only 351ELEC admins are allowed to request reviewers)
-  - If a 'full' PR build is required `make clean` can be run manually by 351ELEC admins for the PR builder.  Driven by: [clean-pr.yaml](docs/clean-pr.yaml)
+    - Limiting the PRs built is done for security to ensure randomly submitted PRs are not built without some level of review (only AmberELEC admins are allowed to request reviewers)
+  - If a 'full' PR build is required `make clean` can be run manually by AmberELEC admins for the PR builder.  Driven by: [clean-pr.yaml](docs/clean-pr.yaml)
 
 This two-runner design is to ensure that 'main' builds are not clogged up by random PR pushes, etc.  
 
@@ -39,4 +39,4 @@ the build server itself can be easily swapped out for another server.  The follo
 See: [Build Server Setup](docs/build-server-setup.md) for more details on provisioning the build server and configuring GitHub.
 
 # Troubleshooting Build Server issues
-If builds aren't working correctly and you have permissions to 351ELEC GitHub and/or the build server, see: [Build Server Troubleshooting](docs/build-server-troubleshooting.md)
+If builds aren't working correctly and you have permissions to AmberELEC GitHub and/or the build server, see: [Build Server Troubleshooting](docs/build-server-troubleshooting.md)
