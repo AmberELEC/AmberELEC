@@ -12,7 +12,7 @@ then
   exit 1
 fi
 
-export DISTRO=351ELEC
+export DISTRO=AmberELEC
 export PROJECT=Rockchip
 
 echo "Building ${DISTRO} for ${DEVICE}"

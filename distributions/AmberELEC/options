@@ -8,7 +8,7 @@
   HARDENING_SUPPORT="no"
 
 # Name of the Distro to build (full name, without special characters)
-  DISTRONAME="351ELEC"
+  DISTRONAME="AmberELEC"
 
 # short project description
   DESCRIPTION="An Open Source firmware."

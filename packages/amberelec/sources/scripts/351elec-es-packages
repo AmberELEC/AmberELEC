@@ -22,7 +22,7 @@ elif [ "${ARCH}" == "RG351MP" ]; then
 elif [ "${ARCH}" == "RG552" ]; then
   DEVICE="RG552"
 fi
-DISTRO="351ELEC"
+DISTRO="AmberELEC"
 CONFIGDIR="/storage/.config/packages"
 PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC-metadata/main/${ARCH}/packages.cfg"
 LOCALPACKAGELIST="/storage/.config/packages.cfg"
