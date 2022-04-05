@@ -26,6 +26,7 @@ import shutil
 ra_conf = "/storage/.config/retroarch/retroarch.cfg"
 ra_source_conf = "/usr/config/retroarch/retroarch.cfg"
 ra_core_conf = "/storage/.config/retroarch/retroarch-core-options.cfg"
+ra_core_source_conf = "/usr/config/retroarch/retroarch-core-options.cfg"
 ra_append_conf = "/tmp/raappend.cfg"
 os_arch_conf = "/storage/.config/.OS_ARCH"
 snapshots = "/storage/roms/savestates"
@@ -52,7 +53,7 @@ class Logger:
 class MyConfigParser(ConfigParser):
     def read(self, filename: str) -> None:
         text = open(filename, encoding="utf_8").read()
-        self.read_string("[351elec]\n" + text, filename)
+        self.read_string("[amberelec]\n" + text, filename)
 
 @dataclass
 class Config:
@@ -65,7 +66,7 @@ class Config:
         # Read the distribution.conf to a dictionary
         config_parser = MyConfigParser(strict=False)
         config_parser.read(self.distribution_conf)
-        self.config = config_parser['351elec']
+        self.config = config_parser['amberelec']
 
     def get_setting(self, setting: str) -> str:
         """Get the settings from distribution.conf"""
@@ -140,9 +141,11 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Delete any existing raappend.cfg first
     if os.path.isfile(ra_append_conf):
         os.remove(ra_append_conf)
-    # Restore retroarch.cfg if it is missing or empty
+    # Restore retroarch.cfg / retroarch-core-options.cfg if it is missing or empty
     if not os.path.isfile(ra_conf) or os.stat(ra_conf).st_size == 0:
         shutil.copy(ra_source_conf,ra_conf)
+    if not os.path.isfile(ra_core_conf) or os.stat(ra_core_conf).st_size == 0:
+        shutil.copy(ra_core_source_conf,ra_core_conf)
 
     # Get the Device Name
     with open(os_arch_conf, encoding="utf-8") as f:
@@ -490,11 +493,13 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     #   RG552 = 1920x1152
     # Consoles (width x hight)
     #   GB/GBC/GG = 160x144
+    #   GBA = 240×160
     #   supervision = 160x160
     #   Pokemini = 96x64
     #   ngp/ngpc = 160x152
     #   wonderswan/wonderswancolor = 224×144
     #   arduboy = 128x64
+    #   GameKing = 48x32
     if device_name == "RG351P":
         system_viewport = {
             'standard': (1, 1, 479, 319),          # max-1
@@ -534,6 +539,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'gbh': (320, 0, 1280, 1152),             # x8
             'gbc': (320, 0, 1280, 1152),             # x8
             'gbch': (320, 0, 1280, 1152),            # x8
+            'gba': (360, 176, 1200, 800),            # x5
             'supervision': (400, 16, 1120, 1120),    # x7
             'gamegear': (320, 0, 1280, 1152),        # x8
             'ggh': (320, 0, 1280, 1152),             # x8
@@ -543,13 +549,14 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'wonderswan': (512, 288, 896, 576),      # x4
             'wonderswancolor': (512, 288, 896, 576), # x4
             'arduboy': (448, 320, 1024,512),         # x8
+            'gameking': (432, 224, 1056, 704),       # x22
         }
 
     bezel_cfg = None
 
     if (bezel := config.get_setting('bezel')) and platform in system_viewport:
         logger.log(f'bezel: {bezel} platform: {platform} rom: {rom_name}')
-        tmp_bezel = "/tmp/351elec-bezel.cfg"
+        tmp_bezel = "/tmp/amberelec-bezel.cfg"
         game_cfg = ''
         # set path
         path = ''
