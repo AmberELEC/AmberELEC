@@ -79,7 +79,7 @@ When using [Personal Access Token](https://docs.github.com/en/github/authenticat
 
 ```
 ! [remote rejected] main -> main (refusing to allow a Personal Access Token to create or update workflow `.github/workflows/README.md` without `workflow` scope)
-error: failed to push some refs to 'https://github.com/my-351elec-fork/AmberELEC.git'
+error: failed to push some refs to 'https://github.com/my-AmberELEC-fork/AmberELEC.git'
 ```
 
 To fix, edit the [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to add `workflow` permissions (or create a new token with workflow permission).
