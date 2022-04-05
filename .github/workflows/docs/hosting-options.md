@@ -10,7 +10,7 @@ For the 'Build System' (Circleci, Travisci, Jenkins, Github Actions) only Github
 The research/evaluation was done in June 2021 and may need to be re-evaluated in the future.
 
 # Build Overview
-Here is the information about what is needed to build 351ELEC for RG351P and RG351V.
+Here is the information about what is needed to build AmberELEC for RG351P and RG351V.
 - **Disk space** - After a build of both RG351P/V, the build directory takes up about 140GB.  Within that, the breakdown is roughly:
   - **RG351P**
     - **build - ARM (32-bit)** - 16GB
@@ -32,7 +32,7 @@ Here is the information about what is needed to build 351ELEC for RG351P and RG3
 - **RAM** - Typically RAM is not an issue given most systems come with a lot of RAM to meet the CPU requirements.  8GB works fine.  Less would probably work, but has not been tested.
 
 # Hosted Build Runners
-Build runners are the actual *hosts* that run the builds.  Typically, free runners are bundled with hosted build systems (listed below).  Basically, the large disk and CPU requiremnts of the build mean that no free runners will work for 351ELEC.  **NOTE**: the full **build systems** (not just hosted runners) are evaluated in a later section.
+Build runners are the actual *hosts* that run the builds.  Typically, free runners are bundled with hosted build systems (listed below).  Basically, the large disk and CPU requiremnts of the build mean that no free runners will work for AmberELEC.  **NOTE**: the full **build systems** (not just hosted runners) are evaluated in a later section.
 
 - **Github Actions** (https://github.com/pricing and https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions and https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#:~:text=14%20GB%20of%20RAM%20memory,GB%20of%20SSD%20disk%20space)
   - **CPU** - 2
@@ -41,7 +41,7 @@ Build runners are the actual *hosts* that run the builds.  Typically, free runne
   - **Free Plan**:
     - For public repositories
       - Unlimited automation minutes per month
-  - **Summary**: Disk is too small for 351ELEC builds.
+  - **Summary**: Disk is too small for AmberELEC builds.
 
 - **Circle CI**
   - **Max build time**: 5 hours
@@ -55,14 +55,14 @@ Build runners are the actual *hosts* that run the builds.  Typically, free runne
     - See: https://docs.travis-ci.com/user/reference/overview/
     - **Max build time**: 50 minutes
     - **Max disk space**: ~50GB. 
-    - **Summary** - 351ELEC's build time and disk usage is too large to use free plan.
+    - **Summary** - AmberELEC's build time and disk usage is too large to use free plan.
 
 - **Appveyor**
   - Disk: 7GB (https://help.appveyor.com/discussions/problems/24408-not-enough-disk-sapce)
-  - **Summary** 351ELEC's disk usage is too large to use free plan.
+  - **Summary** AmberELEC's disk usage is too large to use free plan.
 
 # Build Systems
-A build system is the 'framework' the builds run with.  Oftentimes, a build system will provide a 'runner' (which actually runs the build) which is listed separately in the section above.  Build systems which require self-hosting weren't really evaluated (Jenkins) as taking on the additional complexity doesn't make sense unless free options don't work.  **Summary** - Only Github Actions + self hosted runners is a viable option due to size/build length limitations of 351ELEC.
+A build system is the 'framework' the builds run with.  Oftentimes, a build system will provide a 'runner' (which actually runs the build) which is listed separately in the section above.  Build systems which require self-hosting weren't really evaluated (Jenkins) as taking on the additional complexity doesn't make sense unless free options don't work.  **Summary** - Only Github Actions + self hosted runners is a viable option due to size/build length limitations of AmberELEC.
 
 - **Github Actions**
   - Max build time - 72 hours
@@ -103,7 +103,7 @@ A build system is the 'framework' the builds run with.  Oftentimes, a build syst
 
 
 # Self Hosted Runners
-As there is no hosted/free option for a 'build runner' suitable for 351ELEC, we need to look at paid options.  The two major categories of server are 'dynamic' (cloud-based) and 'static' (server based).
+As there is no hosted/free option for a 'build runner' suitable for AmberELEC, we need to look at paid options.  The two major categories of server are 'dynamic' (cloud-based) and 'static' (server based).
 
 ## Dynamic Self Hosted Runners
 Extensive evaluation of AWS was done along with Github Runners to dynamically spin up Spot Instances (saves cost), register them as temporary github runners and cache the build environment in S3 build and deregister.  This ultimately got costs for a full build down to about $2 USD per full build and 20-30 cents for an incremental build.  The usage of spot instances was found to make the high CPU costs cheaper than other cloud providers such as Digital Ocean and Google Cloud, however, the data transfer costs (next section) do prove prohibitive.

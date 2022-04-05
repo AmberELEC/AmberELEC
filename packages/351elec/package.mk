@@ -52,7 +52,7 @@ makeinstall_target() {
     cp $INSTALL/usr/config/distribution/configs/distribution.conf.552  $INSTALL/usr/config/distribution/configs/distribution.conf
   fi
 
-  sed -i "s/system.hostname=351ELEC/system.hostname=${DEVICE}/g" $INSTALL/usr/config/distribution/configs/distribution.conf
+  sed -i "s/system.hostname=AmberELEC/system.hostname=${DEVICE}/g" $INSTALL/usr/config/distribution/configs/distribution.conf
 
   echo "${LIBREELEC_VERSION}" > $INSTALL/usr/config/.OS_VERSION
 

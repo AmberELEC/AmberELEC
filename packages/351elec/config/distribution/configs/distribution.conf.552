@@ -1,4 +1,4 @@
-## ------------ A - 351ELEC configuration ------------ #
+## ------------ A - AmberELEC configuration ------------ #
 
 ## Enable D-Pad to analogue at boot until we create a proper toggle
 global.analogue=1
@@ -47,7 +47,7 @@ advmame_auto_gamepad=0
 
 # ------------ B - Network ------------ #
 ## Set system hostname
-system.hostname=351ELEC
+system.hostname=AmberELEC
 ## Activate wifi (0,1)
 wifi.enabled=0
 ## Wifi SSID (string)

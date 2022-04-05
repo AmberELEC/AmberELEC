@@ -1,7 +1,7 @@
 # Overview
 The build server is currently hosted via Ionos (https://www.ionos.com/) as a dedicated server with AMD CPUs and an SSD.  This dedicated server is likely overkill (though helpful on slow 'full' builds that *still* take 5-6 hours), but does provide a good cost-benefit ratio compared to many statically provided cloud VMs - particularly in terms of disk space.  SSD's are helpful in running multiple builds at once as a HDD based system is quite unresponsive during intensive disk access.
 
-In order to facilitate re-deploying on a new server, we have captured the deployment of the server into a `cloud-init` file.  The cloud-init file will need to be updated with a current github runner token for registering an action runner as well as ssh public keys to match the generated private keys.  This means this page is only useful to admins of the 351ELEC repository (or a fork wanting to run it's own builds).
+In order to facilitate re-deploying on a new server, we have captured the deployment of the server into a `cloud-init` file.  The cloud-init file will need to be updated with a current github runner token for registering an action runner as well as ssh public keys to match the generated private keys.  This means this page is only useful to admins of the AmberELEC repository (or a fork wanting to run it's own builds).
 
 # Deployment
 
@@ -11,7 +11,7 @@ You will need to update the following variables in the cloud-init before deploym
 
 - **SSH keys** (`_SSH_PUBLIC_KEY_CLOUD_USER` and `__SSH_PUBLIC_KEY_BUILD_USER`) - for security, you should generate one for `cloud-user` (admin) and one for `build-user` (runs builds/troubleshooting - no sudo).
   - To generate, run: `ssh-keygen -t ed25519 -a 100` and put the content of the `*.pub` file that gets created below for `__SSH_PUBLIC_KEY_CLOUD_USER` and `__SSH_PUBLIC_KEY_BUILD_USER`
-- **Github Runner Token** - You can find this in github in the 351ELEC repository under `settings` -> `actions` -> `runners` -> `Add Runner` (button) and copy the value in the `Configuration` section after `--token`.  Example: `AHIRSKSEMU4G7JQ2Z7X2UA3AW2TCC`.  NOTE: This token will only be valid for one hour, so you will need to provision the server within an hour.  You can also run register the runner manually after deployment.
+- **Github Runner Token** - You can find this in github in the AmberELEC repository under `settings` -> `actions` -> `runners` -> `Add Runner` (button) and copy the value in the `Configuration` section after `--token`.  Example: `AHIRSKSEMU4G7JQ2Z7X2UA3AW2TCC`.  NOTE: This token will only be valid for one hour, so you will need to provision the server within an hour.  You can also run register the runner manually after deployment.
 
 - **(optional) Github Runner Name** - it is set to `build-server` currently. If you do not change this value, the new server will *replace* the existing github runners.  If you would like to register new/additional runners for testing, etc, change it to something new.
 
@@ -45,7 +45,7 @@ users:
 runcmd:
   # Set variables
   - export GITHUB_RUNNER_TOKEN=__GITHUB_RUNNER_TOKEN
-  - export GITHUB_REPO=https://github.com/351ELEC/351ELEC
+  - export GITHUB_REPO=https://github.com/AmberELEC/AmberELEC
   - export BUILD_SERVER_NAME=build-server
   - export DEBIAN_FRONTEND=noninteractive
   - export MAIN_RUNNER_DIR=/var/runner

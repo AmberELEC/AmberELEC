@@ -34,8 +34,8 @@ jobs:
           id: changes
           run: |
           
-              #Figure out last prerelease date by converting the latest 351ELEC-prerelease tag into a date and 
-              # looking for commits in 351ELEC newer than that date
+              #Figure out last prerelease date by converting the latest AmberELEC-prerelease tag into a date and 
+              # looking for commits in AmberELEC newer than that date
               git clone https://github.com/${{ steps.full_name.outputs.full_name }}-prerelease prerelease
               pushd prerelease
               last_tag=$(git tag -l | grep "prerelease-" | tail -1)
