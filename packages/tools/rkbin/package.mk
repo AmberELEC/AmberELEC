@@ -13,7 +13,7 @@ fi
 
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
-PKG_SITE="https://github.com/351ELEC/rkbin"
-PKG_URL="https://github.com/351ELEC/rkbin/archive/$PKG_VERSION.tar.gz"
+PKG_SITE="https://github.com/AmberELEC/rkbin"
+PKG_URL="https://github.com/AmberELEC/rkbin/archive/$PKG_VERSION.tar.gz"
 PKG_LONGDESC="rkbin: Rockchip Firmware and Tool Binaries"
 PKG_TOOLCHAIN="manual"

@@ -152,5 +152,5 @@ if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
 elif [[ "${ext}" == "daphne" ]] && [[ ! -f "${dir}/${name}.singe" ]]; then
 	hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $TIPHAT $params
 else
-	text_viewer -e -w -t "No supported LaserDisc game found!" -m "Please go to https://351elec.de/System-Laserdisc for further information!"
+	text_viewer -e -w -t "No supported LaserDisc game found!" -m "Please go to https://amberelec.org/System-Laserdisc for further information!"
 fi

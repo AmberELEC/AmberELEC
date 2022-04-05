@@ -1,6 +1,6 @@
 ################################################################################
 #
-#  Copyright (C) 2021      351ELEC team (https://github.com/351ELEC/351ELEC)
+#  Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

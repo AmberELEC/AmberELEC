@@ -1,7 +1,7 @@
 [Unit]
 Description=Odroid Go Advance Headphone Sense
 ConditionPathExists=/dev/input/event1
-Before=351elec.target
+Before=amberelec.target
 
 [Service]
 Environment=HOME=/storage

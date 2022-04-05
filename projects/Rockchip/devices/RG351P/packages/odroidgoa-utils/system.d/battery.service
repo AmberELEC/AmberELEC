@@ -1,7 +1,7 @@
 [Unit]
 Description=RG351P Low Power monitor
 ConditionPathExists=/sys/class/power_supply/battery/capacity
-Before=351elec.target
+Before=amberelec.target
 
 [Service]
 Environment=HOME=/storage
