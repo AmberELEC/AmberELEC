@@ -79,7 +79,7 @@ package-clean:
 # For example: make docker-RG351V will use docker to call: make RG351V
 # All variables are scoped to docker-* commands to prevent weird collisions/behavior with non-docker commands
 
-docker-%: DOCKER_IMAGE := "351elec/351elec-build:latest"
+docker-%: DOCKER_IMAGE := $(shell if [ -n "${DOCKER_IMAGE}" ]; then echo `echo ${DOCKER_IMAGE} | tr '[:upper:]' '[:lower:]'`; else echo "ghcr.io/amberelec/amberelec-build"; fi)
 
 # DOCKER_WORK_DIR is the directory in the Docker image - it used to be /work
 #   Anytime this directory changes, you must run `make clean` similarly to moving the AmberELEC directory
