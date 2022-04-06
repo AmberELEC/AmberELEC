@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="mame2000"
-PKG_VERSION="51079410d52da026e67448c482afeac7bcc876e7"
-PKG_SHA256="15b135f3375ab8ebc6b06e9bb4fb061c9cc0bc20d5070fe4cc73aad970764249"
+PKG_VERSION="f35db3877f8a79a174dd3b2e37f4ebf39d71d5a4"
+PKG_SHA256="52eff8f99439be00c2875d3811ec1534d2e9a3f08dccfaafd49331dcaf3e6145"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"

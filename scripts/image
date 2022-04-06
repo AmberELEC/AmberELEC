@@ -74,12 +74,12 @@ ORIGIN_URL="$(git remote -v | awk '$1 == "origin" { print $2 }' | head -1 | sed 
 
 [ "${BUILDER_NAME,,}" = "official" ] && BUILDER_NAME=
 if [ "${OFFICIAL}" = "yes" ]; then
-  LIBREELEC_BUILD=$(echo `echo VDJabWFXTnBZV3dnTFNBek5URkZURVZESUVsVElFWlNSVVVnUVU1RUlFNVBWQ0JHVDFJZ1UwRk1SU0U9 | base64 --decode` | base64 --decode)
+  LIBREELEC_BUILD=$(echo `echo VDJabWFXTnBZV3dnTFNCQmJXSmxja1ZNUlVNZ1NWTWdSbEpGUlNCQlRrUWdUazlVSUVaUFVpQlRRVXhGSVE9PQ== | base64 --decode` | base64 --decode)
 else
   if [ -n "${BUILDER_NAME}" ]; then
     LIBREELEC_BUILD="${BUILDER_NAME}"
   else
-    LIBREELEC_BUILD=$(echo `echo UTI5dGJYVnVhWFI1SUMwZ016VXhSVXhGUXlCSlV5QkdVa1ZGSUVGT1JDQk9UMVFnUms5U0lGTkJURVVo | base64 --decode` | base64 --decode)
+    LIBREELEC_BUILD=$(echo `echo UTI5dGJYVnVhWFI1SUMwZ1FXMWlaWEpGVEVWRElHbHpJRVpTUlVVaElFNVBWQ0JHVDFJZ1UwRk1SU0U9 | base64 --decode` | base64 --decode)
   fi
 fi
 
