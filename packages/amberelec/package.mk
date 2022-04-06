@@ -151,4 +151,6 @@ post_install() {
   echo "chmod 4755 $INSTALL/usr/bin/bash" >> $FAKEROOT_SCRIPT
   echo "chmod 4755 $INSTALL/usr/bin/busybox" >> $FAKEROOT_SCRIPT
   find $INSTALL/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
+  find $INSTALL/usr/bin -type f -exec chmod +x {} \;
+
 }
