@@ -30,6 +30,4 @@ makeinstall_target() {
   cp OpenBOR $INSTALL/usr/bin/OpenBOR
   cp $PKG_DIR/scripts/*.sh $INSTALL/usr/bin
   chmod +x $INSTALL/usr/bin/*
-  mkdir -p $INSTALL/usr/config/openbor  
-  cp $PKG_DIR/config/master.cfg $INSTALL/usr/config/openbor/master.cfg
 } 
