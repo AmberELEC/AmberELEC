@@ -172,6 +172,19 @@ jobs:
           repo: AmberELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
+      #NOTE: This can be removed after we no longer require old 351ELEC dev releases to be
+      # able to seamlessly upgrade to new AmberELEC prereleases
+      - name: Create backwards compatible 351ELEC tar and tar.sha256 files
+        if: github.event.action == 'release-dev'
+        run: |
+            for release in release/aarch64/RG*/*.tar*; do
+              echo "release: $release"
+              compatible_release=$(echo $release | sed 's|AmberELEC|351ELEC|g')
+              if [[ "$compatible_release" != "$release" ]]; then
+                echo "creating compatible tar: $compatible_release"
+                cp "$release" "$compatible_release" 
+              fi
+            done
       - name: Create dev release as draft at first to hide during uploads
         if: github.event.action == 'release-dev'
         uses: ncipollo/release-action@v1
