@@ -97,7 +97,7 @@ standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
 	'AdvanceMame': StandaloneEmulator('advmame', ['/usr/bin/advmame.sh', '<path>']),
 	'HATARISA': StandaloneEmulator('hatari', ['/usr/bin/hatari.start', '<path>']),
 	'hypseus_singe': StandaloneEmulator('hypseus', ['/usr/bin/hypseus.sh', '<path>']),
-	'OPENBOR': StandaloneEmulator('openbor', ['/usr/bin/openbor.sh', '<path>']),
+	'OPENBOR': StandaloneEmulator('OpenBOR', ['/usr/bin/bash', '-l', '/usr/bin/openbor.sh', '<path>']),
 	'PPSSPPSDL': StandaloneEmulator('PPSSPPSDL', ['/usr/bin/ppsspp.sh', '<path>']),
 	'SCUMMVMSA': StandaloneEmulator('scummvm', ['/usr/bin/scummvm.sh', 'sa', '<path>']),
 	'drastic': StandaloneEmulator('drastic', ['/usr/bin/drastic.sh', '<path>']),

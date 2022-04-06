@@ -35,6 +35,15 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-04-11:
+## Clear OpenBOR data folder
+if [ -d /storage/openbor ]; then
+  if [ ! -f /storage/openbor/.openbor_new ]; then
+    rm -rf /storage/openbor/*
+    touch /storage/openbor/.openbor_new
+  fi
+fi
+
 ## 2022-04-04
 ## enforce update of retrorun.cfg and reotrarch-core-options.cfg
 cp -rf /usr/config/retroarch/retroarch-core-options.cfg /storage/roms/gamedata/retroarch/retroarch-core-options.cfg
@@ -227,15 +236,6 @@ fi
 ## Copy es_features.cfg over on every update
 if [ -f /usr/config/emulationstation/es_features.cfg ]; then
 	cp /usr/config/emulationstation/es_features.cfg /storage/.emulationstation/.
-fi
-
-## 2021-07-25:
-## Clear OpenBOR data folder
-if [ -d /storage/openbor ]; then
-  if [ ! -f /storage/openbor/.openbor ]; then
-    rm -rf /storage/openbor/*
-    touch /storage/openbor/.openbor
-  fi
 fi
 
 ## 2021-07-24 (konsumschaf)
