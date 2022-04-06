@@ -4,6 +4,7 @@ import sys
 import json
 import urllib.request
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 import time
 import argparse
 import logging
@@ -154,7 +155,7 @@ def download_update(current_release, existing_release, device, org, repo, update
     downloaded_file = None
     repo = f"https://github.com/{org}/{repo}"
 
-    download_file_name = f"351ELEC-{device}.aarch64-{current_release}.tar"
+    download_file_name = f"AmberELEC-{device}.aarch64-{current_release}.tar"
     download_file_name_sha256 = f"{download_file_name}.sha256"
     download_base_url = f"{repo}/releases/download/{current_release}"
     download_url = f"{download_base_url}/{download_file_name}"
@@ -163,7 +164,22 @@ def download_update(current_release, existing_release, device, org, repo, update
     download_file_sha256 = f"{update_dir}/{download_file_name_sha256}"
     sha256 = None
 
-    download(download_url_sha256, download_file_sha256)
+    try:
+      logger.info("checking for SHA")
+      download(download_url_sha256, download_file_sha256)
+    except HTTPError as e:
+    
+      # After we no longer have the possibility of '351ELEC' named releases - we can remove this
+      if e.code == 404:
+          logger.info("Could not find release named AmberELEC - falling back to 351ELEC")
+          download_file_name = f"351ELEC-{device}.aarch64-{current_release}.tar"
+          download_file_name_sha256 = f"{download_file_name}.sha256"
+          download_base_url = f"{repo}/releases/download/{current_release}"
+          download_url = f"{download_base_url}/{download_file_name}"
+          download_file = f"{update_dir}/{download_file_name}"
+          download_url_sha256 = f"{download_base_url}/{download_file_name_sha256}"
+          download_file_sha256 = f"{update_dir}/{download_file_name_sha256}"
+
     sha256 = load_file_to_string(download_file_sha256).split(" ")[0]
     if os.path.isfile(download_file):
         file_hash = check_hash(download_file)
@@ -354,10 +370,10 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Arguments for picking up release')
     parser.add_argument('--org',
-                        default="351ELEC",
+                        default="AmberELEC",
                         help='Github organization. Allows testing with fork releases other than AmberELEC')
     parser.add_argument('--repo',
-                        default="351ELEC",
+                        default="AmberELEC",
                         help='Github repository. Allows testing with repo releases other than AmberELEC')
     parser.add_argument('--band',
                         default="release",
