@@ -1,0 +1,41 @@
+# Builds/publishes docker image when it changes in dev branch
+# Does not build for PRs or main as it's easy to build locally with `make docker-image-build`
+name: build-docker-image
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Dockerfile'
+    branches:
+      - dev
+
+concurrency: 
+  group: docker
+env:
+  REGISTRY: ghcr.io
+
+  # This is used by 'make docker-image-build' and 'make docker-image-push' to set image name
+  DOCKER_IMAGE: ghcr.io/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}-build:latest
+
+jobs:
+  build-docker-image:
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: hmarr/debug-action@v2
+        name: debug
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - uses: actions/checkout@v3
+        name: checkout
+      - id: build-docker-image
+        name: Build and Publish docker image
+        run: |
+         make docker-image-build
+         make docker-image-push
