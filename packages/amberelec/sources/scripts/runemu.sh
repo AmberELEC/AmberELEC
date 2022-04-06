@@ -237,7 +237,7 @@ then
 			RUNTHIS='${TBASH} /usr/bin/drastic.sh "${ROMNAME}"'
 		;;
 		"pico-8")
-			jslisten set "pico8_dyn"
+			jslisten set "pico8_64"
 			RUNTHIS='${TBASH} /usr/bin/pico-8.sh "${ROMNAME}"'
 		;;
 		"piece")
