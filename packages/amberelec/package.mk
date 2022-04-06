@@ -122,11 +122,10 @@ post_install() {
   fi
 
   echo "" >$INSTALL/etc/issue
-  echo "  _________  _ _____ _     _____ ____ " >>$INSTALL/etc/issue
-  echo " |___ / ___|/ | ____| |   | ____/ ___| V${LIBREELEC_VERSION}" >>$INSTALL/etc/issue
-  echo "   |_ \___ \| |  _| | |   |  _|| |    " >>$INSTALL/etc/issue
-  echo "  ___) |__) | | |___| |___| |__| |___ " >>$INSTALL/etc/issue
-  echo " |____/____/|_|_____|_____|_____\____|" >>$INSTALL/etc/issue
+  echo "    _         _             ___ _    ___ ___ " >>$INSTALL/etc/issue
+  echo "   /_\  _ __ | |__  ___ _ _| __| |  | __/ __|" >>$INSTALL/etc/issue
+  echo "  / _ \| '  \| '_ \/ -_) '_| _|| |__| _| (__ " >>$INSTALL/etc/issue
+  echo " /_/ \_\_|_|_|_.__/\___|_| |___|____|___\___|" >>$INSTALL/etc/issue
   echo "" >>$INSTALL/etc/issue
   echo "" >>$INSTALL/etc/issue
 
