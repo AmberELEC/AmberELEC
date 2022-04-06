@@ -13,6 +13,10 @@ on:
       - dev
     types: [opened, synchronize, ready_for_review, labeled]
 
+env:
+  # This is used by 'make docker-*' commands to determine image to build with
+  DOCKER_IMAGE: ghcr.io/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}-build:latest
+
 # Ensure that if there are multiple builds for a PR only 1 is queued
 # Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
 #          This makes it so that only commit 9 is enqueued to build rather than builds for 2-9 all being queued
