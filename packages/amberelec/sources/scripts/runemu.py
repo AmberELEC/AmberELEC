@@ -105,7 +105,7 @@ standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
 	'gzdoom': StandaloneEmulator('gzdoom', ['/usr/bin/gzdoom.sh', '<path>']),
 	'lzdoom': StandaloneEmulator('lzdoom', ['/usr/bin/lzdoom.sh', '<path>']),
 	'mpv': StandaloneEmulator('mpv', ['/usr/bin/mpv_video.sh', '<path>']),
-	'pico8': StandaloneEmulator('pico8_dyn', ['/usr/bin/pico-8.sh', '<path>']),
+	'pico8': StandaloneEmulator('pico8_64', ['/usr/bin/pico-8.sh', '<path>']),
 	'piemu': StandaloneEmulator('piemu', ['/usr/bin/bash', '-l', '/usr/bin/piemu.sh', '<path>']),
 	'raze': StandaloneEmulator('raze', ['/usr/bin/raze.sh', '<path>']),
 	'solarus': StandaloneEmulator('solarus-run', ['/usr/bin/solarus.sh', '<path>']),
