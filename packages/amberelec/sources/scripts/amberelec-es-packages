@@ -24,7 +24,7 @@ elif [ "${ARCH}" == "RG552" ]; then
 fi
 DISTRO="AmberELEC"
 CONFIGDIR="/storage/.config/packages"
-PACKAGELIST="https://raw.githubusercontent.com/351ELEC/351ELEC-metadata/main/${ARCH}/packages.cfg"
+PACKAGELIST="https://raw.githubusercontent.com/AmberELEC/metadata/main/${ARCH}/packages.cfg"
 LOCALPACKAGELIST="/storage/.config/packages.cfg"
 
 # Community Package List Schema
