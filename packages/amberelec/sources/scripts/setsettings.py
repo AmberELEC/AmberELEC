@@ -531,6 +531,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'ngpc': (80, 12, 480, 456),            # x3
             'wonderswan': (96, 96, 448, 288),      # x2
             'wonderswancolor': (96, 96, 448, 288), # x2
+            'arduboy': (64, 112, 512, 256),        # x4
         }
     elif device_name == "RG552":
         system_viewport = {
