@@ -122,11 +122,11 @@ post_install() {
   fi
 
   echo "" >$INSTALL/etc/issue
-  echo "    _         _             ___ _    ___ ___ " >>$INSTALL/etc/issue
-  echo "   /_\  _ __ | |__  ___ _ _| __| |  | __/ __|" >>$INSTALL/etc/issue
-  echo "  / _ \| '  \| '_ \/ -_) '_| _|| |__| _| (__ " >>$INSTALL/etc/issue
-  echo " /_/ \_\_|_|_|_.__/\___|_| |___|____|___\___|" >>$INSTALL/etc/issue
-  echo "" >>$INSTALL/etc/issue
+  echo -e "\033[38;5;220m    _         _            \033[38;5;255m ___ _    ___ ___ " >>$INSTALL/etc/issue
+  echo -e "\033[38;5;220m   /_\  _ __ | |__  ___ _ _\033[38;5;255m| __| |  | __/ __|" >>$INSTALL/etc/issue
+  echo -e "\033[38;5;220m  / _ \| '  \| '_ \/ -_) '_\033[38;5;255m| _|| |__| _| (__ " >>$INSTALL/etc/issue
+  echo -e "\033[38;5;220m /_/ \_\_|_|_|_.__/\___|_| \033[38;5;255m|___|____|___\___|" >>$INSTALL/etc/issue
+  echo -e "\033[0m" >>$INSTALL/etc/issue
   echo "" >>$INSTALL/etc/issue
 
   ln -s /etc/issue $INSTALL/etc/motd

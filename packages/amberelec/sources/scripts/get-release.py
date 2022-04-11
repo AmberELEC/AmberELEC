@@ -25,7 +25,8 @@ socket.setdefaulttimeout(60)
 
 
 class CONSOLE:
-    RED = '\033[0;31m'
+    AMBER = '\033[38;5;220m'
+    WHITE = '\033[38;5;255m'
     ENDC = '\033[0m'
     CLEAR = '\033c'
 
@@ -53,7 +54,7 @@ def main():
 
     message_stream(CONSOLE.CLEAR)
     message_stream(
-        f"{CONSOLE.RED}351{CONSOLE.ENDC}ELEC Update Utility - Starting Update...\n")
+        f"{CONSOLE.AMBER}Amber{CONSOLE.WHITE}ELEC{CONSOLE.ENDC} Update Utility - Starting Update...\n")
 
     if not online_status():
         message_stream(
@@ -255,8 +256,8 @@ def check_boot_partition_size_correct():
         logger.info(
             f"{flash_dir} not found.  Ignoring space requirements...\n")
         return
-    # AmberELEC 2.x needs 1GB on the boot volume.
-    REQUIRED_BOOT_PARTITION_BYTES = 1024000
+    # AmberELEC needs 2GB on the boot volume.
+    REQUIRED_BOOT_PARTITION_BYTES = 2048000
 
     total_bytes, used_bytes, free_bytes = shutil.disk_usage(flash_dir)
     if total_bytes < REQUIRED_BOOT_PARTITION_BYTES:
