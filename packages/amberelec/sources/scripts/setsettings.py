@@ -523,6 +523,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'gbh': (80, 24, 480, 432),             # x3
             'gbc': (80, 24, 480, 432),             # x3
             'gbch': (80, 24, 480, 432),            # x3
+            'gba': (80, 80, 480, 320),             # x2
             'supervision': (80, 0, 480, 480),      # x3
             'gamegear': (80, 24, 480, 432),        # x3
             'ggh': (80, 24, 480, 432),             # x3

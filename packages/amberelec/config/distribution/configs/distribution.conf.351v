@@ -210,6 +210,7 @@ gamemaster.integerscale=1
 gb.bezel.overlay.grid=1
 gb.bezel.overlay.shadow=1
 gb.integerscale=1
+gba.bezel=NONE
 gba.ratio=3/2
 gbah.ratio=3/2
 gbc.bezel.overlay.grid=1
