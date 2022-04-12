@@ -35,12 +35,13 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
-## 2022-04-11:
+## 2022-04-12:
 ## Clear OpenBOR data folder
 if [ -d /storage/openbor ]; then
-  if [ ! -f /storage/openbor/.openbor_new ]; then
-    rm -rf /storage/openbor/*
-    touch /storage/openbor/.openbor_new
+  if [ ! -f /storage/openbor/.openbor_20220412 ]; then
+    rm -rf /storage/openbor
+    mkdir /storage/openbor
+    touch /storage/openbor/.openbor_20220412
   fi
 fi
 

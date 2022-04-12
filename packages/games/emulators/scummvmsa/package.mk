@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="9609cf5538ec9bd45afa0ef4e2b7c114380a5751"
-PKG_SHA256="0a20dd3394ebf65cdfadba9351cd404073e70398f3e8dc38fc63d23d6ab1fb85"
+PKG_VERSION="325260f1ae26c4e8954235f32c314445eb78cbb6"
+PKG_SHA256="50f8982620fa87ee892137ba47da22daacead39b391fa62d397329f56ad90339"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
@@ -15,18 +16,22 @@ PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graph
 
 pre_configure_target() { 
   sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure
+  sed -i "s|static const int guiBaseValues\[\] = { 150, 125, 100, 75, -1 };|static const int guiBaseValues\[\] = { 200, 125, 100, 75, -1 };|g" $PKG_BUILD/gui/options.cpp
   TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --disable-debug --enable-release --enable-vkeybd --opengl-mode=gles2"
 }
 
 post_makeinstall_target() {
   mkdir -p $INSTALL/usr/config/scummvm/
   cp -rf $PKG_DIR/config/* $INSTALL/usr/config/scummvm/
+  if [[ "$DEVICE" == RG552 ]]; then
+    sed -i "s|gui_scale=100|gui_scale=200|g" $INSTALL/usr/config/scummvm/scummvm.ini
+  fi
   
   mkdir -p $INSTALL/usr/config/distribution/modules/
   cp "$PKG_DIR/Scan ScummVM Games.sh" $INSTALL/usr/config/distribution/modules/
 
   mv $INSTALL/usr/local/bin $INSTALL/usr/
-  cp -rf $PKG_DIR/bin/* $INSTALL/usr/bin
+  cp -rf $PKG_DIR/scummvm.sh $INSTALL/usr/bin
   chmod 755 $INSTALL/usr/bin/*
 	
   for i in appdata applications doc icons man; do
@@ -36,10 +41,4 @@ post_makeinstall_target() {
   for i in residualvm.zip scummmodern.zip scummclassic.zip; do
     rm -rf "$INSTALL/usr/local/share/scummvm/$i"
   done
-
-  if [[ "$DEVICE" == RG351P ]]; then
-    mkdir -p $INSTALL/usr/local/share/scummvm/
-    cp -rf $PKG_DIR/scummremastered.zip $INSTALL/usr/local/share/scummvm/
-  fi
 }
-

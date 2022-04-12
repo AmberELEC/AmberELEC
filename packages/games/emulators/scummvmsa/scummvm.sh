@@ -2,6 +2,7 @@
 
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 # Source predefined functions and variables
 . /etc/profile
@@ -12,8 +13,8 @@ BIOSPATH="/storage/roms/bios"
 GAME=$2
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
 
-if [[ ! -f "${CONFIG_DIR}/.scummvm" ]]; then
-  rm ${CONFIG_DIR}
+if [[ ! -f "${CONFIG_DIR}/.scummvm_20220412" ]]; then
+  rm -rf ${CONFIG_DIR}
 fi
 
 create_svm(){
@@ -34,18 +35,19 @@ create_svm(){
 if [ ! -d "${CONFIG_DIR}" ]; then
  mkdir -p ${CONFIG_DIR}
  cp -rf /usr/config/scummvm/* ${CONFIG_DIR}/
- touch ${CONFIG_DIR}/.scummvm
+ touch ${CONFIG_DIR}/.scummvm_20220412
 fi
 
 case $1 in
   "sa")
-    set_audio "fluidsynth"
     GAME=$(cat "${GAME}")
     eval /usr/bin/scummvm --fullscreen --joystick=0 ${GAME}
-    set_audio "pulseaudio"
   ;;
 
   "libretro")
+    if [[ ! -f "${BIOSPATH}/scummvm.ini" ]]; then
+      cp ${CONFIG_DIR}/scummvm.ini ${BIOSPATH}/scummvm.ini
+    fi
     GAME=$(cat "${GAME}" | awk 'BEGIN {FS="\""}; {print $2}')
     cd "${GAME}"
     /usr/bin/retroarch -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} .
