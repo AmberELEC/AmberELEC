@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="webui"
-PKG_VERSION="adeb12b2da552f05d1b225531e329e5c6e03e1f6"
+PKG_VERSION="ad1054f2d1d2221cd5147071842ecb8ef97e75e3"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
