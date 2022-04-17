@@ -229,7 +229,7 @@ elif [ "${BOOTLOADER}" = "u-boot" -a \( -n "${UBOOT_SYSTEM}" -o "${UBOOT_VERSION
     mkdir -p "${LE_TMP}/extlinux"
 
     cat << EOF > "${LE_TMP}/extlinux/extlinux.conf"
-LABEL ${DISTRO}
+LABEL ${DISTRO_BOOTLABEL}
   LINUX /${KERNEL_NAME}
   FDT /${DTB}
   APPEND boot=UUID=${UUID_SYSTEM} disk=UUID=${UUID_STORAGE} quiet ${EXTRA_CMDLINE}
