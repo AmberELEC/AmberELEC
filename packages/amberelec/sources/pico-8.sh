@@ -6,7 +6,7 @@
 # Source predefined functions and variables
 . /etc/profile
 
-if [ ! -z "${1}" ] && [ -s $1 ]
+if [ ! -z "${1}" ]
 then
   OPTIONS="-run"
   CART="${1}"
