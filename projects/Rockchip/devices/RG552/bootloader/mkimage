@@ -28,7 +28,7 @@ mkdir -p "${LE_TMP}/extlinux"
 for dtb in $RELEASE_DIR/3rdparty/bootloader/*.dtb; do
 
 cat << EOF > "${LE_TMP}/extlinux/$(basename ${dtb}).conf"
-LABEL ${DISTRO}
+LABEL ${DISTRO_BOOTLABEL}
   LINUX /${KERNEL_NAME}
   FDT /$(basename ${dtb})
   APPEND boot=UUID=${UUID_SYSTEM} disk=UUID=${UUID_STORAGE} quiet ${EXTRA_CMDLINE}
