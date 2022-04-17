@@ -172,8 +172,8 @@ else
 	fi	
 fi
 
-# on flycast retrorun_audio_another_thread = true is instable from time to time games crash, better to disabled this
-if [[ "${CORE}" =~ "flycast" ]]; 
+# on flycast retrorun_audio_another_thread = true is instable from time to time games crash, better to disabled this on all devices but 552
+if [[ "${CORE}" =~ "flycast" ]] && [[ "$EE_DEVICE" != "RG552" ]];
 then
 		sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
 		echo 'retrorun_audio_another_thread = false' >> ${RRCONF}
