@@ -157,6 +157,32 @@ else
 	fi
 fi
 
+
+# flycast_auto_skip_frame = more is good for all devices but for 552 for which performaces are betetr with disabled
+if [[ "$EE_DEVICE" == "RG552" ]]
+then
+    if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
+	fi
+else 
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo "flycast_auto_skip_frame = more" >> ${RRCONF}
+	fi	
+fi
+
+# on flycast retrorun_audio_another_thread = true is instable from time to time games crash, better to disabled this on all devices but 552
+if [[ "${CORE}" =~ "flycast" ]] && [[ "$EE_DEVICE" != "RG552" ]];
+then
+		sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
+		echo 'retrorun_audio_another_thread = false' >> ${RRCONF}
+else
+		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
+		echo "retrorun_audio_another_thread = true" >> ${RRCONF}
+fi	
+
+
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
