@@ -1,0 +1,22 @@
+diff --git a/src/OGLGraphicsContext.cpp b/src/OGLGraphicsContext.cpp
+index e4e57ba..e435acb 100644
+--- a/src/OGLGraphicsContext.cpp
++++ b/src/OGLGraphicsContext.cpp
+@@ -415,7 +415,7 @@ void COGLGraphicsContext::UpdateFrame(bool swaponly)
+ 
+    CoreVideo_GL_SwapBuffers();
+    
+-   /*if(options.bShowFPS)
++   if(options.bShowFPS)
+      {
+     static unsigned int lastTick=0;
+     static int frames=0;
+@@ -429,7 +429,7 @@ void COGLGraphicsContext::UpdateFrame(bool swaponly)
+          frames = 0;
+          lastTick = nowTick;
+       }
+-     }*/
++     }
+ 
+     glDepthMask(GL_TRUE);
+     OPENGL_CHECK_ERRORS;
