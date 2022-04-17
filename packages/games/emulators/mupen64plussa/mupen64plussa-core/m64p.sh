@@ -48,7 +48,7 @@ if [[ ! -f "$M64PCONF" ]]; then
 	cp $SHARE/mupen64plus.cfg $M64PCONF
 fi
 
-cp $SHARE/mupen64plus.cfg $TMP
+cp $M64PCONF $TMP
 
 RESOLUTION=$(batocera-resolution "currentResolution")
 echo ${RESOLUTION}
