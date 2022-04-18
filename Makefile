@@ -30,6 +30,8 @@ world:
 	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
 	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
+	DEVICE=RG552 ARCH=arm ./scripts/build_distro
+	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
 
 RG351P:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
@@ -47,26 +49,8 @@ RG552:
 	DEVICE=RG552 ARCH=arm ./scripts/build_distro
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
 
-p-arm:
-	DEVICE=RG351P ARCH=arm ./scripts/build_distro
-
-p-aarch64:
-	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
-
-v-arm:
-	DEVICE=RG351V ARCH=arm ./scripts/build_distro
-
-v-aarch64:
-	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
-
-mp-arm:
-	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
-
-mp-aarch64:
-	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
-
 update:
-	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
+	DEVICE=RG552 ARCH=aarch64 ./scripts/update_packages
 
 package:
 	./scripts/build ${PACKAGE}
