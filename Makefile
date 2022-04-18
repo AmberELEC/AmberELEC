@@ -23,29 +23,15 @@ distclean:
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
-world:
-	DEVICE=RG351P ARCH=arm ./scripts/build_distro
-	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
-	DEVICE=RG351V ARCH=arm ./scripts/build_distro
-	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
-	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
-	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
+world: RG351P RG351V RG351MP RG552
 
-RG351P:
-	DEVICE=RG351P ARCH=arm ./scripts/build_distro
-	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
+RG351P: p-arm p-aarch64
 
-RG351V:
-	DEVICE=RG351V ARCH=arm ./scripts/build_distro
-	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
+RG351V: v-arm v-aarch64
 
-RG351MP:
-	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
-	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
+RG351MP: mp-arm mp-aarch64
 
-RG552:
-	DEVICE=RG552 ARCH=arm ./scripts/build_distro
-	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
+RG552: 552-arm 552-aarch64
 
 p-arm:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
@@ -64,6 +50,12 @@ mp-arm:
 
 mp-aarch64:
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
+
+552-arm:
+	DEVICE=RG552 ARCH=arm ./scripts/build_distro
+
+552-aarch64:
+	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
 
 update:
 	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
