@@ -158,18 +158,30 @@ else
 fi
 
 
-# flycast_auto_skip_frame = more is good for all devices but for 552 for which performaces are betetr with disabled
+
+# Flycast auto frame skip
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "auto_frameskip"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo 'flycast_auto_skip_frame = some' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# on 552 flycast_auto_skip_frame = disabled is better
 if [[ "$EE_DEVICE" == "RG552" ]]
 then
     if [[ "${CORE}" =~ "flycast" ]]; then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
 		echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
 	fi
-else 
-	if [[ "${CORE}" =~ "flycast" ]]; then
-		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
-		echo "flycast_auto_skip_frame = more" >> ${RRCONF}
-	fi	
 fi
 
 # on flycast retrorun_audio_another_thread = true is instable from time to time games crash, better to disabled this on all devices but 552
