@@ -42,7 +42,7 @@ PKG_CONFIGURE_OPTS_TARGET="--target=${TARGET_NAME} \
                          --disable-libssp \
                          --disable-plugins \
                          --disable-gold \
-                         --disable-ld \
+                         --enable-ld \
                          --disable-lto \
                          --disable-nls"
 
@@ -69,6 +69,10 @@ make_target() {
   make -C bfd
   make -C opcodes
   make -C binutils strings
+  make -C libctf
+  make -C ld
+  make -C binutils objdump
+
 }
 
 makeinstall_target() {
@@ -79,4 +83,6 @@ makeinstall_target() {
 
   mkdir -p ${INSTALL}/usr/bin
     cp binutils/strings ${INSTALL}/usr/bin
+    cp ld/ld-new ${INSTALL}/usr/bin/ld
+    cp binutils/objdump ${INSTALL}/usr/bin
 }
