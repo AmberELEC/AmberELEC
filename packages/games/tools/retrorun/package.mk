@@ -9,6 +9,7 @@ PKG_SITE="https://github.com/AmberELEC/retrorun-go2"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
 PKG_TOOLCHAIN="make"
+EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 
 pre_make_target() {
   mkdir -p src/go2
@@ -34,6 +35,11 @@ makeinstall_target() {
     cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
     mkdir -p $INSTALL/usr/config/distribution/configs
-    cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
+    if [[ "$EE_DEVICE" == RG552 ]] ;then
+        cp -vP $PKG_DIR/retrorun_552.cfg $INSTALL/usr/config/distribution/configs/retrorun.cfg
+    else
+        cp -vP $PKG_DIR/retrorun_351.cfg $INSTALL/usr/config/distribution/configs/retrorun.cfg
+    fi
+    
   fi
 }
