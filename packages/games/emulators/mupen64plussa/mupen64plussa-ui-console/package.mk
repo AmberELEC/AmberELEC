@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-ui-console"
-PKG_VERSION="b5f62979ed77e526877c9c67dbb8568a3511347c"
-PKG_SHA256="0e7da477e58652ecadcf78a474fd9007f613ba9062364bf197ea88f5a7c12ed1"
+PKG_VERSION="cd0c0e6c101f1beaea73205f29143fa549d09dad"
+PKG_SHA256="cc6c9e43f293ce1f8ec1e45719d97d82523987263eb1d29804c064889ce680f1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-ui-console"

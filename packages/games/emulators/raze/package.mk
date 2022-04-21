@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="raze"
-PKG_VERSION="ed8bffd3bf61bffdb358e21c7bde4e8b62bc0eb9"
+PKG_VERSION="e4773afd649a7431f824f07315159d7248f8b395"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/Raze"
 PKG_URL="${PKG_SITE}.git"
@@ -50,7 +50,7 @@ makeinstall_target() {
   cp $PKG_BUILD/.$TARGET_NAME/raze $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/config/distribution/raze
-  if [ "${DEVICE}" = "RG351MP" ]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
     cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/raze
   else
     cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/raze

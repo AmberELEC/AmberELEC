@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gzdoom"
-PKG_VERSION="094f8d1a3021255fbbf78bdc4c2478ca89a39ebf"
+PKG_VERSION="07612c66dc6a8141321d6bacb22fc9c812836f4a"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
@@ -51,7 +51,7 @@ makeinstall_target() {
   cp $PKG_BUILD/.$TARGET_NAME/gzdoom $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/config/distribution/gzdoom
-  if [ "${DEVICE}" = "RG351MP" ]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
     cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/gzdoom
   else
     cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/gzdoom

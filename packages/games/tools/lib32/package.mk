@@ -4,17 +4,13 @@
 PKG_NAME="lib32"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPLv2"
-PKG_DEPENDS_TARGET="toolchain retroarch SDL2 libsndfile libmodplug"
+PKG_DEPENDS_TARGET="toolchain retroarch SDL2 libsndfile libmodplug flac"
 PKG_SHORTDESC="ARM 32bit bundle for aarch64"
 PKG_PRIORITY="optional"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
   cd ${PKG_BUILD}
-  INSTALLTO="/usr/lib/libretro/"
-
-  mkdir -p ${INSTALL}${INSTALLTO}
-
   if [ "${ARCH}" = "aarch64" ]; then
       mkdir -p ${INSTALL}/usr/lib32
       LIBS="ld-2.*.so \
@@ -33,6 +29,7 @@ makeinstall_target() {
 		libSDL2* \
 		libmodplug* \
 		libsndfile* \
+		libFLAC* \
 		libavcodec* \
 		libavformat* \
 		libavutil* \

@@ -45,7 +45,7 @@ fi
 if [[ "$EE_DEVICE" == RG351P ]]; then
   params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
 fi
-if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]]; then
+if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]] || [[ "$EE_DEVICE" == RG552 ]]; then
   params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
 fi
 

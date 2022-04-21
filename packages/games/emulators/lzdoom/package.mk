@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="lzdoom"
-PKG_VERSION="e57ebb11265dcf3e48546b6a7e412873348f27e7"
+PKG_VERSION="2ee3ea91bc9c052b3143f44c96d85df22851426f"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/AmberELEC/lzdoom"
 PKG_URL="${PKG_SITE}.git"
@@ -42,7 +42,7 @@ makeinstall_target() {
   cp $PKG_BUILD/.$TARGET_NAME/lzdoom $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/config/distribution/lzdoom
-  if [ "${DEVICE}" = "RG351MP" ]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
     cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/lzdoom
   else
     cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/lzdoom
