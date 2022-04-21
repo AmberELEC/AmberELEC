@@ -1,0 +1,46 @@
+name: clean-package
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Comma separated list of packages to clean.  Ex: u-boot, retroarch"
+        required: true
+
+
+jobs:
+  clean:
+    strategy:
+      matrix:
+        runner: [main, pr]
+    runs-on:  ${{ matrix.runner }}
+    steps:
+      - uses: hmarr/debug-action@v2
+        name: debug
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          clean: false
+          ref: "${{ steps.branch.outputs.branch }}"
+      - name: clean packages
+        run: |
+            set -e
+            #required for make clean to not require gcc
+            export LOCAL_CC=none
+            export HOST_NAME=buildserver
+            
+            PACKAGES="$(echo "${{github.event.inputs.package}}" | tr ',' ' ')"
+            DEVICES="RG351P RG351V RG351MP RG552"
+            echo "package: $PACKAGES"
+            for package in $PACKAGES; do
+              echo "removing: sources/$package"
+              rm -rf "sources/$package"
+              echo "removing: build*/$package-*"
+              rm -rf "build*/$package-*"
+              for device in $DEVICES; do
+                for arch in aarch64 arm; do
+                  echo "cleaning device: $device arch: $arch package: $package"
+                  DEVICE=$device ARCH=$arch PACKAGE=$package make package-clean
+                done
+              done
+            done
+
