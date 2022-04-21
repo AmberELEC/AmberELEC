@@ -1,31 +1,28 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libsndfile"
-PKG_VERSION="1.0.31"
-PKG_SHA256="a8cfb1c09ea6e90eff4ca87322d4168cdbe5035cb48717b40bf77e751cc02163"
-PKG_LICENSE="LGPL"
-PKG_SITE="http://www.mega-nerd.com/libsndfile/"
-PKG_URL="https://github.com/libsndfile/libsndfile/releases/download/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_TARGET="toolchain alsa-lib"
-PKG_LONGDESC="A library for accessing various audio file formats."
-PKG_SHORTDESC="A library for accessing various audio file formats."
-PKG_TOOLCHAIN="configure"
+PKG_VERSION="1.1.0"
+PKG_SHA256="0f98e101c0f7c850a71225fb5feaf33b106227b3d331333ddc9bacee190bcf41"
+PKG_LICENSE="LGPL-2.1-or-later"
+PKG_SITE="https://libsndfile.github.io/libsndfile/"
+PKG_URL="https://github.com/libsndfile/libsndfile/releases/download/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_TARGET="toolchain alsa-lib flac libogg libvorbis opus"
+PKG_LONGDESC="A C library for reading and writing sound files containing sampled audio data."
+PKG_BUILD_FLAGS="+pic"
 
-# package specific configure options
-PKG_CONFIGURE_OPTS_TARGET="--enable-static \
-                           --disable-silent-rules \
-                           --disable-sqlite \
-                           --enable-alsa \
-                           --disable-experimental \
-                           --disable-test-coverage \
-                           --enable-largefile \
-                           --with-gnu-ld"
+# As per notes in configure.ac:
+#  One or more of the external libraries (ie libflac, libogg, libvorbis and libopus)
+#  is either missing ... Unfortunately, for ease of maintenance, the external libs
+#  are an all or nothing affair.
+# So all of flac, libogg, libvorbis, opus are required.
 
-make_target() {
-  make
-}
-
-post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin
-}
+PKG_CMAKE_OPTS_TARGET="-DBUILD_PROGRAMS=OFF \
+                       -DBUILD_EXAMPLES=OFF \
+                       -DBUILD_REGTEST=OFF \
+                       -DBUILD_TESTING=OFF \
+                       -DBUILD_SHARED_LIBS=ON \
+                       -DENABLE_EXTERNAL_LIBS=ON \
+                       -DINSTALL_MANPAGES=OFF \
+                       -DINSTALL_PKGCONFIG_MODULE=ON"
