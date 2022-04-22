@@ -157,6 +157,32 @@ else
 	fi
 fi
 
+
+
+# Flycast auto frame skip
+# Get configuration from distribution.conf and set to retrorun.cfg
+# default value for flycast_auto_skip_frame it's 'some'
+DEFAULT_AUTO_SKIP_FRAME='some'
+if [[ "$EE_DEVICE" == "RG552" ]]
+then
+	# on 552 flycast_auto_skip_frame = disabled it's better
+    DEFAULT_AUTO_SKIP_FRAME='disabled'
+fi
+get_setting "auto_frameskip"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" =~ "flycast" ]]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
