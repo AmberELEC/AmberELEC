@@ -11,7 +11,7 @@ on:
     branches:
       - main
       - dev
-    types: [opened, synchronize, ready_for_review, labeled]
+    types: [opened, closed, synchronize, ready_for_review, labeled]
 
 env:
   # This is used by 'make docker-*' commands to determine image to build with
@@ -28,8 +28,8 @@ jobs:
     timeout-minutes: 1440
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
-    # Don't run on drafts
-    if: github.event.pull_request.draft == false || github.event.label.name == 'build' 
+    # Don't run on drafts - skip 'closed' PR's
+    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
