@@ -8,4 +8,7 @@ SUBSYSTEM!="block", GOTO="end_modeswitch"
 # Atheros Wireless / Netgear WNDA3200
 ATTRS{idVendor}=="0cf3", ATTRS{idProduct}=="20ff", RUN+="/usr/bin/eject '/dev/%k'"
 
+# Realtek 8211CU Wifi AC USB
+ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="1a2b", RUN+="/usr/bin/eject '/dev/%k'"
+
 LABEL="end_modeswitch"
