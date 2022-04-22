@@ -147,6 +147,9 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     if not os.path.isfile(ra_core_conf) or os.stat(ra_core_conf).st_size == 0:
         shutil.copy(ra_core_source_conf,ra_core_conf)
 
+    # Check for the savestate folder and create it if needed
+    os.makedirs(os.path.dirname(f'{snapshots}/{platform}/'), exist_ok=True)
+
     # Get the Device Name
     with open(os_arch_conf, encoding="utf-8") as f:
         device_name = f.readline().strip()
