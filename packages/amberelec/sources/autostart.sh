@@ -98,14 +98,6 @@ rsync /usr/config/.OS* /storage/.config &
 # Copy remappings
 rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
 
-## Not needed any more
-## copy bezel if it doesn't exists
-#if [ ! -f "/storage/roms/bezels/default.cfg" ]; then
-#  mkbezels/
-#  rsync --ignore-existing -raz /usr/share/retroarch-overlays/bezels/* /storage/roms/bezels/ &
-#fi
-##
-
 # Move ports to the GAMES volume
 rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/homebrew &
 

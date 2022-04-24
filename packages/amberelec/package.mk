@@ -110,9 +110,6 @@ post_install() {
     rm -rf "$INSTALL/usr/share/retroarch-assets/xmb/$i"
   done
 
-#  for i in borders effects gamepads ipad keyboards misc; do
-#    rm -rf "$INSTALL/usr/share/retroarch-overlays/$i"
-#  done
   mkdir -p $INSTALL/etc/retroarch-joypad-autoconfig
   cp -r $PKG_DIR/gamepads/* $INSTALL/etc/retroarch-joypad-autoconfig
   ln -sf amberelec.target $INSTALL/usr/lib/systemd/system/default.target

@@ -6,7 +6,7 @@ PKG_VERSION="5ed375b7dfb0c1df3dcf4935c4622bcae3518061"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"
-PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-assets core-info ffmpeg libass joyutils empty $OPENGLES nss-mdns openal-soft libogg libvorbisidec libvpx libpng libdrm librga pulseaudio"
+PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-assets core-info ffmpeg libass joyutils empty $OPENGLES nss-mdns openal-soft libogg libvorbis libvorbisidec libvpx libpng libdrm librga pulseaudio"
 PKG_LONGDESC="Reference frontend for the libretro API."
 
 if [[ "$DEVICE" == RG351V ]]; then

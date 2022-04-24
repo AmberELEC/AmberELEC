@@ -29,6 +29,7 @@ makeinstall_target() {
 		libSDL2* \
 		libmodplug* \
 		libsndfile* \
+		libvorbis* \
 		libFLAC* \
 		libavcodec* \
 		libavformat* \
