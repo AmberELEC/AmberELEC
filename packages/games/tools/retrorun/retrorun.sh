@@ -35,6 +35,8 @@ function get_setting() {
 	[ -z "${EES}" ] && EES="false"
 }
 
+### GLOBAL SETTINGS
+
 # Auto Save
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "auto_save"
@@ -47,7 +49,6 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
-
 # Map left analog to DPAD
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "map_left_analog_to_dpad"
@@ -59,7 +60,6 @@ else
         sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
         echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
 fi
-
 
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -84,6 +84,18 @@ else
 	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
+
+# Audio Another Thread
+if [[ "$EE_DEVICE" == "RG552" ]]; then
+	AUDIO_ANOTHER_THREAD='true' # this is better on RG552
+else
+	AUDIO_ANOTHER_THREAD='false'
+fi
+sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
+echo "retrorun_audio_another_thread = ${AUDIO_ANOTHER_THREAD}" >> ${RRCONF}
+
+
+### CORE SETTINGS
 
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -123,8 +135,6 @@ else
 	fi
 fi
 
-
-
 # Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "synchronous_rendering"
@@ -157,16 +167,13 @@ else
 	fi
 fi
 
-
-
-# Flycast auto frame skip
+# Flycast Auto Frameskip
 # Get configuration from distribution.conf and set to retrorun.cfg
 # default value for flycast_auto_skip_frame it's 'some'
-DEFAULT_AUTO_SKIP_FRAME='some'
-if [[ "$EE_DEVICE" == "RG552" ]]
-then
-	# on 552 flycast_auto_skip_frame = disabled it's better
-    DEFAULT_AUTO_SKIP_FRAME='disabled'
+if [[ "$EE_DEVICE" == "RG552" ]]; then
+	DEFAULT_AUTO_SKIP_FRAME='disabled' # this is better on RG552
+else
+	DEFAULT_AUTO_SKIP_FRAME='some'
 fi
 get_setting "auto_frameskip"
 echo ${EES}
@@ -181,7 +188,6 @@ else
 		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
 	fi
 fi
-
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
