@@ -4,9 +4,8 @@ ConditionPathExists=|/storage/.cache/services/webui.conf
 
 [Service]
 Restart=on-failure
-Environment=PYTHONPATH=/usr/share/webui
 WorkingDirectory=/usr/share/webui
-ExecStart=python3 /usr/share/webui/server.py
+ExecStart=sh /usr/share/webui/start.sh
 
 [Install]
 WantedBy=multi-user.target
