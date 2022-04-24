@@ -27,6 +27,7 @@ makeinstall_target() {
 		libudev.so* \
 		libusb-1.0* \
 		libSDL2* \
+		libFLAC* \
 		libmodplug* \
 		libsndfile* \
 		libvorbis* \

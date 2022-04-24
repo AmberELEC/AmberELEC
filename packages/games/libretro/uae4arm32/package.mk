@@ -18,9 +18,9 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="uae4arm"
-PKG_VERSION="177c2f0e892adf2603ada9b150e31beffe0f76c3"
-PKG_SHA256="0be54f926740333d1b2832d4bb78e6b1e47409c75f40e99e544b7265327c0708"
+PKG_NAME="uae4arm32"
+PKG_VERSION="96fd90b21388ae17c4dd83e4208930fdbddf5930"
+PKG_SHA256="7d2b765e2cb72bc153476782d85821b533081e7a8a9c5f472e959bd2d9b16e23"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
@@ -37,14 +37,19 @@ PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
 make_target() {
-  if [ "${DEVICE}" = "RG552" ]; then
-    make -f Makefile.libretro platform=rpi4_aarch64
+  if [ "${ARCH}" != "aarch64" ]; then
+    sed -i '/a53/s//a35/' Makefile.libretro
+    make -f Makefile.libretro platform=rpi3
   else
-    make -f Makefile.libretro platform=rpi3_aarch64
+    echo "Skipping build"
   fi
 }
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp uae4arm_libretro.so $INSTALL/usr/lib/libretro/
+  if [ "${ARCH}" != "aarch64" ]; then
+    cp uae4arm_libretro.so $INSTALL/usr/lib/libretro/uae4arm32_libretro.so
+  else
+    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/uae4arm32-*/.install_pkg/usr/lib/libretro/uae4arm32_libretro.so $INSTALL/usr/lib/libretro/uae4arm32_libretro.so
+  fi
 }

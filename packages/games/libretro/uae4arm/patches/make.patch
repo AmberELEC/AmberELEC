@@ -1,0 +1,22 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+index 4b0cdb6..2cae282 100644
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -47,8 +47,6 @@ else ifneq (,$(findstring rpi4,$(platform)))
+ 
+ 	CFLAGS += -DFASTCOPPER_OFF $(PLATFORM_DEFINES)
+ 	CXXFLAGS += $(PLATFORM_DEFINES)
+-	CC = gcc
+-	CXX = g++ 
+ 	LDFLAGS += -lz -lpthread -lFLAC -lmpg123 -ldl
+ else ifneq (,$(findstring rpi3,$(platform)))
+ 	TARGET := $(TARGET_NAME)_libretro.so
+@@ -68,8 +66,6 @@ else ifneq (,$(findstring rpi3,$(platform)))
+ 
+ 	CFLAGS += $(PLATFORM_DEFINES)
+ 	CXXFLAGS += $(PLATFORM_DEFINES)
+-	CC = gcc
+-	CXX = g++ 
+ 	LDFLAGS += -lz -lpthread -lFLAC -lmpg123 -ldl
+ else ifeq ($(platform), rpi2)
+ 	TARGET := $(TARGET_NAME)_libretro.so
