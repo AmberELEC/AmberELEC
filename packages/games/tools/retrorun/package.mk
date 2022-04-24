@@ -10,7 +10,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
 PKG_TOOLCHAIN="make"
 
-
 pre_make_target() {
   mkdir -p src/go2
   cp -f $SYSROOT_PREFIX/usr/include/go2/*.h src/go2
@@ -35,6 +34,6 @@ makeinstall_target() {
     cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
     cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
     mkdir -p $INSTALL/usr/config/distribution/configs
-    cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs/retrorun.cfg
+    cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
   fi
 }
