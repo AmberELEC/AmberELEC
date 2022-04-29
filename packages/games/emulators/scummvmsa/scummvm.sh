@@ -26,7 +26,12 @@ create_svm(){
       awk 'BEGIN {FS="="}; /description/ {printf $2}' | \
       sed -e 's# (.*)# ('${id}')#g' -e "s#'##g" -e "s#: # - #g" \
     )
-
+    # there's a very specific set of circumstances where the above
+    # regex will return an empty string with no game. This stops it
+    # from creating an empty .scummvm file
+    if [[ -z "$filename" ]]; then
+      continue
+    fi
     SVMPATH="$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | awk 'BEGIN {FS="="}; /path/ {print $2}')"
     echo '--path="'${SVMPATH}'" '${id} >"${ROMSPATH}/${filename}.scummvm"
   done
