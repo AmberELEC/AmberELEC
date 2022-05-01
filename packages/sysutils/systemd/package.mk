@@ -188,8 +188,8 @@ post_makeinstall_target() {
   sed -e "s,^.*RuntimeMaxUse=.*$,RuntimeMaxUse=2M,g" -i ${INSTALL}/etc/systemd/journald.conf
   sed -e "s,^.*RuntimeMaxFileSize=.*$,RuntimeMaxFileSize=128K,g" -i ${INSTALL}/etc/systemd/journald.conf
   sed -e "s,^.*SplitMode=.*$,SplitMode=none,g" -i ${INSTALL}/etc/systemd/journald.conf
-  sed -e "s,^.*SystemMaxUse=.*$,SystemMaxUse=10M,g" -i ${INSTALL}/etc/systemd/journald.conf
-  sed -e "s,^.*#Storage=auto.*$,Storage=none,g" -i ${INSTALL}/etc/systemd/journald.conf
+  sed -e "s,^.*SystemMaxUse=.*$,SystemMaxUse=2M,g" -i ${INSTALL}/etc/systemd/journald.conf
+  sed -e "s,^.*Storage=auto.*$,Storage=volatile,g" -i ${INSTALL}/etc/systemd/journald.conf
 
   # tune logind.conf
   sed -e "s,^.*HandleLidSwitch=.*$,HandleLidSwitch=ignore,g" -i $INSTALL/etc/systemd/logind.conf
