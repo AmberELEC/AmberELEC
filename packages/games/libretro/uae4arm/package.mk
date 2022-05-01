@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="uae4arm"
-PKG_VERSION="96fd90b21388ae17c4dd83e4208930fdbddf5930"
-PKG_SHA256="7d2b765e2cb72bc153476782d85821b533081e7a8a9c5f472e959bd2d9b16e23"
+PKG_VERSION="177c2f0e892adf2603ada9b150e31beffe0f76c3"
+PKG_SHA256="0be54f926740333d1b2832d4bb78e6b1e47409c75f40e99e544b7265327c0708"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
@@ -37,7 +37,11 @@ PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
 make_target() {
-  make -f Makefile.libretro platform=unix_aarch64 "CPU_FLAGS=-mcpu=cortex-a35+crypto+crc"
+  if [ "${DEVICE}" = "RG552" ]; then
+    make -f Makefile.libretro platform=rpi4_aarch64
+  else
+    make -f Makefile.libretro platform=rpi3_aarch64
+  fi
 }
 
 makeinstall_target() {
