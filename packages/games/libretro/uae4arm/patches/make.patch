@@ -1,8 +1,8 @@
 diff --git a/Makefile.libretro b/Makefile.libretro
-index 4b0cdb6..2cae282 100644
+index 4b0cdb6..aa0ea12 100644
 --- a/Makefile.libretro
 +++ b/Makefile.libretro
-@@ -47,8 +47,6 @@ else ifneq (,$(findstring rpi4,$(platform)))
+@@ -47,14 +47,12 @@ else ifneq (,$(findstring rpi4,$(platform)))
  
  	CFLAGS += -DFASTCOPPER_OFF $(PLATFORM_DEFINES)
  	CXXFLAGS += $(PLATFORM_DEFINES)
@@ -11,6 +11,13 @@ index 4b0cdb6..2cae282 100644
  	LDFLAGS += -lz -lpthread -lFLAC -lmpg123 -ldl
  else ifneq (,$(findstring rpi3,$(platform)))
  	TARGET := $(TARGET_NAME)_libretro.so
+ 	fpic = -fPIC
+ 	SHARED :=-shared -Wl,--version-script=$(CORE_DIR)/libretro/link.T -Wl,--no-undefined
+-	CPU_FLAGS += -mcpu=cortex-a53 -D__arm__
++	CPU_FLAGS += -mcpu=cortex-a35 -D__arm__
+ 
+ 	ifneq (,$(findstring aarch64,$(platform)))
+ 		AARCH64 = 1
 @@ -68,8 +66,6 @@ else ifneq (,$(findstring rpi3,$(platform)))
  
  	CFLAGS += $(PLATFORM_DEFINES)
