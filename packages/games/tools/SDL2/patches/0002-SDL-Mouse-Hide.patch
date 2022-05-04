@@ -1,14 +1,22 @@
 diff --git a/src/events/SDL_mouse.c b/src/events/SDL_mouse.c
-index 254182cc5..ce17701e7 100644
+index 254182cc5..2757bbe6a 100644
 --- a/src/events/SDL_mouse.c
 +++ b/src/events/SDL_mouse.c
-@@ -199,6 +199,18 @@ SDL_MouseInit(void)
+@@ -166,7 +166,8 @@ int
+ SDL_MouseInit(void)
+ {
+     SDL_Mouse *mouse = SDL_GetMouse();
+-
++	SDL_DisplayMode dm;
++	
+     SDL_zerop(mouse);
+ 
+     SDL_AddHintCallback(SDL_HINT_MOUSE_DOUBLE_CLICK_TIME,
+@@ -199,6 +200,16 @@ SDL_MouseInit(void)
  
      mouse->cursor_shown = SDL_TRUE;
  
 +    //Set the mouse location off screen
-+    SDL_DisplayMode dm;
-+
 +	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
 +	{
 +		SDL_Log("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
