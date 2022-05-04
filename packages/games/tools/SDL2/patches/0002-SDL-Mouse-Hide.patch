@@ -1,14 +1,22 @@
 diff --git a/src/events/SDL_mouse.c b/src/events/SDL_mouse.c
-index 254182cc5..3f62dab15 100644
+index 254182cc5..ce17701e7 100644
 --- a/src/events/SDL_mouse.c
 +++ b/src/events/SDL_mouse.c
-@@ -199,6 +199,10 @@ SDL_MouseInit(void)
+@@ -199,6 +199,18 @@ SDL_MouseInit(void)
  
      mouse->cursor_shown = SDL_TRUE;
  
-+    //Set the mouse location far far away
-+    mouse->x = 99999;
-+    mouse->y = 99999;
++    //Set the mouse location off screen
++    SDL_DisplayMode dm;
++
++	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
++	{
++		SDL_Log("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
++	} else {
++		mouse->x = dm.w+1;
++		mouse->y = dm.h+1;
++	}
++
 +
      return (0);
  }
