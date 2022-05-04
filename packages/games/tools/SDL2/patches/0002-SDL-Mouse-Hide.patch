@@ -15,8 +15,8 @@ index 059316a5d..b344117bb 100644
          */
          SDL_SetWindowGrab(window, SDL_TRUE);
 +        
-+        mouse->x = window->x+1;
-+        mouse->y = window->y+1;
++        mouse->x = window->w+1;
++        mouse->y = window->h+1;
 +        
      }
      if (flags & SDL_WINDOW_KEYBOARD_GRABBED) {
