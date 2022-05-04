@@ -1,31 +1,23 @@
-diff --git a/src/events/SDL_mouse.c b/src/events/SDL_mouse.c
-index 254182cc5..2757bbe6a 100644
---- a/src/events/SDL_mouse.c
-+++ b/src/events/SDL_mouse.c
-@@ -166,7 +166,8 @@ int
- SDL_MouseInit(void)
+diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
+index 059316a5d..b344117bb 100644
+--- a/src/video/SDL_video.c
++++ b/src/video/SDL_video.c
+@@ -1443,6 +1443,7 @@ SDL_ToggleDragAndDropSupport(void)
+ static void
+ SDL_FinishWindowCreation(SDL_Window *window, Uint32 flags)
  {
-     SDL_Mouse *mouse = SDL_GetMouse();
--
-+	SDL_DisplayMode dm;
-+	
-     SDL_zerop(mouse);
++	SDL_Mouse *mouse = SDL_GetMouse();
+     PrepareDragAndDropSupport(window);
  
-     SDL_AddHintCallback(SDL_HINT_MOUSE_DOUBLE_CLICK_TIME,
-@@ -199,6 +200,16 @@ SDL_MouseInit(void)
- 
-     mouse->cursor_shown = SDL_TRUE;
- 
-+    //Set the mouse location off screen
-+	if (SDL_GetCurrentDisplayMode(0, &dm) != 0)
-+	{
-+		SDL_Log("SDL_GetCurrentDisplayMode failed: %s", SDL_GetError());
-+	} else {
-+		mouse->x = dm.w+1;
-+		mouse->y = dm.h+1;
-+	}
-+
-+
-     return (0);
- }
- 
+     if (flags & SDL_WINDOW_MAXIMIZED) {
+@@ -1461,6 +1462,10 @@ SDL_FinishWindowCreation(SDL_Window *window, Uint32 flags)
+            the keyboard grabbed too and SDL_SetWindowMouseGrab() won't do that.
+         */
+         SDL_SetWindowGrab(window, SDL_TRUE);
++        
++        mouse->x = window->x+1;
++        mouse->y = window->y+1;
++        
+     }
+     if (flags & SDL_WINDOW_KEYBOARD_GRABBED) {
+         SDL_SetWindowKeyboardGrab(window, SDL_TRUE);
