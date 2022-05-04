@@ -17,9 +17,9 @@ index 254182cc5..2757bbe6a 100644
      mouse->cursor_shown = SDL_TRUE;
  
 +    //Set the mouse location off screen
-+	if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
++	if (SDL_GetCurrentDisplayMode(0, &dm) != 0)
 +	{
-+		SDL_Log("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
++		SDL_Log("SDL_GetCurrentDisplayMode failed: %s", SDL_GetError());
 +	} else {
 +		mouse->x = dm.w+1;
 +		mouse->y = dm.h+1;
