@@ -102,14 +102,12 @@ done
              continue
           fi
 
-         INCREMENT_AMOUNT=1
-          if [[ "${REPEAT_NUM}" -gt "10" ]]; then
-             INCREMENT_AMOUNT=10
-          elif [[ "${REPEAT_NUM}" -gt "6" ]]; then
+          INCREMENT_AMOUNT=1
+          if [[ "${REPEAT_NUM}" -gt "75" ]]; then
              INCREMENT_AMOUNT=5
-          elif [[ "${REPEAT_NUM}" -gt "3" ]]; then
+          elif [[ "${REPEAT_NUM}" -gt "25" ]]; then
              INCREMENT_AMOUNT=2
-          fi
+          fi   
           # Run the commands to adjust volume/brightness
           if [[ "${line}" == ${VOL_UP} ]]; then
             ${COMMAND} ${UP} ${INCREMENT_AMOUNT} > /dev/null
