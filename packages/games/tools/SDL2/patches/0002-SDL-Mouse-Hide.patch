@@ -1,0 +1,15 @@
+diff --git a/src/events/SDL_mouse.c b/src/events/SDL_mouse.c
+index 254182cc5..3f62dab15 100644
+--- a/src/events/SDL_mouse.c
++++ b/src/events/SDL_mouse.c
+@@ -199,6 +199,10 @@ SDL_MouseInit(void)
+ 
+     mouse->cursor_shown = SDL_TRUE;
+ 
++    //Set the mouse location far far away
++    mouse->x = 99999;
++    mouse->y = 99999;
++
+     return (0);
+ }
+ 
