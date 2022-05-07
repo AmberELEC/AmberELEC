@@ -589,7 +589,7 @@ regex/\.([dD][bB][fF])$
 regex/\.(rexx?|cmd)$
        Open=rexx %f %{Enter parameters};echo "Press ENTER";read y
 
-# Disk images for Commodore computers (VIC20, C64, C128)
+# Disk images for Commodore computers (PET, VIC20, C64, C128)
 regex/\.(d64|D64)$
 	Open=%cd %p/uc1541://
 	View=%view{ascii} c1541 %f -list
