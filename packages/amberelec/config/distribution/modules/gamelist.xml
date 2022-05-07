@@ -55,7 +55,7 @@
 
 	<game>
 		<path>./Scan ScummVM Games.sh</path>
-		<name>Scan ScummVM Games</name>
+		<name>Start Scan ScummVM Games</name>
 		<desc>Scan for newly added ScummVM games.</desc>
 		<developer>AmberELEC</developer>
 		<publisher>AmberELEC</publisher>
@@ -63,7 +63,7 @@
 		<releasedate>2021</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/scummvm_scan-thumb.png</thumbnail>
-		<image>./downloaded_images/scummvm_scan.png</image>
+		<image>./downloaded_images/scummvm.png</image>
 	</game>
 
 	<game>
@@ -76,7 +76,7 @@
 		<releasedate>2021</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/retroarch32-thumb.png</thumbnail>
-		<image>./downloaded_images/retroarch32.png</image>
+		<image>./downloaded_images/retroarch.png</image>
 	</game>
 
 	<game>
@@ -89,7 +89,7 @@
 		<releasedate>2021</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/retroarch64-thumb.png</thumbnail>
-		<image>./downloaded_images/retroarch64.png</image>
+		<image>./downloaded_images/retroarch.png</image>
 	</game>
 
 	<game>
@@ -141,7 +141,7 @@
 		<releasedate>2021</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/psx_delete_m3u-thumb.png</thumbnail>
-		<image>./downloaded_images/psx_delete_m3u.png</image>
+		<image>./downloaded_images/clean.png</image>
 	</game>
 
 	<game>
@@ -154,7 +154,7 @@
 		<releasedate>2021</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
-		<image>./downloaded_images/rclone-back.png</image>
+		<image>./downloaded_images/rclone.png</image>
 	</game>
 
 	<game>
@@ -167,7 +167,7 @@
 		<releasedate>2021</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/rclone-thumb.png</thumbnail>
-		<image>./downloaded_images/rclone-restore.png</image>
+		<image>./downloaded_images/rclone.png</image>
 	</game>
 
 	<game>
