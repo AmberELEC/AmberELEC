@@ -26,9 +26,6 @@ PKG_LONGDESC="Root package used to build and create complete image"
 # NTFS 3G support
 [ "$NTFS3G" = "yes" ] && PKG_DEPENDS_TARGET+=" ntfs-3g_ntfsprogs"
 
-# Remote support
-[ "$REMOTE_SUPPORT" = "yes" ] && PKG_DEPENDS_TARGET+=" remote"
-
 # Virtual image creation support
 [ "$PROJECT" = "Generic" ] && PKG_DEPENDS_TARGET+=" virtual"
 
