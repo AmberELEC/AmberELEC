@@ -77,12 +77,6 @@
 # e.g. GRAPHIC_DRIVERS="i915 i965 r300 r600 radeonsi nvidia"
   GRAPHIC_DRIVERS=""
 
-# build and install remote support (yes / no)
-  REMOTE_SUPPORT="yes"
-
-# build and install Joystick support (yes / no)
-  JOYSTICK_SUPPORT="yes"
-
 # Support for partitioning and formating disks in initramfs (yes / no)
 # This adds support for parted and mkfs.ext3/4 to initramfs for OEM usage
   INITRAMFS_PARTED_SUPPORT="no"
