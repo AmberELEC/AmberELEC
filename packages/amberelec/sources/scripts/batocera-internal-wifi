@@ -1,0 +1,70 @@
+#!/bin/bash
+
+ACTION=$1
+shift
+
+do_help() {
+    echo "${0}: Enables or disables internal wifi and reloads connman so if external dongle is connected it will immediately connect" >&2
+    echo ""
+    echo "Examples:"
+    echo "${0} enable" >&2
+    echo "${0} disable" >&2
+}
+
+do_enable() {
+   _enable
+   _refresh_connman
+}
+do_disable() {
+  _disable
+  _refresh_connman
+}
+_enable() {
+  echo 1 > "$GPIO_WIFI_DEVICE"
+}
+_disable() {
+  echo 0 > "$GPIO_WIFI_DEVICE"
+}
+
+_refresh_connman() {
+    connmanctl disable wifi
+    while [[ "$counter" < 5 ]]; do
+        counter=$((counter +1))    
+        connmanctl enable wifi 
+        wifi_scan=$(connmanctl scan wifi 2>&1)
+        echo "wifi scan: $wifi_scan"          
+        if [[ "$wifi_scan" =~ Error ]]; then
+          echo "error retry"                
+          sleep 1           
+        else     
+          break
+        fi     
+    done 
+}
+
+
+DEVICE_MODEL=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
+if [ "$DEVICE_MODEL" == "Anbernic RG552" ]; then
+  GPIO_WIFI_DEVICE="/sys/class/gpio/gpio113/value"
+elif [ "$DEVICE_MODEL" == "Anbernic RG351P" ]; then
+  GPIO_WIFI_DEVICE="/sys/class/gpio/gpio110/value"
+elif [ "$DEVICE_MODEL" == "Anbernic RG351V" ]; then
+  GPIO_WIFI_DEVICE="/sys/class/gpio/gpio5/value"
+else
+  echo "$0 does not support: $DEVICE_MODEL"
+  exit 1
+fi
+
+case "${ACTION}" in
+    "enable")
+        do_enable
+        ;;
+    "disable")
+        do_disable
+        ;;
+    "disable-no-refresh")
+        _disable
+        ;;
+    *)
+        do_help "${0}"
+esac

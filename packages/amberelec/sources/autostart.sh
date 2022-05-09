@@ -221,6 +221,11 @@ then
   fi
 fi
 
+if [ "$(get_ee_setting wifi.internal.disabled)" == "1" ]
+then
+  /usr/bin/batocera-internal-wifi disable-no-refresh
+fi
+
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)
 
