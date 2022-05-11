@@ -162,6 +162,9 @@ makeinstall_target() {
   # create /etc/hostname
     ln -sf /proc/sys/kernel/hostname $INSTALL/etc/hostname
 
+  # create folder for named tables support
+    ln -sf /storage/.config/iproute2 $INSTALL/etc/iproute2
+
   # add webroot
     mkdir -p $INSTALL/usr/www
       echo "It works" > $INSTALL/usr/www/index.html
