@@ -4,8 +4,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="ffe8506ed122403b601407e1709a4a7adf60c924"
-PKG_SHA256="a8a43a4ba6295b97a9b1406656cca64c8d400298c192fdbddeddf187ae2749bc"
+PKG_VERSION="5f5d68bf08de2535fd492315a60ebb7e59ed322c"
+PKG_SHA256="e764dd79a46f7577d2f9e96e89abbf2d1276dc71423bb8f8e318990212111a35"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
@@ -38,7 +38,7 @@ post_makeinstall_target() {
     rm -rf "$INSTALL/usr/local/share/$i"
   done
 
-  for i in residualvm.zip scummmodern.zip scummclassic.zip; do
+  for i in residualvm.zip scummclassic.zip; do
     rm -rf "$INSTALL/usr/local/share/scummvm/$i"
   done
 }
