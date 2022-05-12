@@ -23,7 +23,7 @@ then
 				fi
 				SUCCESS+="Partition ${e} has been successfully unmounted.\n"
 			else
-				ERROR+="Partition ${e} could not be unmounted."
+				ERROR+="Partition ${e} could not be unmounted.\n"
 			fi
 			clear > /dev/console
 		fi
