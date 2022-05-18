@@ -245,10 +245,12 @@ class EmuRunner():
 			#But if you give it any other path to a file, it will autodetect a game inside that file's parent directory, even if the file doesn't actually exist
 			#This would otherwise be what /usr/bin/scummvm.sh tries to do when its first arg is "libretro", by cd'ing into that game directory
 			command : 'List[Union[str, Path]]' = ['/usr/bin/scummvm.sh', 'libretro', self.rom ]
+			# Since the scummvm script doesn't take any libretro parameters (Since it has its own)
+			# Any further code will be rendered unnecessary. So let's just return the command and call it a day
+			return command
 
 		jslisten_set(retroarch_binary)
-		if not command:
-			command: 'List[Union[str, Path]]' = [os.path.join('/usr/bin/', retroarch_binary), '-L', Path('/tmp/cores/', f'{self.core}_libretro.so')]
+		command: 'List[Union[str, Path]]' = [os.path.join('/usr/bin/', retroarch_binary), '-L', Path('/tmp/cores/', f'{self.core}_libretro.so')]
 		
 		if log_level != 'minimal':
 			command.append('--verbose')
