@@ -11,7 +11,7 @@
 
 AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux). It is intended for use only on the RG351P/M/V/MP and RG552, it is not compatible with any other device.
 
-We have a [Website](https://amberelec.org) with [installation instructions](https://amberelec.org/Installation#overview) and a lot of information on how to [get started using AmberELEC](https://amberelec.org/Getting-to-Know-AmberELEC).
+We have a [Website](https://amberelec.org) with [installation instructions](https://amberelec.org/installation#overview) and a lot of information on how to [get started using AmberELEC](https://amberelec.org/Getting-to-Know-AmberELEC).
 
 Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 
