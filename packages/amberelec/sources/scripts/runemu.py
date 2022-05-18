@@ -396,7 +396,7 @@ def main():
 		requires_bios = {'atari5200', 'atari800', 'atari7800', 'atarilynx', 'colecovision', 'amiga', 'amigacd32', 'o2em', 'intellivision', 'pcengine', 'pcenginecd', 'pcfx', 'fds', 'segacd', 'saturn', 'dreamcast', 'naomi', 'atomiswave', 'x68000', 'neogeo', 'neogeocd', 'msx', 'msx2', 'sc-3000'}
 		if platform in requires_bios:
 			if platform == 'msx2':
-				platform_to_check = 'msx2'
+				platform_to_check = 'msx'
 			elif platform == 'pcenginecd':
 				platform_to_check = 'pcengine'
 			elif platform == 'amigacd32':
