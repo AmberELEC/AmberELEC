@@ -23,7 +23,7 @@ log_path = LOGS_DIR / 'exec.log'
 
 def call_profile_func(function_name: str, *args: str) -> str:
 	#We are going to want to call some stuff from /etc/profile, they are defined in ../profile.d/99-distribution.conf
-	proc = subprocess.run(f'. /etc/profile && {shlex.quote(function_name)} {shlex.join(args)} &', shell=True, stdout=subprocess.PIPE, check=True, text=True)
+	proc = subprocess.run(f'. /etc/profile && {shlex.quote(function_name)} {shlex.join(args)} ', shell=True, stdout=subprocess.PIPE, check=True, text=True)
 	return proc.stdout.strip('\n')
 
 def get_es_setting(setting_type: str, setting_name: str) -> str:
