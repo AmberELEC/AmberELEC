@@ -32,9 +32,14 @@ def get_es_setting(setting_type: str, setting_name: str) -> str:
 
 log_level = get_es_setting('string', 'LogLevel') #If set to default, would equal empty string
 
+# This function is used to summon jslisten
+# used to listen for our hotkeys (Such as L2+STAR+SELECT to force quit an application)
+# If you run it directly without the "&" in a terminal, it'll freeze execution.
+# But if you run this through ES, it'll run fine. Miss Inputs suspects this is
+# some systemd screwyness. 
 def jslisten_set(*exe_names: str):
-	#exe_names are passed as one argument, intended for killall to use them later
-	call_profile_func('jslisten', 'set', shlex.join(exe_names))
+	proc = subprocess.run(f'. /etc/profile && jslisten set {shlex.join(exe_names)} &', shell=True,   stdout=subprocess.PIPE, check=True, text=True)
+	return proc.stdout.strip('\n')
 
 def jslisten_stop():
 	#call_profile_func('jslisten', 'stop')
@@ -240,13 +245,13 @@ class EmuRunner():
 					if key == 'IWAD':
 						rom_path = Path(value)
 						break
+		jslisten_set(retroarch_binary)
 		if self.rom and self.core == 'scummvm':
 			# Since the scummvm script doesn't take any libretro parameters (Since it has its own)
 			# Any further code will be rendered unnecessary. So let's just return the command and call it a day
 			command : 'List[Union[str, Path]]' = ['/usr/bin/scummvm.sh', 'libretro', self.rom ]
 			return command
-
-		jslisten_set(retroarch_binary)
+		
 		command: 'List[Union[str, Path]]' = [os.path.join('/usr/bin/', retroarch_binary), '-L', Path('/tmp/cores/', f'{self.core}_libretro.so')]
 		
 		if log_level != 'minimal':
