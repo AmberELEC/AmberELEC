@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="puae"
-PKG_VERSION="f2f6fabda30d3c3c575cf8d00d6a06c18947b5eb"
-PKG_SHA256="8d53a9dbaf281894cadb0c4ca4d7684733e4972d49f92497c580c81253633cfe"
+PKG_VERSION="0852288d1dccf7fab1e307759a838bf6ecc4efbc"
+PKG_SHA256="7dbbb5fadff5d794e85e5c63d19c6e9985e4e78ec8a9a2b0ab782173cb6f00a1"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
