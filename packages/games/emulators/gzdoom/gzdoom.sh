@@ -6,7 +6,7 @@
 . /etc/profile
 
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
-RUN_DIR="/storage/roms/doom"
+RUN_DIR="/storage/.config/distribution/gzdoom"
 CONFIG="/storage/.config/distribution/gzdoom/gzdoom.ini"
 SAVE_DIR="/storage/roms/gamedata/gzdoom"
 

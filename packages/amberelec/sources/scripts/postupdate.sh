@@ -35,6 +35,21 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-05-19
+## Move any existing scummvm save data the scummvm system folder
+if [[ -d "/storage/.local/share/scummvm/saves" ]]; then
+    mkdir -p /storage/roms/scummvm/saves
+    mv /storage/.local/share/scummvm/saves/* /storage/roms/scummvm/saves
+    rmdir /storage/.local/share/scummvm/saves
+fi
+
+## 2022-05-19
+## update scummvm aux-data
+rm -rf /storage/roms/bios/scummvm/themes
+rm -rf /storage/roms/bios/scummvm/extra
+mkdir -p /storage/roms/bios/scummvm
+cp -rf /usr/share/scummvm/* -d /storage/roms/bios/scummvm
+
 ## 2022-04-12:
 ## Clear OpenBOR data folder
 if [ -d /storage/openbor ]; then

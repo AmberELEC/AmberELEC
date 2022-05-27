@@ -11,14 +11,14 @@
 
 AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux). It is intended for use only on the RG351P/M/V/MP and RG552, it is not compatible with any other device.
 
-We have a [Website](https://amberelec.org) with [installation instructions](https://amberelec.org/Installation#overview) and a lot of information on how to [get started using AmberELEC](https://amberelec.org/Getting-to-Know-AmberELEC).
+We have a [Website](https://amberelec.org) with [installation instructions](https://amberelec.org/installation#overview) and a lot of information on how to [get started using AmberELEC](https://amberelec.org/guides/getting-to-know-amberelec).
 
 Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 
 
 ## Installation
 
-Please visit our Website [Installation](https://amberelec.org/Installation#overview) page for installation instructions.
+Please visit our Website [Installation](https://amberelec.org/installation#overview) page for installation instructions.
 
 ## Building from Source
 Building AmberELEC from source is a fairly simple process. It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space. The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
