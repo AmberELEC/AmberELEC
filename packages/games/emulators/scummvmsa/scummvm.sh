@@ -12,9 +12,11 @@ ROMSPATH="/storage/roms/scummvm"
 BIOSPATH="/storage/roms/bios"
 GAME=$2
 RATMPCONF="/storage/.config/retroarch/retroarch.cfg"
+RA_APPEND_CONF="/tmp/raappend.cfg"
 
-if [[ ! -f "${CONFIG_DIR}/.scummvm_20220412" ]]; then
+if [[ ! -f "${CONFIG_DIR}/.scummvm_20220519" ]]; then
   rm -rf ${CONFIG_DIR}
+  rm -rf ${BIOSPATH}/scummvm.ini
 fi
 
 create_svm(){
@@ -40,7 +42,7 @@ create_svm(){
 if [ ! -d "${CONFIG_DIR}" ]; then
  mkdir -p ${CONFIG_DIR}
  cp -rf /usr/config/scummvm/* ${CONFIG_DIR}/
- touch ${CONFIG_DIR}/.scummvm_20220412
+ touch ${CONFIG_DIR}/.scummvm_20220519
 fi
 
 case $1 in
@@ -55,7 +57,7 @@ case $1 in
     fi
     GAME=$(cat "${GAME}" | awk 'BEGIN {FS="\""}; {print $2}')
     cd "${GAME}"
-    /usr/bin/retroarch -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} .
+    /usr/bin/retroarch -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} --appendconfig ${RA_APPEND_CONF} .
   ;;
 
   "add")
