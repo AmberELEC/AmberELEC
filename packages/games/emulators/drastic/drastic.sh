@@ -41,6 +41,7 @@ then
   mkdir -p "${CONFFOLDER}"
   cp -rf /usr/share/drastic/drastic.cfg "${CONFFOLDER}"
 fi
+
 if [ ! -f "${CONFFILE}" ]
 then
   cp -rf /usr/share/drastic/config/drastic.cfg "${CONFFOLDER}"
@@ -62,28 +63,28 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
 	else
 		set_config_value "hires_3d" "0"
 	fi
-else 
+else
 	set_config_value "hires_3d" "${EES}"
 fi
-	
+
 get_setting "threaded_3d"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
 	set_config_value "threaded_3d" "1"
-else 
+else
 	set_config_value "threaded_3d" "${EES}"
 fi
 
 get_setting "frameskip_type"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
 	set_config_value "frameskip_type" "2"
-else 
+else
 	set_config_value "frameskip_type" "${EES}"
 fi
 
 get_setting "frames_skipped"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
 	set_config_value "frameskip_value" "1"
-else 
+else
 	set_config_value "frameskip_value" "${EES}"
 fi
 # End of EmulationStation settings implementation
