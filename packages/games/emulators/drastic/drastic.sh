@@ -75,7 +75,7 @@ fi
 
 get_setting "frameskip_type"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
-	set_config_value "frameskip_type" "0"
+	set_config_value "frameskip_type" "2"
 else 
 	set_config_value "frameskip_type" "${EES}"
 fi
