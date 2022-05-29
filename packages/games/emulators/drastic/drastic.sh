@@ -5,7 +5,6 @@ source /etc/profile
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 EXECLOG="/tmp/logs/exec.log"
 ROM="${1##*/}"
-CORE="drastic"
 PLATFORM="nds"
 BASEFOLDER="/storage/drastic/aarch64/drastic/"
 CONFFOLDER="${BASEFOLDER}config"
@@ -58,7 +57,11 @@ cd "${BASEFOLDER}"
 # EmulationStation settings implementation
 get_setting "highres_3d"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
-	set_config_value "hires_3d" "0"
+	if [ "$EE_DEVICE" == "RG552" ]; then
+		set_config_value "hires_3d" "1"
+	else
+		set_config_value "hires_3d" "0"
+	fi
 else 
 	set_config_value "hires_3d" "${EES}"
 fi
