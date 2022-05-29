@@ -55,27 +55,35 @@ fi
 
 cd "${BASEFOLDER}"
 
-
-
 # EmulationStation settings implementation
 get_setting "highres_3d"
-if [ "${EES}" != "false" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "hires_3d" "0"
+else 
 	set_config_value "hires_3d" "${EES}"
 fi
-
+	
 get_setting "threaded_3d"
-if [ "${EES}" != "false" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "threaded_3d" "1"
+else 
 	set_config_value "threaded_3d" "${EES}"
 fi
 
 get_setting "frameskip_type"
-if [ "${EES}" != "false" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "frameskip_type" "0"
+else 
 	set_config_value "frameskip_type" "${EES}"
 fi
 
 get_setting "frames_skipped"
-if [ "${EES}" != "false" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "frameskip_value" "1"
+else 
 	set_config_value "frameskip_value" "${EES}"
 fi
+# End of EmulationStation settings implementation
+
 
 ./drastic "${1}" >> $EXECLOG 2>&1
