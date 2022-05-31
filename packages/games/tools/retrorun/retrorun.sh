@@ -85,14 +85,27 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-# Audio Another Thread
+# Audio/Video Another Thread
 if [[ "$EE_DEVICE" == "RG552" ]]; then
 	AUDIO_ANOTHER_THREAD='true' # this is better on RG552
+	VIDEO_ANOTHER_THREAD='true' # this is better on RG552
 else
-	AUDIO_ANOTHER_THREAD='false'
+	AUDIO_ANOTHER_THREAD='half'
+	VIDEO_ANOTHER_THREAD='half'
 fi
 sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
 echo "retrorun_audio_another_thread = ${AUDIO_ANOTHER_THREAD}" >> ${RRCONF}
+sed -i "/^retrorun_video_another_thread/d" ${RRCONF}
+echo "retrorun_video_another_thread = ${VIDEO_ANOTHER_THREAD}" >> ${RRCONF}
+
+# Adaptive FPS (it helps on 351 devices)
+if [[ "$EE_DEVICE" == "RG552" ]]; then
+	ADAPTIVE_FPS='false'
+else
+	ADAPTIVE_FPS='true'
+fi
+sed -i "/^retrorun_adaptive_fps/d" ${RRCONF}
+echo "retrorun_adaptive_fps = ${ADAPTIVE_FPS}" >> ${RRCONF}
 
 
 ### CORE SETTINGS
@@ -134,6 +147,15 @@ else
 		echo "parallel-n64-gfxplugin = ${EES}" >> ${RRCONF}
 	fi
 fi
+
+# Parallel-N64 Audio buffer size
+if [[ "$EE_DEVICE" == "RG552" ]]; then
+	AUDIO_BUFFER='2048'
+else
+	AUDIO_BUFFER='1024'
+fi
+sed -i "/^parallel-n64-audio-buffer-size/d" ${RRCONF}
+echo "parallel-n64-audio-buffer-size = ${AUDIO_BUFFER}" >> ${RRCONF}
 
 # Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
