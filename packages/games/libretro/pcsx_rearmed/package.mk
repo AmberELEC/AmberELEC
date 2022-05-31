@@ -2,8 +2,8 @@
 # Copyright (C) 2020 Trond Haugland (trondah@gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="7dee1e8e9e0c5606f237e487efbd0c5fe6154b3f"
-PKG_SHA256="5999f81dca882c49eaa76a2ee198f996b49cabbd40f1e927ea046697f2f95d21"
+PKG_VERSION="74c817c61118df4674e837a96e6949fdbbf63a33"
+PKG_SHA256="22676242ec8af8b46c3beff4463fcd008ed463abe88e601a2b706db34ffe7fd0"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
