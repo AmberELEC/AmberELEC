@@ -61,6 +61,7 @@ else
         echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
 fi
 
+
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
@@ -172,6 +173,20 @@ else
 		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
 fi
+
+# Map left analog to DPAD
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "div_matching"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        sed -i "/^flycast_div_matching/d" ${RRCONF}
+        echo 'flycast_div_matching = auto' >> ${RRCONF}
+else
+        sed -i "/^flycast_div_matching/d" ${RRCONF}
+        echo "flycast_div_matching = ${EES}" >> ${RRCONF}
+fi
+
+
 
 # PSX CPU Clock
 # Get configuration from distribution.conf and set to retrorun.cfg
