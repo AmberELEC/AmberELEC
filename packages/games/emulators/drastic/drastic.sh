@@ -87,6 +87,34 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
 else
 	set_config_value "frameskip_value" "${EES}"
 fi
+
+get_setting "show_fps"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "show_frame_counter" "0"
+else
+	set_config_value "show_frame_counter" "${EES}"
+fi
+
+get_setting "screen_mode"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "screen_orientation" "1"
+else
+	set_config_value "screen_orientation" "${EES}"
+fi
+
+get_setting "screen_swap"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "screen_swap" "0"
+else
+	set_config_value "screen_swap" "${EES}"
+fi
+
+get_setting "disable_edge_marking"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ]; then
+	set_config_value "disable_edge_marking" "0"
+else
+	set_config_value "disable_edge_marking" "${EES}"
+fi
 # End of EmulationStation settings implementation
 
 
