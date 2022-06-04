@@ -107,9 +107,11 @@ done
           fi
 
           INCREMENT_AMOUNT=1
-          if [[ "${REPEAT_NUM}" -gt "75" ]]; then
+          if [[ "${REPEAT_NUM}" -gt "10" ]]; then
+             INCREMENT_AMOUNT=10
+          elif [[ "${REPEAT_NUM}" -gt "6" ]]; then
              INCREMENT_AMOUNT=5
-          elif [[ "${REPEAT_NUM}" -gt "25" ]]; then
+          elif [[ "${REPEAT_NUM}" -gt "3" ]]; then
              INCREMENT_AMOUNT=2
           fi
           # Run the commands to adjust volume/brightness
