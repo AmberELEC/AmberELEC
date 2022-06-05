@@ -87,6 +87,7 @@ set_es_setting "screen_swap" "0" "screen_swap"
 set_es_setting "disable_edge_marking" "0" "disable_edge_marking"
 set_es_setting "bios_language" "1" "firmware.language"
 set_es_setting "birthday_month" "0" "firmware.birthday_month"
+set_es_setting "birthday_day" "1" "firmware.birthday_day"
 set_es_setting "favorite_color" "4" "firmware.favorite_color"
 
 # End of EmulationStation settings implementation
