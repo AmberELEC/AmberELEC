@@ -88,14 +88,10 @@ fi
 
 # Audio/Video Another Thread
 if [[ "$EE_DEVICE" == "RG552" ]]; then
-	AUDIO_ANOTHER_THREAD='true' # this is better on RG552
 	VIDEO_ANOTHER_THREAD='true' # this is better on RG552
 else
-	AUDIO_ANOTHER_THREAD='half'
 	VIDEO_ANOTHER_THREAD='half'
 fi
-sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
-echo "retrorun_audio_another_thread = ${AUDIO_ANOTHER_THREAD}" >> ${RRCONF}
 sed -i "/^retrorun_video_another_thread/d" ${RRCONF}
 echo "retrorun_video_another_thread = ${VIDEO_ANOTHER_THREAD}" >> ${RRCONF}
 
