@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="0770884349363828801c278c94579a4612eb5e70"
+PKG_VERSION="c387a6cb1952fdc5ab3773bbb28177e5525c2e9d"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/AmberELEC/retrorun-go2"
