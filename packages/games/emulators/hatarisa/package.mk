@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="hatarisa"
-PKG_VERSION="487f65d48d90f36ddd9b0180b04fbdc54012b86a"
-PKG_SHA256="a57ca73d4783011e43fa2ef1de74628b5f5ae4c714d1e6cdf3d895cfeb0c6a50"
+PKG_VERSION="5a1b80b39e78df2a9fb3e5df1738d242c284ad1b"
+PKG_SHA256="28e15341bae8cac78cb4537958cb5437cfa0a39952e8b836e253c813b11a3f70"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/hatari/hatari"
 PKG_URL="https://github.com/hatari/hatari/archive/$PKG_VERSION.tar.gz"
