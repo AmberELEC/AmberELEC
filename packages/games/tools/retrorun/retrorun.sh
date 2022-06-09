@@ -61,7 +61,6 @@ else
         echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
 fi
 
-
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
