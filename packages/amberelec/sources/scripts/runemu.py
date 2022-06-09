@@ -60,6 +60,16 @@ def log(text):
 	with log_path.open('at', encoding='utf-8') as log_file:
 		print(text, file=log_file)
 
+def stop_rumble():
+	pwm_path="/sys/class/pwm/pwmchip0/pwm0/duty_cycle"
+	try:
+		with open(pwm_path, "w") as f:
+			f.write("1000000")
+			f.close()
+	except FileNotFoundError:
+		pass
+		
+		
 def cleanup_and_quit(return_code):
 	if log_level == 'debug':
 		log(f'Cleaning up and exiting with return code {return_code}')
@@ -68,6 +78,7 @@ def cleanup_and_quit(return_code):
 	clear_screen()
 	call_profile_func('normperf')
 	call_profile_func('set_audio', 'default')
+	stop_rumble()
 	sys.exit(return_code)
 
 def clear_screen():
