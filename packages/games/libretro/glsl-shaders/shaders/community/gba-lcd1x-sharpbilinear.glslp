@@ -3,14 +3,14 @@
 # License : GPLv2
 #####
 shaders = "2"
-shader0 = "interpolation/shaders/sharp-bilinear-simple.glsl"
+shader0 = "../interpolation/shaders/sharp-bilinear-simple.glsl"
 filter_linear0 = "true"
 wrap_mode0 = "clamp_to_border"
 mipmap_input0 = "false"
 alias0 = ""
 float_framebuffer0 = "false"
 srgb_framebuffer0 = "false"
-shader1 = "handheld/shaders/lcd1x.glsl"
+shader1 = "../handheld/shaders/lcd1x.glsl"
 filter_linear1 = "false"
 wrap_mode1 = "clamp_to_border"
 mipmap_input1 = "false"
