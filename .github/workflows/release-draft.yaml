@@ -14,7 +14,8 @@ on:
         description: "Name to use for release (ex: Crazy Hedgehog)"
         required: false
         default: RELEASE_NAME
-    
+env:
+  BRANCH: main
 jobs:
   commits:
       runs-on: ubuntu-20.04
@@ -24,6 +25,7 @@ jobs:
           with:
             clean: false
             fetch-depth: 0
+            ref: "${{env.BRANCH}}"
         - name: changes
           id: changes
           run: |
@@ -48,7 +50,8 @@ jobs:
             repository: ${{ github.event.repository.full_name }}
             event-type: release-draft
             client-payload: |
-               { 
+               {
+                 "branch" : "${{ env.BRANCH }}",
                  "release_tag" : "${{steps.version.outputs.version}}",
                  "release_name" : "${{github.event.inputs.release_name}}"
                }
