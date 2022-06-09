@@ -61,7 +61,7 @@ def log(text):
 		print(text, file=log_file)
 
 def stop_rumble():
-	pwm_path="/sys/class/pwm/pwmchip30/pwm0/duty_cycle"
+	pwm_path="/sys/class/pwm/pwmchip0/pwm0/duty_cycle"
 	try:
 		with open(pwm_path, "w") as f:
 			f.write("1000000")
