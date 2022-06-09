@@ -181,8 +181,6 @@ else
         echo "flycast_div_matching = ${EES}" >> ${RRCONF}
 fi
 
-
-
 # PSX CPU Clock
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "psx_cpu_clock"
