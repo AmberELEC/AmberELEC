@@ -85,7 +85,7 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-# Audio/Video Another Thread
+# Video Another Thread
 if [[ "$EE_DEVICE" == "RG552" ]]; then
 	VIDEO_ANOTHER_THREAD='true' # this is better on RG552
 else
