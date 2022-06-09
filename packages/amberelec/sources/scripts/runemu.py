@@ -237,13 +237,15 @@ class EmuRunner():
 			rom_path = cmd_path
 			self.core = 'mame'
 
-		if self.rom and self.platform == 'doom' and extension == '.doom':
+		if self.rom and self.platform == 'doom' and extension == 'doom':
 			subprocess.run(['dos2unix', self.rom], check=True) #Hmmmmm but do we need that
 			with self.rom.open('rt', encoding='utf-8') as doomfile:
 				for line in doomfile:
 					key, _, value = line.partition('=')
 					if key == 'IWAD':
-						rom_path = Path(value)
+						# Sometimes there's /n characters in the string we pass to path
+						# And it causes prboom to be unable to find the iwad.
+						rom_path = Path(value.strip())
 						break
 		jslisten_set(retroarch_binary)
 		if self.rom and self.core == 'scummvm':
