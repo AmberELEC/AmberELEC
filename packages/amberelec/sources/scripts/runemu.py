@@ -238,7 +238,6 @@ class EmuRunner():
 			self.core = 'mame'
 
 		if self.rom and self.platform == 'doom' and extension == 'doom':
-			subprocess.run(['dos2unix', self.rom], check=True) #Hmmmmm but do we need that
 			with self.rom.open('rt', encoding='utf-8') as doomfile:
 				for line in doomfile:
 					key, _, value = line.partition('=')
