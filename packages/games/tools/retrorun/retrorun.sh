@@ -85,16 +85,12 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-# Audio/Video Another Thread
+# Video Another Thread
 if [[ "$EE_DEVICE" == "RG552" ]]; then
-	AUDIO_ANOTHER_THREAD='true' # this is better on RG552
 	VIDEO_ANOTHER_THREAD='true' # this is better on RG552
 else
-	AUDIO_ANOTHER_THREAD='half'
 	VIDEO_ANOTHER_THREAD='half'
 fi
-sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
-echo "retrorun_audio_another_thread = ${AUDIO_ANOTHER_THREAD}" >> ${RRCONF}
 sed -i "/^retrorun_video_another_thread/d" ${RRCONF}
 echo "retrorun_video_another_thread = ${VIDEO_ANOTHER_THREAD}" >> ${RRCONF}
 
@@ -171,6 +167,18 @@ else
 		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
 		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
+fi
+
+# Map left analog to DPAD
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "div_matching"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        sed -i "/^flycast_div_matching/d" ${RRCONF}
+        echo 'flycast_div_matching = auto' >> ${RRCONF}
+else
+        sed -i "/^flycast_div_matching/d" ${RRCONF}
+        echo "flycast_div_matching = ${EES}" >> ${RRCONF}
 fi
 
 # PSX CPU Clock
