@@ -1,7 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
-#      Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,28 +18,25 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="libretro-database"
-PKG_VERSION="cc6abb150cc88497a48ee4e8e91a48c71dcba059"
-PKG_SHA256="d7dab0a5befc680afc7843eac378d1a7fa57543f0290561d713b4e0f6bfd517f"
+PKG_NAME="virtualjaguar"
+PKG_VERSION="263c979be4ca757c43fb525bd6f0887998e57041"
+PKG_SHA256="488717293e737a602be6f5550df21064314fee422e144c62b3f92e63a6222b30"
 PKG_REV="1"
 PKG_ARCH="any"
-PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/libretro/libretro-database"
+PKG_LICENSE="GPLv3"
+PKG_SITE="https://github.com/libretro/virtualjaguar-libretro"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
-PKG_SHORTDESC="Repository containing cheatcode files, content data files, etc."
-PKG_LONGDESC="Repository containing cheatcode files, content data files, etc."
+PKG_SHORTDESC="Port of Virtual Jaguar to Libretro"
+PKG_LONGDESC="Port of Virtual Jaguar to Libretro"
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
-configure_target() {
-  cd $PKG_BUILD
-}
-
 makeinstall_target() {
-  make install INSTALLDIR="$INSTALL/usr/share/libretro-database"
+  mkdir -p $INSTALL/usr/lib/libretro
+  cp virtualjaguar_libretro.so $INSTALL/usr/lib/libretro/
 }

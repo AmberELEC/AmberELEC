@@ -85,14 +85,23 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-# Audio Another Thread
+# Video Another Thread
 if [[ "$EE_DEVICE" == "RG552" ]]; then
-	AUDIO_ANOTHER_THREAD='true' # this is better on RG552
+	VIDEO_ANOTHER_THREAD='true' # this is better on RG552
 else
-	AUDIO_ANOTHER_THREAD='false'
+	VIDEO_ANOTHER_THREAD='half'
 fi
-sed -i "/^retrorun_audio_another_thread/d" ${RRCONF}
-echo "retrorun_audio_another_thread = ${AUDIO_ANOTHER_THREAD}" >> ${RRCONF}
+sed -i "/^retrorun_video_another_thread/d" ${RRCONF}
+echo "retrorun_video_another_thread = ${VIDEO_ANOTHER_THREAD}" >> ${RRCONF}
+
+# Adaptive FPS (it helps on 351 devices)
+if [[ "$EE_DEVICE" == "RG552" ]]; then
+	ADAPTIVE_FPS='false'
+else
+	ADAPTIVE_FPS='true'
+fi
+sed -i "/^retrorun_adaptive_fps/d" ${RRCONF}
+echo "retrorun_adaptive_fps = ${ADAPTIVE_FPS}" >> ${RRCONF}
 
 
 ### CORE SETTINGS
@@ -135,6 +144,15 @@ else
 	fi
 fi
 
+# Parallel-N64 Audio buffer size
+if [[ "$EE_DEVICE" == "RG552" ]]; then
+	AUDIO_BUFFER='2048'
+else
+	AUDIO_BUFFER='1024'
+fi
+sed -i "/^parallel-n64-audio-buffer-size/d" ${RRCONF}
+echo "parallel-n64-audio-buffer-size = ${AUDIO_BUFFER}" >> ${RRCONF}
+
 # Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "synchronous_rendering"
@@ -149,6 +167,18 @@ else
 		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
 		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
+fi
+
+# Map left analog to DPAD
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "div_matching"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        sed -i "/^flycast_div_matching/d" ${RRCONF}
+        echo 'flycast_div_matching = auto' >> ${RRCONF}
+else
+        sed -i "/^flycast_div_matching/d" ${RRCONF}
+        echo "flycast_div_matching = ${EES}" >> ${RRCONF}
 fi
 
 # PSX CPU Clock

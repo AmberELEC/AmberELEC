@@ -1,0 +1,27 @@
+diff --git a/libretro/libretro.c b/libretro/libretro.c
+index c933493..0cd8928 100644
+--- a/libretro/libretro.c
++++ b/libretro/libretro.c
+@@ -1714,12 +1714,21 @@ char* FindFileInDir(const char* dir, const char* wfname, const char* ext)
+  */
+ char* I_FindFile(const char* wfname, const char* ext)
+ {
+-   char *p, *dir, *system_dir, *prboom_system_dir;
++   char *p, *dir, *system_dir, *prboom_system_dir, *iwad_dir;
+    int i;
+ 
+    // First, check on WAD directory
+    if ((p = FindFileInDir(g_wad_dir, wfname, ext)) == NULL)
+    {
++
++     iwad_dir = malloc(26); 
++     sprintf(iwad_dir, "/storage/roms/doom/iwads");
++     log_cb(RETRO_LOG_WARN, "I_FindFile: Attempting custom iWads (%s) folder for AmberELEC\n", iwad_dir);
++
++     if (( p= FindFileInDir(iwad_dir, wfname, ext)) != NULL){
++	log_cb(RETRO_LOG_WARN,"I_FindFile: Seems we found the wad!\n");
++	return p;
++     }
+      // Then check on system dir (both under prboom subfolder and directly)
+      environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_dir);
+      if (system_dir && (prboom_system_dir = malloc(strlen(system_dir) + 8)))

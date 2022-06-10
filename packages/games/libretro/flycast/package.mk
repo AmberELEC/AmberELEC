@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="flycast"
-PKG_VERSION="48361f58b6172b25b0d673a61b1badd41bdefbba"
+PKG_VERSION="b5f1552ed813bd729598cb8a9b5aa5d148453431"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain $OPENGLES libzip"
