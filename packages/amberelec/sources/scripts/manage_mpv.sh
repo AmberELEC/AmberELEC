@@ -22,6 +22,12 @@ case "$1" in
     "back60s") 
         sendkey "DOWN"
     ;;
+    "back10m") 
+        sendkey "Shift+PGDWN"
+    ;;
+    "skip10m") 
+        sendkey "Shift+PGUP"
+    ;;
     "quit") 
         sendkey "q"
     ;;
