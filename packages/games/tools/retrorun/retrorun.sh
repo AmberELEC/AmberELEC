@@ -160,9 +160,6 @@ else
 	fi
 fi
 
-
-
-
 # Parallel-N64 Audio buffer size
 if [[ "$EE_DEVICE" == "RG552" ]]; then
 	AUDIO_BUFFER='2048'
