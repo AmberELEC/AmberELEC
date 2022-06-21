@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="fmsx"
-PKG_VERSION="11fa9f3c08cde567394c41320ca76798c2c64670"
-PKG_SHA256="0964183b3ac858ce1d78a31b3e2cd429841c371ef56bf3add658903b0c6d017e"
+PKG_VERSION="8a31bc4e125dd6fe5bbe862313c5a1930e33478a"
+PKG_SHA256="21aa36ffecb3a12b7147d262bea7381553de7fc77ade306d779f4fd57130ef4a"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
