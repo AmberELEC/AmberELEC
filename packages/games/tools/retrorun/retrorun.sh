@@ -144,6 +144,22 @@ else
 	fi
 fi
 
+# Parallel-N64 Overclock
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "overclock"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-virefresh/d" ${RRCONF}
+		echo 'parallel-n64-virefresh = auto' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+		sed -i "/^parallel-n64-virefresh/d" ${RRCONF}
+		echo "parallel-n64-virefresh = ${EES}" >> ${RRCONF}
+	fi
+fi
+
 # Parallel-N64 Audio buffer size
 if [[ "$EE_DEVICE" == "RG552" ]]; then
 	AUDIO_BUFFER='2048'
