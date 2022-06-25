@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL815x"
-PKG_VERSION="54b8e299e15944e3c023a0eb955eab8416b13d2a"
+PKG_VERSION="8a84a7a5d4e482bd2f16dc1d0dced997338b0729"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/realtek-r8152-linux"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
