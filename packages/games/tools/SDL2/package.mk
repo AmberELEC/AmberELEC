@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="SDL2"
-PKG_VERSION="2.0.22"
+PKG_VERSION="2.0.20"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
@@ -62,8 +62,7 @@ pre_configure_target(){
                          -DVIDEO_VULKAN=OFF \
                          -DVIDEO_KMSDRM=ON \
                          -DPULSEAUDIO=ON \
-                         -DINSTALL_SDL2_CONFIG=ON \
-                         -DSDL_HIDAPI_JOYSTICK=OFF"
+                         -DINSTALL_SDL2_CONFIG=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
 
