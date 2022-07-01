@@ -5,6 +5,37 @@
 
 . /etc/profile
 
+ROM="${1##*/}"
+PLATFORM="build"
+CONF="/storage/.config/distribution/configs/distribution.conf"
+
+function get_setting() {
+        #We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
+        PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
+        EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+
+        if [ -z "${EES}" ]; then
+                PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
+                EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+        fi
+
+        if [ -z "${EES}" ]; then
+                PAT="s|^global[\.-].*${1}=\(.*\)|\1|p"
+                EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+        fi
+
+        [ -z "${EES}" ] && EES="false"
+}
+
+# Show FPS
+get_setting "show_fps"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        SHOWFPS='0'
+else
+        SHOWFPS='1'
+fi
+
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 RUN_DIR="/storage/roms/build"
 CONFIG="/storage/.config/distribution/raze/raze.ini"
@@ -23,7 +54,7 @@ fi
 mkdir -p ${SAVE_DIR}
 
 params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
-params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +cl_nomeleeblur 1 +vid_fps 1"
+params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +cl_nomeleeblur 1 +vid_fps $SHOWFPS"
 
 EXT=${1#*.}
 

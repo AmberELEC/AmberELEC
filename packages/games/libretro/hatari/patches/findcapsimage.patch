@@ -26,7 +26,8 @@ index c615b755..8e52b712 100644
 +#define __cdecl  /* CAPS headers need this, but do not define it on their own */
 +#endif
  #if CAPSIMAGE_VERSION == 5
- #include <caps5/CapsLibAll.h>
+-#include <CapsLibAll.h>
++#include <caps5/CapsLibAll.h>
 +#define CapsLong SDWORD
 +#define CapsULong UDWORD
  #else
@@ -44,5 +45,6 @@ index e752e83d..91cf41cf 100644
 +#define __cdecl  /* CAPS headers need this, but do not define it on their own */
 +#endif
  #if CAPSIMAGE_VERSION == 5
- #include <caps5/CapsLibAll.h>
+-#include <CapsLibAll.h>
++#include <caps5/CapsLibAll.h>
  #endif

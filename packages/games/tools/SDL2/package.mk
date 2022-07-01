@@ -62,7 +62,8 @@ pre_configure_target(){
                          -DVIDEO_VULKAN=OFF \
                          -DVIDEO_KMSDRM=ON \
                          -DPULSEAUDIO=ON \
-                         -DINSTALL_SDL2_CONFIG=ON"
+                         -DINSTALL_SDL2_CONFIG=ON \
+                         -DSDL_HIDAPI_JOYSTICK=OFF"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
 

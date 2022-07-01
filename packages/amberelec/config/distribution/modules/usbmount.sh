@@ -1,10 +1,13 @@
 #!/bin/bash
 
-[ "$(cat /proc/mounts | grep /dev/sda)" ];
+SUCCESS=""
+ERROR=""
+
+[ "$(cat /proc/mounts | grep '/dev/sd[a-z]')" ];
 
 if [[ "$?" -eq 0 ]];
 then
-	PARTITIONS=($(cat /proc/mounts | grep /dev/sda | cut -d  ' ' -f1 | sed 's/\/dev\///g'))
+	PARTITIONS=($(cat /proc/mounts | grep '/dev/sd[a-z]' | cut -d  ' ' -f1 | sed 's/\/dev\///g'))
 
 	for e in "${PARTITIONS[@]}";
 	do
@@ -18,15 +21,21 @@ then
 				if [ -d "/media/${e}/" ]; then
 					rmdir /media/${e}
 				fi
-				text_viewer -w -t "USB unmount of partition ${e} successfull!" -m "Partition ${e} of your USB drive has been successfully unmounted."
+				SUCCESS+="Partition ${e} has been successfully unmounted.\n"
 			else
-				text_viewer -w -e -t "USB unmount of parttion ${e} failed!" -m "Sorry, your USB drive couldn't be unmouted."
+				ERROR+="Partition ${e} could not be unmounted.\n"
 			fi
 			clear > /dev/console
 		fi
 	done
+	if [[ ${#ERROR} -eq 0 ]];
+	then
+		text_viewer -w -t "USB unmount of partitions successful!" -m "${SUCCESS}"
+	else
+		text_viewer -w -e -t "USB unmount of partitions failed!" -m "${ERROR}\n${SUCCESS}"
+	fi
 else
-	PARTITIONS=($(ls /dev/sda? | sed 's/\/dev\///g'))
+	PARTITIONS=($(ls /dev/sd[a-z]? | sed 's/\/dev\///g'))
 	
 	for e in "${PARTITIONS[@]}";
 	do	
@@ -39,10 +48,16 @@ else
 
 		if [[ "$?" -eq 0 ]];
 		then
-			text_viewer -w -t "USB mount of partition ${e} successfull!" -m "Partition ${e} of your USB drive has been successfully mounted to /media/${e}."
+			SUCCESS+="Partition ${e} has been mounted to /media/${e}.\n"
 		else
-			text_viewer -w -e -t "USB mount of partition ${e} failed!" -m "Sorry, mounting partition ${e} of your USB drive failed.\n\nNote: Only FAT, FAT32 or exFAT, ext2/3/4 filesystems are supported."
+			ERROR+="Could not mount partition /dev/${e}.\n"
 		fi
 		clear > /dev/console
 	done
+	if [[ ${#ERROR} -eq 0 ]];
+	then
+		text_viewer -w -t "USB mount of partitions successful!" -m "${SUCCESS}"
+	else
+		text_viewer -w -e -t "USB mount of partitions failed!" -m "${SUCCESS}\n\n${ERROR}\n\nNote: Only FAT, FAT32, exFAT, and ext2/3/4 filesystems are supported."
+	fi
 fi

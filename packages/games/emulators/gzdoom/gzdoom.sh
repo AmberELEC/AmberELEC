@@ -5,8 +5,39 @@
 
 . /etc/profile
 
+ROM="${1##*/}"
+PLATFORM="doom"
+CONF="/storage/.config/distribution/configs/distribution.conf"
+
+function get_setting() {
+	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
+	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
+	EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+
+	if [ -z "${EES}" ]; then
+		PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
+		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+	fi
+
+	if [ -z "${EES}" ]; then
+		PAT="s|^global[\.-].*${1}=\(.*\)|\1|p"
+		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+	fi
+
+	[ -z "${EES}" ] && EES="false"
+}
+
+# Show FPS
+get_setting "show_fps"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	SHOWFPS='0'
+else
+	SHOWFPS='1'
+fi
+
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
-RUN_DIR="/storage/.config/distribution/gzdoom"
+RUN_DIR="/storage/roms/doom"
 CONFIG="/storage/.config/distribution/gzdoom/gzdoom.ini"
 SAVE_DIR="/storage/roms/gamedata/gzdoom"
 
@@ -42,12 +73,7 @@ else
   params+=" -iwad ${1}"
 fi
 
-if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
-fi
-if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]] || [[ "$EE_DEVICE" == RG552 ]]; then
-  params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps 1"
-fi
+params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps $SHOWFPS"
 
 cd "${RUN_DIR}"
 /usr/bin/gzdoom ${params} >/tmp/logs/gzdoom.log 2>&1

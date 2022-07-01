@@ -5,6 +5,37 @@
 
 . /etc/profile
 
+ROM="${1##*/}"
+PLATFORM="doom"
+CONF="/storage/.config/distribution/configs/distribution.conf"
+
+function get_setting() {
+        #We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
+        PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
+        EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+
+        if [ -z "${EES}" ]; then
+                PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
+                EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+        fi
+
+        if [ -z "${EES}" ]; then
+                PAT="s|^global[\.-].*${1}=\(.*\)|\1|p"
+                EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+        fi
+
+        [ -z "${EES}" ] && EES="false"
+}
+
+# Show FPS
+get_setting "show_fps"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+        SHOWFPS='0'
+else
+        SHOWFPS='1'
+fi
+
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 RUN_DIR="/storage/roms/doom"
 CONFIG="/storage/.config/distribution/lzdoom/lzdoom.ini"
@@ -43,10 +74,10 @@ else
 fi
 
 if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" -width 360 -height 240 +vid_fps 1 +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
+  params+=" -width 360 -height 240 +vid_fps $SHOWFPS +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
 fi
 if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]] || [[ "$EE_DEVICE" == RG552 ]]; then
-  params+=" -width 320 -height 240 +vid_fps 1 +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
+  params+=" -width 320 -height 240 +vid_fps $SHOWFPS +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
 fi
 
 cd "${RUN_DIR}"
