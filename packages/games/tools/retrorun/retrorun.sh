@@ -94,12 +94,8 @@ fi
 sed -i "/^retrorun_video_another_thread/d" ${RRCONF}
 echo "retrorun_video_another_thread = ${VIDEO_ANOTHER_THREAD}" >> ${RRCONF}
 
-# Adaptive FPS (it helps on 351 devices)
-if [[ "$EE_DEVICE" == "RG552" ]]; then
-	ADAPTIVE_FPS='false'
-else
-	ADAPTIVE_FPS='false'
-fi
+# Adaptive FPS (force it to false)
+ADAPTIVE_FPS='false'
 sed -i "/^retrorun_adaptive_fps/d" ${RRCONF}
 echo "retrorun_adaptive_fps = ${ADAPTIVE_FPS}" >> ${RRCONF}
 
