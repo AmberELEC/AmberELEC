@@ -2,7 +2,7 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="libgo2"
-PKG_VERSION="6930820fbc153fc63d4c168fe68ef30f18354580"
+PKG_VERSION="774de2ffc0902c837b9b95921f90c7d4a5f0df64"
 PKG_SHA256="89ad1cf229d581fa8e4498f4f4c526215176e79885e935bd7dc48c5872655f92"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="LGPL"
