@@ -2,7 +2,7 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="libgo2"
-PKG_VERSION="e14df186d76eba3eaf570c2cc6e7ee1212e143c4"
+PKG_VERSION="7dcf722ca31f4c1c1bda74f543b76c9f4dccb014"
 PKG_SHA256="89ad1cf229d581fa8e4498f4f4c526215176e79885e935bd7dc48c5872655f92"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="LGPL"
@@ -18,7 +18,7 @@ elif [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="audio"
 fi
 
-PKG_MAKE_OPTS_TARGET=" config=release ARCH= INCLUDES=-I$SYSROOT_PREFIX/usr/include/libdrm -I$SYSROOT_PREFIX/usr/include "
+PKG_MAKE_OPTS_TARGET=" ARCH= INCLUDES=-I$SYSROOT_PREFIX/usr/include/libdrm -I$SYSROOT_PREFIX/usr/include "
 
 makeinstall_target() {
 mkdir -p $INSTALL/usr/lib
