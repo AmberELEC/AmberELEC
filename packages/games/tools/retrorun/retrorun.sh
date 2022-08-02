@@ -209,9 +209,13 @@ else
 	fi
 fi
 
-# Flycast Auto Frameskip
+# Flycast Frame skip
 # Get configuration from distribution.conf and set to retrorun.cfg
-# default value for flycast_auto_skip_frame it's 'some'
+# we combine the two flycast parameters: flycast_auto_skip_frame and flycast_frame_skipping
+# default value for flycast_auto_skip_frame it's 'some' on RG351 devices and 'disabled' on 552
+# in some games that has choppy sound we can override the flycast_auto_skip_frame with flycast_frame_skipping set to 1/2
+# higher values of flycast_frame_skipping dont make too much sense
+
 if [[ "$EE_DEVICE" == "RG552" ]]; then
 	DEFAULT_AUTO_SKIP_FRAME='disabled' # this is better on RG552
 else
@@ -226,11 +230,11 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 		echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
 	fi
 else
-	if [ "${CORE}" =~ "flycast" ] && [ "${EES}" == "1" ]; then
+	if [ "${CORE}" =~ "flycast" ] && ([ "${EES}" == "1" ] || [ "${EES}" == "2" ]); then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
 		echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
 		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
-		echo "flycast_frame_skipping = 1" >> ${RRCONF}
+		echo "flycast_frame_skipping = ${EES}" >> ${RRCONF}
 	fi	
 else
 	if [[ "${CORE}" =~ "flycast" ]]; then
