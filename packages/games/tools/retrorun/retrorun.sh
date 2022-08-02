@@ -217,31 +217,30 @@ fi
 # higher values of flycast_frame_skipping dont make too much sense
 
 if [[ "$EE_DEVICE" == "RG552" ]]; then
-	DEFAULT_AUTO_SKIP_FRAME='disabled' # this is better on RG552
+        DEFAULT_AUTO_SKIP_FRAME='disabled' # this is better on RG552
 else
-	DEFAULT_AUTO_SKIP_FRAME='some'
+        DEFAULT_AUTO_SKIP_FRAME='some'
 fi
 get_setting "frameskip"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "flycast" ]]; then
-		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
-		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
-		echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
-	fi
+        if [[ "${CORE}" =~ "flycast" ]]; then
+                sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+                sed -i "/^flycast_frame_skipping/d" ${RRCONF}
+                echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
+        fi
+elif
+         [ "${CORE}" =~ "flycast" ] && ([ "${EES}" == "1" ] || [ "${EES}" == "2" ]); then
+                sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+                echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
+                sed -i "/^flycast_frame_skipping/d" ${RRCONF}
+                echo "flycast_frame_skipping = ${EES}" >> ${RRCONF}
 else
-	if [ "${CORE}" =~ "flycast" ] && ([ "${EES}" == "1" ] || [ "${EES}" == "2" ]); then
-		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
-		echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
-		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
-		echo "flycast_frame_skipping = ${EES}" >> ${RRCONF}
-	fi	
-else
-	if [[ "${CORE}" =~ "flycast" ]]; then
-		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
-		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
-		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
-	fi
+        if [[ "${CORE}" =~ "flycast" ]]; then
+                sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+                echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
+                sed -i "/^flycast_frame_skipping/d" ${RRCONF}
+        fi
 fi
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
