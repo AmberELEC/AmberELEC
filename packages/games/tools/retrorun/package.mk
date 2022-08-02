@@ -2,10 +2,10 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="768018facc4b849b3e3b7add829cdbd5e606386e"
+PKG_VERSION="97a1f43fb0a7001d2dcb4dce2da45028481b327c"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/AmberELEC/retrorun-go2"
+PKG_SITE="https://github.com/navy1978/retrorun-go2"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
 PKG_TOOLCHAIN="make"

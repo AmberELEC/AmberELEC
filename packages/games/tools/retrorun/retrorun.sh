@@ -217,17 +217,26 @@ if [[ "$EE_DEVICE" == "RG552" ]]; then
 else
 	DEFAULT_AUTO_SKIP_FRAME='some'
 fi
-get_setting "auto_frameskip"
+get_setting "frameskip"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" =~ "flycast" ]]; then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
 		echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
 	fi
+else
+	if [ "${CORE}" =~ "flycast" ] && [ "${EES}" == "1" ]; then
+		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
+		echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
+		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
+		echo "flycast_frame_skipping = 1" >> ${RRCONF}
+	fi	
 else
 	if [[ "${CORE}" =~ "flycast" ]]; then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
 		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
+		sed -i "/^flycast_frame_skipping/d" ${RRCONF}
 	fi
 fi
 
