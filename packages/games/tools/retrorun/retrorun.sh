@@ -229,12 +229,13 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
                 sed -i "/^flycast_frame_skipping/d" ${RRCONF}
                 echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
         fi
-elif
-         [ "${CORE}" =~ "flycast" ] && ([ "${EES}" == "1" ] || [ "${EES}" == "2" ]); then
+elif   [ "${EES}" == "1" ] || [ "${EES}" == "2" ]; then
+		if [[ "${CORE}" =~ "flycast" ]]; then
                 sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
                 echo "flycast_auto_skip_frame = disabled" >> ${RRCONF}
                 sed -i "/^flycast_frame_skipping/d" ${RRCONF}
                 echo "flycast_frame_skipping = ${EES}" >> ${RRCONF}
+		fi		
 else
         if [[ "${CORE}" =~ "flycast" ]]; then
                 sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
