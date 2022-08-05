@@ -200,10 +200,10 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
 
     # Retroachievements / Cheevos
     retro_achievements = {
-        'arcade', 'atari2600', 'atari7800', 'atarilynx', 'colecovision', 'dreamcast',
-        'famicom', 'fbn', 'fds', 'gamegear', 'gb', 'gba', 'gbah', 'gbc', 'gbch',
+        'arcade', 'arduboy', 'atari2600', 'atari7800', 'atarilynx', 'channelf', 'colecovision',
+        'dreamcast', 'famicom', 'fbn', 'fds', 'gamegear', 'gb', 'gba', 'gbah', 'gbc', 'gbch',
         'gbh', 'genesis', 'genh', 'ggh', 'intellivision', 'mastersystem',
-        'megacd', 'megadrive', 'megadrive-japan', 'msx', 'msx2', 'n64',
+        'megacd', 'megadrive', 'megadrive-japan', 'megaduck', 'msx', 'msx2', 'n64',
         'neogeo', 'neogeocd', 'nes', 'nesh', 'ngp', 'ngpc', 'odyssey2',
         'pcengine', 'pcenginecd', 'pcfx', 'pokemini', 'psp', 'psx', 'saturn', 'sega32x',
         'segacd', 'sfc', 'sg-1000', 'snes', 'snesh', 'snesmsu1', 'supergrafx',
