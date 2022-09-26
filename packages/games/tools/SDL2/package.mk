@@ -33,7 +33,7 @@ pre_configure_target(){
                          -DSDL_NAS=OFF \
                          -DSDL_NAS_SHARED=OFF \
                          -DSDL_LIBSAMPLERATE=ON \
-                         -DSDL_LIBSAMPLERATE_SHARED=ON \
+                         -DSDL_LIBSAMPLERATE_SHARED=OFF \
                          -DSDL_SNDIO=OFF \
                          -DSDL_DISKAUDIO=OFF \
                          -DSDL_DUMMYAUDIO=OFF \
@@ -57,10 +57,7 @@ pre_configure_target(){
                          -DSDL_KMSDRM=ON \
 			 -DSDL_FUSIONSOUND=OFF \
 			 -DSDL_FUSIONSOUND_SHARED=OFF \
-                         -DSDL_PULSEAUDIO=ON \
-                         -DSDL_HIDAPI_JOYSTICK=OFF \
-			 -DSDL_HIDAPI_LIBUSB=OFF \
-			 -DSDL_HIDAPI_JOYSTICK=OFF"
+                         -DSDL_PULSEAUDIO=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
 
