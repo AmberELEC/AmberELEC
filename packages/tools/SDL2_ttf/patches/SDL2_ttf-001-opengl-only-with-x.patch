@@ -1,6 +1,6 @@
-diff --git a/configure.old b/configure
+diff --git a/configure b/configure
 index 9afa3e1..5b6cb6a 100755
---- a/configure.old
+--- a/configure
 +++ b/configure
 @@ -21004,47 +21004,11 @@ fi
  
