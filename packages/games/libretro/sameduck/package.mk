@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="sameduck"
-PKG_VERSION="a5e5462f79164d21053f81fc680bfa9f59a2bf59"
-PKG_SHA256="3d6b14c98a0f455dba758df0cde72b57426f68fa76ce578ae38b4053a65e35ed"
+PKG_VERSION="5cc014b23af963f9e9a77091a1e6ff7a7852e8a7"
+PKG_SHA256="ca2a07e36812a838f00a506415b9e30280da9f36ea773011524ff07c5f0f98a9"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MIT"

@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="a5200"
-PKG_VERSION="46035d00a5fb7ffd3a63172c2d0a8c6b6ae7efc1"
+PKG_VERSION="b8f8571eb5c6f484fe6be9a3a895ffb162b08422"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
