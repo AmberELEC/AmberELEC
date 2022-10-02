@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="smsplus-gx"
-PKG_VERSION="9de9847dc8ba458e9522d5ae8b87bf71ad437257"
-PKG_SHA256="d8d367b3dd6f6e864fb25f41976ff81441959a7136e207e569101497246136a2"
+PKG_VERSION="60af17ddb2231ba98f4ed1203e2a2f58d08ea088"
+PKG_SHA256="98cea00a0865e4e68b4dfd24b38d370f47839505d119232afe65c5df9feff2cf"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="Non-commercial"
