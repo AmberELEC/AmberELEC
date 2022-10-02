@@ -3,7 +3,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="hypseus-singe"
-PKG_VERSION="89cfe865bd9008d395d1de71e5ee0efbced63c3a"
+PKG_VERSION="02e89b95dae88c68145c8afaf10fde21ad09329d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL3"
