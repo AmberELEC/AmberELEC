@@ -9,9 +9,15 @@ PKG_ARCH="any"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/opentyrian/opentyrian"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain SDL2"
+PKG_DEPENDS_TARGET="toolchain SDL2 SDL2_net"
 PKG_LONGDESC="An open-source port of the DOS shoot-em-up Tyrian."
 PKG_TOOLCHAIN="make"
+
+pre_configure_target() {
+  CFLAGS+=" -I$(get_build_dir SDL2)/include"
+  CFLAGS+=" -I$(get_build_dir SDL2_net)"
+  export LDFLAGS="${LDFLAGS} -lSDL2 -lSDL2_net"
+}
 
 makeinstall_target() {
   cd $PKG_BUILD
@@ -22,7 +28,7 @@ makeinstall_target() {
 
   mkdir -p $INSTALL/usr/local/bin
   cp opentyrian $INSTALL/usr/local/bin
-  
+
   mkdir -p $INSTALL/usr/config/opentyrian
   cp -r $PKG_DIR/config/* $INSTALL/usr/config/opentyrian
 

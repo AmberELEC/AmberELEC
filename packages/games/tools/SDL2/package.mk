@@ -16,6 +16,10 @@ if [ "${DEVICE}" = "RG351P" ] || [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="rotation"
 fi
 
+pre_make_host() {
+  sed -i "s| -lrga||g" ${PKG_BUILD}/CMakeLists.txt
+}
+
 pre_configure_target(){
   PKG_CMAKE_OPTS_TARGET="-DSDL_STATIC=OFF \
                          -DSDL_LIBC=ON \
