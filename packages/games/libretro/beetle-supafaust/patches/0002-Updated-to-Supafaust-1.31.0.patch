@@ -1,0 +1,193 @@
+From e2b9755e3cc6abbeda6860856dceeb6f127da745 Mon Sep 17 00:00:00 2001
+From: Shimizu Hikaru <MuPendulum@users.noreply.github.com>
+Date: Mon, 4 Oct 2022 00:00:00 -0000
+Subject: [PATCH] Updated to Supafaust 1.31.0
+
+Excluded mouse emulation changes
+---
+ mednafen/config.h                         |  4 ++--
+ mednafen/snes_faust/cart.cpp              | 10 ++++------
+ mednafen/snes_faust/debug.cpp             |  2 ++
+ mednafen/snes_faust/msu1.cpp              |  4 ++--
+ mednafen/snes_faust/ppu.h                 |  3 +++
+ mednafen/snes_faust/ppu_common.inc        | 10 +++++++++-
+ mednafen/snes_faust/ppu_render_common.inc |  4 ++--
+ mednafen/snes_faust/ppu_st.cpp            | 20 ++++++++++++++++++++
+ 8 files changed, 44 insertions(+), 13 deletions(-)
+
+diff --git a/mednafen/config.h b/mednafen/config.h
+index 6b5b5b4..190d6b1 100644
+--- a/mednafen/config.h
++++ b/mednafen/config.h
+@@ -9,8 +9,8 @@
+ #define PTHREAD_AFFINITY_NP cpu_set_t
+ #endif
+ 
+-#define MEDNAFEN_VERSION "1.29.0"
+-#define MEDNAFEN_VERSION_NUMERIC 0x00102900
++#define MEDNAFEN_VERSION "1.31.0"
++#define MEDNAFEN_VERSION_NUMERIC 0x00103100
+ 
+ #define WANT_SNES_FAUST_EMU 1
+ 
+diff --git a/mednafen/snes_faust/cart.cpp b/mednafen/snes_faust/cart.cpp
+index 863b941..97af3b3 100644
+--- a/mednafen/snes_faust/cart.cpp
++++ b/mednafen/snes_faust/cart.cpp
+@@ -191,7 +191,7 @@ bool CART_Init(Stream* fp, uint8 id[16], const int32 cx4_ocmultiplier, const int
+  else
+   rom_layout = ROM_LAYOUT_LOROM;
+ 
+- for(unsigned s = 0; s < 4 && header_found <= 0; s++)
++ for(unsigned s = (maybe_exrom ? 2 : 0), hfc = 4; hfc && header_found <= 0; s = (s + 1) & 3, hfc--)
+  {
+   uint8* tmp = &Cart.ROM[(s & 1) * 0x8000 + ((s & 2) ? 0x400000 : 0x000000)];
+ 
+@@ -273,6 +273,8 @@ bool CART_Init(Stream* fp, uint8 id[16], const int32 cx4_ocmultiplier, const int
+ 	// For "Derby Stallion 96", "RPG Tsukuru 2", and "Sound Novel Tsukuru"
+ 	if(header_developer == 0x33 && tmp[0x7FB0] == 0x42 && tmp[0x7FB1] == 0x31 && tmp[0x7FB2] == 0x5A && tmp[0x7FB3] > 0x20 && tmp[0x7FB4] > 0x20 && tmp[0x7FB5] > 0x20)
+ 	 rom_layout = ROM_LAYOUT_LOROM_SPECIAL;
++	else if(maybe_exrom && (s & 2))
++	 rom_layout = ROM_LAYOUT_EXLOROM;
+ 	break;
+ 
+     case 0x31:
+@@ -280,10 +282,6 @@ bool CART_Init(Stream* fp, uint8 id[16], const int32 cx4_ocmultiplier, const int
+ 	rom_layout = ROM_LAYOUT_HIROM;
+ 	break;
+ 
+-    case 0x32:
+-	rom_layout = ROM_LAYOUT_EXLOROM;
+-	break;
+-
+     case 0x35:
+ 	rom_layout = ROM_LAYOUT_EXHIROM;
+ 	break;
+@@ -437,7 +435,7 @@ bool CART_Init(Stream* fp, uint8 id[16], const int32 cx4_ocmultiplier, const int
+ 
+    if(rom_layout == ROM_LAYOUT_LOROM || rom_layout == ROM_LAYOUT_EXLOROM || rom_layout == ROM_LAYOUT_LOROM_SRAM8000MIRROR)
+    {
+-    if(rom_layout == ROM_LAYOUT_EXLOROM && bank < 0xC0)
++    if(rom_layout == ROM_LAYOUT_EXLOROM && bank < 0x80)
+      cart_r = ((bank >= 0x80) ? CartRead_LoROM<-1, 0x400000> : CartRead_LoROM<MEMCYC_SLOW, 0x400000>);
+     else
+      cart_r = ((bank >= 0x80) ? CartRead_LoROM<-1> : CartRead_LoROM<MEMCYC_SLOW>);
+diff --git a/mednafen/snes_faust/debug.cpp b/mednafen/snes_faust/debug.cpp
+index 3871bbc..f5d30e7 100644
+--- a/mednafen/snes_faust/debug.cpp
++++ b/mednafen/snes_faust/debug.cpp
+@@ -468,6 +468,8 @@ static const RegType DBG_Regs_PPU[] =
+  { (1 << 16) | PPU_GSREG_WOBJLOG, "WOBJLOG", "WOBJLOG", 1 },
+  { (1 << 16) | PPU_GSREG_TM, "TM", "TM", 1 },
+  { (1 << 16) | PPU_GSREG_TS, "TS", "TS", 1 },
++ { (1 << 16) | PPU_GSREG_TMW, "TMW", "TMW", 1 },
++ { (1 << 16) | PPU_GSREG_TSW, "TSW", "TSW", 1 },
+  { (1 << 16) | PPU_GSREG_CGWSEL, "CGWSEL", "CGWSEL", 1 },
+  { (1 << 16) | PPU_GSREG_CGADSUB, "CGADSUB", "CGADSUB", 1 },
+  { 0, "------", "", 0xFFFF },
+diff --git a/mednafen/snes_faust/msu1.cpp b/mednafen/snes_faust/msu1.cpp
+index 2e5bf68..55c1b80 100644
+--- a/mednafen/snes_faust/msu1.cpp
++++ b/mednafen/snes_faust/msu1.cpp
+@@ -121,8 +121,8 @@ static uint32 NO_INLINE Update(uint32 master_timestamp)
+    const float imp_b = Impulse[phase_index + 1][i];
+    const float imp = imp_a + (imp_b - imp_a) * phase_ip;
+ 
+-   accum[0] += imp * MDFN_densb<int16>(&inbuf[(i << 2) + 0]);
+-   accum[1] += imp * MDFN_densb<int16>(&inbuf[(i << 2) + 2]);
++   accum[0] += imp * MDFN_delsb<int16>(&inbuf[(i << 2) + 0]);
++   accum[1] += imp * MDFN_delsb<int16>(&inbuf[(i << 2) + 2]);
+   }
+ 
+   (&ResampBuf[0].BufPudding()->f)[ResampBufPos] = accum[0] * eff_volume;
+diff --git a/mednafen/snes_faust/ppu.h b/mednafen/snes_faust/ppu.h
+index 046c432..108d0f0 100644
+--- a/mednafen/snes_faust/ppu.h
++++ b/mednafen/snes_faust/ppu.h
+@@ -70,6 +70,9 @@ enum
+  PPU_GSREG_TM,
+  PPU_GSREG_TS,
+ 
++ PPU_GSREG_TMW,
++ PPU_GSREG_TSW,
++
+  PPU_GSREG_CGWSEL,
+  PPU_GSREG_CGADSUB,
+ 
+diff --git a/mednafen/snes_faust/ppu_common.inc b/mednafen/snes_faust/ppu_common.inc
+index ac08af5..a4dfce5 100644
+--- a/mednafen/snes_faust/ppu_common.inc
++++ b/mednafen/snes_faust/ppu_common.inc
+@@ -1567,10 +1567,18 @@ uint32 PPU_GetRegister(const unsigned id, char* const special, const uint32 spec
+ 	break;
+ 
+   case PPU_GSREG_TM:
+-	ret = WMMainEnable;
++	ret = MSEnable;
+ 	break;
+ 
+   case PPU_GSREG_TS:
++	ret = SSEnable;
++	break;
++
++  case PPU_GSREG_TMW:
++	ret = WMMainEnable;
++	break;
++
++  case PPU_GSREG_TSW:
+ 	ret = WMSubEnable;
+ 	break;
+ 
+diff --git a/mednafen/snes_faust/ppu_render_common.inc b/mednafen/snes_faust/ppu_render_common.inc
+index dcd06d4..da25368 100644
+--- a/mednafen/snes_faust/ppu_render_common.inc
++++ b/mednafen/snes_faust/ppu_render_common.inc
+@@ -824,12 +824,12 @@ static MDFN_HOT MDFN_FASTCALL void DoWindow(unsigned layernum, uint32* MDFN_REST
+  {
+   if(WMMainEnable & (1U << layernum))
+   {
+-   masker[1] &= ~0x00FF;
++   masker[1] &= 0xFFFFFF02;
+   }
+ 
+   if(WMSubEnable & (1U << layernum))
+   {
+-   masker[1] &= ~0xFF00;
++   masker[1] &= 0xFFFF00FF;
+   }
+ 
+   if(!((WMMainEnable | WMSubEnable) & (1U << layernum)))
+diff --git a/mednafen/snes_faust/ppu_st.cpp b/mednafen/snes_faust/ppu_st.cpp
+index f12f8a4..dbc2ff1 100644
+--- a/mednafen/snes_faust/ppu_st.cpp
++++ b/mednafen/snes_faust/ppu_st.cpp
+@@ -373,6 +373,26 @@ void PPU_SetRegister(const unsigned id, const uint32 value)
+   //
+   //
+   //
++  case PPU_GSREG_TM:
++	MSEnable = value & 0xFF;
++	break;
++
++  case PPU_GSREG_TS:
++	SSEnable = value & 0xFF;
++	break;
++
++  case PPU_GSREG_TMW:
++	WMMainEnable = value & 0xFF;
++	break;
++
++  case PPU_GSREG_TSW:
++	WMSubEnable = value & 0xFF;
++	break;
++
++  case PPU_GSREG_CGWSEL:
++	CGWSEL = value & 0xFF;
++	break;
++
+   case PPU_GSREG_CGADSUB:
+ 	CGADSUB = value & 0xFF;
+ 	break;
+-- 
+2.37.3
+
