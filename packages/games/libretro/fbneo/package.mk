@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fbneo"
-PKG_VERSION="8678b0fcd02c4049c0cfa40a0ab87fded1bbedd8"
-PKG_SHA256="e395e951418fb5ae94563c3378de5abaed623b3ef3c79ac0bdbf8bb5ff7d8718"
+PKG_VERSION="7b0d5d083b9812e3b9df9134412d4c17ee1aba85"
+PKG_SHA256="73ecf1af2a5b5af369016b6a4f52b93bb29a7859c2118899a2a35ad01c22519d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="Non-commercial"

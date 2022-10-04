@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="dosbox-pure"
-PKG_VERSION="6335ea9df9568fd69ea1715bcebea6a53b34d0d7"
+PKG_VERSION="5baac1a762ce0325ebe838f1270af01bc336fd3f"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -33,6 +33,10 @@ PKG_LONGDESC="A port of DOSBox to libretro"
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
+
+pre_patch() {
+  find $(echo "${PKG_BUILD}" | cut -f1 -d\ ) -type f -exec dos2unix -q {} \;
+}
 
 make_target() {
   make platform=emuelec-hh

@@ -1,0 +1,62 @@
+diff --git a/core_options.h b/core_options.h
+index a00b36a..7e6b4db 100644
+--- a/core_options.h
++++ b/core_options.h
+@@ -409,21 +409,6 @@ static retro_core_option_v2_definition option_defs[] =
+ 		},
+ 		"svga_s3"
+ 	},
+-	{
+-		"dosbox_pure_svgamem",
+-		"SVGA Memory (restart required)", NULL,
+-		"The amount of memory available to the emulated SVGA card.", NULL,
+-		"Video",
+-		{
+-			{ "0",  "512KB" },
+-			{ "1", "1MB" },
+-			{ "2", "2MB (default)" },
+-			{ "3", "3MB" },
+-			{ "4", "4MB" },
+-			{ "8", "8MB (not always recognized)" },
+-		},
+-		"2"
+-	},
+ 	{
+ 		"dosbox_pure_voodoo",
+ 		"3dfx Voodoo Emulation", NULL,
+diff --git a/dosbox_pure_libretro.cpp b/dosbox_pure_libretro.cpp
+index c51753a..9c4f405 100644
+--- a/dosbox_pure_libretro.cpp
++++ b/dosbox_pure_libretro.cpp
+@@ -3556,7 +3556,6 @@ static bool check_variables(bool is_startup = false)
+ 		case 'p': dbmachine = "pcjr"; break;
+ 	}
+ 	Variables::DosBoxSet("dosbox", "machine", dbmachine, false, true);
+-	Variables::DosBoxSet("dosbox", "vmemsize", retro_get_variable("dosbox_pure_svgamem", "2"), false, true);
+ 	if (dbp_reboot_machine)
+ 		control->GetSection("dosbox")->GetProp("machine")->OnChangedByConfigProgram(), dbp_reboot_machine = 0;
+ 
+@@ -3640,7 +3639,6 @@ static bool check_variables(bool is_startup = false)
+ 	}
+ 
+ 	Variables::RetroVisibility("dosbox_pure_svga", machine_is_svga);
+-	Variables::RetroVisibility("dosbox_pure_svgamem", machine_is_svga);
+ 	Variables::RetroVisibility("dosbox_pure_voodoo", machine_is_svga);
+ 	Variables::RetroVisibility("dosbox_pure_voodoo_perf", machine_is_svga);
+ 	if (machine_is_svga)
+diff --git a/src/hardware/vga_s3.cpp b/src/hardware/vga_s3.cpp
+index 06eafe7..ac82258 100644
+--- a/src/hardware/vga_s3.cpp
++++ b/src/hardware/vga_s3.cpp
+@@ -546,11 +546,6 @@ void SVGA_Setup_S3Trio(void) {
+ 	} else if (vga.vmemsize < 4096*1024)	{
+ 		vga.vmemsize = 3072*1024;
+ 		vga.s3.reg_36 = 0x5a;		// 3mb fast page mode
+-#ifdef C_DBP_LIBRETRO
+-	} else if (vga.vmemsize == 8192*1024)	{ // hack more mem than supported by real Trio64 card
+-		vga.vmemsize = 8192*1024;
+-		vga.s3.reg_36 = 0x7a;		// 8mb fast page mode
+-#endif
+ 	} else {	// Trio64 supported only up to 4M
+ 		vga.vmemsize = 4096*1024;
+ 		vga.s3.reg_36 = 0x1a;		// 4mb fast page mode
