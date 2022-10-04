@@ -12,7 +12,6 @@ PKG_DEPENDS_HOST="toolchain:host SDL2:host libogg:host libvorbis:host"
 PKG_LONGDESC="SDL2 mixer"
 
 pre_configure_host() {
-  SDL2_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config
   PKG_CMAKE_OPTS_HOST="-DSDL2MIXER_OPUS=OFF -DSDL2MIXER_MOD=OFF -DSDL2MIXER_MP3=OFF -DSDL2MIXER_FLAC=OFF -DSDL2MIXER_MIDI=OFF"
 }
 
