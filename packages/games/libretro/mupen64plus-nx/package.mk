@@ -19,9 +19,9 @@ pre_configure_target() {
   sed -e "s|^GIT_VERSION ?.*$|GIT_VERSION := \" ${PKG_VERSION:0:7}\"|" -i Makefile
 
   if [ "${DEVICE}" = "RG552" ]; then
-    PKG_MAKE_OPTS_TARGET+=" platform=RK3399"
+    PKG_MAKE_OPTS_TARGET+=" platform=RK3399 HAVE_PARALLEL_RSP=1"
   else
-    PKG_MAKE_OPTS_TARGET+=" platform=RK3326"
+    PKG_MAKE_OPTS_TARGET+=" platform=RK3326 HAVE_PARALLEL_RSP=1"
   fi
 }
 
