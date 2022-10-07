@@ -4,8 +4,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="7077d8d124cea84e99e0b91a6ffc77995e5f8578"
-PKG_SHA256="ad2e1c9f000f5ebef59c0301a6ea74301665b7c30e650d954eb70c8e07b533fd"
+PKG_VERSION="2d2a92ddcf49d36c2a63f1ae1a6fb9d4447d6631"
+PKG_SHA256="6c1d82a9cce7f564d177b777321b110b1f1bbde1c4aaf2944e14b59607456a5c"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
@@ -17,7 +17,10 @@ PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graph
 pre_configure_target() { 
   sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure
   sed -i "s|static const int guiBaseValues\[\] = { 150, 125, 100, 75, -1 };|static const int guiBaseValues\[\] = { 200, 125, 100, 75, -1 };|g" $PKG_BUILD/gui/options.cpp
-  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --disable-sdlnet  --disable-debug --enable-release --enable-vkeybd --opengl-mode=gles2"
+  TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} --backend=sdl --with-sdl-prefix=${SYSROOT_PREFIX}/usr/bin --disable-debug --enable-release --enable-vkeybd --opengl-mode=gles2"
+
+  #enable monkey4
+  sed -i 's|add_engine monkey4 "Escape from Monkey Island" no|add_engine monkey4 "Escape from Monkey Island" yes|g' $PKG_BUILD/engines/grim/configure.engine
 }
 
 post_makeinstall_target() {
