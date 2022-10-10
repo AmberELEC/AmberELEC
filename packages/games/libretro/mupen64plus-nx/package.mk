@@ -18,12 +18,11 @@ PKG_BUILD_FLAGS="-lto"
 pre_configure_target() {
   sed -e "s|^GIT_VERSION ?.*$|GIT_VERSION := \" ${PKG_VERSION:0:7}\"|" -i Makefile
 
-if [ $ARCH == "arm" ]; then
-  sed -i "s|cortex-a53|cortex-a35|g" Makefile
-  PKG_MAKE_OPTS_TARGET+=" platform=odroidgoa"
-else
-  PKG_MAKE_OPTS_TARGET+=" platform=amlogic64"
-fi
+  if [ "${DEVICE}" = "RG552" ]; then
+    PKG_MAKE_OPTS_TARGET+=" platform=RK3399 HAVE_PARALLEL_RSP=1"
+  else
+    PKG_MAKE_OPTS_TARGET+=" platform=RK3326 HAVE_PARALLEL_RSP=1"
+  fi
 }
 
 makeinstall_target() {

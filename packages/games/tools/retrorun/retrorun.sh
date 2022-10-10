@@ -114,17 +114,23 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	if [[ "${CORE}" =~ "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
 		echo 'parallel-n64-screensize = 640x480' >> ${RRCONF}
-	elif [[ "${CORE}" =~ "flycast" ]]; then
+	elif [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_internal_resolution/d" ${RRCONF}
 		echo 'flycast_internal_resolution = 640x480' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
+		echo 'flycast2021_internal_resolution = 640x480' >> ${RRCONF}
 	fi
 else
 	if [[ "${CORE}" =~ "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
 		echo "parallel-n64-screensize = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" =~ "flycast" ]]; then
+	elif [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_internal_resolution/d" ${RRCONF}
 		echo "flycast_internal_resolution = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
+		echo "flycast2021_internal_resolution = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -174,14 +180,20 @@ echo "parallel-n64-audio-buffer-size = ${AUDIO_BUFFER}" >> ${RRCONF}
 get_setting "synchronous_rendering"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "flycast" ]]; then
+	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
 		echo 'flycast_synchronous_rendering = disabled' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
+		echo 'flycast2021_synchronous_rendering = disabled' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "flycast" ]]; then
+	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
 		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
+		echo "flycast2021_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -190,11 +202,21 @@ fi
 get_setting "div_matching"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-        sed -i "/^flycast_div_matching/d" ${RRCONF}
-        echo 'flycast_div_matching = auto' >> ${RRCONF}
+	if [[ "${CORE}" == "flycast" ]]; then
+		sed -i "/^flycast_div_matching/d" ${RRCONF}
+		echo 'flycast_div_matching = auto' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
+		echo 'flycast2021_div_matching = auto' >> ${RRCONF}
+	fi
 else
-        sed -i "/^flycast_div_matching/d" ${RRCONF}
-        echo "flycast_div_matching = ${EES}" >> ${RRCONF}
+        if [[ "${CORE}" == "flycast" ]]; then
+		sed -i "/^flycast_div_matching/d" ${RRCONF}
+		echo "flycast_div_matching = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
+		echo "flycast2021_div_matching = ${EES}" >> ${RRCONF}
+	fi
 fi
 
 # PSX CPU Clock
@@ -224,12 +246,12 @@ fi
 get_setting "auto_frameskip"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "flycast" ]]; then
+	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
 		echo "flycast_auto_skip_frame = ${DEFAULT_AUTO_SKIP_FRAME}" >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "flycast" ]]; then
+	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
 		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
 	fi
