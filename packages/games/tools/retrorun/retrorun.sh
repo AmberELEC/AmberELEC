@@ -197,7 +197,7 @@ else
 	fi
 fi
 
-# Map left analog to DPAD
+# Enables/Disables a division optimization
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "div_matching"
 echo ${EES}
@@ -216,6 +216,28 @@ else
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
 		echo "flycast2021_div_matching = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Enables/Disables the DSP on Flycast. Fixes audio issues on some games.
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "dsp"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "flycast" ]]; then
+		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
+		echo 'flycast_enable_dsp = disabled' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
+		echo 'flycast2021_enable_dsp = disabled' >> ${RRCONF}
+	fi
+else
+        if [[ "${CORE}" == "flycast" ]]; then
+		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
+		echo "flycast_enable_dsp = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
+		echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
 	fi
 fi
 
