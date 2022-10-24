@@ -4,10 +4,10 @@
 
 PKG_NAME="es-theme-art-book-next"
 PKG_REV="1"
-PKG_VERSION="2b6d721366b3dac0381e949c876202f231fd5563"
+PKG_VERSION="567a65606b4bc2d2c1a279392aadf92d45c0e867"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
-PKG_SITE="https://github.com/anthonycaccese/es-theme-art-book-next"
+PKG_SITE="https://github.com/anthonycaccese/art-book-next-batocera"
 PKG_URL="$PKG_SITE.git"
 PKG_SHORTDESC="ArtBook Next"
 PKG_LONGDESC="Art Book Next - AmberELEC default theme"
