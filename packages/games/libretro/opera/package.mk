@@ -33,6 +33,9 @@ PKG_SHORTDESC="Port of 4DO/libfreedo to libretro."
 PKG_LONGDESC="Port of 4DO/libfreedo to libretro."
 PKG_TOOLCHAIN="make"
 
+pre_configure_target() {
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/Makefile
+}
 
 make_target() {
   make CC=$CC CXX=$CXX AR=$AR

@@ -19,26 +19,25 @@
 ################################################################################
 
 PKG_NAME="ppsspp"
-PKG_VERSION="72a7a7773c4ad739d70c1e72c2e740845433e2d4"
+PKG_VERSION="41f344398844b4596e48de1122d443c621a39864"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 ffmpeg libzip"
 PKG_LONGDESC="A PSP emulator for Android, Windows, Mac, Linux and Blackberry 10, written in C++."
-
-PKG_LIBNAME="ppsspp_libretro.so"
-PKG_LIBPATH="lib/$PKG_LIBNAME"
+PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/CMakeLists.txt
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/libretro/Makefile
   PKG_CMAKE_OPTS_TARGET="-DLIBRETRO=ON \
+                         -DCMAKE_BUILD_TYPE="Release" \
+                         -DCMAKE_RULE_MESSAGES=OFF \
+                         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                         -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                         -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
                          -DUSE_SYSTEM_FFMPEG=ON \
                          -DUSING_X11_VULKAN=OFF"
-
-  if [ "${ARCH}" = "arm" ] && [ ! "${TARGET_CPU}" = "arm1176jzf-s" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DARMV7=ON"
-  elif [ "${TARGET_CPU}" = "arm1176jzf-s" ]; then
-    PKG_CMAKE_OPTS_TARGET+=" -DARM=ON"
-  fi
 
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DUSING_FBDEV=ON \
@@ -55,5 +54,5 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp $PKG_LIBPATH $INSTALL/usr/lib/libretro/
+  cp lib/ppsspp_libretro.so $INSTALL/usr/lib/libretro/
 }

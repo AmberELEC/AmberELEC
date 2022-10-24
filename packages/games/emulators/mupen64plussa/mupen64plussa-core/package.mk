@@ -15,6 +15,10 @@ PKG_TOOLCHAIN="manual"
 
 PKG_MAKE_OPTS_TARGET+="USE_GLES=1"
 
+pre_configure_target() {
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/projects/unix/Makefile
+}
+
 make_target() {
   export HOST_CPU=aarch64
   export USE_GLES=1

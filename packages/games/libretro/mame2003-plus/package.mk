@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="mame2003-plus"
-PKG_VERSION="8581c7d83a3d8d0e8d9d62c81303838780fe23bb"
-PKG_SHA256="3923388001ecca674685caab93cdc2630d021558a3cc9321f4e1ea9bfd5a1591"
+PKG_VERSION="533bf97d222e9efe24b11d004d3acc4b9d808009"
+PKG_SHA256="b18f32b306b926f0a04b48ecc4e5314c4dd31d7c02dafba82124c5cace5da040"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"
@@ -36,6 +36,10 @@ PKG_LONGDESC="MAME - Multiple Arcade Machine Emulator"
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
+
+pre_configure_target() {
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/Makefile
+}
 
 make_target() {
   make ARCH="" CC="$CC" NATIVE_CC="$CC" LD="$CC"

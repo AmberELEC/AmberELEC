@@ -18,6 +18,7 @@ pre_configure_target() {
   #sed -i "s|device->mappings\[SDID_START\]      = SDL_CONTROLLER_BUTTON_START;|device->mappings\[SDID_START\]      = SDL_CONTROLLER_BUTTON_BACK;|g" engine/sdl/control.c
   #sed -i "s|device->mappings\[SDID_SCREENSHOT\] = SDL_CONTROLLER_BUTTON_BACK;|device->mappings\[SDID_SCREENSHOT\] = SDL_CONTROLLER_BUTTON_START;|g" engine/sdl/control.c
   sed -i "s|-Werror||g" engine/Makefile
+  sed -i 's/\-O[23]//' engine/Makefile
 }
 
 pre_make_target() {

@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="PPSSPPSDL"
-PKG_VERSION="72a7a7773c4ad739d70c1e72c2e740845433e2d4"
+PKG_VERSION="41f344398844b4596e48de1122d443c621a39864"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -12,30 +12,37 @@ PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip SDL2 zlib zip"
 PKG_SHORTDESC="PPSSPPDL"
 PKG_LONGDESC="PPSSPP Standalone"
 PKG_BUILD_FLAGS="+lto"
+PKG_TOOLCHAIN="cmake-make"
 
 PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=OFF \
-			-DUSE_WAYLAND_WSI=OFF \
-			-DUSE_VULKAN_DISPLAY_KHR=OFF \
-			-DUSING_FBDEV=ON \
-			-DCMAKE_BUILD_TYPE=Release \
-			-DCMAKE_SYSTEM_NAME=Linux \
-			-DUSING_EGL=OFF \
-			-DUSING_GLES2=ON \
-			-DVULKAN=OFF \
-			-DARM_NO_VULKAN=ON \
-			-DUSING_X11_VULKAN=OFF \
-			-DBUILD_SHARED_LIBS=OFF \
-			-DANDROID=OFF \
-			-DWIN32=OFF \
-			-DAPPLE=OFF \
-			-DCMAKE_CROSSCOMPILING=ON \
-			-DUSING_QT_UI=OFF \
-			-DUNITTEST=OFF \
-			-DSIMULATOR=OFF \
-			-DHEADLESS=OFF \
-			-DUSE_DISCORD=OFF"
+                        -DUSE_WAYLAND_WSI=OFF \
+                        -DUSE_VULKAN_DISPLAY_KHR=OFF \
+                        -DUSING_FBDEV=ON \
+                        -DCMAKE_BUILD_TYPE=Release \
+                        -DCMAKE_SYSTEM_NAME=Linux \
+                        -DCMAKE_RULE_MESSAGES=OFF \
+                        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                        -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                        -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
+                        -DUSING_EGL=OFF \
+                        -DUSING_GLES2=ON \
+                        -DVULKAN=OFF \
+                        -DARM_NO_VULKAN=ON \
+                        -DUSING_X11_VULKAN=OFF \
+                        -DBUILD_SHARED_LIBS=OFF \
+                        -DANDROID=OFF \
+                        -DWIN32=OFF \
+                        -DAPPLE=OFF \
+                        -DCMAKE_CROSSCOMPILING=ON \
+                        -DUSING_QT_UI=OFF \
+                        -DUNITTEST=OFF \
+                        -DSIMULATOR=OFF \
+                        -DHEADLESS=OFF \
+                        -DUSE_SYSTEM_FFMPEG=ON \
+                        -DUSE_DISCORD=OFF"
 
 pre_configure_target() {
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/CMakeLists.txt
   sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
 }
 

@@ -36,6 +36,10 @@ PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
+pre_configure_target() {
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/Makefile
+}
+
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   cp virtualjaguar_libretro.so $INSTALL/usr/lib/libretro/

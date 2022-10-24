@@ -29,11 +29,23 @@ makeinstall_host() {
 : #no
 }
 
+pre_configure_host(){
+PKG_CMAKE_OPTS_HOST=" -DCMAKE_BUILD_TYPE=Release \
+                      -DCMAKE_RULE_MESSAGES=OFF \
+                      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                      -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                      -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG""
+}
+
 pre_configure_target() {
 PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
                         -DFORCE_CROSSCOMPILE=ON \
                         -DIMPORT_EXECUTABLES=$PKG_BUILD/.$HOST_NAME/ImportExecutables.cmake \
-                        -DCMAKE_BUILD_TYPE=Release"
+                        -DCMAKE_BUILD_TYPE=Release \
+                        -DCMAKE_RULE_MESSAGES=OFF \
+                        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                        -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                        -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG""
 }
 
 makeinstall_target() {

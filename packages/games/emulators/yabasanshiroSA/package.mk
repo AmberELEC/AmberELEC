@@ -40,7 +40,11 @@ PKG_CMAKE_OPTS_TARGET="${PKG_BUILD}/yabause -Wno-dev \
                          -DOPENGL_glx_LIBRARY=${SYSROOT_PREFIX}/usr/lib \
                          -DLIBPNG_LIB_DIR=${SYSROOT_PREFIX}/usr/lib \
                          -Dpng_STATIC_LIBRARIES=${SYSROOT_PREFIX}/usr/lib/libpng16.a \
-                         -DCMAKE_BUILD_TYPE=Release"
+                         -DCMAKE_BUILD_TYPE=Release \
+                         -DCMAKE_RULE_MESSAGES=OFF \
+                         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                         -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                         -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG""
 }
 
 makeinstall_target() {
