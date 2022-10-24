@@ -397,21 +397,21 @@ else
 	# Turn off RGA scaling first - just in case
 	sed -i "/video_ctx_scaling/d" ${RAAPPENDCONF}
 	echo 'video_ctx_scaling = "false"' >> ${RAAPPENDCONF}
-	if array_contains IS32BITCORE ${CORE}; then
-		echo "video_filter = \"/usr/share/retroarch/filters/32bit/video/${EES}\"" >> ${RAAPPENDCONF}
-	else
+	#if array_contains IS32BITCORE ${CORE}; then
+	#	echo "video_filter = \"/usr/share/retroarch/filters/32bit/video/${EES}\"" >> ${RAAPPENDCONF}
+	#else
 		echo "video_filter = \"/usr/share/retroarch/filters/64bit/video/${EES}\"" >> ${RAAPPENDCONF}
-	fi
+	#fi
 fi
 
 ## Set correct path for video- and audio-filters
-if array_contains IS32BITCORE ${CORE}; then
-	echo 'audio_filter_dir = "/usr/share/retroarch/filters/32bit/audio"' >> ${RAAPPENDCONF}
-	echo 'video_filter_dir = "/usr/share/retroarch/filters/32bit/video"' >> ${RAAPPENDCONF}
-else
+#if array_contains IS32BITCORE ${CORE}; then
+#	echo 'audio_filter_dir = "/usr/share/retroarch/filters/32bit/audio"' >> ${RAAPPENDCONF}
+#	echo 'video_filter_dir = "/usr/share/retroarch/filters/32bit/video"' >> ${RAAPPENDCONF}
+#else
 	echo 'audio_filter_dir = "/usr/share/retroarch/filters/64bit/audio"' >> ${RAAPPENDCONF}
 	echo 'video_filter_dir = "/usr/share/retroarch/filters/64bit/video"' >> ${RAAPPENDCONF}
-fi
+#fi
 
 ## Rewind
 # Get configuration from distribution.conf and set to retroarch.cfg

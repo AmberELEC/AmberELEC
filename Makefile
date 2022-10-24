@@ -24,30 +24,32 @@ src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
 world:
-	DEVICE=RG351P ARCH=arm ./scripts/build_distro
 	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
-	DEVICE=RG351V ARCH=arm ./scripts/build_distro
 	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
-	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
-	DEVICE=RG552 ARCH=arm ./scripts/build_distro
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
 
 RG351P:
-	DEVICE=RG351P ARCH=arm ./scripts/build_distro
 	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
 
 RG351V:
-	DEVICE=RG351V ARCH=arm ./scripts/build_distro
 	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
 
 RG351MP:
-	DEVICE=RG351MP ARCH=arm ./scripts/build_distro
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
 
 RG552:
-	DEVICE=RG552 ARCH=arm ./scripts/build_distro
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
+
+lib32:
+	DEVICE=RG351P ARCH=arm scripts/clean build-lib32
+	DEVICE=RG351V ARCH=arm scripts/clean build-lib32
+	DEVICE=RG351MP ARCH=arm scripts/clean build-lib32
+	DEVICE=RG552 ARCH=arm scripts/clean build-lib32
+	DEVICE=RG351P ARCH=arm scripts/build build-lib32
+	DEVICE=RG351V ARCH=arm scripts/build build-lib32
+	DEVICE=RG351MP ARCH=arm scripts/build build-lib32
+	DEVICE=RG552 ARCH=arm scripts/build build-lib32
 
 update:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/update_packages

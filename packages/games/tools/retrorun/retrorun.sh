@@ -311,15 +311,15 @@ then
 fi
 
 sleep 0.2
-if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
-then
-    echo 'using 32bit'
-  	export LD_LIBRARY_PATH="/usr/lib32"
-	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
-else
-	echo 'using 64bit'
+#if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
+#then
+#    echo 'using 32bit'
+#  	export LD_LIBRARY_PATH="/usr/lib32"
+#	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+#else
+#	echo 'using 64bit'
 	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
-fi
+#fi
 sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 kill $(pidof rg351p-js2xbox)

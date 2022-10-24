@@ -10,7 +10,7 @@
         TARGET_PATCH_ARCH="aarch64"
         TARGET_FLOAT="hard"
         TARGET_CPU="cortex-a72.cortex-a53"
-        TARGET_CPU_FLAGS="+crc+fp+simd"
+        TARGET_CPU_FLAGS="+crc+fp+simd+crypto"
         TARGET_FPU="fp-armv8"
         TARGET_FEATURES="64bit"
         ;;

@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="b3db93261834e9c9a12db516c6cd9582458d51e9"
+PKG_VERSION="e4c6250c4db80f0bd9d793a746913acbac4f123f"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/AmberELEC/retrorun-go2"
@@ -32,7 +32,7 @@ makeinstall_target() {
   else
     cp retrorun $INSTALL/usr/bin
     cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
+    #cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
     mkdir -p $INSTALL/usr/config/distribution/configs
     cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
   fi

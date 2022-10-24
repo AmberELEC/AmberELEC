@@ -67,26 +67,13 @@
 	</game>
 
 	<game>
-		<path>./Start 32bit Retroarch.sh</path>
-		<name>Start 32bit RetroArch</name>
-		<desc>Run 32bit RetroArch</desc>
+		<path>./Start Retroarch.sh</path>
+		<name>Start RetroArch</name>
+		<desc>Run RetroArch</desc>
 		<developer>AmberELEC</developer>
 		<publisher>AmberELEC</publisher>
 		<rating>1.0</rating>
-		<releasedate>2021</releasedate>
-		<genre>Script</genre>
-		<thumbnail>./downloaded_images/retroarch32-thumb.png</thumbnail>
-		<image>./downloaded_images/retroarch32.png</image>
-	</game>
-
-	<game>
-		<path>./Start 64bit Retroarch.sh</path>
-		<name>Start 64bit RetroArch</name>
-		<desc>Run 64bit RetroArch</desc>
-		<developer>AmberELEC</developer>
-		<publisher>AmberELEC</publisher>
-		<rating>1.0</rating>
-		<releasedate>2021</releasedate>
+		<releasedate>2022</releasedate>
 		<genre>Script</genre>
 		<thumbnail>./downloaded_images/retroarch64-thumb.png</thumbnail>
 		<image>./downloaded_images/retroarch64.png</image>

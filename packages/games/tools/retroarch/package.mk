@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retroarch"
-PKG_VERSION="389ef31a8f4a505f255e9bfebe882750d22ab490"
+PKG_VERSION="840c4481ab7cb0720025c30ea609d16e60927a02"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"
@@ -63,10 +63,10 @@ makeinstall_target() {
   if [ "${ARCH}" == "aarch64" ]; then
     mkdir -p $INSTALL/usr/bin
     cp $PKG_BUILD/retroarch $INSTALL/usr/bin
-    cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
+    #cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
 
     mkdir -p $INSTALL/usr/share/retroarch/filters
-    cp -rvP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/share/retroarch/filters/* ${INSTALL}/usr/share/retroarch/filters
+    #cp -rvP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/share/retroarch/filters/* ${INSTALL}/usr/share/retroarch/filters
 
     mkdir -p $INSTALL/etc
     cp $PKG_BUILD/retroarch.cfg $INSTALL/etc
