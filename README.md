@@ -37,7 +37,7 @@ make clean
 make world
 ```
 
-The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in AmberELEC/release. Follow the installation steps to write your image to a microSD.
+The make world process will build and generate a image which will be located in AmberELEC/release. Follow the installation steps to write your image to a microSD.
 It will build for the RG351P/M, RG351V, RG351MP and for the RG552.
 
 To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``, and just for the RG351MP ``make RG351MP``, and just for the RG552 ``make RG552``.
