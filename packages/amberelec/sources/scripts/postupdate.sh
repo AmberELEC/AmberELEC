@@ -353,6 +353,11 @@ elif [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
 	cp -f /usr/config/splash/splash-1920l.png /storage/.config/emulationstation/resources/logo.png
 fi
 
+## 2022-10-26
+## This copies files from Retroarch's PPSSPP core to where it expects them to be
+mkdir -p /storage/roms/bios/PPSSPP
+cp /usr/config/ppsspp/assets /storage/roms/bios/PPSSPP -R
+
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
