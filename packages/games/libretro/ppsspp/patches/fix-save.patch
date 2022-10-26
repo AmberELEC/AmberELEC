@@ -1,0 +1,11 @@
+diff --git a/libretro.cpp b/libretro.cpp.2
+index dc89263..9b4a20b 100644
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -1000,8 +1000,6 @@ void retro_init(void)
+    g_Config.internalDataDirectory = retro_base_dir;
+    g_Config.bEnableNetworkChat = false;
+    g_Config.bDiscordPresence = false;
++   g_Config.iMemStickSizeGB = 16;
+ 
+    VFSRegister("", new DirectoryAssetReader(retro_base_dir));
