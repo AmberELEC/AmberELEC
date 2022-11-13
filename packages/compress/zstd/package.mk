@@ -3,7 +3,7 @@
 
 PKG_NAME="zstd"
 PKG_VERSION="1.5.2"
-PKG_SHA256="3ea06164971edec7caa2045a1932d757c1815858e4c2b68c7ef812647535c23f"
+PKG_SHA256="7c42d56fac126929a6a85dbc73ff1db2411d04f104fae9bdea51305663a83fd0"
 PKG_LICENSE="BSD/GPLv2"
 PKG_SITE="http://www.zstd.net"
 PKG_URL="https://github.com/facebook/zstd/releases/download/v${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
