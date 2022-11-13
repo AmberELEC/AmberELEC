@@ -1,4 +1,8 @@
 python3 << END
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2022-present Tiago Medeiros (https://github.com/medeirost)
+
 from subprocess import PIPE, run
 import re
 from time import sleep
