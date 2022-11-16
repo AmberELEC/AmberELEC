@@ -94,7 +94,7 @@ def read_scummvm_game_line(line):
 		# This is a regular expression that looks for text at the beginning of the
 		# string, a ":" character, and any alphanumeric set afterwards until an
 		# unspecified character shows up (Such as a space character)
-		full_id = re.findall(r"^[a-zA-Z]+\:[a-zA-Z0-9]+",line)[0]
+		full_id = re.findall(r"^[a-zA-Z0-9]+\:[a-zA-Z0-9]+",line)[0]
 
 		# since we can't use "scumm:monkey2" we need only "monkey2", so...
 		game_id = full_id[full_id.index(":")+1:]
