@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retroarch"
-PKG_VERSION="840c4481ab7cb0720025c30ea609d16e60927a02"
+PKG_VERSION="0bf818af8dda4ef96993889d3ea23f2a2b054136"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="$PKG_SITE.git"
 PKG_LICENSE="GPLv3"
