@@ -29,7 +29,7 @@ PKG_CONFIGURE_OPTS_HOST="ac_cv_prog_HAS_HG=/bin/false
                          --disable-readline
                          --disable-bzip2
                          --enable-zlib
-                         --disable-xz
+                         --enable-xz
                          --disable-tk
                          --disable-curses
                          --disable-pydoc
