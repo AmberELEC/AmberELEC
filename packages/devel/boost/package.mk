@@ -42,7 +42,7 @@ configure_target() {
 }
 
 makeinstall_target() {
-  ${TOOLCHAIN}/bin/b2 -d2 --ignore-site-config \
+ ${TOOLCHAIN}/bin/b2 -q -d2 --ignore-site-config \
                       --layout=system \
                       --prefix=${SYSROOT_PREFIX}/usr \
                       --toolset=gcc link=static \
@@ -50,6 +50,7 @@ makeinstall_target() {
                       --with-date_time \
                       --with-filesystem \
                       --with-iostreams \
+		      --with-program_options \
                       --with-python \
 		      --with-locale \
                       --with-random \
@@ -57,5 +58,6 @@ makeinstall_target() {
                       --with-serialization \
                       --with-system \
                       --with-thread \
+		      --with-nowide \
                       install
 }
