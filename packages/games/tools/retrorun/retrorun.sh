@@ -49,6 +49,21 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
+
+
+# Auto Save
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "audio_buffer"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_buffer= 1024' >> ${RRCONF}
+else
+	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
+	echo "retrorun_audio_buffer= ${EES}" >> ${RRCONF}
+fi
+
+
 # Map left analog to DPAD
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "map_left_analog_to_dpad"
