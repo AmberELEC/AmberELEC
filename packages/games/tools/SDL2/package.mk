@@ -61,6 +61,7 @@ pre_configure_target(){
                          -DSDL_OPENGLES=ON \
                          -DSDL_VULKAN=OFF \
                          -DSDL_KMSDRM=ON \
+                         -DSDL_HIDAPI_JOYSTICK=OFF \
                          -DSDL_PULSEAUDIO=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
