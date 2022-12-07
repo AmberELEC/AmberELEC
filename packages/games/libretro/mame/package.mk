@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019 Trond Haugland (trondah@gmail.com)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mame"
-PKG_VERSION="0d935696dce53a13eaf0705f4a108ee348f3c613"
-PKG_SHA256="79936861216a14bf2d45d0e2120dd578eccedd0a7e4dc798ec6baf387316feb8"
+PKG_VERSION="8db2ff91a87e3c3e7b7fa2bd44beb5e5f7a1857d"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mame"
-PKG_URL="https://github.com/libretro/mame/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain zlib flac sqlite expat"
 PKG_SECTION="libretro"
 PKG_SHORTDESC="MAME - Multiple Arcade Machine Emulator"

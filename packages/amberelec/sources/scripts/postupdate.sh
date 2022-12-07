@@ -35,6 +35,13 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-12-07
+## clear yabasanshiro control configs
+if [[ "$LAST_UPDATE_VERSION" -le "20221208" ]]; then
+  rm -rf /storage/roms/saturn/yabasanshiro/keymapv2.json
+  rm -rf /storage/roms/saturn/yabasanshiro/input.cfg
+fi
+
 ## 2022-05-19
 ## Move any existing scummvm save data the scummvm system folder
 if [[ -d "/storage/.local/share/scummvm/saves" ]]; then
