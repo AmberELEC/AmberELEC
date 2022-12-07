@@ -49,7 +49,7 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
-# Auto Buffer
+# Audio Buffer
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "audio_buffer"
 echo ${EES}
