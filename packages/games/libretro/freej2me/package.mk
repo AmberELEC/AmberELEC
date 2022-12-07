@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="freej2me"
-PKG_VERSION="5af44b9249d352c2c2f05cfc214fccc385c92596"
-PKG_SHA256="f09f4c570b3574e8f1904d4cada1b2d3e43b3c8596eceaaff595b7a5ffac94a3"
+PKG_VERSION="e887a521e9b1d22ee87ed8be6b7a0651932d8bfa"
+PKG_SHA256="2e346411554365e49b75294e1cd53d7d382d25cc1be7b0bdb9461442db4c8bea"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/hex007/freej2me"
