@@ -20,8 +20,8 @@
 ################################################################################
 
 PKG_NAME="beetle-wswan"
-PKG_VERSION="16d96f64a32cbe1fa89c40b142298dbd007f2f4d"
-PKG_SHA256="9b67dab8b496ce321d21d87032697cf0e0b5616811ca3848506d14214eee65f3"
+PKG_VERSION="3cac80a102938cf8c6ca76c85bbe1932f06704a2"
+PKG_SHA256="66e28bbda303d743fe692b6b7dfcbf77a978aaff947617f945a0c937c3d4f3bf"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"

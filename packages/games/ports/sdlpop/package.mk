@@ -2,8 +2,8 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="sdlpop"
-PKG_VERSION="f22213b14e05a76bb36cb135f915ef8115e37f22"
-PKG_SHA256="360d92ac3306986cd990db1f3fe48bcbfd005e3f2af337689003ae91d22b99d5"
+PKG_VERSION="b71eaf4cac1462e6cab86efea07f0d12bca86752"
+PKG_SHA256="acc6af17d0ea5dbb608259c90e80f9e6dcb808b5da8d5a746b54ff191716f684"
 PKG_ARCH="any"
 PKG_LICENSE="GPL3"
 PKG_SITE="https://github.com/NagyD/SDLPoP"
