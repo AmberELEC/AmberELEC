@@ -3,7 +3,7 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="setuptools"
-PKG_VERSION="51.3.3"
+PKG_VERSION="51.3.3" # don't change this, this will break webui install
 PKG_SHA256="8e45c6cb18f81842421560f788521842572a91a0e64419e338a6a15828ccf076"
 PKG_LICENSE="OSS"
 PKG_SITE="https://pypi.org/project/setuptools"

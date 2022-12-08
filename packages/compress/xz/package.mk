@@ -22,8 +22,7 @@ PKG_CONFIGURE_OPTS_HOST="--disable-shared --enable-static \
                          --disable-scripts \
                          --disable-nls \
                          --enable-symbol-versions=no"
-
-PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static"
+PKG_CONFIGURE_OPTS_TARGET="--disable-shared --enable-static --enable-symbol-versions=no"
 
 post_makeinstall_target() {
   rm -rf ${INSTALL}
