@@ -61,6 +61,18 @@ else
 	echo "retrorun_audio_buffer= ${EES}" >> ${RRCONF}
 fi
 
+# Mouse Speed Factor
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "mouse_speed"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_mouse_speed_factor/d" ${RRCONF}
+	echo 'retrorun_mouse_speed_factor= 5' >> ${RRCONF}
+else
+	sed -i "/^retrorun_mouse_speed_factor/d" ${RRCONF}
+	echo "retrorun_mouse_speed_factor= ${EES}" >> ${RRCONF}
+fi
+
 # Map left analog to DPAD
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "map_left_analog_to_dpad"
