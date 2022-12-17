@@ -303,6 +303,26 @@ else
 	fi
 fi
 
+
+
+
+# Beetle VB - Palette
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "palette"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "beetle_vb" ]]; then
+		sed -i "/^vb_color_mode/d" ${RRCONF}
+		echo 'vb_color_mode = black & red' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "beetle_vb" ]]; then
+		sed -i "/^vb_color_mode/d" ${RRCONF}
+		echo "vb_color_mode = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
 /usr/bin/rg351p-js2xbox --silent -t oga_joypad &
