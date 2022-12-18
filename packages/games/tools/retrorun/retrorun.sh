@@ -356,11 +356,11 @@ sleep 0.2
 #then
 #    echo 'using 32bit'
 #  	export LD_LIBRARY_PATH="/usr/lib32"
-#	EMU="/tmp/cores/${CORE}_libretro.so"
+#	EMU="/tmp/cores/$1_libretro.so"
 #	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
 #else
 #	echo 'using 64bit'
-	EMU="/tmp/cores/${CORE}_libretro.so"
+	EMU="/tmp/cores/$1_libretro.so"
 	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
 #fi
 sleep 0.5
