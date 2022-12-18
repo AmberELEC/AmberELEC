@@ -135,7 +135,7 @@ echo "retrorun_adaptive_fps = ${ADAPTIVE_FPS}" >> ${RRCONF}
 get_setting "internal_resolution"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
 		echo 'parallel-n64-screensize = 640x480' >> ${RRCONF}
 	elif [[ "${CORE}" == "flycast" ]]; then
@@ -146,7 +146,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 		echo 'flycast2021_internal_resolution = 640x480' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
 		echo "parallel-n64-screensize = ${EES}" >> ${RRCONF}
 	elif [[ "${CORE}" == "flycast" ]]; then
@@ -163,12 +163,12 @@ fi
 get_setting "gfx_plugin"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
 		echo 'parallel-n64-gfxplugin = rice' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
 		echo "parallel-n64-gfxplugin = ${EES}" >> ${RRCONF}
 	fi
@@ -179,12 +179,12 @@ fi
 get_setting "overclock"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-virefresh/d" ${RRCONF}
 		echo 'parallel-n64-virefresh = auto' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "parallel_n64" ]]; then
+	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-virefresh/d" ${RRCONF}
 		echo "parallel-n64-virefresh = ${EES}" >> ${RRCONF}
 	fi
@@ -270,12 +270,12 @@ fi
 get_setting "psx_cpu_clock"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "pcsx_rearmed" ]]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
 		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
 		echo 'pcsx_rearmed_psxclock = 57' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "pcsx_rearmed" ]]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
 		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
 		echo "pcsx_rearmed_psxclock = ${EES}" >> ${RRCONF}
 	fi
@@ -303,20 +303,17 @@ else
 	fi
 fi
 
-
-
-
 # Beetle VB - Palette
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "palette"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" =~ "beetle_vb" ]]; then
+	if [[ "${CORE}" == "beetle_vb" ]]; then
 		sed -i "/^vb_color_mode/d" ${RRCONF}
 		echo 'vb_color_mode = black & red' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" =~ "beetle_vb" ]]; then
+	if [[ "${CORE}" == "beetle_vb" ]]; then
 		sed -i "/^vb_color_mode/d" ${RRCONF}
 		echo "vb_color_mode = ${EES}" >> ${RRCONF}
 	fi
@@ -355,14 +352,16 @@ then
 fi
 
 sleep 0.2
-#if [[ "$1" =~ "pcsx_rearmed" ]] || [[ "$1" =~ "parallel_n64" ]]
+#if [[ "$1" == "pcsx_rearmed" ]] || [[ "$1" == "parallel_n64" ]]
 #then
 #    echo 'using 32bit'
 #  	export LD_LIBRARY_PATH="/usr/lib32"
-#	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+#	EMU="/tmp/cores/${CORE}_libretro.so"
+#	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
 #else
 #	echo 'using 64bit'
-	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$1" "$2"
+	EMU="/tmp/cores/${CORE}_libretro.so"
+	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
 #fi
 sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
