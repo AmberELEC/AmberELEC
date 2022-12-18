@@ -79,6 +79,7 @@ sed -i '
 
         # replace lines
         s/wifi_driver = "connmanctl"/wifi_driver = "null"/g;
+        s/vrr_runloop_enable = "true"/vrr_runloop_enable = "false"/g;
 
         ' ${RACONF}
 
