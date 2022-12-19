@@ -34,4 +34,5 @@ fi
 
 post_makeinstall_target() {
   rm -rf $INSTALL/usr/bin
+  ln -s libFLAC.so.12 $INSTALL/usr/lib/libFLAC.so.8
 }

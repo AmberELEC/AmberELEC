@@ -1,0 +1,16 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+index e1df23a..0392c0c 100644
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -70,11 +70,6 @@ ifneq (,$(findstring unix,$(platform)))
+ 	ifneq (,$(findstring Haiku,$(shell uname -s)))
+ 		LDFLAGS += -lnetwork -lroot
+ 	endif
+-	CC = gcc
+-	CXX = gcc
+-	LDFLAGS += -I/usr/include/SDL2 -L/usr/lib/x86_64-linux-gnu -lSDL2
+-	CFLAGS += -I/usr/include/SDL2 `sdl2-config --cflags`
+-	CXXFLAGS += -I/usr/include/SDL2 `sdl2-config --cflags`
+ 
+ # Raspberry Pi
+ 	ifneq (,$(findstring rpi,$(platform)))

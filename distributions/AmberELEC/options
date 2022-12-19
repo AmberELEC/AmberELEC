@@ -149,6 +149,8 @@ crocods \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
+emuscv \
+fake08 \
 fbalpha2012 \
 fbalpha2019 \
 fbneo \
@@ -177,6 +179,7 @@ mame2010 \
 mame2015 \
 meowpc98 \
 mgba \
+mojozork \
 mupen64plus-nx \
 neocd_libretro \
 nestopia \
