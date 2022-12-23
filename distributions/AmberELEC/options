@@ -172,6 +172,7 @@ gpsp \
 gw-libretro \
 handy \
 hatari \
+lowresnx \
 mame \
 mame2000 \
 mame2003-plus \
@@ -221,4 +222,5 @@ vba-next \
 vecx \
 vice \
 virtualjaguar \
+wasm4 \
 xmil"
