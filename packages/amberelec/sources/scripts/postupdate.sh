@@ -35,6 +35,12 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2022-02-11
+## Reset RG351P volume to 100% (device has no soft-volume buttons)
+if [[ "$DEVICE" == "RG351P" ]]; then
+  sed -i 's/audio.volume=.*/audio.volume=100/g' /storage/.config/distribution/configs/distribution.conf
+fi
+
 ## 2022-12-07
 ## clear yabasanshiro control configs
 if [[ "$LAST_UPDATE_VERSION" -le "20221208" ]]; then
