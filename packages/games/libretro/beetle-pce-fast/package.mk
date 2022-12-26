@@ -19,19 +19,19 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="beetle-pce"
-PKG_VERSION="a4f3b808d62419c96657dabd51ff9069ef452a51"
-PKG_SHA256="5a3e62289319ab85f1374a244610cf327c0693f7d027a4dd7a7dede08de78f65"
+PKG_NAME="beetle-pce-fast"
+PKG_VERSION="c23c2f47a95ceb5d652572e30ec1cbc40668a97d"
+PKG_SHA256="eb2fe954b42261731c6d6401846675ca6bf3279abebd1002903c738328a80338"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/libretro/beetle-pce-libretro"
+PKG_SITE="https://github.com/libretro/beetle-pce-fast-libretro"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="libretro"
-PKG_SHORTDESC="Standalone port of Mednafen PCE to libretro."
-PKG_LONGDESC="Standalone port of Mednafen PCE to libretro."
+PKG_SHORTDESC="Standalone port of Mednafen PCE Fast to libretro."
+PKG_LONGDESC="Standalone port of Mednafen PCE Fast to libretro."
 
 PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
@@ -39,5 +39,5 @@ PKG_AUTORECONF="no"
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
-  cp mednafen_pce_libretro.so $INSTALL/usr/lib/libretro/beetle_pce_libretro.so
+  cp mednafen_pce_fast_libretro.so $INSTALL/usr/lib/libretro/beetle_pce_fast_libretro.so
 }
