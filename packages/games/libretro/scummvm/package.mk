@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvm"
-PKG_VERSION="818194e8cf03a0115faa0b028080ffb2a474d11e"
-PKG_SHA256="8982c9c08e73334ceb504d14f144249441af70052e82f35ed8cc50645132790f"
+PKG_VERSION="2c7ac7c9e04aad297a476fa7670ad7ba444aa016"
+PKG_SHA256="ccd80527759e50d2493b3defe742af0c0a1e18e7daadc3a1ed84a6a17b34cdb1"
 PKG_REV="1"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
@@ -17,7 +17,7 @@ pre_configure_target() {
   rm -rf .$TARGET_NAME
   cd ${PKG_BUILD}/backends/platform
   rm -rf libretro
-  git clone https://github.com/diablodiab/libretro-scummvm-backend libretro
+  git clone https://github.com/diablodiab/scummvm-libretro-backend libretro
 }
 
 configure_target() {
