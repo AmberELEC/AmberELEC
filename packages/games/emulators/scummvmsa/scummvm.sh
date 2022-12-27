@@ -19,26 +19,6 @@ if [[ ! -f "${CONFIG_DIR}/.scummvm_20220519" ]]; then
   rm -rf ${BIOSPATH}/scummvm.ini
 fi
 
-create_svm(){
-  /usr/bin/scummvm --list-targets | tail -n +4 | cut -d " " -f 1 | \
-  while read line
-  do
-    id=($line);
-    filename=$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | \
-      awk 'BEGIN {FS="="}; /description/ {printf $2}' | \
-      sed -e 's# (.*)# ('${id}')#g' -e "s#'##g" -e "s#: # - #g" \
-    )
-    # there's a very specific set of circumstances where the above
-    # regex will return an empty string with no game. This stops it
-    # from creating an empty .scummvm file
-    if [[ -z "$filename" ]]; then
-      continue
-    fi
-    SVMPATH="$(grep -A7 "\[$id\]" ${CONFIG_DIR}/scummvm.ini | awk 'BEGIN {FS="="}; /path/ {print $2}')"
-    echo '--path="'${SVMPATH}'" '${id} >"${ROMSPATH}/${filename}.scummvm"
-  done
-}
-
 if [ ! -d "${CONFIG_DIR}" ]; then
  mkdir -p ${CONFIG_DIR}
  cp -rf /usr/config/scummvm/* ${CONFIG_DIR}/
@@ -55,19 +35,18 @@ case $1 in
     if [[ ! -f "${BIOSPATH}/scummvm.ini" ]]; then
       cp ${CONFIG_DIR}/scummvm.ini ${BIOSPATH}/scummvm.ini
     fi
+    sed -i 's/themepath=.*//g' ${BIOSPATH}/scummvm.ini
+    sed -i 's/extrapath=.*//g' ${BIOSPATH}/scummvm.ini
+    sed -i 's/browser_lastpath=.*//g' ${BIOSPATH}/scummvm.ini
+    sed -i 's/guitheme=.*//g' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/themepath=\/usr\/share\/scummvm\/theme\n/' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/extrapath=\/usr\/share\/scummvm\/extra\n/' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/browser_lastpath=\/usr\/share\/scummvm\/extra\n/' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/guitheme=scummremastered\n/' ${BIOSPATH}/scummvm.ini
     GAME=$(cat "${GAME}" | awk 'BEGIN {FS="\""}; {print $2}')
     cd "${GAME}"
     /usr/bin/retroarch -L /tmp/cores/scummvm_libretro.so --config ${RATMPCONF} --appendconfig ${RA_APPEND_CONF} .
   ;;
 
-  "add")
-    /usr/bin/scummvm --add --path="${ROMSPATH}" --recursive
-    mkdir -p ${BIOSPATH}
-    cp ${CONFIG_DIR}/scummvm.ini ${BIOSPATH}/scummvm.ini
-  ;;
-
-  "create")
-    create_svm
-  ;;
-
 esac
+
