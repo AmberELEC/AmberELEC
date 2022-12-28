@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="systemd"
-PKG_VERSION="250.4"
-PKG_SHA256="d2bda9d225da11dc9ff48b48e59fc36798d3e66902ed400a9f78fa370c596864"
+PKG_VERSION="252.4"
+PKG_SHA256="cf2d27e67663d599a045101c7178cf0ec63d9df2962a54adf7de0d0357724f00"
 PKG_LICENSE="LGPL2.1+"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/systemd"
 PKG_URL="https://github.com/systemd/systemd-stable/archive/v${PKG_VERSION}.tar.gz"
@@ -103,6 +103,7 @@ PKG_MESON_OPTS_TARGET="--libdir=/usr/lib \
                        -Dversion-tag=${PKG_VERSION}"
 
 pre_configure_target() {
+  unset CFLAGS
   export TARGET_CFLAGS="${TARGET_CFLAGS} -fno-schedule-insns -fno-schedule-insns2 -Wno-format-truncation"
   export LC_ALL=en_US.UTF-8
 }

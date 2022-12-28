@@ -150,7 +150,7 @@ global.netplay=0
 global.netplay.port=55435
 global.netplay.relay=none
 audio.device=headphone
-audio.volume=75
+audio.volume=100
 brightness.level=50
 system.brightness=50
 

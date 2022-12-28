@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="same_cdi"
-PKG_VERSION="a68ef22890b519b4adc35c01b5eeafbe50629e98"
+PKG_VERSION="2ee1200d3c9bbceb64e1f0ec9e5224a16cdc0061"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

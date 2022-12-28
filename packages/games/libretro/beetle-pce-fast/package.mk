@@ -1,6 +1,7 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
 #      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -18,20 +19,25 @@
 #  http://www.gnu.org/copyleft/gpl.html
 ################################################################################
 
-PKG_NAME="libspeexdsp"
-PKG_VERSION="095fd36e189554bbcbfd9884630a53d7792409dc"
+PKG_NAME="beetle-pce-fast"
+PKG_VERSION="c23c2f47a95ceb5d652572e30ec1cbc40668a97d"
+PKG_SHA256="eb2fe954b42261731c6d6401846675ca6bf3279abebd1002903c738328a80338"
 PKG_REV="1"
 PKG_ARCH="any"
-PKG_SITE="https://github.com/xiph/speexdsp"
-PKG_URL="$PKG_SITE.git"
+PKG_LICENSE="GPLv2"
+PKG_SITE="https://github.com/libretro/beetle-pce-fast-libretro"
+PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
-PKG_SHORTDESC="Speex audio processing library"
-PKG_TOOLCHAIN="configure"
+PKG_SECTION="libretro"
+PKG_SHORTDESC="Standalone port of Mednafen PCE Fast to libretro."
+PKG_LONGDESC="Standalone port of Mednafen PCE Fast to libretro."
 
 PKG_IS_ADDON="no"
+PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
-pre_configure_target() {
-  ./autogen.sh
+makeinstall_target() {
+  mkdir -p $INSTALL/usr/lib/libretro
+  cp mednafen_pce_fast_libretro.so $INSTALL/usr/lib/libretro/beetle_pce_fast_libretro.so
 }

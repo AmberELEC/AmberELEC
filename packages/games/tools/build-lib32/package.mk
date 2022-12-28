@@ -79,6 +79,7 @@ makeinstall_target() {
     do
       find ${PKG_BUILD}/../../build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
+    rm -f ${INSTALL}/usr/lib32/*.ko || :
     chmod -f +x ${INSTALL}/usr/lib32/* || :
     cd ${INSTALL}
     tar -C ${INSTALL} -zcvpf ${PKG_BUILD}/lib32_${DEVICE}.tar.gz usr/lib32

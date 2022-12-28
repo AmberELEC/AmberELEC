@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="pyyaml"
-PKG_VERSION="8cdff2c80573b8be8e8ad28929264a913a63aa33"
+PKG_VERSION="957ae4d495cf8fcb5475c6c2f1bce801096b68a5"
 PKG_SHA256=""
 PKG_LICENSE="OSS"
 PKG_SITE="https://github.com/yaml/pyyaml"

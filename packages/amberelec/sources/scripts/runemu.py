@@ -301,19 +301,19 @@ class EmuRunner():
 		if not self.core:
 			raise ValueError('runemu.py was called improperly, tried to launch retrorun with no platform')
 
-		core_path = Path('/tmp/cores/', f'{self.core}_libretro.so')
+		#core_path = Path('/tmp/cores/', f'{self.core}_libretro.so')
 		if log_level != 'minimal':
 			log('Running a libretro core via retrorun')
 			log(f'platform: {self.platform}')
 			log(f'core: {self.core}')
-		jslisten_set('retrorun', 'retrorun32')
+		jslisten_set('retrorun')#, 'retrorun32')
 
 		path = self.rom
 		if self.rom.suffix in {'.zip', '.7z', '.gz', '.bz2'} and self.platform not in {'arcade', 'naomi', 'atomiswave', 'fbneo', 'mame'}:
 			path = extract_archive(self.rom)
 			self.temp_files.append(path)
 			
-		return ['/usr/bin/retrorun.sh', core_path, path, self.platform]
+		return ['/usr/bin/retrorun.sh', self.core, path, self.platform]
 
 	def get_mupen64plus_standalone_command(self) -> 'Sequence[Union[str, Path]]':
 		if not self.rom:

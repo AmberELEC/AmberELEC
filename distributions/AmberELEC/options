@@ -138,6 +138,7 @@ beetle-gba \
 beetle-lynx \
 beetle-ngp \
 beetle-pce \
+beetle-pce-fast \
 beetle-pcfx \
 beetle-supafaust \
 beetle-supergrafx \
@@ -149,6 +150,9 @@ crocods \
 dosbox-svn \
 dosbox-pure \
 easyrpg \
+emuscv \
+ep128emu \
+fake08 \
 fbalpha2012 \
 fbalpha2019 \
 fbneo \
@@ -170,13 +174,16 @@ gpsp \
 gw-libretro \
 handy \
 hatari \
+lowresnx \
 mame \
 mame2000 \
 mame2003-plus \
 mame2010 \
 mame2015 \
+mame2016 \
 meowpc98 \
 mgba \
+mojozork \
 mupen64plus-nx \
 neocd_libretro \
 nestopia \
@@ -218,4 +225,5 @@ vba-next \
 vecx \
 vice \
 virtualjaguar \
+wasm4 \
 xmil"

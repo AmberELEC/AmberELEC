@@ -3,7 +3,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="openbor"
-PKG_VERSION="7f6f17507078848be625e6d1c1b4f41823151387"
+PKG_VERSION="f2999c43af2d6915180a959cb0776c45706f3744"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/DCurrent/openbor"
 PKG_URL="$PKG_SITE.git"
@@ -11,6 +11,7 @@ PKG_DEPENDS_TARGET="toolchain SDL2 libogg libvorbisidec libvpx libpng"
 PKG_SHORTDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups, shooters, and more!"
 PKG_LONGDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups, shooters, and more!"
 PKG_TOOLCHAIN="make"
+PKG_GIT_CLONE_BRANCH="global_beta"
 
 pre_configure_target() {
   PKG_MAKE_OPTS_TARGET="BUILD_LINUX_${ARCH}=1 -C ${PKG_BUILD}/engine SDKPATH=${SYSROOT_PREFIX} PREFIX=${TARGET_NAME}"
