@@ -2,9 +2,9 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="zmusic"
-PKG_VERSION="1dda85bbe1ae2c272a57566fb8698ba7d660d51f"
+PKG_VERSION="36a5308de10400c9cfe564c01fd729b81945e9ec"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/coelckers/ZMusic"
+PKG_SITE="https://github.com/ZDoom/ZMusic"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain zmusic:host"
 PKG_SHORTDESC="GZDoom's music system as a standalone library"

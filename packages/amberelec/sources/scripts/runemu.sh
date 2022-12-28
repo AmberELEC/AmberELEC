@@ -287,7 +287,7 @@ then
 			jslisten set "amiberry"
 			if [ "$EMU" = "AMIBERRY" ]
 			then
-				RUNTHIS='${TBASH} /usr/bin/amiberry.start "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/amiberry.sh "${ROMNAME}"'
 			fi
 		;;
 		"scummvm")

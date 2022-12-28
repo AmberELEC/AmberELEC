@@ -109,9 +109,9 @@ class StandaloneEmulator():
 	should_extract: bool = False
 
 standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
-	'AMIBERRY': StandaloneEmulator('amiberry', ['/usr/bin/amiberry.start', '<path>']),
+	'AMIBERRY': StandaloneEmulator('amiberry', ['/usr/bin/amiberry.sh', '<path>']),
 	'AdvanceMame': StandaloneEmulator('advmame', ['/usr/bin/advmame.sh', '<path>']),
-	'HATARISA': StandaloneEmulator('hatari', ['/usr/bin/hatari.start', '<path>']),
+	'HATARISA': StandaloneEmulator('hatari', ['/usr/bin/hatari.sh', '<path>']),
 	'hypseus_singe': StandaloneEmulator('hypseus', ['/usr/bin/hypseus.sh', '<path>']),
 	'OPENBOR': StandaloneEmulator('OpenBOR', ['/usr/bin/bash', '-l', '/usr/bin/openbor.sh', '<path>']),
 	'PPSSPPSDL': StandaloneEmulator('PPSSPPSDL', ['/usr/bin/bash', '-l', '/usr/bin/ppsspp.sh', '<path>']),

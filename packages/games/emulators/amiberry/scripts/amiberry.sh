@@ -14,19 +14,26 @@ AMIBERRY_LOG=/tmp/logs/amiberry.log
 MAX_DRIVES=4
 i=0
 
-echo "AmberELEC Amiberry Log" > "$AMIBERRY_LOG"
+echo "Amiberry Log" > "$AMIBERRY_LOG"
+
+if [ ! -d "${AMIBERRY_TMP_DIR}" ]
+then
+  mkdir -p "${AMIBERRY_TMP_DIR}"
+fi
+
+if [ ! -d "${AMIBERRY_DIR}" ]
+then
+  cp -rf /usr/config/amiberry ${AMIBERRY_DIR}
+fi
+
+mkdir -p $AMIBERRY_DIR/controller
+cp -rf /storage/.config/SDL-GameControllerDB/gamecontrollerdb.txt $AMIBERRY_DIR/controller/gamecontrollerdb.txt
 
 find_gamepad() {
-# Search for connected gamepads based s0 and extract the name to $GAMEPAD
-for file in /tmp/joypads/*.cfg; do
-	EE_GAMEPAD=$(cat "$file" | grep input_device|  cut -d'"' -f 2)
-	ES_EE_GAMEPAD=$(printf %q "$EE_GAMEPAD")
-if cat /proc/bus/input/devices | grep -Ew -A 4 -B 1 "Name=\"${ES_EE_GAMEPAD}" | grep "js0" > /dev/null; then
-	sed -i "s|joyport1_friendlyname=.*|joyport1_friendlyname=${EE_GAMEPAD}|" "$AMIBERRY_TMP_CONFIG"
-	echo "Gamepad used $EE_GAMEPAD" >> "$AMIBERRY_LOG"
-	break;
-fi
-done
+  GAMEPAD=$(grep -b4 js0 /proc/bus/input/devices | awk 'BEGIN {FS="\""}; /Name/ {printf $2}')
+  sed -i "s|joyport1_friendlyname=.*|joyport1_friendlyname=${GAMEPAD}|" "$AMIBERRY_TMP_CONFIG"
+  echo "Gamepad used $GAMEPAD" >> "$AMIBERRY_LOG"
+  cp -rf "/tmp/joypads/${GAMEPAD}_SDL.cfg" "$AMIBERRY_DIR/controller/${GAMEPAD}.cfg"
 }
 
 # Set SDL audio driver to alsa

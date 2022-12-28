@@ -35,15 +35,28 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
-## 2022-02-11
+## 2022-12-29
+## remove amiberry controller folder
+if [[ "$LAST_UPDATE_VERSION" -le "20221230" ]]; then
+  rm -rf /storage/.config/amiberry/controller
+fi
+
+## 2022-12-28
+## clear mame/arcade autosave=0
+if [[ "$LAST_UPDATE_VERSION" -le "20221229" ]]; then
+  sed -i '/arcade.autosave=0/d;' /storage/.config/distribution/configs/distribution.conf
+  sed -i '/mame.autosave=0/d;' /storage/.config/distribution/configs/distribution.conf
+fi
+
+## 2022-12-24
 ## Reset RG351P volume to 100% (device has no soft-volume buttons)
 if [[ "$DEVICE" == "RG351P" ]]; then
   sed -i 's/audio.volume=.*/audio.volume=100/g' /storage/.config/distribution/configs/distribution.conf
 fi
 
-## 2022-12-07
+## 2022-12-29
 ## clear yabasanshiro control configs
-if [[ "$LAST_UPDATE_VERSION" -le "20221208" ]]; then
+if [[ "$LAST_UPDATE_VERSION" -le "20221230" ]]; then
   rm -rf /storage/roms/saturn/yabasanshiro/keymapv2.json
   rm -rf /storage/roms/saturn/yabasanshiro/input.cfg
 fi

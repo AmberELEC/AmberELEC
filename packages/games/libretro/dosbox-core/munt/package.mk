@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="munt"
-PKG_VERSION="99f5c729be38770cb2cef67c824b1af3bb9adedc"
-PKG_SHA256="dab18cb7ece5ef67a39f61f7acc479f2c2f0cb2fa9cfc731702c596b7471c769"
+PKG_VERSION="605ed3ecec17f1f550bc549f89495e7722cf3cac"
+PKG_SHA256="9c8fd6d7ca31ea801c44d685e0ed4468959f03bd64f8a437c5ff0621d3db895c"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/munt/munt"
 PKG_URL="https://github.com/munt/munt/archive/${PKG_VERSION}.tar.gz"

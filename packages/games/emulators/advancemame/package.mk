@@ -1,20 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="advancemame"
 PKG_VERSION="7dc42d1d812e9215a5ee89e96d8ea5a1347d2c94"
 PKG_SHA256="60e9ee44eb1a6e5cd1367ad2d0cee7b6fa25635c1c337aa52008d3f3df34f58d"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/amadvance/advancemame"
 PKG_URL="https://github.com/amadvance/advancemame/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="advancemame-$PKG_VERSION*"
-PKG_DEPENDS_TARGET="toolchain freetype slang alsa"
-PKG_SECTION="emuelec/mod"
+PKG_DEPENDS_TARGET="toolchain freetype slang alsa SDL2"
 PKG_SHORTDESC="A MAME and MESS port with an advanced video support for Arcade Monitors, TVs, and PC Monitors "
 PKG_LONGDESC="A MAME and MESS port with an advanced video support for Arcade Monitors, TVs, and PC Monitors "
-PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
@@ -25,13 +23,13 @@ pre_configure_target() {
 
 pre_make_target() {
   VERSION="${PKG_VERSION:0:7}"
-  echo $VERSION > $PKG_BUILD/.version
+  echo ${VERSION} > $PKG_BUILD/.version
 }
 
 make_target() {
   cd $PKG_BUILD
   ./autogen.sh
-  ./configure --prefix=/usr --datadir=/usr/share/ --datarootdir=/usr/share/ --host=armv8a-libreelec-linux --enable-fb --enable-freetype --with-freetype-prefix=$SYSROOT_PREFIX/usr/ --enable-slang
+  ./configure --prefix=/usr --datadir=/usr/share/ --datarootdir=/usr/share/ --host=armv8a-libreelec-linux --enable-sdl2 --enable-freetype --with-freetype-prefix=$SYSROOT_PREFIX/usr/ --enable-slang --enable-pthread --enable-alsa
   make mame
 }
 
@@ -55,5 +53,4 @@ post_make_target() {
   cp -r $PKG_BUILD/support/history.dat $INSTALL/usr/share/advance
   cp -r $PKG_BUILD/support/hiscore.dat $INSTALL/usr/share/advance
   cp -r $PKG_BUILD/support/event.dat $INSTALL/usr/share/advance
-  CFLAGS=$OLDCFLAGS
 }
