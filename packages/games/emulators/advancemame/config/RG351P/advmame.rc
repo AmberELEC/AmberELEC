@@ -9,24 +9,23 @@ dir_rom /storage/roms/mame
 dir_sample /storage/roms/mame/samples
 dir_snap /storage/roms/mame/snap
 dir_sta /storage/roms/mame/nvram
-device_video sdl
-device_keyboard sdl
-display_magnifysize 320
-display_resize none
-display_resizeeffect none
-misc_quiet yes
-sound_mode mono
-device_alsa_device sdl
-device_color_bgr15 no
-device_color_bgr8 no
 record_sound no
 record_video no
 sound_latency 0.10
 sound_normalize no
-display_vsync no
 device_video_clock 10-180 / 30-80 / 50-70
-display_mode 320x224x32
+display_mode 480x320x32
+display_resizeeffect none
+display_magnify 1
+display_resize none
+display_vsync no
+display_expand 1.0
+device_keyboard sdl
+device_video sdl
 device_joystick raw
+misc_smp no
+misc_quiet yes
+device_alsa_device sdl
 input_map[coin1] joystick_button[opensimhardware_osh_pb_controller,button8]
 input_map[start1] joystick_button[opensimhardware_osh_pb_controller,button7]
 input_map[ui_cancel] keyboard[0,backspace] or keyboard[1,backspace] or joystick_button[opensimhardware_osh_pb_controller,button10]

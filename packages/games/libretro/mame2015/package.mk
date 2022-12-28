@@ -3,6 +3,7 @@
 
 PKG_NAME="mame2015"
 PKG_VERSION="2599c8aeaf84f62fe16ea00daa460a19298c121c"
+PKG_SHA256="8f9a295f5d280130101c473e9754ec68ccbf45a1c1fe72d3405183ee6270b50d"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
@@ -25,6 +26,7 @@ pre_configure_target() {
   sed -i 's/CCOMFLAGS += -mstructure-size-boundary=32//g' Makefile
   sed -i 's/-DSDLMAME_NO64BITIO//g' Makefile
   sed -i 's/LDFLAGS += -Wl,--fix-cortex-a8 -Wl,--no-as-needed//g' Makefile
+  sed -i 's/"0.160"/"0.160 "/g' src/osd/retro/libretro.c
 }
 
 makeinstall_target() {

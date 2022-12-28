@@ -1,0 +1,59 @@
+diff --git a/Makefile b/Makefile
+index cac7ec2c..db872e8f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -248,28 +248,17 @@ else ifeq ($(PLATFORM),a64)
+ else ifeq ($(PLATFORM),x86-64)
+ 	CPPFLAGS += -DUSE_RENDER_THREAD
+ 
+-# RK3288 e.g. Asus Tinker Board
+-# RK3328 e.g. PINE64 Rock64 
+-# RK3399 e.g. PINE64 RockPro64 
+-# RK3326 e.g. Odroid Go Advance - 32-bit userspace
++# RK3326/RK3399
+ else ifneq (,$(findstring RK,$(PLATFORM)))
+-	CPPFLAGS += $(CPPFLAGS32) $(NEON_FLAGS)
+-	HAVE_NEON = 1
++	CPPFLAGS += $(CPPFLAGS64)
++	AARCH64 = 1
+ 
+ 	ifneq (,$(findstring RK33,$(PLATFORM)))
+-	  CPUFLAGS = -mfloat-abi=hard -mfpu=neon-fp-armv8
+ 	  ifneq (,$(findstring RK3399,$(PLATFORM)))
+-		CPUFLAGS += -mcpu=cortex-a72
+-	  else ifneq (,$(findstring RK3328,$(PLATFORM)))
+-		CPUFLAGS += -mcpu=cortex-a53
+ 		CPPFLAGS += -DUSE_RENDER_THREAD
+ 	  else ifneq (,$(findstring RK3326,$(PLATFORM)))
+-		CPUFLAGS += -mcpu=cortex-a35
+ 		CPPFLAGS += -DUSE_RENDER_THREAD
+ 	  endif
+-	else ifneq (,$(findstring RK3288,$(PLATFORM)))
+-	  CPUFLAGS = -mcpu=cortex-a17 -mfloat-abi=hard -mfpu=neon-vfpv4
+-	  CPPFLAGS += -DUSE_RENDER_THREAD
+ 	endif
+ 
+ # sun8i Allwinner H2+ / H3 like Orange PI, Nano PI, Banana PI, Tritium, AlphaCore2, MPCORE-HUB
+diff --git a/src/inputdevice.cpp b/src/inputdevice.cpp
+index ec643fb4..2cffaa90 100644
+--- a/src/inputdevice.cpp
++++ b/src/inputdevice.cpp
+@@ -7700,12 +7700,12 @@ bool inputdevice_devicechange (struct uae_prefs *prefs)
+ 	}
+ 
+ 	inputdevice_unacquire ();
+-	idev[IDTYPE_JOYSTICK].close ();
+-	idev[IDTYPE_MOUSE].close ();
+-	idev[IDTYPE_KEYBOARD].close ();
+-	idev[IDTYPE_JOYSTICK].init ();
+-	idev[IDTYPE_MOUSE].init ();
+-	idev[IDTYPE_KEYBOARD].init ();
++//	idev[IDTYPE_JOYSTICK].close ();
++//	idev[IDTYPE_MOUSE].close ();
++//	idev[IDTYPE_KEYBOARD].close ();
++//	idev[IDTYPE_JOYSTICK].init ();
++//	idev[IDTYPE_MOUSE].init ();
++//	idev[IDTYPE_KEYBOARD].init ();
+ 	matchdevices (prefs, &idev[IDTYPE_MOUSE], mice, prefs->input_device_match_mask);
+ 	matchdevices (prefs, &idev[IDTYPE_JOYSTICK], joysticks, prefs->input_device_match_mask);
+ 	matchdevices (prefs, &idev[IDTYPE_KEYBOARD], keyboards, INPUT_MATCH_ALL);
