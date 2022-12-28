@@ -379,6 +379,8 @@ elif [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
 	cp -f /usr/config/splash/splash-1920l.png /storage/.config/emulationstation/resources/logo.png
 fi
 
+## clear faulty lines from distribution.conf
+sed -i 's/^=$//g' /storage/.config/distribution/configs/distribution.conf
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
