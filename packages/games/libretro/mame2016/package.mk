@@ -35,6 +35,10 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
                       USE_SYSTEM_LIB_FLAC=1 \
                       USE_SYSTEM_LIB_SQLITE3=1"
 
+pre_configure_target() {
+  sed -i "s/BARE_BUILD_VERSION \"0.174\"/BARE_BUILD_VERSION \"0.174 ${PKG_VERSION:0:7}\"/g" src/version.cpp 
+}
+
 make_target() {
   unset ARCH
   unset DISTRO
@@ -45,7 +49,7 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v mamearcade2016_libretro.so ${INSTALL}/usr/lib/libretro/mame2016_libretro.so
+  cp mamearcade2016_libretro.so ${INSTALL}/usr/lib/libretro/mame2016_libretro.so
   mkdir -p ${INSTALL}/usr/config/retroarch/savefiles/mame2016/hi
-  cp plugins/hiscore/hiscore.dat ${INSTALL}/usr/config/retroarch/savefiles/mame2016/hi
+  cp -f plugins/hiscore/hiscore.dat ${INSTALL}/usr/config/retroarch/savefiles/mame2016/hi
 }
