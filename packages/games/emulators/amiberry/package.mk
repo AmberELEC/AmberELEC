@@ -2,10 +2,10 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="amiberry"
-PKG_VERSION="77f9f926e9d25b6dde666bac08e5f4b68d3f9343"
+PKG_VERSION="f8545af3cd20517d6cb6725ea131d926e3d2785e"
 PKG_LICENSE="GPLv3"
-PKG_SITE="https://github.com/midwan/amiberry"
-PKG_URL="https://github.com/midwan/amiberry.git"
+PKG_SITE="https://github.com/BlitterStudio/amiberry"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2"
 PKG_LONGDESC="Amiberry is an optimized Amiga emulator for ARM-based boards."
 PKG_TOOLCHAIN="make"
@@ -15,14 +15,16 @@ pre_configure_target() {
   cd ${PKG_BUILD}
   export SYSROOT_PREFIX=${SYSROOT_PREFIX}
 
-  if [ $ARCH == "arm" ]; then
-    AMIBERRY_PLATFORM="RK3326"
-  else 
-    AMIBERRY_PLATFORM="go-advance"
+  if [[ "${DEVICE}" =~ RG351 ]]
+  then
+    AMIBERRY_PLATFORM="PLATFORM=RK3326"
+  elif [[ "${DEVICE}" == RG552 ]]
+  then
+    AMIBERRY_PLATFORM="PLATFORM=RK3399"
   fi
 
   sed -i "s|AS     = as|AS     \?= as|" Makefile
-  PKG_MAKE_OPTS_TARGET+=" all PLATFORM=${AMIBERRY_PLATFORM} SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config"
+  PKG_MAKE_OPTS_TARGET+="${AMIBERRY_PLATFORM} all SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config"
 }
 
 makeinstall_target() {

@@ -42,6 +42,7 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
 pre_configure_target() {
   sed -i "s/-static-libstdc++//g" scripts/genie.lua
   sed -Ei "s/BARE_BUILD_VERSION \"(.*?)\"/BARE_BUILD_VERSION \"\1 ${PKG_VERSION:0:7}\"/g" makefile
+  sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
 }
 
 make_target() {

@@ -1,0 +1,5 @@
+# Anbernic RG351P/V
+# Pass the OpenSimHardware OSH PB Controller to the OS as a joystick rather than a keyboard.
+evdev:input:b0003v1209*
+ ID_INPUT_JOYSTICK=1
+ ID_INPUT_KEYBOARD=0

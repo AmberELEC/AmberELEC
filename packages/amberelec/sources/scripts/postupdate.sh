@@ -48,9 +48,9 @@ if [[ "$DEVICE" == "RG351P" ]]; then
   sed -i 's/audio.volume=.*/audio.volume=100/g' /storage/.config/distribution/configs/distribution.conf
 fi
 
-## 2022-12-07
+## 2022-12-29
 ## clear yabasanshiro control configs
-if [[ "$LAST_UPDATE_VERSION" -le "20221208" ]]; then
+if [[ "$LAST_UPDATE_VERSION" -le "20221230" ]]; then
   rm -rf /storage/roms/saturn/yabasanshiro/keymapv2.json
   rm -rf /storage/roms/saturn/yabasanshiro/input.cfg
 fi
@@ -373,6 +373,8 @@ elif [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
 	cp -f /usr/config/splash/splash-1920l.png /storage/.config/emulationstation/resources/logo.png
 fi
 
+## clear faulty lines from distribution.conf
+sed -i 's/^=$//g' /storage/.config/distribution/configs/distribution.conf
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
