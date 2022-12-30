@@ -4,15 +4,19 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="606a1d0eb65a2540cd0c7d717a7921ed16bc2563"
-PKG_SHA256="ba3b0a527267765136d9d7e1a4a3b0861de353091738c14adf630983949926bd"
-PKG_REV="1"
+PKG_VERSION="$(get_pkg_version scummvm)"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain SDL2 SDL2_net freetype fluidsynth libmad libtheora"
+PKG_DEPENDS_UNPACK="scummvm"
 PKG_SHORTDESC="Script Creation Utility for Maniac Mansion Virtual Machine"
 PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files."
+
+unpack() {
+  mkdir -p ${PKG_BUILD}
+  tar --strip-components=1 -xf ${SOURCES}/scummvm/scummvm-${PKG_VERSION}.tar.gz -C ${PKG_BUILD}
+}
 
 pre_configure_target() { 
   sed -i "s|sdl-config|sdl2-config|g" $PKG_BUILD/configure

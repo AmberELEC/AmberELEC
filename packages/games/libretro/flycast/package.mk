@@ -5,7 +5,7 @@ PKG_NAME="flycast"
 PKG_VERSION="85188bf13731c90b359a9cf34924a47c009a713f"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain $OPENGLES libzip"
+PKG_DEPENDS_TARGET="toolchain $OPENGLES libzip zlib"
 PKG_LONGDESC="Flycast is a multi-platform Sega Dreamcast, Naomi and Atomiswave emulator"
 PKG_TOOLCHAIN="cmake-make"
 

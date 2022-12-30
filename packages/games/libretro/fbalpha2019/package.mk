@@ -36,6 +36,7 @@ PKG_TOOLCHAIN="make"
 PKG_AUTORECONF="no"
 
 make_target() {
+  sed -i 's/"FB Alpha"/"FB Alpha 2019"/g' src/burner/libretro/libretro.cpp
   make -f makefile.libretro
 }
 

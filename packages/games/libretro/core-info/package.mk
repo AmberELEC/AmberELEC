@@ -32,5 +32,6 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/lib/libretro
   rename.ul -v mednafen beetle $PKG_BUILD/*.info
   cp $PKG_BUILD/*.info $INSTALL/usr/lib/libretro/
-  cp $PKG_BUILD/flycast_libretro.info $INSTALL/usr/lib/libretro/flycast2021.info
+  cp $PKG_BUILD/flycast_libretro.info $INSTALL/usr/lib/libretro/flycast2021_libretro.info
+  sed -i 's/Flycast/Flycast 2021/g' $INSTALL/usr/lib/libretro/flycast2021_libretro.info 
 }

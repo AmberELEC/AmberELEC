@@ -1,21 +1,25 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
-PKG_NAME="PPSSPPSDL"
-PKG_VERSION="350b59c2215e68317161273d7184e6f59c9ab0d9"
-PKG_REV="1"
+PKG_NAME="ppssppsa"
+PKG_VERSION="$(get_pkg_version ppsspp)"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
-PKG_URL="https://github.com/hrydgard/ppsspp.git"
-PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip SDL2 zlib zip"
-PKG_SHORTDESC="PPSSPPDL"
+PKG_URL=""
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip SDL2 zlib zstd"
+PKG_DEPENDS_UNPACK="ppsspp"
 PKG_LONGDESC="PPSSPP Standalone"
 PKG_BUILD_FLAGS="+lto"
 PKG_TOOLCHAIN="cmake-make"
 
-PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=OFF \
-                        -DUSE_WAYLAND_WSI=OFF \
+unpack() {
+  mkdir -p ${PKG_BUILD}
+  cp -rf ${SOURCES}/ppsspp/ppsspp-${PKG_VERSION}/* ${PKG_BUILD}
+}
+
+PKG_CMAKE_OPTS_TARGET+="-DUSE_WAYLAND_WSI=OFF \
                         -DUSE_VULKAN_DISPLAY_KHR=OFF \
                         -DUSING_FBDEV=ON \
                         -DCMAKE_BUILD_TYPE=Release \
@@ -39,6 +43,8 @@ PKG_CMAKE_OPTS_TARGET+="-DUSE_SYSTEM_FFMPEG=OFF \
                         -DSIMULATOR=OFF \
                         -DHEADLESS=OFF \
                         -DUSE_SYSTEM_FFMPEG=ON \
+                        -DUSE_SYSTEM_ZSTD=ON \
+                        -DUSE_SYSTEM_LIBZIP=ON \
                         -DUSE_DISCORD=OFF"
 
 pre_configure_target() {

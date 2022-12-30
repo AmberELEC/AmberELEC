@@ -1,29 +1,13 @@
-################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
-#
-#  This Program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2, or (at your option)
-#  any later version.
-#
-#  This Program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.tv; see the file COPYING.  If not, write to
-#  the Free Software Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110, USA.
-#  http://www.gnu.org/copyleft/gpl.html
-################################################################################
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="ppsspp"
-PKG_VERSION="350b59c2215e68317161273d7184e6f59c9ab0d9"
+PKG_VERSION="492c0b4ab307d1fc3d0eb11a45e470767f5ad3ee"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
-PKG_DEPENDS_TARGET="toolchain SDL2 ffmpeg libzip"
+PKG_DEPENDS_TARGET="toolchain SDL2 ffmpeg libzip zstd"
 PKG_LONGDESC="A PSP emulator for Android, Windows, Mac, Linux and Blackberry 10, written in C++."
 PKG_TOOLCHAIN="cmake-make"
 
@@ -37,7 +21,10 @@ pre_configure_target() {
                          -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
                          -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
                          -DUSE_SYSTEM_FFMPEG=ON \
-                         -DUSING_X11_VULKAN=OFF"
+                         -DUSE_SYSTEM_ZSTD=ON \
+                         -DUSE_SYSTEM_LIBZIP=ON \
+                         -DUSING_X11_VULKAN=OFF \
+                         -DUSE_DISCORD=OFF"
 
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DUSING_FBDEV=ON \

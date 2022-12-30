@@ -17,6 +17,7 @@ pre_configure_target() {
   sed -i 's/CXXFLAGS   :=//' ${PKG_BUILD}/Makefile
   sed -i 's/LDFLAGS   :=//' ${PKG_BUILD}/Makefile
   sed -i 's/define CORE_OPTION_NAME "reicast"/define CORE_OPTION_NAME "flycast2021"/g' core/libretro/libretro_core_option_defines.h
+  sed -i 's/"Flycast"/"Flycast 2021"/g' core/libretro/libretro.cpp
   PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7}"
 }
 
