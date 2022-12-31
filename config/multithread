@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
-THREADCOUNT=${THREADCOUNT:-100%}
+THREADCOUNT=${THREADCOUNT:-$(nproc)}
 
 # This function is passed a list of package.mk paths to be processed.
 # Each package.mk is sourced with relevant variables output in JSON format.
@@ -135,7 +135,8 @@ start_multithread_build() {
     buildopts+=" --ungroup"
   else
     mkdir -p "${THREAD_CONTROL}/logs"
-    buildopts+=" --group --results ${THREAD_CONTROL}/logs/{#}/"
+    #buildopts+=" --group --results ${THREAD_CONTROL}/logs/{#}/"
+    buildopts+=" --group"
   fi
 
   # When building addons, don't halt on error - keep building all packages/addons
