@@ -7,13 +7,10 @@ PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/retrorun-go-removed"
 PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
+PKG_DEPENDS_TARGET="toolchain libdrm libpng linux"
 PKG_TOOLCHAIN="make"
 
-pre_make_target() {
-  mkdir -p src/go2
-  cp -f $SYSROOT_PREFIX/usr/include/go2/*.h src/go2
-}
+PKG_MAKE_OPTS_TARGET=" INCLUDES=-I$SYSROOT_PREFIX/usr/include/libdrm -I$SYSROOT_PREFIX/usr/include "
 
 pre_configure_target() {
   CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
