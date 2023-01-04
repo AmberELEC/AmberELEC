@@ -16,7 +16,7 @@ PKG_TOOLCHAIN="cmake-make"
 
 unpack() {
   mkdir -p ${PKG_BUILD}
-  cp -rf ${SOURCES}/ppsspp/ppsspp-${PKG_VERSION}/* ${PKG_BUILD}
+  cp -rf ${SOURCES}/ppsspp/ppsspp-${PKG_VERSION}/. ${PKG_BUILD}
 }
 
 PKG_CMAKE_OPTS_TARGET+="-DUSE_WAYLAND_WSI=OFF \

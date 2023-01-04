@@ -3,7 +3,6 @@
 
 PKG_NAME="jaxe"
 PKG_VERSION="e03ea87f37b33d89ce9c9bd71bd71fd0158cc68d"
-PKG_SHA256="b29b402a086d9fc161241ed83831c26c4a23afca4c57c8a307472fee92d596cc"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/kurtjd/jaxe"
 PKG_URL="${PKG_SITE}.git"
