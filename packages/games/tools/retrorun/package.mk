@@ -10,8 +10,6 @@ PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft"
 PKG_TOOLCHAIN="make"
 
-#PKG_MAKE_OPTS_TARGET=" INCLUDES=-I$SYSROOT_PREFIX/usr/include/libdrm -I$SYSROOT_PREFIX/usr/include "
-
 pre_configure_target() {
   CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
   CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
@@ -24,13 +22,9 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p $INSTALL/usr/bin
-  if [ "${ARCH}" != "aarch64" ]; then
-    cp retrorun $INSTALL/usr/bin/retrorun32
-  else
-    cp retrorun $INSTALL/usr/bin
-    cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
-    #cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 $INSTALL/usr/bin
-    mkdir -p $INSTALL/usr/config/distribution/configs
-    cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
-  fi
+  cp retrorun $INSTALL/usr/bin
+  cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
+  mkdir -p $INSTALL/usr/config/distribution/configs
+  cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
+  
 }
