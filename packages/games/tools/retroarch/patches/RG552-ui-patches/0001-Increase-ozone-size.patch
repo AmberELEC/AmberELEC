@@ -1,0 +1,22 @@
+diff --git a/menu/drivers/ozone.c b/menu/drivers/ozone.c
+index 7301a505c4..b61e40ad4f 100644
+--- a/menu/drivers/ozone.c
++++ b/menu/drivers/ozone.c
+@@ -8123,7 +8123,7 @@ static void *ozone_init(void **userdata, bool video_is_threaded)
+    ozone->last_width                            = width;
+    ozone->last_height                           = height;
+    ozone->last_scale_factor                     = gfx_display_get_dpi_scale(p_disp,
+-         settings, width, height, false, false);
++         settings, width, height, false, false) * 1.400f;
+    ozone->last_thumbnail_scale_factor           = settings->floats.ozone_thumbnail_scale_factor;
+ 
+    ozone->selection_buf_old.list                = NULL;
+@@ -9223,7 +9223,7 @@ static void ozone_render(void *data,
+    /* Check whether screen dimensions or menu scale
+     * factor have changed */
+    scale_factor           = gfx_display_get_dpi_scale(p_disp, settings,
+-         width, height, false, false);
++         width, height, false, false) * 1.400f;
+    thumbnail_scale_factor = settings->floats.ozone_thumbnail_scale_factor;
+ 
+    if ((scale_factor != ozone->last_scale_factor) ||

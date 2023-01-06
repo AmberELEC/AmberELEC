@@ -14,7 +14,11 @@ if [[ "$DEVICE" == RG351V ]]; then
 fi
 
 if [[ "$DEVICE" =~ RG351 ]]; then
-  PKG_PATCH_DIRS="ui-patches"
+  PKG_PATCH_DIRS="RG351-ui-patches"
+fi
+
+if [[ "$DEVICE" == RG552 ]]; then
+  PKG_PATCH_DIRS="RG552-ui-patches"
 fi
 
 pre_configure_target() {
@@ -48,6 +52,8 @@ pre_configure_target() {
   fi
 
   cd $PKG_BUILD
+
+  sed -i 's/if (node \&\& (strstr(node, "BAT") || strstr(node, "battery")))/if (node \&\& (strstr(node, "BAT") || strstr(node, "battery") || strstr(node, "bat")))/g' frontend/drivers/platform_unix.c
 }
 
 make_target() {
