@@ -7,7 +7,7 @@ PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/dhwz/jstest-sdl"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 ncurses"
-PKG_SHORTDESC="Simple SDL joystick test application for the console"
+PKG_LONGDESC="Simple SDL joystick test application for the console"
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {

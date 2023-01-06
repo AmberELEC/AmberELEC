@@ -5,8 +5,7 @@ PKG_NAME="build-lib32"
 PKG_ARCH="arm"
 PKG_LICENSE="GPLv2"
 PKG_DEPENDS_TARGET="toolchain gcc retroarch libsndfile libmodplug flac SDL2 SDL2_image SDL2_mixer SDL2_net SDL2_ttf SDL2_gfx"
-PKG_SHORTDESC="ARM 32bit bundle for aarch64"
-PKG_PRIORITY="optional"
+PKG_LONGDESC="ARM 32bit bundle for aarch64"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {

@@ -4,7 +4,6 @@
 
 PKG_NAME="amberelec"
 PKG_VERSION="1.0"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""

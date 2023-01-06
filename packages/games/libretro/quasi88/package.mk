@@ -3,15 +3,10 @@
 
 PKG_NAME="quasi88"
 PKG_VERSION="7980f2484997055a9665837bb4c325d562acb04e"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="BSD3"
 PKG_SITE="https://github.com/libretro/quasi88-libretro"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="A port of QUASI88, a PC-8800 series emulator by Showzoh Fukunaga, to the libretro API"
 PKG_LONGDESC="A port of QUASI88, a PC-8800 series emulator by Showzoh Fukunaga, to the libretro API"
 PKG_TOOLCHAIN="make"
 

@@ -4,7 +4,6 @@
 
 PKG_NAME="ppssppsa"
 PKG_VERSION="$(get_pkg_version ppsspp)"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL=""

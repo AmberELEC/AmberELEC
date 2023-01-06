@@ -8,8 +8,7 @@ PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/icculus/mojozork"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="A simple Z-Machine implementation in a single C file"
+PKG_LONGDESC="A simple Z-Machine implementation in a single C file"
 PKG_TOOLCHAIN="cmake"
 
 pre_configure_target() {

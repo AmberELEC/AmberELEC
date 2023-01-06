@@ -4,7 +4,6 @@
 
 PKG_NAME="evdev_tools"
 PKG_VERSION=""
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/BetaXOi"
 PKG_URL=""

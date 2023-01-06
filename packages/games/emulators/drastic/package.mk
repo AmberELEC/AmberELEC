@@ -6,7 +6,7 @@ PKG_NAME="drastic"
 PKG_VERSION="2.5.2.2"
 PKG_ARCH="aarch64"
 PKG_URL="https://github.com/Cebion/packages/raw/main/misc/drastic.tar.gz"
-PKG_SHORTDESC="DraStic DS Emulator"
+PKG_LONGDESC="DraStic DS Emulator"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {

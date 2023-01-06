@@ -4,15 +4,10 @@
 
 PKG_NAME="xmil"
 PKG_VERSION="4cb1e4eaab37321904144d1f1a23b2830268e8df"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="BSD3"
 PKG_SITE="https://github.com/libretro/xmil-libretro"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="Libretro port of X Millennium Sharp X1 emulator"
 PKG_LONGDESC="Libretro port of X Millennium Sharp X1 emulator"
 PKG_TOOLCHAIN="make"
 

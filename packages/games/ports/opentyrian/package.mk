@@ -4,8 +4,6 @@
 PKG_NAME="opentyrian"
 PKG_VERSION="50ba3629bf114d5615c17c56c03a04a9cbeb6d6f"
 PKG_SHA256="9e5aa4e04bbad30a1517f06cf457c71ec3bf77e8eecd2c8ae38c67303e35d4f4"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/opentyrian/opentyrian"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"

@@ -4,12 +4,10 @@
 PKG_NAME="mupen64plussa-input-sdl"
 PKG_VERSION="aa181483bfcac8901184f8c7590e4246eba5508b"
 PKG_SHA256="46949a4a3d323c48f27d4a9b8c7198e3345e1af24fb7e7301272dfb708603b88"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-input-sdl"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-input-sdl/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} libpng SDL2 SDL2_net zlib freetype nasm:host mupen64plussa-core"
-PKG_SHORTDESC="mupen64plus-input-sdl"
 PKG_LONGDESC="Mupen64Plus Standalone Input SDL"
 PKG_TOOLCHAIN="manual"
 

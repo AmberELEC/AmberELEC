@@ -7,7 +7,6 @@ PKG_LICENSE="GPL2"
 PKG_SITE=""
 PKG_URL=""
 PKG_DEPENDS_TARGET="stella"
-PKG_SHORTDESC="evdev-joystick binary from Stella"
 PKG_LONGDESC="evdev-joystick is used to set the deadzone for Linux 'evdev' joystick devices."
 PKG_TOOLCHAIN="make"
 

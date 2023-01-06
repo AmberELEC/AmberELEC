@@ -7,7 +7,7 @@ PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/AmberELEC/lib32"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="ARM 32bit bundles for aarch64"
+PKG_LONGDESC="ARM 32bit bundles for aarch64"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {

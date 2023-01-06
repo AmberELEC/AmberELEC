@@ -4,12 +4,10 @@
 PKG_NAME="mupen64plussa-core"
 PKG_VERSION="ba9a52483052248b67c324e3fd0e073b807bbea4"
 PKG_SHA256="b02f927706c05bf9afe9067df543ca361f2ac6a97afc125c31b97d000f7fe213"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-core"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-core/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} boost libpng SDL2 SDL2_net zlib freetype nasm:host"
-PKG_SHORTDESC="mupen64plus"
 PKG_LONGDESC="Mupen64Plus Standalone"
 PKG_TOOLCHAIN="manual"
 

@@ -3,15 +3,11 @@
 
 PKG_NAME="rs97-commander-sdl2"
 PKG_VERSION="c03ba09e4b537d3b6652c00a377465a1a1f899f6"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/rs97-commander-sdl2"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2 SDL2_image SDL2_gfx SDL2_ttf"
-PKG_PRIORITY="optional"
-PKG_SECTION="tools"
-PKG_SHORTDESC="Two-pane commander for RetroFW and RG-350 (fork of Dingux Commander)"
+PKG_LONGDESC="Two-pane commander for RetroFW and RG-350 (fork of Dingux Commander)"
 
 pre_configure_target() {
   if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351P" ]

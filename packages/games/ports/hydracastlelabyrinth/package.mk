@@ -4,8 +4,6 @@
 PKG_NAME="hydracastlelabyrinth"
 PKG_VERSION="a4000681a20cd6639183cf72a722f4c2daf30cc7"
 PKG_SHA256="1f6408bf1cc4dbf67846ddad3a031a40f1d65a23924a75055e940f63abe6c9ec"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/ptitSeb/hydracastlelabyrinth"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"

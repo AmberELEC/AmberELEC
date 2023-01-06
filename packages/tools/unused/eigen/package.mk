@@ -4,7 +4,6 @@
 PKG_NAME="eigen"
 PKG_VERSION="3.2.10"
 PKG_SHA256="760e6656426fde71cc48586c971390816f456d30f0b5d7d4ad5274d8d2cb0a6d"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://eigen.tuxfamily.org/index.php?title=Main_Page"

@@ -3,12 +3,11 @@
 
 PKG_NAME="luajit"
 PKG_VERSION="99168476b9f6e1910057181428f2225b09458747"
-PKG_ARCH="any"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/moonjit/moonjit"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain luajit:host"
-PKG_SHORTDESC="LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language. "
+PKG_LONGDESC="LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language. "
 PKG_GIT_CLONE_BRANCH="v2.1"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed"

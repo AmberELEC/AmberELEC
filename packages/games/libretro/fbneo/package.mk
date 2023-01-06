@@ -3,16 +3,12 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fbneo"
-PKG_VERSION="a80a450ecd3db7009e34b5b1ef8e4b1f2ac678ee"
-PKG_SHA256="24260a9c6f3666f6a5696da4e2de650ac2c763e8e0d841bbca3f65a17642272e"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="1a968de5d8c52ef4b606c1ab0878c7859449c355"
+PKG_SHA256="6de0d617a548d9006541f39f21cb8844592224db3accd68a10932dca08a801f9"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/FBNeo"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="Port of Final Burn Neo to Libretro (v0.2.97.38)."
 PKG_LONGDESC="Currently, FB neo supports games on Capcom CPS-1 and CPS-2 hardware, SNK Neo-Geo hardware, Toaplan hardware, Cave hardware, and various games on miscellaneous hardware. "
 PKG_TOOLCHAIN="make"
 

@@ -1,6 +1,5 @@
 PKG_NAME="yabasanshiroSA"
 PKG_VERSION="c7618d2ecbf77b1e8188fa8af4fa1cfb34833a72"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/devmiyax/yabause"
 PKG_URL="${PKG_SITE}.git"

@@ -3,13 +3,11 @@
 
 PKG_NAME="ports"
 PKG_VERSION=""
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_SITE=""
 PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain Jinja2:host pyyaml:host hydracastlelabyrinth sdlpop opentyrian"
-PKG_SHORTDESC="Ports Meta Package"
+PKG_LONGDESC="Ports Meta Package"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {

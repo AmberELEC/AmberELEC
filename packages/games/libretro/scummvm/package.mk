@@ -2,14 +2,12 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvm"
-PKG_VERSION="7114fe2498eba9b2e54cf439de005dcb3e6473bc"
-PKG_SHA256="73e0f7a3fbb5f62d694eaddd1093f2402cb5dce36fa798774be6f256e5608097"
-PKG_REV="1"
+PKG_VERSION="6ef805f232c9ea8c01b23291878bcbb4c9d1a9be"
+PKG_SHA256="3b105b3f3693e20ceebb2cf26da2fb53cdf701eb6a22efa680da550cc1585519"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="Script Creation Utility for Maniac Mansion Virtual Machine"
 PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files."
 
 pre_configure_target() {

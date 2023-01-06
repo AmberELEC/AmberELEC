@@ -3,13 +3,10 @@
 
 PKG_NAME="piemu"
 PKG_VERSION="0785214f13746bdfd709b1909f007e213b470ba1"
-PKG_ARCH="any"
 PKG_LICENSE="ZLIB"
 PKG_SITE="https://github.com/yonkuma/piemu"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2"
-PKG_PRIORITY="optional"
-PKG_SHORTDESC="piemu"
 PKG_LONGDESC="Piemu Standalone"
 PKG_TOOLCHAIN="cmake-make"
 

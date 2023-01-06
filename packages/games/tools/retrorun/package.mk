@@ -3,7 +3,6 @@
 
 PKG_NAME="retrorun"
 PKG_VERSION="99a29560016fb64f0319c142df9d08e48af1bb8b"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/AmberELEC/retrorun-go2"
 PKG_URL="$PKG_SITE.git"

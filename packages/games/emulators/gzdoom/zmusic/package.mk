@@ -7,7 +7,6 @@ PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/ZDoom/ZMusic"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain zmusic:host"
-PKG_SHORTDESC="GZDoom's music system as a standalone library"
 PKG_LONGDESC="GZDoom's music system as a standalone library"
 PKG_TOOLCHAIN="cmake-make"
 

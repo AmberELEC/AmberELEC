@@ -1,41 +1,16 @@
-################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
-#      Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
-#
-#  This Program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2, or (at your option)
-#  any later version.
-#
-#  This Program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.tv; see the file COPYING.  If not, write to
-#  the Free Software Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110, USA.
-#  http://www.gnu.org/copyleft/gpl.html
-################################################################################
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mame2003-plus"
-PKG_VERSION="fc34ab6986de55952e7cbff13cfdb94e3b2a43aa"
-PKG_SHA256="3f6caf4f19a9cc22de746c36328c5ec3278166fb8ba6bdfed0ad615901ce1584"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="8c1b19c61f590a2d3a8b14c33cb6dfe4bec9ad83"
+PKG_SHA256="eef4cd1e98e0ddb233be64f2a657a4fdd18f4fc3121a8e709b952bb0bddbbcd6"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/libretro/mame2003-plus-libretro"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="MAME - Multiple Arcade Machine Emulator"
 PKG_LONGDESC="MAME - Multiple Arcade Machine Emulator"
-
-PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
-PKG_AUTORECONF="no"
 
 pre_configure_target() {
   sed -i 's/\-O[23]//' ${PKG_BUILD}/Makefile

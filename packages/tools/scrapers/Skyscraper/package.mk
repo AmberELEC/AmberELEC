@@ -3,7 +3,6 @@
 
 PKG_NAME="Skyscraper"
 PKG_VERSION="f30c88c336ac3763dd2f3cc563622dc372b8785f"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/muldjord/skyscraper"

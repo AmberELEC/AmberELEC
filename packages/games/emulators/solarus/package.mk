@@ -8,7 +8,7 @@ PKG_LICENSE="GPLv3"
 PKG_SITE="https://gitlab.com/solarus-games/solarus"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain luajit glm libmodplug physfs"
-PKG_SHORTDESC="Action-RPG/Adventure 2D game engine"
+PKG_LONGDESC="Action-RPG/Adventure 2D game engine"
 PKG_TOOLCHAIN="cmake-make"
 PKG_GIT_CLONE_BRANCH="master"
 

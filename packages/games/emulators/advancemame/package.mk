@@ -5,15 +5,12 @@
 PKG_NAME="advancemame"
 PKG_VERSION="7dc42d1d812e9215a5ee89e96d8ea5a1347d2c94"
 PKG_SHA256="60e9ee44eb1a6e5cd1367ad2d0cee7b6fa25635c1c337aa52008d3f3df34f58d"
-PKG_ARCH="any"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/amadvance/advancemame"
 PKG_URL="https://github.com/amadvance/advancemame/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="advancemame-$PKG_VERSION*"
 PKG_DEPENDS_TARGET="toolchain freetype slang alsa SDL2"
-PKG_SHORTDESC="A MAME and MESS port with an advanced video support for Arcade Monitors, TVs, and PC Monitors "
 PKG_LONGDESC="A MAME and MESS port with an advanced video support for Arcade Monitors, TVs, and PC Monitors "
-PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {

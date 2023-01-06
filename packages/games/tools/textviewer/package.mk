@@ -7,7 +7,7 @@ PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/lethal-guitar/TvTextViewer"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="Full-screen text viewer tool with gamepad controls"
+PKG_LONGDESC="Full-screen text viewer tool with gamepad controls"
 PKG_TOOLCHAIN="make"
 
 pre_patch() {

@@ -8,7 +8,6 @@ PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_HOST="toolchain zmusic:host"
 PKG_DEPENDS_TARGET="toolchain SDL2 gzdoom:host zmusic"
-PKG_SHORTDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_TOOLCHAIN="cmake-make"
 

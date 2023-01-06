@@ -4,11 +4,9 @@
 
 PKG_NAME="openbor"
 PKG_VERSION="bde5af0a22860b860b97d858bb27422b2e4564e6"
-PKG_ARCH="any"
 PKG_SITE="https://github.com/DCurrent/openbor"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 libogg libvorbisidec libvpx libpng"
-PKG_SHORTDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups, shooters, and more!"
 PKG_LONGDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups, shooters, and more!"
 PKG_TOOLCHAIN="make"
 PKG_GIT_CLONE_BRANCH="global_beta"
