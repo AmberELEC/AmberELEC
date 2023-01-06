@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="b29e4636d0323fdea32cb3dd3af61dcb4af47096"
+PKG_VERSION="d77c49c53791b9ff0646905124becce287b6585a"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/retrorun-go-removed"
@@ -26,5 +26,4 @@ makeinstall_target() {
   cp $PKG_DIR/retrorun.sh $INSTALL/usr/bin
   mkdir -p $INSTALL/usr/config/distribution/configs
   cp -vP $PKG_DIR/retrorun.cfg $INSTALL/usr/config/distribution/configs
-  
 }
