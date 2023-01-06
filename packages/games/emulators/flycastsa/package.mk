@@ -6,7 +6,7 @@ PKG_VERSION="$(get_pkg_version flycast)"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain alsa SDL2 $OPENGLES libzip zip curl"
+PKG_DEPENDS_TARGET="toolchain alsa SDL2 ${OPENGLES} libzip zip curl"
 PKG_DEPENDS_UNPACK="flycast"
 PKG_LONGDESC="Flycast is a multiplatform Sega Dreamcast, Naomi, Naomi 2 and Atomiswave emulator"
 PKG_TOOLCHAIN="cmake-make"
@@ -18,8 +18,7 @@ unpack() {
 
 pre_configure_target() {
   export CXXFLAGS="${CXXFLAGS} -Wno-error=array-bounds"
-  PKG_CMAKE_OPTS_TARGET="-Wno-dev \
-                         -DCMAKE_RULE_MESSAGES=OFF \
+  PKG_CMAKE_OPTS_TARGET="-DCMAKE_RULE_MESSAGES=OFF \
                          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
                          -DCMAKE_BUILD_TYPE="Release" \
                          -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
@@ -28,11 +27,6 @@ pre_configure_target() {
                          -DUSE_OPENMP=ON \
                          -DUSE_VULKAN=OFF \
                          -DUSE_GLES=ON"
-}
-
-pre_build_target() {
-  TARGET_CMAKE_OPTS="-DCMAKE_TOOLCHAIN_FILE=${CMAKE_CONF} \
-                     -DCMAKE_INSTALL_PREFIX=/usr"
 }
 
 makeinstall_target() {

@@ -31,14 +31,14 @@ PKG_CONFIGURE_OPTS_TARGET="CFLAGS=-DMESA_EGL_NO_X11_HEADERS \
                            --enable-systemd-notify"
 
 post_makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/weston
-    cp $PKG_DIR/scripts/weston-config $INSTALL/usr/lib/weston
+  mkdir -p ${INSTALL}/usr/lib/weston
+    cp ${PKG_DIR}/scripts/weston-config ${INSTALL}/usr/lib/weston
 
-  mkdir -p $INSTALL/usr/share/weston
-    cp $PKG_DIR/config/weston.ini $INSTALL/usr/share/weston
+  mkdir -p ${INSTALL}/usr/share/weston
+    cp ${PKG_DIR}/config/weston.ini ${INSTALL}/usr/share/weston
 
-  rm -r $INSTALL/usr/share/wayland-sessions
-  rm -r $INSTALL/usr/lib/weston-simple-im
+  rm -r ${INSTALL}/usr/share/wayland-sessions
+  rm -r ${INSTALL}/usr/lib/weston-simple-im
 }
 
 post_install() {

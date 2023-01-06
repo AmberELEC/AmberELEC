@@ -6,7 +6,7 @@ PKG_VERSION="4032f8ba364e8594fd8e160121f6b13f6ee2bf65"
 PKG_SHA256="8d8da47840e7925772b28f159965d8e1796904df05fb9e32f8070307c1310652"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/realnc/dosbox-core"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain munt flac fluidsynth libsndfile mpg123 libvorbis libogg opus alsa-lib SDL_net"
 PKG_LONGDESC="A DOSBox core for use in RetroArch and other libretro frontends."
 PKG_TOOLCHAIN="make"
@@ -21,6 +21,6 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp $PKG_BUILD/libretro/dosbox_core_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp ${PKG_BUILD}/libretro/dosbox_core_libretro.so ${INSTALL}/usr/lib/libretro/
 }

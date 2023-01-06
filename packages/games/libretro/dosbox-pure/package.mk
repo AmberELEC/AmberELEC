@@ -6,7 +6,7 @@ PKG_NAME="dosbox-pure"
 PKG_VERSION="035e01e43623f83a9e71f362364fd74091379455"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/schellingb/dosbox-pure"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="A port of DOSBox to libretro"
 PKG_TOOLCHAIN="make"
@@ -20,6 +20,6 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp dosbox_pure_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp dosbox_pure_libretro.so ${INSTALL}/usr/lib/libretro/
 }

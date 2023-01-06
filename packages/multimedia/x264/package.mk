@@ -10,16 +10,16 @@ PKG_URL="https://code.videolan.org/videolan/x264/-/archive/${PKG_VERSION}.tar.gz
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="x264 codec"
 
-if [ "$TARGET_ARCH" = "x86_64" ]; then
+if [ "${TARGET_ARCH}" = "x86_64" ]; then
   PKG_DEPENDS_TARGET+=" nasm:host"
 fi
 
 pre_configure_target() {
-  cd $PKG_BUILD
-  rm -rf .$TARGET_NAME
+  cd ${PKG_BUILD}
+  rm -rf .${TARGET_NAME}
 
-  if [ "$TARGET_ARCH" = "x86_64" ]; then
-    export AS="$TOOLCHAIN/bin/nasm"
+  if [ "${TARGET_ARCH}" = "x86_64" ]; then
+    export AS="${TOOLCHAIN}/bin/nasm"
   else
     PKG_X264_ASM="--disable-asm"
   fi
@@ -27,13 +27,13 @@ pre_configure_target() {
 
 configure_target() {
   ./configure \
-    --cross-prefix="$TARGET_PREFIX" \
-    --extra-cflags="$CFLAGS" \
-    --extra-ldflags="$LDFLAGS" \
-    --host="$TARGET_NAME" \
+    --cross-prefix="${TARGET_PREFIX}" \
+    --extra-cflags="${CFLAGS}" \
+    --extra-ldflags="${LDFLAGS}" \
+    --host="${TARGET_NAME}" \
     --prefix="/usr" \
-    --sysroot="$SYSROOT_PREFIX" \
-    $PKG_X264_ASM \
+    --sysroot="${SYSROOT_PREFIX}" \
+    ${PKG_X264_ASM} \
     --disable-cli \
     --enable-lto \
     --enable-shared \

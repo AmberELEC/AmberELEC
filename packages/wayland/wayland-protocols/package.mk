@@ -11,5 +11,5 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Specifications of extended Wayland protocols"
 
 post_makeinstall_target() {
-  rm -rf $INSTALL
+  rm -rf ${INSTALL}
 }

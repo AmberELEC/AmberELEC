@@ -6,7 +6,7 @@ PKG_NAME="atari800"
 PKG_VERSION="94033288b026fe699bc50703609807aa8075f4dd"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-atari800"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="atari800 3.1.0 for libretro/libco WIP"
 PKG_TOOLCHAIN="auto"
@@ -15,6 +15,6 @@ PKG_TOOLCHAIN="auto"
 PKG_MAKE_OPTS_TARGET="platform=emuelec GIT_VERSION=${PKG_VERSION:0:7}"
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp atari800_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp atari800_libretro.so ${INSTALL}/usr/lib/libretro/
 }

@@ -7,7 +7,7 @@ PKG_VERSION="2cc06899b839639397b8b30384a191424b6f529d"
 PKG_SHA256="08d0f3403b41a2606e66aa78e35e3cd8fff8bf14050b260ce6f0395f51d48f7b"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/virtualjaguar-libretro"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Port of Virtual Jaguar to Libretro"
 PKG_TOOLCHAIN="make"
@@ -17,6 +17,6 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp virtualjaguar_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp virtualjaguar_libretro.so ${INSTALL}/usr/lib/libretro/
 }

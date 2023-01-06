@@ -20,20 +20,20 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-prelude \
 
 
 makeinstall_target() {
-  mkdir -p $INSTALL/etc/pam.d
-  cp $PKG_DIR/pam.d/* $INSTALL/etc/pam.d
+  mkdir -p ${INSTALL}/etc/pam.d
+  cp ${PKG_DIR}/pam.d/* ${INSTALL}/etc/pam.d
   
-  mkdir -p $INSTALL/usr/lib
-  cp -P $PKG_BUILD/.${TARGET_NAME}/libpam/.libs/*.so* $INSTALL/usr/lib
-  cp -P $PKG_BUILD/.${TARGET_NAME}/libpam_misc/.libs/*.so* $INSTALL/usr/lib
-  rm -rf $INSTALL/usr/lib/libpam_misc.so*T
-  cp -P $PKG_BUILD/.${TARGET_NAME}/libpamc/.libs/*.so* $INSTALL/usr/lib
+  mkdir -p ${INSTALL}/usr/lib
+  cp -P ${PKG_BUILD}/.${TARGET_NAME}/libpam/.libs/*.so* ${INSTALL}/usr/lib
+  cp -P ${PKG_BUILD}/.${TARGET_NAME}/libpam_misc/.libs/*.so* ${INSTALL}/usr/lib
+  rm -rf ${INSTALL}/usr/lib/libpam_misc.so*T
+  cp -P ${PKG_BUILD}/.${TARGET_NAME}/libpamc/.libs/*.so* ${INSTALL}/usr/lib
 
-  mkdir -p $INSTALL/usr/lib/security
-  cp -P $PKG_BUILD/.${TARGET_NAME}/modules/*/.libs/*.so $INSTALL/usr/lib/security
+  mkdir -p ${INSTALL}/usr/lib/security
+  cp -P ${PKG_BUILD}/.${TARGET_NAME}/modules/*/.libs/*.so ${INSTALL}/usr/lib/security
 
-  mkdir -p $INSTALL/usr/lib/security/pam_filter
-  cp -P $PKG_BUILD/.${TARGET_NAME}/modules/pam_filter/upperLOWER/.libs/upperLOWER $INSTALL/usr/lib/security/pam_filter
+  mkdir -p ${INSTALL}/usr/lib/security/pam_filter
+  cp -P ${PKG_BUILD}/.${TARGET_NAME}/modules/pam_filter/upperLOWER/.libs/upperLOWER ${INSTALL}/usr/lib/security/pam_filter
 }
 
 

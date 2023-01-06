@@ -20,5 +20,5 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-shared \
             --disable-examples-build"
 
 pre_configure_target() {
-  export CFLAGS="$CFLAGS -Wno-error=maybe-uninitialized"
+  export CFLAGS="${CFLAGS} -Wno-error=maybe-uninitialized"
 }

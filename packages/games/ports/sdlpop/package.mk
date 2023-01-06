@@ -6,14 +6,14 @@ PKG_VERSION="50dc8bb85c2c756a04fc03909d86fb2f1eae7e68"
 PKG_SHA256="67f807705084e54f575edce48363685245eed8931f7730aa86e66e531d3d1dfa"
 PKG_LICENSE="GPL3"
 PKG_SITE="https://github.com/NagyD/SDLPoP"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2 SDL2_image"
 PKG_LONGDESC="An open-source port of Prince of Persia, based on the disassembly of the DOS version."
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
-  sed -i "s/start_fullscreen = false/start_fullscreen = true/" "$PKG_BUILD/SDLPoP.ini"
-  sed -i "s/enable_info_screen = true;/enable_info_screen = false;/" "$PKG_BUILD/SDLPoP.ini"
+  sed -i "s/start_fullscreen = false/start_fullscreen = true/" "${PKG_BUILD}/SDLPoP.ini"
+  sed -i "s/enable_info_screen = true;/enable_info_screen = false;/" "${PKG_BUILD}/SDLPoP.ini"
 }
 
 pre_make_target() {
@@ -21,7 +21,7 @@ pre_make_target() {
 }
 
 make_target() {
-  cd $PKG_BUILD/src/
+  cd ${PKG_BUILD}/src/
   mkdir -p build
   cd build/
   cmake ..
@@ -29,11 +29,11 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/config/distribution/configs/SDLPoP
-  mkdir -p $INSTALL/usr/local/bin
-  cp -r $PKG_BUILD/* $INSTALL/usr/config/distribution/configs/SDLPoP/
-  mv "$INSTALL/usr/config/distribution/configs/SDLPoP/prince" "$INSTALL/usr/local/bin/"
-  rm -rf $INSTALL/usr/config/distribution/configs/SDLPoP/src
-  rm -rf $INSTALL/usr/config/distribution/configs/SDLPoP/.gitignore
-  rm -rf $INSTALL/usr/config/distribution/configs/SDLPoP/.editorconfig
+  mkdir -p ${INSTALL}/usr/config/distribution/configs/SDLPoP
+  mkdir -p ${INSTALL}/usr/local/bin
+  cp -r ${PKG_BUILD}/* ${INSTALL}/usr/config/distribution/configs/SDLPoP/
+  mv "${INSTALL}/usr/config/distribution/configs/SDLPoP/prince" "${INSTALL}/usr/local/bin/"
+  rm -rf ${INSTALL}/usr/config/distribution/configs/SDLPoP/src
+  rm -rf ${INSTALL}/usr/config/distribution/configs/SDLPoP/.gitignore
+  rm -rf ${INSTALL}/usr/config/distribution/configs/SDLPoP/.editorconfig
 }

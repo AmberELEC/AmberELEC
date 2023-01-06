@@ -48,12 +48,12 @@ make_target() {
   unset DISTRO
   unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
-  make $PKG_MAKE_OPTS_TARGET OVERRIDE_CC=$CC OVERRIDE_CXX=$CXX OVERRIDE_LD=$LD AR=$AR $MAKEFLAGS
+  make ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp *.so $INSTALL/usr/lib/libretro/mame_libretro.so
-  mkdir -p $INSTALL/usr/config/retroarch/savefiles/mame/hi
-  cp -f plugins/hiscore/hiscore.dat $INSTALL/usr/config/retroarch/savefiles/mame/hi
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp *.so ${INSTALL}/usr/lib/libretro/mame_libretro.so
+  mkdir -p ${INSTALL}/usr/config/retroarch/savefiles/mame/hi
+  cp -f plugins/hiscore/hiscore.dat ${INSTALL}/usr/config/retroarch/savefiles/mame/hi
 }

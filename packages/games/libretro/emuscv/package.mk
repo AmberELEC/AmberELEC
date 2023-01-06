@@ -5,7 +5,7 @@ PKG_NAME="emuscv"
 PKG_VERSION="dfce10df090ce3f5eb23bdbee289702ec1478246"
 #PKG_ARCH="aarch64"
 PKG_SITE="https://gitlab.com/MaaaX-EmuSCV/libretro-emuscv"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="An EPOCH/YENO Super Cassette Vision (1984) home video game emulator for Libretro"
 PKG_TOOLCHAIN="make"
@@ -18,7 +18,6 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp $PKG_BUILD/emuscv_libretro.info $INSTALL/usr/lib/libretro/
-  cp $PKG_BUILD/emuscv_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp ${PKG_BUILD}/emuscv_libretro.so ${INSTALL}/usr/lib/libretro/
 }

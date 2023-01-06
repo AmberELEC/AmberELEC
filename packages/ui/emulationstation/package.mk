@@ -8,7 +8,7 @@ PKG_GIT_CLONE_BRANCH="main"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/AmberELEC/emulationstation"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
 PKG_SHORTDESC="Emulationstation emulator frontend"
@@ -24,10 +24,10 @@ PKG_BUILD_FLAGS="-gold"
 #      && DOCKER_WORK_DIR=/work DEVICE=RG351V ARCH=aarch64 PACKAGE=emulationstation make docker-package-clean docker-package
 ##########################################################################################################
 #PKG_SITE="file:///work/emulationstation"
-#PKG_URL="$PKG_SITE"
+#PKG_URL="${PKG_SITE}"
 
 # themes for Emulationstation
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-next"
+PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} es-theme-art-book-next"
 
 PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0 -D${DEVICE}=1"
 
@@ -38,47 +38,47 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/locale
-	cp -rf $PKG_BUILD/locale/lang/* $INSTALL/usr/config/locale/
+	mkdir -p ${INSTALL}/usr/config/locale
+	cp -rf ${PKG_BUILD}/locale/lang/* ${INSTALL}/usr/config/locale/
 
-	mkdir -p $INSTALL/usr/lib
-	ln -sf /storage/.config/emulationstation/locale $INSTALL/usr/lib/locale
+	mkdir -p ${INSTALL}/usr/lib
+	ln -sf /storage/.config/emulationstation/locale ${INSTALL}/usr/lib/locale
 
-	mkdir -p $INSTALL/usr/config/emulationstation/resources
-	cp -rf $PKG_BUILD/resources/* $INSTALL/usr/config/emulationstation/resources/
-	rm -rf $INSTALL/usr/config/emulationstation/resources/logo.png
+	mkdir -p ${INSTALL}/usr/config/emulationstation/resources
+	cp -rf ${PKG_BUILD}/resources/* ${INSTALL}/usr/config/emulationstation/resources/
+	rm -rf ${INSTALL}/usr/config/emulationstation/resources/logo.png
 
-	mkdir -p $INSTALL/usr/lib/${PKG_PYTHON_VERSION}
-	cp -rf $PKG_DIR/bluez/* $INSTALL/usr/lib/${PKG_PYTHON_VERSION}
+	mkdir -p ${INSTALL}/usr/lib/${PKG_PYTHON_VERSION}
+	cp -rf ${PKG_DIR}/bluez/* ${INSTALL}/usr/lib/${PKG_PYTHON_VERSION}
 
-	mkdir -p $INSTALL/usr/bin
-	ln -sf /storage/.config/emulationstation/resources $INSTALL/usr/bin/resources
-	cp -rf $PKG_BUILD/emulationstation $INSTALL/usr/bin
+	mkdir -p ${INSTALL}/usr/bin
+	ln -sf /storage/.config/emulationstation/resources ${INSTALL}/usr/bin/resources
+	cp -rf ${PKG_BUILD}/emulationstation ${INSTALL}/usr/bin
 
-	mkdir -p $INSTALL/etc/emulationstation/
-	ln -sf /storage/.config/emulationstation/themes $INSTALL/etc/emulationstation/
-	ln -sf /usr/config/emulationstation/es_systems.cfg $INSTALL/etc/emulationstation/es_systems.cfg
+	mkdir -p ${INSTALL}/etc/emulationstation/
+	ln -sf /storage/.config/emulationstation/themes ${INSTALL}/etc/emulationstation/
+	ln -sf /usr/config/emulationstation/es_systems.cfg ${INSTALL}/etc/emulationstation/es_systems.cfg
 
-        cp -rf $PKG_DIR/config/*.cfg $INSTALL/usr/config/emulationstation
-        cp -rf $PKG_DIR/config/scripts $INSTALL/usr/config/emulationstation
+        cp -rf ${PKG_DIR}/config/*.cfg ${INSTALL}/usr/config/emulationstation
+        cp -rf ${PKG_DIR}/config/scripts ${INSTALL}/usr/config/emulationstation
 
         # Set the correct playback device for the RG552 - this makes the 'volume overlay' work
         if [ "${DEVICE}" = "RG552" ]; then
-		sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' $INSTALL/usr/config/emulationstation/es_settings.cfg
+		sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' ${INSTALL}/usr/config/emulationstation/es_settings.cfg
 	fi
 
-	chmod +x $INSTALL/usr/config/emulationstation/scripts/*
-	chmod +x $INSTALL/usr/config/emulationstation/scripts/configscripts/*
-	find $INSTALL/usr/config/emulationstation/scripts/ -type f -exec chmod o+x {} \;
+	chmod +x ${INSTALL}/usr/config/emulationstation/scripts/*
+	chmod +x ${INSTALL}/usr/config/emulationstation/scripts/configscripts/*
+	find ${INSTALL}/usr/config/emulationstation/scripts/ -type f -exec chmod o+x {} \;
 
 	# Vertical Games are only supported in the OdroidGoAdvance
     if [[ ${DEVICE} != "OdroidGoAdvance" ]] || [[ ${DEVICE} =~ RG351 ]]; then
-        sed -i "s|, vertical||g" "$INSTALL/usr/config/emulationstation/es_features.cfg"
+        sed -i "s|, vertical||g" "${INSTALL}/usr/config/emulationstation/es_features.cfg"
     fi
 }
 
 post_install() {
 	enable_service emustation.service
-	mkdir -p $INSTALL/usr/share
-	ln -sf /storage/.config/emulationstation/locale $INSTALL/usr/share/locale
+	mkdir -p ${INSTALL}/usr/share
+	ln -sf /storage/.config/emulationstation/locale ${INSTALL}/usr/share/locale
 }

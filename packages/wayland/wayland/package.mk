@@ -17,7 +17,7 @@ PKG_CONFIGURE_OPTS_HOST="--enable-shared \
                          --disable-documentation \
                          --with-gnu-ld"
 
-PKG_CONFIGURE_OPTS_TARGET="--with-sysroot=$SYSROOT_PREFIX \
+PKG_CONFIGURE_OPTS_TARGET="--with-sysroot=${SYSROOT_PREFIX} \
                            --with-host-scanner \
                            --enable-shared \
                            --disable-static \
@@ -26,8 +26,8 @@ PKG_CONFIGURE_OPTS_TARGET="--with-sysroot=$SYSROOT_PREFIX \
                            --with-gnu-ld"
 
 post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin
-  rm -rf $INSTALL/usr/share
+  rm -rf ${INSTALL}/usr/bin
+  rm -rf ${INSTALL}/usr/share
 
-  cp $TOOLCHAIN/lib/pkgconfig/wayland-scanner.pc $SYSROOT_PREFIX/usr/lib/pkgconfig/
+  cp ${TOOLCHAIN}/lib/pkgconfig/wayland-scanner.pc ${SYSROOT_PREFIX}/usr/lib/pkgconfig/
 }

@@ -8,7 +8,7 @@ PKG_VERSION="3.0.12"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.videolan.org"
-PKG_URL="https://mirror.netcologne.de/videolan.org/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="https://mirror.netcologne.de/videolan.org/${PKG_NAME}/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio SDL2 x264"
 PKG_SHORTDESC="VideoLAN multimedia player and streamer"
 PKG_LONGDESC="VLC is the VideoLAN project's media player. It plays MPEG, MPEG2, MPEG4, DivX, MOV, WMV, QuickTime, mp3, Ogg/Vorbis files, DVDs, VCDs, and multimedia streams from various network sources."
@@ -123,22 +123,22 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-dav1d \
             --disable-qt"
 
-	if [ "$PROJECT" == "Amlogic" ]; then 
+	if [ "${PROJECT}" == "Amlogic" ]; then 
 		ENABLED_FEATURES+=" --enable-pulse"
 	else
 		DISABLED_FEATURES+=" --disable-pulse"
 	fi 
 
-PKG_CONFIGURE_OPTS_TARGET="$ENABLED_FEATURES $DISABLED_FEATURES"
+PKG_CONFIGURE_OPTS_TARGET="${ENABLED_FEATURES} ${DISABLED_FEATURES}"
 
 pre_configure_target() {
-  export LDFLAGS="$LDFLAGS -lresolv -fopenmp -lm"
+  export LDFLAGS="${LDFLAGS} -lresolv -fopenmp -lm"
 }
 
 post_makeinstall_target() {
-  rm -fr $INSTALL/usr/share/applications
-  rm -fr $INSTALL/usr/share/icons
-  rm -fr $INSTALL/usr/share/kde4
-  rm -f $INSTALL/usr/bin/rvlc
-  rm -f $INSTALL/usr/bin/vlc-wrapper
+  rm -fr ${INSTALL}/usr/share/applications
+  rm -fr ${INSTALL}/usr/share/icons
+  rm -fr ${INSTALL}/usr/share/kde4
+  rm -f ${INSTALL}/usr/bin/rvlc
+  rm -f ${INSTALL}/usr/bin/vlc-wrapper
 }

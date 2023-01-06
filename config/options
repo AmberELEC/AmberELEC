@@ -98,11 +98,6 @@ if [ -f "${HOME}/.coreelec/options" ]; then
   . "${HOME}/.coreelec/options"
 fi
 
-# overwrite OEM_SUPPORT via commandline
-if [ "${OEM}" = "yes" -o "${OEM}" = "no" ]; then
-  OEM_SUPPORT="${OEM}"
-fi
-
 check_config
 
 . config/graphic

@@ -15,6 +15,6 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/bin
-  cp evdev-joystick $INSTALL/usr/bin
+  mkdir -p ${INSTALL}/usr/bin
+  cp evdev-joystick ${INSTALL}/usr/bin
 }

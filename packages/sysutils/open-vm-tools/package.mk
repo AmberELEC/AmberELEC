@@ -26,13 +26,13 @@ PKG_CONFIGURE_OPTS_TARGET="--disable-docs \
                            --without-icu \
                            --without-kernel-modules \
                            --with-udev-rules-dir=/usr/lib/udev/rules.d/ \
-                           --with-sysroot=$SYSROOT_PREFIX"
+                           --with-sysroot=${SYSROOT_PREFIX}"
 
 post_unpack() {
-  mv $PKG_BUILD/$PKG_NAME/* $PKG_BUILD/
+  mv ${PKG_BUILD}/${PKG_NAME}/* ${PKG_BUILD}/
 
-  sed -i -e 's|.*common-agent/etc/config/Makefile.*||' $PKG_BUILD/configure.ac
-  mkdir -p $PKG_BUILD/common-agent/etc/config
+  sed -i -e 's|.*common-agent/etc/config/Makefile.*||' ${PKG_BUILD}/configure.ac
+  mkdir -p ${PKG_BUILD}/common-agent/etc/config
 }
 
 pre_configure_target() {
@@ -40,11 +40,11 @@ pre_configure_target() {
 }
 
 post_makeinstall_target() {
-  rm -rf $INSTALL/sbin
-  rm -rf $INSTALL/usr/share
-  rm -rf $INSTALL/etc/vmware-tools/scripts/vmware/network
+  rm -rf ${INSTALL}/sbin
+  rm -rf ${INSTALL}/usr/share
+  rm -rf ${INSTALL}/etc/vmware-tools/scripts/vmware/network
 
-  find $INSTALL/etc/vmware-tools/ -type f | xargs sed -i '/.*expr.*/d'
+  find ${INSTALL}/etc/vmware-tools/ -type f | xargs sed -i '/.*expr.*/d'
 }
 
 post_install() {

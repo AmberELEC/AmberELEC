@@ -4,15 +4,14 @@
 PKG_NAME="flycast"
 PKG_VERSION="b232a10167b3ead55b8755059a0edec53a60463d"
 PKG_SITE="https://github.com/flyinghead/flycast"
-PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain $OPENGLES libzip zlib"
+PKG_URL="${PKG_SITE}.git"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} libzip zlib"
 PKG_LONGDESC="Flycast is a multi-platform Sega Dreamcast, Naomi and Atomiswave emulator"
 PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
-  sed -i 's/"reicast"/"flycast"/g' $PKG_BUILD/shell/libretro/libretro_core_option_defines.h 
-  PKG_CMAKE_OPTS_TARGET="-Wno-dev \
-                         -DCMAKE_RULE_MESSAGES=OFF \
+  sed -i 's/"reicast"/"flycast"/g' ${PKG_BUILD}/shell/libretro/libretro_core_option_defines.h 
+  PKG_CMAKE_OPTS_TARGET="-DCMAKE_RULE_MESSAGES=OFF \
                          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
                          -DCMAKE_BUILD_TYPE="Release" \
                          -DCMAKE_CXXX_FLAGS_RELEASE="" \
@@ -24,6 +23,6 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp flycast_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp flycast_libretro.so ${INSTALL}/usr/lib/libretro/
 }

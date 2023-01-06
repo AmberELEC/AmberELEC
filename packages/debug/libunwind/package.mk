@@ -14,5 +14,5 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-static \
 			   --disable-shared"
 
 makeinstall_target() {
-  make DESTDIR=$SYSROOT_PREFIX install
+  make DESTDIR=${SYSROOT_PREFIX} install
 }

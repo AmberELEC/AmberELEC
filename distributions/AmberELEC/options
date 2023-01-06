@@ -95,14 +95,8 @@
 # e.g. ADDITIONAL_PACKAGES="PACKAGE1 PACKAGE2"
   ADDITIONAL_PACKAGES=""
 
-# build with installer (yes / no)
-  INSTALLER_SUPPORT="no"
-
 # Testpackages for development (yes / no)
   TESTING="no"
-
-# OEM packages for OEM's (yes / no)
-  OEM_SUPPORT="no"
 
 # build and install nano text editor (yes / no)
   NANO_EDITOR="yes"

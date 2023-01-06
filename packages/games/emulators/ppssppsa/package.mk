@@ -48,7 +48,7 @@ PKG_CMAKE_OPTS_TARGET+="-DUSE_WAYLAND_WSI=OFF \
 
 pre_configure_target() {
   sed -i 's/\-O[23]//' ${PKG_BUILD}/CMakeLists.txt
-  sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" $PKG_BUILD/CMakeLists.txt
+  sed -i "s|include_directories(/usr/include/drm)|include_directories(${SYSROOT_PREFIX}/usr/include/drm)|" ${PKG_BUILD}/CMakeLists.txt
 }
 
 pre_make_target() {
@@ -61,12 +61,12 @@ pre_make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/bin
-    cp $PKG_DIR/ppsspp.sh $INSTALL/usr/bin/ppsspp.sh
-    cp `find . -name "PPSSPPSDL" | xargs echo` $INSTALL/usr/bin/PPSSPPSDL
-    ln -sf /storage/.config/ppsspp/assets $INSTALL/usr/bin/assets
-    mkdir -p $INSTALL/usr/config/ppsspp/
-    cp -r `find . -name "assets" | xargs echo` $INSTALL/usr/config/ppsspp/
-    cp -rf $PKG_DIR/config/* $INSTALL/usr/config/ppsspp/
-    rm $INSTALL/usr/config/ppsspp/assets/gamecontrollerdb.txt
+  mkdir -p ${INSTALL}/usr/bin
+    cp ${PKG_DIR}/ppsspp.sh ${INSTALL}/usr/bin/ppsspp.sh
+    cp `find . -name "PPSSPPSDL" | xargs echo` ${INSTALL}/usr/bin/PPSSPPSDL
+    ln -sf /storage/.config/ppsspp/assets ${INSTALL}/usr/bin/assets
+    mkdir -p ${INSTALL}/usr/config/ppsspp/
+    cp -r `find . -name "assets" | xargs echo` ${INSTALL}/usr/config/ppsspp/
+    cp -rf ${PKG_DIR}/config/* ${INSTALL}/usr/config/ppsspp/
+    rm ${INSTALL}/usr/config/ppsspp/assets/gamecontrollerdb.txt
 }

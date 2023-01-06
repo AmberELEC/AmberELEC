@@ -82,7 +82,7 @@ makeinstall_target() {
     chmod -f +x ${INSTALL}/usr/lib32/* || :
     cd ${INSTALL}
     tar -C ${INSTALL} -zcvpf ${PKG_BUILD}/lib32_${DEVICE}.tar.gz usr/lib32
-    mkdir -p ${PKG_BUILD}/../../release/lib32
-    mv ${PKG_BUILD}/lib32_${DEVICE}.tar.gz ${PKG_BUILD}/../../release/lib32
+    mkdir -p ${PKG_BUILD}/../../lib32
+    mv ${PKG_BUILD}/lib32_${DEVICE}.tar.gz ${PKG_BUILD}/../../lib32
   fi
 }

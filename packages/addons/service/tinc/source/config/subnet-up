@@ -1,6 +1,0 @@
-#!/bin/sh
-if [ "$NAME" == "$NODE" ]; then
-  ip addr replace "$SUBNET" dev "$INTERFACE"
-else
-  ip route replace "$SUBNET" dev "$INTERFACE"
-fi

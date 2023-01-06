@@ -10,16 +10,16 @@ PKG_LONGDESC="DraStic DS Emulator"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/share/drastic/config/
-  if [[ "$DEVICE" == RG351P ]]; then
-    cp -rf $PKG_DIR/config/RG351P/drastic.cfg $INSTALL/usr/share/drastic/config/
-  elif [[ "$DEVICE" == RG351MP ]] || [[ "$DEVICE" == RG552 ]]; then
-    cp -rf $PKG_DIR/config/RG351MP/drastic.cfg $INSTALL/usr/share/drastic/config/
+  mkdir -p ${INSTALL}/usr/share/drastic/config/
+  if [[ "${DEVICE}" == RG351P ]]; then
+    cp -rf ${PKG_DIR}/config/RG351P/drastic.cfg ${INSTALL}/usr/share/drastic/config/
+  elif [[ "${DEVICE}" == RG351MP ]] || [[ "${DEVICE}" == RG552 ]]; then
+    cp -rf ${PKG_DIR}/config/RG351MP/drastic.cfg ${INSTALL}/usr/share/drastic/config/
   else
-    cp -rf $PKG_DIR/config/RG351V/drastic.cfg $INSTALL/usr/share/drastic/config/
+    cp -rf ${PKG_DIR}/config/RG351V/drastic.cfg ${INSTALL}/usr/share/drastic/config/
   fi
-  mkdir -p $INSTALL/usr/share/drastic/data/
-  cp -rf $PKG_BUILD/* $INSTALL/usr/share/drastic/data/
-  mkdir -p $INSTALL/usr/bin/
-  cp -rf $PKG_DIR/drastic.sh $INSTALL/usr/bin/
+  mkdir -p ${INSTALL}/usr/share/drastic/data/
+  cp -rf ${PKG_BUILD}/* ${INSTALL}/usr/share/drastic/data/
+  mkdir -p ${INSTALL}/usr/bin/
+  cp -rf ${PKG_DIR}/drastic.sh ${INSTALL}/usr/bin/
 }

@@ -20,9 +20,9 @@ pre_configure_target() {
 make_target() {
   export HOST_CPU=aarch64
   export USE_GLES=1
-  export SDL_CFLAGS="-I$SYSROOT_PREFIX/usr/include/SDL2 -D_REENTRANT"
+  export SDL_CFLAGS="-I${SYSROOT_PREFIX}/usr/include/SDL2 -D_REENTRANT"
   export SDL_LDLIBS="-lSDL2_net -lSDL2"
-  export CROSS_COMPILE="$TARGET_PREFIX"
+  export CROSS_COMPILE="${TARGET_PREFIX}"
   export V=1
   export VC=0
   BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"

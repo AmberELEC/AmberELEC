@@ -8,7 +8,7 @@ PKG_ARCH="any"
 PKG_LICENSE="apache-2.0"
 PKG_DEPENDS_TARGET="toolchain vulkan-headers"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Loader"
-PKG_URL="${PKG_SITE}/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_LONGDESC="Khronos official Vulkan ICD desktop loader for Windows, Linux, and MacOS."
 
 PKG_CMAKE_OPTS_TARGET="-DBUILD_WSI_XCB_SUPPORT=OFF \

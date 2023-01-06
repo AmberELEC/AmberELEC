@@ -6,8 +6,8 @@ PKG_VERSION="4c293f306bc16a265c2d768af5d0cea138426054"
 PKG_SHA256="7ce0bd97b095907fd4960c771364c549a54547877b5128af42c73a9257fbec6b"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/flycast"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain $OPENGLES"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES}"
 PKG_LONGDESC="Flycast is a multiplatform Sega Dreamcast emulator"
 PKG_TOOLCHAIN="make"
 
@@ -22,11 +22,11 @@ pre_configure_target() {
 }
 
 pre_make_target() {
-  export BUILD_SYSROOT=$SYSROOT_PREFIX
+  export BUILD_SYSROOT=${SYSROOT_PREFIX}
   PKG_MAKE_OPTS_TARGET+=" ARCH=arm platform=arm64"
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp flycast_libretro.so $INSTALL/usr/lib/libretro/flycast2021_libretro.so
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp flycast_libretro.so ${INSTALL}/usr/lib/libretro/flycast2021_libretro.so
 }

@@ -5,7 +5,7 @@ PKG_NAME="luajit"
 PKG_VERSION="99168476b9f6e1910057181428f2225b09458747"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/moonjit/moonjit"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain luajit:host"
 PKG_LONGDESC="LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language. "
 PKG_GIT_CLONE_BRANCH="v2.1"
@@ -13,8 +13,8 @@ PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+speed"
 
 post_patch() {
-  mkdir -p ${PKG_BUILD}/.${TARGET_NAME} && cp -r ${PKG_BUILD}/* $PKG_BUILD/.${TARGET_NAME}
-  mkdir -p ${PKG_BUILD}/.${HOST_NAME} && cp -r ${PKG_BUILD}/* $PKG_BUILD/.${HOST_NAME}
+  mkdir -p ${PKG_BUILD}/.${TARGET_NAME} && cp -r ${PKG_BUILD}/* ${PKG_BUILD}/.${TARGET_NAME}
+  mkdir -p ${PKG_BUILD}/.${HOST_NAME} && cp -r ${PKG_BUILD}/* ${PKG_BUILD}/.${HOST_NAME}
 }
 
 makeinstall_host() {

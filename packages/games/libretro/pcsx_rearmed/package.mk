@@ -7,12 +7,12 @@ PKG_VERSION="aced3eb3fcaa0fe13c44c4dd196cdab42555fd98"
 PKG_SHA256="05d15f094b4b1a842c6b611338259ff840bc0834246326920907a5ab070191d4"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/pcsx_rearmed"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="ARM optimized PCSX fork"
 PKG_TOOLCHAIN="manual"
 
-if [[ "$DEVICE" == RG351P ]] || [[ "$DEVICE" == RG351V ]]; then
+if [[ "${DEVICE}" == RG351P ]] || [[ "${DEVICE}" == RG351V ]]; then
   PKG_PATCH_DIRS="rumble"
 fi
 
@@ -30,6 +30,6 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp $PKG_BUILD/pcsx_rearmed_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp ${PKG_BUILD}/pcsx_rearmed_libretro.so ${INSTALL}/usr/lib/libretro/
 }

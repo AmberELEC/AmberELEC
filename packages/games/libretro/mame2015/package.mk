@@ -14,9 +14,9 @@ PKG_TOOLCHAIN="make"
 PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7} platform=unix_armv"
 
 pre_make_target() {
-  export REALCC=$CC
-  export CC=$CXX
-  export LD=$CXX
+  export REALCC=${CC}
+  export CC=${CXX}
+  export LD=${CXX}
 }
 
 pre_configure_target() {

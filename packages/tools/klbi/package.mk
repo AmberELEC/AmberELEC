@@ -12,9 +12,9 @@ PKG_SHORTDESC="LaunchBox Importer"
 PKG_LONGDESC="Tool to import ROMs from a LaunchBox folder in /roms created by the Android Exporter from LaunchBox"
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/bin
-    cp -a $PKG_BUILD/${PKG_NAME}.py $INSTALL/usr/bin
-    chmod +x $INSTALL/usr/bin/${PKG_NAME}.py
+  mkdir -p ${INSTALL}/usr/bin
+    cp -a ${PKG_BUILD}/${PKG_NAME}.py ${INSTALL}/usr/bin
+    chmod +x ${INSTALL}/usr/bin/${PKG_NAME}.py
 }
 
 

@@ -8,7 +8,7 @@ PKG_REV="2"
 PKG_ARCH="any"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/sselph/scraper"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain go:host"
 PKG_PRIORITY="optional"
 PKG_SECTION="emuelec"
@@ -40,17 +40,17 @@ configure_target() {
 
   export GOOS=linux
   export GOLANG=${TOOLCHAIN}/lib/golang/bin/go
-  export LDFLAGS="-w -extldflags -static -X main.gitCommit=${PKG_VERSION} -X main.versionStr=${PKG_VERSION:0:7} -extld $CC"
+  export LDFLAGS="-w -extldflags -static -X main.gitCommit=${PKG_VERSION} -X main.versionStr=${PKG_VERSION:0:7} -extld ${CC}"
 }
 
 make_target() {
   mkdir -p bin
-  cd $PKG_BUILD
+  cd ${PKG_BUILD}
   ${GOLANG} get github.com/sselph/scraper
-  ${GOLANG} build -ldflags "$LDFLAGS" github.com/sselph/scraper
+  ${GOLANG} build -ldflags "${LDFLAGS}" github.com/sselph/scraper
 }
 
 makeinstall_target() {
-mkdir -p $INSTALL/usr/bin/
-    cp $PKG_BUILD/scraper $INSTALL/usr/bin/
+mkdir -p ${INSTALL}/usr/bin/
+    cp ${PKG_BUILD}/scraper ${INSTALL}/usr/bin/
 }
