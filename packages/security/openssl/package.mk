@@ -7,11 +7,10 @@ PKG_VERSION="1.1.1n"
 PKG_LICENSE="BSD"
 PKG_SITE="https://www.openssl.org"
 PKG_URL="https://www.openssl.org/source/${PKG_NAME}-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_HOST="ccache:host"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="The Open Source toolkit for Secure Sockets Layer and Transport Layer Security"
 PKG_TOOLCHAIN="configure"
-PKG_BUILD_FLAGS="-parallel"
+PKG_BUILD_FLAGS="+local-cc -parallel"
 
 PKG_CONFIGURE_OPTS_SHARED="--libdir=lib \
                            shared \

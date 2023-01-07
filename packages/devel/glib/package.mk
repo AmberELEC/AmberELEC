@@ -3,16 +3,14 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="glib"
-PKG_VER_MAJOR="2.72"
-PKG_VERSION="${PKG_VER_MAJOR}.0"
-PKG_SHA256="d7bef0d4c4e7a62e08efb8e5f252a01357007b9588a87ff2b463a3857011f79d"
+PKG_VERSION="2.75.0"
+PKG_SHA256="6dde8e55cc4a2c83d96797120b08bcffb5f645b2e212164ae22d63c40e0e6360"
 PKG_LICENSE="LGPL"
 PKG_SITE="https://www.gtk.org/"
-PKG_URL="https://download.gnome.org/sources/glib/${PKG_VER_MAJOR}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_HOST="libffi:host pcre:host Python3:host meson:host ninja:host"
-PKG_DEPENDS_TARGET="toolchain pcre zlib libffi Python3:host util-linux"
+PKG_URL="https://download.gnome.org/sources/glib/$(get_pkg_version_maj_min)/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_HOST="libffi:host pcre2:host Python3:host meson:host ninja:host"
+PKG_DEPENDS_TARGET="toolchain pcre2 zlib libffi Python3:host util-linux"
 PKG_LONGDESC="A library which includes support routines for C such as lists, trees, hashes, memory allocation."
-PKG_TOOLCHAIN="meson"
 
 PKG_MESON_OPTS_HOST="-Ddefault_library=shared \
                      -Dinstalled_tests=false \
@@ -22,7 +20,6 @@ PKG_MESON_OPTS_HOST="-Ddefault_library=shared \
 PKG_MESON_OPTS_TARGET="-Ddefault_library=shared \
                        -Dinstalled_tests=false \
                        -Dselinux=disabled \
-                       -Dfam=false \
                        -Dxattr=true \
                        -Dgtk_doc=false \
                        -Dman=false \

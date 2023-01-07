@@ -3,14 +3,14 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="samba"
-PKG_VERSION="4.14.12"
+PKG_VERSION="4.17.4"
+PKG_SHA256="c0512079db4cac707ccea4c18aebbd6b2eb3acf6e90735e7f645a326be1f4537"
 PKG_LICENSE="GPLv3+"
 PKG_SITE="https://www.samba.org"
 PKG_URL="https://download.samba.org/pub/samba/stable/${PKG_NAME}-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain attr heimdal:host e2fsprogs Python3 zlib readline popt libaio connman gnutls"
+PKG_DEPENDS_TARGET="toolchain attr heimdal:host e2fsprogs Python3 libunwind zlib readline popt libaio connman gnutls wsdd2"
 PKG_NEED_UNPACK="$(get_pkg_directory heimdal) $(get_pkg_directory e2fsprogs)"
 PKG_LONGDESC="A free SMB / CIFS fileserver and client."
-PKG_BUILD_FLAGS="-gold"
 
 configure_package() {
   #PKG_WAF_VERBOSE="-v"
@@ -61,7 +61,6 @@ configure_package() {
                       --without-ad-dc \
                       --without-automount \
                       --without-cluster-support \
-                      --without-dnsupdate \
                       --without-fam \
                       --without-gettext \
                       --without-gpgme \
@@ -85,7 +84,7 @@ configure_package() {
   PKG_SAMBA_TARGET="smbclient,client/smbclient,smbtree,nmblookup,testparm"
 
   if [ "${SAMBA_SERVER}" = "yes" ]; then
-    PKG_SAMBA_TARGET+=",smbd/smbd,nmbd,smbpasswd"
+    PKG_SAMBA_TARGET+=",nmbd,rpcd_classic,rpcd_epmapper,rpcd_winreg,samba-dcerpcd,smbpasswd,smbd/smbd"
   fi
 }
 
@@ -95,7 +94,7 @@ pre_configure_target() {
     rm -rf .${TARGET_NAME}
 
 # work around link issues
-  export LDFLAGS="${LDFLAGS} -lreadline -lncurses -ltinfo"
+  export LDFLAGS="${LDFLAGS} -lreadline -lncurses"
 
 # support 64-bit offsets and seeks on 32-bit platforms
   if [ "${TARGET_ARCH}" = "arm" ]; then
@@ -123,12 +122,12 @@ pre_make_target() {
 }
 
 make_target() {
-  ./buildtools/bin/waf build ${PKG_WAF_VERBOSE} --targets=${PKG_SAMBA_TARGET} -j${CONCURRENCY_MAKE_LEVEL}
+  make ${PKG_SAMBA_TARGET} -j${CONCURRENCY_MAKE_LEVEL}
 }
 
 makeinstall_target() {
-  ./buildtools/bin/waf install ${PKG_WAF_VERBOSE} --destdir=${SYSROOT_PREFIX} --targets=smbclient -j${CONCURRENCY_MAKE_LEVEL}
-  ./buildtools/bin/waf install ${PKG_WAF_VERBOSE} --destdir=${INSTALL} --targets=${PKG_SAMBA_TARGET} -j${CONCURRENCY_MAKE_LEVEL}
+  PYTHONHASHSEED=1 WAF_MAKE=1 ./buildtools/bin/waf install ${PKG_WAF_VERBOSE} --destdir=${SYSROOT_PREFIX} --targets=smbclient -j${CONCURRENCY_MAKE_LEVEL}
+  PYTHONHASHSEED=1 WAF_MAKE=1 ./buildtools/bin/waf install ${PKG_WAF_VERBOSE} --destdir=${INSTALL} --targets=${PKG_SAMBA_TARGET} -j${CONCURRENCY_MAKE_LEVEL}
 }
 
 copy_directory_of_links() {
@@ -156,6 +155,12 @@ perform_manual_install() {
     mkdir -p ${INSTALL}/usr/sbin
       cp -L ${PKG_BUILD}/bin/smbd ${INSTALL}/usr/sbin
       cp -L ${PKG_BUILD}/bin/nmbd ${INSTALL}/usr/sbin
+
+    mkdir -p ${INSTALL}/usr/libexec/samba
+      cp -PR bin/default/source3/rpc_server/samba-dcerpcd ${INSTALL}/usr/libexec/samba
+      cp -PR bin/default/source3/rpc_server/rpcd_classic ${INSTALL}/usr/libexec/samba
+      cp -PR bin/default/source3/rpc_server/rpcd_epmapper ${INSTALL}/usr/libexec/samba
+      cp -PR bin/default/source3/rpc_server/rpcd_winreg ${INSTALL}/usr/libexec/samba
   fi
 }
 

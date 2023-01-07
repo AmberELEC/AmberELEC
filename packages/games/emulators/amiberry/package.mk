@@ -23,7 +23,6 @@ pre_configure_target() {
   fi
 
   sed -i 's/\-O[23]//' Makefile
-  sed -i 's/std=gnu++17/std=gnu++20/' Makefile
   PKG_MAKE_OPTS_TARGET+="${AMIBERRY_PLATFORM} all SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config"
 }
 

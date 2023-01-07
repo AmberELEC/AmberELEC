@@ -122,9 +122,11 @@ Set the variable `PKG_BUILD_FLAGS` in the `package.mk` to enable/disable the sin
 | lto-parallel | disabled | target/init | same as `lto` but enable parallel optimization at link stage. Only enable this if the package build doesn't run multiple linkers in parallel otherwise this can result in lots of parallel processes! |
 | lto-fat  | disabled | target/init | same as `lto` but compile fat LTO objects (bytecode plus optimized assembly). This increases compile time but can be useful to create static libraries suitable both for LTO and non-LTO linking |
 | lto-off  | disabled | target/init | explicitly disable LTO in the compiler and linker |
-| gold     | depend on `GOLD_SUPPORT` | target/init | can only disabled, use of the GOLD-Linker |
+| bfd      | - | target, init | `+bfd` prefers bfd linker over default linker, `-bfd` disables using bfd |
+| gold     | - | target, init | `+gold` prefers gold linker over default linker, `-gold` disables using gold |
 | parallel | enabled  | all | `make` or `ninja` builds with multiple threads/processes (or not) |
 | strip    | enabled  | target | strips executables (or not) |
+| local-cc | disabled | host | use compiler from buildhost instead of host-gcc/g++ in toolchain |
 
 ###### Example
 ```

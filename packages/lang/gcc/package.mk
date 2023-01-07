@@ -1,21 +1,22 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gcc"
-PKG_VERSION="10.4.0"
-PKG_SHA256="c9297d5bcd7cb43f3dfc2fed5389e948c9312fd962ef6a4ce455cff963ebe4f1"
+PKG_VERSION="12.2.0"
+PKG_SHA256="e549cf9cf3594a00e27b6589d4322d70e0720cdd213f39beb4181e06926230ff"
 PKG_LICENSE="GPL-2.0-or-later"
-PKG_SITE="http://gcc.gnu.org/"
-PKG_URL="http://ftpmirror.gnu.org/gcc/${PKG_NAME}-${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_SITE="https://gcc.gnu.org/"
+PKG_URL="https://ftpmirror.gnu.org/gcc/${PKG_NAME}-${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_BOOTSTRAP="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_TARGET="toolchain gcc:host"
 PKG_DEPENDS_HOST="ccache:host autoconf:host binutils:host gmp:host mpfr:host mpc:host zstd:host glibc"
 PKG_DEPENDS_INIT="toolchain"
 PKG_LONGDESC="This package contains the GNU Compiler Collection."
 
 case ${TARGET_ARCH} in
-  arm|riscv64)
+  arm)
     OPTS_LIBATOMIC="--enable-libatomic"
     ;;
   *)
@@ -39,7 +40,6 @@ GCC_COMMON_CONFIGURE_OPTS="--target=${TARGET_NAME} \
                            --disable-multilib \
                            --disable-nls \
                            --enable-checking=release \
-                           --with-default-libstdcxx-abi=gcc4-compatible \
                            --without-ppl \
                            --without-cloog \
                            --disable-libada \
@@ -51,17 +51,18 @@ GCC_COMMON_CONFIGURE_OPTS="--target=${TARGET_NAME} \
                            --enable-__cxa_atexit"
 
 PKG_CONFIGURE_OPTS_BOOTSTRAP="${GCC_COMMON_CONFIGURE_OPTS} \
-                              --enable-languages=c \
-                              --disable-libsanitizer \
                               --enable-cloog-backend=isl \
+                              --disable-decimal-float \
+                              --disable-gcov \
+                              --enable-languages=c \
                               --disable-libatomic \
-                              --disable-shared \
                               --disable-libgomp \
+                              --disable-libsanitizer \
+                              --disable-shared \
                               --disable-threads \
                               --without-headers \
                               --with-newlib \
-                              --disable-decimal-float \
-                              ${GCC_OPTS}"
+                              ${TARGET_ARCH_GCC_OPTS}"
 
 PKG_CONFIGURE_OPTS_HOST="${GCC_COMMON_CONFIGURE_OPTS} \
                          --enable-languages=c,c++ \
@@ -71,30 +72,47 @@ PKG_CONFIGURE_OPTS_HOST="${GCC_COMMON_CONFIGURE_OPTS} \
                          --enable-shared \
                          --disable-static \
                          --enable-c99 \
+                         --enable-libgomp \
                          --enable-long-long \
                          --enable-threads=posix \
                          --disable-libstdcxx-pch \
                          --enable-libstdcxx-time \
                          --enable-clocale=gnu \
-                         ${GCC_OPTS}"
+                         ${TARGET_ARCH_GCC_OPTS}"
+
+post_makeinstall_bootstrap() {
+  GCC_VERSION=$(${TOOLCHAIN}/bin/${TARGET_NAME}-gcc -dumpversion)
+  DATE="0401$(echo ${GCC_VERSION} | sed 's/\./0/g')"
+  CROSS_CC=${TARGET_PREFIX}gcc-${GCC_VERSION}
+
+  rm -f ${TARGET_PREFIX}gcc
+
+cat > ${TARGET_PREFIX}gcc <<EOF
+#!/bin/sh
+${TOOLCHAIN}/bin/ccache ${CROSS_CC} "\$@"
+EOF
+
+  chmod +x ${TARGET_PREFIX}gcc
+
+  # To avoid cache trashing
+  touch -c -t ${DATE} ${CROSS_CC}
+
+  # install lto plugin for binutils
+  mkdir -p ${TOOLCHAIN}/lib/bfd-plugins
+    ln -sf ../gcc/${TARGET_NAME}/${GCC_VERSION}/liblto_plugin.so ${TOOLCHAIN}/lib/bfd-plugins
+}
 
 pre_configure_host() {
   unset CPP
 }
+
 post_make_host() {
-  
-  if [ "${ARCH}" != "aarch64" ]; then 
-	# fix wrong link
-	rm -rf ${TARGET_NAME}/libgcc/libgcc_s.so
-	ln -sf libgcc_s.so.1 ${TARGET_NAME}/libgcc/libgcc_s.so
-  fi
+  # fix wrong link
+  rm -rf ${TARGET_NAME}/libgcc/libgcc_s.so
+  ln -sf libgcc_s.so.1 ${TARGET_NAME}/libgcc/libgcc_s.so
 
   if [ ! "${BUILD_WITH_DEBUG}" = "yes" ]; then
-  
-  if [ "${ARCH}" != "aarch64" ]; then 
     ${TARGET_PREFIX}strip ${TARGET_NAME}/libgcc/libgcc_s.so*
-  fi
-  
     ${TARGET_PREFIX}strip ${TARGET_NAME}/libgomp/.libs/libgomp.so*
     ${TARGET_PREFIX}strip ${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so*
   fi

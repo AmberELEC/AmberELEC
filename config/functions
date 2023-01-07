@@ -194,6 +194,49 @@ setup_pkg_config_host() {
   unset PKG_CONFIG_ALLOW_SYSTEM_LIBS
 }
 
+# args: linker, default availability yes/no
+linker_allowed() {
+  if flag_enabled "$1" "$2"; then
+    # bfd is always available, others need to be enabled with <LINKER>_SUPPORT="yes"
+    local linker_support="${1^^}_SUPPORT"
+    if [ "$1" = "bfd" ] || [ "${!linker_support}" = "yes" ]; then
+      return 0
+    fi
+  fi
+  return 1
+}
+
+# return target linker to use for a package
+get_target_linker() {
+  # all known linkers, in descending order of priority
+  # those are candidates for explicit opt-in via PKG_BUILD_FLAGS
+  local all_linkers="gold bfd"
+
+  # linkers to choose from unless disabled via PKG_BUILD_FLAGS
+  local linker_candidates="${DEFAULT_LINKER:-bfd} ${all_linkers}"
+
+  local linker
+
+  # check if package prefers a specific linker
+  for linker in ${all_linkers}; do
+    if linker_allowed "${linker}" "no"; then
+      echo "${linker}"
+      return
+    fi
+  done
+
+  # select linker which isn't disabled by PKG_BUILD_FLAGS
+  for linker in ${linker_candidates}; do
+    if linker_allowed "${linker}" "yes"; then
+      echo "${linker}"
+      return
+    fi
+  done
+
+  # none of our linkers matched, use the compiler's default linker
+  echo "compiler_default"
+}
+
 setup_toolchain() {
   if [ "$LTO_SUPPORT" = "yes" ]; then
     if flag_enabled "lto-parallel" "no"; then
@@ -217,10 +260,10 @@ setup_toolchain() {
     TARGET_LDFLAGS+=" $FLAGS_OPTIM_LTO_OFF"
   fi
 
-  # gold flag
-  if flag_enabled "gold" "$GOLD_SUPPORT" "only-disable"; then
-    TARGET_LDFLAGS+=" $LDFLAGS_OPTIM_GOLD"
-  fi
+  local linker="$(get_target_linker)"
+  local linker_opts="LDFLAGS_OPTIM_LINKER_${linker^^}"
+
+  TARGET_LDFLAGS+=" ${!linker_opts}"
 
   # position-independent code
   if flag_enabled "pic" "no"; then
@@ -307,9 +350,14 @@ setup_toolchain() {
     host|bootstrap)
       export DESTIMAGE="host"
       export AWK="gawk"
-      export CC="$TOOLCHAIN/bin/host-gcc"
-      export CXX="$TOOLCHAIN/bin/host-g++"
-      export CPP="cpp"
+      if [ "$1" = "host" ] && flag_enabled "local-cc" "no"; then
+        export CC="${LOCAL_CC}"
+        export CXX="${LOCAL_CXX}"
+      else
+        export CC="$TOOLCHAIN/bin/host-gcc"
+        export CXX="$TOOLCHAIN/bin/host-g++"
+      fi
+	export CPP="cpp"
       export LD="ld"
       export AS="as"
       export AR="ar"
@@ -687,6 +735,15 @@ do_autoreconf() {
 
   if [ -e "$TOOLCHAIN/bin/libtool" ]; then
     export LIBTOOL=$TOOLCHAIN/bin/libtool
+  fi
+
+  # >autoconf-2.69 will call gtkdocize when used in macros
+  # when called with --install parameter.
+  # use "true" unless gtkdocsize is in the toolchain.
+  if [ -e "$TOOLCHAIN/bin/gtkdocize" ]; then
+    export GTKDOCIZE=$TOOLCHAIN/bin/gtkdocize
+  else
+    export GTKDOCIZE=true
   fi
 
   if [ -e "$TOOLCHAIN/bin/autoreconf" -a -e "$INTLTOOLIZE" ]; then
