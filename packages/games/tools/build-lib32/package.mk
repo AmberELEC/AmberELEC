@@ -76,13 +76,13 @@ makeinstall_target() {
 
     for lib in ${LIBS}
     do
-      find ${PKG_BUILD}/../../build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
+      find ${ROOT}/build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
     rm -f ${INSTALL}/usr/lib32/*.ko || :
     chmod -f +x ${INSTALL}/usr/lib32/* || :
     cd ${INSTALL}
     tar -C ${INSTALL} -zcvpf ${PKG_BUILD}/lib32_${DEVICE}.tar.gz usr/lib32
-    mkdir -p ${PKG_BUILD}/../../lib32
-    mv ${PKG_BUILD}/lib32_${DEVICE}.tar.gz ${PKG_BUILD}/../../lib32
+    mkdir -p ${ROOT}/lib32-package
+    mv ${PKG_BUILD}/lib32_${DEVICE}.tar.gz ${ROOT}/lib32-package
   fi
 }
