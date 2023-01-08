@@ -8,7 +8,7 @@ if [[ "${DEVICE}" =~ RG351 ]]; then
   PKG_VERSION="77511364ea524252a4075c2dd3194c747154316f"
   PKG_URL="https://github.com/AmberELEC/kernel_rg351/archive/${PKG_VERSION}.tar.gz"
 elif [[ "${DEVICE}" =~ RG552 ]]; then
-  PKG_VERSION="69e62fbbf5074c999553d8496403677bb7b5f27b"
+  PKG_VERSION="18f86a4da592cbb3eff3e8b090bc465017d0743c"
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/${PKG_VERSION}.tar.gz"
 fi
 
