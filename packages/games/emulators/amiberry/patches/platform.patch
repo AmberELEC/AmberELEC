@@ -36,26 +36,3 @@ index cac7ec2c..8c827246 100644
  	endif
  
  # sun8i Allwinner H2+ / H3 like Orange PI, Nano PI, Banana PI, Tritium, AlphaCore2, MPCORE-HUB
-diff --git a/src/inputdevice.cpp b/src/inputdevice.cpp
-index ec643fb4..6a16aef1 100644
---- a/src/inputdevice.cpp
-+++ b/src/inputdevice.cpp
-@@ -7700,12 +7700,12 @@ bool inputdevice_devicechange (struct uae_prefs *prefs)
- 	}
- 
- 	inputdevice_unacquire ();
--	idev[IDTYPE_JOYSTICK].close ();
--	idev[IDTYPE_MOUSE].close ();
--	idev[IDTYPE_KEYBOARD].close ();
--	idev[IDTYPE_JOYSTICK].init ();
--	idev[IDTYPE_MOUSE].init ();
--	idev[IDTYPE_KEYBOARD].init ();
-+	//idev[IDTYPE_JOYSTICK].close ();
-+	//idev[IDTYPE_MOUSE].close ();
-+	//idev[IDTYPE_KEYBOARD].close ();
-+	//idev[IDTYPE_JOYSTICK].init ();
-+	//idev[IDTYPE_MOUSE].init ();
-+	//idev[IDTYPE_KEYBOARD].init ();
- 	matchdevices (prefs, &idev[IDTYPE_MOUSE], mice, prefs->input_device_match_mask);
- 	matchdevices (prefs, &idev[IDTYPE_JOYSTICK], joysticks, prefs->input_device_match_mask);
- 	matchdevices (prefs, &idev[IDTYPE_KEYBOARD], keyboards, INPUT_MATCH_ALL);
