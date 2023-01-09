@@ -15,16 +15,12 @@ PKG_LONGDESC="Manually converted libretro/common-shaders for arm devices treebra
 PKG_GIT_CLONE_BRANCH="rpi"
 PKG_TOOLCHAIN="make"
 
-
-
 make_target() {
   : not
 }
 
 makeinstall_target() {
-  #make install INSTALLDIR="${INSTALL}/usr/share/common-shaders/pi"
-
-mkdir -p ${INSTALL}/usr/share/common-shaders/rpi
-    cp -rf ${BUILD}/${PKG_NAME}-${PKG_VERSION}/* ${INSTALL}/usr/share/common-shaders/rpi
+  mkdir -p ${INSTALL}/usr/share/common-shaders/rpi
+  cp -rf ${BUILD}/${PKG_NAME}-${PKG_VERSION}/* ${INSTALL}/usr/share/common-shaders/rpi
 }
 

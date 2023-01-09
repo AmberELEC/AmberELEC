@@ -8,7 +8,7 @@ PKG_SHA256="cb24da2427c643e2cc3e1562235680f74dffd7c9adddf098ea4deeb9158fa20a"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/glsl-shaders"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_TARGET="toolchain common-shaders"
 PKG_LONGDESC="Common GSLS shaders for RetroArch"
 PKG_TOOLCHAIN="make"
 
@@ -18,11 +18,11 @@ configure_target() {
 
 makeinstall_target() {
   make install INSTALLDIR="${INSTALL}/usr/share/common-shaders"
-  cp -r ${PKG_DIR}/shaders/* ${INSTALL}/usr/share/common-shaders
+  cp -rf ${PKG_DIR}/shaders/* ${INSTALL}/usr/share/common-shaders
 }
 
 post_makeinstall_target() {
-  cp ${PKG_DIR}/removeshaders.sh .
+  cp -f ${PKG_DIR}/removeshaders.sh .
   chmod 755 removeshaders.sh
   /bin/sh removeshaders.sh ${INSTALL}
 }
