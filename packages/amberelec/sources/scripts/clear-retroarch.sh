@@ -3,8 +3,8 @@
 ## 2021-10-20 (konsumschaf)
 ##
 ## Script to remove all unwanted lines from retroarch.cfg
-## retroarch.cfg can not include any lines sthat are set in
-## setsettings.sh as there is a bug in retroarch: if there is
+## retroarch.cfg can not include any lines that are set in
+## setsettings.py as there is a bug in retroarch: if there is
 ## an (even empty) override.cfg the settings from appendconfig
 ## are reverted to the ones in retroarch.cfg
 ##
@@ -17,7 +17,6 @@ sed -i '
         /ai_service_target_lang =/d;
         /ai_service_url =/d;
         /aspect_ratio_index =/d;
-        /audio_filter_dir =/d;
         /cheevos_auto_screenshot =/d;
         /cheevos_badges_enable =/d;
         /cheevos_challenge_indicators =/d;
@@ -70,7 +69,6 @@ sed -i '
         /state_slot =/d;
         /video_ctx_scaling =/d;
         /video_filter =/d;
-        /video_filter_dir =/d;
         /video_scale_integer =/d;
         /video_scale_integer_overscale =/d;
         /video_shader =/d;

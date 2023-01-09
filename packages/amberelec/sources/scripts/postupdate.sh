@@ -35,6 +35,15 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2023-01-09
+## check for audio/video filter dir in retroarch.cfg
+if ! grep -q "^audio_filter_dir" ${RACONF}; then
+  echo 'audio_filter_dir = "/usr/share/retroarch/filters/audio"' >> ${RACONF}
+fi
+if ! grep -q "^video_filter_dir" ${RACONF}; then
+  echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
+fi
+
 ## 2022-12-29
 ## remove amiberry controller folder
 if [[ "$LAST_UPDATE_VERSION" -le "20221230" ]]; then
@@ -281,7 +290,7 @@ if [ -f /usr/config/emulationstation/es_features.cfg ]; then
 fi
 
 ## 2021-07-24 (konsumschaf)
-## Remove all settings from retroarch.cfg that are set in setsettings.sh
+## Remove all settings from retroarch.cfg that are set in setsettings.py
 ## Retroarch uses the settings in retroarch.cfg if there is an override file that misses them
 /usr/bin/clear-retroarch.sh
 

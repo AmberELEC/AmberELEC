@@ -155,13 +155,6 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         device_name = f.readline().strip()
     logger.log(f'Device: {device_name}')
 
-    # Is the CORE 32 or 64bit?
-    #if core in {'pcsx_rearmed', 'parallel_n64'}:
-    #    bits='32bit'
-    #else:
-    bits='64bit'
-    logger.log(f'core is {bits}')
-
     # Dictionary for the raappend.cfg
     ra_append_dict = {}
 
@@ -337,21 +330,17 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     if shaderset := config.get_setting('shaderset'):
         ra_append_dict['video_shader_enable'] = "true"
         ra_append_dict['video_shader'] = shaderset
-        # We need to print the shader folder for runemu.sh to use it
+        # We need to print the shader folder for runemu.py to use it
         shader_path = f'--set-shader /tmp/shaders/{shaderset}'
     else:
         ra_append_dict['video_shader_enable'] = "false"
         ra_append_dict['video_shader'] = ""
 
-    # Filters
-    # Set correct path for video- and audio-filters depending on 32/64bit
-    ra_append_dict['audio_filter_dir'] = f'/usr/share/retroarch/filters/{bits}/audio'
-    ra_append_dict['video_filter_dir'] = f'/usr/share/retroarch/filters/{bits}/video'
     # Filterset
     if filterset := config.get_setting('filterset'):
         # Filter do not work with RGA/CTX enabled
         ra_append_dict['video_ctx_scaling'] = "false"
-        ra_append_dict['video_filter'] = f'/usr/share/retroarch/filters/{bits}/video/{filterset}'
+        ra_append_dict['video_filter'] = f'/usr/share/retroarch/filters/video/{filterset}'
     else:
         ra_append_dict['video_filter'] = ""
 
