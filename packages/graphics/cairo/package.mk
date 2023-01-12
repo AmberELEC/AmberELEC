@@ -6,23 +6,23 @@ PKG_VERSION="1.14.10"
 PKG_SHA256="7e87878658f2c9951a14fc64114d4958c0e65ac47530b8ac3078b2ce41b66a09"
 PKG_LICENSE="LGPL"
 PKG_SITE="http://cairographics.org/"
-PKG_URL="http://cairographics.org/releases/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="http://cairographics.org/releases/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain zlib freetype fontconfig glib libpng pixman"
 PKG_LONGDESC="Cairo is a vector graphics library with cross-device output support."
 PKG_TOOLCHAIN="configure" # ToDo
 
-if [ "$OPENGL" != "no" ]; then
-  PKG_DEPENDS_TARGET+=" $OPENGL"
+if [ "${OPENGL}" != "no" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGL}"
 fi
 
-if [ "$OPENGLES" != "no" ]; then
-  PKG_DEPENDS_TARGET+=" $OPENGLES"
+if [ "${OPENGLES}" != "no" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGLES}"
 fi
 
-if [ "$DISPLAYSERVER" = "x11" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libXrender libX11 mesa"
-  PKG_CAIRO_CONFIG="--x-includes="$SYSROOT_PREFIX/usr/include" \
-                    --x-libraries="$SYSROOT_PREFIX/usr/lib" \
+if [ "${DISPLAYSERVER}" = "x11" ]; then
+  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} libXrender libX11 mesa"
+  PKG_CAIRO_CONFIG="--x-includes="${SYSROOT_PREFIX}/usr/include" \
+                    --x-libraries="${SYSROOT_PREFIX}/usr/lib" \
                     --enable-xlib \
                     --enable-xlib-xrender \
                     --enable-gl \
@@ -31,7 +31,7 @@ if [ "$DISPLAYSERVER" = "x11" ]; then
                     --disable-egl \
                     --with-x"
 
-elif [ "$DISPLAYSERVER" = "weston" ]; then
+elif [ "${DISPLAYSERVER}" = "weston" ]; then
   PKG_CAIRO_CONFIG="--disable-xlib \
                     --disable-xlib-xrender \
                     --disable-gl \
@@ -49,7 +49,7 @@ else
                     --without-x"
 fi
 
-PKG_CONFIGURE_OPTS_TARGET="$PKG_CAIRO_CONFIG \
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CAIRO_CONFIG} \
                            --disable-silent-rules \
                            --enable-shared \
                            --disable-static \

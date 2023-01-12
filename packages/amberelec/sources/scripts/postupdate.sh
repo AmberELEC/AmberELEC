@@ -35,15 +35,37 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
-## 2022-02-11
+## 2023-01-09
+## check for audio/video filter dir in retroarch.cfg
+if ! grep -q "^audio_filter_dir" ${RACONF}; then
+  echo 'audio_filter_dir = "/usr/share/retroarch/filters/audio"' >> ${RACONF}
+fi
+if ! grep -q "^video_filter_dir" ${RACONF}; then
+  echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
+fi
+
+## 2022-12-29
+## remove amiberry controller folder
+if [[ "$LAST_UPDATE_VERSION" -le "20221230" ]]; then
+  rm -rf /storage/.config/amiberry/controller
+fi
+
+## 2022-12-28
+## clear mame/arcade autosave=0
+if [[ "$LAST_UPDATE_VERSION" -le "20221229" ]]; then
+  sed -i '/arcade.autosave=0/d;' /storage/.config/distribution/configs/distribution.conf
+  sed -i '/mame.autosave=0/d;' /storage/.config/distribution/configs/distribution.conf
+fi
+
+## 2022-12-24
 ## Reset RG351P volume to 100% (device has no soft-volume buttons)
 if [[ "$DEVICE" == "RG351P" ]]; then
   sed -i 's/audio.volume=.*/audio.volume=100/g' /storage/.config/distribution/configs/distribution.conf
 fi
 
-## 2022-12-07
+## 2022-12-29
 ## clear yabasanshiro control configs
-if [[ "$LAST_UPDATE_VERSION" -le "20221208" ]]; then
+if [[ "$LAST_UPDATE_VERSION" -le "20221230" ]]; then
   rm -rf /storage/roms/saturn/yabasanshiro/keymapv2.json
   rm -rf /storage/roms/saturn/yabasanshiro/input.cfg
 fi
@@ -58,7 +80,7 @@ fi
 
 ## 2022-05-19
 ## update scummvm aux-data
-rm -rf /storage/roms/bios/scummvm/themes
+rm -rf /storage/roms/bios/scummvm/theme
 rm -rf /storage/roms/bios/scummvm/extra
 mkdir -p /storage/roms/bios/scummvm
 cp -rf /usr/share/scummvm/* -d /storage/roms/bios/scummvm
@@ -268,7 +290,7 @@ if [ -f /usr/config/emulationstation/es_features.cfg ]; then
 fi
 
 ## 2021-07-24 (konsumschaf)
-## Remove all settings from retroarch.cfg that are set in setsettings.sh
+## Remove all settings from retroarch.cfg that are set in setsettings.py
 ## Retroarch uses the settings in retroarch.cfg if there is an override file that misses them
 /usr/bin/clear-retroarch.sh
 
@@ -366,6 +388,8 @@ elif [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
 	cp -f /usr/config/splash/splash-1920l.png /storage/.config/emulationstation/resources/logo.png
 fi
 
+## clear faulty lines from distribution.conf
+sed -i 's/^=$//g' /storage/.config/distribution/configs/distribution.conf
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate

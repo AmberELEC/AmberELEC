@@ -2,17 +2,16 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="flycast"
-PKG_VERSION="171c41df12ae912cfee5ef72cf71561890b8a82f"
+PKG_VERSION="19818e717f33607aded80b9fb349a84455a337fe"
 PKG_SITE="https://github.com/flyinghead/flycast"
-PKG_URL="$PKG_SITE.git"
-PKG_DEPENDS_TARGET="toolchain $OPENGLES libzip"
+PKG_URL="${PKG_SITE}.git"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} libzip zlib"
 PKG_LONGDESC="Flycast is a multi-platform Sega Dreamcast, Naomi and Atomiswave emulator"
 PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
-  sed -i 's/"reicast"/"flycast"/g' $PKG_BUILD/shell/libretro/libretro_core_option_defines.h 
-  PKG_CMAKE_OPTS_TARGET="-Wno-dev \
-                         -DCMAKE_RULE_MESSAGES=OFF \
+  sed -i 's/"reicast"/"flycast"/g' ${PKG_BUILD}/shell/libretro/libretro_core_option_defines.h 
+  PKG_CMAKE_OPTS_TARGET="-DCMAKE_RULE_MESSAGES=OFF \
                          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
                          -DCMAKE_BUILD_TYPE="Release" \
                          -DCMAKE_CXXX_FLAGS_RELEASE="" \
@@ -24,6 +23,6 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp flycast_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp flycast_libretro.so ${INSTALL}/usr/lib/libretro/
 }

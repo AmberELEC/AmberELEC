@@ -39,9 +39,9 @@ case $1 in
     sed -i 's/extrapath=.*//g' ${BIOSPATH}/scummvm.ini
     sed -i 's/browser_lastpath=.*//g' ${BIOSPATH}/scummvm.ini
     sed -i 's/guitheme=.*//g' ${BIOSPATH}/scummvm.ini
-    sed -i '2,2s/^/themepath=\/usr\/share\/scummvm\/theme\n/' ${BIOSPATH}/scummvm.ini
-    sed -i '2,2s/^/extrapath=\/usr\/share\/scummvm\/extra\n/' ${BIOSPATH}/scummvm.ini
-    sed -i '2,2s/^/browser_lastpath=\/usr\/share\/scummvm\/extra\n/' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/themepath=\/roms\/bios\/scummvm\/theme\n/' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/extrapath=\/roms\/bios\/scummvm\/extra\n/' ${BIOSPATH}/scummvm.ini
+    sed -i '2,2s/^/browser_lastpath=\/roms\/bios\/scummvm\/extra\n/' ${BIOSPATH}/scummvm.ini
     sed -i '2,2s/^/guitheme=scummremastered\n/' ${BIOSPATH}/scummvm.ini
     GAME=$(cat "${GAME}" | awk 'BEGIN {FS="\""}; {print $2}')
     cd "${GAME}"

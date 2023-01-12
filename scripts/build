@@ -105,7 +105,7 @@ if [ "${BUILD_WITH_DEBUG}" = "yes" ]; then
   CMAKE_BUILD_TYPE="Debug"
   MESON_BUILD_TYPE="debug"
 else
-  CMAKE_BUILD_TYPE="MinSizeRel"
+  CMAKE_BUILD_TYPE="Release"
   MESON_BUILD_TYPE="plain"
 fi
 
@@ -127,7 +127,8 @@ TARGET_CONFIGURE_OPTS="--host=${TARGET_NAME} \
 
 TARGET_CMAKE_OPTS="-DCMAKE_TOOLCHAIN_FILE=${CMAKE_CONF} \
                    -DCMAKE_INSTALL_PREFIX=/usr \
-                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+                   -Wno-dev"
 
 TARGET_MESON_OPTS="--prefix=/usr \
                    --bindir=/usr/bin \
@@ -152,7 +153,8 @@ HOST_CONFIGURE_OPTS="--host=${HOST_NAME} \
 
 HOST_CMAKE_OPTS="${CMAKE_GENERATOR} \
                  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CONF} \
-                 -DCMAKE_INSTALL_PREFIX=${TOOLCHAIN}"
+                 -DCMAKE_INSTALL_PREFIX=${TOOLCHAIN} \
+                 -Wno-dev"
 
 HOST_MESON_OPTS="--prefix=${TOOLCHAIN} \
                  --bindir=${TOOLCHAIN}/bin \
@@ -225,6 +227,23 @@ if [ -f "${PKG_CONFIGURE_SCRIPT}" -o -f "${PKG_CMAKE_SCRIPT}" -o -f "${PKG_MESON
   cd "${PKG_REAL_BUILD}"
 
   MESON_CONF="${PKG_REAL_BUILD}/meson.conf"
+fi
+
+# create wrapper scripts in build dir and use them for CC/CXX when
+# building for host and local-cc build flag is set
+if [ "${TARGET}" = "host" ] && flag_enabled "local-cc" "no"; then
+  cat > libreelec-local-cc << EOF
+#!/bin/sh
+exec ${CC} "\$@"
+EOF
+  chmod +x libreelec-local-cc
+  export CC=$(pwd)/libreelec-local-cc
+  cat > libreelec-local-cxx << EOF
+#!/bin/sh
+exec ${CXX} "\$@"
+EOF
+  chmod +x libreelec-local-cxx
+  export CXX=$(pwd)/libreelec-local-cxx
 fi
 
 # configure

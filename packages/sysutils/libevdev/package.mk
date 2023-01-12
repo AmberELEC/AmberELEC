@@ -7,7 +7,7 @@ PKG_VERSION="1.11.0"
 #PKG_SHA256=""
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/libevdev/"
-PKG_URL="http://www.freedesktop.org/software/libevdev/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_URL="http://www.freedesktop.org/software/libevdev/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="libevdev is a wrapper library for evdev devices."
 PKG_BUILD_FLAGS="+pic"
@@ -17,5 +17,5 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-shared --disable-static"
 PKG_CMAKE_OPTS_TARGET="-Dtests=disabled"
 
 post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin
+  rm -rf ${INSTALL}/usr/bin
 }

@@ -4,7 +4,6 @@
 
 PKG_NAME="evdev_tools"
 PKG_VERSION=""
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_SITE="https://github.com/BetaXOi"
 PKG_URL=""
@@ -16,17 +15,17 @@ PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
  
 make_target() {
-	cd $PKG_BUILD/
-	$CC -O2 evtest.c -o evtest
-	$CC -O2 send.c -o evsend
-	$CC -O2 remap.c -o evremap
-	$CC -O2 evkill.c -o evkill
+	cd ${PKG_BUILD}/
+	${CC} -O2 evtest.c -o evtest
+	${CC} -O2 send.c -o evsend
+	${CC} -O2 remap.c -o evremap
+	${CC} -O2 evkill.c -o evkill
 }
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/distribution/bin
-	cp $PKG_BUILD/evtest $INSTALL/usr/config/distribution/bin
-	cp $PKG_BUILD/evsend $INSTALL/usr/config/distribution/bin
-	cp $PKG_BUILD/evremap $INSTALL/usr/config/distribution/bin
-	cp $PKG_BUILD/evkill $INSTALL/usr/config/distribution/bin
+	mkdir -p ${INSTALL}/usr/config/distribution/bin
+	cp ${PKG_BUILD}/evtest ${INSTALL}/usr/config/distribution/bin
+	cp ${PKG_BUILD}/evsend ${INSTALL}/usr/config/distribution/bin
+	cp ${PKG_BUILD}/evremap ${INSTALL}/usr/config/distribution/bin
+	cp ${PKG_BUILD}/evkill ${INSTALL}/usr/config/distribution/bin
 } 

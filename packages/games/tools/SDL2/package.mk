@@ -2,15 +2,15 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="SDL2"
-PKG_VERSION="2.26.1"
+PKG_VERSION="2.26.2"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
-PKG_URL="https://www.libsdl.org/release/SDL2-$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus $OPENGLES pulseaudio libsamplerate"
+PKG_URL="https://www.libsdl.org/release/SDL2-${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain alsa-lib systemd dbus ${OPENGLES} pulseaudio libsamplerate"
 PKG_DEPENDS_HOST="toolchain:host distutilscross:host"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware."
 
-PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm $OPENGLES librga"
+PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} libdrm ${OPENGLES} librga"
 
 if [ "${DEVICE}" = "RG351P" ] || [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="rotation"
@@ -66,6 +66,6 @@ pre_configure_target(){
 }
 
 post_makeinstall_target() {
-  sed -e "s:\(['=LI]\)/usr:\\1${SYSROOT_PREFIX}/usr:g" -i $SYSROOT_PREFIX/usr/bin/sdl2-config
-  rm -rf $INSTALL/usr/bin
+  sed -e "s:\(['=LI]\)/usr:\\1${SYSROOT_PREFIX}/usr:g" -i ${SYSROOT_PREFIX}/usr/bin/sdl2-config
+  rm -rf ${INSTALL}/usr/bin
 }

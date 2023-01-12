@@ -11,15 +11,15 @@ PKG_DEPENDS_TARGET="toolchain connman netbase ethtool openssh iw rsync"
 PKG_SECTION="virtual"
 PKG_LONGDESC="Metapackage for various packages to install network support"
 
-if [ "$BLUETOOTH_SUPPORT" = "yes" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET bluez"
+if [ "${BLUETOOTH_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} bluez"
 fi
 
-if [ "$SAMBA_SERVER" = "yes" ] || [ "$SAMBA_SUPPORT" = "yes" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET samba"
+if [ "${SAMBA_SERVER}" = "yes" ] || [ "${SAMBA_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} samba"
 fi
 
 # nss needed by inputstream.adaptive, chromium etc.
-if [ "$TARGET_ARCH" = "x86_64" ] || [ "$TARGET_ARCH" = "arm" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET nss"
+if [ "${TARGET_ARCH}" = "x86_64" ] || [ "${TARGET_ARCH}" = "arm" ]; then
+  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} nss"
 fi

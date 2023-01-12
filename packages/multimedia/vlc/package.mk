@@ -1,15 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC
 
 PKG_NAME="vlc"
-PKG_VERSION="3.0.12"
-#PKG_SHA256=""
-PKG_ARCH="any"
+PKG_VERSION="3.0.18"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.videolan.org"
-PKG_URL="https://mirror.netcologne.de/videolan.org/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.xz"
-PKG_DEPENDS_TARGET="toolchain libdvbpsi gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio SDL2 x264"
+PKG_URL="https://mirror.netcologne.de/videolan.org/$PKG_NAME/${PKG_VERSION}/$PKG_NAME-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_TARGET="toolchain gnutls ffmpeg libmpeg2 zlib flac libvorbis libxml2 pulseaudio SDL2 x264 aom libogg librga ${OPENGLES}"
 PKG_SHORTDESC="VideoLAN multimedia player and streamer"
 PKG_LONGDESC="VLC is the VideoLAN project's media player. It plays MPEG, MPEG2, MPEG4, DivX, MOV, WMV, QuickTime, mp3, Ogg/Vorbis files, DVDs, VCDs, and multimedia streams from various network sources."
 PKG_AUTORECONF="yes"
@@ -35,7 +34,8 @@ ENABLED_FEATURES="--enable-silent-rules \
             --enable-alsa \
             --enable-udev \
             --enable-vlc \
-            --enable-neon"
+            --enable-pulse \
+            --enable-gles2"
 
 DISABLED_FEATURES="--disable-dependency-tracking \
             --without-contrib \
@@ -49,7 +49,7 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-lua \
             --disable-notify \
             --disable-taglib \
-	    --disable-mpg123 \
+            --disable-mpg123 \
             --disable-live555 \
             --disable-dc1394 \
             --disable-dvdread \
@@ -106,14 +106,13 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-skins2 \
             --disable-kai \
             --disable-macosx \
-            --disable-macosx-qtkit \
             --disable-ncurses \
             --disable-goom \
             --disable-projectm \
             --disable-mtp \
             --disable-lirc \
             --disable-libgcrypt \
-            -disable-update-check \
+            --disable-update-check \
             --disable-kva \
             --disable-bluray \
             --disable-samplerate \
@@ -123,22 +122,16 @@ DISABLED_FEATURES="--disable-dependency-tracking \
             --disable-dav1d \
             --disable-qt"
 
-	if [ "$PROJECT" == "Amlogic" ]; then 
-		ENABLED_FEATURES+=" --enable-pulse"
-	else
-		DISABLED_FEATURES+=" --disable-pulse"
-	fi 
-
-PKG_CONFIGURE_OPTS_TARGET="$ENABLED_FEATURES $DISABLED_FEATURES"
+PKG_CONFIGURE_OPTS_TARGET="${ENABLED_FEATURES} ${DISABLED_FEATURES}"
 
 pre_configure_target() {
-  export LDFLAGS="$LDFLAGS -lresolv -fopenmp -lm"
+  export LDFLAGS="${LDFLAGS} -lresolv -fopenmp -lm"
 }
 
 post_makeinstall_target() {
-  rm -fr $INSTALL/usr/share/applications
-  rm -fr $INSTALL/usr/share/icons
-  rm -fr $INSTALL/usr/share/kde4
-  rm -f $INSTALL/usr/bin/rvlc
-  rm -f $INSTALL/usr/bin/vlc-wrapper
+  rm -fr ${INSTALL}/usr/share/applications
+  rm -fr ${INSTALL}/usr/share/icons
+  rm -fr ${INSTALL}/usr/share/kde4
+  rm -f ${INSTALL}/usr/bin/rvlc
+  rm -f ${INSTALL}/usr/bin/vlc-wrapper
 }

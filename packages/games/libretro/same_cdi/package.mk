@@ -3,15 +3,10 @@
 
 PKG_NAME="same_cdi"
 PKG_VERSION="2ee1200d3c9bbceb64e1f0ec9e5224a16cdc0061"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/same_cdi"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="SAME_CDI is a Single Arcade/Machine Emulator for libretro"
 PKG_LONGDESC="SAME_CDI is a Single Arcade/Machine Emulator for libretro"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-lto"
@@ -47,10 +42,10 @@ make_target() {
   unset DISTRO
   unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
-  make -f Makefile.libretro $PKG_MAKE_OPTS_TARGET OVERRIDE_CC=$CC OVERRIDE_CXX=$CXX OVERRIDE_LD=$LD AR=$AR $MAKEFLAGS
+  make -f Makefile.libretro ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp same_cdi_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp same_cdi_libretro.so ${INSTALL}/usr/lib/libretro/
 }

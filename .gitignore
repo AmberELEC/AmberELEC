@@ -51,5 +51,6 @@ sx05re-kodi*.log
 packages/sx05re/experimental/
 
 release/
+lib32-package/
 
 .lastbuild

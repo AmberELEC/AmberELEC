@@ -2,12 +2,11 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="zmusic"
-PKG_VERSION="1dda85bbe1ae2c272a57566fb8698ba7d660d51f"
+PKG_VERSION="75d2994b4b1fd6891b20819375075a2976ee34de"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/coelckers/ZMusic"
+PKG_SITE="https://github.com/ZDoom/ZMusic"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain zmusic:host"
-PKG_SHORTDESC="GZDoom's music system as a standalone library"
 PKG_LONGDESC="GZDoom's music system as a standalone library"
 PKG_TOOLCHAIN="cmake-make"
 
@@ -16,15 +15,15 @@ pre_build_host() {
 }
 
 make_host() {
-  mkdir $PKG_BUILD/build_host
-  cd $PKG_BUILD/build_host
+  mkdir ${PKG_BUILD}/build_host
+  cd ${PKG_BUILD}/build_host
   cmake -DCMAKE_BUILD_TYPE=Release ..
   cmake --build .
 }
 
 make_target() {
-  mkdir $PKG_BUILD/build_target
-  cd $PKG_BUILD/build_target
+  mkdir ${PKG_BUILD}/build_target
+  cd ${PKG_BUILD}/build_target
   cmake -DCMAKE_BUILD_TYPE=Release ..
   cmake --build .
 }
@@ -34,6 +33,6 @@ makeinstall_host() {
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib
-  cp -f $PKG_BUILD/build_target/source/libzmusic* $INSTALL/usr/lib/
+  mkdir -p ${INSTALL}/usr/lib
+  cp -f ${PKG_BUILD}/build_target/source/libzmusic* ${INSTALL}/usr/lib/
 }

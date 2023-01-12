@@ -5,8 +5,7 @@ PKG_NAME="build-lib32"
 PKG_ARCH="arm"
 PKG_LICENSE="GPLv2"
 PKG_DEPENDS_TARGET="toolchain gcc retroarch libsndfile libmodplug flac SDL2 SDL2_image SDL2_mixer SDL2_net SDL2_ttf SDL2_gfx"
-PKG_SHORTDESC="ARM 32bit bundle for aarch64"
-PKG_PRIORITY="optional"
+PKG_LONGDESC="ARM 32bit bundle for aarch64"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
@@ -77,13 +76,13 @@ makeinstall_target() {
 
     for lib in ${LIBS}
     do
-      find ${PKG_BUILD}/../../build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
+      find ${ROOT}/build.${DISTRO}-${DEVICE}.arm/*/.install_pkg -name ${lib} -exec cp -vP \{} ${INSTALL}/usr/lib32 \;
     done
     rm -f ${INSTALL}/usr/lib32/*.ko || :
     chmod -f +x ${INSTALL}/usr/lib32/* || :
     cd ${INSTALL}
     tar -C ${INSTALL} -zcvpf ${PKG_BUILD}/lib32_${DEVICE}.tar.gz usr/lib32
-    mkdir -p ${PKG_BUILD}/../../release/lib32
-    mv ${PKG_BUILD}/lib32_${DEVICE}.tar.gz ${PKG_BUILD}/../../release/lib32
+    mkdir -p ${ROOT}/lib32-package
+    mv ${PKG_BUILD}/lib32_${DEVICE}.tar.gz ${ROOT}/lib32-package
   fi
 }

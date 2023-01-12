@@ -4,6 +4,9 @@
 # GOLD (Google Linker) support
   GOLD_SUPPORT="yes"
 
+# default linker (bfd / gold)
+  DEFAULT_LINKER="gold"
+
 # HARDENING (security relevant linker and compiler flags) support
   HARDENING_SUPPORT="no"
 
@@ -95,14 +98,8 @@
 # e.g. ADDITIONAL_PACKAGES="PACKAGE1 PACKAGE2"
   ADDITIONAL_PACKAGES=""
 
-# build with installer (yes / no)
-  INSTALLER_SUPPORT="no"
-
 # Testpackages for development (yes / no)
   TESTING="no"
-
-# OEM packages for OEM's (yes / no)
-  OEM_SUPPORT="no"
 
 # build and install nano text editor (yes / no)
   NANO_EDITOR="yes"
@@ -147,7 +144,7 @@ beetle-wswan \
 bluemsx \
 cap32 \
 crocods \
-dosbox-svn \
+dosbox-core \
 dosbox-pure \
 easyrpg \
 emuscv \
@@ -174,12 +171,14 @@ gpsp \
 gw-libretro \
 handy \
 hatari \
+jaxe \
 lowresnx \
 mame \
 mame2000 \
 mame2003-plus \
 mame2010 \
 mame2015 \
+mame2016 \
 meowpc98 \
 mgba \
 mojozork \
@@ -216,7 +215,7 @@ stella \
 stella-2014 \
 swanstation \
 tgbdual \
-TIC-80 \
+tic-80 \
 uae4arm \
 uzem \
 vbam \

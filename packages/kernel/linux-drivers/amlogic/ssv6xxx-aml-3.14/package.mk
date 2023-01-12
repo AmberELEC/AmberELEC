@@ -9,7 +9,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://libreelec.tv"
 PKG_URL="https://sources.libreelec.tv/devel/ssv6xxx-aml-1041e7d.tar.xz"
 PKG_DEPENDS_TARGET="toolchain linux"
-PKG_NEED_UNPACK="$LINUX_DEPENDS"
+PKG_NEED_UNPACK="${LINUX_DEPENDS}"
 PKG_LONGDESC="ssv6xxx Linux driver"
 PKG_IS_KERNEL_PKG="yes"
 PKG_TOOLCHAIN="manual"
@@ -23,25 +23,25 @@ pre_make_target() {
 }
 
 make_target() {
-  if [ "$TARGET_KERNEL_ARCH" = "arm64" ]; then
+  if [ "${TARGET_KERNEL_ARCH}" = "arm64" ]; then
     PLATFORM="aml-s905"
   else
     PLATFORM="aml-s805"
   fi
 
-  cd $PKG_BUILD
+  cd ${PKG_BUILD}
     ./ver_info.pl include/ssv_version.h
     cp Makefile.android Makefile
-    sed -i 's,PLATFORMS =,PLATFORMS = '"$PLATFORM"',g' Makefile
-    make module SSV_ARCH="$TARGET_KERNEL_ARCH" \
-      SSV_CROSS="$TARGET_KERNEL_PREFIX" \
+    sed -i 's,PLATFORMS =,PLATFORMS = '"${PLATFORM}"',g' Makefile
+    make module SSV_ARCH="${TARGET_KERNEL_ARCH}" \
+      SSV_CROSS="${TARGET_KERNEL_PREFIX}" \
       SSV_KERNEL_PATH="$(kernel_path)"
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/$(get_full_module_dir)/$PKG_NAME
-    find $PKG_BUILD/ -name \*.ko -not -path '*/\.*' -exec cp {} $INSTALL/$(get_full_module_dir)/$PKG_NAME \;
+  mkdir -p ${INSTALL}/$(get_full_module_dir)/${PKG_NAME}
+    find ${PKG_BUILD}/ -name \*.ko -not -path '*/\.*' -exec cp {} ${INSTALL}/$(get_full_module_dir)/${PKG_NAME} \;
 
-  mkdir -p $INSTALL/$(get_full_firmware_dir)/ssv6051
-    cp $PKG_BUILD/firmware/* $INSTALL/$(get_full_firmware_dir)/ssv6051
+  mkdir -p ${INSTALL}/$(get_full_firmware_dir)/ssv6051
+    cp ${PKG_BUILD}/firmware/* ${INSTALL}/$(get_full_firmware_dir)/ssv6051
 }

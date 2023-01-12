@@ -4,12 +4,10 @@
 PKG_NAME="mupen64plussa-input-sdl"
 PKG_VERSION="aa181483bfcac8901184f8c7590e4246eba5508b"
 PKG_SHA256="46949a4a3d323c48f27d4a9b8c7198e3345e1af24fb7e7301272dfb708603b88"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-input-sdl"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-input-sdl/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} libpng SDL2 SDL2_net zlib freetype nasm:host mupen64plussa-core"
-PKG_SHORTDESC="mupen64plus-input-sdl"
 PKG_LONGDESC="Mupen64Plus Standalone Input SDL"
 PKG_TOOLCHAIN="manual"
 
@@ -23,9 +21,9 @@ make_target() {
   export HOST_CPU=aarch64
   export APIDIR=$(get_build_dir mupen64plussa-core)/.install_pkg/usr/local/include/mupen64plus
   export USE_GLES=1
-  export SDL_CFLAGS="-I$SYSROOT_PREFIX/usr/include/SDL2 -D_REENTRANT"
+  export SDL_CFLAGS="-I${SYSROOT_PREFIX}/usr/include/SDL2 -D_REENTRANT"
   export SDL_LDLIBS="-lSDL2_net -lSDL2"
-  export CROSS_COMPILE="$TARGET_PREFIX"
+  export CROSS_COMPILE="${TARGET_PREFIX}"
   export V=1
   export VC=0
   BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
@@ -40,7 +38,7 @@ makeinstall_target() {
   UPLUGINDIR=${ULIBDIR}/mupen64plus
   mkdir -p ${UPLUGINDIR}
   cp ${PKG_BUILD}/projects/unix/mupen64plus-input-sdl.so ${UPLUGINDIR}
-  #$STRIP ${UPLUGINDIR}/mupen64plus-input-sdl.so
+  #${STRIP} ${UPLUGINDIR}/mupen64plus-input-sdl.so
   chmod 0644 ${UPLUGINDIR}/mupen64plus-input-sdl.so
   mkdir -p ${USHAREDIR}
   cp ${PKG_DIR}/config/* ${USHAREDIR}

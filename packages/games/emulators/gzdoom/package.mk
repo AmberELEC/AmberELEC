@@ -2,13 +2,12 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gzdoom"
-PKG_VERSION="81ce0b5b84dd8d455b112411991f5123ed76a424"
+PKG_VERSION="02dae0e6bbf8c93fa7bd8e9377448a77b51a4b92"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_HOST="toolchain zmusic:host"
 PKG_DEPENDS_TARGET="toolchain SDL2 gzdoom:host zmusic"
-PKG_SHORTDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_TOOLCHAIN="cmake-make"
 
@@ -43,7 +42,7 @@ PKG_CMAKE_OPTS_HOST=" -DZMUSIC_LIBRARIES=$(get_build_dir zmusic)/build_host/sour
 pre_configure_target() {
 PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
                         -DFORCE_CROSSCOMPILE=ON \
-                        -DIMPORT_EXECUTABLES=$PKG_BUILD/.$HOST_NAME/ImportExecutables.cmake \
+                        -DIMPORT_EXECUTABLES=${PKG_BUILD}/.${HOST_NAME}/ImportExecutables.cmake \
                         -DCMAKE_BUILD_TYPE=Release \
                         -DCMAKE_RULE_MESSAGES=OFF \
                         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
@@ -55,17 +54,17 @@ PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/bin
-  cp $PKG_DIR/gzdoom.sh $INSTALL/usr/bin/
-  cp $PKG_BUILD/.$TARGET_NAME/gzdoom $INSTALL/usr/bin
+  mkdir -p ${INSTALL}/usr/bin
+  cp ${PKG_DIR}/gzdoom.sh ${INSTALL}/usr/bin/
+  cp ${PKG_BUILD}/.${TARGET_NAME}/gzdoom ${INSTALL}/usr/bin
 
-  mkdir -p $INSTALL/usr/config/distribution/gzdoom
+  mkdir -p ${INSTALL}/usr/config/distribution/gzdoom
   if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
-    cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/gzdoom
+    cp ${PKG_DIR}/config/RG351MP/* ${INSTALL}/usr/config/distribution/gzdoom
   else
-    cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/gzdoom
+    cp ${PKG_DIR}/config/RG351P/* ${INSTALL}/usr/config/distribution/gzdoom
   fi
-  cp $PKG_BUILD/.$TARGET_NAME/*.pk3 $INSTALL/usr/config/distribution/gzdoom
-  cp -r $PKG_BUILD/.$TARGET_NAME/soundfonts $INSTALL/usr/config/distribution/gzdoom
-  cp -r $PKG_BUILD/.$TARGET_NAME/fm_banks $INSTALL/usr/config/distribution/gzdoom
+  cp ${PKG_BUILD}/.${TARGET_NAME}/*.pk3 ${INSTALL}/usr/config/distribution/gzdoom
+  cp -r ${PKG_BUILD}/.${TARGET_NAME}/soundfonts ${INSTALL}/usr/config/distribution/gzdoom
+  cp -r ${PKG_BUILD}/.${TARGET_NAME}/fm_banks ${INSTALL}/usr/config/distribution/gzdoom
 }

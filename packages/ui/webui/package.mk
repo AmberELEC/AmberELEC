@@ -4,7 +4,6 @@
 PKG_NAME="webui"
 PKG_VERSION="ad1054f2d1d2221cd5147071842ecb8ef97e75e3"
 PKG_GIT_CLONE_BRANCH="main"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 
@@ -29,21 +28,21 @@ PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
   WEB_UI_DIR="${INSTALL}/usr/share/webui"
-  EGGS_DIR=$WEB_UI_DIR/eggs
+  EGGS_DIR=${WEB_UI_DIR}/eggs
   
   rm -rf "${WEB_UI_DIR}"
   mkdir -p "${EGGS_DIR}/.."
   
   # Use easy_install instead of pip as pip isn't in build I can't get setup.py to create the `.pth` file to make eggs work in PYTHONPATH
   #  - easy_install requires PYTHONPATH to be set during build
-  #  - easy_install will copy dependencies directly into $WEB_UI_DIR so PYTHONPATH must include WEB_UI_DIR (/usr/share/webui) when run
-  export PYTHONPATH="$EGGS_DIR"
+  #  - easy_install will copy dependencies directly into ${WEB_UI_DIR} so PYTHONPATH must include WEB_UI_DIR (/usr/share/webui) when run
+  export PYTHONPATH="${EGGS_DIR}"
   python3 -m easy_install --install-dir ${EGGS_DIR}/ --always-copy ./
 
   #If we decide to make webui a python module - we could lean into that and not copy all this stuff manually
   cp -r *.py *.sh assets views "${WEB_UI_DIR}"
 
-  cp -r $PKG_DIR/scripts/* $WEB_UI_DIR
+  cp -r ${PKG_DIR}/scripts/* ${WEB_UI_DIR}
 
 }
 

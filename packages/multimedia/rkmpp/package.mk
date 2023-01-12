@@ -7,15 +7,15 @@ PKG_VERSION="2e5ea77cb2969a1b240d8154fe42f33d898546f5"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="APL"
 PKG_SITE="https://github.com/rockchip-linux/mpp"
-PKG_URL="https://github.com/rockchip-linux/mpp/archive/$PKG_VERSION.tar.gz"
+PKG_URL="https://github.com/rockchip-linux/mpp/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libdrm"
 PKG_LONGDESC="rkmpp: Rockchip Media Process Platform (MPP) module"
 
-if [ "$DEVICE" = "RK3328" -o "$DEVICE" = "RK3399" ]; then
+if [ "${DEVICE}" = "RK3328" -o "${DEVICE}" = "RK3399" ]; then
   PKG_ENABLE_VP9D="ON"
 else
   PKG_ENABLE_VP9D="OFF"
 fi
 
-PKG_CMAKE_OPTS_TARGET="-DENABLE_VP9D=$PKG_ENABLE_VP9D \
+PKG_CMAKE_OPTS_TARGET="-DENABLE_VP9D=${PKG_ENABLE_VP9D} \
                        -DHAVE_DRM=ON"

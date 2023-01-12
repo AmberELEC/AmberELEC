@@ -3,14 +3,12 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mame"
-PKG_VERSION="85581d60bb24fea14542b154aef2c7b624f5b60f"
-PKG_ARCH="any"
+PKG_VERSION="b1bd6059a6b76061cbc1b397317b4c9cbb9b3b1c"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mame"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain zlib flac sqlite expat"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="MAME - Multiple Arcade Machine Emulator"
+PKG_LONGDESC="MAME - Multiple Arcade Machine Emulator"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-lto"
 
@@ -41,6 +39,8 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
 
 pre_configure_target() {
   sed -i "s/-static-libstdc++//g" scripts/genie.lua
+  sed -Ei "s/BARE_BUILD_VERSION \"(.*?)\"/BARE_BUILD_VERSION \"\1 ${PKG_VERSION:0:7}\"/g" makefile
+  sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
 }
 
 make_target() {
@@ -48,12 +48,12 @@ make_target() {
   unset DISTRO
   unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
-  make $PKG_MAKE_OPTS_TARGET OVERRIDE_CC=$CC OVERRIDE_CXX=$CXX OVERRIDE_LD=$LD AR=$AR $MAKEFLAGS
+  make ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp *.so $INSTALL/usr/lib/libretro/mame_libretro.so
-  mkdir -p $INSTALL/usr/config/retroarch/savefiles/mame/hi
-  cp plugins/hiscore/hiscore.dat $INSTALL/usr/config/retroarch/savefiles/mame/hi
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp *.so ${INSTALL}/usr/lib/libretro/mame_libretro.so
+  mkdir -p ${INSTALL}/usr/config/retroarch/savefiles/mame/hi
+  cp -f plugins/hiscore/hiscore.dat ${INSTALL}/usr/config/retroarch/savefiles/mame/hi
 }

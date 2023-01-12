@@ -8,8 +8,8 @@
 +OUTNAME := dosbox_pure_libretro.so
 +BUILD    := RELEASE
 +BUILDDIR := release
-+CFLAGS   := -DNDEBUG -O3 -fno-ident
-+LDFLAGS  += -O3 -fno-ident
++CFLAGS   := -DNDEBUG -Ofast -fno-ident
++LDFLAGS  += -Ofast -fno-ident
 +STRIPCMD := ${STRIP}
 +
 +CPUFLAGS := -mtune=cortex-a53 -mcpu=cortex-a53 -march=armv8-a+crc+fp+simd
@@ -21,7 +21,7 @@
 +   CPUFLAGS := -mtune=cortex-a72.cortex-a53 -mcpu=cortex-a72.cortex-a53 -march=armv8-a+crc+fp+simd
 + endif
 +
-+CFLAGS  += $(CPUFLAGS) -fpic -fomit-frame-pointer -fno-non-call-exceptions -Wno-psabi -Wno-format
++CFLAGS  += $(CPUFLAGS) -fpic -fomit-frame-pointer -fno-non-call-exceptions -Wno-psabi -Wno-format -fexceptions
 +LDFLAGS += $(CPUFLAGS) -lpthread -Wl,--gc-sections -shared
 +CXX = $(CC)
 +endif

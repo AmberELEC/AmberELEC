@@ -10,10 +10,10 @@ PKG_LONGDESC="Sleep configuration"
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-	mkdir -p $INSTALL/usr/config/sleep.conf.d
-	cp sleep.conf $INSTALL/usr/config/sleep.conf.d/sleep.conf
+	mkdir -p ${INSTALL}/usr/config/sleep.conf.d
+	cp sleep.conf ${INSTALL}/usr/config/sleep.conf.d/sleep.conf
 
-	mkdir -p $INSTALL/usr/lib/systemd/system-sleep/
-	cp sleep.sh $INSTALL/usr/lib/systemd/system-sleep/sleep
-	chmod +x $INSTALL/usr/lib/systemd/system-sleep/sleep
+	mkdir -p ${INSTALL}/usr/lib/systemd/system-sleep/
+	cp sleep.sh ${INSTALL}/usr/lib/systemd/system-sleep/sleep
+	chmod +x ${INSTALL}/usr/lib/systemd/system-sleep/sleep
 }

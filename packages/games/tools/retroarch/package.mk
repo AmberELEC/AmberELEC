@@ -4,17 +4,21 @@
 PKG_NAME="retroarch"
 PKG_VERSION="ad89b0c655fc1d25adfcdf40268e95c5d0391111"
 PKG_SITE="https://github.com/libretro/RetroArch"
-PKG_URL="$PKG_SITE.git"
+PKG_URL="${PKG_SITE}.git"
 PKG_LICENSE="GPLv3"
-PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-assets core-info ffmpeg libass joyutils empty $OPENGLES nss-mdns openal-soft libogg libvorbis libvorbisidec libvpx libpng libdrm librga pulseaudio flac"
+PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-assets core-info ffmpeg libass joyutils empty ${OPENGLES} nss-mdns openal-soft libogg libvorbis libvorbisidec libvpx libpng libdrm librga pulseaudio flac"
 PKG_LONGDESC="Reference frontend for the libretro API."
 
-if [[ "$DEVICE" == RG351V ]]; then
-  PKG_PATCH_DIRS="$DEVICE"
+if [[ "${DEVICE}" == RG351V ]]; then
+  PKG_PATCH_DIRS="${DEVICE}"
 fi
 
-if [[ "$DEVICE" =~ RG351 ]]; then
-  PKG_PATCH_DIRS="ui-patches"
+if [[ "${DEVICE}" =~ RG351 ]]; then
+  PKG_PATCH_DIRS="RG351-ui-patches"
+fi
+
+if [[ "${DEVICE}" == RG552 ]]; then
+  PKG_PATCH_DIRS="RG552-ui-patches"
 fi
 
 pre_configure_target() {
@@ -43,57 +47,44 @@ pre_configure_target() {
                              --disable-mali_fbdev \
                              --enable-odroidgo2"
 
-  if [ $ARCH == "arm" ]; then
+  if [ ${ARCH} == "arm" ]; then
     PKG_CONFIGURE_OPTS_TARGET+=" --enable-neon"
   fi
 
-  cd $PKG_BUILD
+  cd ${PKG_BUILD}
+
+  sed -i 's/if (node \&\& (strstr(node, "BAT") || strstr(node, "battery")))/if (node \&\& (strstr(node, "BAT") || strstr(node, "battery") || strstr(node, "bat")))/g' frontend/drivers/platform_unix.c
 }
 
 make_target() {
   make HAVE_LIBRETRODB=1 HAVE_NETWORKING=1 HAVE_LAKKA=1 HAVE_ZARCH=1 HAVE_QT=0 HAVE_LANGEXTRA=1
   [ $? -eq 0 ] && echo "(retroarch ok)" || { echo "(retroarch failed)" ; exit 1 ; }
-  make -C gfx/video_filters compiler=$CC extra_flags="$CFLAGS"
+  make -C gfx/video_filters compiler=${CC} extra_flags="${CFLAGS}"
   [ $? -eq 0 ] && echo "(video filters ok)" || { echo "(video filters failed)" ; exit 1 ; }
-  make -C libretro-common/audio/dsp_filters compiler=$CC extra_flags="$CFLAGS"
+  make -C libretro-common/audio/dsp_filters compiler=${CC} extra_flags="${CFLAGS}"
   [ $? -eq 0 ] && echo "(audio filters ok)" || { echo "(audio filters failed)" ; exit 1 ; }
 }
 
 makeinstall_target() {
-  if [ "${ARCH}" == "aarch64" ]; then
-    mkdir -p $INSTALL/usr/bin
-    cp $PKG_BUILD/retroarch $INSTALL/usr/bin
-    #cp -vP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/bin/retroarch ${INSTALL}/usr/bin/retroarch32
+  mkdir -p ${INSTALL}/usr/bin
+  cp ${PKG_BUILD}/retroarch ${INSTALL}/usr/bin
 
-    mkdir -p $INSTALL/usr/share/retroarch/filters
-    #cp -rvP $PKG_BUILD/../../build.${DISTRO}-${DEVICE}.arm/retroarch-*/.install_pkg/usr/share/retroarch/filters/* ${INSTALL}/usr/share/retroarch/filters
+  mkdir -p ${INSTALL}/usr/share/retroarch/filters
 
-    mkdir -p $INSTALL/etc
-    cp $PKG_BUILD/retroarch.cfg $INSTALL/etc
+  mkdir -p ${INSTALL}/etc
+  cp ${PKG_BUILD}/retroarch.cfg ${INSTALL}/etc
 
-    mkdir -p $INSTALL/usr/share/retroarch/filters/64bit/video
-    cp $PKG_BUILD/gfx/video_filters/*.so $INSTALL/usr/share/retroarch/filters/64bit/video
-    cp $PKG_BUILD/gfx/video_filters/*.filt $INSTALL/usr/share/retroarch/filters/64bit/video
+  mkdir -p ${INSTALL}/usr/share/retroarch/filters/video
+  cp ${PKG_BUILD}/gfx/video_filters/*.so ${INSTALL}/usr/share/retroarch/filters/video
+  cp ${PKG_BUILD}/gfx/video_filters/*.filt ${INSTALL}/usr/share/retroarch/filters/video
 
-    mkdir -p $INSTALL/usr/share/retroarch/filters/64bit/audio
-    cp $PKG_BUILD/libretro-common/audio/dsp_filters/*.so $INSTALL/usr/share/retroarch/filters/64bit/audio
-    cp $PKG_BUILD/libretro-common/audio/dsp_filters/*.dsp $INSTALL/usr/share/retroarch/filters/64bit/audio
+  mkdir -p ${INSTALL}/usr/share/retroarch/filters/audio
+  cp ${PKG_BUILD}/libretro-common/audio/dsp_filters/*.so ${INSTALL}/usr/share/retroarch/filters/audio
+  cp ${PKG_BUILD}/libretro-common/audio/dsp_filters/*.dsp ${INSTALL}/usr/share/retroarch/filters/audio
 
-    # General configuration
-    mkdir -p $INSTALL/usr/config/retroarch/
-    cp -rf $PKG_DIR/sources/* $INSTALL/usr/config/retroarch/
-  else
-    mkdir -p $INSTALL/usr/bin
-    cp $PKG_BUILD/retroarch $INSTALL/usr/bin
-
-    mkdir -p $INSTALL/usr/share/retroarch/filters/32bit/video
-    cp $PKG_BUILD/gfx/video_filters/*.so $INSTALL/usr/share/retroarch/filters/32bit/video
-    cp $PKG_BUILD/gfx/video_filters/*.filt $INSTALL/usr/share/retroarch/filters/32bit/video
-
-    mkdir -p $INSTALL/usr/share/retroarch/filters/32bit/audio
-    cp $PKG_BUILD/libretro-common/audio/dsp_filters/*.so $INSTALL/usr/share/retroarch/filters/32bit/audio
-    cp $PKG_BUILD/libretro-common/audio/dsp_filters/*.dsp $INSTALL/usr/share/retroarch/filters/32bit/audio
-  fi
+  # General configuration
+  mkdir -p ${INSTALL}/usr/config/retroarch/
+  cp -rf ${PKG_DIR}/sources/* ${INSTALL}/usr/config/retroarch/
 }
 
 post_install() {

@@ -27,4 +27,4 @@ sed -i '/device_video_modeline/d' $CONFIG_DIR/advmame.rc
 ARG=$(echo basename $1 | sed 's/\.[^.]*$//')
 ARG="$(echo $1 | sed 's=.*/==;s/\.[^.]*$//')"
 
-SDL_AUDIODRIVER=alsa nice -n -19 /usr/bin/advmame $ARG -quiet
+/usr/bin/advmame $ARG

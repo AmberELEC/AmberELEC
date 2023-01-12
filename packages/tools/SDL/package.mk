@@ -1,20 +1,5 @@
-################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-#
-#  OpenELEC is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  OpenELEC is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 
 PKG_NAME="SDL"
 PKG_VERSION="92927a9b689c55c5879add79378e24f9443f56f4"
@@ -22,7 +7,7 @@ PKG_VERSION="92927a9b689c55c5879add79378e24f9443f56f4"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
-PKG_URL="https://github.com/libsdl-org/SDL-1.2/archive/$PKG_VERSION.tar.gz"
+PKG_URL="https://github.com/libsdl-org/SDL-1.2/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain yasm:host alsa-lib systemd dbus SDL:host"
 PKG_SECTION="multimedia"
 PKG_SHORTDESC="SDL: A cross-platform Graphic API"
@@ -52,8 +37,8 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-shared \
                            --disable-altivec \
                            --disable-oss \
                            --enable-alsa --disable-alsatest --enable-alsa-shared \
-                           --with-alsa-prefix=$SYSROOT_PREFIX/usr/lib \
-                           --with-alsa-inc-prefix=$SYSROOT_PREFIX/usr/include \
+                           --with-alsa-prefix=${SYSROOT_PREFIX}/usr/lib \
+                           --with-alsa-inc-prefix=${SYSROOT_PREFIX}/usr/include \
                            --disable-esd --disable-esdtest --disable-esd-shared \
                            --disable-arts --disable-arts-shared \
                            --disable-nas --enable-nas-shared \
@@ -78,33 +63,33 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-shared \
                            --enable-arm-neon"
 
 
-PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --enable-video --disable-video-x11 --disable-x11-shared"
-PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-xcursor --disable-video-x11-xinerama"
-PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-xinput --disable-video-x11-xrandr"
-PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-scrnsaver --disable-video-x11-xshape"
-PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-vm --without-x"
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --enable-video --disable-video-x11 --disable-x11-shared"
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-xcursor --disable-video-x11-xinerama"
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-xinput --disable-video-x11-xrandr"
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-scrnsaver --disable-video-x11-xshape"
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-vm --without-x"
 
-PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_TARGET --disable-video --disable-video-x11 --disable-x11-shared"
-PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-xcursor --disable-video-x11-xinerama"
-PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-xinput --disable-video-x11-xrandr"
-PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-scrnsaver --disable-video-x11-xshape"
-PKG_CONFIGURE_OPTS_HOST="$PKG_CONFIGURE_OPTS_TARGET --disable-video-x11-vm --without-x"
+PKG_CONFIGURE_OPTS_HOST="${PKG_CONFIGURE_OPTS_TARGET} --disable-video --disable-video-x11 --disable-x11-shared"
+PKG_CONFIGURE_OPTS_HOST="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-xcursor --disable-video-x11-xinerama"
+PKG_CONFIGURE_OPTS_HOST="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-xinput --disable-video-x11-xrandr"
+PKG_CONFIGURE_OPTS_HOST="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-scrnsaver --disable-video-x11-xshape"
+PKG_CONFIGURE_OPTS_HOST="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-x11-vm --without-x"
 
 
-if [ ! "$OPENGL" = "no" ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET $OPENGL glu"
+if [ ! "${OPENGL}" = "no" ]; then
+  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} ${OPENGL} glu"
 
-  PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --enable-video-opengl --disable-video-opengles"
+  PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --enable-video-opengl --disable-video-opengles"
 else
-  PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --disable-video-opengl --enable-video-opengles --enable-video-fbcon"
+  PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-video-opengl --enable-video-opengles --enable-video-fbcon"
 fi
 
-if [ "$PULSEAUDIO_SUPPORT" = yes ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pulseaudio"
+if [ "${PULSEAUDIO_SUPPORT}" = yes ]; then
+  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} pulseaudio"
 
-  PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --enable-pulseaudio --enable-pulseaudio-shared"
+  PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --enable-pulseaudio --enable-pulseaudio-shared"
 else
-  PKG_CONFIGURE_OPTS_TARGET="$PKG_CONFIGURE_OPTS_TARGET --disable-pulseaudio --disable-pulseaudio-shared"
+  PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-pulseaudio --disable-pulseaudio-shared"
 fi
 
 pre_make_target() {
@@ -113,7 +98,7 @@ pre_make_target() {
 }
 
 post_makeinstall_target() {
-  sed -i "s:\(['=\" ]\)/usr:\\1$SYSROOT_PREFIX/usr:g" $SYSROOT_PREFIX/usr/bin/sdl-config
+  sed -i "s:\(['=\" ]\)/usr:\\1${SYSROOT_PREFIX}/usr:g" ${SYSROOT_PREFIX}/usr/bin/sdl-config
 
-  rm -rf $INSTALL/usr/bin
+  rm -rf ${INSTALL}/usr/bin
 }

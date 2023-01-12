@@ -7,13 +7,13 @@ PKG_VERSION="2.20.1"
 #PKG_SHA256=""
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.libsdl.org/"
-PKG_URL="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-$PKG_VERSION.tar.gz"
+PKG_URL="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2 freetype"
 PKG_LONGDESC="This is a sample library which allows you to use TrueType fonts in your SDL applications"
 PACKAGE_TOOLCHAIN="autoconf"
 
-if [ ! "$DISPLAYSERVER" = "x11" ]; then
+if [ ! "${DISPLAYSERVER}" = "x11" ]; then
   X11="--without-x"
 fi
 
-PKG_CONFIGURE_OPTS_TARGET="--with-freetype-prefix=$SYSROOT_PREFIX/usr $X11"
+PKG_CONFIGURE_OPTS_TARGET="--with-freetype-prefix=${SYSROOT_PREFIX}/usr ${X11}"

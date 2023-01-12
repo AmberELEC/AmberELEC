@@ -1,51 +1,26 @@
-################################################################################
-#      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
-#      Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
-#
-#  This Program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2, or (at your option)
-#  any later version.
-#
-#  This Program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with OpenELEC.tv; see the file COPYING.  If not, write to
-#  the Free Software Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110, USA.
-#  http://www.gnu.org/copyleft/gpl.html
-################################################################################
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2009-2012 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gpsp"
-PKG_VERSION="81649a2c8075201bb823cce8fdf16a31c92a3b6c"
-PKG_SHA256="c1131811760dd78cbb8621b5845b4402a0801690facc77d4e8ea1292384bcd1b"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="90170e33894ac8e3598a5660da62a18884d795f4"
+PKG_SHA256="75340c15230322cd66b85778e50aab69c3b7f3c10db1c44c01747eeff95db80d"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/gpsp"
-PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="gpSP for libretro."
 PKG_LONGDESC="gameplaySP is a Gameboy Advance emulator for Playstation Portable"
-
-PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
-PKG_AUTORECONF="no"
 
 make_target() {
-  if [ "$ARCH" == "arm" ]; then
-    make CC=$CC platform=unix
+  if [ "${ARCH}" == "arm" ]; then
+    make CC=${CC} platform=unix
   else
-    make CC=$CC platform=arm64
+    make CC=${CC} platform=arm64
   fi  
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro
-  cp gpsp_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp gpsp_libretro.so ${INSTALL}/usr/lib/libretro/
 }

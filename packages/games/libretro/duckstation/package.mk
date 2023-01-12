@@ -1,20 +1,32 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
-# Maintenance 2021-present AmberELEC (https://github.com/AmberELEC)
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="duckstation"
-PKG_VERSION="1.0"
-PKG_ARCH="aarch64"
-PKG_URL="https://web.archive.org/web/20220106162052if_/https://www.duckstation.org/libretro/duckstation_libretro_linux_aarch64.zip"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="DuckStation - PlayStation 1, aka. PSX Emulator"
-PKG_TOOLCHAIN="manual"
+PKG_VERSION="573c8370d75d38e922fa7b9f99d9c87c1f913c5d"
+PKG_LICENSE="GPLv3"
+PKG_SITE="https://github.com/stenzek/duckstation"
+PKG_URL="${PKG_SITE}.git"
+PKG_DEPENDS_TARGET="toolchain nasm:host pulseaudio openssl curl libidn2 nghttp2 zlib SDL2 libevdev"
+PKG_LONGDESC="Fast PlayStation 1 emulator for x86-64/AArch32/AArch64"
+PKG_TOOLCHAIN="cmake-make"
+PKG_BUILD_FLAGS="-lto"
 
-pre_unpack() {
-  unzip sources/duckstation/duckstation-1.0.zip -d $PKG_BUILD
+PKG_CMAKE_OPTS_TARGET+="-DBUILD_LIBRETRO_CORE=ON \
+                        -DCMAKE_BUILD_TYPE="Release" \
+                        -DCMAKE_RULE_MESSAGES=OFF \
+                        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                        -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                        -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
+                        -DBUILD_SDL_FRONTEND=OFF \
+                        -DBUILD_QT_FRONTEND=OFF \
+                        -DENABLE_DISCORD_PRESENCE=OFF \
+                        -DUSE_X11=OFF"
+
+pre_configure_target() {
+  sed -i 's/FS_OSPATH_SEPARATOR_STR "duckstation_cache"/FS_OSPATH_SEPARATOR_STR ".duckstation_cache"/g' ${PKG_BUILD}/src/duckstation-libretro/libretro_host_interface.cpp
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib/libretro/
-  cp $PKG_BUILD/duckstation_libretro.so $INSTALL/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp ${PKG_BUILD}/.${TARGET_NAME}/duckstation_libretro.so ${INSTALL}/usr/lib/libretro
 }

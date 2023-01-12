@@ -7,7 +7,7 @@ PKG_VERSION="1.3.7"
 PKG_SHA256="c99e2baa06fff1e96342b20415059d12ff1fa2917ade0173c75b2fa570295b9f"
 PKG_LICENSE="OSS"
 PKG_SITE="http://fluxbox.org/"
-PKG_URL="http://sourceforge.net/projects/fluxbox/files/fluxbox/${PKG_VERSION}/$PKG_NAME-${PKG_VERSION}.tar.gz"
+PKG_URL="http://sourceforge.net/projects/fluxbox/files/fluxbox/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libX11 libXrandr libXext libXrender"
 PKG_LONGDESC="Fluxbox is a windowmanager for X that was based on the Blackbox 0.61.1 code."
 PKG_TOOLCHAIN="autotools"
@@ -31,15 +31,15 @@ post_install() {
 }
 
 post_makeinstall_target() {
-  rm -rf $INSTALL/usr/bin/fbrun
-  rm -rf $INSTALL/usr/bin/fbsetbg
-  rm -rf $INSTALL/usr/bin/fluxbox-generate_menu
-  rm -rf $INSTALL/usr/bin/fluxbox-remote
-  rm -rf $INSTALL/usr/bin/startfluxbox
+  rm -rf ${INSTALL}/usr/bin/fbrun
+  rm -rf ${INSTALL}/usr/bin/fbsetbg
+  rm -rf ${INSTALL}/usr/bin/fluxbox-generate_menu
+  rm -rf ${INSTALL}/usr/bin/fluxbox-remote
+  rm -rf ${INSTALL}/usr/bin/startfluxbox
 
-  rm -rf $INSTALL/usr/share/fluxbox/styles
+  rm -rf ${INSTALL}/usr/share/fluxbox/styles
 
-  cp $PKG_DIR/config/apps $INSTALL/usr/share/fluxbox/
-  cp $PKG_DIR/config/init $INSTALL/usr/share/fluxbox/
-  cp $PKG_DIR/config/keys $INSTALL/usr/share/fluxbox/
+  cp ${PKG_DIR}/config/apps ${INSTALL}/usr/share/fluxbox/
+  cp ${PKG_DIR}/config/init ${INSTALL}/usr/share/fluxbox/
+  cp ${PKG_DIR}/config/keys ${INSTALL}/usr/share/fluxbox/
 }
