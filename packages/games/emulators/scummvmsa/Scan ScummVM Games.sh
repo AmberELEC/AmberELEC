@@ -116,9 +116,9 @@ def read_scummvm_game_line(line):
 		# One more alteration to the name... Colons not allowed!
 		name = name.replace(":"," -")
 
-                # If all went well, let's make sure to add the game to the
-                # ScummVM list:
-                result = run([scummvmbin, "-a", "--path="+path], capture_output=True, check=False, universal_newlines=True)
+		# If all went well, let's make sure to add the game to the
+		# ScummVM list:
+		result = run([scummvmbin, "-a", "--path="+path], capture_output=True, check=False, universal_newlines=True)
 
 		# Return the list!
 		return [game_id,name,path]
