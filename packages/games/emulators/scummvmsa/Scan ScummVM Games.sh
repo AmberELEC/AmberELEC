@@ -10,6 +10,12 @@ from time import sleep
 # Which folder we'll be scanning for scummvm games.
 gamefolder = "/roms/scummvm/games"
 
+# Which path we'll copy the scummvm.ini to
+target_ini_path = "/roms/bios/scummvm.ini"
+
+# Which path we'll copy the scummvm.ini from
+source_ini_path = "/storage/.config/scummvm/scummvm.ini"
+
 # Location of the ScummVM binary
 scummvmbin = "/usr/bin/scummvm"
 
@@ -171,10 +177,29 @@ def scan_scummvm_games():
 			make_scummvm_file(gameinfo)
 			game_name_list.append(gameinfo[1])
 
+def copy_file(src: str, dst: str) -> bool:
+	"""
+	Copy a file from one location to another.
+	:param src: The source file path
+	:param dst: The destination file path
+	:return: True if the copy was successful, False otherwise
+	"""
+	try:
+		with open(src, 'rb') as src_file:
+			with open(dst, 'wb') as dst_file:
+				dst_file.write(src_file.read())
+		return True
+	except FileNotFoundError:
+		return False
+	except Exception as e:
+		return False
+
+
+
 
 cls()
 show_info_screen()
 scan_scummvm_games()
 show_results_screen()
-
+copy_file(source_ini_path,target_ini_path)
 END
