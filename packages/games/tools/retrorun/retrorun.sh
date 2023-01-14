@@ -267,7 +267,7 @@ else
 	fi
 fi
 
-### PSX SETTINGS ###
+### PSX PCSX_REARMED ###
 
 # PSX CPU Clock
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -282,6 +282,23 @@ else
 	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
 		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
 		echo "pcsx_rearmed_psxclock = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+### PSX DUCKSTATION ###
+
+# PSX CPU Overclock
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_cpu_overclock"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "duckstation" ]]; then
+		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
+		echo 'duckstation_CPU.Overclock = 100' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "duckstation" ]]; then
+		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
 	fi
 fi
 
