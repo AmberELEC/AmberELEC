@@ -12,7 +12,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain nasm:host ${OPENGLES}"
 PKG_LONGDESC="SwanStation - PlayStation 1, aka. PSX Emulator"
 PKG_TOOLCHAIN="cmake"
-PKG_BUILD_FLAGS="-lto"
 
 pre_configure_target() {
  PKG_CMAKE_OPTS_TARGET+=" -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBRETRO_CORE=ON "

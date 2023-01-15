@@ -10,36 +10,33 @@ PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain zlib flac sqlite expat"
 PKG_LONGDESC="MAME - Multiple Arcade Machine Emulator"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-lto"
-
 
 PKG_MAKE_OPTS_TARGET="REGENIE=1 \
-		      VERBOSE=1 \
-		      NOWERROR=1 \
-		      OPENMP=1 \
-		      CROSS_BUILD=1 \
-		      TOOLS=0 \
-		      RETRO=1 \
-		      PTR64=0 \
-		      NOASM=0 \
-		      OPTIMIZE=fast \
-		      PYTHON_EXECUTABLE=python3 \
-		      CONFIG=libretro \
-		      LIBRETRO_OS=unix \
-		      LIBRETRO_CPU= \
-		      PLATFORM=arm64 \
-		      ARCH= \
-		      TARGET=mame \
-		      SUBTARGET=mame \
-		      OSD=retro \
-		      USE_SYSTEM_LIB_EXPAT=1 \
-		      USE_SYSTEM_LIB_ZLIB=1 \
-		      USE_SYSTEM_LIB_FLAC=1 \
-		      USE_SYSTEM_LIB_SQLITE3=1"
+                      VERBOSE=1 \
+                      NOWERROR=1 \
+                      OPENMP=1 \
+                      CROSS_BUILD=1 \
+                      TOOLS=0 \
+                      RETRO=1 \
+                      PTR64=0 \
+                      NOASM=0 \
+                      OPTIMIZE=fast \
+                      PYTHON_EXECUTABLE=python3 \
+                      CONFIG=libretro \
+                      LIBRETRO_OS=unix \
+                      LIBRETRO_CPU=arm64 \
+                      PLATFORM=arm64 \
+                      ARCH= \
+                      TARGET=mame \
+                      SUBTARGET=mame \
+                      OSD=retro \
+                      USE_SYSTEM_LIB_EXPAT=1 \
+                      USE_SYSTEM_LIB_ZLIB=1 \
+                      USE_SYSTEM_LIB_FLAC=1 \
+                      USE_SYSTEM_LIB_SQLITE3=1"
 
 pre_configure_target() {
   sed -i "s/-static-libstdc++//g" scripts/genie.lua
-  sed -Ei "s/BARE_BUILD_VERSION \"(.*?)\"/BARE_BUILD_VERSION \"\1 ${PKG_VERSION:0:7}\"/g" makefile
   sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
 }
 
