@@ -8,11 +8,17 @@ PKG_LICENSE="GPLv3"
 PKG_SITE="http://www.libsdl.org/projects/SDL_mixer/release"
 PKG_URL="${PKG_SITE}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain alsa-lib SDL2 libogg libvorbis flac mpg123 libmodplug fluidsynth"
-PKG_DEPENDS_HOST="toolchain:host SDL2:host libogg:host libvorbis:host"
+PKG_DEPENDS_HOST="toolchain:host SDL2:host"
 PKG_LONGDESC="SDL2 mixer"
 
 pre_configure_host() {
-  PKG_CMAKE_OPTS_HOST="-DSDL2MIXER_OPUS=OFF -DSDL2MIXER_MOD=OFF -DSDL2MIXER_MP3=OFF -DSDL2MIXER_FLAC=OFF -DSDL2MIXER_MIDI=OFF"
+  PKG_CMAKE_OPTS_HOST="-DSDL2MIXER_OPUS=OFF \
+                       -DSDL2MIXER_MOD=OFF \
+                       -DSDL2MIXER_MP3=OFF \
+                       -DSDL2MIXER_FLAC=OFF \
+                       -DSDL2MIXER_MIDI=OFF \
+                       -DSDL2MIXER_VORBIS=OFF \
+                       -DSDL2MIXER_OGG=OFF"
 }
 
 pre_configure_target() {

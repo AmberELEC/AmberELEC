@@ -10,7 +10,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain nasm:host ${OPENGLES}"
 PKG_LONGDESC="mupen64plus NX"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-lto"
 
 pre_configure_target() {
   sed -e "s|^GIT_VERSION ?.*$|GIT_VERSION := \" ${PKG_VERSION:0:7}\"|" -i Makefile

@@ -11,7 +11,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Versatile Commodore 8-bit Emulator version 3.0"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-lto"
 
 make_target() {
   if [ "${ARCH}" == "arm" ]; then
