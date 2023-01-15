@@ -22,6 +22,16 @@ PKG_CONFIGURE_OPTS_HOST="--disable-md2man \
                          --with-included-popt \
                          --without-included-zlib"
 
+PKG_CONFIGURE_OPTS_HOST="--disable-md2man \
+                         --disable-ipv6 \
+                         --disable-openssl \
+                         --disable-xxhash \
+                         --disable-zstd \
+                         --disable-lz4 \
+                         --disable-iconv \
+                         --with-included-popt \
+                         --without-included-zlib"
+
 PKG_CONFIGURE_OPTS_TARGET="--disable-acl-support \
                            --disable-md5-asm \
                            --enable-openssl \

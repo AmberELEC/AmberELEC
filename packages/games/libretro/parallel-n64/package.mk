@@ -12,7 +12,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES}"
 PKG_LONGDESC="Optimized/rewritten Nintendo 64 emulator made specifically for Libretro. Originally based on Mupen64 Plus."
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-lto"
 
 if [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_MAKE_OPTS_TARGET=" platform=unix_RK3399"

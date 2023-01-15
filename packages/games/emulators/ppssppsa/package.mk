@@ -10,7 +10,6 @@ PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} ffmpeg libzip SDL2 zlib zstd"
 PKG_DEPENDS_UNPACK="ppsspp"
 PKG_LONGDESC="PPSSPP Standalone"
-PKG_BUILD_FLAGS="+lto"
 PKG_TOOLCHAIN="cmake-make"
 
 unpack() {

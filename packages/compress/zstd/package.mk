@@ -23,8 +23,8 @@ configure_host() {
   setup_toolchain host:cmake-make
   cp ${CMAKE_CONF} cmake-zstd.conf
 
-  echo "SET(CMAKE_C_COMPILER   $LOCAL_CC)"  >> cmake-zstd.conf
-  echo "SET(CMAKE_CXX_COMPILER $LOCAL_CXX)" >> cmake-zstd.conf
+  echo "SET(CMAKE_C_COMPILER   ${LOCAL_CC})"  >> cmake-zstd.conf
+  echo "SET(CMAKE_CXX_COMPILER ${LOCAL_CXX})" >> cmake-zstd.conf
 
   cmake -DCMAKE_TOOLCHAIN_FILE=cmake-zstd.conf \
         -DCMAKE_INSTALL_PREFIX=${TOOLCHAIN} \

@@ -17,7 +17,7 @@ PKG_TOOLCHAIN="make"
 
 PKG_EXPERIMENTAL=""
 PKG_EMUS="${LIBRETRO_CORES} advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
-PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl sdljoytest evdev-joystick"
+PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl sdljoytest evdev-joystick gptokeyb"
 PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python coreutils"
 PKG_DEPENDS_TARGET+=" ${PKG_TOOLS} ${PKG_RETROPIE_DEP} ${PKG_EMUS} ${PKG_EXPERIMENTAL} ports"
 
@@ -127,6 +127,7 @@ post_install() {
 
   ln -s /etc/issue ${INSTALL}/etc/motd
 
+  cp ${PKG_DIR}/sources/amberelec.dialogrc ${INSTALL}/etc
   cp ${PKG_DIR}/sources/autostart.sh ${INSTALL}/usr/bin
   cp ${PKG_DIR}/sources/shutdown.sh ${INSTALL}/usr/bin
   cp ${PKG_DIR}/sources/pico-8.sh ${INSTALL}/usr/bin

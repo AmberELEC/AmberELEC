@@ -10,7 +10,6 @@ PKG_DEPENDS_TARGET="toolchain luajit:host"
 PKG_LONGDESC="LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language. "
 PKG_GIT_CLONE_BRANCH="v2.1"
 PKG_TOOLCHAIN="manual"
-PKG_BUILD_FLAGS="+speed"
 
 post_patch() {
   mkdir -p ${PKG_BUILD}/.${TARGET_NAME} && cp -r ${PKG_BUILD}/* ${PKG_BUILD}/.${TARGET_NAME}

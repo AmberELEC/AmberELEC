@@ -171,6 +171,19 @@
 	</game>
 
 	<game>
+		<path>./SetTime.sh</path>
+		<name>Set Date/Time</name>
+		<desc>Manually set date/time</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2023</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/timing-thumb.png</thumbnail>
+		<image>./downloaded_images/timing-thumb.png</image>
+	</game>
+
+	<game>
 		<path>./display_fix.sh</path>
 		<name>Display timing Fix</name>
 		<desc>This will fix display timing issues for some RG351MP/V devices.</desc>

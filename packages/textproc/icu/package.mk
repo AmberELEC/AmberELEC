@@ -18,13 +18,13 @@ PKG_ICU_OPTS="--disable-extras \
               --disable-samples \
               --disable-tests"
 
-PKG_CONFIGURE_OPTS_HOST="$PKG_ICU_OPTS"
+PKG_CONFIGURE_OPTS_HOST="${PKG_ICU_OPTS}"
 
 configure_package() {
-  rm -f $TOOLCHAIN/lib/libicu*.a
+  rm -f ${TOOLCHAIN}/lib/libicu*.a
   PKG_CONFIGURE_OPTS_TARGET="--disable-tools
-                             --with-cross-build=$PKG_BUILD/.$HOST_NAME \
-                             $PKG_ICU_OPTS"
+                             --with-cross-build=${PKG_BUILD}/.${HOST_NAME} \
+                             ${PKG_ICU_OPTS}"
 
   PKG_CONFIGURE_SCRIPT="${PKG_BUILD}/source/configure"
 }

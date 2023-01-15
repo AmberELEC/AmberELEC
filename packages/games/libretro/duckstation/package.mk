@@ -9,7 +9,6 @@ PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain nasm:host pulseaudio openssl curl libidn2 nghttp2 zlib SDL2 libevdev"
 PKG_LONGDESC="Fast PlayStation 1 emulator for x86-64/AArch32/AArch64"
 PKG_TOOLCHAIN="cmake-make"
-PKG_BUILD_FLAGS="-lto"
 
 PKG_CMAKE_OPTS_TARGET+="-DBUILD_LIBRETRO_CORE=ON \
                         -DCMAKE_BUILD_TYPE="Release" \
