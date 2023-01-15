@@ -35,7 +35,7 @@ function get_setting() {
 	[ -z "${EES}" ] && EES="false"
 }
 
-### GLOBAL SETTINGS
+### GLOBAL SETTINGS ###
 
 # Auto Save
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -109,26 +109,8 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-# Video Another Thread
-if [[ "$EE_DEVICE" == "RG552" ]]; then
-	VIDEO_ANOTHER_THREAD='true' # this is better on RG552
-else
-	VIDEO_ANOTHER_THREAD='half'
-fi
-sed -i "/^retrorun_video_another_thread/d" ${RRCONF}
-echo "retrorun_video_another_thread = ${VIDEO_ANOTHER_THREAD}" >> ${RRCONF}
 
-# Adaptive FPS (it helps on 351 devices)
-if [[ "$EE_DEVICE" == "RG552" ]]; then
-	ADAPTIVE_FPS='false'
-else
-	ADAPTIVE_FPS='true'
-fi
-sed -i "/^retrorun_adaptive_fps/d" ${RRCONF}
-echo "retrorun_adaptive_fps = ${ADAPTIVE_FPS}" >> ${RRCONF}
-
-
-### CORE SETTINGS
+### MISC SETTINGS ###
 
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -157,6 +139,8 @@ else
 		echo "flycast2021_internal_resolution = ${EES}" >> ${RRCONF}
 	fi
 fi
+
+### PARALLEL-N64 SETTINGS ###
 
 # Parallel-N64 Graphic plug-in
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -190,16 +174,9 @@ else
 	fi
 fi
 
-# Parallel-N64 Audio buffer size
-if [[ "$EE_DEVICE" == "RG552" ]]; then
-	AUDIO_BUFFER='2048'
-else
-	AUDIO_BUFFER='1024'
-fi
-sed -i "/^parallel-n64-audio-buffer-size/d" ${RRCONF}
-echo "parallel-n64-audio-buffer-size = ${AUDIO_BUFFER}" >> ${RRCONF}
+### FLYCAST SETTINGS ###
 
-# Synchronous Rendering
+# Flycast: Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "synchronous_rendering"
 echo ${EES}
@@ -221,7 +198,7 @@ else
 	fi
 fi
 
-# Enables/Disables a division optimization
+# Flycast: Enables/Disables a division optimization
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "div_matching"
 echo ${EES}
@@ -243,43 +220,6 @@ else
 	fi
 fi
 
-# Enables/Disables the DSP on Flycast. Fixes audio issues on some games.
-# Get configuration from distribution.conf and set to retrorun.cfg
-get_setting "dsp"
-echo ${EES}
-if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
-		echo 'flycast_enable_dsp = disabled' >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
-		echo 'flycast2021_enable_dsp = disabled' >> ${RRCONF}
-	fi
-else
-        if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
-		echo "flycast_enable_dsp = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
-		echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
-	fi
-fi
-
-# PSX CPU Clock
-# Get configuration from distribution.conf and set to retrorun.cfg
-get_setting "psx_cpu_clock"
-echo ${EES}
-if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
-		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
-		echo 'pcsx_rearmed_psxclock = 57' >> ${RRCONF}
-	fi
-else
-	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
-		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
-		echo "pcsx_rearmed_psxclock = ${EES}" >> ${RRCONF}
-	fi
-fi
 
 # Flycast Auto Frameskip
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -302,6 +242,67 @@ else
 		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
 	fi
 fi
+
+
+
+# Flycast: Enables/Disables the DSP. Fixes audio issues on some games.
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "dsp"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "flycast" ]]; then
+		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
+		echo 'flycast_enable_dsp = disabled' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
+		echo 'flycast2021_enable_dsp = disabled' >> ${RRCONF}
+	fi
+else
+        if [[ "${CORE}" == "flycast" ]]; then
+		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
+		echo "flycast_enable_dsp = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2021" ]]; then
+		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
+		echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+### PSX PCSX_REARMED ###
+
+# PSX CPU Clock
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_cpu_clock"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
+		echo 'pcsx_rearmed_psxclock = 57' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
+		echo "pcsx_rearmed_psxclock = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+### PSX DUCKSTATION ###
+
+# PSX CPU Overclock
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_cpu_overclock"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "duckstation" ]]; then
+		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
+		echo 'duckstation_CPU.Overclock = 100' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "duckstation" ]]; then
+		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
+	fi
+fi
+
+### BETTLE SETTINGS ###
 
 # Beetle VB - Palette
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -344,25 +345,10 @@ then
     echo 'enabling FPS in the logs'
     FPS="-f"
 fi
-GPIO_JOYPAD=''
-if [[ "$EE_DEVICE" == "RG351MP" ]] || [[ "$EE_DEVICE" == "RG552" ]]
-then
-    echo 'GPIO joypad'
-    GPIO_JOYPAD="-g"
-fi
 
 sleep 0.2
-#if [[ "$1" == "pcsx_rearmed" ]] || [[ "$1" == "parallel_n64" ]]
-#then
-#    echo 'using 32bit'
-#  	export LD_LIBRARY_PATH="/usr/lib32"
-#	EMU="/tmp/cores/$1_libretro.so"
-#	/usr/bin/retrorun32 --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
-#else
-#	echo 'using 64bit'
-	EMU="/tmp/cores/$1_libretro.so"
-	/usr/bin/retrorun --triggers $FPS $GPIO_JOYPAD -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
-#fi
+EMU="/tmp/cores/$1_libretro.so"
+/usr/bin/retrorun --triggers $FPS -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
 sleep 0.5
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 kill $(pidof rg351p-js2xbox)
