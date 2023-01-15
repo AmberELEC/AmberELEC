@@ -12,8 +12,6 @@ PKG_LONGDESC="Das U-Boot is a cross-platform bootloader for embedded systems."
 PKG_IS_KERNEL_PKG="yes"
 PKG_STAMP="${UBOOT_SYSTEM}"
 
-[ -n "${ATF_PLATFORM}" ] && PKG_DEPENDS_TARGET+=" atf"
-
 PKG_NEED_UNPACK="${PROJECT_DIR}/${PROJECT}/bootloader"
 [ -n "${DEVICE}" ] && PKG_NEED_UNPACK+=" ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/bootloader"
 
@@ -23,8 +21,8 @@ if [[ "${DEVICE}" =~ RG351 ]]; then
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/AmberELEC/uboot_rg351.git"
 elif [[ "${DEVICE}" =~ RG552 ]]; then
-  PKG_VERSION="2243922edca9f56a9d5519b9d6e36f5d7a18434d"
-  PKG_GIT_CLONE_BRANCH=v2023.01-rc4
+  PKG_VERSION="734ad933766f0dbbeafe1b27211686940a5e6d16"
+  PKG_GIT_CLONE_BRANCH=v2022.01-rc4
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/u-boot/u-boot.git"
@@ -45,7 +43,6 @@ make_target() {
     echo "see './scripts/uboot_helper' for more information"
   else
     [ "${BUILD_WITH_DEBUG}" = "yes" ] && PKG_DEBUG=1 || PKG_DEBUG=0
-    [ -n "${ATF_PLATFORM}" ] &&  cp -av $(get_build_dir atf)/bl31.bin .
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make mrproper
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make $(${ROOT}/${SCRIPTS}/uboot_helper ${PROJECT} ${DEVICE} ${UBOOT_SYSTEM} config)
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm _python_sysroot="${TOOLCHAIN}" _python_prefix=/ _python_exec_prefix=/ make HOSTCC="${HOST_CC}" HOSTLDFLAGS="-L${TOOLCHAIN}/lib" HOSTSTRIP="true" CONFIG_MKIMAGE_DTC_PATH="scripts/dtc/dtc"
