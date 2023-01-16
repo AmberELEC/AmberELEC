@@ -1,35 +1,54 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="amberelec"
 PKG_VERSION="1.0"
-PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
-PKG_SITE=""
-PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} emulationstation retroarch retrorun klbi lib32"
-PKG_SHORTDESC="AmberELEC Meta Package"
 PKG_LONGDESC="AmberELEC Meta Package"
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 
-PKG_EXPERIMENTAL=""
-PKG_EMUS="${LIBRETRO_CORES} advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
-PKG_TOOLS="grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl sdljoytest evdev-joystick gptokeyb"
-PKG_RETROPIE_DEP="bash pyudev dialog six git dbus-python coreutils"
-PKG_DEPENDS_TARGET+=" ${PKG_TOOLS} ${PKG_RETROPIE_DEP} ${PKG_EMUS} ${PKG_EXPERIMENTAL} ports"
+LIBRETRO_CORES="81 a5200 arduous atari800 beetle-gba beetle-lynx beetle-ngp beetle-pce beetle-pce-fast beetle-pcfx beetle-supafaust beetle-supergrafx beetle-vb beetle-wswan bluemsx cap32 crocods \
+                dosbox-core dosbox-pure easyrpg emuscv ep128emu fake08 fbalpha2012 fbalpha2019 fbneo fceumm flycast flycast2021 fmsx freechaf freeintv freej2me fuse-libretro gambatte gearboy gearcoleco \
+                gearsystem genesis-plus-gx genesis-plus-gx-wide gpsp gw-libretro handy hatari jaxe lowresnx mame mame2000 mame2003-plus mame2010 mame2015 mame2016 meowpc98 mgba mojozork mupen64plus-nx \
+                neocd_libretro nestopia np2kai o2em opera parallel-n64 pcsx_rearmed picodrive pokemini potator ppsspp prboom prosystem puae puae2021 px68k quasi88 quicknes race same_cdi sameboy sameduck \
+                scummvm smsplus-gx snes9x snes9x2002 snes9x2005_plus snes9x2010 stella stella-2014 swanstation tgbdual tic-80 uae4arm uzem vbam vba-next vecx vice virtualjaguar wasm4 xmil"
+
+LIBRETRO_CORES_EXTRA="beetle_snes bsnes bsnes2014_balanced bsnes2014_performance bsnes_mercury_balanced bsnes_mercury_performance mesen mesen-s"
+
+PKG_EMUS="${LIBRETRO_CORES}"
 
 if [[ "${DEVICE}" == "RG552" ]]; then
-  PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} webui"
+  PKG_EMUS+=" ${LIBRETRO_CORES_EXTRA}"
+fi
+
+PKG_EMUS+=" advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
+
+PKG_TOOLS="bash dialog grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl sdljoytest evdev-joystick gptokeyb"
+PKG_RETROPIE_DEP="pyudev six git dbus-python coreutils"
+PKG_DEPENDS_TARGET+=" ${PKG_TOOLS} ${PKG_RETROPIE_DEP} ${PKG_EMUS} ports"
+
+if [[ "${DEVICE}" == "RG552" ]]; then
+  PKG_DEPENDS_TARGET+=" webui"
 fi
 
 make_target() {
-  echo
+  :
 }
 
 makeinstall_target() {
+  ## Remove libretro cores from unsupported devices
+  if [[ ! ${DEVICE} == "RG552" ]]; then
+    mkdir -p ${INSTALL}/usr/config/emulationstation
+    cp -f $(get_build_dir emulationstation)/.install_pkg/usr/config/emulationstation/es_systems.cfg ${INSTALL}/usr/config/emulationstation/es_systems.cfg
+    for CORE in ${LIBRETRO_CORES_EXTRA}; do
+      sed -i "s|<core>$CORE</core>||g" ${INSTALL}/usr/config/emulationstation/es_systems.cfg
+      sed -i '/^[[:space:]]*$/d' ${INSTALL}/usr/config/emulationstation/es_systems.cfg
+    done
+  fi
+
   mkdir -p ${INSTALL}/usr/config/SDL-GameControllerDB
   cp ${PKG_DIR}/SDL_GameControllerDB/gamecontrollerdb.txt ${INSTALL}/usr/config/SDL-GameControllerDB
 
@@ -96,7 +115,6 @@ makeinstall_target() {
   elif [ "${DEVICE}" == "RG552" ]; then
     find_file_path "splash/splash-1920.bmp" && cp ${FOUND_PATH} ${INSTALL}//usr/share/bootloader/logo.bmp
   fi
-
 }
 
 post_install() {
@@ -148,5 +166,4 @@ post_install() {
   echo "chmod 4755 ${INSTALL}/usr/bin/busybox" >> ${FAKEROOT_SCRIPT}
   find ${INSTALL}/usr/ -type f -iname "*.sh" -exec chmod +x {} \;
   find ${INSTALL}/usr/bin -type f -exec chmod +x {} \;
-
 }
