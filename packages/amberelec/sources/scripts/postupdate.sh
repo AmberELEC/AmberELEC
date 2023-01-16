@@ -7,6 +7,7 @@ CONF="/storage/.config/distribution/configs/distribution.conf"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 LAST_UPDATE_FILE="/storage/.lastupdateversion"
 DEVICE="$(cat /storage/.config/.OS_ARCH)"
+ECWOLFCONF="/storage/.config/distribution/ecwolf/ecwolf.cfg"
 
 # 2021-12-15
 ## Parse LAST_UPDATE_VERSION.  This variable will be the date of the previous upgrade. Ex: 20211222.
@@ -34,6 +35,12 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   fi
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
+
+## 2023-01-15
+## Add all JoyAxis[]Deadzone values to ECWolf due to deadzones being too low.
+if [ -f ${ECWOLFCONF} ]; then
+    sed -i 's/JoyAxis[1-5]Deadzone.*/JoyAxis& = 4/g' ${ECWOLFCONF}
+fi
 
 ## 2023-01-09
 ## check for audio/video filter dir in retroarch.cfg
