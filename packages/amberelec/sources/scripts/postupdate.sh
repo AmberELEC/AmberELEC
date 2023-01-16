@@ -8,6 +8,7 @@ RACONF="/storage/.config/retroarch/retroarch.cfg"
 LAST_UPDATE_FILE="/storage/.lastupdateversion"
 DEVICE="$(cat /storage/.config/.OS_ARCH)"
 ECWOLFCONF="/storage/.config/distribution/ecwolf/ecwolf.cfg"
+
 # 2021-12-15
 ## Parse LAST_UPDATE_VERSION.  This variable will be the date of the previous upgrade. Ex: 20211222.
 ## - This variable can be used to execute upgrade logic only when crossing a version threshold.
