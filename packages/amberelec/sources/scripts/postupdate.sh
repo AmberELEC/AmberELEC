@@ -39,7 +39,7 @@ echo "last update version: ${LAST_UPDATE_VERSION}"
 ## 2023-01-15
 ## Add all JoyAxis[]Deadzone values to ECWolf due to deadzones being too low.
 if [ -f ${ECWOLFCONF} ]; then
-    sed -i 's/JoyAxis[1-5]Deadzone.*/JoyAxis& = 4/g' ${ECWOLFCONF}
+    sed -i 's/JoyAxis[0-5]Deadzone.*/JoyAxis& = 4/g' ${ECWOLFCONF}
 fi
 
 ## 2023-01-09
