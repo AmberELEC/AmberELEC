@@ -1,3 +1,4 @@
+# Copyright (C) 2022-present BrooksyTech (https://github.com/brooksytech)
 diff --git a/src/core/cpu_core.h b/src/core/cpu_core.h
 index c9199153..5d82b5c0 100644
 --- a/src/core/cpu_core.h
