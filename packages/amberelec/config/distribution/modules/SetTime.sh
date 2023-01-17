@@ -1,5 +1,7 @@
 #!/bin/bash
+# based on code from https://github.com/Rolen47/ChangeTime
 
+unset SDL_GAMECONTROLLERCONFIG_FILE
 source /usr/bin/env.sh
 export TERM=xterm-color
 export DIALOGRC=/etc/amberelec.dialogrc
@@ -25,8 +27,8 @@ MainMenu() {
   --title " Main menu " \
   --clear \
   --no-cancel \
-  --menu "$current_date $current_time $current_zone" 0 0 0)
-	
+  --menu "$current_date $current_time $current_zone" 0 0 1)
+
   choices=$("${show_dialog[@]}" "${dialog_options[@]}" 2>&1 > /dev/console) || userQuit
 
   for choice in $choices; do
@@ -40,7 +42,7 @@ MainMenu() {
 }
 
 SetTime() {
- show_dialog=(dialog --title " Set Time " --timebox "" 0 0)
+ show_dialog=(dialog --title " Set Time " --timebox "Use Left/Right/Y to select the field, use Up/Down to change the value." 5 35)
  desired_time=$("${show_dialog[@]}" 2>&1 > /dev/console) || MainMenu
  if [ "$desired_time" != "" ]; then
   date +%T -s "$desired_time"
@@ -49,7 +51,7 @@ SetTime() {
 }
 
 SetDate() {
- show_dialog=(dialog --date-format "%Y-%m-%d" --title " Set Date " --calendar "" 0 0)
+ show_dialog=(dialog --date-format "%Y-%m-%d" --title " Set Date " --calendar "Use Y to switch between Month, Year and Day selection, use Up/Down/Left/Right to select the value." 0 0)
  desired_date=$("${show_dialog[@]}" 2>&1 > /dev/console) || MainMenu
  if [ "$desired_date" != "" ]; then
   current_time=`date +%H:%M:%S`

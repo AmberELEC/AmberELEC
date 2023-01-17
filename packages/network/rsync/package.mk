@@ -10,7 +10,6 @@ PKG_URL="https://download.samba.org/pub/rsync/src/${PKG_NAME}-${PKG_VERSION}.tar
 PKG_DEPENDS_HOST="autotools:host zlib:host"
 PKG_DEPENDS_TARGET="toolchain zlib openssl"
 PKG_LONGDESC="A very fast method for bringing remote files into sync."
-PKG_BUILD_FLAGS="-sysroot"
 
 PKG_CONFIGURE_OPTS_HOST="--disable-md2man \
                          --disable-ipv6 \
