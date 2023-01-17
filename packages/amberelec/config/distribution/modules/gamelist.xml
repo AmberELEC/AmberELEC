@@ -75,8 +75,8 @@
 		<rating>1.0</rating>
 		<releasedate>2022</releasedate>
 		<genre>Script</genre>
-		<thumbnail>./downloaded_images/retroarch64-thumb.png</thumbnail>
-		<image>./downloaded_images/retroarch64.png</image>
+		<thumbnail>./downloaded_images/retroarch-thumb.png</thumbnail>
+		<image>./downloaded_images/retroarch.png</image>
 	</game>
 
 	<game>
@@ -172,15 +172,15 @@
 
 	<game>
 		<path>./SetTime.sh</path>
-		<name>Set Date/Time</name>
-		<desc>Manually set date/time</desc>
+		<name>Set Time</name>
+		<desc>Manually set time</desc>
 		<developer>AmberELEC</developer>
 		<publisher>AmberELEC</publisher>
 		<rating>1.0</rating>
 		<releasedate>2023</releasedate>
 		<genre>Script</genre>
-		<thumbnail>./downloaded_images/timing-thumb.png</thumbnail>
-		<image>./downloaded_images/timing-thumb.png</image>
+		<thumbnail>./downloaded_images/settime-thumb.png</thumbnail>
+		<image>./downloaded_images/settime.png</image>
 	</game>
 
 	<game>

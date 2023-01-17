@@ -1,7 +1,7 @@
 #!/bin/bash
 # based on code from https://github.com/Rolen47/ChangeTime
 
-unset SDL_GAMECONTROLLERCONFIG_FILE
+export SDL_GAMECONTROLLERCONFIG_FILE="/storage/.config/SDL-GameControllerDB/gamecontrollerdb.txt"
 source /usr/bin/env.sh
 export TERM=xterm-color
 export DIALOGRC=/etc/amberelec.dialogrc

@@ -336,7 +336,10 @@ class EmuRunner():
 
 		if self.rom and (self.rom.suffix == '.sh' or self.platform == 'tools'):
 			#If the ROM is a shell script then just execute it (tools, ports, Pico-8 splore, ScummVM scanner, etc)
-			return ['/usr/bin/bash', '-l', self.rom]
+			if self.rom.name == 'SetTime.sh':
+				return ['/usr/bin/bash', self.rom]
+			else:
+				return ['/usr/bin/bash', '-l', self.rom]
 		elif self.emulator in {'retroarch', 'mame'} or is_libretro_port:
 			return self.get_retroarch_command(shader_arg)
 		elif self.emulator == 'retrorun':
