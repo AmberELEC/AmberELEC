@@ -82,7 +82,7 @@ searchbox_border_color = border_color
 position_indicator_color = title_color
 
 # Menu box color
-menubox_color = dialog_color
+menubox_color = (BLACK,WHITE,ON)
 
 # Menu box border color
 menubox_border_color = border_color

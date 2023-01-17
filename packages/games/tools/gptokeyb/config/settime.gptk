@@ -1,8 +1,8 @@
 back = \"
 start = \"
 guide = \"
-a = esc
-b = enter
+a = enter
+b = esc
 x = \"
 y = tab
 l1 = pageup
