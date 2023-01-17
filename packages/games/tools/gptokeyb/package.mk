@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
+# Copyright (C) 2023-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gptokeyb"
 PKG_VERSION="be8478deed8552293f5ae66cbcf415d23de9be0f"
@@ -15,6 +16,7 @@ PKG_TOOLCHAIN="make"
 pre_configure_target() {
   sed -i "s|\`sdl2-config|\`${SYSROOT_PREFIX}/usr/bin/sdl2-config|g" Makefile
   sed -i "s|\-I/usr/include/libevdev-1.0|\-I${SYSROOT_PREFIX}/usr/include/libevdev-1.0|g" Makefile
+  sed -i 's|if ((fp = fopen(path, "r+"))|if ((fp = fopen(path, "r"))|g' gptokeyb.cpp
 }
 
 makeinstall_target(){
