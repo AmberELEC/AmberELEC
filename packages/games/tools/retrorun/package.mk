@@ -2,17 +2,12 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="99a29560016fb64f0319c142df9d08e48af1bb8b"
+PKG_VERSION="bf966c60d34faa2ca5a091ddbd4ad3ad66b22700"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/AmberELEC/retrorun-go2"
+PKG_SITE="https://github.com/AmberELEC/retrorun"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_TARGET="toolchain libgo2 libdrm libpng linux"
+PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft"
 PKG_TOOLCHAIN="make"
-
-pre_make_target() {
-  mkdir -p src/go2
-  cp -f ${SYSROOT_PREFIX}/usr/include/go2/*.h src/go2
-}
 
 pre_configure_target() {
   CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
@@ -21,18 +16,13 @@ pre_configure_target() {
 }
 
 make_target() {
-  make config=release ARCH=
+  make config=release ARCH= verbose=1
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
-  if [ "${ARCH}" != "aarch64" ]; then
-    cp retrorun ${INSTALL}/usr/bin/retrorun32
-  else
-    cp retrorun ${INSTALL}/usr/bin
-    cp ${PKG_DIR}/retrorun.sh ${INSTALL}/usr/bin
-    #cp -vP ${PKG_BUILD}/../../build.${DISTRO}-${DEVICE}.arm/retrorun-*/.install_pkg/usr/bin/retrorun32 ${INSTALL}/usr/bin
-    mkdir -p ${INSTALL}/usr/config/distribution/configs
-    cp -vP ${PKG_DIR}/retrorun.cfg ${INSTALL}/usr/config/distribution/configs
-  fi
+  cp retrorun ${INSTALL}/usr/bin
+  cp $PKG_DIR/retrorun.sh ${INSTALL}/usr/bin
+  mkdir -p ${INSTALL}/usr/config/distribution/configs
+  cp -vP ${PKG_DIR}/retrorun.cfg ${INSTALL}/usr/config/distribution/configs
 }
