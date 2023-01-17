@@ -109,7 +109,6 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-
 ### MISC SETTINGS ###
 
 # Internal Resolution
@@ -220,7 +219,6 @@ else
 	fi
 fi
 
-
 # Flycast Auto Frameskip
 # Get configuration from distribution.conf and set to retrorun.cfg
 # default value for flycast_auto_skip_frame it's 'some'
@@ -242,8 +240,6 @@ else
 		echo "flycast_auto_skip_frame = ${EES}" >> ${RRCONF}
 	fi
 fi
-
-
 
 # Flycast: Enables/Disables the DSP. Fixes audio issues on some games.
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -302,7 +298,7 @@ else
 	fi
 fi
 
-### BETTLE SETTINGS ###
+### BEETLE VB SETTINGS ###
 
 # Beetle VB - Palette
 # Get configuration from distribution.conf and set to retrorun.cfg
@@ -319,7 +315,6 @@ else
 		echo "vb_color_mode = ${EES}" >> ${RRCONF}
 	fi
 fi
-
 
 rm /dev/input/by-path/platform-odroidgo2-joypad-event-joystick || true
 echo 'creating fake joypad'
