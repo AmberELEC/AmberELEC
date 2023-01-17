@@ -17,7 +17,7 @@ pre_configure_target() {
 }
 
 make_target() {
-  make config=release ARCH=
+  make config=release ARCH= verbose=1
 }
 
 makeinstall_target() {
