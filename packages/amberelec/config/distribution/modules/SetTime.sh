@@ -6,12 +6,16 @@ source /usr/bin/env.sh
 export TERM=xterm-color
 export DIALOGRC=/etc/amberelec.dialogrc
 
+echo -e '\033[?6c' > /dev/console # blinking vertical bar
+echo 1 > /sys/class/graphics/fbcon/cursor_blink
+
 gptokeyb SetTime.sh -c /usr/config/gptokeyb/settime.gptk &
 
 clear > /dev/console
 
 userQuit() {
  kill -9 $(pidof gptokeyb)
+ echo -e '\033[?25l' > /dev/console
  clear > /dev/console
  exit 0
 }
