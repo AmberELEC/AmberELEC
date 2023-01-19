@@ -6,6 +6,7 @@ source /usr/bin/env.sh
 export TERM=xterm-color
 export DIALOGRC=/etc/amberelec.dialogrc
 
+echo -e '\033[?25h' > /dev/console # Enable cursor
 echo -e '\033[?6c' > /dev/console # blinking vertical bar
 echo 1 > /sys/class/graphics/fbcon/cursor_blink
 
