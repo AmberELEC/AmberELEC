@@ -281,19 +281,19 @@ else
 	fi
 fi
 
-### PSX DUCKSTATION ###
+### PSX DUCKSTATION / SWANSTATION ###
 
 # PSX CPU Overclock
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "psx_cpu_overclock"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "duckstation" ]]; then
+	if [ "${CORE}" == "duckstation" ] || [ "${CORE}" == "swanstation" ]; then
 		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
 		echo 'duckstation_CPU.Overclock = 100' >> ${RRCONF}
 	fi
 else
-	if [[ "${CORE}" == "duckstation" ]]; then
+	if [ "${CORE}" == "duckstation" ] || [ "${CORE}" == "swanstation" ]; then
 		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
 	fi
 fi
