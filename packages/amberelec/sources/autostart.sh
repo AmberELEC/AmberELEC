@@ -248,3 +248,4 @@ esac
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after
 
+clear > /dev/console
