@@ -1,5 +1,6 @@
 [Unit]
 Description=Volume button service
+ConditionPathExists=/dev/input/event3
 After=headphones.service
 Before=amberelec.target
 StartLimitIntervalSec=0

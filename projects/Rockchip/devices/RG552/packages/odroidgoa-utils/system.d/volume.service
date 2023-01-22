@@ -1,5 +1,6 @@
 [Unit]
 Description=Volume button service
+ConditionPathExists=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
 After=headphones.service
 Before=amberelec.target
 StartLimitIntervalSec=0
