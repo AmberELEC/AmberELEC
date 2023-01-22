@@ -91,10 +91,10 @@ index 876db2773..ad35a27cf 100644
  	if (g_Config.iAndroidHwScale == 1) {
  		RecreateActivity();
 diff --git a/UI/GameSettingsScreen.h b/UI/GameSettingsScreen.h
-index 82b4cd859..b85c069ca 100644
+index 91d146bcd..79046f5d4 100644
 --- a/UI/GameSettingsScreen.h
 +++ b/UI/GameSettingsScreen.h
-@@ -59,6 +59,7 @@ class GameSettingsScreen : public UIDialogScreenWithGameBackground {
+@@ -55,6 +55,7 @@ class GameSettingsScreen : public UIDialogScreenWithGameBackground {
  	UI::Choice *displayEditor_;
  	UI::Choice *backgroundChoice_ = nullptr;
  	UI::PopupMultiChoice *resolutionChoice_;
@@ -102,15 +102,15 @@ index 82b4cd859..b85c069ca 100644
  	UI::CheckBox *frameSkipAuto_;
  	SettingInfoMessage *settingInfo_;
  	UI::Choice *clearSearchChoice_;
-@@ -107,6 +108,7 @@ class GameSettingsScreen : public UIDialogScreenWithGameBackground {
+@@ -98,6 +99,7 @@ class GameSettingsScreen : public UIDialogScreenWithGameBackground {
+ 	UI::EventReturn OnFullscreenChange(UI::EventParams &e);
  	UI::EventReturn OnFullscreenMultiChange(UI::EventParams &e);
- 	UI::EventReturn OnDisplayLayoutEditor(UI::EventParams &e);
  	UI::EventReturn OnResolutionChange(UI::EventParams &e);
 +	UI::EventReturn OnForceMaxEmulatedFPS(UI::EventParams &e);
- 	UI::EventReturn OnHwScaleChange(UI::EventParams &e);
  	UI::EventReturn OnRestoreDefaultSettings(UI::EventParams &e);
  	UI::EventReturn OnRenderingMode(UI::EventParams &e);
-@@ -135,6 +137,7 @@ class GameSettingsScreen : public UIDialogScreenWithGameBackground {
+ 	UI::EventReturn OnRenderingBackend(UI::EventParams &e);
+@@ -125,6 +127,7 @@ class GameSettingsScreen : public UIDialogScreenWithGameBackground {
  	UI::EventReturn OnClearSearchFilter(UI::EventParams &e);
  
  	// Temporaries to convert setting types, cache enabled, etc.
