@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle-lynx"
-PKG_VERSION="d48ebb62affc93940f121bc5a16a67658bca26ae"
-PKG_SHA256="a36c7a8d579e25e9095e087feb5f1ec7398228e8c25d3c72e2b48fcabc1a1456"
+PKG_VERSION="fc1288ccc0a4c6c07d690e0f0f5e883b43c20ba4"
+PKG_SHA256="fda851d729340e7247db122496af3218a49df1c6ebd6f91050aa22c02cae2510"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-lynx-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
