@@ -26,6 +26,6 @@ case $1 in
     # re-detect and reapply sound, brightness and hp state
     systemctl start headphones
     # start volume service
-    systemctl start volume
+    sleep 10; systemctl start volume &
     ;;
 esac

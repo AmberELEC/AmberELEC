@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="tic-80"
-PKG_VERSION="6ef9fdabc8542c643c0434f80f72465e71ffc84d"
+PKG_VERSION="ca3bb11f7d91b6f61c30b27e95958521e3432576"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/nesbox/TIC-80"
 PKG_URL="${PKG_SITE}.git"
