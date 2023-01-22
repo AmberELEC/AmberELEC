@@ -7,7 +7,7 @@ set -o pipefail
 #               2021-present pkegg
 
 ### Summary
-#   This script listens to volume keys on the RG351MP and adjusts volume
+#   This script listens to volume keys on the RG552 and adjusts volume
 #   Fn + Volume up/down will adjust brightness
 ###
 
@@ -26,7 +26,7 @@ VOL_EVENT='*(KEY_VOLUME*, value *' # This matches all volume events
 VOL_UP='*UP), value *'  # Differentiate 'up' volume event
 VOL_DOWN='*DOWN), value *' #Differentiate 'down' volume event
 
-V_FUNC_KEY_EVENT='*(BTN_TRIGGER_HAPPY4), value *' # Matches all RG351MP Fn key events
+V_FUNC_KEY_EVENT='*(BTN_TRIGGER_HAPPY4), value *' # Matches all RG552 Fn key events
 
 # Matches if a button was pressed (1), released (0) or held down (2)
 PRESS='*value 1'

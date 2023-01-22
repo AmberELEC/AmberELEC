@@ -117,6 +117,9 @@ fi
 
 # End Automatic updates
 
+# restart volume control service
+systemctl stop volume; systemctl start volume &
+
 # start services
 /usr/bin/startservices.sh &
 
