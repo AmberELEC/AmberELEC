@@ -5,13 +5,14 @@ export SDL_GAMECONTROLLERCONFIG_FILE="/storage/.config/SDL-GameControllerDB/game
 source /usr/bin/env.sh
 export TERM=xterm-color
 export DIALOGRC=/etc/amberelec.dialogrc
+echo -e '\033[?25h\033[?16;224;238c' > /dev/console
+clear > /dev/console
 
 gptokeyb SetTime.sh -c /usr/config/gptokeyb/settime.gptk &
 
-clear > /dev/console
-
 userQuit() {
  kill -9 $(pidof gptokeyb)
+ echo -e '\033[?25l' > /dev/console
  clear > /dev/console
  exit 0
 }
