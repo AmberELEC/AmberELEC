@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="stella"
-PKG_VERSION="9d46bb614f81c91513acc3b06c8d9865c24d8c3c"
-PKG_SHA256="aef5a1112beb087c826f516e9d4d577cb3975987f3f5ebc9e923ec7bf1d4ce27"
+PKG_VERSION="5f1f90260c91f27a2f7ada8f1383b2136ce1af48"
+PKG_SHA256="49a78128768a6c3e0e11c557b9a9ad4bea3dae258edb2f9d3343d222d39c82e5"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/stella-emu/stella"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

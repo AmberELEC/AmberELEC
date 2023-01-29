@@ -1,0 +1,52 @@
+diff --git a/Core/System.cpp b/Core/System.cpp
+index 8303f08a1..5738bbccf 100644
+--- a/Core/System.cpp
++++ b/Core/System.cpp
+@@ -115,6 +115,11 @@ static volatile bool pspIsInited = false;
+ static volatile bool pspIsIniting = false;
+ static volatile bool pspIsQuitting = false;
+ static volatile bool pspIsRebooting = false;
++#ifdef __ANDROID__
++static bool isAndroid = true;
++#else
++static bool isAndroid = false;
++#endif
+ 
+ void ResetUIState() {
+ 	globalUIState = UISTATE_MENU;
+@@ -626,7 +631,7 @@ std::string PSP_GetLoading() {
+ Path GetSysDirectory(PSPDirectories directoryType) {
+ 	const Path &memStickDirectory = g_Config.memStickDirectory;
+ 	Path pspDirectory;
+-	if (!strcasecmp(memStickDirectory.GetFilename().c_str(), "PSP")) {
++	if (isAndroid && (!strcasecmp(memStickDirectory.GetFilename().c_str(), "PSP"))) {
+ 		// Let's strip this off, to easily allow choosing a root directory named "PSP" on Android.
+ 		pspDirectory = memStickDirectory;
+ 	} else {
+diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
+index 889a58b01..79f2ec856 100644
+--- a/libretro/libretro.cpp
++++ b/libretro/libretro.cpp
+@@ -1250,19 +1250,13 @@ void retro_init(void)
+ 
+    Path retro_base_dir;
+    Path retro_save_dir;
+-   const char* dir_ptr = NULL;
+-   if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir_ptr) && dir_ptr)
+-      retro_base_dir = Path(dir_ptr);
+-
+-   if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &dir_ptr) && dir_ptr)
+-      retro_save_dir = Path(dir_ptr);
+-
+-   retro_base_dir /= "PPSSPP";
++   retro_base_dir /= "/roms/gamedata/ppsspp";
++   retro_save_dir /= "/roms/gamedata/ppsspp";
+ 
+    g_Config.currentDirectory = retro_base_dir;
+    g_Config.defaultCurrentDirectory = retro_base_dir;
+    g_Config.memStickDirectory = retro_save_dir;
+-   g_Config.flash0Directory = retro_base_dir / "flash0";
++   g_Config.flash0Directory = retro_base_dir / "assets/flash0";
+    g_Config.internalDataDirectory = retro_base_dir;
+    g_Config.bEnableNetworkChat = false;
+    g_Config.bDiscordPresence = false;
