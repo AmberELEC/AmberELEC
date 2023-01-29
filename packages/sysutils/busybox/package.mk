@@ -4,8 +4,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="busybox"
-PKG_VERSION="1.35.0"
-PKG_SHA256="faeeb244c35a348a334f4a59e44626ee870fb07b6884d68c10ae8bc19f83a694"
+PKG_VERSION="1.36.0"
+PKG_SHA256="542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.busybox.net"
 PKG_URL="https://busybox.net/downloads/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
@@ -13,8 +13,6 @@ PKG_DEPENDS_HOST="toolchain:host"
 PKG_DEPENDS_TARGET="toolchain hdparm hd-idle dosfstools e2fsprogs zip usbutils parted procps-ng gptfdisk libtirpc cryptsetup"
 PKG_DEPENDS_INIT="toolchain libtirpc"
 PKG_LONGDESC="BusyBox combines tiny versions of many common UNIX utilities into a single small executable."
-# busybox fails to build with GOLD support enabled with binutils-2.25
-PKG_BUILD_FLAGS="-parallel -gold"
 
 # nano text editor
 if [ "${NANO_EDITOR}" = "yes" ]; then
@@ -71,9 +69,6 @@ configure_target() {
       sed -i -e "s|^CONFIG_FEATURE_MOUNT_CIFS=.*$|# CONFIG_FEATURE_MOUNT_CIFS is not set|" .config
     fi
 
-    # optimize for size
-    CFLAGS=$(echo ${CFLAGS} | sed -e "s|-Ofast|-Os|")
-    CFLAGS=$(echo ${CFLAGS} | sed -e "s|-O.|-Os|")
     CFLAGS+=" -I${SYSROOT_PREFIX}/usr/include/tirpc"
 
     LDFLAGS+=" -fwhole-program"
@@ -89,9 +84,6 @@ configure_init() {
     # set install dir
     sed -i -e "s|^CONFIG_PREFIX=.*$|CONFIG_PREFIX=\"${INSTALL}/usr\"|" .config
 
-    # optimize for size
-    CFLAGS=$(echo ${CFLAGS} | sed -e "s|-Ofast|-Os|")
-    CFLAGS=$(echo ${CFLAGS} | sed -e "s|-O.|-Os|")
     CFLAGS+=" -I${SYSROOT_PREFIX}/usr/include/tirpc"
 
     LDFLAGS+=" -fwhole-program"
