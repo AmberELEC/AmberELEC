@@ -8,7 +8,7 @@ export DIALOGRC=/etc/amberelec.dialogrc
 echo -e '\033[?25h\033[?16;224;238c' > /dev/console
 clear > /dev/console
 
-gptokeyb ppsspp_migrate.sh -c /roms/homebrew/psp.gptk &
+gptokeyb ppsspp_migrate.sh -c /usr/config/gptokeyb/settime.gptk &
 
 raSavesDir='/storage/.config/ppsspp/PSP/SAVEDATA'
 saSavesDir='/roms/gamedata/ppsspp/PSP/SAVEDATA'
