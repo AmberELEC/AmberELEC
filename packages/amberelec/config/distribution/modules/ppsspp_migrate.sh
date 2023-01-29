@@ -10,7 +10,7 @@ clear > /dev/console
 
 gptokeyb ppsspp_migrate.sh -c /usr/config/gptokeyb/settime.gptk &
 
-raSavesDir='/storage/.config/ppsspp/PSP/SAVEDATA'
+raSavesDir='/roms/psp/SAVEDATA'
 saSavesDir='/roms/gamedata/ppsspp/PSP/SAVEDATA'
 dialog_title="RetroArch PPaSSPP Save Migration Utility"
 dialog_backtitle="AmberELEC"
