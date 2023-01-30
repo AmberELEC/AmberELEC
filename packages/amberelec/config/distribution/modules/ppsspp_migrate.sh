@@ -8,13 +8,13 @@ export DIALOGRC=/etc/amberelec.dialogrc
 echo -e '\033[?25h\033[?16;224;238c' > /dev/console
 clear > /dev/console
 
-gptokeyb ppsspp_migrate.sh -c /usr/config/gptokeyb/settime.gptk &
+gptokeyb ppsspp_migrate.sh -c /roms/homebrew/psp.gptk &
 
 raSavesDir='/roms/psp/SAVEDATA'
 saSavesDir='/roms/gamedata/ppsspp/PSP/SAVEDATA'
-dialog_title="RetroArch PPaSSPP Save Migration Utility"
+dialog_title="RetroArch PPSSPP Save Migration Utility"
 dialog_backtitle="AmberELEC"
-
+scriptmode="psp"
 Quit(){
 	kill -9 $(pidof gptokeyb)
 	echo -e '\033[?25l' > /dev/console
@@ -42,8 +42,12 @@ ShowSelectionScreen(){
 		dialog \
 		--title "${dialog_title}" \
 		--backtitle "${dialog_backtitle}" \
-		--msgbox "RetroArch's save directory seems empty, quitting..." 10 60 2>&1 > /dev/console
-		Quit
+		--msgbox "RetroArch's save directory seems empty..." 10 60 2>&1 > /dev/console
+		if [ "$scriptmode" != "minis" ]; then
+			AskForMinis
+		else
+			ShowFinalScreen
+		fi
 	fi
 
 	folderList=("Select all" "" "off")
@@ -69,6 +73,31 @@ ShowSelectionScreen(){
 
 }
 
+ShowFinalScreen(){
+	dialog \
+	--title "${dialog_title}" \
+	--backtitle "${dialog_backtitle}" \
+	--msgbox "Save file migration complete" 10 30 2>&1 > /dev/console
+
+	Quit
+}
+
+AskForMinis(){
+	dialog --yesno "Would you like to migrate your PSP Minis save data now?" 0 0 2>&1 > /dev/console
+	
+	result=$?
+	case ${result} in
+		0) 
+			raSavesDir="/roms/pspminis/SAVEDATA"
+			scriptmode="minis"
+			ShowSelectionScreen
+		;;
+		1) ShowFinalScreen;;
+		255) Quit;;
+	esac
+
+}
+
 MoveFiles(){
 
 	selectedFolders=($@)
@@ -79,21 +108,16 @@ MoveFiles(){
 
 	(for folder in "${selectedFolders[@]}"; do
 		echo $((++i * 100 / ${#selectedFolders[@]}))
-		mv "${raSavesDir}/${folder}" "${saSavesDir}/"
+		#mv "${raSavesDir}/${folder}" "${saSavesDir}/"
 		sync
 	done) | dialog \
 	--title "${dialog_title}" \
 	--backtitle "${dialog_backtitle}" \
 	--guage "Moving save files..." 10 70 0 2>&1 > /dev/console
 	
-	dialog \
-	--title "${dialog_title}" \
-	--backtitle "${dialog_backtitle}" \
-	--msgbox "Save file migration complete" 10 30 2>&1 > /dev/console
-
-	Quit
-
-
+	if [ "$scriptmode" != "minis" ]; then
+		AskForMinis
+	fi
 }
 
 
