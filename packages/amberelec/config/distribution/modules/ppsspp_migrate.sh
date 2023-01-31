@@ -108,7 +108,7 @@ MoveFiles(){
 
 	(for folder in "${selectedFolders[@]}"; do
 		echo $((++i * 100 / ${#selectedFolders[@]}))
-		#mv "${raSavesDir}/${folder}" "${saSavesDir}/"
+		mv "${raSavesDir}/${folder}" "${saSavesDir}/"
 		sync
 	done) | dialog \
 	--title "${dialog_title}" \
