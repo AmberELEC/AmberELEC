@@ -16,7 +16,7 @@ jobs:
       steps:
         #- uses: hmarr/debug-action@v2
         #  name: debug
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v3
           name: checkout
           with:
             clean: false
@@ -27,7 +27,7 @@ jobs:
         - name: repository full name
           id: full_name
           run: |
-               echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's|^.*github.com/||g' | sed 's/.git$//g')"
+               echo "full_name=$(git config --get remote.origin.url | sed 's|^.*github.com/||g' | sed 's/.git$//g')" >> $GITHUB_OUTPUT
         
         - name: changes
           id: changes
@@ -43,7 +43,7 @@ jobs:
               echo "last beta date: ${last_beta_date}"
               popd
               
-              echo ::set-output name=changes::$(git log --after="${last_beta_date}" --oneline | wc -l)
+              echo changes=$(git log --after=" >> $GITHUB_OUTPUT${last_beta_date}" --oneline | wc -l)
               
               release_notes="$(git log --after=\\"${last_beta_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
               
@@ -52,14 +52,14 @@ jobs:
               release_notes="${release_notes//$'\n'/'%0A'}"
               release_notes="${release_notes//$'\r'/'%0D'}"
 
-              echo "::set-output name=release_notes::${release_notes}"
+              echo "release_notes=${release_notes}" >> $GITHUB_OUTPUT
         - name: Get date for artifacts
           id: date
-          run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
+          run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
   
         - name: Repository Dispatch
           if: steps.changes.outputs.changes != '0'
-          uses: peter-evans/repository-dispatch@v1
+          uses: peter-evans/repository-dispatch@v2
           with:
             token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
             repository: ${{ steps.full_name.outputs.full_name }}

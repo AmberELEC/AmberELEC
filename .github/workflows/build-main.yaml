@@ -36,45 +36,45 @@ jobs:
             if [[ -z "$branch_arg" ]]; then
               branch_arg="$GITHUB_REF_NAME"
             fi
-            echo "::set-output name=branch::$branch_arg"
-      - uses: actions/checkout@v2
+            echo "branch=$branch_arg" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
         name: checkout
         with:
           clean: false
           ref: "${{ steps.branch.outputs.branch }}"
       - name: Get date for artifacts
         id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
       - name: Get short SHA for artifacts
         id: sha
-        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get dev (or draft release) version
         id: version
         run: |
            set -e
            echo "full name: ${{ github.event.repository.full_name }}"
            if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "::set-output name=version::${{ github.event.client_payload.release_tag }}"
+               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
            else
-               echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
            fi
-      - name: Build rg351P
+      - name: Build RG351P
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351P
 
-      - name: Build rg351V
+      - name: Build RG351V
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351V
-      - name: Build rg351MP
+      - name: Build RG351MP
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351MP
-      - name: Build rg552
+      - name: Build RG552
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
@@ -93,7 +93,7 @@ jobs:
             rm -rf release/aarch64/RG*/*.img.gz*
 
       - name: Archive RG351V (${{github.sha}})
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: github.event.client_payload.release_tag == ''
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
@@ -101,21 +101,21 @@ jobs:
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
       - name: Archive RG351MP (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: RG351MP-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351MP/
       - name: Archive RG552 (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
