@@ -5,11 +5,11 @@ jobs:
   build:
     runs-on: main
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         name: checkout
         with:
           clean: false
-      - name: Build rg351
+      - name: Build RG351
         run: |
             set -e
             make docker-clean
