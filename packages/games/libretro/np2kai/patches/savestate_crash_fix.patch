@@ -1,0 +1,15 @@
+diff --git a/sound/fmgen/fmgen_opna.cpp b/sound/fmgen/fmgen_opna.cpp
+index b2ec3fb..2769507 100755
+--- a/sound/fmgen/fmgen_opna.cpp
++++ b/sound/fmgen/fmgen_opna.cpp
+@@ -1472,8 +1472,8 @@ bool OPNA::LoadRhythmSample(const char* path)
+ 			break;
+ 		fsize = Max(fsize, (1<<31)/1024);
+ 		
+-		if(rhythm[i].sample)
+-			delete[] rhythm[i].sample;
++		// if(rhythm[i].sample)
++		// 	delete[] rhythm[i].sample;
+ 		rhythm[i].sample = new int16[fsize];
+ 		if (!rhythm[i].sample)
+ 			break;
