@@ -1,0 +1,35 @@
+# Copyright (C) 2023-present MedeirosT (https://github.com/medeirost/)
+diff --git a/platform/libretro/libretro.cpp b/platform/libretro/libretro.cpp
+index 927ea8d..c83832c 100644
+--- a/platform/libretro/libretro.cpp
++++ b/platform/libretro/libretro.cpp
+@@ -223,21 +223,14 @@ EXPORT void retro_run()
+             }
+         }
+ 
+-        mouseBtnState = 0;
+-
+-        if (_memory->drawState.devkitMode) {
+-            int16_t pressed = input_state_cb(0, RETRO_DEVICE_POINTER, 0, RETRO_DEVICE_ID_POINTER_PRESSED);
+-            int16_t pointX = input_state_cb(0, RETRO_DEVICE_POINTER, 0, RETRO_DEVICE_ID_POINTER_X);
+-            int16_t pointY = input_state_cb(0, RETRO_DEVICE_POINTER, 0, RETRO_DEVICE_ID_POINTER_Y);
+-            
+-            if (pressed) {
+-                picoMouseX = pointX * 64 / 32768 + 64;
+-                picoMouseY = pointY * 64 / 32768 + 64;
+-                mouseBtnState = 1;
+-            }
+-        }
+-        
+-        setInputState(currKDown, currKHeld, picoMouseX, picoMouseY, mouseBtnState);
++	int16_t analogX = input_state_cb(0, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X);
++	int16_t analogY = input_state_cb(0, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y);
++
++	picoMouseX += ((PicoScreenWidth / 32767.0f ) * analogX)/32;
++	picoMouseY += ((PicoScreenHeight / 32767.0f) * analogY)/32;
++	int16_t pressed = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
++
++	setInputState(currKDown, currKHeld, picoMouseX, picoMouseY, pressed);
+ 
+         _vm->UpdateAndDraw();
+         kHeld = currKHeld;
