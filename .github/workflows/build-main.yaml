@@ -79,7 +79,6 @@ jobs:
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG552
-
       - name: Cleanup system artifacts
         run: |
             set -e
@@ -120,20 +119,6 @@ jobs:
           name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG552/
-
-      #NOTE: This can be removed after we no longer require old 351ELEC prereleases to be
-      # able to seamlessly upgrade to new AmberELEC prereleases
-      - name: Create backwards compatible 351ELEC tar and tar.sha256 files
-        if: github.event.action == 'release-prerelease'
-        run: |
-            for release in release/aarch64/RG*/*.tar*; do
-              echo "release: $release"
-              compatible_release=$(echo $release | sed 's|AmberELEC|351ELEC|g')
-              if [[ "$compatible_release" != "$release" ]]; then
-                echo "creating compatible tar: $compatible_release"
-                cp "$release" "$compatible_release" 
-              fi
-            done
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-prerelease'
         uses: ncipollo/release-action@v1
@@ -142,17 +127,17 @@ jobs:
           body: |
             # Release Notes (Prerelease)
             This is a prerelease based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
-    
+
             Prereleases and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#pre-release-feedback` section of discord.
-            
+
             See the [wiki](https://amberelec.org/Contributing-to-AmberELEC) for more info.
-            
+
             ### Changes (since last prerelease version):
             ${{ github.event.client_payload.release_notes }}
-            
+
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
-            
+
              **IMPORTANT NOTE**: There are **four different images** below, one for the **RG351P/M**, **RG351V**, **RG351MP** and **RG552**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
@@ -176,19 +161,6 @@ jobs:
           repo: AmberELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
-      #NOTE: This can be removed after we no longer require old 351ELEC dev releases to be
-      # able to seamlessly upgrade to new AmberELEC prereleases
-      - name: Create backwards compatible 351ELEC tar and tar.sha256 files
-        if: github.event.action == 'release-dev'
-        run: |
-            for release in release/aarch64/RG*/*.tar*; do
-              echo "release: $release"
-              compatible_release=$(echo $release | sed 's|AmberELEC|351ELEC|g')
-              if [[ "$compatible_release" != "$release" ]]; then
-                echo "creating compatible tar: $compatible_release"
-                cp "$release" "$compatible_release" 
-              fi
-            done
       - name: Create dev release as draft at first to hide during uploads
         if: github.event.action == 'release-dev'
         uses: ncipollo/release-action@v1
@@ -199,10 +171,10 @@ jobs:
             This is an **unsupported dev release** based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
 
             Unless you were asked by a developer to use this build or **are** a developer.  **Do not use this build.**
-            
+
             ### Changes (since last dev build):
             ${{ github.event.client_payload.release_notes }}
-            
+
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device if you take the following steps:
             - Under`System Settings` -> `Developer` (`Updates` section), set the following:
@@ -265,17 +237,6 @@ jobs:
           repo: AmberELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
-      - name: Create backwards compatible 351ELEC tar and tar.sha256 files
-        if: github.event.action == 'release-draft'
-        run: |
-            for release in release/aarch64/RG*/*.tar*; do
-              echo "release: $release"
-              compatible_release=$(echo $release | sed 's|AmberELEC|351ELEC|g')
-              if [[ "$compatible_release" != "$release" ]]; then
-                echo "creating compatible tar: $compatible_release"
-                cp "$release" "$compatible_release" 
-              fi
-            done
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         if: github.event.action == 'release-draft'
