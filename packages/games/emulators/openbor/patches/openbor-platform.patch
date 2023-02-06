@@ -1,0 +1,30 @@
+diff --git a/engine/Makefile b/engine/Makefile
+index 8b0f9a65..6e8198e0 100644
+--- a/engine/Makefile
++++ b/engine/Makefile
+@@ -149,6 +149,25 @@ BUILD_DEBUG     = 1
+ endif
+ endif
+ 
++ifdef BUILD_LINUX_aarch64
++TARGET 	        = $(VERSION_NAME).elf
++TARGET_FINAL    = $(VERSION_NAME)
++TARGET_PLATFORM = LINUX
++BUILD_LINUX     = 1
++BUILD_SDL       = 1
++BUILD_GFX       = 1
++BUILD_PTHREAD   = 1
++BUILD_SDL_IO    = 1
++BUILD_VORBIS    = 1
++BUILD_WEBM      = 1
++BUILDING        = 1
++INCLUDES        = $(SDKPATH)/usr/include \
++                  $(SDKPATH)/usr/include/SDL2
++OBJTYPE         = elf
++LIBRARIES       = $(SDKPATH)/usr/lib
++CFLAGS          += -Wno-error=format-overflow -Wno-error=stringop-truncation -Wno-error=implicit-function-declaration -Wno-error=unused-variable -Wno-error=unused-label -Wno-error=stringop-overflow -Wno-error=deprecated-declarations -Wno-error=maybe-uninitialized -Wno-error=address
++endif
++
+ ifdef BUILD_DARWIN
+ TARGET          = $(VERSION_NAME).elf
+ TARGET_FINAL    = $(VERSION_NAME)
