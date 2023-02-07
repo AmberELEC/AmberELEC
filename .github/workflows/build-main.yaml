@@ -127,17 +127,17 @@ jobs:
           body: |
             # Release Notes (Prerelease)
             This is a prerelease based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
-    
+
             Prereleases and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#pre-release-feedback` section of discord.
-            
+
             See the [wiki](https://amberelec.org/Contributing-to-AmberELEC) for more info.
-            
+
             ### Changes (since last prerelease version):
-            ${github.event.client_payload.release_notes//$'%0A'/'\n'}
+            ${github.event.client_payload.release_notes//%0A/\n}
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
-            
+
              **IMPORTANT NOTE**: There are **four different images** below, one for the **RG351P/M**, **RG351V**, **RG351MP** and **RG552**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
@@ -171,10 +171,10 @@ jobs:
             This is an **unsupported dev release** based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
 
             Unless you were asked by a developer to use this build or **are** a developer.  **Do not use this build.**
-            
+
             ### Changes (since last dev build):
-            ${github.event.client_payload.release_notes//$'%0A'/'\n'}
-            
+            ${github.event.client_payload.release_notes//%0A/\n}
+
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device if you take the following steps:
             - Under`System Settings` -> `Developer` (`Updates` section), set the following:
