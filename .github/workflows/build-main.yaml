@@ -121,10 +121,8 @@ jobs:
             release/aarch64/RG552/
       - name: format release notes
         id: rel_note
-        env:
-          RELEASE_NOTES: ${{ github.event.client_payload.release_notes }}
         run: |
-          release_notes="$ENV{RELEASE_NOTES}"
+          release_notes=${{ github.event.client_payload.release_notes }}
           release_notes="${release_notes//%0A/\n}"
           echo "release_notes=${release_notes}" >> $GITHUB_OUTPUT
       - name: Create pre-release as draft at first to hide during uploads
