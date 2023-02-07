@@ -50,7 +50,7 @@ jobs:
               
               # The below lines translate linebreaks so they can be set into the 'release_notes' variable
               release_notes="${release_notes//'%'/'%25'}"
-              release_notes="${release_notes//$'\n'/'%0A'}"
+              release_notes="${release_notes//$'\n'/'<br />'}"
               release_notes="${release_notes//$'\r'/'%0D'}"
 
               echo "release_notes=${release_notes}" >> $GITHUB_OUTPUT
