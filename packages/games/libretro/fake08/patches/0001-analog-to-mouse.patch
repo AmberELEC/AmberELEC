@@ -1,3 +1,4 @@
+# Copyright (C) 2023-present MedeirosT (https://github.com/medeirost/)
 diff --git a/platform/libretro/libretro.cpp b/platform/libretro/libretro.cpp
 index 927ea8d..bdafa7f 100644
 --- a/platform/libretro/libretro.cpp
