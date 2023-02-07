@@ -119,6 +119,13 @@ jobs:
           name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG552/
+      - name: format release notes
+        id: rel_note
+        env: RELEASE_NOTES: ${{ github.event.client_payload.release_notes }}
+        run: |
+          release_notes="$ENV{RELEASE_NOTES}"
+          release_notes="${release_notes//%0A/\n}"
+          echo "release_notes=${release_notes}" >> $GITHUB_OUTPUT
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-prerelease'
         uses: ncipollo/release-action@v1
@@ -133,7 +140,7 @@ jobs:
             See the [wiki](https://amberelec.org/Contributing-to-AmberELEC) for more info.
 
             ### Changes (since last prerelease version):
-            ${{ github.event.client_payload.release_notes //%0A/\n }}
+            ${{ release_notes }}
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
@@ -173,7 +180,7 @@ jobs:
             Unless you were asked by a developer to use this build or **are** a developer.  **Do not use this build.**
 
             ### Changes (since last dev build):
-            ${{ github.event.client_payload.release_notes //%0A/\n }}
+            ${{ release_notes }}
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device if you take the following steps:
