@@ -120,7 +120,7 @@ jobs:
           path: |
             release/aarch64/RG552/
       - name: format release notes
-        id: rel_note
+        id: rel_notes
         run: |
           release_notes=${{ github.event.client_payload.release_notes }}
           release_notes="${release_notes//%0A/\n}"
