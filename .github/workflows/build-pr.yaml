@@ -1,7 +1,7 @@
 name: build-pr
 on:
   pull_request:
-  
+
     # We don't need to run builds when these files change
     paths-ignore:
       - '.github/**'
@@ -20,30 +20,38 @@ env:
 # Ensure that if there are multiple builds for a PR only 1 is queued
 # Example: 1st commit in PR starts a build then 2-9 commits come in during the first build.
 #          This makes it so that only commit 9 is enqueued to build rather than builds for 2-9 all being queued
-concurrency: 
+concurrency:
   group: pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true #only 1 build at a time per PR
 jobs:
-  build:
-    timeout-minutes: 1440
+  build-init:
+    timeout-minutes: 60
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
     if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
     steps:
       - uses: actions/checkout@v3
-        name: checkout (pull request)
+        name: Checkout (pull request)
         with:
-          # clean: false ensures that we don't remove all the build files 
+          # clean: false ensures that we don't remove all the build files
           clean: false
-      
+
+  build-rg351p:
+    needs: [build-init]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    steps:
       - name: Get date for artifacts
         id: date
         run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
       - name: Get short SHA for artifacts
         id: sha
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-      - name: Get PR Version
+      - name: Get PR version
         id: version
         run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG351P
@@ -52,24 +60,90 @@ jobs:
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             export DOCKER_WORK_DIR=/work
             make docker-RG351P
+
+  build-rg351v:
+    needs: [build-init, build-rg351p]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get PR version
+        id: version
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG351V
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             export DOCKER_WORK_DIR=/work
             make docker-RG351V
+
+  build-rg351mp:
+    needs: [build-init, build-rg351p, build-rg351v]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get PR version
+        id: version
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG351MP
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             export DOCKER_WORK_DIR=/work
             make docker-RG351MP
+
+  build-rg552:
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get PR version
+        id: version
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG552
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             export DOCKER_WORK_DIR=/work
             make docker-RG552
+
+  build-finalize:
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    steps:
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Cleanup system artifacts (no .img in PR builds)
         run: |
             set -e
@@ -77,18 +151,18 @@ jobs:
             rm -rf release/aarch64/RG*/*.kernel*
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG*/*.img.gz*
-      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
-          path: |
-            release/aarch64/RG351V/
       - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
         uses: actions/upload-artifact@v3
         with:
           name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351P/
+      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351V/
       - name: Archive RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
         uses: actions/upload-artifact@v3
         with:
