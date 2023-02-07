@@ -133,7 +133,7 @@ jobs:
             See the [wiki](https://amberelec.org/Contributing-to-AmberELEC) for more info.
 
             ### Changes (since last prerelease version):
-            ${github.event.client_payload.release_notes//%0A/\n}
+            ${{ github.event.client_payload.release_notes//%0A/\n}}
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
@@ -173,7 +173,7 @@ jobs:
             Unless you were asked by a developer to use this build or **are** a developer.  **Do not use this build.**
 
             ### Changes (since last dev build):
-            ${github.event.client_payload.release_notes//%0A/\n}
+            ${{ github.event.client_payload.release_notes//%0A/\n}}
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device if you take the following steps:
