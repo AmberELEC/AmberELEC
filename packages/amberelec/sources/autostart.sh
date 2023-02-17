@@ -229,6 +229,11 @@ then
   /usr/bin/batocera-internal-wifi disable-no-refresh
 fi
 
+
+if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
+	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
+fi
+
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)
 
