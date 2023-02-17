@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle-ngp"
-PKG_VERSION="00c7cb8ea97ad9a372307405d8abf34e401fec8a"
-PKG_SHA256="c7b24f77606c81818af335377ebedb09da344546c19092e3afe47954c8a4f2f2"
+PKG_VERSION="b5b67e5172daf1c8a5b15c294b16af6ee6ab3a5f"
+PKG_SHA256="7b964224d18c8cf9ebbdb0d17dde8740d03d918983966b2de781053aeca54e45"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-ngp-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

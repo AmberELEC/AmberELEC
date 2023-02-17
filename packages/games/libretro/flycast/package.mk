@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="flycast"
-PKG_VERSION="a045c52146f688f76ff2d21bcb9f6560f9825a82"
+PKG_VERSION="253301ba4f822e8c0f53d1f3fe010ad85ca336ed"
 PKG_SITE="https://github.com/flyinghead/flycast"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES} libzip zlib"
@@ -10,7 +10,8 @@ PKG_LONGDESC="Flycast is a multi-platform Sega Dreamcast, Naomi and Atomiswave e
 PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
-  sed -i 's/"reicast"/"flycast"/g' ${PKG_BUILD}/shell/libretro/libretro_core_option_defines.h 
+  sed -i 's/"reicast"/"flycast"/g' ${PKG_BUILD}/shell/libretro/libretro_core_option_defines.h
+  sed -i 's/RETRO_PIXEL_FORMAT_XRGB8888/RETRO_PIXEL_FORMAT_RGB565/g' ${PKG_BUILD}/shell/libretro/libretro.cpp 
   PKG_CMAKE_OPTS_TARGET="-DCMAKE_RULE_MESSAGES=OFF \
                          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
                          -DCMAKE_BUILD_TYPE="Release" \

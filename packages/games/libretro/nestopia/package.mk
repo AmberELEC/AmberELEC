@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="nestopia"
-PKG_VERSION="cb1e24e2d6e5d49a85924a9d6dd9c470c109f537"
-PKG_SHA256="2fb5e7113d1c813881102da57a8d512e4689344c544a1ea38c6e356437bcf6a6"
+PKG_VERSION="125e2ab6d7f2dd4accc60cb84154adad21d3a6a9"
+PKG_SHA256="a913102de13a13c86e0d1c341d0bd6f3860cbf1011ccb8bb53c8cc9f84aa531f"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/nestopia"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
