@@ -55,8 +55,7 @@ for file in /tmp/joypads/*.cfg; do
 	if [ "${JOYNAME}" == "${GAMEPAD}" ]; then
 		GPFILE="${file}"
 
-		# Other keys to consider KEY_SCREENSHOT KEY_QUIT KEY_PAUSE
-		for key in KEY_UP KEY_DOWN KEY_LEFT KEY_RIGHT KEY_BUTTON1 KEY_BUTTON2 KEY_BUTTON3 KEY_START1 KEY_COIN1; do
+		for key in KEY_UP KEY_DOWN KEY_LEFT KEY_RIGHT KEY_BUTTON1 KEY_BUTTON2 KEY_BUTTON3 KEY_START1 KEY_COIN1 KEY_PAUSE KEY_CONSOLE KEY_TEST KEY_SERVICE; do
 
 			case ${key} in
 				"KEY_UP")
@@ -105,6 +104,22 @@ for file in /tmp/joypads/*.cfg; do
 					button=$(cat "${GPFILE}" | grep -E 'input_select_btn' | cut -d '"' -f2)
 					keyboard="53 54"
 				;;
+				"KEY_PAUSE")
+					button=$(cat "${GPFILE}" | grep -E 'input_l2_btn' | cut -d '"' -f2)
+					keyboard="0 0"
+				;;
+				"KEY_CONSOLE")
+					button=$(cat "${GPFILE}" | grep -E 'input_r2_btn' | cut -d '"' -f2)
+					keyboard="0 0"
+				;;
+				"KEY_TEST")
+					button=$(cat "${GPFILE}" | grep -E 'input_l_btn' | cut -d '"' -f2)
+					keyboard="0 0"
+				;;
+				"KEY_SERVICE")
+					button=$(cat "${GPFILE}" | grep -E 'input_r_btn' | cut -d '"' -f2)
+					keyboard="0 0"
+				;;
 			esac
 
 			# if the button is in fact a hat extract the number, else use the button number+1
@@ -145,7 +160,7 @@ cd "${config}"
 if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
 	mkdir "/storage/roms/laserdisc/${name}.daphne"
 	mount -obind ${dir} "/storage/roms/laserdisc/${name}.daphne"
-	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -retropath $TIPHAT $params
+	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -set_overlay oversize -retropath $TIPHAT $params
 	sleep 0.1
 	umount "/storage/roms/laserdisc/${name}.daphne"
 	rmdir "/storage/roms/laserdisc/${name}.daphne"
