@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-audio-sdl"
-PKG_VERSION="8f372a02b0d3e660feba1d727b47a1eb2664404c"
-PKG_SHA256="d24e7875ec0c95dc22a52b41f369697c6da87c3057e7f2c57c358cfad34c6aef"
+PKG_VERSION="8d5df662e91cae8c4ad327d67a2ccaffc486a88c"
+PKG_SHA256="7c48913ed7c2005c3c11c8a027e3cd52a2862a71e46c914054528bb777b2e9e8"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-audio-sdl"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-audio-sdl/archive/${PKG_VERSION}.tar.gz"

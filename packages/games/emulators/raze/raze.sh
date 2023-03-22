@@ -29,7 +29,6 @@ function get_setting() {
 
 # Show FPS
 get_setting "show_fps"
-echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
         SHOWFPS='0'
 else

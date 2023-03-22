@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-video-rice"
-PKG_VERSION="97e0acff02e62dee7006337a2eb6e3ef5299d096"
-PKG_SHA256="42978de20c8dd1d222eb200fc820d99c04fae51b9a7e7a18062e4ef3c64ec214"
+PKG_VERSION="f443d6c25350b4b39e578e8495ec727ad3ceb900"
+PKG_SHA256="fd2c3b4fa771c855153f26590b0a60a31bf82fc4ff69c9fd976b093ca0533bd2"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-video-rice"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-video-rice/archive/${PKG_VERSION}.tar.gz"

@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gzdoom"
-PKG_VERSION="113ef75f299b63663827da74857c01caf19e7ed2"
+PKG_VERSION="ea969adbc31fd2eae4b464bb59c8d29eaf8f5a58"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"

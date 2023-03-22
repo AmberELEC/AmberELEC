@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle-wswan"
-PKG_VERSION="4e73cf52d5223105a8ac175f4332d609364fb5f9"
-PKG_SHA256="8a8742b339981a23b0da6e7b8074c3a84a5ce305e0ec55a600f1e780e77d38b2"
+PKG_VERSION="81e8b2afd31b7f0f939a3df6d70c8723bcc8a701"
+PKG_SHA256="092ae37c4ebdf91b0860ae2070a614fcd808ef377b8ff1ca7066964f27471ddb"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-wswan-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

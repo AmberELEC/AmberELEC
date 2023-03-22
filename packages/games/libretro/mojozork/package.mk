@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mojozork"
-PKG_VERSION="e5eed8e7db672779391b3ce8fdebdefefb2fa52a"
-PKG_SHA256="8351be5c602ae78c6c0b5c854d5d6b660e416e28ee06cafecfbcb0f20cb4b5fd"
+PKG_VERSION="74d3e36ed89a6e44930cd103b9054f9fd8767b99"
+PKG_SHA256="8153fbd907f41cf6fe0954e07f6a48e221ca504706b111ab808c7a538ea9f282"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/icculus/mojozork"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

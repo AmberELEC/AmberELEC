@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fake08"
-PKG_VERSION="1f628aeaebbcf30de14bd4d14cadace4bdd8794c"
+PKG_VERSION="e9fe530dfdb91d80921ac490d0dfa5d184111c69"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/jtothebell/fake-08"
 PKG_URL="${PKG_SITE}.git"
