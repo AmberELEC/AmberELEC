@@ -17,6 +17,7 @@ sed -i '
         /ai_service_target_lang =/d;
         /ai_service_url =/d;
         /aspect_ratio_index =/d;
+        /cheevos_token =/d;
         /cheevos_auto_screenshot =/d;
         /cheevos_badges_enable =/d;
         /cheevos_challenge_indicators =/d;
