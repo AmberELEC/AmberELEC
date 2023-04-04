@@ -4,10 +4,10 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL8821CU"
-PKG_VERSION="4bdd7c8668562e43564cd5d786055633e591ad4d"
+PKG_VERSION="80781de376007ecd778dfb2bef05533e3a6cc7c6"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/morrownr/8821cu-20210118"
-PKG_URL="https://github.com/morrownr/8821cu-20210118/archive/${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/morrownr/8821cu-20210916"
+PKG_URL="https://github.com/morrownr/8821cu-20210916/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="${LINUX_DEPENDS}"
 PKG_LONGDESC="Realtek RTL8821CU Linux 4.4-5.x driver"
