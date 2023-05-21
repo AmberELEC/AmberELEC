@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="advancemame"
-PKG_VERSION="69b66aa1a4a1fe0468b2969be82178aa34e83902"
-PKG_SHA256="899647b85f756935dd7559e306bbcbce78a9d1e6b33fc3cf0fa41604fd621b87"
+PKG_VERSION="04b2c10e44844bc303a6355a97602a4741543a24"
+PKG_SHA256="34b34b931127abb1a7134dfbd198eca96aac4673cae762d85da0c9222ca51ee8"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/amadvance/advancemame"
 PKG_URL="https://github.com/amadvance/advancemame/archive/${PKG_VERSION}.tar.gz"

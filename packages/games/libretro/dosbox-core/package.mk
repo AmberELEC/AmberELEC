@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="dosbox-core"
-PKG_VERSION="4032f8ba364e8594fd8e160121f6b13f6ee2bf65"
-PKG_SHA256="8d8da47840e7925772b28f159965d8e1796904df05fb9e32f8070307c1310652"
+PKG_VERSION="3acbd34955a4fa04b829ca827b79672426bfdd16"
+PKG_SHA256="233beb585e90b60ec9365638396061a249b31f62d0e57822cbe7dc42ce44149a"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/realnc/dosbox-core"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="raze"
-PKG_VERSION="c6e15ddba8799361fc6a5b97435c3d2247511090"
+PKG_VERSION="321267a2b556a0b37585c8c756d3df7b2367fc5a"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/Raze"
 PKG_URL="${PKG_SITE}.git"
@@ -33,9 +33,7 @@ PKG_CMAKE_OPTS_HOST=" -DZMUSIC_LIBRARIES=$(get_build_dir zmusic)/build_host/sour
                       -DZMUSIC_INCLUDE_DIR=$(get_build_dir zmusic)/include \
                       -DCMAKE_BUILD_TYPE=Release \
                       -DCMAKE_RULE_MESSAGES=OFF \
-                      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-                      -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
-                      -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG""
+                      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON"
 }
 
 pre_configure_target() {
@@ -45,8 +43,6 @@ PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
                         -DCMAKE_BUILD_TYPE=Release \
                         -DCMAKE_RULE_MESSAGES=OFF \
                         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-                        -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
-                        -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
                         -DHAVE_GLES2=ON \
                         -DHAVE_VULKAN=OFF \
                         -DZMUSIC_LIBRARIES=$(get_build_dir zmusic)/build_target/source/libzmusic.so -DZMUSIC_INCLUDE_DIR=$(get_build_dir zmusic)/include"
