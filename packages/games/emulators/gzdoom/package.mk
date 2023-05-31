@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gzdoom"
-PKG_VERSION="ea969adbc31fd2eae4b464bb59c8d29eaf8f5a58"
+PKG_VERSION="e9c35355ee0b313765cb7e8ed902d7e0d541efac"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
@@ -34,9 +34,7 @@ PKG_CMAKE_OPTS_HOST=" -DZMUSIC_LIBRARIES=$(get_build_dir zmusic)/build_host/sour
                       -DZMUSIC_INCLUDE_DIR=$(get_build_dir zmusic)/include \
                       -DCMAKE_BUILD_TYPE=Release \
                       -DCMAKE_RULE_MESSAGES=OFF \
-                      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-                      -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
-                      -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG""
+                      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON"
 }
 
 pre_configure_target() {
@@ -46,8 +44,6 @@ PKG_CMAKE_OPTS_TARGET=" -DNO_GTK=ON \
                         -DCMAKE_BUILD_TYPE=Release \
                         -DCMAKE_RULE_MESSAGES=OFF \
                         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-                        -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
-                        -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
                         -DHAVE_GLES2=ON \
                         -DHAVE_VULKAN=OFF \
                         -DZMUSIC_LIBRARIES=$(get_build_dir zmusic)/build_target/source/libzmusic.so -DZMUSIC_INCLUDE_DIR=$(get_build_dir zmusic)/include"
