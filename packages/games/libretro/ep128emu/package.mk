@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="ep128emu"
-PKG_VERSION="121c43024a42d0d6c3a4505ff960577eaa0f54e2"
-PKG_SHA256="a67dc0135fd652c7c57bbf57c356b204ac06a857922535ef1dc8a676c0994622"
+PKG_VERSION="ad9a9db0e28389bcdf351adfd9bd313903bb3ad9"
+PKG_SHA256="d77a024f11935e921db3b59cc50eee9625ff6bc273ea40cb7062182215a8a256"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/libretro/ep128emu-core"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

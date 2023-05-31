@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="lowresnx"
-PKG_VERSION="58af12fc747a1bc657f23c279ed4695ebef0366d"
+PKG_VERSION="10a48e309ac5284724010eea56372fbc72b9f975"
 #PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/timoinutilis/lowres-nx"
 PKG_URL="${PKG_SITE}.git"
