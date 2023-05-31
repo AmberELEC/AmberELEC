@@ -4,10 +4,10 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="a05833ada51faf53d209e5edbb6f6af22fd17af5"
+PKG_VERSION="a6cb05d6f66fdd3b687dc5a245cb161ffc07ead2"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/AmberELEC/emulationstation"
+PKG_SITE="https://github.com/navy1978/emulationstation"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
