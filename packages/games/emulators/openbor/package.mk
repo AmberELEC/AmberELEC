@@ -11,6 +11,7 @@ PKG_LONGDESC="OpenBOR is the ultimate 2D side scrolling engine for beat em' ups,
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
+  export CFLAGS="${CFLAGS} -Wno-error=enum-int-mismatch"
   PKG_MAKE_OPTS_TARGET="BUILD_LINUX_${ARCH}=1 NO_STRIP=1 -C ${PKG_BUILD}/engine SDKPATH=${SYSROOT_PREFIX} PREFIX=${TARGET_NAME}"
   cd ${PKG_BUILD}
   sed -i 's/\-O[23]//' engine/Makefile

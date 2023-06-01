@@ -1,0 +1,12 @@
+diff --git a/src/common/log.h b/src/common/log.h
+index 49179a9236..d68b55605e 100644
+--- a/src/common/log.h
++++ b/src/common/log.h
+@@ -4,6 +4,7 @@
+ #pragma once
+ #include "types.h"
+ #include <cinttypes>
++#include <cstdarg>
+ #include <mutex>
+ 
+ enum LOGLEVEL
