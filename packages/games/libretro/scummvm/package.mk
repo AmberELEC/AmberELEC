@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvm"
-PKG_VERSION="51d89f4a7866ae5a2a79dd20300b20a581dda2a6"
-PKG_SHA256="7ed7fe89ae399ddc377e547460075b28a666887d2b31dee98120a90d8868c32e"
+PKG_VERSION="996ae3191649265ca8bbc7607371f644ed9e8fca"
+PKG_SHA256="9f827a489c0470d49defbef787c8b8824dc56823f787c4f1a14c5b192d3018b8"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

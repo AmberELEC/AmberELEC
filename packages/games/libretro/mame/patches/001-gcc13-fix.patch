@@ -1,0 +1,36 @@
+diff --git a/src/lib/netlist/plib/ptypes.h b/src/lib/netlist/plib/ptypes.h
+index 1ae9b1edeb1..46ed2e3ea86 100644
+--- a/src/lib/netlist/plib/ptypes.h
++++ b/src/lib/netlist/plib/ptypes.h
+@@ -12,6 +12,7 @@
+ 
+ #include <limits>
+ #include <string>
++#include <cstdint>
+ #include <type_traits>
+ 
+ #if (PUSE_FLOAT128)
+diff --git a/src/osd/modules/monitor/monitor_module.h b/src/osd/modules/monitor/monitor_module.h
+index 583f47d4b34..f52e69acf44 100644
+--- a/src/osd/modules/monitor/monitor_module.h
++++ b/src/osd/modules/monitor/monitor_module.h
+@@ -9,6 +9,7 @@
+ #define MAME_OSD_MODULES_MONITOR_MONITORMODULE_H
+ 
+ #include <vector>
++#include <cstdint>
+ 
+ #include "modules/osdmodule.h"
+ #include "modules/osdhelper.h"
+diff --git a/src/osd/modules/lib/osdlib.h b/src/osd/modules/lib/osdlib.h
+index c84901002ad..86a59f57fc9 100644
+--- a/src/osd/modules/lib/osdlib.h
++++ b/src/osd/modules/lib/osdlib.h
+@@ -19,6 +19,7 @@
+ 
+ #include <initializer_list>
+ #include <string>
++#include <cstdint>
+ #include <string_view>
+ #include <system_error>
+ #include <type_traits>
