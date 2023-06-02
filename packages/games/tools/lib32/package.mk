@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="lib32"
-PKG_VERSION="2eea882f48681c8a9cc401bbb020c05b4f7edaa4"
+PKG_VERSION="ba3b9a04edfb2047aad2f2e5297e65c6a144377e"
 PKG_ARCH="aarch64"
 PKG_SITE="https://github.com/AmberELEC/lib32"
 PKG_URL="${PKG_SITE}.git"
