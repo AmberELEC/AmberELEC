@@ -1,5 +1,8 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
+
 PKG_NAME="picodrive"
-PKG_VERSION="ff023d436f794f5e9d3cf53865af96b5eb90ea9d"
+PKG_VERSION="d526f49515ed31fe91bd306d63da3187533e7662"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/libretro/picodrive"
 PKG_URL="${PKG_SITE}.git"
@@ -15,7 +18,6 @@ configure_target() {
 
 make_target() {
   cd ${PKG_BUILD}
-#  ${PKG_BUILD}/configure --platform=generic
   make -f Makefile.libretro
 }
 

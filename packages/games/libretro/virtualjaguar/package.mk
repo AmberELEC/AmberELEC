@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="virtualjaguar"
-PKG_VERSION="9cb748a37fb627e4f0b9a9fa6756060631aaf234"
-PKG_SHA256="25f9ca25ff55b46071657b8cba723fe0e368451ba6a35f0b52d52bbc40a7962f"
+PKG_VERSION="8126e5c504ac7217a638f38e4cd9190822c8abdd"
+PKG_SHA256="365baa5ee4212e524fc2e40b1c6f29f3c9d4078486e35962db57e7e5da679e73"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/virtualjaguar-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

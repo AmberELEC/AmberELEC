@@ -4,8 +4,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="ccache"
-PKG_VERSION="4.6.3"
-PKG_SHA256="1e3a251bb112632553b8255a78661fe526c3a16598496d51128c32b218fd8b22"
+PKG_VERSION="4.7.4"
+PKG_SHA256="df0c64d15d3efaf0b4f6837dd6b1467e40eeaaa807db25ce79c3a08a46a84e36"
 PKG_LICENSE="GPL"
 PKG_SITE="https://ccache.dev/download.html"
 PKG_URL="https://github.com/ccache/ccache/releases/download/v${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
