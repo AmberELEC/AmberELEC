@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle-pcfx"
-PKG_VERSION="7fb33e0250c17382b10140e45bf2b38c36bb6091"
-PKG_SHA256="79e798ae2e9d59ed04410738f8bb01037fc73b9f0a57f4de79fa00fde2fa5074"
+PKG_VERSION="47c355b6a515aef6dc57f57df1535570108a0e21"
+PKG_SHA256="15f5395778c9ce03e99c3a7cf0e0303dd58e5eba93f2b95c8ee6366fd8c25cba"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-pcfx-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

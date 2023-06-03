@@ -3,7 +3,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mame"
-PKG_VERSION="b705be8a6ea5fae2f35c5d61923f086a57c96a98"
+PKG_VERSION="0f033862d86ccd81aa67308063b92cac0f1d0db1"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mame"
 PKG_URL="${PKG_SITE}.git"
@@ -36,8 +36,9 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
                       USE_SYSTEM_LIB_SQLITE3=1"
 
 pre_configure_target() {
+  export CFLAGS="${CFLAGS} -Wno-deprecated-declarations"
   sed -i "s/-static-libstdc++//g" scripts/genie.lua
-  sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
+#  sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
 }
 
 make_target() {

@@ -1,0 +1,12 @@
+diff --git a/src/osd/modules/lib/osdlib.h b/src/osd/modules/lib/osdlib.h
+index 4a06b705..506ba834 100644
+--- a/src/osd/modules/lib/osdlib.h
++++ b/src/osd/modules/lib/osdlib.h
+@@ -18,6 +18,7 @@
+ 
+ #include <initializer_list>
+ #include <string>
++#include <cstdint>
+ #include <type_traits>
+ #include <vector>
+ #include <memory>
