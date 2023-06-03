@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="vecx"
-PKG_VERSION="8e932c1d585ae9e467186dea9e73ce38fe1490f7"
-PKG_SHA256="19eaa6d1ad035c01e979550787319f7d0b2398288f7c657eefea6c6d9b4cf49f"
+PKG_VERSION="a401c268e425dc8ae6a301e7fdb9a9e96f39b8ea"
+PKG_SHA256="348c335607af6bdbe12f72b4252110a8eac2a65e7f38fc8e746e697724ad1f4e"
 PKG_LICENSE="GPLv2|LGPLv2.1"
 PKG_SITE="https://github.com/libretro/libretro-vecx"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

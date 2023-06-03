@@ -1,0 +1,12 @@
+diff --git a/mupen64plus-rsp-paraLLEl/rsp_disasm.hpp b/mupen64plus-rsp-paraLLEl/rsp_disasm.hpp
+index 22c464b..ea71bb2 100644
+--- a/mupen64plus-rsp-paraLLEl/rsp_disasm.hpp
++++ b/mupen64plus-rsp-paraLLEl/rsp_disasm.hpp
+@@ -2,6 +2,7 @@
+ #define RSP_DISASM_HPP_
+ 
+ #include <string>
++#include <cstdint>
+ 
+ namespace RSP
+ {
