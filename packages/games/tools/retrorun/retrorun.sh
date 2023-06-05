@@ -39,7 +39,7 @@ function get_setting() {
 
 # Auto Save
 # Get configuration from distribution.conf and set to retrorun.cfg
-get_setting "auto_save"
+get_setting "savestate_auto_save"
 echo ${EES}
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_auto_save/d" ${RRCONF}
@@ -48,6 +48,19 @@ else
 	sed -i "/^retrorun_auto_save/d" ${RRCONF}
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
+
+# Auto Load
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "savestate_auto_load"
+echo ${EES}
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_auto_load/d" ${RRCONF}
+	echo 'retrorun_auto_load = false' >> ${RRCONF}
+else
+	sed -i "/^retrorun_auto_load/d" ${RRCONF}
+	echo "retrorun_auto_load = ${EES}" >> ${RRCONF}
+fi
+
 
 # Audio Buffer
 # Get configuration from distribution.conf and set to retrorun.cfg
