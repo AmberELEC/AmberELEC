@@ -68,9 +68,9 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	echo 'retrorun_auto_load = false' >> ${RRCONF}
 else
 	sed -i "/^retrorun_auto_save/d" ${RRCONF}
-	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
+	echo 'retrorun_auto_save = true' >> ${RRCONF}
 	sed -i "/^retrorun_auto_load/d" ${RRCONF}
-	echo "retrorun_auto_load = ${EES}" >> ${RRCONF}
+	echo 'retrorun_auto_load = true' >> ${RRCONF}
 fi
 
 
