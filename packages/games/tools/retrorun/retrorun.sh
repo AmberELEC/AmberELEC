@@ -36,32 +36,13 @@ function get_setting() {
 }
 
 
-
-function print_all_settings() {
-  # Extract all settings using grep
-  settings=$(grep -E "^(${PLATFORM}\[\"${ROM}\"\]|${PLATFORM}[\\.-]|global[\\.-]).*=" "${CONF}")
-
-  # Loop through each setting
-  while read -r line; do
-    # Extract the setting name and value using cut
-    setting=$(echo "${line}" | cut -d '=' -f 1)
-    value=$(echo "${line}" | cut -d '=' -f 2-)
-
-    # Print the setting name and value
-    echo "${setting}: ${value}"
-  done <<< "$settings"
-}
-
-print_all_settings
-
-
 ### GLOBAL SETTINGS ###
 echo 'Global settings.'
 # Auto Save
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "autosave"
 echo "autosave:${EES}"
-if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "2" ]; then
 	sed -i "/^retrorun_auto_save/d" ${RRCONF}
 	echo 'retrorun_auto_save = false' >> ${RRCONF}
 	sed -i "/^retrorun_auto_load/d" ${RRCONF}
