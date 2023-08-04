@@ -5,7 +5,7 @@
 
 . /etc/profile
 
-echo 'starting retrorun emulator...'
+echo 'Starting retrorun emulator...'
 
 CORE="$1"
 ROM="${2##*/}"
@@ -35,12 +35,13 @@ function get_setting() {
 	[ -z "${EES}" ] && EES="false"
 }
 
-### GLOBAL SETTINGS ###
 
+### GLOBAL SETTINGS ###
+echo 'Global settings.'
 # Auto Save
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "auto_save"
-echo ${EES}
+echo "auto_save:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_auto_save/d" ${RRCONF}
 	echo 'retrorun_auto_save = false' >> ${RRCONF}
@@ -49,10 +50,11 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
+
 # Audio Buffer
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "audio_buffer"
-echo ${EES}
+echo "audio_buffer:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
 	echo 'retrorun_audio_buffer= 1024' >> ${RRCONF}
@@ -64,7 +66,7 @@ fi
 # Mouse Speed Factor
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "mouse_speed"
-echo ${EES}
+echo "mouse_speed:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_mouse_speed_factor/d" ${RRCONF}
 	echo 'retrorun_mouse_speed_factor= 5' >> ${RRCONF}
@@ -76,7 +78,7 @@ fi
 # Map left analog to DPAD
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "map_left_analog_to_dpad"
-echo ${EES}
+echo "map_left_analog_to_dpad:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
         sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
         echo 'retrorun_force_left_analog_stick = false' >> ${RRCONF}
@@ -88,7 +90,7 @@ fi
 # Game Aspect Ratio
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "game_aspect_ratio"
-echo ${EES}
+echo "game_aspect_ratio:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_aspect_ratio/d" ${RRCONF}
 	echo 'retrorun_aspect_ratio = auto' >> ${RRCONF}
@@ -100,7 +102,7 @@ fi
 # Show FPS
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "show_fps"
-echo ${EES}
+echo "show_fps:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
 	echo 'retrorun_fps_counter = disabled' >> ${RRCONF}
@@ -109,12 +111,37 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-### MISC SETTINGS ###
 
+# Swap triggers
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "swap_triggers"
+echo "swap_triggers:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_swap_l1r1_with_l2r2/d" ${RRCONF}
+	echo 'retrorun_swap_l1r1_with_l2r2 = false' >> ${RRCONF}
+else
+	sed -i "/^retrorun_swap_l1r1_with_l2r2/d" ${RRCONF}
+	echo "retrorun_swap_l1r1_with_l2r2 = ${EES}" >> ${RRCONF}
+fi
+
+# Swap triggers
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "force_fps"
+echo "force_fps:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
+	echo 'retrorun_loop_declared_fps = false' >> ${RRCONF}
+else
+	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
+	echo "retrorun_loop_declared_fps = ${EES}" >> ${RRCONF}
+fi
+
+### MISC SETTINGS ###
+echo 'Misc settings.'
 # Internal Resolution
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "internal_resolution"
-echo ${EES}
+echo "internal_resolution:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
@@ -140,11 +167,11 @@ else
 fi
 
 ### PARALLEL-N64 SETTINGS ###
-
+echo 'Parallel-n64 settings.'
 # Parallel-N64 Graphic plug-in
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "gfx_plugin"
-echo ${EES}
+echo "gfx_plugin:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-gfxplugin/d" ${RRCONF}
@@ -160,7 +187,7 @@ fi
 # Parallel-N64 Overclock
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "overclock"
-echo ${EES}
+echo "overclock:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "parallel_n64" ]]; then
 		sed -i "/^parallel-n64-virefresh/d" ${RRCONF}
@@ -174,11 +201,11 @@ else
 fi
 
 ### FLYCAST SETTINGS ###
-
+echo 'Flycast settings.'
 # Flycast: Synchronous Rendering
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "synchronous_rendering"
-echo ${EES}
+echo "synchronous_rendering:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
@@ -200,7 +227,7 @@ fi
 # Flycast: Enables/Disables a division optimization
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "div_matching"
-echo ${EES}
+echo "div_matching:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_div_matching/d" ${RRCONF}
@@ -228,7 +255,7 @@ else
 	DEFAULT_AUTO_SKIP_FRAME='some'
 fi
 get_setting "auto_frameskip"
-echo ${EES}
+echo "auto_frameskip:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_auto_skip_frame/d" ${RRCONF}
@@ -244,7 +271,7 @@ fi
 # Flycast: Enables/Disables the DSP. Fixes audio issues on some games.
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "dsp"
-echo ${EES}
+echo "dsp:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "flycast" ]]; then
 		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
@@ -264,11 +291,11 @@ else
 fi
 
 ### PSX PCSX_REARMED ###
-
+echo 'Pcsx-rearmed settings.'
 # PSX CPU Clock
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "psx_cpu_clock"
-echo ${EES}
+echo "psx_cpu_clock:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
 		sed -i "/^pcsx_rearmed_psxclock/d" ${RRCONF}
@@ -282,11 +309,11 @@ else
 fi
 
 ### PSX DUCKSTATION ###
-
+echo 'Psx-duckstation settings.'
 # PSX CPU Overclock
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "psx_cpu_overclock"
-echo ${EES}
+echo "psx_cpu_overclock:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "duckstation" ]]; then
 		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
@@ -299,11 +326,11 @@ else
 fi
 
 ### BEETLE VB SETTINGS ###
-
+echo 'Beetle-vb settings.'
 # Beetle VB - Palette
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "palette"
-echo ${EES}
+echo "palette:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "beetle_vb" ]]; then
 		sed -i "/^vb_color_mode/d" ${RRCONF}
