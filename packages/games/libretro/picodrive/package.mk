@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="picodrive"
-PKG_VERSION="d526f49515ed31fe91bd306d63da3187533e7662"
+PKG_VERSION="570319349588288f64c676123244acdb0be33881"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/libretro/picodrive"
 PKG_URL="${PKG_SITE}.git"

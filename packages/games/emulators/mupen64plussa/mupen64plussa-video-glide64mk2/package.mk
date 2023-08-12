@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-video-glide64mk2"
-PKG_VERSION="497a8255ac962c0090487514268011fe509b1e2c"
-PKG_SHA256="99570f48c276d6df2c6afb2d00d23e86830268f42687196a1da450c64ea54da1"
+PKG_VERSION="d900f2191575e01eb846a1009be71cbc1b413dba"
+PKG_SHA256="4207ebee3c5ec2351f8738bf92fa4f0af2c39d063aff0edf959efd58c0a76d5d"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-video-glide64mk2"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-video-glide64mk2/archive/${PKG_VERSION}.tar.gz"
