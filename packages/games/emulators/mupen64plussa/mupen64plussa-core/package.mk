@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-core"
-PKG_VERSION="676f24708d1f7a8e68f9f77c6dd5e219c3960e1e"
-PKG_SHA256="e68febeb4e9e1452a5dfc3576d5d7644316341888441f228bb4bae35ae1a4bf0"
+PKG_VERSION="fb8f54ccfe78215e2d3b3e91a7e8ffae2b755455"
+PKG_SHA256="62a31a3990ec54beca167d0083293b5a15e170ab2e8c8505ccaf07e6e4e12dd6"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-core"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-core/archive/${PKG_VERSION}.tar.gz"
@@ -25,6 +25,7 @@ make_target() {
   export CROSS_COMPILE="${TARGET_PREFIX}"
   export V=1
   export VC=0
+  export VULKAN=0
   BINUTILS="$(get_build_dir binutils)/.aarch64-libreelec-linux-gnueabi"
   make -C projects/unix clean
   make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}
