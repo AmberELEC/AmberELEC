@@ -8,7 +8,7 @@ RACONF="/storage/.config/retroarch/retroarch.cfg"
 LAST_UPDATE_FILE="/storage/.lastupdateversion"
 DEVICE="$(cat /storage/.config/.OS_ARCH)"
 ECWOLFCONF="/storage/.config/distribution/ecwolf/ecwolf.cfg"
-
+SCUMMVMCONF="/storage/.config/scummvm/scummvm.ini"
 # 2021-12-15
 ## Parse LAST_UPDATE_VERSION.  This variable will be the date of the previous upgrade. Ex: 20211222.
 ## - This variable can be used to execute upgrade logic only when crossing a version threshold.
@@ -35,6 +35,19 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   fi
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
+
+
+## 2023-10-07
+## Add extra path to ScummVM SA's config to find MT32 libs as well as extra files.
+if [ -f "$SCUMMVMCONF" ]; then
+    if grep -q '^extrapath=' "$SCUMMVMCONF"; then
+        # Replace existing extrapath parameter
+        sed -i "s|^extrapath=.*|extrapath=/roms/bios/scummvm/extra|" "$SCUMMVMCONF"
+    else
+        # Add extrapath parameter after [scummvm]
+        sed -i "/^\[scummvm\]/a extrapath=/roms/bios/scummvm/extra" "$SCUMMVMCONF"
+    fi
+fi
 
 ## 2023-01-15 
 ## Add all JoyAxis[]Deadzone values to ECWolf due to default deadzones being too low.
