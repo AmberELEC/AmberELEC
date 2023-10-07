@@ -6,6 +6,7 @@ python3 << END
 from subprocess import PIPE, run
 import re
 from time import sleep
+import os
 
 # Which folder we'll be scanning for scummvm games.
 gamefolder = "/roms/scummvm/games"
@@ -48,7 +49,7 @@ def show_info_screen():
 		echo ("Exiting without scanning")
 		sleep(2)
 		cls()
-		sys.exit()
+		exit(0)
 	else:
 		echo ("Scanning for ScummVM Games...\n")
 
@@ -113,6 +114,13 @@ def read_scummvm_game_line(line):
 		# the resulting string and it *SHOULD* give us a clean name.
 		name = line.replace(full_id,"").replace(path,"").strip()
 
+		# Some users like having multiple versions of the same game.
+		# Let's grab the version info before cleaning the string
+		match = re.search(r'\((.*?)\)', name)
+		version = match.group(1) if match else None
+		if version:
+			version = re.sub(r'[\/?\\><:*|]', '_', version)
+
 		# And now, we clean that version number stuff off our name
 		# since this is more than likely gonna cause FS issues.
 		# And since not all games have it, let's check first...
@@ -127,7 +135,7 @@ def read_scummvm_game_line(line):
 		result = run([scummvmbin, "-a", "--path="+path], capture_output=True, check=False, universal_newlines=True)
 
 		# Return the list!
-		return [game_id,name,path]
+		return [game_id,name,path,version]
 
 	except ValueError:
 		return False
@@ -136,12 +144,21 @@ def read_scummvm_game_line(line):
 def make_scummvm_file(gameinfo):
 	"""This function creates the .scummvm files according to the settings on the top of the file. Feed it the return of @read_scummvm_game_line and it'll handle the rest."""
 
-	# Open the file for reading
-	with open(output_path+"/"+gameinfo[1]+output_ext,"w+") as f:
+	# Create a fullpath to the file (Sans extension, we're checking if we already have this game created)
+	fullpath=output_path+"/"+gameinfo[1]
 
-		# Output the parameters and a couple of newlines
-		f.write(f"--path=\"{gameinfo[2]}\" {gameinfo[0]}\n\n")
-		#f.write("--path=\"" + gameinfo[2] + "\" " + gameinfo[0] + "\n\n")
+	# If we already have a file for this game, differenciate it
+	# Based on the version
+	if os.path.exists(fullpath+output_ext):
+		f = open(fullpath+" "+gameinfo[3]+output_ext, "w+")
+	else:
+		f = open(fullpath+output_ext, "w+")
+
+	# Output the parameters and a couple of newlines
+	f.write(f"--path=\"{gameinfo[2]}\" {gameinfo[0]}\n\n")
+
+	# Close the file
+	f.close()
 	
 
 def scan_scummvm_games():
