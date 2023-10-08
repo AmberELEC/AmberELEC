@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="curl"
-PKG_VERSION="7.71.1"
-PKG_SHA256="40f83eda27cdbeb25cd4da48cefb639af1b9395d6026d2da1825bf059239658c"
+PKG_VERSION="8.3.0"
+PKG_SHA256="376d627767d6c4f05105ab6d497b0d9aba7111770dd9d995225478209c37ea63"
 PKG_LICENSE="MIT"
 PKG_SITE="http://curl.haxx.se"
 PKG_URL="http://curl.haxx.se/download/${PKG_NAME}-${PKG_VERSION}.tar.xz"
@@ -63,7 +63,7 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_rtmp_RTMP_Init=yes \
                            --with-ca-bundle=/run/libreelec/cacert.pem \
                            --without-ca-path \
                            --without-libpsl \
-                           --without-libmetalink \
+                           --without-libgsasl \
                            --without-libssh2 \
                            --with-librtmp=${SYSROOT_PREFIX}/usr \
                            --without-libidn \
