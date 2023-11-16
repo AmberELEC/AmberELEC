@@ -1,21 +1,21 @@
 diff --git a/menu/menu_displaylist.c b/menu/menu_displaylist.c
-index ffea1b9bf5..357c195e81 100644
+index f384749d63..0e0450c6e2 100644
 --- a/menu/menu_displaylist.c
 +++ b/menu/menu_displaylist.c
-@@ -13229,7 +13229,7 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
-       case DISPLAYLIST_OPTIONS:
-          menu_entries_ctl(MENU_ENTRIES_CTL_CLEAR, info->list);
-          {
+@@ -13941,7 +13941,7 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+          case DISPLAYLIST_OPTIONS:
+             menu_entries_clear(info->list);
+             {
 -#ifdef HAVE_LAKKA
 +#ifndef HAVE_LAKKA
-             if (menu_entries_append(info->list,
-                      msg_hash_to_str(MENU_ENUM_LABEL_VALUE_UPDATE_LAKKA),
-                      msg_hash_to_str(MENU_ENUM_LABEL_UPDATE_LAKKA),
+                if (menu_entries_append(info->list,
+                         msg_hash_to_str(MENU_ENUM_LABEL_VALUE_UPDATE_LAKKA),
+                         msg_hash_to_str(MENU_ENUM_LABEL_UPDATE_LAKKA),
 diff --git a/menu/menu_setting.c b/menu/menu_setting.c
-index 1becfb703e..170b100ad4 100644
+index 2d2017aa20..6c12ae2ccc 100644
 --- a/menu/menu_setting.c
 +++ b/menu/menu_setting.c
-@@ -9559,7 +9559,7 @@ static bool setting_append_list(
+@@ -9871,7 +9871,7 @@ static bool setting_append_list(
  #endif
  #if !defined(IOS)
           /* Apple rejects iOS apps that let you forcibly quit them. */

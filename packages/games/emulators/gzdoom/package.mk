@@ -2,12 +2,12 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gzdoom"
-PKG_VERSION="9d8bc90c34ca7c271dd480f2456b2ae65c33beda"
+PKG_VERSION="5ec8dc28480d2b6a40f91236f12756597b4a26f7"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/gzdoom"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_HOST="toolchain zmusic:host"
-PKG_DEPENDS_TARGET="toolchain SDL2 gzdoom:host zmusic"
+PKG_DEPENDS_HOST="toolchain zmusic:host libwebp:host"
+PKG_DEPENDS_TARGET="toolchain SDL2 gzdoom:host zmusic libwebp"
 PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_TOOLCHAIN="cmake-make"
 
