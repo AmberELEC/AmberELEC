@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Team CoreELEC (https://coreelec.org)
 
 PKG_NAME="SDL2_mixer"
-PKG_VERSION="2.6.2"
+PKG_VERSION="2.6.3"
 PKG_SHA256=""
 PKG_LICENSE="GPLv3"
 PKG_SITE="http://www.libsdl.org/projects/SDL_mixer/release"
