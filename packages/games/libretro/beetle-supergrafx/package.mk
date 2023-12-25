@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle-supergrafx"
-PKG_VERSION="9eb9dcae1f6e37516d20fdc4a8879c8204ad4045"
-PKG_SHA256="683df5273cfbb1df2509b61b31735232511c60d3b5a4eeff4c8965bf9ca87cd4"
+PKG_VERSION="bcf492267f7f112705a82901de0a3e58e8151aa2"
+PKG_SHA256="fd57728e31e2e438907e7182125bf2450c7bfecbb8d65730dff20056d73a9aa9"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-supergrafx-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

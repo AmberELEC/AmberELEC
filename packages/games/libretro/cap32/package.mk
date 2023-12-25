@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="cap32"
-PKG_VERSION="4a071f2c004273abf0f9fa0640b36f6664d8381a"
-PKG_SHA256="a45aceb1294a94bcc04824f33ff1cd01fa7bbfdcb8610b9a15755472a386e53f"
+PKG_VERSION="bba9b37979a9280d358e19fe726c0e0b3234193c"
+PKG_SHA256="317704655da2779cd9da275b26dba327e83ccae9d43a569b81b89a1f8bde98e9"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/libretro-cap32"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

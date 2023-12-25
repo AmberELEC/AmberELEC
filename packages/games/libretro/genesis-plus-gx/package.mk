@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="genesis-plus-gx"
-PKG_VERSION="02035dd866dbf1db494557fb0daaa805a3c4c925"
-PKG_SHA256="b03bcb67f1502446388e383e996ca8777998e7ddc55237976c24efce01cd4733"
+PKG_VERSION="0d26f0f15f7efdf8159898308c40e778304b3f63"
+PKG_SHA256="e36d7b3629a6ff04b8b1ae05dc1fcfaff0a5c2d14f659bf2c50690d661286876"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/Genesis-Plus-GX"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
