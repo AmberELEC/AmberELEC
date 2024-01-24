@@ -53,7 +53,7 @@ fi
 mkdir -p ${SAVE_DIR}
 
 params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
-params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +cl_nomeleeblur 1 +vid_fps $SHOWFPS"
+params+=" +gl_es 1 +vid_preferbackend 2 +cl_capfps 0 +cl_nomeleeblur 1 +vid_fps $SHOWFPS"
 
 EXT=${1#*.}
 

@@ -72,7 +72,7 @@ else
   params+=" -iwad ${1}"
 fi
 
-params+=" +gl_es 1 +vid_preferbackend 3 +cl_capfps 0 +vid_fps $SHOWFPS"
+params+=" +gl_es 1 +vid_preferbackend 2 +cl_capfps 0 +vid_fps $SHOWFPS"
 
 cd "${RUN_DIR}"
 /usr/bin/gzdoom ${params} >/tmp/logs/gzdoom.log 2>&1
