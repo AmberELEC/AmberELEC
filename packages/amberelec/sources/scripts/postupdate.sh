@@ -211,6 +211,14 @@ else
   rsync -a --delete /usr/config/emulationstation/resources/ /storage/.config/emulationstation/resources/ &
 fi
 
+# Sync amiberry resources after update
+if [ ! -d "/storage/.config/amiberry/data" ]
+then
+  rsync -a /usr/config/amiberry/data/ /storage/.config/amiberry/data/ &
+else
+  rsync -a --delete /usr/config/amiberry/data/ /storage/.config/amiberry/data/ &
+fi
+
 ## 2021-10-07
 ## Copy es_input.cfg over on every update
 ## This prevents a user with an old es_input from getting the 'input config scree'

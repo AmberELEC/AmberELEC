@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
+# Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="amiberry"
-PKG_VERSION="b6a4562fe4e60c9ec5f23aa8565cdb28cfba812e"
+PKG_VERSION="9a4aeb4db73dd1781c79935afdea17d84b3f294c"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/BlitterStudio/amiberry"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2 libserialport"
+PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2 libserialport libportmidi"
 PKG_LONGDESC="Amiberry is an optimized Amiga emulator for ARM-based boards."
 PKG_TOOLCHAIN="make"
 PKG_GIT_CLONE_BRANCH="master"
@@ -23,7 +24,8 @@ pre_configure_target() {
   fi
 
   sed -i 's/\-O[23]//' Makefile
-  PKG_MAKE_OPTS_TARGET+="${AMIBERRY_PLATFORM} all SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config"
+  unset LDFLAGS
+  PKG_MAKE_OPTS_TARGET+="all ${AMIBERRY_PLATFORM} SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config CWRAPPER=ccache"
 }
 
 makeinstall_target() {
