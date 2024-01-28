@@ -3,10 +3,10 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="alsa-lib"
-PKG_VERSION="1.2.9"
-PKG_SHA256="dc9c643fdc4ccfd0572cc685858dd41e08afb583f30460b317e4188275f615b2"
+PKG_VERSION="1.2.10"
+PKG_SHA256="c86a45a846331b1b0aa6e6be100be2a7aef92efd405cf6bac7eef8174baa920e"
 PKG_LICENSE="GPL"
-PKG_SITE="http://www.alsa-project.org/"
+PKG_SITE="https://www.alsa-project.org/"
 PKG_URL="https://www.alsa-project.org/files/pub/lib/alsa-lib-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="ALSA (Advanced Linux Sound Architecture) is the next generation Linux Sound API."
@@ -21,6 +21,7 @@ fi
 
 PKG_CONFIGURE_OPTS_TARGET="${PKG_ALSA_DEBUG} \
                            --disable-dependency-tracking \
+                           --disable-largefile \
                            --with-plugindir=/usr/lib/alsa \
                            --disable-python"
 
@@ -30,6 +31,7 @@ post_configure_target() {
 
 post_makeinstall_target() {
   rm -rf ${INSTALL}/usr/bin
+
   mkdir -p ${INSTALL}/usr/config
-  cp -PR ${PKG_DIR}/config/modprobe.d ${INSTALL}/usr/config
+    cp -PR ${PKG_DIR}/config/modprobe.d ${INSTALL}/usr/config
 }

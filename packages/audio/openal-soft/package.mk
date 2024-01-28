@@ -2,11 +2,11 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="openal-soft"
-PKG_VERSION="1.20.1"
-PKG_SHA256="c32d10473457a8b545aab50070fe84be2b5b041e1f2099012777ee6be0057c13"
+PKG_VERSION="1.23.1"
+PKG_SHA256="dfddf3a1f61059853c625b7bb03de8433b455f2f79f89548cbcbd5edca3d4a4a"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.openal.org/"
-PKG_URL="https://github.com/kcat/openal-soft/archive/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_URL="https://github.com/kcat/openal-soft/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain alsa-lib openal-soft:host"
 PKG_LONGDESC="OpenAL the Open Audio Library"
 

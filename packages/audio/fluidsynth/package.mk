@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fluidsynth"
-PKG_VERSION="2.3.2"
-PKG_SHA256="cd610810f30566e28fb98c36501f00446a06fa6bae3dc562c8cd3868fe1c0fc7"
+PKG_VERSION="2.3.4"
+PKG_SHA256="1529ef5bc3b9ef3adc2a7964505912f7305103e269e50cc0316f500b22053ac9"
 PKG_LICENSE="LGPL"
 PKG_SITE="http://fluidsynth.org/"
 PKG_URL="https://github.com/FluidSynth/fluidsynth/archive/v${PKG_VERSION}.tar.gz"

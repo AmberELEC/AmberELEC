@@ -3,12 +3,12 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="pulseaudio"
-PKG_VERSION="16.1"
-PKG_SHA256="8eef32ce91d47979f95fd9a935e738cd7eb7463430dabc72863251751e504ae4"
+PKG_VERSION="17.0"
+PKG_SHA256="053794d6671a3e397d849e478a80b82a63cb9d8ca296bd35b73317bb5ceb87b5"
 PKG_LICENSE="GPL"
 PKG_SITE="http://pulseaudio.org/"
 PKG_URL="http://www.freedesktop.org/software/pulseaudio/releases/${PKG_NAME}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib dbus libcap libsndfile libtool openssl soxr speexdsp systemd glib:host glib"
+PKG_DEPENDS_TARGET="toolchain alsa-lib dbus glib libcap libsndfile libtool openssl soxr speexdsp systemd"
 PKG_LONGDESC="PulseAudio is a sound system for POSIX OSes, meaning that it is a proxy for your sound applications."
 
 if [ "${BLUETOOTH_SUPPORT}" = "yes" ]; then
@@ -71,13 +71,10 @@ PKG_MESON_OPTS_TARGET="-Ddaemon=true \
                        -Dvalgrind=disabled \
                        -Dx11=disabled \
                        -Dadrian-aec=true \
-                       -Dwebrtc-aec=disabled \
-                       -Dbashcompletiondir=no"
+                       -Dwebrtc-aec=disabled"
 
 pre_configure_target() {
   sed -e 's|; remixing-use-all-sink-channels = yes|; remixing-use-all-sink-channels = no|' \
-      -i ${PKG_BUILD}/src/daemon/daemon.conf.in
-  sed -e 's|; default-fragments = 4|; default-fragments = 5|' \
       -i ${PKG_BUILD}/src/daemon/daemon.conf.in
 }
 
@@ -91,11 +88,11 @@ post_makeinstall_target() {
   #safe_remove ${INSTALL}/usr/share/bash-completion
 
   cp ${PKG_DIR}/config/system.pa ${INSTALL}/etc/pulse/
-  mkdir -p ${INSTALL}/etc/dbus-1/system.d/
-  cp ${PKG_DIR}/config/pulseaudio-system.conf ${INSTALL}/etc/dbus-1/system.d/
+
+  sed 's/user="pulse"/user="root"/' -i ${INSTALL}/usr/share/dbus-1/system.d/pulseaudio-system.conf
 
   mkdir -p ${INSTALL}/usr/config
-  cp -PR ${PKG_DIR}/config/pulse-daemon.conf.d ${INSTALL}/usr/config
+    cp -PR ${PKG_DIR}/config/pulse-daemon.conf.d ${INSTALL}/usr/config
 
   ln -sf /storage/.config/pulse-daemon.conf.d ${INSTALL}/etc/pulse/daemon.conf.d
 }

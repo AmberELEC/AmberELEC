@@ -1,8 +1,8 @@
 diff --git a/src/shutdown/shutdown.c b/src/shutdown/shutdown.c
-index dcee0f9006..548eeee310 100644
+index b709078a..76ad0715 100644
 --- a/src/shutdown/shutdown.c
 +++ b/src/shutdown/shutdown.c
-@@ -394,7 +394,7 @@ int main(int argc, char *argv[]) {
+@@ -409,7 +409,7 @@ int main(int argc, char *argv[]) {
                     LOG_TARGET_KMSG))
                  bump_sysctl_printk_log_level(LOG_WARNING);
  
@@ -11,7 +11,7 @@ index dcee0f9006..548eeee310 100644
  
          /* Lock us into memory */
          (void) mlockall(MCL_CURRENT|MCL_FUTURE);
-@@ -423,7 +423,7 @@ int main(int argc, char *argv[]) {
+@@ -443,7 +443,7 @@ int main(int argc, char *argv[]) {
          for (;;) {
                  bool changed = false;
  
@@ -20,7 +20,7 @@ index dcee0f9006..548eeee310 100644
  
                  /* Let's trim the cgroup tree on each iteration so that we leave an empty cgroup tree around,
                   * so that container managers get a nice notify event when we are down */
-@@ -527,7 +527,7 @@ int main(int argc, char *argv[]) {
+@@ -547,7 +547,7 @@ int main(int argc, char *argv[]) {
  
          /* We're done with the watchdog. Note that the watchdog is explicitly not stopped here. It remains
           * active to guard against any issues during the rest of the shutdown sequence. */
@@ -29,13 +29,13 @@ index dcee0f9006..548eeee310 100644
  
          arguments[0] = NULL; /* Filled in by execute_directories(), when needed */
          arguments[1] = arg_verb;
-@@ -553,13 +553,13 @@ int main(int argc, char *argv[]) {
+@@ -573,13 +573,13 @@ int main(int argc, char *argv[]) {
                          log_error_errno(r, "Failed to switch root to \"/run/initramfs\": %m");
          }
  
 -        if (need_umount || need_swapoff || need_loop_detach || need_dm_detach || need_md_detach)
 +        /* if (need_umount || need_swapoff || need_loop_detach || need_dm_detach || need_md_detach)
-                 log_error("Failed to finalize%s%s%s%s%s ignoring.",
+                 log_error("Unable to finalize remaining%s%s%s%s%s ignoring.",
                            need_umount ? " file systems," : "",
                            need_swapoff ? " swap devices," : "",
                            need_loop_detach ? " loop devices," : "",
@@ -46,26 +46,20 @@ index dcee0f9006..548eeee310 100644
          /* The kernel will automatically flush ATA disks and suchlike on reboot(), but the file systems need
           * to be sync'ed explicitly in advance. So let's do this here, but not needlessly slow down
 diff --git a/src/shutdown/umount.c b/src/shutdown/umount.c
-index e650b82170..1487b48581 100644
+index 1a9b99d7..b5621515 100644
 --- a/src/shutdown/umount.c
 +++ b/src/shutdown/umount.c
-@@ -657,12 +657,12 @@ static int umount_with_timeout(MountPoint *m, bool last_try) {
-                 r = RET_NERRNO(umount2(m->path,
+@@ -331,7 +331,7 @@ static int umount_with_timeout(MountPoint *m, bool last_try) {
                                         UMOUNT_NOFOLLOW | /* Don't follow symlinks: this should never happen unless our mount list was wrong */
                                         (m->umount_lazily ? MNT_DETACH : MNT_FORCE)));
--                if (r < 0) {
-+                /* if (r < 0) {
-                         log_full_errno(last_try ? LOG_ERR : LOG_INFO, r, "Failed to unmount %s: %m", m->path);
+                 if (r < 0) {
+-                        log_full_errno(last_try ? LOG_ERR : LOG_INFO, r, "Failed to unmount %s: %m", m->path);
++                        /* log_full_errno(last_try ? LOG_ERR : LOG_INFO, r, "Failed to unmount %s: %m", m->path); */
  
                          if (r == -EBUSY && last_try)
                                  log_umount_blockers(m->path);
--                }
-+                } */
- 
-                 _exit(r < 0 ? EXIT_FAILURE : EXIT_SUCCESS);
-         }
 diff --git a/src/volatile-root/volatile-root.c b/src/volatile-root/volatile-root.c
-index e29d4df692..2c06ec3b81 100644
+index 27be7bdf..f24587e7 100644
 --- a/src/volatile-root/volatile-root.c
 +++ b/src/volatile-root/volatile-root.c
 @@ -50,7 +50,7 @@ static int make_volatile(const char *path) {

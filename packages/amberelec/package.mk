@@ -10,21 +10,26 @@ PKG_DEPENDS_TARGET="toolchain ${OPENGLES} emulationstation retroarch retrorun kl
 PKG_LONGDESC="AmberELEC Meta Package"
 PKG_TOOLCHAIN="make"
 
-LIBRETRO_CORES="81 a5200 arduous atari800 beetle-gba beetle-lynx beetle-ngp beetle-pce beetle-pce-fast beetle-pcfx beetle-supafaust beetle-supergrafx beetle-vb beetle-wswan bluemsx cap32 crocods \
-                dosbox-core dosbox-pure easyrpg emuscv ep128emu fake08 fbalpha2012 fbalpha2019 fbneo fceumm flycast flycast2021 fmsx freechaf freeintv freej2me fuse-libretro gambatte gearboy gearcoleco \
-                gearsystem genesis-plus-gx genesis-plus-gx-wide gpsp gw-libretro handy hatari jaxe lowresnx mame mame2000 mame2003-plus mame2010 mame2015 mame2016 meowpc98 mgba mojozork mupen64plus-nx \
-                neocd_libretro nestopia np2kai o2em opera parallel-n64 pcsx_rearmed picodrive pokemini potator ppsspp prboom prosystem puae puae2021 px68k quasi88 quicknes race same_cdi sameboy sameduck \
-                scummvm smsplus-gx snes9x snes9x2002 snes9x2005_plus snes9x2010 stella stella-2014 swanstation tgbdual tic-80 uae4arm uw8 uzem vbam vba-next vecx vice virtualjaguar wasm4 xmil"
+if [[ "${BASE_BUILD}" == "true" ]];
+then
+  PKG_EMUS=""
+else
+  LIBRETRO_CORES="81 a5200 arduous atari800 beetle-gba beetle-lynx beetle-ngp beetle-pce beetle-pce-fast beetle-pcfx beetle-supafaust beetle-supergrafx beetle-vb beetle-wswan bluemsx cap32 crocods \
+                  dosbox-core dosbox-pure easyrpg emuscv ep128emu fake08 fbalpha2012 fbalpha2019 fbneo fceumm flycast flycast2021 fmsx freechaf freeintv freej2me fuse-libretro gambatte gearboy gearcoleco \
+                  gearsystem genesis-plus-gx genesis-plus-gx-wide gpsp gw-libretro handy hatari jaxe lowresnx mame mame2000 mame2003-plus mame2010 mame2015 mame2016 meowpc98 mgba mojozork mupen64plus-nx \
+                  neocd_libretro nestopia np2kai o2em opera parallel-n64 pcsx_rearmed picodrive pokemini potator ppsspp prboom prosystem puae puae2021 px68k quasi88 quicknes race same_cdi sameboy sameduck \
+                  scummvm smsplus-gx snes9x snes9x2002 snes9x2005_plus snes9x2010 stella stella-2014 swanstation tgbdual tic-80 uae4arm uw8 uzem vbam vba-next vecx vice virtualjaguar wasm4 xmil"
 
-LIBRETRO_CORES_EXTRA="beetle_snes bsnes bsnes2014_balanced bsnes2014_performance bsnes_mercury_balanced bsnes_mercury_performance mesen mesen-s"
+  LIBRETRO_CORES_EXTRA="beetle_snes bsnes bsnes2014_balanced bsnes2014_performance bsnes_mercury_balanced bsnes_mercury_performance mesen mesen-s"
 
-PKG_EMUS="${LIBRETRO_CORES}"
+  PKG_EMUS="${LIBRETRO_CORES}"
 
-if [[ "${DEVICE}" == "RG552" ]]; then
-  PKG_EMUS+=" ${LIBRETRO_CORES_EXTRA}"
+  if [[ "${DEVICE}" == "RG552" ]]; then
+    PKG_EMUS+=" ${LIBRETRO_CORES_EXTRA}"
+  fi
+
+  PKG_EMUS+=" advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
 fi
-
-PKG_EMUS+=" advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
 
 PKG_TOOLS="bash dialog grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone jstest-sdl sdljoytest evdev-joystick gptokeyb"
 PKG_RETROPIE_DEP="pyudev six git dbus-python coreutils"
