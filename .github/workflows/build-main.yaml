@@ -27,8 +27,8 @@ jobs:
     timeout-minutes: 1440
     runs-on: main
     steps:
-      - uses: hmarr/debug-action@v2
-        name: debug
+      #- uses: hmarr/debug-action@v2
+      #  name: debug
       - name: get current branch as it may not be 'default branch;
         id: branch
         run: |

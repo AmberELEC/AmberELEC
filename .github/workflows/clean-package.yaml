@@ -14,8 +14,8 @@ jobs:
         runner: [main, pr]
     runs-on:  ${{ matrix.runner }}
     steps:
-      - uses: hmarr/debug-action@v2
-        name: debug
+      #- uses: hmarr/debug-action@v2
+      #  name: debug
       - uses: actions/checkout@v4
         name: checkout
         with:
