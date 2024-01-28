@@ -37,7 +37,7 @@ jobs:
               branch_arg="$GITHUB_REF_NAME"
             fi
             echo "branch=$branch_arg" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: checkout
         with:
           clean: false

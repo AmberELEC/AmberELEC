@@ -16,7 +16,7 @@ jobs:
       steps:
         #- uses: hmarr/debug-action@v2
         #  name: debug
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
           name: checkout
           with:
             clean: false
@@ -59,7 +59,7 @@ jobs:
   
         - name: Repository Dispatch
           if: ${{ steps.changes.outputs.changes }} != '0'
-          uses: peter-evans/repository-dispatch@v2
+          uses: peter-evans/repository-dispatch@v3
           with:
             token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
             repository: ${{ steps.full_name.outputs.full_name }}

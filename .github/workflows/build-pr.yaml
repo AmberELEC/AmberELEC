@@ -31,7 +31,7 @@ jobs:
     # Don't run on drafts - skip 'closed' PR's
     if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout (pull request)
         with:
           # clean: false ensures that we don't remove all the build files
