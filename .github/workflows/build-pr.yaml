@@ -152,25 +152,25 @@ jobs:
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG*/*.img.gz*
       - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351P/
       - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351MP/
       - name: Archive RG552-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG552-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
           path: |

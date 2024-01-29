@@ -92,7 +92,7 @@ jobs:
             rm -rf release/aarch64/RG*/*.img.gz*
 
       - name: Archive RG351V (${{github.sha}})
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: github.event.client_payload.release_tag == ''
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
@@ -100,21 +100,21 @@ jobs:
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
       - name: Archive RG351MP (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG351MP-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351MP/
       - name: Archive RG552 (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
