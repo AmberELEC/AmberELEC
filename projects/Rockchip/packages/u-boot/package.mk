@@ -38,9 +38,6 @@ post_patch() {
 }
 
 make_target() {
-  if [ -d "${TOOLCHAIN}/usr/include/features.h" ]; then
-    mv -f ${TOOLCHAIN}/usr/include/features.h ${TOOLCHAIN}/usr/include/features.h.bak
-  fi
   if [ -z "${UBOOT_SYSTEM}" ]; then
     echo "UBOOT_SYSTEM must be set to build an image"
     echo "see './scripts/uboot_helper' for more information"
@@ -53,9 +50,6 @@ make_target() {
 }
 
 makeinstall_target() {
-    if [ -d "${TOOLCHAIN}/usr/include/features.h.bak" ]; then
-      mv -f ${TOOLCHAIN}/usr/include/features.h.bak ${TOOLCHAIN}/usr/include/features.h
-    fi
     mkdir -p ${INSTALL}/usr/share/bootloader
     # Only install u-boot.img et al when building a board specific image
     if [ -n "${UBOOT_SYSTEM}" ]; then

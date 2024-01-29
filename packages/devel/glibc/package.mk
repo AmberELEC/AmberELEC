@@ -136,6 +136,20 @@ make_init() {
   : # reuse make_target()
 }
 
+configure_host() {
+  :
+}
+
+make_host() {
+  :
+}
+
+makeinstall_host() {
+  cd ${PKG_BUILD}
+  mkdir -p ${SYSROOT_PREFIX}/usr/include
+    cp -R include/* ${SYSROOT_PREFIX}/usr/include
+}
+
 makeinstall_init() {
   mkdir -p ${INSTALL}/usr/lib
     cp -PR ${PKG_BUILD}/.${TARGET_NAME}/elf/ld*.so* ${INSTALL}/usr/lib

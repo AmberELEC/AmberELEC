@@ -8,7 +8,7 @@ PKG_SHA256="ae9a5789e23459e59606e6714723f2d3ffc31c03174191ef0d015bdf06007450"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.gnu.org/software/binutils/"
 PKG_URL="https://ftp.gnu.org/gnu/binutils/${PKG_NAME}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_HOST="ccache:host bison:host flex:host linux:host"
+PKG_DEPENDS_HOST="ccache:host bison:host flex:host linux:host glibc:host"
 PKG_DEPENDS_TARGET="toolchain zlib binutils:host"
 PKG_LONGDESC="A GNU collection of binary utilities."
 
