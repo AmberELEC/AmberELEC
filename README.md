@@ -9,7 +9,7 @@
 [![Downloads Prerelease](https://img.shields.io/github/downloads/AmberELEC/AmberELEC-prerelease/total?label=downloads%40prerelease%20builds&style=flat-square)](https://github.com/AmberELEC/AmberELEC-prerelease/releases)
 
 
-AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux). It is intended for use only on the RG351P/M/V/MP and RG552, it is not compatible with any other device.
+AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).
 
 We have a [Website](https://amberelec.org) with [installation instructions](https://amberelec.org/installation#overview) and a lot of information on how to [get started using AmberELEC](https://amberelec.org/guides/getting-to-know-amberelec).
 
@@ -21,10 +21,10 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 - Anbernic RG351V **
 - Anbernic RG351MP **
 - Anbernic RG552
-- PowKiddy RGB20S *** (pre-release image)
-- Gameconsole R33S *** (pre-release image)
-- Gameconsole R35S *** (pre-release image)
-- Gameconsole R36S *** (pre-release image)
+- PowKiddy RGB20S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
+- Gameconsole R33S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
+- Gameconsole R35S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
+- Gameconsole R36S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
 
   - \* use the RG351P image
   - ** newer devices with the V2 display require manual replacement of the device dtb file on your microSD card
