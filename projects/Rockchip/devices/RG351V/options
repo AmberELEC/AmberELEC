@@ -31,7 +31,6 @@
   # Additional kernel make parameters (for example to specify the u-boot loadaddress)
     KERNEL_MAKE_EXTRACMD=""
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-linux.dtb"
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-v2-linux.dtb"
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-linux-oc.dtb"
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-linux-timing_fix.dtb"
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351v-linux-oc-timing_fix.dtb"
