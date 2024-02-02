@@ -275,7 +275,7 @@ if [ "${1}" = "release" -o "${1}" = "mkimage" -o "${1}" = "noobs" ]; then
     fi
   fi
 
-  cp ${ROOT}/README* ${RELEASE_DIR}
+  #cp ${ROOT}/README* ${RELEASE_DIR}
   echo "${TARGET_VERSION}" > ${RELEASE_DIR}/RELEASE
 
   if [ ! "${MEDIACENTER}" = "no" ]; then
@@ -370,7 +370,7 @@ if [ "${1}" = "release" -o "${1}" = "mkimage" -o "${1}" = "noobs" ]; then
     else
       tar cf ${RELEASE_DIR}/${NOOBS_DISTRO}/marketing.tar -C ${ROOT}/config/noobs/marketing .
     fi
-    cp ${ROOT}/README* ${RELEASE_DIR}/${NOOBS_DISTRO}
+    #cp ${ROOT}/README* ${RELEASE_DIR}/${NOOBS_DISTRO}
 
     if [ -n "${NOOBS_HEX}" ]; then
       sed -e "s%@NOOBS_HEX@%${NOOBS_HEX}%g" \

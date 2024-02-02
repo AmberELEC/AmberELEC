@@ -6,7 +6,7 @@ on:
   push:
     paths-ignore:
       - '.github/**'
-      - 'README.md'
+      - 'LICENSE.md'
       - 'Dockerfile'
       - '.dockerignore'
     branches:

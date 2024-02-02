@@ -1,13 +1,11 @@
 ![GitHub-Mark-Dark](https://raw.githubusercontent.com/AmberELEC/website/gh-pages/docs/images/transparent_amber_elec_horiz.svg#gh-dark-mode-only)
 ![GitHub-Mark-Light](https://raw.githubusercontent.com/AmberELEC/website/gh-pages/docs/images/transparent_black_amber_elec_horiz.svg#gh-light-mode-only)
-<br />An open source firmware for the Anbernic RG351P/M/V/MP, RG552 and other compatible devices (see listing below).<p>
-[![GitHub Release](https://img.shields.io/github/release/AmberELEC/AmberELEC.svg?label=latest%20release&style=flat-square)](https://github.com/AmberELEC/AmberELEC/releases/latest)
-[![GPL-2.0 Licensed](https://shields.io/badge/license-GPL2-blue?style=flat-square)](https://github.com/AmberELEC/AmberELEC/blob/main/licenses/GPL2.txt)
-[![Discord](https://img.shields.io/discord/777665344289898536?label=chat%20on%20discord&logo=discord&style=flat-square)](https://discord.com/invite/R9Er7hkRMe)
-<br />
-[![Downloads Latest](https://img.shields.io/github/downloads/AmberELEC/AmberELEC/latest/total?label=downloads%40latest%20release&style=flat-square)](https://github.com/AmberELEC/AmberELEC/releases/latest)
-[![Downloads Prerelease](https://img.shields.io/github/downloads/AmberELEC/AmberELEC-prerelease/total?label=downloads%40prerelease%20builds&style=flat-square)](https://github.com/AmberELEC/AmberELEC-prerelease/releases)
-
+[![GitHub Release](https://img.shields.io/github/release/AmberELEC/AmberELEC.svg?label=latest%20release&style=flat-square&labelColor=black&color=gold)](https://github.com/AmberELEC/AmberELEC/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/AmberELEC/AmberELEC/latest/total?label=downloads%40latest%20release&style=flat-square&labelColor=black&color=gold)](https://github.com/AmberELEC/AmberELEC/releases/latest)
+[![Downloads Prerelease](https://img.shields.io/github/downloads/AmberELEC/AmberELEC-prerelease/total?label=downloads%40prerelease%20builds&style=flat-square&labelColor=black&color=gold)](https://github.com/AmberELEC/AmberELEC-prerelease/releases)
+[![Discord](https://img.shields.io/discord/777665344289898536?logo=discord&label=Discord&labelColor=black&color=gold)](https://discord.com/invite/R9Er7hkRMe)
+---
+An open source firmware for the Anbernic RG351P/M/V/MP, RG552 and other compatible devices (see listing below).
 
 AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/EmuELEC/EmuELEC) which is based on [CoreELEC](https://github.com/CoreELEC/CoreELEC), [Lakka](https://github.com/libretro/Lakka-LibreELEC), and [Batocera](https://github.com/batocera-linux/batocera.linux).
 
@@ -15,21 +13,54 @@ We have a [Website](https://amberelec.org) with [installation instructions](http
 
 Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 
-## Supported Device List
-- Anbernic RG351P
-- Anbernic RG351M *
-- Anbernic RG351V **
-- Anbernic RG351MP **
-- Anbernic RG552
-- PowKiddy RGB20S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
-- Gameconsole R33S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
-- Gameconsole R35S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
-- Gameconsole R36S *** ([pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases))
+## Supported Devices
+<!--devices-->
+<table>
+  <tr>
+    <td align="center" width="150" nowrap="nowrap">Manufacturer</i></td><td align="center" width="120" nowrap="nowrap">Device</td>
+  </tr>
+  <tr>
+    <td rowspan="5">Anbernic</td>
+    <td>RG351P</td>
+  </tr>
+  <tr>
+    <td>RG351M<sup>[1]</sup></td>
+  </tr>
+  <tr>
+    <td>RG351V<sup>[2]</sup></td>
+  </tr>
+  <tr>
+    <td>RG351MP<sup>[2]</sup></td>
+  </tr>
+  <tr>
+    <td>RG552</td>
+  </tr>  
+  <tr>
+    <td rowspan="1">PowKiddy</td>
+    <td>RGB20S<sup>[3]</sup></td>
+  </tr>
+  <tr>
+    <td rowspan="3">Game Console<br />Game Station</td>
+    <td>R33S<sup>[3]</sup></td>
+  </tr>
+  <tr>
+    <td>R35S<sup>[3]</sup></td>
+  </tr>
+  <tr>
+    <td>R36S<sup>[3]</sup></td>
+  </tr>
+</table>
+<!--devices-->
 
-  - \* use the RG351P image
-  - ** newer devices with the V2 display require manual replacement of the device dtb file on your microSD card
-  - *** use the RG351MP image (devices require manual replacement of the device dtb file on your microSD card)
+> [!IMPORTANT]
+> <sup>[1]</sup> use the RG351P image<br>
+> <sup>[2]</sup> for RG351V and RG351MP devices with v2 display the use of the [pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases) is mandatory<br>
+> <sup>[3]</sup> use the RG351MP [pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases)
 
+> [!CAUTION]
+> Do not replace or rename any of the `.dtb` files after flashing a new image or updating from an older AmberELEC release.
+> To simplify the process and reduce complexity, we're determining which display the device is using, so no manual interaction is necessary.
+  
 ## Installation
 
 Please visit our Website [Installation](https://amberelec.org/installation#overview) page for installation instructions.
@@ -99,17 +130,3 @@ error: failed to push some refs to 'https://github.com/my-AmberELEC-fork/AmberEL
 To fix, edit the [Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to add `workflow` permissions (or create a new token with workflow permission).
 
 Alternatively, [ssh-key authentication](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) can be used.
-
-## License
-
-AmberELEC (formerly known as 351ELEC) is a fork of EmuELEC which is based on CoreELEC which in turn is licensed under the GPLv2 (and GPLv2-or-later), all original files created by the AmberELEC team are licensed as GPLv2-or-later and marked as such.
-
-This firmware includes many non-commercial emulators/libraries/cores/binaries and as such, **it cannot be sold, bundled, offered, included, or anything similar, in any commercial product/application including but not limited to: Android Devices, Smart-TVs, TV-boxes, Hand-held Devices, Computers, SBCs, or anything else that can run AmberELEC.** with those emulators/libraries/cores/binaries included.
-
-As AmberELEC includes code from many upstream projects it includes many copyright owners. AmberELEC makes NO claim of copyright on any upstream code. Patches to upstream code have the same license as the upstream project, unless specified otherwise. For a complete copyright list please checkout the source code to examine license headers. Unless expressly stated otherwise all code submitted to the AmberELEC project (in any form) is licensed under GPLv2-or-later. You are absolutely free to retain copyright. To retain copyright simply add a copyright header to each submitted code page. If you submit code that is not your own work it is your responsibility to place a header stating the copyright.
-
-## Branding
-
-All AmberELEC (formerly known as 351ELEC) related logos, videos, images and branding in general are the sole property of AmberELEC and they are all Copyrighted by the AmberELEC team and are not to be included in any commercial application whatsoever without the proper authorization! AmberELEC may not be bundled with games or distributed as donationware!
-
-You are however granted permission to include/modify them in your forks/projects as long as they are completely open-source, freely available (as in [but not limited to] not under a bunch of "click this sponsored ad to get the link!"), and do not infringe on any copyright laws, even if you receive donations for such project (we are not against donations for honest people!), we only ask that you give us the proper credit and if possible a link to this repo.
