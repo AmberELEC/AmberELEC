@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fbneo"
-PKG_VERSION="222ab7c90f74bd76db23d29af6d1e7f60d9c7bc5"
-PKG_SHA256="6fde071e194941ee192308e2560a22589e7aca49bf58fd961eddf88a72befd8f"
+PKG_VERSION="e8cd9f81bc974f7427d9cff9ffc1d2f3a8d15f1f"
+PKG_SHA256="291d9bf3bf83dc217ab09e1a4cc29604a06542654b42a2ed57ad5d2f8577c0e9"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/FBNeo"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
