@@ -137,12 +137,62 @@ jobs:
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
+            If you want to manually update, download the matching .tar from below and place it on your devices update folder (`GAMES/update` or `/roms/update`) on your microSD card (slot 2 if you use two cards).
 
-             **IMPORTANT NOTE**: There are **four different images** below, one for the **RG351P/M**, **RG351V**, **RG351MP** and **RG552**! 
+            > [!CAUTION]
+            > Do not replace or rename any of the `.dtb` files after flashing a new image or updating from an older AmberELEC release.
+            > To simplify the process and reduce complexity, we're determining which display the device is using, so no manual interaction is necessary.
 
-            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG552](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)** | **[RG552](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar)**
+            <!--devices-->
+            <table>
+              <tr>
+                <td align="center" width="150" nowrap="nowrap">Manufacturer</i></td>
+               <td align="center" width="120" nowrap="nowrap">Device</td>
+               <td align="center" width="120" nowrap="nowrap">New Installation</td>
+               <td align="center" width="120" nowrap="nowrap">Upgrade</td>
+              </tr>
+              <tr>
+                <td rowspan="5">Anbernic</td>
+                <td>RG351P</td>
+                <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+              </tr>
+              <tr>
+                <td>RG351M</td>
+              </tr>
+              <tr>
+                <td>RG351V</td>
+                <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+              </tr>
+              <tr>
+                <td>RG351MP</td>
+                <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+              </tr>
+              <tr>
+                <td>RG552</td>
+                <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+              </tr>  
+              <tr>
+                <td rowspan="1">PowKiddy</td>
+                <td>RGB20S</td>
+                <td rowspan="4" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td rowspan="4" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+              </tr>
+              <tr>
+                <td rowspan="3">Game Console<br />Game Station</td>
+                <td>R33S</td>
+              </tr>
+              <tr>
+                <td>R35S</td>
+              </tr>
+              <tr>
+                <td>R36S</td>
+              </tr>
+            </table>
+            <!--devices-->
 
           artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
           prerelease: true
