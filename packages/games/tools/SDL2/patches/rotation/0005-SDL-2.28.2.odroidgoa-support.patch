@@ -25,36 +25,36 @@ index 65ccc55..bf4e3aa 100644
  LIBTOOL = @LIBTOOL@
  INSTALL = @INSTALL@
 diff --git a/src/video/kmsdrm/SDL_kmsdrmopengles.c b/src/video/kmsdrm/SDL_kmsdrmopengles.c
-index 2de35e0e8..66067f15b 100644
+index 9b34d6896..83dc39bb4 100644
 --- a/src/video/kmsdrm/SDL_kmsdrmopengles.c
 +++ b/src/video/kmsdrm/SDL_kmsdrmopengles.c
-@@ -27,11 +27,15 @@
+@@ -30,11 +30,15 @@
  #include "SDL_kmsdrmopengles.h"
  #include "SDL_kmsdrmdyn.h"
  #include <errno.h>
 +#include<stdbool.h>
- 
+
  #ifndef EGL_PLATFORM_GBM_MESA
  #define EGL_PLATFORM_GBM_MESA 0x31D7
  #endif
- 
+
 +extern rga_info_t src_info;
 +extern rga_info_t dst_info;
 +
  /* EGL implementation of SDL OpenGL support */
- 
- void KMSDRM_GLES_DefaultProfileConfig(SDL_VideoDevice *_this, int *mask, int *major, int *minor)
-@@ -91,6 +95,7 @@ int KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
-     SDL_VideoData *viddata = _this->driverdata;
+
+ void KMSDRM_GLES_DefaultProfileConfig(_THIS, int *mask, int *major, int *minor)
+@@ -93,6 +97,7 @@ int KMSDRM_GLES_SwapWindow(_THIS, SDL_Window *window)
+     SDL_VideoData *viddata = ((SDL_VideoData *)_this->driverdata);
      KMSDRM_FBInfo *fb_info;
      int ret = 0;
 +    struct gbm_bo* rga_buffer = NULL;
- 
+
      /* Always wait for the previous issued flip before issuing a new one,
         even if you do async flips. */
-@@ -134,7 +139,26 @@ int KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+@@ -143,7 +148,26 @@ int KMSDRM_GLES_SwapWindow(_THIS, SDL_Window *window)
      }
- 
+
      /* Get an actual usable fb for the next front buffer. */
 -    fb_info = KMSDRM_FBFromBO(_this, windata->next_bo);
 +        if (src_info.fd) {
@@ -74,10 +74,10 @@ index 2de35e0e8..66067f15b 100644
 +         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not get a framebuffer");
 +         return 0;
 +        }
-+    
++
 +        viddata->rga_buffer_index = (viddata->rga_buffer_index + 1) % RGA_BUFFERS_MAX;
 +
-     if (fb_info == NULL) {
+     if (!fb_info) {
          SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not get a framebuffer");
          return 0;
 diff --git a/src/video/kmsdrm/SDL_kmsdrmsym.h b/src/video/kmsdrm/SDL_kmsdrmsym.h
