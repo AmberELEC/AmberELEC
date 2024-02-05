@@ -1,8 +1,8 @@
 diff --git a/menu/menu_displaylist.c b/menu/menu_displaylist.c
-index a34578c047..ea3dde50a7 100644
+index e931c3238d..4a3bfe023e 100644
 --- a/menu/menu_displaylist.c
 +++ b/menu/menu_displaylist.c
-@@ -14018,50 +14018,50 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -14107,52 +14107,52 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif /* HAVE_UPDATE_CORES */
  
  #if defined(HAVE_COMPRESSION) && !defined(HAVE_MIST)
@@ -38,15 +38,27 @@ index a34578c047..ea3dde50a7 100644
 -                     MENU_ENUM_LABEL_UPDATER_SETTINGS,
 -                     PARSE_ACTION, false) == 0)
 -                  count++;
--#endif
--
++               //if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(info->list,
++               //      MENU_ENUM_LABEL_UPDATER_SETTINGS,
++               //      PARSE_ACTION, false) == 0)
++               //   count++;
+ #endif
+ 
 -               if (menu_entries_append(info->list,
 -                        msg_hash_to_str(MENU_ENUM_LABEL_VALUE_PL_THUMBNAILS_UPDATER_LIST),
 -                        msg_hash_to_str(MENU_ENUM_LABEL_PL_THUMBNAILS_UPDATER_LIST),
 -                        MENU_ENUM_LABEL_PL_THUMBNAILS_UPDATER_LIST,
 -                        MENU_SETTING_ACTION, 0, 0, NULL))
 -                  count++;
--
++               //if (menu_entries_append(info->list,
++               //         msg_hash_to_str(MENU_ENUM_LABEL_VALUE_PL_THUMBNAILS_UPDATER_LIST),
++               //         msg_hash_to_str(MENU_ENUM_LABEL_PL_THUMBNAILS_UPDATER_LIST),
++               //         MENU_ENUM_LABEL_PL_THUMBNAILS_UPDATER_LIST,
++               //         MENU_SETTING_ACTION, 0, 0, NULL))
++               //   count++;
+ 
+ #if 0
+ /* Thumbnailpack removal */
 -               if (settings->bools.menu_show_legacy_thumbnail_updater)
 -               {
 -                  if (menu_entries_append(info->list,
@@ -56,19 +68,6 @@ index a34578c047..ea3dde50a7 100644
 -                           MENU_SETTING_ACTION, 0, 0, NULL))
 -                     count++;
 -               }
-+               //if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(info->list,
-+               //      MENU_ENUM_LABEL_UPDATER_SETTINGS,
-+               //      PARSE_ACTION, false) == 0)
-+               //   count++;
-+#endif
-+
-+               //if (menu_entries_append(info->list,
-+               //         msg_hash_to_str(MENU_ENUM_LABEL_VALUE_PL_THUMBNAILS_UPDATER_LIST),
-+               //         msg_hash_to_str(MENU_ENUM_LABEL_PL_THUMBNAILS_UPDATER_LIST),
-+               //         MENU_ENUM_LABEL_PL_THUMBNAILS_UPDATER_LIST,
-+               //         MENU_SETTING_ACTION, 0, 0, NULL))
-+               //   count++;
-+
 +               //if (settings->bools.menu_show_legacy_thumbnail_updater)
 +               //{
 +               //   if (menu_entries_append(info->list,
@@ -78,7 +77,7 @@ index a34578c047..ea3dde50a7 100644
 +               //            MENU_SETTING_ACTION, 0, 0, NULL))
 +               //      count++;
 +               //}
- 
+ #endif
  #ifdef HAVE_NETWORKING
 -               if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(info->list,
 -                        MENU_ENUM_LABEL_NETWORK_ON_DEMAND_THUMBNAILS,
@@ -91,7 +90,7 @@ index a34578c047..ea3dde50a7 100644
  #endif
  
  #ifdef HAVE_COMPRESSION
-@@ -14078,20 +14078,20 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -14169,20 +14169,20 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif
  
  #ifdef HAVE_UPDATE_ASSETS
@@ -124,7 +123,7 @@ index a34578c047..ea3dde50a7 100644
  
                 if (menu_entries_append(info->list,
                          msg_hash_to_str(MENU_ENUM_LABEL_VALUE_UPDATE_CHEATS),
-@@ -14102,21 +14102,21 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -14193,21 +14193,21 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
  #endif
  #ifdef HAVE_LIBRETRODB
  #if !defined(VITA)
@@ -158,7 +157,7 @@ index a34578c047..ea3dde50a7 100644
  
  #if defined(HAVE_CG) || defined(HAVE_GLSL) || defined(HAVE_SLANG) || defined(HAVE_HLSL)
                 if (video_shader_is_supported(RARCH_SHADER_CG))
-@@ -14129,15 +14129,15 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
+@@ -14220,15 +14220,15 @@ bool menu_displaylist_ctl(enum menu_displaylist_ctl_state type,
                       count++;
                 }
  
