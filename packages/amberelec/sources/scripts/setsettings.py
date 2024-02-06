@@ -201,7 +201,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         'pcengine', 'pcenginecd', 'pcfx', 'pokemini', 'psp', 'psx', 'saturn', 'sega32x',
         'segacd', 'sfc', 'sg-1000', 'snes', 'snesh', 'snesmsu1', 'supergrafx',
         'supervision', 'tg16', 'tg16cd', 'vectrex', 'virtualboy', 'wonderswan',
-        'wonderswancolor',
+        'wonderswancolor', 'wasm4',
     }
     if platform in retro_achievements:
         if config.get_setting("retroachievements"):
