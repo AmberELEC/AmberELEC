@@ -8,9 +8,9 @@ which in turn is licensed under the GPLv2 (and GPLv2-or-later), all original fil
 by the AmberELEC team are licensed as GPLv2-or-later and marked as such.
 
 This firmware includes many non-commercial emulators/libraries/cores/binaries and as such,
-**it cannot be sold, bundled, offered, included, or anything similar, in any commercial
+it cannot be sold, bundled, offered, included, or anything similar, in any commercial
 product/application including but not limited to: Android Devices, Smart-TVs, TV-boxes,
-Hand-held Devices, Computers, SBCs, or anything else that can run AmberELEC.** with those
+Hand-held Devices, Computers, SBCs, or anything else that can run AmberELEC with those
 emulators/libraries/cores/binaries included.
 
 As AmberELEC includes code from many upstream projects it includes many copyright owners.
