@@ -121,7 +121,7 @@ jobs:
             release/aarch64/RG552/
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-prerelease'
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
@@ -201,7 +201,7 @@ jobs:
           repo: AmberELEC-prerelease
       - name: Switch draft to start showing release 
         if: github.event.action == 'release-prerelease'
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           allowUpdates: true
@@ -213,7 +213,7 @@ jobs:
           omitNameDuringUpdate: true
       - name: Create dev release as draft at first to hide during uploads
         if: github.event.action == 'release-dev'
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
@@ -239,7 +239,7 @@ jobs:
           repo: dev-builds
       - name: Switch draft to start showing release 
         if: github.event.action == 'release-dev'
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           allowUpdates: true
@@ -254,7 +254,7 @@ jobs:
       #This can be removed after no more 'bridge' betas are needed
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-beta'
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
@@ -277,7 +277,7 @@ jobs:
           repo: AmberELEC-prerelease
       - name: Switch draft to start showing release 
         if: github.event.action == 'release-beta'
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           allowUpdates: true
