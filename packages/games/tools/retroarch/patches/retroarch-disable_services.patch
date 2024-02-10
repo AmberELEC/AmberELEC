@@ -1,0 +1,86 @@
+diff --git a/menu/drivers/ozone.c b/menu/drivers/ozone.c
+index 63bdaa22e9..b4b85898b9 100644
+--- a/menu/drivers/ozone.c
++++ b/menu/drivers/ozone.c
+@@ -8675,20 +8675,20 @@ static void *ozone_init(void **userdata, bool video_is_threaded)
+       ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_NETPLAY;
+ #endif
+ 
+-   if (      settings->bools.menu_content_show_add
+-         && !settings->bools.kiosk_mode_enable)
+-      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_ADD;
+-
+-#if defined(HAVE_DYNAMIC)
+-   if (settings->uints.menu_content_show_contentless_cores !=
+-         MENU_CONTENTLESS_CORES_DISPLAY_NONE)
+-      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_CONTENTLESS_CORES;
+-#endif
+-
+-#if defined(HAVE_LIBRETRODB)
+-   if (settings->bools.menu_content_show_explore)
+-      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_EXPLORE;
+-#endif
++//   if (      settings->bools.menu_content_show_add
++//         && !settings->bools.kiosk_mode_enable)
++//      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_ADD;
++
++//#if defined(HAVE_DYNAMIC)
++//   if (settings->uints.menu_content_show_contentless_cores !=
++//         MENU_CONTENTLESS_CORES_DISPLAY_NONE)
++//      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_CONTENTLESS_CORES;
++//#endif
++
++//#if defined(HAVE_LIBRETRODB)
++//   if (settings->bools.menu_content_show_explore)
++//      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_EXPLORE;
++//#endif
+ 
+    for (i = 0; i < OZONE_TAB_MAX_LENGTH; i++)
+       ozone->tab_selection[i]                   = 0;
+diff --git a/menu/menu_setting.c b/menu/menu_setting.c
+index 459ad253c9..f9c70a2765 100644
+--- a/menu/menu_setting.c
++++ b/menu/menu_setting.c
+@@ -9106,7 +9106,7 @@ static void update_streaming_url_write_handler(rarch_setting_t *setting)
+    recording_driver_update_streaming_url();
+ }
+ 
+-#ifdef HAVE_LAKKA
++#ifndef HAVE_LAKKA
+ static void systemd_service_toggle(const char *path, char *unit, bool enable)
+ {
+    pid_t pid    = fork();
+@@ -9167,6 +9167,7 @@ static void bluetooth_ertm_disable_toggle_change_handler(rarch_setting_t *settin
+ }
+ #endif
+ 
++#ifndef HAVE_LAKKA
+ static void ssh_enable_toggle_change_handler(rarch_setting_t *setting)
+ {
+    systemd_service_toggle(LAKKA_SSH_PATH, (char*)"sshd.service",
+@@ -9214,6 +9215,7 @@ static void timezone_change_handler(rarch_setting_t *setting)
+    }
+ }
+ #endif
++#endif
+ 
+ static void appicon_change_handler(rarch_setting_t *setting)
+ {
+@@ -19508,7 +19510,7 @@ static bool setting_append_list(
+                SD_FLAG_CMD_APPLY_AUTO);
+ #endif
+ 
+-#ifdef HAVE_LAKKA
++#ifndef HAVE_LAKKA
+          CONFIG_ACTION(
+                list, list_info,
+                MENU_ENUM_LABEL_CPU_PERFPOWER,
+@@ -22390,7 +22392,7 @@ static bool setting_append_list(
+          break;
+       case SETTINGS_LIST_LAKKA_SERVICES:
+          {
+-#if defined(HAVE_LAKKA)
++#ifndef HAVE_LAKKA
+             START_GROUP(list, list_info, &group_info,
+                   msg_hash_to_str(MENU_ENUM_LABEL_VALUE_LAKKA_SERVICES),
+                   parent_group);
