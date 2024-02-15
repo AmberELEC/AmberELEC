@@ -6,11 +6,11 @@ A major advantage of using GitHub actions with a self hosted server - as opposed
 **Runners**
 - **main** Driven by [build-main.yaml](build-main.yaml)
   - **Logic**: An 'incremental' build (no `make clean`) is run on every commit to `main`.  All *build.* directories are saved between builds.
-  - If a 'full' build is required.  `make clean` can be run manually by AmberELEC admins via the Github UI.  Driven by: [clean-main.yaml](docs/clean-main.yaml)
+  - If a 'full' build is required.  `make clean` can be run manually by AmberELEC admins via the Github UI.  Driven by: [clean-main.yaml](clean-main.yaml)
 - **Pull Requests**. Driven by [build-pr.yaml](build-pr.yaml)
   - **Logic**: An 'incremental' build (no `make clean`) is run on every PR which is from a previous committer. 
     - Limiting the PRs built is done for security to ensure randomly submitted PRs are not built without some level of review (only AmberELEC admins are allowed to request reviewers)
-  - If a 'full' PR build is required `make clean` can be run manually by AmberELEC admins for the PR builder.  Driven by: [clean-pr.yaml](docs/clean-pr.yaml)
+  - If a 'full' PR build is required `make clean` can be run manually by AmberELEC admins for the PR builder.  Driven by: [clean-pr.yaml](clean-pr.yaml)
 
 This two-runner design is to ensure that 'main' builds are not clogged up by random PR pushes, etc.  
 
