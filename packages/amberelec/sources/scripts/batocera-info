@@ -29,6 +29,7 @@ else
 fi
 
 V_DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
+R_DEVICE=$(cat /storage/.config/device)
 V_CPUNB=$(grep -E $'^processor\t:' /proc/cpuinfo | wc -l)
 V_SYSTEM=$(uname -rs)
 V_ARCH=$(uname -m)
@@ -78,7 +79,17 @@ fi
 
 
 echo "OPERATING SYSTEM: ${V_OS}"
-echo "DEVICE: ${V_DEVICE}"
+if [[ $R_DEVICE == "R33S" ]]; then
+  echo "DEVICE: Game Console R33S"
+elif [[ $R_DEVICE == "R35S" ]]; then
+  echo "DEVICE: Game Console R35S"
+elif [[ $R_DEVICE == "R36S" ]]; then
+  echo "DEVICE: Game Console R36S"
+elif [[ $R_DEVICE == "RGB20S" ]]; then
+  echo "DEVICE: Powkiddy RGB20S"
+else
+  echo "DEVICE: ${V_DEVICE}"
+fi
 echo "CPU: ${V_CPUMODEL1} (${V_CPUNB} Cores)"
 if test -n "${TEMPE}"
 then
@@ -98,6 +109,8 @@ else
   echo "CURRENT FREQUENCY (LITTLE): ${V_CPUFREQL}MHz"
   echo "MAXIMUM FREQUENCY (LITTLE): ${V_CPUMAXFREQL}MHz"
 fi
+RAM=$(echo "$(free -m | awk 'NR==2{printf "%.0f MB/%.0f MB (%.2f%%)", $3,$2,$3*100/$2}')")
+echo "RAM USAGE: ${RAM}"
 echo "KERNEL: ${V_SYSTEM} (${V_ARCH})"
 echo "OS ARCHITECTURE: ${V_OSARCH}"
 echo "OS BUILD ID: ${BUILD_ID:0:7}"
