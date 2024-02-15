@@ -442,21 +442,45 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         gambatte_conf = "/storage/.config/retroarch/config/Gambatte/Gambatte.opt"
 
         if os.path.isfile(gambatte_conf):
-            delete_lines(gambatte_conf, ('gambatte_gb_colorization', 'gambatte_gb_internal_palette'))
+            delete_lines(gambatte_conf, ('gambatte_gb_colorization', 'gambatte_gb_internal_palette', 'gambatte_gb_palette_twb64_1', 'gambatte_gb_palette_twb64_2', 'gambatte_gb_palette_twb64_3', 'gambatte_gb_palette_pixelshift_1'))
         else:
-            gambatte_dict['gambatte_gbc_color_correction'] = 'disabled'
-
-        colorization = config.get_setting('renderer.colorization')
-        logger.log(f'gambatte colorization: {colorization}')
-        if not colorization or colorization == 'auto':
             gambatte_dict['gambatte_gb_colorization'] = 'disabled'
-        elif colorization == 'Best Guess':
+
+        gambatte_gb_colorization = config.get_setting('GB_Colorization')
+        logger.log(f'gambatte colorization: {gambatte_gb_colorization}')
+        if not gambatte_gb_colorization:
+            gambatte_dict['gambatte_gb_colorization'] = 'disabled'
+        elif gambatte_gb_colorization == "bestguess":
             gambatte_dict['gambatte_gb_colorization'] = 'auto'
-        elif colorization == 'GBC' or colorization == 'SGB':
-            gambatte_dict['gambatte_gb_colorization'] = colorization
-        else:
+        elif gambatte_gb_colorization == "internal":
             gambatte_dict['gambatte_gb_colorization'] = 'internal'
-            gambatte_dict['gambatte_gb_internal_palette'] = colorization
+
+            gambatte_gb_internal_palette = config.get_setting('Internal_Palette')
+            logger.log(f'gambatte internal palette: {gambatte_gb_internal_palette}')
+            if gambatte_gb_internal_palette:
+                gambatte_dict['gambatte_gb_internal_palette'] = gambatte_gb_internal_palette
+
+            gambatte_gb_palette_twb64_1 = config.get_setting('TWB64_-_Pack_1')
+            logger.log(f'gambatte palette twb64 pack 1: {gambatte_gb_palette_twb64_1}')
+            if gambatte_gb_palette_twb64_1:
+                gambatte_dict['gambatte_gb_palette_twb64_1'] = gambatte_gb_palette_twb64_1
+
+            gambatte_gb_palette_twb64_2 = config.get_setting('TWB64_-_Pack_2')
+            logger.log(f'gambatte palette twb64 pack 2: {gambatte_gb_palette_twb64_2}')
+            if gambatte_gb_palette_twb64_2:
+                gambatte_dict['gambatte_gb_palette_twb64_2'] = gambatte_gb_palette_twb64_2
+
+            gambatte_gb_palette_twb64_3 = config.get_setting('TWB64_-_Pack_3')
+            logger.log(f'gambatte palette twb64 pack 3: {gambatte_gb_palette_twb64_3}')
+            if gambatte_gb_palette_twb64_3:
+                gambatte_dict['gambatte_gb_palette_twb64_3'] = gambatte_gb_palette_twb64_3
+
+            gambatte_gb_palette_pixelshift_1 = config.get_setting('PixelShift_-_Pack_1')
+            logger.log(f'gambatte palette pixelshift pack 1: {gambatte_gb_palette_pixelshift_1}')
+            if gambatte_gb_palette_pixelshift_1:
+                gambatte_dict['gambatte_gb_palette_pixelshift_1'] = gambatte_gb_palette_pixelshift_1
+        else:
+            gambatte_dict['gambatte_gb_colorization'] = gambatte_gb_colorization
 
         write_file(gambatte_conf, gambatte_dict)
 
