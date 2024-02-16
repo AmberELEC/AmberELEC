@@ -36,7 +36,7 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
-## 2023-01-15 
+## 2023-01-15
 ## Add all JoyAxis[]Deadzone values to ECWolf due to default deadzones being too low.
 if [ -e "${ECWOLFCONF}" ]; then
         for i in {0..6}
@@ -52,6 +52,13 @@ if ! grep -q "^audio_filter_dir" ${RACONF}; then
 fi
 if ! grep -q "^video_filter_dir" ${RACONF}; then
   echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
+fi
+
+## 2024-02-19
+## maxperf vircon32
+if [[ "$LAST_UPDATE_VERSION" -le "20240219" ]]; then
+  sed -i '/vircon32.maxperf=.*/d;' /storage/.config/distribution/configs/distribution.conf
+  echo 'vircon32.maxperf=1' >> /storage/.config/distribution/configs/distribution.conf
 fi
 
 ## 2022-12-29
