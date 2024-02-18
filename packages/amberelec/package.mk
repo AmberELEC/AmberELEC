@@ -6,7 +6,7 @@
 PKG_NAME="amberelec"
 PKG_VERSION="1.0"
 PKG_LICENSE="GPLv3"
-PKG_DEPENDS_TARGET="toolchain ${OPENGLES} emulationstation retroarch retrorun klbi lib32"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} emulationstation retroarch retrorun klbi lib32 python-evdev"
 PKG_LONGDESC="AmberELEC Meta Package"
 PKG_TOOLCHAIN="make"
 
