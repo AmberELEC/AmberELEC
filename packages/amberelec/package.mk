@@ -136,7 +136,11 @@ post_install() {
   cp -r ${PKG_DIR}/gamepads/* ${INSTALL}/etc/retroarch-joypad-autoconfig
   ln -sf amberelec.target ${INSTALL}/usr/lib/systemd/system/default.target
   enable_service amberelec-autostart.service
+<<<<<<< HEAD
   enable_service lastgame.service
+=======
+  enable_service hotkey.service
+>>>>>>> 8a1cfde0 (hotkey for poweroff)
   if [[ "${DEVICE}" == "RG552" ]]; then
     enable_service fan_control.service
   fi
