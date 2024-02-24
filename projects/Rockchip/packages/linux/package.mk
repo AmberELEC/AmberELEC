@@ -253,7 +253,7 @@ makeinstall_target() {
     for dtb in arch/${TARGET_KERNEL_ARCH}/boot/dts/*.dtb arch/${TARGET_KERNEL_ARCH}/boot/dts/*/*.dtb; do
       if [ -f ${dtb} ] && [[ "${dtb}" =~ "timing_fix" ]]; then
         cp -v ${dtb} ${INSTALL}/usr/share/timing_fix
-        rename.ul -- '-timing_fix' '' ${INSTALL}/usr/share/timing_fix/*.dtb 2>/dev/null || :
+        ${TOOLCHAIN}/bin/rename -- '-timing_fix' '' ${INSTALL}/usr/share/timing_fix/*.dtb 2>/dev/null || :
       elif [ -f ${dtb} ]; then
         cp -v ${dtb} ${INSTALL}/usr/share/bootloader
       fi
