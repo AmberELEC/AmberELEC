@@ -261,8 +261,8 @@ fi
 # restore last played game
 if [ -f /storage/.config/lastgame ]; then
   command=`cat /storage/.config/lastgame`
-  sh -c -- "$command"
   rm -rf /storage/.config/lastgame
+  sh -c -- "$command"
 fi
 
 # What to start at boot?

@@ -6,7 +6,7 @@
 PKG_NAME="amberelec"
 PKG_VERSION="1.0"
 PKG_LICENSE="GPLv3"
-PKG_DEPENDS_TARGET="toolchain ${OPENGLES} emulationstation retroarch retrorun klbi lib32 python-evdev"
+PKG_DEPENDS_TARGET="toolchain ${OPENGLES} emulationstation retroarch retrorun klbi lib32"
 PKG_LONGDESC="AmberELEC Meta Package"
 PKG_TOOLCHAIN="make"
 
@@ -136,11 +136,7 @@ post_install() {
   cp -r ${PKG_DIR}/gamepads/* ${INSTALL}/etc/retroarch-joypad-autoconfig
   ln -sf amberelec.target ${INSTALL}/usr/lib/systemd/system/default.target
   enable_service amberelec-autostart.service
-<<<<<<< HEAD
   enable_service lastgame.service
-=======
-  enable_service hotkey.service
->>>>>>> 8a1cfde0 (hotkey for poweroff)
   if [[ "${DEVICE}" == "RG552" ]]; then
     enable_service fan_control.service
   fi

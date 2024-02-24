@@ -1,9 +1,0 @@
-[Unit]
-Description=Global hotkey
-
-[Service]
-ExecStart=/usr/bin/hotkey.py
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
