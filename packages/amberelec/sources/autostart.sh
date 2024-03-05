@@ -249,6 +249,22 @@ if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "
 	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
 fi
 
+# Initialize audio so the softvol mixer is created and audio is allowed to be changed
+# - This is the shortest, totally silent .wav I could create with audacity - duration is .001 seconds
+aplay /usr/bin/emustation-config-init.wav 
+
+if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
+  # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
+  /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
+fi
+
+# restore last played game
+if [ -f /storage/.config/lastgame ]; then
+  command=`cat /storage/.config/lastgame`
+  rm -rf /storage/.config/lastgame
+  sh -c -- "$command"
+fi
+
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)
 

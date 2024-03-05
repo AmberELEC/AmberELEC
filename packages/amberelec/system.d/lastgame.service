@@ -1,0 +1,10 @@
+[Unit]
+Description=Hotkey and save last game played in RetroArch
+
+[Service]
+ExecStart=/usr/bin/lastgame.sh
+Restart=on-failure
+Type=idle
+
+[Install]
+WantedBy=multi-user.target

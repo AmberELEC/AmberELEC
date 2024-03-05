@@ -96,15 +96,6 @@ then
   systemctl import-environment LANGUAGE
 fi
 
-# Initialize audio so the softvol mixer is created and audio is allowed to be changed
-# - This is the shortest, totally silent .wav I could create with audacity - duration is .001 seconds
-aplay /usr/bin/emustation-config-init.wav 
-
-if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
-  # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
-  /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
-fi
-
 if [[ ! -f "/storage/.newcfg" ]]; then
   # we don't use es_systems.cfg in this folder anymore
   # cp -f "/usr/config/emulationstation/es_systems.cfg" "/storage/.config/emulationstation/es_systems.cfg"
