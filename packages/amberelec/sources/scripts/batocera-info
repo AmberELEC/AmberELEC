@@ -29,10 +29,12 @@ else
 fi
 
 V_DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
-R_DEVICE=$(cat /storage/.config/device)
 V_CPUNB=$(grep -E $'^processor\t:' /proc/cpuinfo | wc -l)
 V_SYSTEM=$(uname -rs)
 V_ARCH=$(uname -m)
+if [ -f /storage/.config/device ]; then
+  R_DEVICE=$(cat /storage/.config/device)
+fi
 
 if [[ $V_DEVICE =~ RG552 ]]; then
   V_CPUMODEL1="Rockchip RK3399"
@@ -86,7 +88,7 @@ elif [[ $R_DEVICE == "R35S" ]]; then
 elif [[ $R_DEVICE == "R36S" ]]; then
   echo "DEVICE: Game Console R36S"
 elif [[ $R_DEVICE == "RGB20S" ]]; then
-  echo "DEVICE: Powkiddy RGB20S"
+  echo "DEVICE: PowKiddy RGB20S"
 else
   echo "DEVICE: ${V_DEVICE}"
 fi
