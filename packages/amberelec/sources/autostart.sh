@@ -229,9 +229,7 @@ then
   /usr/bin/batocera-internal-wifi disable-no-refresh
 fi
 
-
 if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
-  amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
   VOLT1=$(cat /sys/bus/iio/devices/iio:device0/in_voltage1_raw)
   VOLT2=$(cat /sys/bus/iio/devices/iio:device0/in_voltage2_raw)
   if (( ${VOLT2} < 500 )); then
@@ -244,9 +242,11 @@ if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
     elif ((${VOLT1} >= 950 && ${VOLT1} <= 1035)); then
       echo "R33S" > /storage/.config/device
     fi
-  else
-    echo "RG351MP" > /storage/.config/device
   fi
+fi
+
+if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ]; then
+	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
 fi
 
 # What to start at boot?

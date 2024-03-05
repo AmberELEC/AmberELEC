@@ -36,15 +36,12 @@ devices = {
     'MiQi' : { 'rk3288' : { 'dtb' : 'rk3288-miqi.dtb', 'config' : 'miqi-rk3288_config' }, },
     'RG351P' : {
       'rg351p' : { 'dtb' : 'rk3326-rg351p-linux.dtb', 'config' : 'odroidgoa_defconfig' },
-      'rg351p-oc' : { 'dtb' : 'rk3326-rg351p-linux-oc.dtb', 'config' : 'odroidgoa_defconfig' },
     },
     'RG351V' : {
       'rg351v' : { 'dtb' : 'rk3326-rg351v-linux.dtb', 'config' : 'odroidgoa_defconfig' },
-      'rg351v-oc' : { 'dtb' : 'rk3326-rg351v-linux-oc.dtb', 'config' : 'odroidgoa_defconfig' },
     },
     'RG351MP' : {
       'rg351mp' : { 'dtb' : 'rk3326-rg351mp-linux.dtb', 'config' : 'odroidgoa_defconfig' },
-      'rg351mp-oc' : { 'dtb' : 'rk3326-rg351mp-linux-oc.dtb', 'config' : 'odroidgoa_defconfig' },
     },
     'RG552' : {
       'rg552' : { 'dtb' : 'rk3399-rg552-linux.dtb', 'config' : 'evb-rk3399_defconfig' },

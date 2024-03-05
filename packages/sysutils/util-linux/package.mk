@@ -65,7 +65,8 @@ PKG_CONFIGURE_OPTS_HOST="--enable-static \
                          --disable-shared \
                          ${UTILLINUX_CONFIG_DEFAULT} \
                          --enable-uuidgen \
-                         --enable-libuuid"
+                         --enable-libuuid \
+                         --enable-rename"
 
 PKG_CONFIGURE_OPTS_INIT="${UTILLINUX_CONFIG_DEFAULT} \
                          --enable-libblkid \

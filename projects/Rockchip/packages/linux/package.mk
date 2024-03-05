@@ -5,7 +5,7 @@
 
 PKG_NAME="linux"
 if [[ "${DEVICE}" =~ RG351 ]]; then
-  PKG_VERSION="2a2bb47c9255880c4712a44bdc1d5fe8b774a800"
+  PKG_VERSION="0bf8c7b0003b8f68dc000220e98d0ec497d136d8"
   PKG_URL="https://github.com/AmberELEC/kernel_rg351/archive/${PKG_VERSION}.tar.gz"
 elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_VERSION="18f86a4da592cbb3eff3e8b090bc465017d0743c"
@@ -253,7 +253,7 @@ makeinstall_target() {
     for dtb in arch/${TARGET_KERNEL_ARCH}/boot/dts/*.dtb arch/${TARGET_KERNEL_ARCH}/boot/dts/*/*.dtb; do
       if [ -f ${dtb} ] && [[ "${dtb}" =~ "timing_fix" ]]; then
         cp -v ${dtb} ${INSTALL}/usr/share/timing_fix
-        rename.ul -- '-timing_fix' '' ${INSTALL}/usr/share/timing_fix/*.dtb 2>/dev/null || :
+        ${TOOLCHAIN}/bin/rename -- '-timing_fix' '' ${INSTALL}/usr/share/timing_fix/*.dtb 2>/dev/null || :
       elif [ -f ${dtb} ]; then
         cp -v ${dtb} ${INSTALL}/usr/share/bootloader
       fi
