@@ -27,12 +27,15 @@ cat >$INSTALL/usr/share/bootloader/boot.ini <<EOF
 odroidgoa-uboot-config
 
 setenv fdt_addr_r "0x01f00000"
-setenv dtb_name "rk3326-rg351mp-linux.dtb"
 setenv loadaddr "${PKG_LOAD_ADDR}"
 setenv scriptaddr "0x00500000"
 setenv kernel_addr_r "0x02008000"
 
-sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351mp-linux.dtb.conf
+if test \${hwrev} = 'xu10'; then
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-xu10-linux.dtb.conf
+else
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351mp-linux.dtb.conf
+fi
 
 EOF
 

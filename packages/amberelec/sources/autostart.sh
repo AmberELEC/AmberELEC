@@ -230,7 +230,7 @@ then
 fi
 
 
-if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
+if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ]; then
 	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
 fi
 
