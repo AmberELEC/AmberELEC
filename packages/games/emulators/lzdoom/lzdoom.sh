@@ -52,7 +52,7 @@ fi
 
 mkdir -p ${SAVE_DIR}
 
-params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
+params=""
 
 # EXT can be wad, WAD, iwad, IWAD, pwad, PWAD or doom
 EXT=${1#*.}
@@ -67,16 +67,25 @@ if [ ${EXT} == "doom" ]; then
     if [ "$key" == "MOD" ]; then
       params+=" -file $value"
     fi
+    if [ "$key" == "DEH" ]; then
+      params+=" -deh $value"
+    fi
+    if [ "$key" == "CONF" ]; then
+      CONFIG="$value"
+    fi
+    if [ "$key" == "SAVE" ]; then
+      SAVE_DIR="$value"
+    fi
     done < "${1}"
 else
   params+=" -iwad ${1}"
 fi
 
 if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" -width 360 -height 240 +vid_fps $SHOWFPS +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
+  params+=" -config ${CONFIG} -savedir ${SAVE_DIR} -width 360 -height 240 +vid_fps $SHOWFPS +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
 fi
 if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]] || [[ "$EE_DEVICE" == RG552 ]]; then
-  params+=" -width 320 -height 240 +vid_fps $SHOWFPS +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
+  params+=" -config ${CONFIG} -savedir ${SAVE_DIR} -width 320 -height 240 +vid_fps $SHOWFPS +cl_capfps 0 +vid_renderer 0 +vid_glswfb 0"
 fi
 
 cd "${RUN_DIR}"

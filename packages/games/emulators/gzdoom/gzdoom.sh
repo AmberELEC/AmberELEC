@@ -52,7 +52,7 @@ fi
 
 mkdir -p ${SAVE_DIR}
 
-params=" -config ${CONFIG} -savedir ${SAVE_DIR}"
+params=""
 
 # EXT can be wad, WAD, iwad, IWAD, pwad, PWAD or doom
 EXT=${1#*.}
@@ -67,12 +67,21 @@ if [ ${EXT} == "doom" ]; then
     if [ "$key" == "MOD" ]; then
       params+=" -file $value"
     fi
+    if [ "$key" == "DEH" ]; then
+      params+=" -deh $value"
+    fi
+    if [ "$key" == "CONF" ]; then
+      CONFIG="$value"
+    fi
+    if [ "$key" == "SAVE" ]; then
+      SAVE_DIR="$value"
+    fi
     done < "${1}"
 else
   params+=" -iwad ${1}"
 fi
 
-params+=" +gl_es 1 +vid_preferbackend 2 +cl_capfps 0 +vid_fps $SHOWFPS"
+params+=" -config ${CONFIG} -savedir ${SAVE_DIR} +gl_es 1 +vid_preferbackend 2 +cl_capfps 0 +vid_fps $SHOWFPS"
 
 cd "${RUN_DIR}"
 /usr/bin/gzdoom ${params} >/tmp/logs/gzdoom.log 2>&1

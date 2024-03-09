@@ -15,8 +15,8 @@
 ################################################################################
 
 PKG_NAME="gearcoleco"
-PKG_VERSION="bb89079d3469cac81a1ce683d19ed396317ae99e"
-PKG_SHA256="f3f4b1fb7d32030a4c11e335e7e6b224234dfe62e9d7747ab6dc6ce84710175f"
+PKG_VERSION="169780b22acb0ac0b6d9725501ac8faf177e0632"
+PKG_SHA256="033cc712d00c988bcb4b191910ffe8ffe0cefc81d80be51f9c07978e0e4adf31"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/drhelius/Gearcoleco"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
