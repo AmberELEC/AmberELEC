@@ -17,7 +17,7 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 <!--devices-->
 <table>
   <tr>
-    <td align="center" width="150" nowrap="nowrap">Manufacturer</i></td><td align="center" width="120" nowrap="nowrap">Device</td>
+    <td align="center" width="150" nowrap="nowrap">Manufacturer</i></td><td align="center" width="150" nowrap="nowrap">Device</td>
   </tr>
   <tr>
     <td rowspan="5">Anbernic</td>
@@ -36,8 +36,11 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
     <td>RG552</td>
   </tr>  
   <tr>
-    <td rowspan="1">PowKiddy</td>
+    <td rowspan="2">PowKiddy</td>
     <td>RGB20S<sup>[3]</sup></td>
+  </tr>
+  <tr>
+    <td>Magicx XU10<sup>[3]</sup></td>
   </tr>
   <tr>
     <td rowspan="3">Game Console<br />Game Station</td>

@@ -147,7 +147,7 @@ jobs:
             <table>
               <tr>
                 <td align="center" width="150" nowrap="nowrap">Manufacturer</i></td>
-               <td align="center" width="120" nowrap="nowrap">Device</td>
+               <td align="center" width="150" nowrap="nowrap">Device</td>
                <td align="center" width="120" nowrap="nowrap">New Installation</td>
                <td align="center" width="120" nowrap="nowrap">Upgrade</td>
               </tr>
@@ -176,10 +176,13 @@ jobs:
                 <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
               </tr>  
               <tr>
-                <td rowspan="1">PowKiddy</td>
+                <td rowspan="2">PowKiddy</td>
                 <td>RGB20S</td>
-                <td rowspan="4" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
-                <td rowspan="4" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+                <td rowspan="5" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td rowspan="5" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+              </tr>
+              <tr>
+                <td>Magicx XU10</td>
               </tr>
               <tr>
                 <td rowspan="3">Game Console<br />Game Station</td>
