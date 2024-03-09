@@ -259,7 +259,25 @@ if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
 fi
 
 # restore last played game
+timeout=60 #ms
+elapsed=0
 if [ -f /storage/.config/lastgame ]; then
+  echo -en '\e[0;0H\e[37mRestoring the last running game...\e[0m' >/dev/console
+  if [ "$(get_ee_setting retroachievements)" = "1" ]; then
+    if [[ $(ls /sys/class/net | grep -E '^(wlan|eth)[0-9]+$') ]]; then
+      while [[ ! $(ip route | grep default) ]]; do
+          if [[ $elapsed -ge 10 ]]; then
+            if [[ $elapsed -ge $timeout ]]; then
+              break
+            else
+              echo -en '\e[0;0H\e[37m\nRetroachievements are enabled...\nWaiting for network to become available...\e[0m' >/dev/console
+            fi
+          fi
+          sleep 0.1
+          ((elapsed++))
+      done
+    fi
+  fi
   command=`cat /storage/.config/lastgame`
   rm -rf /storage/.config/lastgame
   sh -c -- "$command"
