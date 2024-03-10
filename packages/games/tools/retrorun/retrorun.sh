@@ -144,7 +144,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	sed -i "/^retrorun_tate_mode/d" ${RRCONF}
 	echo 'retrorun_tate_mode = auto' >> ${RRCONF}
 else
-	sed -i "/^retrorun_aspect_ratio/d" ${RRCONF}
+	sed -i "/^retrorun_tate_mode/d" ${RRCONF}
 	echo "retrorun_tate_mode = ${EES}" >> ${RRCONF}
 fi
 
