@@ -5,6 +5,13 @@
 # Simple script to watc the battery capacity and
 # turn the power LED red when it reaches 25%
 
+# Search for files containing "led" in their name
+if ls "/roms"/*led* >/dev/null 2>&1; then
+  r3xs_green="red"
+  r3xs_red="green"
+  r3xs_yellow="purple"
+fi
+
 function set_led() {
   case $1 in
     red)
@@ -17,6 +24,11 @@ function set_led() {
     ;;
     yellow)
       echo in >/sys/class/gpio/gpio77/direction
+    ;;
+    purple)
+      echo out >/sys/class/gpio/gpio77/direction
+      echo 0 >/sys/class/gpio/gpio77/value
+      echo 1 >/sys/class/gpio/gpio77/value
     ;;
   esac
 }
@@ -32,24 +44,24 @@ do
     then
       for ctr in $(seq 1 1 5)
       do
-        set_led yellow
+        set_led "${r3xs_yellow:-yellow}"
         sleep .5
-        set_led red
+        set_led "${r3xs_red:-red}"
         sleep .5
       done
       continue
     elif (( ${CAP} <= 20 ))
     then
-      set_led red
+      set_led "${r3xs_red:-red}"
     elif (( ${CAP} <= 30 ))
     then
-      set_led yellow
+      set_led "${r3xs_yellow:-yellow}"
     else
-      set_led green
+      set_led "${r3xs_green:-green}"
     fi
   elif (( ${CAP} >= 95 ))
   then
-    set_led green
+    set_led "${r3xs_green:-green}"
   fi
   sleep 15
 done
