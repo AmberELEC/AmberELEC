@@ -229,6 +229,7 @@ then
   /usr/bin/batocera-internal-wifi disable-no-refresh
 fi
 
+rm -f "/storage/.config/device" 2>/dev/null
 if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
   VOLT1=$(cat /sys/bus/iio/devices/iio:device0/in_voltage1_raw)
   VOLT2=$(cat /sys/bus/iio/devices/iio:device0/in_voltage2_raw)
