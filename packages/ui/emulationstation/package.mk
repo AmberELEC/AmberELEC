@@ -3,11 +3,24 @@
 # Copyright (C) 2020-present Fewtarius
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
+# revert before PR
+
+# PKG_NAME="emulationstation"
+# PKG_VERSION="d9f46af99892a463472324745fc1e2bcf45422ff"
+# PKG_GIT_CLONE_BRANCH="main"
+# PKG_LICENSE="GPL"
+# PKG_SITE="https://github.com/AmberELEC/emulationstation"
+# PKG_URL="${PKG_SITE}.git"
+# PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc"
+# PKG_NEED_UNPACK="busybox"
+# PKG_LONGDESC="Emulationstation emulator frontend"
+# PKG_BUILD_FLAGS="-gold"
+
 PKG_NAME="emulationstation"
-PKG_VERSION="d9f46af99892a463472324745fc1e2bcf45422ff"
-PKG_GIT_CLONE_BRANCH="main"
+PKG_VERSION="64d2d272c2e32c74778c3454aa6dcefd646c0d9f"
+PKG_GIT_CLONE_BRANCH="syncthing-test"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/AmberELEC/emulationstation"
+PKG_SITE="https://github.com/octopuserectus/emulationstation"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"

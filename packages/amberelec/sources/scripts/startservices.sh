@@ -47,6 +47,21 @@ case "$DEFE" in
 	;;
 esac
 
+# handle SYNCTHING
+DEFE=$(get_ee_setting ee_syncthing.enabled)
+
+case "$DEFE" in
+"0")
+	systemctl stop syncthing
+	;;
+"1")
+	systemctl start syncthing
+	;;
+*)
+	systemctl stop syncthing
+	;;
+esac
+
 # handle WEBUI
 DEFE=$(get_ee_setting ee_webui.enabled)
 
