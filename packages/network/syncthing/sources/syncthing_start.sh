@@ -5,7 +5,7 @@
 
 . /etc/profile
 
-syncthing generate --home=/storage/.config/syncthing --gui-user "root" --gui-password "amberelec"
+syncthing generate --home=/storage/.config/syncthing --gui-user=root --gui-password=amberelec
 
 STNODEFAULTFOLDER="1" syncthing -home=/storage/.config/syncthing    \
                                 -gui-address="0.0.0.0:8384"         \
@@ -14,4 +14,3 @@ STNODEFAULTFOLDER="1" syncthing -home=/storage/.config/syncthing    \
                                 -no-browser                         \
                                 -no-restart                         \
                                 &
-                                
