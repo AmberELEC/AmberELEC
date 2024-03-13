@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
+
+PKG_NAME="syncthing"
+PKG_VERSION="1.27.4"
+PKG_LICENSE="MPLv2"
+PKG_SITE="https://syncthing.net/"
+PKG_URL="https://github.com/syncthing/syncthing/releases/download/v${PKG_VERSION}/syncthing-source-v${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain go:host"
+PKG_LONGDESC="Syncthing (${PKG_VERSION}) replaces proprietary sync and cloud services with something open, trustworthy and decentralized. Your data is your data alone and you deserve to choose where it is stored, if it is shared with some third party and how it's transmitted over the Internet."
+PKG_TOOLCHAIN="manual"
+
+configure_target() {
+  go_configure
+  export LDFLAGS="-w -linkmode external -extldflags -Wl,--unresolved-symbols=ignore-in-shared-libs -extld ${CC} \
+                  -X github.com/syncthing/syncthing/lib/build.Version=v${PKG_VERSION}"
+}
+
+make_target() {
+  HOME=${ROOT} GOCACHE=${ROOT}/.gocache \
+       ${GOLANG} build -a -ldflags "${LDFLAGS}" -o bin/syncthing -v ./cmd/syncthing
+}
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/bin
+  cp bin/syncthing ${INSTALL}/usr/bin
+  cp -rf ${PKG_DIR}/sources/syncthing_start.sh ${INSTALL}/usr/bin
+  chmod 0755 ${INSTALL}/usr/bin/*
+}
