@@ -36,6 +36,13 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+# 2024-03-13
+## After an update to PCSX-ReARMed there was a noticeable slowdown even when restarting the core with
+## a cold boot to the game. Resetting this seems to have fixed the issue
+if [ -f "/roms/gamedata/retroarch/config/PCSX-ReARMed/PCSX-ReARMed.opt" ]; then
+    sed -i '/pcsx_rearmed_psxclock/d' /roms/gamedata/retroarch/config/PCSX-ReARMed/PCSX-ReARMed.opt
+fi
+
 ## 2023-01-15
 ## Add all JoyAxis[]Deadzone values to ECWolf due to default deadzones being too low.
 if [ -e "${ECWOLFCONF}" ]; then
