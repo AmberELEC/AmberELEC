@@ -89,6 +89,8 @@ elif [[ $R_DEVICE == "R36S" ]]; then
   echo "DEVICE: Game Console R36S"
 elif [[ $R_DEVICE == "RGB20S" ]]; then
   echo "DEVICE: PowKiddy RGB20S"
+elif [[ $R_DEVICE == "Unknown" ]]; then
+  echo "DEVICE: Unknown"
 else
   echo "DEVICE: ${V_DEVICE}"
 fi
