@@ -22,7 +22,7 @@ jobs:
     permissions:
       contents: write
       packages: write
-    runs-on: ubuntu-20.04
+    runs-on: main
     steps:
       #- uses: hmarr/debug-action@v2
       #  name: debug
@@ -39,3 +39,4 @@ jobs:
         run: |
          make docker-image-build
          make docker-image-push
+         make docker-image-pull
