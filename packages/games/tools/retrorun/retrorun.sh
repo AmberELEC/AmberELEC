@@ -50,7 +50,6 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
-
 # Audio Buffer
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "audio_buffer"
@@ -110,7 +109,6 @@ else
 	sed -i "/^retrorun_fps_counter/d" ${RRCONF}
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
-
 
 # Swap triggers
 # Get configuration from distribution.conf and set to retrorun.cfg
