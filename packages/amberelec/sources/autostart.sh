@@ -9,6 +9,9 @@
 # Set max performance mode to start the boot.
 maxperf
 
+# Show splash logo
+/usr/bin/show_splash.sh &
+
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
 ln -s /storage/roms/gamedata/retroarch/logs/ /tmp/logs/retroarch
@@ -122,9 +125,6 @@ systemctl stop volume; systemctl start volume &
 
 # start services
 /usr/bin/startservices.sh &
-
-# Show splash Screen
-/usr/bin/show_splash.sh intro &
 
 # Migrate game data to the games partition
 GAMEDATA="/storage/roms/gamedata"

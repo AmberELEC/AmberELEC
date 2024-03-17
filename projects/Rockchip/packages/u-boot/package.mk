@@ -15,7 +15,7 @@ PKG_NEED_UNPACK="${PROJECT_DIR}/${PROJECT}/bootloader"
 [ -n "${DEVICE}" ] && PKG_NEED_UNPACK+=" ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/bootloader"
 
 if [[ "${DEVICE}" =~ RG351 ]]; then
-  PKG_VERSION="9431cec6fb3212d7ad0aac99018c6cc1388ac230"
+  PKG_VERSION="77ce61e705be4655679d661dbcc8996ef82b42f6"
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/AmberELEC/uboot_rg351.git"

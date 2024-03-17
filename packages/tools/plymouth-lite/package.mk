@@ -8,29 +8,34 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://www.meego.com"
 PKG_URL="${DISTRO_SRC}/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_INIT="toolchain ccache:init libpng"
+PKG_DEPENDS_TARGET="toolchain libpng"
 PKG_LONGDESC="Boot splash screen based on Fedora's Plymouth code"
 
 if [ "${UVESAFB_SUPPORT}" = yes ]; then
   PKG_DEPENDS_INIT="${PKG_DEPENDS_INIT} v86d:init"
 fi
 
-pre_configure_init() {
-  # plymouth-lite dont support to build in subdirs
+pre_configure_target() {
   cd ${PKG_BUILD}
-    rm -rf .${TARGET_NAME}-init
+  rm -rf .${TARGET_NAME}-init
+}
+
+pre_configure_init() {
+  cd ${PKG_BUILD}
+  rm -rf .${TARGET_NAME}-init
+}
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/bin
+  cp ply-image ${INSTALL}/usr/bin
 }
 
 makeinstall_init() {
   mkdir -p ${INSTALL}/usr/bin
-    cp ply-image ${INSTALL}/usr/bin
+  cp ply-image ${INSTALL}/usr/bin
 
   mkdir -p ${INSTALL}/splash
-    find_file_path splash/splash.conf && cp ${FOUND_PATH} ${INSTALL}/splash
-    if [[ "${DEVICE}" =~ RG552 ]] || [[ "${DEVICE}" =~ RG351 ]]; then
-		find_file_path "splash/splash-480.png" && cp ${FOUND_PATH} ${INSTALL}/splash
-		find_file_path "splash/splash-640.png" && cp ${FOUND_PATH} ${INSTALL}/splash
-		find_file_path "splash/splash-1920.png" && cp ${FOUND_PATH} ${INSTALL}/splash
-    else
-		find_file_path "splash/splash-*.png" && cp ${FOUND_PATH} ${INSTALL}/splash
-    fi
+  find_file_path "splash/splash-480.png" && cp ${FOUND_PATH} ${INSTALL}/splash
+  find_file_path "splash/splash-640.png" && cp ${FOUND_PATH} ${INSTALL}/splash
+  find_file_path "splash/splash-1920.png" && cp ${FOUND_PATH} ${INSTALL}/splash
 }

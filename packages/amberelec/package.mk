@@ -31,7 +31,7 @@ else
   PKG_EMUS+=" advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
 fi
 
-PKG_TOOLS="bash dialog grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone syncthing jstest-sdl sdljoytest evdev-joystick gptokeyb"
+PKG_TOOLS="bash dialog grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone syncthing plymouth-lite imagemagick jstest-sdl sdljoytest evdev-joystick gptokeyb"
 PKG_RETROPIE_DEP="pyudev six git dbus-python coreutils"
 PKG_DEPENDS_TARGET+=" ${PKG_TOOLS} ${PKG_RETROPIE_DEP} ${PKG_EMUS} ports"
 
@@ -105,21 +105,10 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/libretro-database
      touch ${INSTALL}/usr/share/libretro-database/dummy
 
-  # Move plymouth-lite bin to show splash screen
-  cp $(get_build_dir plymouth-lite)/.install_init/usr/bin/ply-image ${INSTALL}/usr/bin
-
   mkdir -p ${INSTALL}/usr/config/splash
 
   find_file_path "splash/splash-*.png" && cp ${FOUND_PATH} ${INSTALL}/usr/config/splash
-
-  mkdir -p ${INSTALL}/usr/share/bootloader
-  if [ "${DEVICE}" == "RG351P" ]; then
-    find_file_path "splash/splash-480.bmp" && cp ${FOUND_PATH} ${INSTALL}//usr/share/bootloader/logo.bmp
-  elif [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] ; then
-    find_file_path "splash/splash-640.bmp" && cp ${FOUND_PATH} ${INSTALL}//usr/share/bootloader/logo.bmp
-  elif [ "${DEVICE}" == "RG552" ]; then
-    find_file_path "splash/splash-1920.bmp" && cp ${FOUND_PATH} ${INSTALL}//usr/share/bootloader/logo.bmp
-  fi
+  find_file_path "splash/blank.png" && cp ${FOUND_PATH} ${INSTALL}/usr/config/splash
 }
 
 post_install() {
@@ -153,7 +142,6 @@ post_install() {
 
   cp ${PKG_DIR}/sources/amberelec.dialogrc ${INSTALL}/etc
   cp ${PKG_DIR}/sources/autostart.sh ${INSTALL}/usr/bin
-  cp ${PKG_DIR}/sources/shutdown.sh ${INSTALL}/usr/bin
   cp ${PKG_DIR}/sources/pico-8.sh ${INSTALL}/usr/bin
   cp ${PKG_DIR}/sources/pico-8.sh "${INSTALL}/usr/config/distribution/modules/Start Pico-8.sh"
   cp ${PKG_DIR}/sources/scripts/* ${INSTALL}/usr/bin

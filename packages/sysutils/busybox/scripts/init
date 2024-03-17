@@ -537,9 +537,28 @@ load_splash() {
         done
       fi
 
+      R_DEVICE="$(cat /storage/.config/device)" >/dev/null 2>&1
+      if [ "$R_DEVICE" = "R33S" ]; then
+        DEVICE="Game Console R33S"
+      elif [ "$R_DEVICE" = "R35S" ]; then
+        DEVICE="Game Console R35S"
+      elif [ "$R_DEVICE" = "R36S" ]; then
+        DEVICE="Game Console R36S"
+      elif [ "$R_DEVICE" = "RGB20S" ]; then
+        DEVICE="PowKiddy RGB20S"
+      elif [ "$R_DEVICE" = "Unknown" ]; then
+        DEVICE="Unknown"
+      else
+        DEVICE="$(cat /sys/firmware/devicetree/base/model)"
+      fi
+
+      source /sysroot/etc/os-release
+
+      ply-image /sysroot/usr/config/splash/blank.png > /dev/null 2>&1
       if [ -n "$SPLASHIMAGE" -a -f "$SPLASHIMAGE" ]; then
         ply-image $SPLASHIMAGE > /dev/null 2>&1
       fi
+      echo -en "\033[10000H\033[2K  Device:  ${DEVICE}\n  Image:   ${COREELEC_DEVICE}\n  Version: ${VERSION} (${BUILD_ID:0:7})\n  Built:   ${BUILD_DATE}\n" >/dev/console
 
       debug_msg "Framebuffer vertical res: $vres"
       debug_msg "Framebuffer splash image: $SPLASHIMAGE"
@@ -1359,13 +1378,13 @@ for BOOT_STEP in \
     set_consolefont \
     cleanup_flash \
     update_bootmenu \
-    load_splash \
     mount_sysroot \
     mount_storage \
+    load_splash \
     mount_games \
     check_update \
-    prepare_sysroot \
-    check_amlogic_dtb; do
+    prepare_sysroot
+do
   $BOOT_STEP
   [ -n "$DEBUG" ] && break_after $BOOT_STEP
 done

@@ -39,8 +39,6 @@ function cleanup {
 trap cleanup EXIT
 
 clear > ${CONSOLE_DEVICE}
-/usr/bin/show_splash.sh "$0"
-clear > ${CONSOLE_DEVICE}
 
 python3 ${DIR}/get-release.py --band ${BAND} --org ${ORG} --repo ${REPO} --log-level DEBUG --console ${CONSOLE_DEVICE} ${FORCE_ARGS} &> ${LOG}
 
