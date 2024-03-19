@@ -36,6 +36,8 @@
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351mp-linux-oc-timing_fix.dtb"
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-xu10-linux.dtb"
     KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-xu10-linux-oc.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-d007-linux.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-d007-linux-oc.dtb"
 
   # Mali GPU family
     MALI_FAMILY="g31"

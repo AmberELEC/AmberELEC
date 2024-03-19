@@ -12,7 +12,9 @@ elif [ "$DEVICE" == "RG351V" ]; then
   BASEDTB="rk3326-rg351v-linux"
 elif [ "$DEVICE" == "RG351MP" ]; then
   if [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ]; then
-	BASEDTB="rk3326-xu10-linux"
+	  BASEDTB="rk3326-xu10-linux"
+  elif [ "$(cat /sys/firmware/devicetree/base/model)" == "SZDiiER D007 Plus" ]; then
+	  BASEDTB="rk3326-d007-linux"
   else
     BASEDTB="rk3326-rg351mp-linux"
   fi
