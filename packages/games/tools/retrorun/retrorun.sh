@@ -50,7 +50,6 @@ else
 	echo "retrorun_auto_save = ${EES}" >> ${RRCONF}
 fi
 
-
 # Audio Buffer
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "audio_buffer"
@@ -111,7 +110,6 @@ else
 	echo "retrorun_fps_counter = ${EES}" >> ${RRCONF}
 fi
 
-
 # Swap triggers
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "swap_triggers"
@@ -124,7 +122,31 @@ else
 	echo "retrorun_swap_l1r1_with_l2r2 = ${EES}" >> ${RRCONF}
 fi
 
-# Swap triggers
+# Swap analog sticks
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "swap_analog_sticks"
+echo "swap_analog_sticks:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_swap_sticks/d" ${RRCONF}
+	echo 'retrorun_swap_sticks = false' >> ${RRCONF}
+else
+	sed -i "/^retrorun_swap_sticks/d" ${RRCONF}
+	echo "retrorun_swap_sticks = ${EES}" >> ${RRCONF}
+fi
+
+# Tate Mode
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "tate_mode"
+echo "tate_mode:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_tate_mode/d" ${RRCONF}
+	echo 'retrorun_tate_mode = auto' >> ${RRCONF}
+else
+	sed -i "/^retrorun_tate_mode/d" ${RRCONF}
+	echo "retrorun_tate_mode = ${EES}" >> ${RRCONF}
+fi
+
+# Force FPS
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "force_fps"
 echo "force_fps:${EES}"

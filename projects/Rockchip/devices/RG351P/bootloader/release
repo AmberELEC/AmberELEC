@@ -15,10 +15,6 @@ mkdir -p $RELEASE_DIR/3rdparty/bootloader
     fi
   fi
 
-  if [ -f $INSTALL/usr/share/bootloader/logo.bmp ]; then
-    cp -a $INSTALL/usr/share/bootloader/logo.bmp $RELEASE_DIR/3rdparty/bootloader
-  fi
-  
   if [ -f $INSTALL/usr/share/bootloader/boot.ini ]; then
     cp -a $INSTALL/usr/share/bootloader/boot.ini $RELEASE_DIR/3rdparty/bootloader
   fi

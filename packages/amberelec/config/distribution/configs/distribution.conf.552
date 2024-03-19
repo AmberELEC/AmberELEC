@@ -6,6 +6,9 @@ global.analogue=1
 ## Enable SSH at boot
 ee_ssh.enabled=1
 
+## Enable Syncthing at boot
+ee_syncting.enabled=0
+
 ## Enable SAMBA at boot
 ee_samba.enabled=1
 

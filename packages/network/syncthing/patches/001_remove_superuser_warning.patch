@@ -1,0 +1,17 @@
+diff --git a/lib/syncthing/syncthing.go b/lib/syncthing/syncthing.go
+index fd627b581..8db161f54 100644
+--- a/lib/syncthing/syncthing.go
++++ b/lib/syncthing/syncthing.go
+@@ -318,9 +318,9 @@ func (a *App) startup() error {
+ 		}
+ 	}
+ 
+-	if isSuperUser() {
+-		l.Warnln("Syncthing should not run as a privileged or system user. Please consider using a normal user account.")
+-	}
++	//if isSuperUser() {
++	//	l.Warnln("Syncthing should not run as a privileged or system user. Please consider using a normal user account.")
++	//}
+ 
+ 	a.evLogger.Log(events.StartupComplete, map[string]string{
+ 		"myID": a.myID.String(),

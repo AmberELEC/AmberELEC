@@ -15,7 +15,7 @@ on:
 # Ensure that if there are multiple builds for main only 1 is queued during a build
 # Example: 1st commit in main starts a build then 2-9 commits come in during the first build.
 #          'concurrency' makes it so that only commit 9 is enqueued to build rather builds 2-9 all runing a build.
-concurrency: 
+concurrency:
   group: main
 
 env:
@@ -23,13 +23,13 @@ env:
   DOCKER_IMAGE: ghcr.io/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}-build:latest
 
 jobs:
-  build:
-    timeout-minutes: 1440
+  build-init:
+    timeout-minutes: 60
     runs-on: main
     steps:
       #- uses: hmarr/debug-action@v2
       #  name: debug
-      - name: get current branch as it may not be 'default branch;
+      - name: Get current branch as it may not be 'default branch'
         id: branch
         run: |
             branch_arg="${{ github.event.client_payload.branch }}"
@@ -38,10 +38,16 @@ jobs:
             fi
             echo "branch=$branch_arg" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
-        name: checkout
+        name: Checkout
         with:
           clean: false
           ref: "${{ steps.branch.outputs.branch }}"
+
+  build-rg351p:
+    needs: [build-init]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
       - name: Get date for artifacts
         id: date
         run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
@@ -64,21 +70,108 @@ jobs:
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351P
 
+  build-rg351v:
+    needs: [build-init, build-rg351p]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+           set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
+           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+           else
+               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+           fi
       - name: Build RG351V
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351V
+
+  build-rg351mp:
+    needs: [build-init, build-rg351p, build-rg351v]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+           set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
+           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+           else
+               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+           fi
       - name: Build RG351MP
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351MP
+
+  build-rg552:
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+           set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
+           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+           else
+               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+           fi
       - name: Build RG552
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG552
+
+  build-finalize:
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+           set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
+           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+           else
+               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+           fi
       - name: Cleanup system artifacts
         run: |
             set -e
@@ -90,7 +183,6 @@ jobs:
             set -e
             #main builds only include the .tar for speed
             rm -rf release/aarch64/RG*/*.img.gz*
-
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v4
         if: github.event.client_payload.release_tag == ''
@@ -128,9 +220,9 @@ jobs:
             # Release Notes (Prerelease)
             This is a prerelease based on the commit: ${{ github.event.repository.full_name }}@${{github.sha}}.
 
-            Prereleases and provided for the community to test fixes and explore new functionality.  Please DO NOT open issues on this build and instead post in the `#pre-release-feedback` section of discord.
+            Prereleases are provided for the community to test fixes and explore new functionality. Please DO NOT open issues on this build and instead post in the `#pre-release-feedback` section on our Discord server.
 
-            See the [wiki](https://amberelec.org/contributing/contributing-to-amberelec) for more info.
+            See our [website](https://amberelec.org/contributing/contributing-to-amberelec) for more info.
 
             ### Changes (since last prerelease version):
             ${{ github.event.client_payload.release_notes }}
@@ -174,7 +266,7 @@ jobs:
                 <td>RG552</td>
                 <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
                 <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
-              </tr>  
+              </tr>
               <tr>
                 <td rowspan="2">PowKiddy</td>
                 <td>RGB20S</td>
@@ -202,7 +294,7 @@ jobs:
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           repo: AmberELEC-prerelease
-      - name: Switch draft to start showing release 
+      - name: Switch draft to start showing release
         if: github.event.action == 'release-prerelease'
         uses: ncipollo/release-action@v1.13.0
         with:
@@ -240,7 +332,7 @@ jobs:
           token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
           owner: 351dev
           repo: dev-builds
-      - name: Switch draft to start showing release 
+      - name: Switch draft to start showing release
         if: github.event.action == 'release-dev'
         uses: ncipollo/release-action@v1.13.0
         with:
@@ -263,11 +355,11 @@ jobs:
           body: |
             # Release Notes (Beta)
             This beta is provided as a OTA bridge to the new pre-releases
-            
+
             ### Upgrade Instructions
             You can update to this release using the `beta` channel on your device. This is the recommended way to use beta versions.
-            
-             **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**! 
+
+             **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**!
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
             **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
@@ -278,7 +370,7 @@ jobs:
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           repo: AmberELEC-prerelease
-      - name: Switch draft to start showing release 
+      - name: Switch draft to start showing release
         if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1.13.0
         with:
@@ -299,14 +391,14 @@ jobs:
           body: |
             # Release Notes
             Welcome to the ${{ github.event.client_payload.release_name}} (${{ steps.version.outputs.version }}) release.
-            
+
             General:
-            
+
             New Stuff:
 
             Fixes:
-            
-            **IMPORTANT NOTE**: There are **four different images** below, one for the **RG351P/M**, **RG351V**, **RG351MP** and **RG552**! 
+
+            **IMPORTANT NOTE**: There are **four different images** below, one for the **RG351P/M**, **RG351V**, **RG351MP** and **RG552**!
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
             **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)** | **[RG552](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz)**
@@ -321,5 +413,3 @@ jobs:
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-

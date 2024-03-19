@@ -4,8 +4,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="busybox"
-PKG_VERSION="1.36.0"
-PKG_SHA256="542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5"
+PKG_VERSION="1.36.1"
+PKG_SHA256="b8cc24c9574d809e7279c3be349795c5d5ceb6fdf19ca709f80cde50e47de314"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.busybox.net"
 PKG_URL="https://busybox.net/downloads/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
@@ -17,11 +17,6 @@ PKG_LONGDESC="BusyBox combines tiny versions of many common UNIX utilities into 
 # nano text editor
 if [ "${NANO_EDITOR}" = "yes" ]; then
   PKG_DEPENDS_TARGET+=" nano"
-fi
-
-# nfs support
-if [ "${NFS_SUPPORT}" = yes ]; then
-  PKG_DEPENDS_TARGET+=" rpcbind"
 fi
 
 if [ "${TARGET_ARCH}" = "x86_64" ]; then

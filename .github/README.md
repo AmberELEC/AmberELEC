@@ -71,6 +71,10 @@ Please visit our Website [Installation](https://amberelec.org/installation#overv
 ## Building from Source
 Building AmberELEC from source is a fairly simple process. It is recommended to have a minimum of 4 cores, 16GB of RAM, and an SSD with 200GB of free space. The build environment used to develop these steps uses Ubuntu 20.04, your mileage may vary when building on other distributions.
 
+> [!IMPORTANT]
+> On Ubuntu 20.04 it's required to add the following apt-repository as golang 1.17 or higher is required for building AmberELEC:<br>
+> ```sudo add-apt-repository ppa:longsleep/golang-backports```
+
 ```
 sudo apt update && sudo apt upgrade
 

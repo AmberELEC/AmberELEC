@@ -93,12 +93,6 @@ fi
     echo "done"
   fi
 
-  if [ -f $SYSTEM_ROOT/usr/share/bootloader/logo.bmp ]; then
-    echo -n "Updating uboot logo... "
-    cp -p $SYSTEM_ROOT/usr/share/bootloader/logo.bmp $BOOT_ROOT &>/dev/null
-    echo "done"
-  fi
-
 # mount $BOOT_ROOT r/o
   sync
   mount -o remount,ro $BOOT_ROOT &>/dev/null

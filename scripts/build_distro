@@ -22,7 +22,7 @@ then
 fi
 
 # Clean a few packages to ensure the build date and version are updated
-for package in amberelec u-boot emulationstation retroarch retrorun lib32
+for package in amberelec emulationstation retroarch retrorun lib32
 do
   ./scripts/clean ${package}
 done
