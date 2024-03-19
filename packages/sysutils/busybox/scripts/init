@@ -464,7 +464,7 @@ set_consolefont() {
   if [ -e /dev/fb0 ]; then
     hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
     vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
-    if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351V" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ]; then
+    if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351V" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "SZDiiER D007 Plus" ]; then
       setfont -C /dev/tty0 ter-v20n.psf
     elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
       setfont -C /dev/tty0 ter-v32n.psf

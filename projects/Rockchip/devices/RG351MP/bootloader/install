@@ -33,6 +33,8 @@ setenv kernel_addr_r "0x02008000"
 
 if test \${hwrev} = 'xu10'; then
   sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-xu10-linux.dtb.conf
+elif test \${hwrev} = 'd007'; then
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-d007-linux.dtb.conf
 else
   sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351mp-linux.dtb.conf
 fi

@@ -1,0 +1,10 @@
+[Unit]
+Description=External service
+
+[Service]
+ExecStart=/usr/bin/adckeys.sh
+Restart=always
+Type=idle
+
+[Install]
+WantedBy=multi-user.target
