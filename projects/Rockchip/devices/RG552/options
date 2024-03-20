@@ -4,7 +4,7 @@
 
   # The TARGET_CPU variable controls which processor should be targeted for
   # generated code.
-   case $TARGET_ARCH in
+   case ${TARGET_ARCH} in
       aarch64)
         TARGET_KERNEL_ARCH="arm64"
         TARGET_PATCH_ARCH="aarch64"

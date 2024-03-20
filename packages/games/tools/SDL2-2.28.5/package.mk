@@ -66,7 +66,7 @@ pre_configure_target(){
 }
 
 makeinstall_target() {
-  mkdir -p $INSTALL/usr/lib
-  cp $PKG_BUILD/.${TARGET_NAME}/libSDL2-2.0.so.0.2800.5 $INSTALL/usr/lib
-  chmod +x $INSTALL/usr/lib/libSDL2-2.0.so.0.2800.5
+  mkdir -p ${INSTALL}/usr/lib
+  cp ${PKG_BUILD}/.${TARGET_NAME}/libSDL2-2.0.so.0.2800.5 ${INSTALL}/usr/lib
+  chmod +x ${INSTALL}/usr/lib/libSDL2-2.0.so.0.2800.5
 }

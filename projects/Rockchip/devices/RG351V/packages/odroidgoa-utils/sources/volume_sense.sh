@@ -72,7 +72,7 @@ done
    evtest "${RG351_CONTROLLER_DEVICE}" 2>&1 &
    wait 
 ) | while read line; do
-    case $line in
+    case ${line} in
         (${CONTROLLER_DISCONNECTED})
         echo "Reloading due to controller reattach..."
         exit 0
@@ -80,7 +80,7 @@ done
         (${VOL_EVENT})
 
           # We don't care when you 'let go' ('release') the volume button
-          if [[ "$line" == ${RELEASE} ]]; then
+          if [[ "${line}" == ${RELEASE} ]]; then
              REPEAT_NUM=0
              continue
           fi
@@ -102,7 +102,7 @@ done
           REPEAT_NUM=$(( ${REPEAT_NUM} + 1 ))
 
           # This isn't time to evaluate repeat so just skip
-          if [[ "$line" == ${REPEAT_PRESS} && $(( ${REPEAT_NUM} % ${REPEAT_MOD} )) != "0" ]]; then
+          if [[ "${line}" == ${REPEAT_PRESS} && $(( ${REPEAT_NUM} % ${REPEAT_MOD} )) != "0" ]]; then
              continue
           fi
 
@@ -123,7 +123,7 @@ done
         (${V_FUNC_KEY_EVENT}) 
 
           # We don't care about 'Fn' key repeats - continue
-          if [[ "$line" == ${REPEAT_PRESS} ]]; then
+          if [[ "${line}" == ${REPEAT_PRESS} ]]; then
              continue
           fi
 

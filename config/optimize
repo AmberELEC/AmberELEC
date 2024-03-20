@@ -3,34 +3,34 @@ GCC_OPTIM="-Ofast"
 LD_OPTIM="-Wl,--as-needed"
 
 if [ "${BUILD_WITH_DEBUG}" = "yes" ]; then
-  TARGET_CFLAGS="$TARGET_CFLAGS -ggdb"
-  TARGET_CXXFLAGS="$TARGET_CXXFLAGS -ggdb"
-  TARGET_LDFLAGS="$TARGET_LDFLAGS -ggdb"
+  TARGET_CFLAGS="${TARGET_CFLAGS} -ggdb"
+  TARGET_CXXFLAGS="${TARGET_CXXFLAGS} -ggdb"
+  TARGET_LDFLAGS="${TARGET_LDFLAGS} -ggdb"
 else
-  TARGET_CFLAGS="$TARGET_CFLAGS -fomit-frame-pointer"
-  TARGET_CXXFLAGS="$TARGET_CXXFLAGS -fomit-frame-pointer"
-  TARGET_LDFLAGS="$TARGET_LDFLAGS"
+  TARGET_CFLAGS="${TARGET_CFLAGS} -fomit-frame-pointer"
+  TARGET_CXXFLAGS="${TARGET_CXXFLAGS} -fomit-frame-pointer"
+  TARGET_LDFLAGS="${TARGET_LDFLAGS}"
 fi
 
 NINJA_OPTS=""
 
 TARGET_CPPFLAGS=""
-TARGET_CFLAGS="$TARGET_CFLAGS -Wall -pipe $GCC_OPTIM $PROJECT_CFLAGS"
-TARGET_CXXFLAGS="$TARGET_CFLAGS"
-TARGET_LDFLAGS="$TARGET_LDFLAGS $LD_OPTIM"
-TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
-TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
+TARGET_CFLAGS="${TARGET_CFLAGS} -Wall -pipe ${GCC_OPTIM} ${PROJECT_CFLAGS}"
+TARGET_CXXFLAGS="${TARGET_CFLAGS}"
+TARGET_LDFLAGS="${TARGET_LDFLAGS} ${LD_OPTIM}"
+TARGET_LIBDIR="${SYSROOT_PREFIX}/lib ${SYSROOT_PREFIX}/usr/lib"
+TARGET_INCDIR="${SYSROOT_PREFIX}/include ${SYSROOT_PREFIX}/usr/include"
 
 HOST_CPPFLAGS=""
-HOST_CFLAGS="-march=native -O3 -Wall -pipe -I$TOOLCHAIN/include"
-HOST_CXXFLAGS="$HOST_CFLAGS"
-HOST_LDFLAGS="-Wl,-rpath,$TOOLCHAIN/lib -L$TOOLCHAIN/lib"
-HOST_INCDIR="$TOOLCHAIN/include /usr/include"
+HOST_CFLAGS="-march=native -O3 -Wall -pipe -I${TOOLCHAIN}/include"
+HOST_CXXFLAGS="${HOST_CFLAGS}"
+HOST_LDFLAGS="-Wl,-rpath,${TOOLCHAIN}/lib -L${TOOLCHAIN}/lib"
+HOST_INCDIR="${TOOLCHAIN}/include /usr/include"
 
 # work around Ubuntu default C*FLAGS 
 # see https://wiki.ubuntu.com/ToolChain/CompilerFlags#A-Wformat_-Wformat-security
-HOST_CFLAGS="$HOST_CFLAGS -Wno-format-security"
-HOST_CXXFLAGS="$HOST_CXXFLAGS -Wno-format-security" 
+HOST_CFLAGS="${HOST_CFLAGS} -Wno-format-security"
+HOST_CXXFLAGS="${HOST_CXXFLAGS} -Wno-format-security" 
 
 # lto flags
 FLAGS_OPTIM_LTO_NO_PARALLEL="-flto"
@@ -58,40 +58,40 @@ CPPFLAGS_OPTIM_HARDENING="-D_FORTIFY_SOURCE=2"
 LDFLAGS_OPTIM_HARDENING="-Wl,-z,relro -Wl,-z,now"
 
 # add distro specific library dirs
-if [ -z "$HOST_LIBDIR" ]; then
-  HOST_LIBDIR="$TOOLCHAIN/lib"
+if [ -z "${HOST_LIBDIR}" ]; then
+  HOST_LIBDIR="${TOOLCHAIN}/lib"
 
   # ubuntu/debian specific "multiarch support"
   export MACHINE_HARDWARE_NAME="$(uname -m)"
   export MACHINE_HARDWARE_PLATFORM="$(uname -i)"
   FAMILY_TRIPLET=${HOST_NAME/${MACHINE_HARDWARE_NAME}/${MACHINE_HARDWARE_PLATFORM}}
-  if [ -d /lib/$FAMILY_TRIPLET ]; then
-    HOST_LIBDIR="$HOST_LIBDIR /lib/$FAMILY_TRIPLET"
+  if [ -d /lib/${FAMILY_TRIPLET} ]; then
+    HOST_LIBDIR="${HOST_LIBDIR} /lib/${FAMILY_TRIPLET}"
   fi
-  if [ -d /usr/lib/$FAMILY_TRIPLET ]; then
-    HOST_LIBDIR="$HOST_LIBDIR /usr/lib/$FAMILY_TRIPLET"
+  if [ -d /usr/lib/${FAMILY_TRIPLET} ]; then
+    HOST_LIBDIR="${HOST_LIBDIR} /usr/lib/${FAMILY_TRIPLET}"
   fi
 
   # default multiarch support
   case "${MACHINE_HARDWARE_NAME}" in
     i*86)
       if [ -d /lib32 ]; then
-        HOST_LIBDIR="$HOST_LIBDIR /lib32"
+        HOST_LIBDIR="${HOST_LIBDIR} /lib32"
       fi
       if [ -d /usr/lib32 ]; then
-        HOST_LIBDIR="$HOST_LIBDIR /usr/lib32"
+        HOST_LIBDIR="${HOST_LIBDIR} /usr/lib32"
       fi
     ;;
     x86_64)
       if [ -d /lib64 ]; then
-        HOST_LIBDIR="$HOST_LIBDIR /lib64"
+        HOST_LIBDIR="${HOST_LIBDIR} /lib64"
       fi
       if [ -d /usr/lib64 ]; then
-        HOST_LIBDIR="$HOST_LIBDIR /usr/lib64"
+        HOST_LIBDIR="${HOST_LIBDIR} /usr/lib64"
       fi
     ;;
   esac
 
   # default dirs
-  export HOST_LIBDIR="$HOST_LIBDIR /lib /usr/lib"
+  export HOST_LIBDIR="${HOST_LIBDIR} /lib /usr/lib"
 fi

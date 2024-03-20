@@ -93,7 +93,7 @@ package_worker() {
   else
     pkg_lock_status "FAILED" "${pkgname}" "${task}"
 
-    print_color CLR_ERROR "FAILURE: $SCRIPTS/${task} ${pkgname} has failed!\n"
+    print_color CLR_ERROR "FAILURE: ${SCRIPTS}/${task} ${pkgname} has failed!\n"
 
     if [ -d "${THREAD_CONTROL}/logs" ]; then
       cat >&2 <<EOF
@@ -125,7 +125,7 @@ start_multithread_build() {
   [ "${THREADCOUNT}" = "0" ] && ulimit -n ${ULIMITN:-10240}
 
   # Bootstrap GNU parallel
-  MTWITHLOCKS=no $SCRIPTS/build parallel:host 2>&1 || die "Unable to bootstrap parallel package"
+  MTWITHLOCKS=no ${SCRIPTS}/build parallel:host 2>&1 || die "Unable to bootstrap parallel package"
 
   # determine number of available slots for the given THREADCOUNT - optimise logging for single threaded builds
   [ $(seq 1 32 | ${TOOLCHAIN}/bin/parallel --plain --no-notice --max-procs ${THREADCOUNT} echo {%} | sort -n | tail -1) -eq 1 ] && singlethread=yes || singlethread=no

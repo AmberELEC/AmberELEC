@@ -4,7 +4,7 @@
 # Copyright (C) 2009-2020 Lukas Rusak (lrusak@libreelec.tv)
 # Copyright (C) 2020-present Team CoreELEC (https://coreelec.org)
 
-if [ -z "$PROJECT" -a -z "$ARCH" ]; then
+if [ -z "${PROJECT}" -a -z "${ARCH}" ]; then
   echo "Usage: PROJECT=<project> ARCH=<arch> $0"
   exit 0
 fi
@@ -27,19 +27,19 @@ esac
 if [ -z $(which parallel) ]; then
   echo "'parallel' is not installed, packages will be download one at a time"
   for package in $(find packages/ -name package.mk); do
-    if [ -n "$(echo $package | grep addons)" -a -z "$ALL_PACKAGES" ]; then
+    if [ -n "$(echo ${package} | grep addons)" -a -z "${ALL_PACKAGES}" ]; then
       continue
     fi
-    ./scripts/get $(basename `dirname $package`)
+    ./scripts/get $(basename `dirname ${package}`)
   done
 else
-  [ -z "$JOBS" ] && JOBS=0
+  [ -z "${JOBS}" ] && JOBS=0
   package_list=
   for package in $(find packages/ -name package.mk); do
-    if [ -n "$(echo $package | grep addons)" -a -z "$ALL_PACKAGES" ]; then
+    if [ -n "$(echo ${package} | grep addons)" -a -z "${ALL_PACKAGES}" ]; then
       continue
     fi
-    package_list+=" $(basename `dirname $package`)"
+    package_list+=" $(basename `dirname ${package}`)"
   done
-  parallel --jobs $JOBS ./scripts/get {} ::: $package_list
+  parallel --jobs ${JOBS} ./scripts/get {} ::: ${package_list}
 fi

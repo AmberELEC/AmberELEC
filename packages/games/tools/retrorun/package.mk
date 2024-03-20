@@ -22,7 +22,7 @@ make_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
   cp retrorun ${INSTALL}/usr/bin
-  cp $PKG_DIR/retrorun.sh ${INSTALL}/usr/bin
+  cp ${PKG_DIR}/retrorun.sh ${INSTALL}/usr/bin
   mkdir -p ${INSTALL}/usr/config/distribution/configs
   cp -vP ${PKG_DIR}/retrorun.cfg ${INSTALL}/usr/config/distribution/configs
 }

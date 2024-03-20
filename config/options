@@ -34,7 +34,7 @@ TARGET_ARCH="${ARCH}"
 . config/functions
 
 # read DISTRO version information
-if [ "$CUSTOM_VERSION" == "" ]; then
+if [ "${CUSTOM_VERSION}" == "" ]; then
   . "${DISTRO_DIR}/${DISTRO}/version" || die "\nERROR: No distro version present\n"
 fi
 
@@ -88,12 +88,12 @@ VERBOSE="${VERBOSE:-yes}"
 # directory.
 CCACHE_CACHE_SIZE="20G"
 
-# read local persistent options from $ROOT if available
+# read local persistent options from ${ROOT} if available
 if [ -f "${ROOT}/.coreelec/options" ]; then
   . "${ROOT}/.coreelec/options"
 fi
 
-# read global persistent options from $HOME if available
+# read global persistent options from ${HOME} if available
 if [ -f "${HOME}/.coreelec/options" ]; then
   . "${HOME}/.coreelec/options"
 fi

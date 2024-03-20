@@ -7,50 +7,50 @@ set -e
   CONFIG=config
   SCRIPTS=scripts
   PACKAGES=packages
-  SOURCES=${SOURCES_DIR:-$ROOT/sources}
-  BUILD_ROOT=${BUILD_DIR:-$ROOT}
+  SOURCES=${SOURCES_DIR:-${ROOT}/sources}
+  BUILD_ROOT=${BUILD_DIR:-${ROOT}}
   BUILD_BASE=build
-  TARGET_IMG=${TARGET_DIR:-$ROOT/target}
+  TARGET_IMG=${TARGET_DIR:-${ROOT}/target}
   ADDONS=addons
 
 # include ARCH specific options
-  if [ -f config/arch.$TARGET_ARCH ]; then
-    . config/arch.$TARGET_ARCH
+  if [ -f config/arch.${TARGET_ARCH} ]; then
+    . config/arch.${TARGET_ARCH}
   fi
 
-[ -z "${HOST_NAME}" ] && export HOST_NAME="$($LOCAL_CC -dumpmachine)"
-TARGET_NAME=$TARGET_GCC_ARCH-libreelec-linux-gnu${TARGET_ABI}
+[ -z "${HOST_NAME}" ] && export HOST_NAME="$(${LOCAL_CC} -dumpmachine)"
+TARGET_NAME=${TARGET_GCC_ARCH}-libreelec-linux-gnu${TARGET_ABI}
 
-BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}
+BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-${PROJECT}}.${TARGET_ARCH}
 if [ "${LIBREELEC_VERSION}" = "devel" ] ; then
-  BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}
+  BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-${PROJECT}}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}
 fi
 
-if [ -n "$BUILD_SUFFIX" ]; then
-  BUILD=$BUILD-$BUILD_SUFFIX
+if [ -n "${BUILD_SUFFIX}" ]; then
+  BUILD=${BUILD}-${BUILD_SUFFIX}
 fi
 
 THREAD_CONTROL=${BUILD}/.threads
 
-TARGET_ADDONS="$TARGET_IMG/$ADDONS/$ADDON_PATH"
-ADDON_BUILD="$BUILD/$ADDONS/$1"
-STAMPS=$BUILD/.stamps
-STAMPS_INSTALL=$BUILD/image/.stamps
+TARGET_ADDONS="${TARGET_IMG}/${ADDONS}/${ADDON_PATH}"
+ADDON_BUILD="${BUILD}/${ADDONS}/$1"
+STAMPS=${BUILD}/.stamps
+STAMPS_INSTALL=${BUILD}/image/.stamps
 DOCS=DOCS
-TOOLCHAIN=$BUILD/toolchain
-SYSROOT_PREFIX=$TOOLCHAIN/$TARGET_NAME/sysroot
-LIB_PREFIX=$SYSROOT_PREFIX/usr
-TARGET_PREFIX=$TOOLCHAIN/bin/$TARGET_NAME-
+TOOLCHAIN=${BUILD}/toolchain
+SYSROOT_PREFIX=${TOOLCHAIN}/${TARGET_NAME}/sysroot
+LIB_PREFIX=${SYSROOT_PREFIX}/usr
+TARGET_PREFIX=${TOOLCHAIN}/bin/${TARGET_NAME}-
 
-FAKEROOT_SCRIPT=$BUILD/.fakeroot
+FAKEROOT_SCRIPT=${BUILD}/.fakeroot
 
-if [ -z "$INSTALL" ]; then
-  INSTALL=$BUILD/image/system
+if [ -z "${INSTALL}" ]; then
+  INSTALL=${BUILD}/image/system
 fi
 
 . config/sources
 
-MAKE="$TOOLCHAIN/bin/make"
+MAKE="${TOOLCHAIN}/bin/make"
 
 XORG_PATH_DRI=/usr/lib/dri
 XORG_PATH_XKB=/usr/share/X11/xkb
@@ -62,21 +62,21 @@ XORG_PATH_DRIVERS=/usr/lib/xorg/modules/drivers
 . config/optimize
 
 # use different toolchain for 64/32 split builds
-if [ -z "$KERNEL_TOOLCHAIN" -a "$TARGET_KERNEL_ARCH" = "arm64" -a "$TARGET_ARCH" = "arm" ]; then
+if [ -z "${KERNEL_TOOLCHAIN}" -a "${TARGET_KERNEL_ARCH}" = "arm64" -a "${TARGET_ARCH}" = "arm" ]; then
   KERNEL_TOOLCHAIN="aarch64"
 fi
-if [ -n "$KERNEL_TOOLCHAIN" ]; then
-  TARGET_KERNEL_PREFIX=$KERNEL_TOOLCHAIN-none-elf-
+if [ -n "${KERNEL_TOOLCHAIN}" ]; then
+  TARGET_KERNEL_PREFIX=${KERNEL_TOOLCHAIN}-none-elf-
 else
-  TARGET_KERNEL_PREFIX=$TARGET_PREFIX
+  TARGET_KERNEL_PREFIX=${TARGET_PREFIX}
 fi
 
-if [ -z "$CCACHE_DIR" ]; then
+if [ -z "${CCACHE_DIR}" ]; then
   export CCACHE_DIR=${BUILD_ROOT}/.ccache-${TARGET_ARCH}-${TARGET_CPU}
 fi
 
-if [[ -z "$PATH" || ( "$PATH" != "$TOOLCHAIN/bin:$TOOLCHAIN/sbin" && "$PATH" = "${PATH#$TOOLCHAIN/bin:$TOOLCHAIN/sbin:}" ) ]]; then
-  export PATH="$TOOLCHAIN/bin:$TOOLCHAIN/sbin${PATH:+":$PATH"}"
+if [[ -z "${PATH}" || ( "${PATH}" != "${TOOLCHAIN}/bin:${TOOLCHAIN}/sbin" && "${PATH}" = "${PATH#${TOOLCHAIN}/bin:${TOOLCHAIN}/sbin:}" ) ]]; then
+  export PATH="${TOOLCHAIN}/bin:${TOOLCHAIN}/sbin${PATH:+":${PATH}"}"
 fi
 
 # redirect formatted output
@@ -84,7 +84,7 @@ export BUILD_INDENT_SIZE=4
 SILENT_OUT=3
 VERBOSE_OUT=4
 
-if [ "$VERBOSE" = yes ]; then
+if [ "${VERBOSE}" = yes ]; then
   exec 3>&1
   exec 4>&1
 else

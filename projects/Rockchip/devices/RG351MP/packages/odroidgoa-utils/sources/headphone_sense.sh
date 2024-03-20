@@ -20,7 +20,7 @@ if [ "$DEVICE" = "SZDiiER D007 Plus" ]; then
 
     # Switch to headphones if we have them already connected at boot
     GPIO=$(cat /sys/class/gpio/gpio75/value)
-    [[ "$GPIO" == "0" ]] && echo 0 > /sys/class/gpio/gpio11/value || echo 1 > /sys/class/gpio/gpio11/value
+    [[ "${GPIO}" == "0" ]] && echo 0 > /sys/class/gpio/gpio11/value || echo 1 > /sys/class/gpio/gpio11/value
 
     # Headphone sensing - change to symlink in case the event is differnet
     DEVICE='/dev/input/event2'
@@ -29,7 +29,7 @@ if [ "$DEVICE" = "SZDiiER D007 Plus" ]; then
     HP_OFF='*(SW_HEADPHONE_INSERT), value 0*'
 
     evtest "${DEVICE}" | while read line; do
-        case $line in
+        case ${line} in
         (${HP_ON})
         echo 0 > /sys/class/gpio/gpio11/value 
         set_ee_setting "audio.device" "headphone"

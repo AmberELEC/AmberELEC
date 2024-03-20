@@ -49,7 +49,7 @@ makeinstall_target() {
     mkdir -p ${INSTALL}/usr/config/emulationstation
     cp -f $(get_build_dir emulationstation)/.install_pkg/usr/config/emulationstation/es_systems.cfg ${INSTALL}/usr/config/emulationstation/es_systems.cfg
     for CORE in ${LIBRETRO_CORES_EXTRA}; do
-      sed -i "s|<core>$CORE</core>||g" ${INSTALL}/usr/config/emulationstation/es_systems.cfg
+      sed -i "s|<core>${CORE}</core>||g" ${INSTALL}/usr/config/emulationstation/es_systems.cfg
       sed -i '/^[[:space:]]*$/d' ${INSTALL}/usr/config/emulationstation/es_systems.cfg
     done
   fi

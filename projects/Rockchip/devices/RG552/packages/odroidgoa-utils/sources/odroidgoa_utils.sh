@@ -51,14 +51,14 @@ CURRENTVOL=$(get_ee_setting "audio.volume")
 MAXVOL=100
 MINVOL=0
 	if [ "${2}" == "+" ]; then
-		STEPVOL=$(($CURRENTVOL+$VOLSTEP))
+		STEPVOL=$((${CURRENTVOL}+${VOLSTEP}))
 	elif [ "${2}" == "-" ]; then
-		STEPVOL=$(($CURRENTVOL-$VOLSTEP))
+		STEPVOL=$((${CURRENTVOL}-${VOLSTEP}))
 	else
 		STEPVOL=${2}
 	fi
-	[ "$STEPVOL" -ge "$MAXVOL" ] && STEPVOL="$MAXVOL"
-	[ "$STEPVOL" -le "$MINVOL" ] && STEPVOL="$MINVOL"
+	[ "${STEPVOL}" -ge "${MAXVOL}" ] && STEPVOL="${MAXVOL}"
+	[ "${STEPVOL}" -le "${MINVOL}" ] && STEPVOL="${MINVOL}"
 	amixer set 'DAC' ${STEPVOL}%
 	set_ee_setting "audio.volume" ${STEPVOL}
   fi    
@@ -69,15 +69,15 @@ CURRENTBRIGHT=$(cat /sys/class/backlight/backlight/brightness)
 MAXBRIGHT="100" #$(cat /sys/class/backlight/backlight/max_brightness)
 MINBRIGHT="2"
 	if [ "${2}" == "+" ]; then
-		STEPBRIGHT=$(($CURRENTBRIGHT+$STEPS))
+		STEPBRIGHT=$((${CURRENTBRIGHT}+${STEPS}))
 	elif [ "${2}" == "-" ]; then
-		STEPBRIGHT=$(($CURRENTBRIGHT-$STEPS))
+		STEPBRIGHT=$((${CURRENTBRIGHT}-${STEPS}))
 	else
 		STEPBRIGHT=${2}
 	fi
-	[ "$STEPBRIGHT" -ge "$MAXBRIGHT" ] && STEPBRIGHT="$MAXBRIGHT"
-	[ "$STEPBRIGHT" -le "$MINBRIGHT" ] && STEPBRIGHT="$MINBRIGHT"
-	#echo "Setting bright to $STEPBRIGHT"
+	[ "${STEPBRIGHT}" -ge "${MAXBRIGHT}" ] && STEPBRIGHT="${MAXBRIGHT}"
+	[ "${STEPBRIGHT}" -le "${MINBRIGHT}" ] && STEPBRIGHT="${MINBRIGHT}"
+	#echo "Setting bright to ${STEPBRIGHT}"
 	echo "${STEPBRIGHT}" > /sys/class/backlight/backlight/brightness
 	set_ee_setting "brightness.level" $(cat /sys/class/backlight/backlight/brightness)
 fi

@@ -1,5 +1,5 @@
 # determines TARGET_CPU, if not forced by user
-  if [ -z "$TARGET_CPU" ]; then
+  if [ -z "${TARGET_CPU}" ]; then
     TARGET_CPU=core2
   fi
 
@@ -10,8 +10,8 @@
   TARGET_KERNEL_ARCH=x86
 
 # setup ARCH specific *FLAGS
-  TARGET_CFLAGS="-march=$TARGET_CPU -m64 -mmmx -msse -msse2 -mfpmath=sse"
-  TARGET_LDFLAGS="-march=$TARGET_CPU -m64"
+  TARGET_CFLAGS="-march=${TARGET_CPU} -m64 -mmmx -msse -msse2 -mfpmath=sse"
+  TARGET_LDFLAGS="-march=${TARGET_CPU} -m64"
 
 # build with SIMD support ( yes / no )
   TARGET_FEATURES+=" mmx sse sse2"

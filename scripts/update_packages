@@ -12,7 +12,7 @@ BLOCKLIST="config/blocklist"
 source "${OPTIONS}"
 PACKAGES_ALL=" ${RAPACKAGES} ${LIBRETRO_CORES} ${LIBRETRO_CORES_EXTRA} ${EMUPACKAGES}"
 
-for p in $PACKAGES_ALL
+for p in ${PACKAGES_ALL}
 do
   PKG_PATH="./packages"
   echo "Operating on ${p}"
@@ -33,7 +33,7 @@ do
     echo "${PKG_NAME} is up to date (${UPS_VERSION})"
   else
     echo "${PKG_NAME} updated from ${PKG_VERSION} to ${UPS_VERSION}"
-    sed -i "s/PKG_VERSION=\"${PKG_VERSION}/PKG_VERSION=\"${UPS_VERSION}/" $f
+    sed -i "s/PKG_VERSION=\"${PKG_VERSION}/PKG_VERSION=\"${UPS_VERSION}/" ${f}
   fi
 
   if [[ ! "${PKG_URL}" =~ git$ ]]; then
@@ -50,7 +50,7 @@ do
    if [ "${p}" != "linux" ]; then
      SHA=$(cat ./sources/${PKG_NAME}/${PKG_NAME}-${UPS_VERSION}.*.sha256 ||:)
    else
-     SHA=$(cat ./sources/${PKG_NAME}/linux-$LINUX-${UPS_VERSION}.tar.gz.sha256 ||:)
+     SHA=$(cat ./sources/${PKG_NAME}/linux-${LINUX}-${UPS_VERSION}.tar.gz.sha256 ||:)
    fi
    sed -e "/PKG_VERSION=\"${UPS_VERSION}\"/{ N; s/PKG_VERSION=\"${UPS_VERSION}\".*PKG_SHA256=\"\"/PKG_VERSION=\"${UPS_VERSION}\"\nPKG_SHA256=\"${SHA}\"/;}" -i ${f}
   else

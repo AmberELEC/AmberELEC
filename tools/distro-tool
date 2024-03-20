@@ -7,9 +7,9 @@ set -e
 
 [ -z "${DEBUG_LOG}" ] && DEBUG_LOG=/tmp/distro-tool.log
 
-LIBREELEC_DIR=$HOME/LibreELEC.tv
-TARGET_DIR=$HOME/sources
-DOWNLOAD_DIR=$HOME/download
+LIBREELEC_DIR=${HOME}/LibreELEC.tv
+TARGET_DIR=${HOME}/sources
+DOWNLOAD_DIR=${HOME}/download
 REVISION=
 PACKAGE=
 DRY_RUN=no
@@ -248,7 +248,7 @@ class MyUtility(object):
 
     MyUtility.logmsg(msgs, 3, "Remote headers for %s..." % url)
 
-    # Retry up to $retry times in case of transient errors. Do not count
+    # Retry up to ${retry} times in case of transient errors. Do not count
     # 35/56 as retries, could have several of these before a successful
     # request - limit total number of retries as ${retry} * 3.
     while retry > 0 and maxattempts > 0:
@@ -706,8 +706,8 @@ Usage: $(basename $0) -d|--download <path> [-t|--target <path>] [-l|--libreelec 
            [--path-filter path] [--verify-checksum] [-v|--verbose] [-h|--help]
 
 Options:
-  -d, --download:        Directory path into which new package files will be downloaded - default is $HOME/download[1]
-  -t, --target:          Directory path for existing packages that are to be refreshed, default is $HOME/sources[2]
+  -d, --download:        Directory path into which new package files will be downloaded - default is ${HOME}/download[1]
+  -t, --target:          Directory path for existing packages that are to be refreshed, default is ${HOME}/sources[2]
   -l, --libreelec:       LibreELEC.tv repo, default is ${HOME}/LibreELEC.tv
   -m, --mirror:          Target is mirror not source - mirror uses a hierarchical per-package folder structure
   -s, --source:          Target is source not mirror - source uses a flattened file structure. Default is mirror
@@ -736,14 +736,14 @@ EOF
 }
 
 get_libreelec_branch() {
-  cd $LIBREELEC_DIR
+  cd ${LIBREELEC_DIR}
   git rev-parse --abbrev-ref HEAD
 }
 
 # 1: LibreELEC variable, eg. LIBREELEC_VERSION
 get_libreelec_option() {
   local variable="$1"
-  cd $LIBREELEC_DIR
+  cd ${LIBREELEC_DIR}
   source config/options ""
   echo "${!variable}"
 }
@@ -775,7 +775,7 @@ generate_work() {
   for package_name in ${packages}; do
     tcount=$((tcount + 1))
     [ ${tcount} -gt ${WORKER_MAX} ] && tcount=1
-    echo "$package_name" >>$(printf "%s.%02d" "${WORKFILES_I}" ${tcount})
+    echo "${package_name}" >>$(printf "%s.%02d" "${WORKFILES_I}" ${tcount})
   done
 
   # Generate workload using multiple "threads" (cores, hopefully...)
@@ -825,7 +825,7 @@ generate_work_worker() {
       :
     }
 
-    cd $LIBREELEC_DIR
+    cd ${LIBREELEC_DIR}
 
     source config/options ""
 
@@ -881,7 +881,7 @@ get_packages() {
   local anchor="@?+?@"
 
   (
-    cd $LIBREELEC_DIR
+    cd ${LIBREELEC_DIR}
 
     # Generate package caches...
     source config/options ""
@@ -901,7 +901,7 @@ get_packages() {
         cat ${cache_data}
       fi
     fi
-  ) | sed "s#${anchor}\$##g;s#/# #g" | awk '{print $NF}' | sort -u
+  ) | sed "s#${anchor}\$##g;s#/# #g" | awk '{print ${NF}}' | sort -u
 
   return 0
 }

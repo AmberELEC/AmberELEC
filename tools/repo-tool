@@ -8,72 +8,72 @@
 update_addons_xml() {
   echo "[*] cleanup addons ..."
   olddir=""
-  find target/addons/$ADDON_VERSION -iname 'changelog*.txt' | sort -rV | while read line ; do
-    dir=$(dirname $line)
-    if [ "$olddir" = "$dir" ] ; then
-      rm -f $line
+  find target/addons/${ADDON_VERSION} -iname 'changelog*.txt' | sort -rV | while read line ; do
+    dir=$(dirname ${line})
+    if [ "${olddir}" = "${dir}" ] ; then
+      rm -f ${line}
     fi
-    olddir=$dir
+    olddir=${dir}
   done
 
   olddir=""
-  find target/addons/$ADDON_VERSION -iname '*.zip' | sort -rV | while read line ; do
-    dir=$(dirname $line)
-    if [ "$olddir" = "$dir" ] ; then
-      rm -f $line
+  find target/addons/${ADDON_VERSION} -iname '*.zip' | sort -rV | while read line ; do
+    dir=$(dirname ${line})
+    if [ "${olddir}" = "${dir}" ] ; then
+      rm -f ${line}
     fi
-    olddir=$dir
+    olddir=${dir}
   done
 
   echo "[*] updating addons.xml* ..."
   rm -rf .addons
   pwd=`pwd`
-  find target/addons/$ADDON_VERSION -iname addons.xml | while read line ; do
-    localdir=`echo $line | sed s/addons.xml//g`
-    echo " [*] updating $line..."
+  find target/addons/${ADDON_VERSION} -iname addons.xml | while read line ; do
+    localdir=`echo ${line} | sed s/addons.xml//g`
+    echo " [*] updating ${line}..."
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <addons>
-' > $line.tmp
-    for zip in $localdir/*/*.zip ; do
-      mkdir -p ".addons/$localdir"
-      unzip $zip "*/addon.xml" -d ".addons/$localdir" &>/dev/null
+' > ${line}.tmp
+    for zip in ${localdir}/*/*.zip ; do
+      mkdir -p ".addons/${localdir}"
+      unzip ${zip} "*/addon.xml" -d ".addons/${localdir}" &>/dev/null
     done
-    find .addons/$localdir -iname addon.xml | grep -v resources/ | while read xml ; do
-      cat $xml | grep -v "<?" >> $line.tmp
+    find .addons/${localdir} -iname addon.xml | grep -v resources/ | while read xml ; do
+      cat ${xml} | grep -v "<?" >> ${line}.tmp
     done
     echo '
-</addons>' >> $line.tmp
-    mv $line.tmp $line
-    cd $localdir
+</addons>' >> ${line}.tmp
+    mv ${line}.tmp ${line}
+    cd ${localdir}
 
     md5sum addons.xml > addons.xml.md5
-    cd $pwd
+    cd ${pwd}
   done
   rm -rf .addons
 }
 
 touch_addons_xml() {
   for PROJECT in $(ls -1 projects); do
-    if [ -d "projects/$PROJECT/devices" ]; then
-      for DEVICE in $(ls -1 projects/$PROJECT/devices); do
-        for archfile in projects/$PROJECT/devices/$DEVICE/linux/linux.*.conf; do
-          ARCH=`echo $archfile | sed -n '$s/\.conf//;$s/.*\.//p'`
-          if [ ! -d target/addons/$ADDON_VERSION/$DEVICE/$ARCH ]; then
+    if [ -d "projects/${PROJECT}/devices" ]; then
+      for DEVICE in $(ls -1 projects/${PROJECT}/devices); do
+        for archfile in projects/${PROJECT}/devices/${DEVICE}/linux/linux.*.conf; do
+          ARCH=`echo ${archfile} | sed -n '${s}/\.conf//;${s}/.*\.//p'`
+          if [ ! -d target/addons/${ADDON_VERSION}/${DEVICE}/${ARCH} ]; then
             break
           fi
-          if [ ! -f target/addons/$ADDON_VERSION/$DEVICE/$ARCH/addons.xml ]; then
-            touch target/addons/$ADDON_VERSION/$DEVICE/$ARCH/addons.xml
+          if [ ! -f target/addons/${ADDON_VERSION}/${DEVICE}/${ARCH}/addons.xml ]; then
+            touch target/addons/${ADDON_VERSION}/${DEVICE}/${ARCH}/addons.xml
           fi
         done
       done
     else
-      for archfile in projects/$PROJECT/linux/linux.*.conf; do
-        ARCH=`echo $archfile | sed -n '$s/\.conf//;$s/.*\.//p'`
-        if [ ! -d target/addons/$ADDON_VERSION/$PROJECT/$ARCH ]; then
+      for archfile in projects/${PROJECT}/linux/linux.*.conf; do
+        ARCH=`echo ${archfile} | sed -n '${s}/\.conf//;${s}/.*\.//p'`
+        if [ ! -d target/addons/${ADDON_VERSION}/${PROJECT}/${ARCH} ]; then
           break
         fi
-        if [ ! -f target/addons/$ADDON_VERSION/$PROJECT/$ARCH/addons.xml ]; then
-          touch target/addons/$ADDON_VERSION/$PROJECT/$ARCH/addons.xml
+        if [ ! -f target/addons/${ADDON_VERSION}/${PROJECT}/${ARCH}/addons.xml ]; then
+          touch target/addons/${ADDON_VERSION}/${PROJECT}/${ARCH}/addons.xml
         fi
       done
     fi
@@ -84,35 +84,35 @@ upload() {
   if [ -f .work/repoconfig ] ; then
     . .work/repoconfig
   fi
-  if [ -z "$RSYNC_REPO" ] ; then
-    echo "*** ERROR: \$RSYNC_REPO not set. see .work/repoconfig ***"
+  if [ -z "${RSYNC_REPO}" ] ; then
+    echo "*** ERROR: \${RSYNC_REPO} not set. see .work/repoconfig ***"
     exit 0
   fi
   touch_addons_xml
   update_addons_xml
-  rsync -av --progress --delete "$RSYNC_SHELL" target/addons/$ADDON_VERSION $RSYNC_REPO
+  rsync -av --progress --delete "${RSYNC_SHELL}" target/addons/${ADDON_VERSION} ${RSYNC_REPO}
 }
 
 build() {
   [ -n "$3" ] && DEVICE="$3" || DEVICE=""
 
   for PROJECT in $2; do
-    if [ -n "$DEVICE" ]; then
-      for archfile in projects/$PROJECT/devices/$DEVICE/linux/linux.*.conf; do
-        ARCH=`echo $archfile | sed -n '$s/\.conf//;$s/.*\.//p'`
+    if [ -n "${DEVICE}" ]; then
+      for archfile in projects/${PROJECT}/devices/${DEVICE}/linux/linux.*.conf; do
+        ARCH=`echo ${archfile} | sed -n '${s}/\.conf//;${s}/.*\.//p'`
       done
     else
-      for archfile in projects/$PROJECT/linux/linux.*.conf; do
-        ARCH=`echo $archfile | sed -n '$s/\.conf//;$s/.*\.//p'`
+      for archfile in projects/${PROJECT}/linux/linux.*.conf; do
+        ARCH=`echo ${archfile} | sed -n '${s}/\.conf//;${s}/.*\.//p'`
       done
     fi
 
     for package in $(find $1 -iname package.mk) ; do
       (
-      . $package
-      if [ "$PKG_IS_ADDON" = "yes" ] ; then
-        ADDON=$PKG_NAME
-        PROJECT=$PROJECT DEVICE=$DEVICE ARCH=$ARCH ./scripts/create_addon $ADDON
+      . ${package}
+      if [ "${PKG_IS_ADDON}" = "yes" ] ; then
+        ADDON=${PKG_NAME}
+        PROJECT=${PROJECT} DEVICE=${DEVICE} ARCH=${ARCH} ./scripts/create_addon ${ADDON}
       fi
       )
     done
@@ -121,11 +121,11 @@ build() {
 
 update_revision() {
   for package in $(find $1 -iname package.mk) ; do
-    [[ "$2" == "Y" && $package =~ .*/game.libretro.* ]] && continue
+    [[ "$2" == "Y" && ${package} =~ .*/game.libretro.* ]] && continue
     (
-    . $package
-    if [ "$PKG_IS_ADDON" = "yes" ] ; then
-      sed -i -e "s|PKG_REV=.*|PKG_REV=\"$((PKG_REV+1))\"|" $package
+    . ${package}
+    if [ "${PKG_IS_ADDON}" = "yes" ] ; then
+      sed -i -e "s|PKG_REV=.*|PKG_REV=\"$((PKG_REV+1))\"|" ${package}
     fi
     )
   done
@@ -134,12 +134,12 @@ update_revision() {
 update_repo_version() {
   for package in $(find packages/addons -iname package.mk) ; do
     (
-    . $package
-    if [ "$PKG_IS_ADDON" = "yes" ] ; then
-      sed -i -e "s|PKG_ADDON_REPOVERSION=.*|PKG_ADDON_REPOVERSION=\"$ADDON_VERSION\"|" $package
-      sed -i -e "s|PKG_REV=.*|PKG_REV=\"100\"|" $package
-      changelog="$(echo $package | sed 's/package.mk/changelog.txt/')"
-      sed -i "1i${ADDON_VERSION}.100\n- Update for LibreELEC ${ADDON_VERSION}\n" $changelog
+    . ${package}
+    if [ "${PKG_IS_ADDON}" = "yes" ] ; then
+      sed -i -e "s|PKG_ADDON_REPOVERSION=.*|PKG_ADDON_REPOVERSION=\"${ADDON_VERSION}\"|" ${package}
+      sed -i -e "s|PKG_REV=.*|PKG_REV=\"100\"|" ${package}
+      changelog="$(echo ${package} | sed 's/package.mk/changelog.txt/')"
+      sed -i "1i${ADDON_VERSION}.100\n- Update for LibreELEC ${ADDON_VERSION}\n" ${changelog}
     fi
     )
   done
@@ -196,13 +196,13 @@ fi
 
 case $1 in
   -b)
-    build "$repo" "$project" "$device"
+    build "${repo}" "${project}" "${device}"
     ;;
   -u)
     upload
     ;;
   -ru)
-    update_revision "$repo" "$exclude_games"
+    update_revision "${repo}" "${exclude_games}"
     ;;
   -rv)
      update_repo_version

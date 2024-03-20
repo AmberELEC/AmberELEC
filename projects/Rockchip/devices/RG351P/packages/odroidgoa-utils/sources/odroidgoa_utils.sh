@@ -47,14 +47,14 @@ CURRENTVOL=$(get_ee_setting "audio.volume")
 MAXVOL=100
 MINVOL=0
 	if [ "${2}" == "+" ]; then
-		STEPVOL=$(($CURRENTVOL+$VOLSTEP))
+		STEPVOL=$((${CURRENTVOL}+${VOLSTEP}))
 	elif [ "${2}" == "-" ]; then
-		STEPVOL=$(($CURRENTVOL-$VOLSTEP))
+		STEPVOL=$((${CURRENTVOL}-${VOLSTEP}))
 	else
 		STEPVOL=${2}
 	fi
-	[ "$STEPVOL" -ge "$MAXVOL" ] && STEPVOL="$MAXVOL"
-	[ "$STEPVOL" -le "$MINVOL" ] && STEPVOL="$MINVOL"
+	[ "${STEPVOL}" -ge "${MAXVOL}" ] && STEPVOL="${MAXVOL}"
+	[ "${STEPVOL}" -le "${MINVOL}" ] && STEPVOL="${MINVOL}"
 	amixer set 'Playback' ${STEPVOL}%
 	set_ee_setting "audio.volume" ${STEPVOL}
   fi    
