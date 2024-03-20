@@ -53,6 +53,8 @@ BIGFONT="1080"
 
 TEE_PID=""
 
+DEVICE=$(cat /sys/firmware/devicetree/base/model)
+
 # Get a serial number if present (eg. RPi) otherwise use MAC address from eth0
 MACHINE_UID="$(awk '/^Serial/{s='0000000' $3; print substr(s, length(s) - 7)}' /proc/cpuinfo)"
 [ -z "$MACHINE_UID" ] && MACHINE_UID="$(cat /sys/class/net/eth0/address 2>/dev/null | tr -d :)"
@@ -60,14 +62,14 @@ MACHINE_UID="$(awk '/^Serial/{s='0000000' $3; print substr(s, length(s) - 7)}' /
 # common functions
 . /functions
 
-if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+if [ "$DEVICE" == "Anbernic RG552" ]; then
   # Enable WIFI GPIO for WIFI manipulation
   echo 113 > /sys/class/gpio/export
 
   # Power up the WIFI device
   echo out > /sys/class/gpio/gpio113/direction
   echo 1 > /sys/class/gpio/gpio113/value
-elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+elif [ "$DEVICE" == "Anbernic RG351P" ]; then
   # Enable GPIO 77 for power LED manipulation
   echo 77 > /sys/class/gpio/export
 
@@ -94,7 +96,7 @@ else #RG351V and RG351MP
   echo out > /sys/class/gpio/gpio5/direction
   echo 1 >  /sys/class/gpio/gpio5/value
 
-  if [ ! "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
+  if [ ! "$DEVICE" == "Anbernic RG351MP" ]; then
     # Enable PWM for rumble and turn rumble off during startup.
     echo 0 > /sys/class/pwm/pwmchip0/export
     echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
@@ -464,9 +466,9 @@ set_consolefont() {
   if [ -e /dev/fb0 ]; then
     hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
     vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
-    if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351V" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "SZDiiER D007 Plus" ]; then
+    if [ "$DEVICE" == "Anbernic RG351V" ] || [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" ] || [ "$DEVICE" == "SZDiiER D007 Plus" ]; then
       setfont -C /dev/tty0 ter-v20n.psf
-    elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+    elif [ "$DEVICE" == "Anbernic RG552" ]; then
       setfont -C /dev/tty0 ter-v32n.psf
     else
       setfont -C /dev/tty0 ter-v14n.psf
@@ -507,7 +509,7 @@ load_splash() {
         fi
       fi
 
-      if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+      if [ "$DEVICE" == "Anbernic RG552" ]; then
         fbset -g 1152 1920 1152 1920 32
       fi
 
@@ -539,17 +541,17 @@ load_splash() {
 
       R_DEVICE="$(cat /storage/.config/device)" >/dev/null 2>&1
       if [ "$R_DEVICE" = "R33S" ]; then
-        DEVICE="Game Console R33S"
+        S_DEVICE="Game Console R33S"
       elif [ "$R_DEVICE" = "R35S" ]; then
-        DEVICE="Game Console R35S"
+        S_DEVICE="Game Console R35S"
       elif [ "$R_DEVICE" = "R36S" ]; then
-        DEVICE="Game Console R36S"
+        S_DEVICE="Game Console R36S"
       elif [ "$R_DEVICE" = "RGB20S" ]; then
-        DEVICE="PowKiddy RGB20S"
+        S_DEVICE="PowKiddy RGB20S"
       elif [ "$R_DEVICE" = "Unknown" ]; then
-        DEVICE="Unknown"
+        S_DEVICE="Unknown"
       else
-        DEVICE="$(cat /sys/firmware/devicetree/base/model)"
+        S_DEVICE="$DEVICE"
       fi
 
       source /sysroot/etc/os-release
@@ -558,7 +560,7 @@ load_splash() {
       if [ -n "$SPLASHIMAGE" -a -f "$SPLASHIMAGE" ]; then
         ply-image $SPLASHIMAGE > /dev/null 2>&1
       fi
-      echo -en "\033[10000H\033[2K  Device:  ${DEVICE}\n  Image:   ${COREELEC_DEVICE}\n  Version: ${VERSION} (${BUILD_ID:0:7})\n  Built:   ${BUILD_DATE}\n" >/dev/console
+      echo -en "\033[10000H\033[2K  Device:  ${S_DEVICE}\n  Image:   ${COREELEC_DEVICE}\n  Version: ${VERSION} (${BUILD_ID:0:7})\n  Built:   ${BUILD_DATE}\n" >/dev/console
 
       debug_msg "Framebuffer vertical res: $vres"
       debug_msg "Framebuffer splash image: $SPLASHIMAGE"

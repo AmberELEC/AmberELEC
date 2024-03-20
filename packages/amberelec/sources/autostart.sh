@@ -6,6 +6,8 @@
 # Source predefined functions and variables
 . /etc/profile
 
+DEVICE=$(cat /sys/firmware/devicetree/base/model)
+
 # Set max performance mode to start the boot.
 maxperf
 
@@ -215,9 +217,9 @@ if [ "$(get_ee_setting wifi.enabled)" == "0" ]
 then
   connmanctl disable wifi
   # Power down the WIFI device
-  if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+  if [ "$DEVICE" == "Anbernic RG552" ]; then
     echo 0 > /sys/class/gpio/gpio113/value
-  elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+  elif [ "$DEVICE" == "Anbernic RG351P" ]; then
     echo 0 > /sys/class/gpio/gpio110/value
   else
     echo 0 > /sys/class/gpio/gpio5/value
@@ -230,7 +232,7 @@ then
 fi
 
 rm -f "/storage/.config/device" 2>/dev/null
-if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
+if [ "$DEVICE" == "Anbernic RG351MP" ]; then
   VOLT1=$(cat /sys/bus/iio/devices/iio:device0/in_voltage1_raw)
   VOLT2=$(cat /sys/bus/iio/devices/iio:device0/in_voltage2_raw)
   if (( ${VOLT2} < 500 )); then
@@ -248,7 +250,7 @@ if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ]; then
   fi
 fi
 
-if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ]; then
+if [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" ]; then
 	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
 fi
 

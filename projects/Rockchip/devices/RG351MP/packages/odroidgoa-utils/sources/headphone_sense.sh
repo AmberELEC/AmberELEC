@@ -3,7 +3,9 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
-if [ "$(cat /sys/firmware/devicetree/base/model)" = "SZDiiER D007 Plus" ]; then
+DEVICE=$(cat /sys/firmware/devicetree/base/model)
+
+if [ "$DEVICE" = "SZDiiER D007 Plus" ]; then
 
     # Source predefined functions and variables
     . /etc/profile
