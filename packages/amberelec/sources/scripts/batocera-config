@@ -13,6 +13,7 @@ extra2="$4"
 extra3="$5"
 extra4="$6"
 arch=$(cat /storage/.config/.OS_ARCH)
+DEVICE=$(cat /sys/firmware/devicetree/base/model)
 
 updateurl="https://127.0.0.1"
 
@@ -295,9 +296,9 @@ EOF
 		echo "Passphrase=${psk}" >> "/storage/.cache/connman/wifi.config"
 	    fi
             # Power up the WIFI device
-            if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+            if [ "$DEVICE" == "Anbernic RG552" ]; then
               echo 1 > /sys/class/gpio/gpio113/value
-            elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+            elif [ "$DEVICE" == "Anbernic RG351P" ]; then
               echo 1 > /sys/class/gpio/gpio110/value
             else
               echo 1 > /sys/class/gpio/gpio5/value
@@ -315,9 +316,9 @@ EOF
                 fi
             fi
             # Power up the WIFI device
-            if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+            if [ "$DEVICE" == "Anbernic RG552" ]; then
               echo 1 > /sys/class/gpio/gpio113/value
-            elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+            elif [ "$DEVICE" == "Anbernic RG351P" ]; then
               echo 1 > /sys/class/gpio/gpio110/value
             else
               echo 1 > /sys/class/gpio/gpio5/value
@@ -330,9 +331,9 @@ EOF
         if [[ "$mode" == "disable" ]]; then
 	    connmanctl disable wifi
             # Power down the WIFI device
-            if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+            if [ "$DEVICE" == "Anbernic RG552" ]; then
               echo 0 > /sys/class/gpio/gpio113/value
-            elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351P" ]; then
+            elif [ "$DEVICE" == "Anbernic RG351P" ]; then
               echo 0 > /sys/class/gpio/gpio110/value
             else
               echo 0 > /sys/class/gpio/gpio5/value

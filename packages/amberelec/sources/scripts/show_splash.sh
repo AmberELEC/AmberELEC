@@ -4,9 +4,11 @@
 
 . /etc/profile
 
-if [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351V" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG351MP" ] || [ "$(cat /sys/firmware/devicetree/base/model)" == "PowKiddy Magicx XU10" ]; then
+DEVICE=$(cat /sys/firmware/devicetree/base/model)
+
+if [ "$DEVICE" == "Anbernic RG351V" ] || [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" ]; then
   magick /usr/config/splash/splash-640.png bgra:/dev/fb0
-elif [ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]; then
+elif [ "$DEVICE" == "Anbernic RG552" ]; then
   ply-image /usr/config/splash/splash-1920.png
 else
   magick /usr/config/splash/splash-480.png bgra:/dev/fb0
