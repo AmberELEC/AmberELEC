@@ -344,6 +344,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 else
 	if [[ "${CORE}" == "duckstation" ]]; then
 		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
+		echo "duckstation_CPU.Overclock = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -361,6 +362,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 else
 	if [[ "${CORE}" == "swanstation" ]]; then
 		sed -i "/^swanstation_CPU.Overclock/d" ${RRCONF}
+		echo "swanstation_CPU.Overclock = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -383,6 +385,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 else
 	if [[ "${CORE}" == "ppsspp" ]]; then
 		sed -i "/^ppsspp_frameskip/d" ${RRCONF}
+		echo "ppsspp_frameskip = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -398,7 +401,7 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 else
 	if [[ "${CORE}" == "ppsspp" ]]; then
 		sed -i "/^ppsspp_rendering_mode=/d" ${RRCONF}
-		echo "ppsspp_rendering_mode= = ${EES}" >> ${RRCONF}
+		echo "ppsspp_rendering_mode = ${EES}" >> ${RRCONF}
 	fi
 fi
 
