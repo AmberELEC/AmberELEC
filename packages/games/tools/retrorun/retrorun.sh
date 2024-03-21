@@ -150,7 +150,7 @@ fi
 # Get configuration from distribution.conf and set to retrorun.cfg
 get_setting "force_fps"
 echo "force_fps:${EES}"
-if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "enabled" ] || [ "${EES}" == "true" ] || [ "${EES}" == "1" ]; then
 	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
 	echo 'retrorun_loop_declared_fps = true' >> ${RRCONF}
 else
