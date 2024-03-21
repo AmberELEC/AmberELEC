@@ -344,6 +344,59 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 else
 	if [[ "${CORE}" == "duckstation" ]]; then
 		sed -i "/^duckstation_CPU.Overclock/d" ${RRCONF}
+		echo "duckstation_CPU.Overclock = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+### PSX SWANSTATION ###
+echo 'Psx-swanstation settings.'
+# PSX CPU Overclock
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_cpu_overclock"
+echo "psx_cpu_overclock:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "swanstation" ]]; then
+		sed -i "/^swanstation_CPU.Overclock/d" ${RRCONF}
+		echo 'swanstation_CPU.Overclock = 100' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "swanstation" ]]; then
+		sed -i "/^swanstation_CPU.Overclock/d" ${RRCONF}
+		echo "swanstation_CPU.Overclock = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+### PPSSPP (PSP) ###
+echo 'PPSSPP settings.'
+# PPSSPP FrameSkip
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "frameskip"
+echo "frameskip:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "ppsspp" ]]; then
+		sed -i "/^ppsspp_frameskip/d" ${RRCONF}
+		echo 'ppsspp_frameskip = 0' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "ppsspp" ]]; then
+		sed -i "/^ppsspp_frameskip/d" ${RRCONF}
+		echo "ppsspp_frameskip = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# PPSSPP rendering mode
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "rendering_mode"
+echo "rendering_mode:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "ppsspp" ]]; then
+		sed -i "/^ppsspp_rendering_mode=/d" ${RRCONF}
+		echo 'ppsspp_rendering_mode = buffered' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "ppsspp" ]]; then
+		sed -i "/^ppsspp_rendering_mode=/d" ${RRCONF}
+		echo "ppsspp_rendering_mode = ${EES}" >> ${RRCONF}
 	fi
 fi
 
