@@ -366,11 +366,6 @@ else
 	fi
 fi
 
-
-rendering mode
-
-
-
 ### PPSSPP (PSP) ###
 echo 'PPSSPP settings.'
 # PPSSPP FrameSkip
