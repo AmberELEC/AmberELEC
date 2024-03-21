@@ -152,7 +152,7 @@ get_setting "force_fps"
 echo "force_fps:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
-	echo 'retrorun_loop_declared_fps = false' >> ${RRCONF}
+	echo 'retrorun_loop_declared_fps = true' >> ${RRCONF}
 else
 	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
 	echo "retrorun_loop_declared_fps = ${EES}" >> ${RRCONF}
