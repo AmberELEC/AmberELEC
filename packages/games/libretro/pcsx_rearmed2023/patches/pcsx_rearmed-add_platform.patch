@@ -1,0 +1,28 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -498,6 +498,24 @@ else ifeq ($(platform), emscripten)
+    CFLAGS += -DNO_DYLIB -DNO_SOCKET
+    STATIC_LINKING = 1
+ 
++# RK3326 and RK3399 devices
++else ifeq ($(platform),$(filter $(platform),rk3326 rk3399))
++    TARGET := $(TARGET_NAME)_libretro.so
++    fpic := -fPIC
++    ARCH := arm64
++    BUILTIN_GPU = neon
++    HAVE_NEON = 1
++    DYNAREC = ari64
++    ifeq ($(platform), rk3326)
++        CPUFLAGS := -mcpu=cortex-a35+crc+fp+simd+crypto --param l2-cache-size=256
++    else ifeq ($(platform), rk3399)
++        CPUFLAGS := -mcpu=cortex-a72.cortex-a53+crc+fp+simd+crypto
++    endif
++    LTOFLAGS := -flto=auto -fdevirtualize-at-ltrans
++    CFLAGS += $(CPUFLAGS) $(LTOFLAGS) -Ofast -fomit-frame-pointer -fno-semantic-interposition -fipa-pta -fweb -frename-registers
++    CXXFLAGS += $(CFLAGS)
++    LDFLAGS += -Wl,-O1,--sort-common,--as-needed $(LTOFLAGS)
++
+ # Windows
+ else
+     TARGET := $(TARGET_NAME)_libretro.dll
