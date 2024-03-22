@@ -1,0 +1,13 @@
+diff --git a/frontend/libretro.c b/frontend/libretro.c
+index d361be15..d017093f 100644
+--- a/frontend/libretro.c
++++ b/frontend/libretro.c
+@@ -988,7 +988,7 @@ void retro_get_system_info(struct retro_system_info *info)
+ #define GIT_VERSION ""
+ #endif
+    memset(info, 0, sizeof(*info));
+-   info->library_name     = "PCSX-ReARMed";
++   info->library_name     = "PCSX-ReARMed2023";
+    info->library_version  = "r23l" GIT_VERSION;
+    info->valid_extensions = "bin|cue|img|mdf|pbp|toc|cbn|m3u|chd|iso|exe";
+    info->need_fullpath    = true;
