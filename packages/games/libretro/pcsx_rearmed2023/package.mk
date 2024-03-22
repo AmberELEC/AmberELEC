@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020 Trond Haugland (trondah@gmail.com)
-# Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
+# Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="pcsx_rearmed2023"
 PKG_VERSION="263c6482a45ea118b7e5e4f3939b0cd50f08793e"
@@ -27,10 +27,9 @@ make_target() {
   else
     make -f Makefile.libretro GIT_VERSION=${PKG_VERSION} platform=rk3326
   fi
-  mv pcsx_rearmed_libretro.so pcsx_rearmed2023_libretro.so
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp ${PKG_BUILD}/pcsx_rearmed2023_libretro.so ${INSTALL}/usr/lib/libretro/
+  cp ${PKG_BUILD}/pcsx_rearmed_libretro.so ${INSTALL}/usr/lib/libretro/pcsx_rearmed2023_libretro.so
 }
