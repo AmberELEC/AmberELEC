@@ -5,7 +5,7 @@
 
 PKG_NAME="linux"
 if [[ "${DEVICE}" =~ RG351 ]]; then
-  PKG_VERSION="fb30c75bdf0043e0ee530989813b600fb757e06b"
+  PKG_VERSION="90329978445dacf46ae8c991547d6f00a7cd86e1"
   PKG_URL="https://github.com/AmberELEC/kernel_rg351/archive/${PKG_VERSION}.tar.gz"
 elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_VERSION="18f86a4da592cbb3eff3e8b090bc465017d0743c"
