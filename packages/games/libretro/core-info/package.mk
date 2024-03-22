@@ -8,7 +8,7 @@ PKG_SHA256="85e13aa1fe4caf0574d24da262d23eefbf9937d9c46ca025e215f1942a2b88cd"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-core-info"
 PKG_URL="https://github.com/libretro/libretro-core-info/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_TARGET="toolchain util-linux:host"
 PKG_LONGDESC="Mirror of libretro's core info files"
 PKG_TOOLCHAIN="manual"
 
