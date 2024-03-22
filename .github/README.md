@@ -52,6 +52,10 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
   <tr>
     <td>R36S<sup>[3]</sup></td>
   </tr>
+  <tr>
+    <td>SZDiiER</td>
+    <td>D007 Plus<sup>[3]</sup></td>
+  </tr>
 </table>
 <!--devices-->
 
