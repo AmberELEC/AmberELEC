@@ -74,38 +74,14 @@ fi
 RAM=$(echo "$(free --mega | awk 'NR==2{printf "%.0f MB/%.0f MB (%.1f%%)", $3,$2,$3*100/$2}')")
 
 # GAMES partition usage
-G_FREE="$(echo "$(df /storage/roms | awk 'NR==2{printf $3}')")"
-G_TOTAL="$(echo "$(df /storage/roms | awk 'NR==2{printf $2}')")"
-
-if [[ $G_FREE -ge 1048576 ]]; then
-  G_FREE="$(echo "$G_FREE" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $G_FREE -ge 1024 ]]; then
-  G_FREE="$(echo "$G_FREE" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
-
-if [[ $G_TOTAL -ge 1048576 ]]; then
-  G_TOTAL="$(echo "$G_TOTAL" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $G_TOTAL -ge 1024 ]]; then
-  G_TOTAL="$(echo "$G_TOTAL" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
+G_FREE=$(df -h /storage/roms | awk 'NR==2 {print $4}')
+G_TOTAL=$(df -h /storage/roms | awk 'NR==2 {print $2}')
 
 G_PERCENT="$(echo "$(df /storage/roms | awk 'NR==2{printf "%.1f%%", $3*100/$2}')")"
 
 # SYSTEM partition usage
-S_FREE="$(echo "$(df /storage | awk 'NR==2{printf $3}')")"
-S_TOTAL="$(echo "$(df /storage | awk 'NR==2{printf $2}')")"
-
-if [[ $S_FREE -ge 1048576 ]]; then
-  S_FREE="$(echo "$S_FREE" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $S_FREE -ge 1024 ]]; then
-  S_FREE="$(echo "$S_FREE" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
-
-if [[ $S_TOTAL -ge 1048576 ]]; then
-  S_TOTAL="$(echo "$S_TOTAL" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $S_TOTAL -ge 1024 ]]; then
-  S_TOTAL="$(echo "$S_TOTAL" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
+S_FREE=$(df -h /storage | awk 'NR==2 {print $4}')
+S_TOTAL=$(df -h /storage | awk 'NR==2 {print $2}')
 
 S_PERCENT="$(echo "$(df /storage | awk 'NR==2{printf "%.1f%%", $3*100/$2}')")"
 
