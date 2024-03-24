@@ -62,13 +62,9 @@ echo "VERSION: ${VERSION} (${BUILD_ID:0:7})"
 echo "BUILD DATE: ${BUILD_DATE}"
 if [[ ${R_DEVICE} == "R33S" ]]; then
   echo "DEVICE: Game Console R33S"
-elif [[ ${R_DEVICE} == "R35S" ]]; then
-  echo "DEVICE: Game Console R35S"
-elif [[ ${R_DEVICE} == "R36S" ]]; then
-  echo "DEVICE: Game Console R36S"
-elif [[ ${R_DEVICE} == "RGB20S" ]]; then
-  echo "DEVICE: PowKiddy RGB20S"
-elif [[ ${R_DEVICE} == "Unknown" ]]; then
+elif [[ $R_DEVICE == "R3xS" ]]; then
+  echo "DEVICE: Game Console R3xS/PowKiddy RGB20S"
+elif [[ $R_DEVICE == "Unknown" ]]; then
   echo "DEVICE: Unknown"
 else
   echo "DEVICE: ${V_DEVICE}"
