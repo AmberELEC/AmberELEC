@@ -250,20 +250,22 @@ if [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" 
 	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
 fi
 
-# hide display fix
-if [ "$DEVICE" == "Anbernic RG351P" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" ]  || [ "$DEVICE" == "SZDiiER D007 Plus" ]; then
-  xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "true" /storage/.config/distribution/modules/gamelist.xml
-else
-  xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "false" /storage/.config/distribution/modules/gamelist.xml
-fi
-
 # Initialize audio so the softvol mixer is created and audio is allowed to be changed
 # - This is the shortest, totally silent .wav I could create with audacity - duration is .001 seconds
-aplay /usr/bin/emustation-config-init.wav 
+aplay /usr/bin/emustation-config-init.wav
 
 if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
   # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
+fi
+
+# hide display fix
+if [ "$EE_DEVICE" == "RG351MP" ]; then
+  if [ "$DEVICE" == "PowKiddy Magicx XU10" ]  || [ "$DEVICE" == "SZDiiER D007 Plus" ]; then
+    xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "true" /storage/.config/distribution/modules/gamelist.xml
+  else
+    xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "false" /storage/.config/distribution/modules/gamelist.xml
+  fi
 fi
 
 # restore last played game
