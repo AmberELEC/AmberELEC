@@ -2,21 +2,6 @@
 
 source /etc/os-release
 
-### short version (for osd)
-if test "$1" = "--short"
-then
-    BATT=$(cat /sys/class/power_supply/{BAT,bat}*/uevent 2>/dev/null | grep -E "^POWER_SUPPLY_CAPACITY=" | sed -e s+'^POWER_SUPPLY_CAPACITY='++ | sort -rn | head -1)
-    DT=$(date +%H:%M)
-    if test -n "${BATT}"
-    then
-        echo "Battery: ${BATT}% - ${DT}"
-    else
-        echo "${DT}"
-    fi
-    exit 0
-fi
-###
-
 V_DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 V_CPUNB=$(grep -E $'^processor\t:' /proc/cpuinfo | wc -l)
 V_SYSTEM=$(uname -rs)
@@ -25,13 +10,15 @@ if [ -f /storage/.config/device ]; then
   R_DEVICE=$(cat /storage/.config/device)
 fi
 
-if [[ $V_DEVICE =~ RG552 ]]; then
+# SoC type
+if [[ ${V_DEVICE} =~ RG552 ]]; then
   V_CPUMODEL1="Rockchip RK3399"
 else
   V_CPUMODEL1="Rockchip RK3326"
 fi
 
-if [[ $V_DEVICE =~ RG552 ]]; then
+# CPU frequency
+if [[ ${V_DEVICE} =~ RG552 ]]; then
   V_CPUFREQL=$(( $(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq) / 1000 ))
   V_CPUMAXFREQL=$(( $(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq) / 1000 ))
   V_CPUFREQB=$(( $(cat /sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq) / 1000 ))
@@ -46,90 +33,48 @@ BATT=$(cat /sys/class/power_supply/{BAT,bat}*/capacity 2>/dev/null)
 BATT_HEALTH=$(cat /sys/class/power_supply/{BAT,bat}*/health 2>/dev/null)
 BATT_STATUS=$(cat /sys/class/power_supply/{BAT,bat}*/status 2>/dev/null)
 
-# PAD Battery
-for PADBAT in /sys/class/power_supply/*/device/uevent
-do
-    # HID devices only
-    PADNAME=$(grep -E '^HID_NAME=' "${PADBAT}" | sed -e s+'^HID_NAME='++)
-    if test -n "${PADNAME}"
-    then
-        # parent of parent / uevent
-        BATTUEVENT=$(dirname "${PADBAT}")
-        BATTUEVENT=$(dirname "${BATTUEVENT}")/uevent
-        BATT=$(grep -E "^POWER_SUPPLY_CAPACITY=" "${BATTUEVENT}" | sed -e s+'^POWER_SUPPLY_CAPACITY='++ | sort -rn | head -1)
-        echo "${PADNAME}: ${BATT}%"
-    fi
-done
-
-# temperature
+# CPU/GPU temperature
 # Unit: millidegree Celsius
-if [[ $V_DEVICE =~ RG552 ]]; then
+if [[ ${V_DEVICE} =~ RG552 ]]; then
   TEMPE=$(cat /sys/class/hwmon/hwmon1/temp1_input 2>/dev/null | sort -rn | head -1 | sed -e s+"[0-9][0-9][0-9]$"++)
   TEMPG=$(cat /sys/class/hwmon/hwmon2/temp1_input 2>/dev/null | sort -rn | head -1 | sed -e s+"[0-9][0-9][0-9]$"++)
 else
   TEMPE=$(cat /sys/devices/virtual/thermal/thermal_zone*/temp 2>/dev/null | sort -rn | head -1 | sed -e s+"[0-9][0-9][0-9]$"++)
 fi
 
-# RAM Usage
+# RAM usage
 RAM=$(echo "$(free --mega | awk 'NR==2{printf "%.0f MB/%.0f MB (%.1f%%)", $3,$2,$3*100/$2}')")
 
 # GAMES partition usage
-G_FREE="$(echo "$(df /storage/roms | awk 'NR==2{printf $3}')")"
-G_TOTAL="$(echo "$(df /storage/roms | awk 'NR==2{printf $2}')")"
-
-if [[ $G_FREE -ge 1048576 ]]; then
-  G_FREE="$(echo "$G_FREE" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $G_FREE -ge 1024 ]]; then
-  G_FREE="$(echo "$G_FREE" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
-
-if [[ $G_TOTAL -ge 1048576 ]]; then
-  G_TOTAL="$(echo "$G_TOTAL" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $G_TOTAL -ge 1024 ]]; then
-  G_TOTAL="$(echo "$G_TOTAL" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
-
+G_USED=$(df -h /storage/roms | awk 'NR==2 {print $3}')
+G_TOTAL=$(df -h /storage/roms | awk 'NR==2 {print $2}')
 G_PERCENT="$(echo "$(df /storage/roms | awk 'NR==2{printf "%.1f%%", $3*100/$2}')")"
 
 # SYSTEM partition usage
-S_FREE="$(echo "$(df /storage | awk 'NR==2{printf $3}')")"
-S_TOTAL="$(echo "$(df /storage | awk 'NR==2{printf $2}')")"
-
-if [[ $S_FREE -ge 1048576 ]]; then
-  S_FREE="$(echo "$S_FREE" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $S_FREE -ge 1024 ]]; then
-  S_FREE="$(echo "$S_FREE" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
-
-if [[ $S_TOTAL -ge 1048576 ]]; then
-  S_TOTAL="$(echo "$S_TOTAL" | awk 'NR==1{printf "%.2f GB", $1/1024/1024}')"
-elif [[ $S_TOTAL -ge 1024 ]]; then
-  S_TOTAL="$(echo "$S_TOTAL" | awk 'NR==1{printf "%.2f MB", $1/1024}')"
-fi
-
+S_USED=$(df -h /storage | awk 'NR==2 {print $3}')
+S_TOTAL=$(df -h /storage | awk 'NR==2 {print $2}')
 S_PERCENT="$(echo "$(df /storage | awk 'NR==2{printf "%.1f%%", $3*100/$2}')")"
-
 
 
 echo "OPERATING SYSTEM: ${NAME}"
 echo "IMAGE: ${COREELEC_DEVICE}"
 echo "VERSION: ${VERSION} (${BUILD_ID:0:7})"
 echo "BUILD DATE: ${BUILD_DATE}"
-if [[ $R_DEVICE == "R33S" ]]; then
+if [[ ${R_DEVICE} == "R33S" ]]; then
   echo "DEVICE: Game Console R33S"
-elif [[ $R_DEVICE == "R35S" ]]; then
+elif [[ ${R_DEVICE} == "R35S" ]]; then
   echo "DEVICE: Game Console R35S"
-elif [[ $R_DEVICE == "R36S" ]]; then
+elif [[ ${R_DEVICE} == "R36S" ]]; then
   echo "DEVICE: Game Console R36S"
-elif [[ $R_DEVICE == "RGB20S" ]]; then
+elif [[ ${R_DEVICE} == "RGB20S" ]]; then
   echo "DEVICE: PowKiddy RGB20S"
-elif [[ $R_DEVICE == "Unknown" ]]; then
+elif [[ ${R_DEVICE} == "Unknown" ]]; then
   echo "DEVICE: Unknown"
 else
   echo "DEVICE: ${V_DEVICE}"
 fi
-echo "GAMES PARTITION: $G_FREE/$G_TOTAL ($G_PERCENT)"
-echo "SYSTEM PARTITION: $S_FREE/$S_TOTAL ($S_PERCENT)"
+echo "GAMES PARTITION: ${G_USED}B/${G_TOTAL}B (${G_PERCENT})"
+echo "SYSTEM PARTITION: ${S_USED}B/${S_TOTAL}B (${S_PERCENT})"
 echo "RAM: ${RAM}"
 echo "CPU: ${V_CPUMODEL1} (${V_CPUNB} Cores)"
 if test -n "${TEMPE}"
