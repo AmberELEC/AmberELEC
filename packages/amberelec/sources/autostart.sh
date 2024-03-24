@@ -236,12 +236,8 @@ if [ "$DEVICE" == "Anbernic RG351MP" ]; then
   VOLT1=$(cat /sys/bus/iio/devices/iio:device0/in_voltage1_raw)
   VOLT2=$(cat /sys/bus/iio/devices/iio:device0/in_voltage2_raw)
   if (( ${VOLT2} < 500 )); then
-    if ((${VOLT1} >= 490 && ${VOLT1} <= 509)); then
-      echo "R36S" > /storage/.config/device
-    elif ((${VOLT1} >= 510 && ${VOLT1} <= 535)); then
-      echo "RGB20S" > /storage/.config/device
-    elif ((${VOLT1} >= 550 && ${VOLT1} <= 588)); then
-      echo "R35S" > /storage/.config/device
+    if ((${VOLT1} >= 450 && ${VOLT1} <= 800)); then
+      echo "R3xS" > /storage/.config/device
     elif ((${VOLT1} >= 950 && ${VOLT1} <= 1035)); then
       echo "R33S" > /storage/.config/device
     else
