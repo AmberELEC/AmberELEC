@@ -198,6 +198,7 @@
 
 	<game>
 		<path>./display_fix.sh</path>
+		<hidden>false</hidden>
 		<name>Display timing Fix</name>
 		<desc>This will fix display timing issues for some RG351MP/V devices.</desc>
 		<developer>AmberELEC</developer>
