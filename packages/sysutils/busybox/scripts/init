@@ -542,12 +542,8 @@ load_splash() {
       R_DEVICE="$(cat /storage/.config/device)" >/dev/null 2>&1
       if [ "$R_DEVICE" = "R33S" ]; then
         S_DEVICE="Game Console R33S"
-      elif [ "$R_DEVICE" = "R35S" ]; then
-        S_DEVICE="Game Console R35S"
-      elif [ "$R_DEVICE" = "R36S" ]; then
-        S_DEVICE="Game Console R36S"
-      elif [ "$R_DEVICE" = "RGB20S" ]; then
-        S_DEVICE="PowKiddy RGB20S"
+      elif [ "$R_DEVICE" = "R3xS" ]; then
+        S_DEVICE="Game Console R3xS/PowKiddy RGB20S"
       elif [ "$R_DEVICE" = "Unknown" ]; then
         S_DEVICE="Unknown"
       else

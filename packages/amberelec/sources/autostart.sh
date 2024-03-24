@@ -236,12 +236,8 @@ if [ "$DEVICE" == "Anbernic RG351MP" ]; then
   VOLT1=$(cat /sys/bus/iio/devices/iio:device0/in_voltage1_raw)
   VOLT2=$(cat /sys/bus/iio/devices/iio:device0/in_voltage2_raw)
   if (( ${VOLT2} < 500 )); then
-    if ((${VOLT1} >= 490 && ${VOLT1} <= 509)); then
-      echo "R36S" > /storage/.config/device
-    elif ((${VOLT1} >= 510 && ${VOLT1} <= 535)); then
-      echo "RGB20S" > /storage/.config/device
-    elif ((${VOLT1} >= 550 && ${VOLT1} <= 588)); then
-      echo "R35S" > /storage/.config/device
+    if ((${VOLT1} >= 450 && ${VOLT1} <= 800)); then
+      echo "R3xS" > /storage/.config/device
     elif ((${VOLT1} >= 950 && ${VOLT1} <= 1035)); then
       echo "R33S" > /storage/.config/device
     else
@@ -256,11 +252,20 @@ fi
 
 # Initialize audio so the softvol mixer is created and audio is allowed to be changed
 # - This is the shortest, totally silent .wav I could create with audacity - duration is .001 seconds
-aplay /usr/bin/emustation-config-init.wav 
+aplay /usr/bin/emustation-config-init.wav
 
 if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
   # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
+fi
+
+# hide display fix
+if [ "$EE_DEVICE" == "RG351MP" ]; then
+  if [ "$DEVICE" == "PowKiddy Magicx XU10" ]  || [ "$DEVICE" == "SZDiiER D007 Plus" ]; then
+    xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "true" /storage/.config/distribution/modules/gamelist.xml
+  else
+    xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "false" /storage/.config/distribution/modules/gamelist.xml
+  fi
 fi
 
 # restore last played game
