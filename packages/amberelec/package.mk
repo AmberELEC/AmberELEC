@@ -122,7 +122,11 @@ post_install() {
   done
 
   mkdir -p ${INSTALL}/etc/retroarch-joypad-autoconfig
-  cp -r ${PKG_DIR}/gamepads/* ${INSTALL}/etc/retroarch-joypad-autoconfig
+  if [[ "${DEVICE}" == "RG351P" ]] || [[ "${DEVICE}" == "RG351V" ]]; then
+    cp -r ${PKG_DIR}/gamepads/OpenSimHardware* ${INSTALL}/etc/retroarch-joypad-autoconfig
+  else
+    cp -r ${PKG_DIR}/gamepads/GO-Super* ${INSTALL}/etc/retroarch-joypad-autoconfig
+  fi
   ln -sf amberelec.target ${INSTALL}/usr/lib/systemd/system/default.target
   enable_service amberelec-autostart.service
   enable_service lastgame.service
