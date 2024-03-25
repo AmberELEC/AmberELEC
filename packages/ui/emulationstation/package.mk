@@ -4,7 +4,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="419a3bf84e736b2fd47387a25f1b36c0519b4a91"
+PKG_VERSION="67f34deb69b817f3fa757c079eec51b106fef6e7"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/AmberELEC/emulationstation"
@@ -70,11 +70,6 @@ makeinstall_target() {
 	chmod +x ${INSTALL}/usr/config/emulationstation/scripts/*
 	chmod +x ${INSTALL}/usr/config/emulationstation/scripts/configscripts/*
 	find ${INSTALL}/usr/config/emulationstation/scripts/ -type f -exec chmod o+x {} \;
-
-	# Vertical Games are only supported in the OdroidGoAdvance
-    if [[ ${DEVICE} != "OdroidGoAdvance" ]] || [[ ${DEVICE} =~ RG351 ]]; then
-        sed -i "s|, vertical||g" "${INSTALL}/usr/config/emulationstation/es_features.cfg"
-    fi
 }
 
 post_install() {
