@@ -1,0 +1,13 @@
+diff --git a/gfx/video_driver.c b/gfx/video_driver.c
+index 3ad0d5aabd..5c4b2e7a60 100644
+--- a/gfx/video_driver.c
++++ b/gfx/video_driver.c
+@@ -400,7 +400,7 @@ const video_driver_t *video_drivers[] = {
+ #ifdef SWITCH
+    &video_switch,
+ #endif
+-#ifdef HAVE_ODROIDGO2
++#ifndef HAVE_ODROIDGO2
+    &video_oga,
+ #endif
+ #if defined(HAVE_SDL) && !defined(HAVE_SDL_DINGUX)

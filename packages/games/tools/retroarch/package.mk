@@ -9,10 +9,6 @@ PKG_LICENSE="GPLv3"
 PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-assets core-info ffmpeg libass joyutils empty ${OPENGLES} nss-mdns openal-soft libogg libvorbis libvorbisidec libvpx libpng libdrm librga pulseaudio flac"
 PKG_LONGDESC="Reference frontend for the libretro API."
 
-if [[ "${DEVICE}" == RG351V ]]; then
-  PKG_PATCH_DIRS="${DEVICE}"
-fi
-
 if [[ "${DEVICE}" =~ RG351 ]]; then
   PKG_PATCH_DIRS="RG351-ui-patches"
 fi
@@ -27,7 +23,9 @@ pre_configure_target() {
                              --enable-alsa \
                              --enable-udev \
                              --disable-opengl1 \
+                             --disable-opengles3 \
                              --disable-opengl \
+                             --disable-opengl_core \
                              --disable-vulkan \
                              --disable-vulkan_display \
                              --enable-egl \
@@ -39,10 +37,11 @@ pre_configure_target() {
                              --disable-discord \
                              --disable-vg \
                              --disable-sdl \
-                             --enable-sdl2 \
+                             --disable-sdl2 \
                              --disable-ffmpeg \
-                             --enable-opengles3 \
-                             --enable-opengles3_2 \
+                             --disable-oss \
+                             --disable-tinyalsa \
+                             --disable-pulse \
                              --enable-kms \
                              --disable-mali_fbdev \
                              --enable-odroidgo2"
