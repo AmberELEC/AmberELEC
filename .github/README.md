@@ -17,10 +17,18 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 <!--devices-->
 <table>
   <tr>
-    <td align="center" width="150" nowrap="nowrap">Manufacturer</i></td><td align="center" width="150" nowrap="nowrap">Device</td>
+    <td align="center" width="70" nowrap="nowrap">SoC</td>
+    <td align="center" width="150" nowrap="nowrap">Manufacturer</td>
+    <td align="center" width="150" nowrap="nowrap">Device</td>
   </tr>
   <tr>
-    <td rowspan="5">Anbernic</td>
+    <td>RK3399</td>
+    <td>Anbernic</td>
+    <td>RG552</td>
+  </tr>  
+  <tr>
+    <td rowspan="10">RK3326</td>
+    <td rowspan="4">Anbernic</td>
     <td>RG351P</td>
   </tr>
   <tr>
@@ -32,9 +40,6 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
   <tr>
     <td>RG351MP<sup>[2]</sup></td>
   </tr>
-  <tr>
-    <td>RG552</td>
-  </tr>  
   <tr>
     <td rowspan="2">PowKiddy</td>
     <td>RGB20S<sup>[3]</sup></td>
