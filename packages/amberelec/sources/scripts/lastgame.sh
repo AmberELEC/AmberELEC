@@ -16,16 +16,16 @@ elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
 fi
 
+# check if we have custom variables
+if test -f /storage/.config/custom.cfg; then
+    source /storage/.config/custom.cfg
+fi
+
 hotkey_press="*($hotkey), value 1*"
 hotkey_release="*($hotkey), value 0*"
 power_key="($powerkey), value 1"
 POWER_PID=0
 HOTKEY_PID=0
-
-# check if we have custom variables
-if test -f /storage/.config/custom.cfg; then
-    source /storage/.config/custom.cfg
-fi
 
 extract_info() {
     local string="$1"
