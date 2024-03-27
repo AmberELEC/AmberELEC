@@ -5,6 +5,7 @@ import os
 import shlex
 import subprocess
 import sys
+import signal
 from dataclasses import dataclass
 from pathlib import Path
 from time import perf_counter
@@ -400,6 +401,8 @@ def main():
 
 	jslisten_stop()
 
+	screensaver = subprocess.Popen('/usr/bin/screensaver.sh', stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
+
 	shader_arg = runner.set_settings()
 	command = runner.get_command(shader_arg)
 	if log_level != 'minimal':
@@ -425,6 +428,7 @@ def main():
 			check_bios(platform_to_check, core, emulator, rom, log_path)
 	finally:
 		runner.cleanup_temp_files()
+		os.killpg(os.getpgid(screensaver.pid), signal.SIGTERM)
 		cleanup_and_quit(exit_code)
 	
 
