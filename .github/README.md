@@ -17,17 +17,18 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
 <!--devices-->
 <table>
   <tr>
-    <td align="center" width="150" nowrap="nowrap">Manufacturer</td>
     <td align="center" width="70" nowrap="nowrap">SoC</td>
+    <td align="center" width="150" nowrap="nowrap">Manufacturer</td>
     <td align="center" width="150" nowrap="nowrap">Device</td>
   </tr>
   <tr>
-    <td rowspan="5">Anbernic</td>
     <td>RK3399</td>
+    <td>Anbernic</td>
     <td>RG552</td>
   </tr>  
   <tr>
     <td rowspan="10">RK3326</td>
+    <td rowspan="4">Anbernic</td>
     <td>RG351P</td>
   </tr>
   <tr>

@@ -238,21 +238,22 @@ jobs:
             <!--devices-->
             <table>
               <tr>
-                <td align="center" width="150" nowrap="nowrap">Manufacturer</td>
                <td align="center" width="70" nowrap="nowrap">SoC</td>
+               <td align="center" width="150" nowrap="nowrap">Manufacturer</td>
                <td align="center" width="150" nowrap="nowrap">Device</td>
                <td align="center" width="120" nowrap="nowrap">New Installation</td>
                <td align="center" width="120" nowrap="nowrap">Upgrade</td>
               </tr>
               <tr>
-                <td rowspan="5">Anbernic</td>
                 <td>RK3399</td>
+                <td>Anbernic</td>
                 <td>RG552</td>
                 <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
                 <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
               </tr>
               <tr>
                 <td rowspan="10">RK3326</td>
+                <td rowspan="4">Anbernic</td>
                 <td>RG351P</td>
                 <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
                 <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
