@@ -16,9 +16,14 @@ elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
 fi
 
+# check if we have custom variables
+if test -f /storage/.config/custom.cfg; then
+    source /storage/.config/custom.cfg
+fi
+
 hotkey_press="*($hotkey), value 1*"
 hotkey_release="*($hotkey), value 0*"
-power_key="*($powerkey), value 1*"
+power_key="($powerkey), value 1"
 POWER_PID=0
 HOTKEY_PID=0
 
@@ -73,34 +78,32 @@ modify_command() {
 
 power_proc () {
     evtest --grab "$power_ev" | while read line; do
-        case $line in
-        ($power_key){
+        if [[ $line == *"$power_key"* ]] || [[ $# -gt 0 ]]; then
             PID=$(pgrep -f "sh -c -- /usr/bin/runemu.py --rom")
-                if [ -n "$PID" ]; then
-                    # Extract and store the command related to running the emulator
-                    COMMAND=$(tr '\0' ' ' < "/proc/$PID/cmdline" | sed 's/sh -c -- //')
-                    if [[ $COMMAND == *"autosave 1"* ]] || [[ $(grep 'savestate_auto_save = "true"' /tmp/raappend.cfg) ]]; then
-                        echo "$COMMAND" > /storage/.config/lastgame
-                        $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
-                        sleep 0.5
-                        $(/usr/bin/sync)
-                        $(systemctl poweroff)
-                    elif [[ $COMMAND == *"autosave 0"* ]]; then
-                        $(/usr/bin/retroarch --command SAVE_STATE > /dev/null 2>&1)
-                        sleep 0.5
-                        state_number=$(extract_info "$COMMAND")
-                        new_command=$(modify_command "$COMMAND" "$state_number")
-                        echo $new_command > /storage/.config/lastgame
-                        $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
-                        sleep 0.5
-                        $(/usr/bin/sync)
-                        $(systemctl poweroff)
-                    fi
-                elif ! pgrep -f "sh -c --" >/dev/null; then
+            if [ -n "$PID" ]; then
+                # Extract and store the command related to running the emulator
+                COMMAND=$(tr '\0' ' ' < "/proc/$PID/cmdline" | sed 's/sh -c -- //')
+                if [[ $COMMAND == *"autosave 1"* ]] || [[ $(grep 'savestate_auto_save = "true"' /tmp/raappend.cfg) ]]; then
+                    echo "$COMMAND" > /storage/.config/lastgame
+                    $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
+                    sleep 0.5
+                    $(/usr/bin/sync)
+                    $(systemctl poweroff)
+                elif [[ $COMMAND == *"autosave 0"* ]]; then
+                    $(/usr/bin/retroarch --command SAVE_STATE > /dev/null 2>&1)
+                    sleep 0.5
+                    state_number=$(extract_info "$COMMAND")
+                    new_command=$(modify_command "$COMMAND" "$state_number")
+                    echo $new_command > /storage/.config/lastgame
+                    $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
+                    sleep 0.5
+                    $(/usr/bin/sync)
                     $(systemctl poweroff)
                 fi
-            };;
-        esac
+            elif ! pgrep -f "sh -c --" >/dev/null; then
+                $(systemctl poweroff)
+            fi
+        fi
     done
 }
 
@@ -115,6 +118,10 @@ hotkey_proc () {
                 kill $((POWER_PID+1))
             ;;
         esac
+        if test -f /tmp/lastGame; then
+            rm -rf /tmp/lastGame
+            power_proc "now"
+        fi
     done
 }
 
