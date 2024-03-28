@@ -16,9 +16,39 @@ else
     input_device=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
 fi
 
-# read value of ScreenSaverTime from ES
-es_sst=$(get_ee_setting screensavertime)
-es_sdt=$(get_ee_setting screensaverautoshutdowntime)
+platform=$1
+rom=$(basename "$2")
+
+# Read the configuration file
+config=$(cat /storage/.config/distribution/configs/distribution.conf)
+
+# Extract the values based on the selected parameter using basic regular expressions
+prom="$platform\[\"$rom\"\]"
+
+es_sdt=""
+es_sst=""
+
+get_value() {
+    echo $1
+    if [ -z "$es_sdt" ]; then
+        es_sdt=$(echo "$config" | grep "$1\.screensaverautoshutdowntime" | awk -F '=' '{print $2}')
+    fi
+    if [ -z "$es_sst" ]; then
+        es_sst=$(echo "$config" | grep "$1\.screensavertime" | awk -F '=' '{print $2}')
+    fi
+}
+
+get_value "$prom"
+get_value "$platform"
+get_value "global"
+
+if [[ $es_sst == "0" ]]; then
+    exit
+fi
+
+if [[ $es_sdt == "off" ]]; then
+    es_sdt=-1
+fi
 
 # Define the duration in seconds
 duration=$(($es_sst*60))

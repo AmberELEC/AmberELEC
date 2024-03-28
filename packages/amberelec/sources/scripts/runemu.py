@@ -401,7 +401,9 @@ def main():
 
 	jslisten_stop()
 
-	screensaver = subprocess.Popen('/usr/bin/screensaver.sh', stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
+	ss_command = ['/usr/bin/screensaver.sh', platform, rom]
+
+	screensaver = subprocess.Popen(ss_command, stdout=subprocess.PIPE, preexec_fn=os.setsid)
 
 	shader_arg = runner.set_settings()
 	command = runner.get_command(shader_arg)
