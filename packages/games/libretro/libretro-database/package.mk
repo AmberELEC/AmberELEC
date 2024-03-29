@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="libretro-database"
-PKG_VERSION="f3e29b96d1082b7a214470bfdf3b3876bc28478d"
-PKG_SHA256="61559d8a5aca1fa2ba5211288dab0d48de216c1deee21edb0372c71ba5c1b9c9"
+PKG_VERSION="977612e2cd284f67fc0d121d9d94c5982a49f61e"
+PKG_SHA256="861c972ad527e1d80585d0c6118982c3519e4b49762bb860db604ea0747f1a54"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-database"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
