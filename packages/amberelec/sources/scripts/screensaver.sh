@@ -6,7 +6,7 @@
 . /etc/profile
 
 # cleanup in case of failure or restart
-rm -f /tmp/onSleep /tmp/ssDate /tmp/sdDate /tmp/lastGame
+rm -f /tmp/onSleep /tmp/ssDate /tmp/sdDate /tmp/lastGame /tmp/resume_game
 
 # Set the input device path
 ARCH="$(cat /storage/.config/.OS_ARCH)"
@@ -29,7 +29,6 @@ es_sdt=""
 es_sst=""
 
 get_value() {
-    echo $1
     if [ -z "$es_sdt" ]; then
         es_sdt=$(echo "$config" | grep "$1\.screensaverautoshutdowntime" | awk -F '=' '{print $2}')
     fi
@@ -72,7 +71,10 @@ evtest "$input_device" | while read -r line; do
         else
             rm -f /tmp/onSleep
             if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
-                /usr/bin/retroarch --command RESUME_GAME > /dev/null 2>&1
+                if test -f /tmp/resume_game; then
+                    $(rm -f /tmp/resume_game)
+                    /usr/bin/retroarch --command RESUME_GAME > /dev/null 2>&1
+                fi
             fi
             echo 0 > /sys/class/backlight/backlight/bl_power
         fi
@@ -106,7 +108,11 @@ while true; do
                 touch /tmp/onSleep
                 echo 1 > /sys/class/backlight/backlight/bl_power
                 if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
-                    /usr/bin/retroarch --command PAUSE_GAME > /dev/null 2>&1
+                    isOnPause=$(echo -n "GET_STATUS" | nc -u -w1 127.0.0.1 55355 | awk '{print $2}')
+                    if [[ "$isOnPause" != "PAUSED" ]]; then
+                        touch /tmp/resume_game
+                        /usr/bin/retroarch --command PAUSE_GAME > /dev/null 2>&1
+                    fi
                 fi
                 doShutDown=false
                 if [[ "$sdown" -gt 0 ]]; then
