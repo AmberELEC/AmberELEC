@@ -17,6 +17,10 @@ unpack() {
   cp -rf ${SOURCES}/ppsspp/ppsspp-${PKG_VERSION}/. ${PKG_BUILD}
 }
 
+if [[ "${DEVICE}" == RG351V ]] || [[ "${DEVICE}" == RG351MP ]]; then
+  PKG_PATCH_DIRS="RG351MP"
+fi
+
 PKG_CMAKE_OPTS_TARGET+="-DUSE_WAYLAND_WSI=OFF \
                         -DUSE_VULKAN_DISPLAY_KHR=OFF \
                         -DUSING_FBDEV=ON \
