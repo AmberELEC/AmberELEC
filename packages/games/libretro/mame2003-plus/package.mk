@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mame2003-plus"
-PKG_VERSION="f8b0565fd3278f2efbc3e68fc929a912645e211b"
-PKG_SHA256="d92c188f32236d59fa4617d3cef3d1f80a0a7677044f5c55b5b56e0fa84b8ce3"
+PKG_VERSION="ee777f235b99d652890dedbc94337094968869d4"
+PKG_SHA256="5bdd8d0343a3a9ab76d4a04b8927730f64e76bd19d6b77e3ea055d2a19d96c74"
 PKG_LICENSE="MAME"
 PKG_SITE="https://github.com/libretro/mame2003-plus-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
