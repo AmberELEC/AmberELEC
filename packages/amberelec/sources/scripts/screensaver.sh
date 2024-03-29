@@ -5,7 +5,7 @@
 
 . /etc/profile
 
-# cleanup in case of failure or restart
+# cleanup in case of failure
 rm -f /tmp/onSleep /tmp/ssDate /tmp/sdDate /tmp/lastGame /tmp/resume_game
 
 # Set the input device path
