@@ -72,7 +72,7 @@ evtest "$input_device" | while read -r line; do
         else
             rm -f /tmp/onSleep
             if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
-                /usr/bin/retroarch --command MENU_TOGGLE > /dev/null 2>&1
+                /usr/bin/retroarch --command RESUME_GAME > /dev/null 2>&1
             fi
             echo 0 > /sys/class/backlight/backlight/bl_power
         fi
@@ -106,7 +106,7 @@ while true; do
                 touch /tmp/onSleep
                 echo 1 > /sys/class/backlight/backlight/bl_power
                 if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
-                    /usr/bin/retroarch --command MENU_TOGGLE > /dev/null 2>&1
+                    /usr/bin/retroarch --command PAUSE_GAME > /dev/null 2>&1
                 fi
                 doShutDown=false
                 if [[ "$sdown" -gt 0 ]]; then
