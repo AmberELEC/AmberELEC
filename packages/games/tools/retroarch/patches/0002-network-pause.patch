@@ -1,0 +1,43 @@
+diff --git a/command.c b/command.c
+index bca4379177..acc901086e 100644
+--- a/command.c
++++ b/command.c
+@@ -365,6 +365,16 @@ command_t* command_stdin_new(void)
+ }
+ #endif
+ 
++bool command_pause_resume(command_t *cmd, const char* arg)
++{
++   command_event(CMD_EVENT_UNPAUSE, NULL);
++}
++
++bool command_pause(command_t *cmd, const char* arg)
++{
++   command_event(CMD_EVENT_PAUSE, NULL);
++}
++
+ bool command_get_config_param(command_t *cmd, const char* arg)
+ {
+    size_t _len;
+diff --git a/command.h b/command.h
+index 2d690a9929..8f1c3a4f39 100644
+--- a/command.h
++++ b/command.h
+@@ -414,6 +414,8 @@ struct cmd_action_map
+ bool command_version(command_t *cmd, const char* arg);
+ bool command_get_status(command_t *cmd, const char* arg);
+ bool command_get_config_param(command_t *cmd, const char* arg);
++bool command_pause_resume(command_t *cmd, const char* arg);
++bool command_pause(command_t *cmd, const char* arg);
+ bool command_show_osd_msg(command_t *cmd, const char* arg);
+ bool command_load_state_slot(command_t *cmd, const char* arg);
+ bool command_play_replay_slot(command_t *cmd, const char* arg);
+@@ -432,6 +434,8 @@ static const struct cmd_action_map action_map[] = {
+    { "GET_STATUS",       command_get_status,       "No argument" },
+    { "GET_CONFIG_PARAM", command_get_config_param, "<param name>" },
+    { "SHOW_MSG",         command_show_osd_msg,     "No argument" },
++   { "PAUSE_GAME",       command_pause,            "No argument" },
++   { "RESUME_GAME",      command_pause_resume,     "No argument" },
+ #if defined(HAVE_CHEEVOS)
+    /* These functions use achievement addresses and only work if a game with achievements is
+     * loaded. READ_CORE_MEMORY and WRITE_CORE_MEMORY are preferred and use system addresses. */
