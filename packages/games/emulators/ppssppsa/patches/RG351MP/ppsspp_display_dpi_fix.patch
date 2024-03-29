@@ -1,0 +1,14 @@
+diff --git a/Core/Core.cpp b/Core/Core.cpp
+index aad45dabb..3c956e15e 100644
+--- a/Core/Core.cpp
++++ b/Core/Core.cpp
+@@ -168,6 +168,9 @@ bool UpdateScreenScale(int width, int height) {
+ 	float g_logical_dpi = System_GetPropertyFloat(SYSPROP_DISPLAY_LOGICAL_DPI);
+ 	g_display.dpi = System_GetPropertyFloat(SYSPROP_DISPLAY_DPI);
+ 
++        // override display dpi
++        g_display.dpi = 72.0f;
++
+ 	if (g_display.dpi < 0.0f) {
+ 		g_display.dpi = 96.0f;
+ 	}
