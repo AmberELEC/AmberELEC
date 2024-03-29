@@ -28,6 +28,19 @@ else
   V_CPUMAXFREQ=$(( $(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq) / 1000 ))
 fi
 
+# GPU frequency
+if [[ ${V_DEVICE} =~ RG552 ]]; then
+  V_GPUFREQ=$(( $(cat /sys/devices/platform/ff9a0000.gpu/devfreq/ff9a0000.gpu/cur_freq) / 1000000 ))
+  V_GPUMAXFREQ=$(( $(cat /sys/devices/platform/ff9a0000.gpu/devfreq/ff9a0000.gpu/max_freq) / 1000000 ))
+else
+  V_GPUFREQ=$(( $(cat /sys/devices/platform/ff400000.gpu/devfreq/ff400000.gpu/cur_freq) / 1000000 ))
+  V_GPUMAXFREQ=$(( $(cat /sys/devices/platform/ff400000.gpu/devfreq/ff400000.gpu/max_freq) / 1000000 ))
+fi
+
+# RAM frequency
+V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/cur_freq) / 1000000 ))
+V_RAMMAXFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/max_freq) / 1000000 ))
+
 # battery
 BATT=$(cat /sys/class/power_supply/{BAT,bat}*/capacity 2>/dev/null)
 BATT_HEALTH=$(cat /sys/class/power_supply/{BAT,bat}*/health 2>/dev/null)
@@ -77,20 +90,24 @@ if test -n "${TEMPE}"
 then
   echo "CPU TEMPERATURE: ${TEMPE}°"
 fi
+if test -n "${V_CPUFREQ}"
+then
+  echo "CPU CURRENT FREQUENCY: ${V_CPUFREQ}MHz"
+  echo "CPU MAXIMUM FREQUENCY: ${V_CPUMAXFREQ}MHz"
+else
+  echo "CPU CURRENT FREQUENCY (BIG): ${V_CPUFREQB}MHz"
+  echo "CPU MAXIMUM FREQUENCY (BIG): ${V_CPUMAXFREQB}MHz"
+  echo "CPU CURRENT FREQUENCY (LITTLE): ${V_CPUFREQL}MHz"
+  echo "CPU MAXIMUM FREQUENCY (LITTLE): ${V_CPUMAXFREQL}MHz"
+fi
 if test -n "${TEMPG}"
 then
   echo "GPU TEMPERATURE: ${TEMPG}°"
 fi
-if test -n "${V_CPUFREQ}"
-then
-  echo "CURRENT FREQUENCY: ${V_CPUFREQ}MHz"
-  echo "MAXIMUM FREQUENCY: ${V_CPUMAXFREQ}MHz"
-else
-  echo "CURRENT FREQUENCY (BIG): ${V_CPUFREQB}MHz"
-  echo "MAXIMUM FREQUENCY (BIG): ${V_CPUMAXFREQB}MHz"
-  echo "CURRENT FREQUENCY (LITTLE): ${V_CPUFREQL}MHz"
-  echo "MAXIMUM FREQUENCY (LITTLE): ${V_CPUMAXFREQL}MHz"
-fi
+echo "GPU CURRENT FREQUENCY: ${V_GPUFREQ}MHz"
+echo "GPU MAXIMUM FREQUENCY: ${V_GPUMAXFREQ}MHz"
+echo "RAM CURRENT FREQUENCY: ${V_RAMFREQ}MHz"
+echo "RAM MAXIMUM FREQUENCY: ${V_RAMMAXFREQ}MHz"
 if test -n "${BATT}"
 then
   echo "BATTERY LEVEL: ${BATT}%"
