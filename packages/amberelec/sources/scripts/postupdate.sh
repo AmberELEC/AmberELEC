@@ -54,11 +54,20 @@ if ! grep -q "^video_filter_dir" ${RACONF}; then
   echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
 fi
 
+## 2024-03-28
+## global screensaver default values
+if [[ "$LAST_UPDATE_VERSION" -le "20240328" ]]; then
+  sed -i '/global.screensavertime=.*/d;' ${CONF}
+  echo 'global.screensavertime=15' >> ${CONF}
+  sed -i '/global.screensaverautoshutdowntime=.*/d;' ${CONF}
+  echo 'global.screensaverautoshutdowntime=off' >> ${CONF}
+fi
+
 ## 2024-02-19
 ## maxperf vircon32
 if [[ "$LAST_UPDATE_VERSION" -le "20240219" ]]; then
-  sed -i '/vircon32.maxperf=.*/d;' /storage/.config/distribution/configs/distribution.conf
-  echo 'vircon32.maxperf=1' >> /storage/.config/distribution/configs/distribution.conf
+  sed -i '/vircon32.maxperf=.*/d;' ${CONF}
+  echo 'vircon32.maxperf=1' >> ${CONF}
 fi
 
 ## 2022-12-29
@@ -70,14 +79,14 @@ fi
 ## 2022-12-28
 ## clear mame/arcade autosave=0
 if [[ "$LAST_UPDATE_VERSION" -le "20221229" ]]; then
-  sed -i '/arcade.autosave=0/d;' /storage/.config/distribution/configs/distribution.conf
-  sed -i '/mame.autosave=0/d;' /storage/.config/distribution/configs/distribution.conf
+  sed -i '/arcade.autosave=0/d;' ${CONF}
+  sed -i '/mame.autosave=0/d;' ${CONF}
 fi
 
 ## 2022-12-24
 ## Reset RG351P volume to 100% (device has no soft-volume buttons)
 if [[ "$DEVICE" == "RG351P" ]]; then
-  sed -i 's/audio.volume=.*/audio.volume=100/g' /storage/.config/distribution/configs/distribution.conf
+  sed -i 's/audio.volume=.*/audio.volume=100/g' ${CONF}
 fi
 
 ## 2022-12-29
@@ -250,7 +259,7 @@ cp -f /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/.config/SDL
 
 ## 2021-09-19:
 ## Replace libretro settings in distribution.conf
-sed -i 's/.emulator=libretro/.emulator=retroarch/g' /storage/.config/distribution/configs/distribution.conf
+sed -i 's/.emulator=libretro/.emulator=retroarch/g' ${CONF}
 
 ## 2021-09-17:
 ## Reset advanemame config
@@ -304,13 +313,6 @@ elif grep -q "global.retroachievements.leaderboards=1" ${CONF}; then
 	echo "global.retroachievements.leaderboards=enabled" >> ${CONF}
 fi
 
-## 2021-05-27
-## Enable D-Pad to analogue at boot until we create a proper toggle
-sed -i "/## Enable D-Pad to analogue at boot until we create a proper toggle/d" /storage/.config/distribution/configs/distribution.conf
-sed -i "/global.analogue/d" /storage/.config/distribution/configs/distribution.conf
-echo '## Enable D-Pad to analogue at boot until we create a proper toggle' >> /storage/.config/distribution/configs/distribution.conf
-echo 'global.analogue=1' >> /storage/.config/distribution/configs/distribution.conf
-
 ## 2021-05-17:
 ## Remove mednafen core files from /tmp/cores
 if [ "$(ls /tmp/cores/mednafen_* | wc -l)" -ge "1" ]; then
@@ -350,9 +352,9 @@ fi
 ## Migrate old emuoptions.conf if it exist
 if [ -e "/storage/.config/distribution/configs/emuoptions.conf" ]
 then
-	echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
-	cat /storage/.config/distribution/configs/emuoptions.conf >> /storage/.config/distribution/configs/distribution.conf
-	echo "# -------------------------------" >> /storage/.config/distribution/configs/distribution.conf
+	echo "# -------------------------------" >> ${CONF}
+	cat /storage/.config/distribution/configs/emuoptions.conf >> ${CONF}
+	echo "# -------------------------------" >> ${CONF}
 	mv /storage/.config/distribution/configs/emuoptions.conf /storage/.config/distribution/configs/emuoptions.conf.bak
 fi
 
@@ -374,7 +376,7 @@ elif [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
 fi
 
 ## clear faulty lines from distribution.conf
-sed -i 's/^=$//g' /storage/.config/distribution/configs/distribution.conf
+sed -i 's/^=$//g' ${CONF}
 
 ## Just to know when the last update took place
 echo Last Update: `date -Iminutes` > /storage/.lastupdate
