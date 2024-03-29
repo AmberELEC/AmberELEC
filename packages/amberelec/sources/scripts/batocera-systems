@@ -487,7 +487,8 @@ systems = {
 
 
     # SNK
-    "neogeo":   {"name": "NeoGeo", "biosFiles":    [{"md5": "", "file": "neogeo/neogeo.zip"}]},
+    "neogeo":   {"name": "NeoGeo", "biosFiles":    [{"md5": "", "file": "neogeo/neogeo.zip"},
+                                                    {"md5": "", "file": "neogeo/aes.zip"}]},
 
     "neogeocd": {"name": "NeoGeo CD", "biosFiles": [{"md5": "", "file": "neogeo/neogeo.zip"},
                                                     {"md5": "", "file": "bios/neocdz.zip"},
