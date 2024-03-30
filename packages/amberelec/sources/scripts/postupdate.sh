@@ -384,6 +384,12 @@ echo Last Update: `date -Iminutes` > /storage/.lastupdate
 ## Allows only performing updates from specific versions
 echo $(cat /storage/.config/.OS_VERSION) > "${LAST_UPDATE_FILE}"
 
+## Change VRAM if device has less then 1Gb RAM
+total_memory=$(free -k | awk '/^Mem:/{print $2}')
+if [ "$total_memory" -lt 512000 ]; then
+    sed -i 's/\(<int name="MaxVRAM" value="\)[^"]*\("[^>]*>\)/\1'"48"'\2/' /storage/.config/emulationstation/es_settings.cfg
+fi
+
 # Clear Executing postupdate... message
 echo -ne "\033[$1;$1H" >/dev/console
 echo "                       " > /dev/console
