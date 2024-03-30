@@ -12,6 +12,7 @@ from time import perf_counter
 from typing import TYPE_CHECKING, Optional
 
 from setsettings import set_settings
+from sanity_check import sanity_check
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
@@ -410,7 +411,8 @@ def main():
 	if log_level != 'minimal':
 		log(f'Took {perf_counter() - time_started} seconds to start up')
 	clear_screen()
-
+	
+	sanity_check(rom, platform, emulator, core, args)
 	try:
 		runner.run(command)
 		exit_code = 0
