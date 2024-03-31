@@ -57,8 +57,13 @@ fi
 ## 2024-03-31
 ## ES powersave default value
 if [[ "$LAST_UPDATE_VERSION" -le "20240331" ]]; then
-  sed -i '/global.powersave_es=.*/d;' ${CONF}
-  echo 'global.powersave_es=1' >> ${CONF}
+  if [[ "$DEVICE" == "RG552" ]]; then
+    sed -i '/global.powersave_es=.*/d;' ${CONF}
+    echo 'global.powersave_es=0' >> ${CONF}
+  else
+    sed -i '/global.powersave_es=.*/d;' ${CONF}
+    echo 'global.powersave_es=1' >> ${CONF}
+  fi
 fi
 
 ## 2024-03-28
