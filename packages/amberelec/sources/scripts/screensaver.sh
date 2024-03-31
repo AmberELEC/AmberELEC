@@ -70,6 +70,8 @@ evtest "$input_device" | while read -r line; do
             echo $(date +%s) > /tmp/ssDate
         else
             rm -f /tmp/onSleep
+            powermode=$(cat /dev/shm/powermode)
+            $($powermode)
             if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                 if test -f /tmp/resume_game; then
                     $(rm -f /tmp/resume_game)
@@ -107,6 +109,8 @@ while true; do
             if [[ "$exit_flag" -eq 1 ]]; then
                 touch /tmp/onSleep
                 echo 1 > /sys/class/backlight/backlight/bl_power
+                $(cat /tmp/powermode > /dev/shm/powermode)
+                $(powersave)
                 if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                     isOnPause=$(echo -n "GET_STATUS" | nc -u -w1 127.0.0.1 55355 | awk '{print $2}')
                     if [[ "$isOnPause" != "PAUSED" ]]; then
