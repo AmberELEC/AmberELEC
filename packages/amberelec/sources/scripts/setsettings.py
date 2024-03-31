@@ -398,6 +398,8 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # maxperf / CPU Governor
     if config.get_setting('maxperf'):
         ra_append_dict['cpu_scaling_mode'] = '2'
+    elif config.get_setting('powersave'):
+        ra_append_dict['cpu_scaling_mode'] = '3'
     else:
         ra_append_dict['cpu_scaling_mode'] = '4'
 

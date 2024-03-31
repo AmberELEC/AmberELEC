@@ -177,6 +177,10 @@ class EmuRunner():
 			if log_level == 'debug':
 				log('Enabling max performance as requested')
 			call_profile_func('maxperf')
+		elif get_elec_setting('powersave', self.platform, self.rom.name if self.rom else None) == '1':
+			if log_level == 'debug':
+				log('Enabling powersave mode as requested')
+			call_profile_func('powersave')
 		else:
 			call_profile_func('normperf')
 
