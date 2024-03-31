@@ -38,7 +38,11 @@ else
 fi
 
 # RAM frequency
-V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/cur_freq) / 1000000 ))
+if [[ ${V_DEVICE} =~ RG552 ]]; then
+  V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/target_freq) / 1000000 ))
+else
+  V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/cur_freq) / 1000000 ))
+fi
 V_RAMMAXFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/max_freq) / 1000000 ))
 
 # battery

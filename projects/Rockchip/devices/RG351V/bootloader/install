@@ -4,10 +4,10 @@
 PKG_RKBIN="$(get_build_dir rkbin)"
 PKG_SOC="px30"
 
-PKG_DATAFILE="$PKG_RKBIN/bin/rk33/rk3326_ddr_333MHz_v1.15.bin"
-PKG_LOADER="$PKG_RKBIN/bin/rk33/rk3326_miniloader_v1.20.bin"
-PKG_BL31="$PKG_RKBIN/bin/rk33/rk3326_bl31_v1.21.elf"
-PKG_BL32="$PKG_RKBIN/bin/rk33/rk3326_bl32_v1.15.bin"
+PKG_DATAFILE="$PKG_RKBIN/bin/rk33/rk3326_ddr_333MHz_v2.08.bin"
+PKG_LOADER="$PKG_RKBIN/bin/rk33/rk3326_miniloader_v1.35.bin"
+PKG_BL31="$PKG_RKBIN/bin/rk33/rk3326_bl31_v1.33.elf"
+PKG_BL32="$PKG_RKBIN/bin/rk33/rk3326_bl32_v2.15.bin"
 
 PKG_LOAD_ADDR="0x00200000"
 
