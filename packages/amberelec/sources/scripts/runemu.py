@@ -77,7 +77,12 @@ def cleanup_and_quit(return_code):
 
 	jslisten_stop()
 	clear_screen()
-	call_profile_func('normperf')
+	if get_elec_setting('powersave_es') == '1':
+		if log_level == 'debug':
+			log('Enabling ES powersave mode as requested')
+		call_profile_func('powersave')
+	else:
+		call_profile_func('normperf')
 	call_profile_func('set_audio', 'default')
 	stop_rumble()
 	sys.exit(return_code)

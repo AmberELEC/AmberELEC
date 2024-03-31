@@ -193,7 +193,12 @@ sync &
 /storage/.config/custom_start.sh before
 
 # default to ondemand performance in EmulationStation
-normperf
+POWERSAVE_ES=$(get_ee_setting powersave_es)
+if [ "${POWERSAVE_ES}" == "1" ]; then
+  powersave
+else
+  normperf
+fi
 
 # Restore last saved brightness
 BRIGHTNESS=$(get_ee_setting system.brightness)
