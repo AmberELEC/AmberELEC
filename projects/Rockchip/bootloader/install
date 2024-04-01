@@ -2,15 +2,20 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_RKBIN="$(get_build_dir rkbin)"
-PKG_SOC="px30"
 
-PKG_DATAFILE="$PKG_RKBIN/bin/rk33/rk3326_ddr_333MHz_v1.15.bin"
-PKG_LOADER="$PKG_RKBIN/bin/rk33/rk3326_miniloader_v1.28.bin"
-PKG_BL31="$PKG_RKBIN/bin/rk33/rk3326_bl31_v1.22.elf"
-PKG_BL32="$PKG_RKBIN/bin/rk33/rk3326_bl32_v1.15.bin"
+if [ $DEVICE = "RG552" ]; then
+  PKG_SOC="rk3399"
+  PKG_DATAFILE="$PKG_RKBIN/bin/rk33/rk3399_ddr_933MHz_v1.30.bin"
+  PKG_LOADER="$PKG_RKBIN/bin/rk33/rk3399_miniloader_v1.30.bin"
+  PKG_BL31="$PKG_RKBIN/bin/rk33/rk3399_bl31_v1.36.elf"
+else
+  PKG_SOC="px30"
+  PKG_DATAFILE="$PKG_RKBIN/bin/rk33/rk3326_ddr_333MHz_v1.15.bin"
+  PKG_LOADER="$PKG_RKBIN/bin/rk33/rk3326_miniloader_v1.28.bin"
+  PKG_BL31="$PKG_RKBIN/bin/rk33/rk3326_bl31_v1.22.elf"
+fi
 
 PKG_LOAD_ADDR="0x00200000"
-
 
 if [ -n "$PKG_DATAFILE" -a -n "$PKG_LOADER" ]; then
   tools/mkimage -n $PKG_SOC -T rksd -d "$PKG_DATAFILE" idbloader.img
@@ -27,41 +32,42 @@ cat >$INSTALL/usr/share/bootloader/boot.ini <<EOF
 odroidgoa-uboot-config
 
 setenv fdt_addr_r "0x01f00000"
-setenv dtb_name "rk3326-rg351p-linux.dtb"
 setenv loadaddr "${PKG_LOAD_ADDR}"
 setenv scriptaddr "0x00500000"
 setenv kernel_addr_r "0x02008000"
+EOF
+
+if [ $DEVICE = "RG552" ]; then
+  cat >>$INSTALL/usr/share/bootloader/boot.ini <<EOF
+
+sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3399-rg552-linux.dtb.conf
+
+EOF
+elif [ $DEVICE = "RG351P" ]; then
+  cat >>$INSTALL/usr/share/bootloader/boot.ini <<EOF
 
 sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351p-linux.dtb.conf
 
 EOF
+elif [ $DEVICE = "RG351V" ]; then
+  cat >>$INSTALL/usr/share/bootloader/boot.ini <<EOF
 
-if [ $DEVICE = "AndroidGoAdvance" ]; then
-if [ -n "$PKG_BL31" ]; then
-  cat >trust.ini <<EOF
-[VERSION]
-MAJOR=1
-MINOR=0
-[BL30_OPTION]
-SEC=0
-[BL31_OPTION]
-SEC=1
-PATH=$PKG_BL31
-ADDR=0x00010000
-[BL32_OPTION]
-SEC=1
-PATH=$PKG_BL32
-ADDR=0x08400000
-[BL33_OPTION]
-SEC=0
-[OUTPUT]
-PATH=trust.img
+sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351v-linux.dtb.conf
+
 EOF
-  $PKG_RKBIN/tools/trust_merger --rsa 3 --verbose trust.ini
-  cp -av trust.img $INSTALL/usr/share/bootloader
+else
+  cat >>$INSTALL/usr/share/bootloader/boot.ini <<EOF
+
+if test \${hwrev} = 'xu10'; then
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-xu10-linux.dtb.conf
+elif test \${hwrev} = 'd007'; then
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-d007-linux.dtb.conf
+else
+  sysboot mmc 1:1 any \${scriptaddr} /extlinux/rk3326-rg351mp-linux.dtb.conf
 fi
 
-else
+EOF
+fi
 
 if [ -n "$PKG_BL31" ]; then
   cat >trust.ini <<EOF
@@ -70,7 +76,7 @@ SEC=0
 [BL31_OPTION]
 SEC=1
 PATH=$PKG_BL31
-ADDR=0x00010000
+ADDR=0x00040000
 [BL32_OPTION]
 SEC=0
 [BL33_OPTION]
@@ -80,8 +86,6 @@ PATH=trust.img
 EOF
   $PKG_RKBIN/tools/trust_merger --verbose trust.ini
   cp -av trust.img $INSTALL/usr/share/bootloader
-fi
-
 fi
 
 LE_TMP=$(mktemp -d)
