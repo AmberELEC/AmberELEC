@@ -70,8 +70,9 @@ evtest "$input_device" | while read -r line; do
             echo $(date +%s) > /tmp/ssDate
         else
             rm -f /tmp/onSleep
-            powermode=$(cat /dev/shm/powermode)
-            $($powermode)
+            powermode=$(</dev/shm/powermode)
+            rm -f /dev/shm/powermode
+            eval "$powermode"
             if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                 if test -f /tmp/resume_game; then
                     $(rm -f /tmp/resume_game)
