@@ -6,7 +6,7 @@
 # Source predefined functions and variables
 . /etc/profile
 
-DEVICE=$(cat /sys/firmware/devicetree/base/model)
+DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 
 # Set max performance mode to start the boot.
 maxperf

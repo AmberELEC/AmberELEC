@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
-DEVICE=$(cat /sys/firmware/devicetree/base/model)
+DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 
 if [ "$DEVICE" = "SZDiiER D007 Plus" ]; then
 
