@@ -98,7 +98,7 @@ while true; do
                 if [[ "$start_time" -lt "$new_date" ]]; then
                     exit_flag=0
                     break
-                else 
+                else
                     sleep 1
                     if [[ "$sdown" -eq 0 ]]; then
                         exit_flag=2
@@ -134,7 +134,10 @@ while true; do
 
                     done
                     if $doShutDown ; then
-                        $(touch /tmp/lastGame)
+                        echo 0 > /sys/class/backlight/backlight/bl_power
+			$(/usr/bin/show_splash.sh "autosave")
+			sleep 0.5
+			$(touch /tmp/lastGame)
                         $(systemctl restart lastgame)
                     fi
                 fi
