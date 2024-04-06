@@ -4,7 +4,7 @@
 
 . /etc/profile
 
-DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/modesl)
+DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 
 if [ "$DEVICE" == "Anbernic RG351M" ]; then
   magick /usr/config/splash/splash-480.png bgra:/dev/fb0
