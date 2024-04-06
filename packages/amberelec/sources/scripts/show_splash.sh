@@ -4,12 +4,12 @@
 
 . /etc/profile
 
-DEVICE=$(cat /sys/firmware/devicetree/base/model)
+DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/modesl)
 
-if [ "$DEVICE" == "Anbernic RG351V" ] || [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" ]; then
-  magick /usr/config/splash/splash-640.png bgra:/dev/fb0
+if [ "$DEVICE" == "Anbernic RG351M" ]; then
+  magick /usr/config/splash/splash-480.png bgra:/dev/fb0
 elif [ "$DEVICE" == "Anbernic RG552" ]; then
   ply-image /usr/config/splash/splash-1920.png
 else
-  magick /usr/config/splash/splash-480.png bgra:/dev/fb0
+  magick /usr/config/splash/splash-640.png bgra:/dev/fb0
 fi
