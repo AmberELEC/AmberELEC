@@ -9,6 +9,11 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain libpng"
 PKG_LONGDESC="FBGrab is a framebuffer screenshot program"
 
+pre_configure_target() {
+  sed -i '/^install: fbgrab fbgrab\.1\.gz$/,/^$/d' Makefile
+  sed -i 's/^all: fbgrab fbgrab\.1\.gz$/all: fbgrab/' Makefile
+}
+
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
   cp ${PKG_BUILD}/fbgrab ${INSTALL}/usr/bin
