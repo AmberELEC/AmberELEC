@@ -90,7 +90,7 @@ power_proc () {
                     echo "$COMMAND" > /storage/.config/lastgame
                     $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
                     $(/usr/bin/show_splash.sh "autosave")
-                    sleep 0.5
+                    sleep 2
                     $(/usr/bin/sync)
                     $(systemctl poweroff)
                 elif [[ $COMMAND == *"autosave 0"* ]]; then
@@ -101,13 +101,13 @@ power_proc () {
                     echo $new_command > /storage/.config/lastgame
                     $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
                     $(/usr/bin/show_splash.sh "autosave")
-                    sleep 0.5
+                    sleep 2
                     $(/usr/bin/sync)
                     $(systemctl poweroff)
                 fi
             elif ! pgrep -f "sh -c --" >/dev/null; then
                 $(/usr/bin/show_splash.sh)
-		sleep 0.5
+                sleep 0.5
                 $(/usr/bin/sync)
                 $(systemctl poweroff)
             fi

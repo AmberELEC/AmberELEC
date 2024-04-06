@@ -134,10 +134,13 @@ while true; do
 
                     done
                     if $doShutDown ; then
+                        powermode=$(</dev/shm/powermode)
+                        rm -f /dev/shm/powermode
+                        eval "$powermode"
                         echo 0 > /sys/class/backlight/backlight/bl_power
-			$(/usr/bin/show_splash.sh "autosave")
-			sleep 0.5
-			$(touch /tmp/lastGame)
+                        $(/usr/bin/show_splash.sh "autosave")
+                        sleep 2
+                        $(touch /tmp/lastGame)
                         $(systemctl restart lastgame)
                     fi
                 fi
