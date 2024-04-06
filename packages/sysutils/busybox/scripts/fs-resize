@@ -42,7 +42,7 @@ if [ -e /storage/.please_resize_me ] ; then
       StartProgress spinner "Checking layout...      " "sgdisk -e ${DISK} &>/dev/null"
     fi
 
-    StartProgress spinner "Resizing partition...   " "parted -s -a optimal -m ${DISK} resizepart 2 4GiB &>/dev/null"
+    StartProgress spinner "Resizing partition...   " "parted -s -a optimal -m ${DISK} resizepart 2 7GiB &>/dev/null"
     StartProgress spinner "Checking file system... " "e2fsck -f -p ${PART} &>/dev/null"
     StartProgress spinner "Resizing file system... " "resize2fs ${PART} &>/dev/null"
     GAMESSTART="$(echo $(parted -m ${DISK} print all | awk 'BEGIN {FS=":"} /^2/ {gsub ("[A-Z]",""); print $3}') + 17 | bc)"
