@@ -142,7 +142,8 @@ while true; do
                     fi
                 fi
             elif [[ "$exit_flag" -eq 2 ]]; then
-                echo 1 > /sys/class/backlight/backlight/bl_power
+                $(/usr/bin/show_splash.sh "autosave")
+                sleep 0.5
                 $(touch /tmp/lastGame)
                 $(systemctl restart lastgame)
             fi
