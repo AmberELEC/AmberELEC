@@ -15,4 +15,5 @@ else
 fi
 
 if [ ${1} == "autosave" ]; then
-echo -en '\e[0;0H\e[37mAutosaving running game and shutting down the device...\e[0m' >/dev/console
+  echo -en '\e[0;0H\e[37mAutosaving running game and shutting down the device...\e[0m' >/dev/console
+fi
