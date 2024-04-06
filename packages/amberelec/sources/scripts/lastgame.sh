@@ -105,7 +105,8 @@ power_proc () {
                     $(systemctl poweroff)
                 fi
             elif ! pgrep -f "sh -c --" >/dev/null; then
-                echo 1 > /sys/class/backlight/backlight/bl_power
+                $(/usr/bin/show_splash.sh)
+                $(/usr/bin/sync)
                 $(systemctl poweroff)
             fi
         fi
