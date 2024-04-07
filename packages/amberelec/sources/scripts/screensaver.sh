@@ -70,8 +70,9 @@ evtest "$input_device" | while read -r line; do
             echo $(date +%s) > /tmp/ssDate
         else
             rm -f /tmp/onSleep
-            powermode=$(cat /dev/shm/powermode)
-            $($powermode)
+            powermode=$(</dev/shm/powermode)
+            rm -f /dev/shm/powermode
+            eval "$powermode"
             if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                 if test -f /tmp/resume_game; then
                     $(rm -f /tmp/resume_game)
@@ -97,7 +98,7 @@ while true; do
                 if [[ "$start_time" -lt "$new_date" ]]; then
                     exit_flag=0
                     break
-                else 
+                else
                     sleep 1
                     if [[ "$sdown" -eq 0 ]]; then
                         exit_flag=2
@@ -133,12 +134,14 @@ while true; do
 
                     done
                     if $doShutDown ; then
+                        powermode=$(</dev/shm/powermode)
+                        rm -f /dev/shm/powermode
+                        eval "$powermode"
                         $(touch /tmp/lastGame)
                         $(systemctl restart lastgame)
                     fi
                 fi
             elif [[ "$exit_flag" -eq 2 ]]; then
-                echo 1 > /sys/class/backlight/backlight/bl_power
                 $(touch /tmp/lastGame)
                 $(systemctl restart lastgame)
             fi
