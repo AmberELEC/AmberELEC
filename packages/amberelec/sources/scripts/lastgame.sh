@@ -5,15 +5,15 @@
 
 hotkey_ev=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
 power_ev=/dev/input/by-path/platform-ff180000.i2c-event
-hotkey=BTN_TRIGGER_HAPPY4
-hotkey_code=0x2c3
+hotkey=BTN_TRIGGER_HAPPY1
+hotkey_code=0x2c0
 powerkey=KEY_POWER
 
 ARCH="$(cat /storage/.config/.OS_ARCH)"
 if [ "${ARCH}" == "RG351P" ] || [ "${ARCH}" == "RG351V" ]; then
     hotkey_ev=/dev/input/by-path/platform-ff300000.usb-usb-0:1.2:1.0-event-joystick
-    hotkey=BTN_TR2
-    hotkey_code=0x139
+    hotkey=BTN_TR
+    hotkey_code=0x137
 elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
 fi
