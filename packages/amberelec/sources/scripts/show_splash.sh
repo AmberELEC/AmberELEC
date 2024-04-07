@@ -13,7 +13,3 @@ elif [ "$DEVICE" == "Anbernic RG552" ]; then
 else
   magick /usr/config/splash/splash-640.png bgra:/dev/fb0
 fi
-
-if [ ${1} == "autosave" ]; then
-  echo -en '\e[0;0H\e[37mAutosaving running game and shutting down the device...\e[0m' >/dev/console
-fi

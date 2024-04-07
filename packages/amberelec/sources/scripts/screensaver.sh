@@ -138,15 +138,11 @@ while true; do
                         rm -f /dev/shm/powermode
                         eval "$powermode"
                         echo 0 > /sys/class/backlight/backlight/bl_power
-                        $(/usr/bin/show_splash.sh "autosave")
-                        sleep 2
                         $(touch /tmp/lastGame)
                         $(systemctl restart lastgame)
                     fi
                 fi
             elif [[ "$exit_flag" -eq 2 ]]; then
-                $(/usr/bin/show_splash.sh "autosave")
-                sleep 0.5
                 $(touch /tmp/lastGame)
                 $(systemctl restart lastgame)
             fi

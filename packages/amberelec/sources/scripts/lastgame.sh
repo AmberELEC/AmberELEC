@@ -89,8 +89,7 @@ power_proc () {
                 if [[ $COMMAND == *"autosave 1"* ]] || [[ $(grep 'savestate_auto_save = "true"' /tmp/raappend.cfg) ]]; then
                     echo "$COMMAND" > /storage/.config/lastgame
                     $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
-                    $(/usr/bin/show_splash.sh "autosave")
-                    sleep 2
+                    sleep 0.5
                     $(/usr/bin/sync)
                     $(systemctl poweroff)
                 elif [[ $COMMAND == *"autosave 0"* ]]; then
@@ -100,8 +99,7 @@ power_proc () {
                     new_command=$(modify_command "$COMMAND" "$state_number")
                     echo $new_command > /storage/.config/lastgame
                     $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
-                    $(/usr/bin/show_splash.sh "autosave")
-                    sleep 2
+                    sleep 0.5
                     $(/usr/bin/sync)
                     $(systemctl poweroff)
                 fi
