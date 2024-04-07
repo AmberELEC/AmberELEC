@@ -85,6 +85,7 @@ power_proc () {
             PID=$(pgrep -f "sh -c -- /usr/bin/runemu.py --rom")
             if [ -n "$PID" ]; then
                 # Extract and store the command related to running the emulator
+                echo 1 > /sys/class/backlight/backlight/bl_power
                 COMMAND=$(tr '\0' ' ' < "/proc/$PID/cmdline" | sed 's/sh -c -- //')
                 if [[ $COMMAND == *"autosave 1"* ]] || [[ $(grep 'savestate_auto_save = "true"' /tmp/raappend.cfg) ]]; then
                     echo "$COMMAND" > /storage/.config/lastgame
@@ -106,8 +107,6 @@ power_proc () {
                     $(systemctl poweroff)
                 fi
             elif ! pgrep -f "sh -c --" >/dev/null; then
-                $(/usr/bin/show_splash.sh)
-                sleep 0.5
                 $(/usr/bin/sync)
                 $(systemctl poweroff)
             fi
