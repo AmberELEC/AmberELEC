@@ -395,14 +395,6 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Auto Frame Relay
     ra_append_dict['video_frame_delay_auto'] = config.get_bool_string("video_frame_delay_auto")
 
-    # maxperf / CPU Governor
-    if config.get_setting('maxperf'):
-        ra_append_dict['cpu_scaling_mode'] = '2'
-    elif config.get_setting('powersave'):
-        ra_append_dict['cpu_scaling_mode'] = '3'
-    else:
-        ra_append_dict['cpu_scaling_mode'] = '4'
-
     #
     # Settings for special cores
     #
