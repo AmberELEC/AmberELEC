@@ -21,25 +21,6 @@ ln -s /storage/roms/gamedata/retroarch/logs/ /tmp/logs/retroarch
 # Apply some kernel tuning
 sysctl vm.swappiness=1
 
-if [ -e "/storage/.newcfg" ]
-then
-  # Restore overclock setting
-  OVERCLOCK_SETTING=$(get_ee_setting overclock)
-  OVERCLOCK_STATE=$((grep "\-oc.dtb" /flash/boot.ini >/dev/null 2>&1 && echo 1) || echo 0)
-  if [ ! "${OVERCLOCK_STATE}" == "${OVERCLOCK_SETTING}" ]
-  then
-    echo -en '\e[0;0H\e[37mRestoring overclock...\e[0m' >/dev/console
-    if [ "${OVERCLOCK_SETTING}" = "1" ]
-    then
-      /usr/bin/amberelec-overclock on
-    else
-      /usr/bin/amberelec-overclock off
-    fi
-    sleep 1
-    systemctl reboot
-  fi
-fi
-
 # Restore config if backup exists
 BPATH="/storage/roms/backup/"
 BACKUPFILE="${BPATH}/AmberELEC_BACKUP.zip"
