@@ -58,7 +58,6 @@ if test -f /storage/.config/custom.cfg; then
     source /storage/.config/custom.cfg
 fi
 
-
 # Set start time
 start_time=$(date +%s)
 echo $start_time > /tmp/ssDate
@@ -111,7 +110,7 @@ while true; do
                 touch /tmp/onSleep
                 echo 1 > /sys/class/backlight/backlight/bl_power
                 $(cat /tmp/powermode > /dev/shm/powermode)
-                $(powersave)
+                $(powersave "screensaver")
                 if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                     isOnPause=$(echo -n "GET_STATUS" | nc -u -w1 127.0.0.1 55355 | awk '{print $2}')
                     if [[ "$isOnPause" != "PAUSED" ]]; then

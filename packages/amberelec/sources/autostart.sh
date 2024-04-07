@@ -8,8 +8,8 @@
 
 DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 
-# Set max performance mode to start the boot.
-maxperf
+# Set performance mode to start the boot
+performance
 
 # Show splash logo
 /usr/bin/show_splash.sh &
@@ -192,14 +192,6 @@ sync &
 # run custom_start before FE scripts
 /storage/.config/custom_start.sh before
 
-# default to ondemand performance in EmulationStation
-POWERSAVE_ES=$(get_ee_setting powersave_es)
-if [ "${POWERSAVE_ES}" == "1" ]; then
-  powersave
-else
-  normperf
-fi
-
 # Restore last saved brightness
 BRIGHTNESS=$(get_ee_setting system.brightness)
 if [[ ! "${BRIGHTNESS}" =~ [0-9] ]]
@@ -316,5 +308,13 @@ esac
 
 # run custom_start ending scripts
 /storage/.config/custom_start.sh after
+
+# default to ondemand/powersave in EmulationStation
+POWERSAVE_ES=$(get_ee_setting powersave_es)
+if [ "${POWERSAVE_ES}" == "1" ]; then
+  es_powersave &
+else
+  es_ondemand &
+fi
 
 clear > /dev/console

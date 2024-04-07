@@ -138,6 +138,12 @@ post_install() {
     enable_service fan_control.service
   fi
 
+  if [[ "${DEVICE}" =~ "RG351" ]]; then
+    cp -f  ${PKG_DIR}/clocks/RK3326/clocklimits ${INSTALL}/etc
+  elif [[ "${DEVICE}" == "RG552" ]]; then
+    cp -f  ${PKG_DIR}/clocks/RK3399/clocklimits ${INSTALL}/etc
+  fi
+
   echo "" >${INSTALL}/etc/issue
   echo -e "\033[38;5;220m     _         _            \033[38;5;255m ___ _    ___ ___ " >>${INSTALL}/etc/issue
   echo -e "\033[38;5;220m    /_\  _ __ | |__  ___ _ _\033[38;5;255m| __| |  | __/ __|" >>${INSTALL}/etc/issue
