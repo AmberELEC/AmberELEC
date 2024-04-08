@@ -37,10 +37,6 @@ def sanity_check(rom, platform, emulator, core, args):
 			for file in files:
 				if file.lower().endswith(filename):
 					return True
-#			with zipfile.ZipFile(zip_file, 'r') as zip_file:
-#				for file_info in zip_file.infolist():
-#					if file_info.filename.lower().endswith(filename):
-#						return True
 
 		except OSError:
 			show_sanity_warn("An error has occurred...\n\nCould not load the ROM for validation at all...\n\nError type : OS Error\nPath : "+zip_file+"\n\nExiting...")
@@ -56,9 +52,9 @@ def sanity_check(rom, platform, emulator, core, args):
 		show_sanity_warn("The Duckstation core does not support .pbp files.\n\nPlease try another core for this rom!\n\nExiting...")
 
 	# Geolith is its own beast, but I need to double check if a zip file it opens has a .neo file inside...
-	if (core == "geolith" and extension == ".zip"):
+	if (core == "geolith" and (extension == ".zip" or extension == ".7z") ):
 		if( False == search_archive(args['rom'], ".neo") ):
-			show_sanity_warn("You tried to load a .zip file with the Geolith core\nbut it only supports either .neo files or\n.zip files with a .neo file inside which this one does not!\n\nExiting...")
+			show_sanity_warn("You tried to load an archive file with the Geolith core\nbut we could not find a .neo file inside it.\n\nPlease double check your archive contains a .neo file to proceed\n\nExiting...")
 
 	# I also need to make sure that if we're opening a .neo file, that we do it with Geolith!
 	if (extension == ".neo" and core != "geolith" ):
