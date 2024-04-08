@@ -2,19 +2,15 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fbgrab"
-PKG_VERSION="30aec96fb8de66095dee7203b5af54d0dd403c7f"
+PKG_VERSION="b781b05d2dd12fd2a35705c0fc6cb3667fddee35"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/GunnarMonell/fbgrab"
+PKG_SITE="https://github.com/jwilk/fbcat"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain libpng"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="FBGrab is a framebuffer screenshot program"
-
-pre_configure_target() {
-  sed -i '/^install: fbgrab fbgrab\.1\.gz$/,/^$/d' Makefile
-  sed -i 's/^all: fbgrab fbgrab\.1\.gz$/all: fbgrab/' Makefile
-}
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
   cp ${PKG_BUILD}/fbgrab ${INSTALL}/usr/bin
+  cp ${PKG_BUILD}/fbcat ${INSTALL}/usr/bin
 }
