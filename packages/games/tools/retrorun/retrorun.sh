@@ -330,6 +330,127 @@ else
 	fi
 fi
 
+# Pcsx-rearmed
+# PSX Threaded Rendering 
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_gpu_thread_rendering"
+echo "pcsx_rearmed_gpu_thread_rendering:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_gpu_thread_rendering/d" ${RRCONF}
+		echo 'pcsx_rearmed_gpu_thread_rendering = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_gpu_thread_rendering/d" ${RRCONF}
+		echo "pcsx_rearmed_gpu_thread_rendering = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Pcsx-rearmed
+# PSX Enhanced resolution 
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_enhancement_resolution"
+echo "pcsx_rearmed_neon_enhancement_enable:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_neon_enhancement_enable/d" ${RRCONF}
+		echo 'pcsx_rearmed_neon_enhancement_enable = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_neon_enhancement_enable/d" ${RRCONF}
+		echo "pcsx_rearmed_neon_enhancement_enable = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Pcsx-rearmed
+# PSX Enhanced resolution Speed Hack
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_enhancement_resolution_speed_hack"
+echo "pcsx_rearmed_neon_enhancement_no_main:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_neon_enhancement_no_main/d" ${RRCONF}
+		echo 'pcsx_rearmed_neon_enhancement_no_main = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_neon_enhancement_no_main/d" ${RRCONF}
+		echo "pcsx_rearmed_neon_enhancement_no_main = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Pcsx-rearmed
+# PSX nhanced Resolution Texture Adjustment
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_enhancement_resolution_tex_adj"
+echo "pcsx_rearmed_neon_enhancement_tex_adj:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_neon_enhancement_tex_adj/d" ${RRCONF}
+		echo 'pcsx_rearmed_neon_enhancement_tex_adj = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_neon_enhancement_tex_adj/d" ${RRCONF}
+		echo "pcsx_rearmed_neon_enhancement_tex_adj = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Pcsx-rearmed
+# PSX Disable SMC Checks (Will cause crashes when loading, and lead to memory card failure)
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_gteregsunneeded"
+echo "pcsx_rearmed_nosmccheck:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_nosmccheck/d" ${RRCONF}
+		echo 'pcsx_rearmed_nosmccheck = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_gteregsunneeded/d" ${RRCONF}
+		echo "pcsx_rearmed_gteregsunneeded = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Pcsx-rearmed
+# PSX Assume GTE Regs Unneeded 
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_gteregsunneeded"
+echo "pcsx_rearmed_gteregsunneeded:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_gteregsunneeded/d" ${RRCONF}
+		echo 'pcsx_rearmed_gteregsunneeded = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_gteregsunneeded/d" ${RRCONF}
+		echo "pcsx_rearmed_gteregsunneeded = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Pcsx-rearmed
+# Disable GTE Flags
+# Get configuration from distribution.conf and set to retrorun.cfg
+get_setting "psx_nogteflags"
+echo "pcsx_rearmed_nogteflags:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_nogteflags/d" ${RRCONF}
+		echo 'pcsx_rearmed_nogteflags = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
+		sed -i "/^pcsx_rearmed_nogteflags/d" ${RRCONF}
+		echo "pcsx_rearmed_nogteflags = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+
+
 ### PSX DUCKSTATION ###
 echo 'Psx-duckstation settings.'
 # PSX CPU Overclock
