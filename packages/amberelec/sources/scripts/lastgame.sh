@@ -105,7 +105,8 @@ power_proc () {
                     $(systemctl poweroff)
                 fi
             elif ! pgrep -f "sh -c --" >/dev/null; then
-                $(/usr/bin/sync)
+                $(/usr/bin/show_splash.sh)
+		$(/usr/bin/sync)
                 $(systemctl poweroff)
             fi
         fi
