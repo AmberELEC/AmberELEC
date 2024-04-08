@@ -12,7 +12,7 @@ from time import perf_counter
 from typing import TYPE_CHECKING, Optional
 
 from setsettings import set_settings
-from sanity_check import sanity_check
+from sanity_check import sanity_check, sanity_log
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
@@ -357,7 +357,9 @@ class EmuRunner():
 			log(f'Executing game: {self.rom}')
 			log(f'Executing {command}')
 		with log_path.open('at', encoding='utf-8') as log_file:
-			subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, check=True, text=True, env=self.environment)
+			result = subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, text=True, env=self.environment)
+			if (result.returncode != 0):
+				sanity_log()
 
 	def cleanup_temp_files(self) -> None:
 		for temp_file in self.temp_files:
