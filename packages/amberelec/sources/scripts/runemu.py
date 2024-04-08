@@ -80,9 +80,9 @@ def cleanup_and_quit(return_code):
 	if get_elec_setting('powersave_es') == '1':
 		if log_level == 'debug':
 			log('Enabling ES powersave mode as requested')
-		call_profile_func('es_powersave')
+		os.system("es_powersave &")
 	else:
-		call_profile_func('es_ondemand')
+		os.system("es_ondemand &")
 	call_profile_func('set_audio', 'default')
 	stop_rumble()
 	sys.exit(return_code)
