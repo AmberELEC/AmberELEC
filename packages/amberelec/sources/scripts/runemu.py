@@ -38,7 +38,7 @@ log_level = get_es_setting('string', 'LogLevel') #If set to default, would equal
 # used to listen for our hotkeys (Such as L2+STAR+SELECT to force quit an application)
 # If you run it directly without the "&" in a terminal, it'll freeze execution.
 # But if you run this through ES, it'll run fine. Miss Inputs suspects this is
-# some systemd screwyness. 
+# some systemd screwyness.
 def jslisten_set(*exe_names: str):
 	proc = subprocess.run(f'. /etc/profile && jslisten set {shlex.join(exe_names)} &', shell=True,   stdout=subprocess.PIPE, check=True, text=True)
 	return proc.stdout.strip('\n')
@@ -70,15 +70,20 @@ def stop_rumble():
 			f.close()
 	except FileNotFoundError:
 		pass
-		
-		
+
+
 def cleanup_and_quit(return_code):
 	if log_level == 'debug':
 		log(f'Cleaning up and exiting with return code {return_code}')
 
 	jslisten_stop()
 	clear_screen()
-	call_profile_func('normperf')
+	if get_elec_setting('powersave_es') == '1':
+		if log_level == 'debug':
+			log('Enabling ES powersave mode as requested')
+		os.system("es_powersave &")
+	else:
+		os.system("es_ondemand &")
 	call_profile_func('set_audio', 'default')
 	stop_rumble()
 	sys.exit(return_code)
@@ -168,10 +173,18 @@ class EmuRunner():
 	def toggle_max_performance(self) -> None:
 		if get_elec_setting('maxperf', self.platform, self.rom.name if self.rom else None) == '1':
 			if log_level == 'debug':
-				log('Enabling max performance as requested')
-			call_profile_func('maxperf')
+				log('Enabling performance mode as requested')
+			call_profile_func('performance', self.platform, self.rom.name if self.rom else "")
+		elif get_elec_setting('powersave', self.platform, self.rom.name if self.rom else None) == '1':
+			if log_level == 'debug':
+				log('Enabling powersave mode as requested')
+			call_profile_func('powersave', self.platform, self.rom.name if self.rom else "")
+		elif get_elec_setting('customperf', self.platform, self.rom.name if self.rom else None) == '1':
+			if log_level == 'debug':
+				log('Enabling custom performance mode as requested')
+			call_profile_func('custom_performance', self.platform, self.rom.name if self.rom else "")
 		else:
-			call_profile_func('normperf')
+			call_profile_func('ondemand', self.platform, self.rom.name if self.rom else "")
 
 	def set_settings(self) -> str:
 		rom_name = str(self.rom) if self.rom else ''
@@ -208,7 +221,7 @@ class EmuRunner():
 		#if self.core in {'pcsx_rearmed', 'parallel_n64'}:
 		#	retroarch_binary = 'retroarch32'
 		#	self.environment['LD_LIBRARY_PATH'] = '/usr/lib32'
-		
+
 		rom_path: 'Optional[Path]' = self.rom
 		extension = self.rom.suffix[1:] if self.rom else None
 
@@ -221,7 +234,7 @@ class EmuRunner():
 				cmd_path = rom_path.parent.joinpath(rom_path.stem.replace(' ', '_') + '.cmd')
 			else:
 				cmd_path = Path('/tmp/mame.cmd')
-			if rom_path and rom_path.stat().st_size > 0:				
+			if rom_path and rom_path.stat().st_size > 0:
 				mame_slot = 'cart1'
 				if extension:
 					if extension in {'cue', 'chd', 'iso'}:
@@ -257,9 +270,9 @@ class EmuRunner():
 			# Any further code will be rendered unnecessary. So let's just return the command and call it a day
 			command : 'List[Union[str, Path]]' = ['/usr/bin/scummvm.sh', 'libretro', self.rom ]
 			return command
-		
+
 		command: 'List[Union[str, Path]]' = [os.path.join('/usr/bin/', retroarch_binary), '-L', Path('/tmp/cores/', f'{self.core}_libretro.so')]
-		
+
 		if log_level != 'minimal':
 			command.append('--verbose')
 
@@ -273,7 +286,7 @@ class EmuRunner():
 				command += ['--connect', self.args['connect'] + '|' + self.args['port']]
 			if 'host' in self.args:
 				command += ['--host', self.args['host']]
-				
+
 			command += ['--nick', netplay_nick]
 
 		if self.core == 'fbneo' and self.platform == 'neocd':
@@ -284,7 +297,7 @@ class EmuRunner():
 		command += ['--config', RA_TEMP_CONF, '--appendconfig', RA_APPEND_CONF]
 		if rom_path:
 			command.append(rom_path)
-		
+
 		return command
 
 	def get_retrorun_command(self) -> 'Sequence[Union[str, Path]]':
@@ -306,7 +319,7 @@ class EmuRunner():
 		if self.rom.suffix in {'.zip', '.7z', '.gz', '.bz2'} and self.platform not in {'arcade', 'naomi', 'atomiswave', 'fbneo', 'mame'}:
 			path = extract_archive(self.rom)
 			self.temp_files.append(path)
-			
+
 		return ['/usr/bin/retrorun.sh', self.core, path, self.platform]
 
 	def get_mupen64plus_standalone_command(self) -> 'Sequence[Union[str, Path]]':
@@ -321,10 +334,10 @@ class EmuRunner():
 		if self.rom.suffix in {'.zip', '.7z', '.gz', '.bz2'}:
 			path = extract_archive(self.rom)
 			self.temp_files.append(path)
-			
+
 		return ['/usr/bin/m64p.sh', self.core, path]
 
-	def get_command(self, shader_arg: str='') -> 'Sequence[Union[str, Path]]':			
+	def get_command(self, shader_arg: str='') -> 'Sequence[Union[str, Path]]':
 		is_libretro_port = self.core and not self.emulator
 		#If true this was called from the inside of a port .sh that runs a libretro port (e.g. 2048, tyrQuake, etc), it makes no sense otherwise
 
@@ -377,11 +390,11 @@ def main():
 	platform = args.get('platform')
 	core = args.get('core')
 	emulator = args.get('emulator')
-		
+
 	log_path.unlink(missing_ok=True)
 	LOGS_DIR.mkdir(parents=True, exist_ok=True)
 	log_path.touch()
-	
+
 	log(f'Emulation run log: Started at {datetime.datetime.now()}')
 	log(f'Args: {args}')
 
@@ -428,7 +441,7 @@ def main():
 		runner.cleanup_temp_files()
 		os.killpg(os.getpgid(screensaver.pid), signal.SIGTERM)
 		cleanup_and_quit(exit_code)
-	
+
 
 if __name__ == '__main__':
 	main()

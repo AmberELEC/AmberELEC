@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. /etc/profile
+
+ondemand "emulationstation"
+touch /dev/shm/oc_unlock

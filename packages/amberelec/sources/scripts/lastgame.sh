@@ -5,13 +5,15 @@
 
 hotkey_ev=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
 power_ev=/dev/input/by-path/platform-ff180000.i2c-event
-hotkey=BTN_TRIGGER_HAPPY4
+hotkey=BTN_TRIGGER_HAPPY1
+hotkey_code=0x2c0
 powerkey=KEY_POWER
 
 ARCH="$(cat /storage/.config/.OS_ARCH)"
 if [ "${ARCH}" == "RG351P" ] || [ "${ARCH}" == "RG351V" ]; then
     hotkey_ev=/dev/input/by-path/platform-ff300000.usb-usb-0:1.2:1.0-event-joystick
-    hotkey=BTN_TR2
+    hotkey=BTN_TR
+    hotkey_code=0x137
 elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
 fi
@@ -79,9 +81,11 @@ modify_command() {
 power_proc () {
     evtest --grab "$power_ev" | while read line; do
         if [[ $line == *"$power_key"* ]] || [[ $# -gt 0 ]]; then
+            $(/usr/bin/adckeys.py hotkey_code release)
             PID=$(pgrep -f "sh -c -- /usr/bin/runemu.py --rom")
             if [ -n "$PID" ]; then
                 # Extract and store the command related to running the emulator
+                echo 1 > /sys/class/backlight/backlight/bl_power
                 COMMAND=$(tr '\0' ' ' < "/proc/$PID/cmdline" | sed 's/sh -c -- //')
                 if [[ $COMMAND == *"autosave 1"* ]] || [[ $(grep 'savestate_auto_save = "true"' /tmp/raappend.cfg) ]]; then
                     echo "$COMMAND" > /storage/.config/lastgame
@@ -101,6 +105,7 @@ power_proc () {
                     $(systemctl poweroff)
                 fi
             elif ! pgrep -f "sh -c --" >/dev/null; then
+                $(/usr/bin/sync)
                 $(systemctl poweroff)
             fi
         fi

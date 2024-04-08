@@ -161,9 +161,6 @@ audio.volume=75
 brightness.level=50
 system.brightness=50
 
-## Device Overclock
-overclock=0
-
 # ------------ I - EMULATORS CHOICES ----------- #
 ## You can override the global configuration here
 ## Here is the snes example

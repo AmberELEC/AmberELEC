@@ -1,0 +1,91 @@
+diff --git a/misc/cpufreq/cpufreq.c b/misc/cpufreq/cpufreq.c
+index ee20c1c18e..e91d49b12b 100644
+--- a/misc/cpufreq/cpufreq.c
++++ b/misc/cpufreq/cpufreq.c
+@@ -195,17 +195,17 @@ bool set_cpu_scaling_min_frequency(
+    cpu_scaling_driver_t *driver,
+    uint32_t min_freq)
+ {
+-   char fpath[PATH_MAX_LENGTH];
+-   char value[16];
+-   snprintf(fpath, sizeof(fpath), CPU_POLICIES_DIR "policy%u/scaling_min_freq",
+-      driver->policy_id);
+-   snprintf(value, sizeof(value), "%" PRIu32 "\n", min_freq);
+-   if (filestream_write_file(fpath, value, strlen(value)))
+-   {
+-      driver->min_policy_freq = min_freq;
+-      last_update = 0;   /* Force reload */
+-      return true;
+-   }
++   // char fpath[PATH_MAX_LENGTH];
++   // char value[16];
++   // snprintf(fpath, sizeof(fpath), CPU_POLICIES_DIR "policy%u/scaling_min_freq",
++      // driver->policy_id);
++   // snprintf(value, sizeof(value), "%" PRIu32 "\n", min_freq);
++   // if (filestream_write_file(fpath, value, strlen(value)))
++   // {
++      // driver->min_policy_freq = min_freq;
++      // last_update = 0;   /* Force reload */
++      // return true;
++   // }
+    return false;
+ }
+ 
+@@ -213,17 +213,17 @@ bool set_cpu_scaling_max_frequency(
+    cpu_scaling_driver_t *driver,
+    uint32_t max_freq)
+ {
+-   char fpath[PATH_MAX_LENGTH];
+-   char value[16];
+-   snprintf(fpath, sizeof(fpath), CPU_POLICIES_DIR "policy%u/scaling_max_freq",
+-      driver->policy_id);
+-   snprintf(value, sizeof(value), "%" PRIu32 "\n", max_freq);
+-   if (filestream_write_file(fpath, value, strlen(value)))
+-   {
+-      driver->max_policy_freq = max_freq;
+-      last_update = 0;   /* Force reload */
+-      return true;
+-   }
++   // char fpath[PATH_MAX_LENGTH];
++   // char value[16];
++   // snprintf(fpath, sizeof(fpath), CPU_POLICIES_DIR "policy%u/scaling_max_freq",
++      // driver->policy_id);
++   // snprintf(value, sizeof(value), "%" PRIu32 "\n", max_freq);
++   // if (filestream_write_file(fpath, value, strlen(value)))
++   // {
++      // driver->max_policy_freq = max_freq;
++      // last_update = 0;   /* Force reload */
++      // return true;
++   // }
+    return false;
+ }
+ 
+@@ -293,17 +293,17 @@ uint32_t get_cpu_scaling_next_frequency_limit(uint32_t freq, int step)
+ 
+ bool set_cpu_scaling_governor(cpu_scaling_driver_t *driver, const char* governor)
+ {
+-   char fpath[PATH_MAX_LENGTH];
+-   snprintf(fpath, sizeof(fpath), CPU_POLICIES_DIR "policy%u/scaling_governor",
+-      driver->policy_id);
+-   if (filestream_write_file(fpath, governor, strlen(governor)))
+-   {
+-      if (driver->scaling_governor)
+-         free(driver->scaling_governor);
+-      driver->scaling_governor = strdup(governor);
+-      last_update = 0;   /* Force reload */
+-      return true;
+-   }
++   // char fpath[PATH_MAX_LENGTH];
++   // snprintf(fpath, sizeof(fpath), CPU_POLICIES_DIR "policy%u/scaling_governor",
++      // driver->policy_id);
++   // if (filestream_write_file(fpath, governor, strlen(governor)))
++   // {
++      // if (driver->scaling_governor)
++         // free(driver->scaling_governor);
++      // driver->scaling_governor = strdup(governor);
++      // last_update = 0;   /* Force reload */
++      // return true;
++   // }
+    return false;
+ }
+ 

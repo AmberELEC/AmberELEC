@@ -58,7 +58,6 @@ if test -f /storage/.config/custom.cfg; then
     source /storage/.config/custom.cfg
 fi
 
-
 # Set start time
 start_time=$(date +%s)
 echo $start_time > /tmp/ssDate
@@ -70,6 +69,9 @@ evtest "$input_device" | while read -r line; do
             echo $(date +%s) > /tmp/ssDate
         else
             rm -f /tmp/onSleep
+            powermode=$(</dev/shm/powermode)
+            rm -f /dev/shm/powermode
+            eval "$powermode"
             if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                 if test -f /tmp/resume_game; then
                     $(rm -f /tmp/resume_game)
@@ -95,7 +97,7 @@ while true; do
                 if [[ "$start_time" -lt "$new_date" ]]; then
                     exit_flag=0
                     break
-                else 
+                else
                     sleep 1
                     if [[ "$sdown" -eq 0 ]]; then
                         exit_flag=2
@@ -107,6 +109,8 @@ while true; do
             if [[ "$exit_flag" -eq 1 ]]; then
                 touch /tmp/onSleep
                 echo 1 > /sys/class/backlight/backlight/bl_power
+                $(cat /tmp/powermode > /dev/shm/powermode)
+                $(powersave "screensaver")
                 if pgrep -fn "/usr/bin/retroarch" >/dev/null; then
                     isOnPause=$(echo -n "GET_STATUS" | nc -u -w1 127.0.0.1 55355 | awk '{print $2}')
                     if [[ "$isOnPause" != "PAUSED" ]]; then
@@ -129,12 +133,14 @@ while true; do
 
                     done
                     if $doShutDown ; then
+                        powermode=$(</dev/shm/powermode)
+                        rm -f /dev/shm/powermode
+                        eval "$powermode"
                         $(touch /tmp/lastGame)
                         $(systemctl restart lastgame)
                     fi
                 fi
             elif [[ "$exit_flag" -eq 2 ]]; then
-                echo 1 > /sys/class/backlight/backlight/bl_power
                 $(touch /tmp/lastGame)
                 $(systemctl restart lastgame)
             fi
