@@ -22,6 +22,7 @@ def show_sanity_warn( message, force_quit=True ) :
 
 
 def sanity_log():
+	"""Run this when you want to show a generic error to the user and zip the logs"""
 	try :
 		command = ["zip", "-r", "/roms/logs.zip", "/tmp/logs"]
 		run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -29,6 +30,7 @@ def sanity_log():
 		show_sanity_warn( "A general error has occurred!\n\nIf you wish to get help with this issue,\nwe've zipped your log files.\n\nThey are located at <roms_folder>\\logs.zip\n\nMake sure to send us this file on discord\nWith as much information as you can\nIf you are going to need help!\n\nExiting...", False )
 
 def sanity_check(rom, platform, emulator, core, args):
+	"""Run this to check all parameters for known issues and warn the user"""
 
 	def search_archive(zip_file, filename):
 		"""Some roms come in .ZIP format, and sometimes they don't have the right ROM file we need, this checks for an extension and acts accordingly!"""
@@ -45,6 +47,7 @@ def sanity_check(rom, platform, emulator, core, args):
 		finally:
 			return False
 
+	# Make sure the extension of the rom file can be easily read
 	extension = rom.suffix.lower()
 
 	# First we check duckstation. Our core does not support .pbp files
