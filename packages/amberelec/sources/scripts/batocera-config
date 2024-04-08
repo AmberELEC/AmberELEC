@@ -13,7 +13,7 @@ extra2="$4"
 extra3="$5"
 extra4="$6"
 arch=$(cat /storage/.config/.OS_ARCH)
-DEVICE=$(cat /sys/firmware/devicetree/base/model)
+DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 
 updateurl="https://127.0.0.1"
 

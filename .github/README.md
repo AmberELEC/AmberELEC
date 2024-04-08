@@ -48,10 +48,7 @@ Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
     <td>Magicx XU10<sup>[3]</sup></td>
   </tr>
   <tr>
-    <td rowspan="3">Game Console<br />Game Station</td>
-    <td>R33S<sup>[3]</sup></td>
-  </tr>
-  <tr>
+    <td rowspan="2">Game Console<br />Game Station</td>
     <td>R35S<sup>[3]</sup></td>
   </tr>
   <tr>

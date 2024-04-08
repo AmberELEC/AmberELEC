@@ -3,7 +3,6 @@
 source /etc/os-release
 
 V_DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
-V_CPUNB=$(grep -E $'^processor\t:' /proc/cpuinfo | wc -l)
 V_SYSTEM=$(uname -rs)
 V_ARCH=$(uname -m)
 if [ -f /storage/.config/device ]; then
@@ -12,16 +11,42 @@ fi
 
 # SoC type
 if [[ ${V_DEVICE} =~ RG552 ]]; then
-  V_CPUMODEL1="Rockchip RK3399"
+  V_SOC="Rockchip RK3399"
 else
-  V_CPUMODEL1="Rockchip RK3326"
+  V_SOC="Rockchip RK3326"
+fi
+
+# CPU model
+if [[ ${V_DEVICE} =~ RG552 ]]; then
+  V_CPU_MODEL="ARM Cortex A53/Cortex A72"
+else
+  V_CPU_MODEL="ARM Cortex A35"
+fi
+
+# CPU cores
+V_CPU_CORES_ONLINE=$(( $(lscpu -b -e=CPU | wc -l) -1 ))
+V_CPU_CORES_OFFLINE=$(( $(lscpu -c -e=CPU | wc -l) -1 ))
+
+V_CPU_CORES="${V_CPU_CORES_ONLINE} online"
+if [[ ! ${V_CPU_CORES_OFFLINE} == "-1" ]]; then
+  V_CPU_CORES+=" - ${V_CPU_CORES_OFFLINE} offline"
 fi
 
 # CPU frequency
 if [[ ${V_DEVICE} =~ RG552 ]]; then
-  V_CPUFREQL=$(( $(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq) / 1000 ))
+  V_CPUFREQL=$(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq)
+  if [ ${V_CPUFREQL} == "<unknown>" ]; then
+    V_CPUFREQL="offline"
+  else
+    V_CPUFREQL=$(( ${V_CPUFREQL} / 1000 ))"MHz"
+  fi
   V_CPUMAXFREQL=$(( $(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq) / 1000 ))
-  V_CPUFREQB=$(( $(cat /sys/devices/system/cpu/cpufreq/policy4/scaling_cur_freq) / 1000 ))
+  V_CPUFREQB=$(cat /sys/devices/system/cpu/cpufreq/policy4/cpuinfo_cur_freq)
+  if [ ${V_CPUFREQB} == "<unknown>" ]; then
+    V_CPUFREQB="offline"
+  else
+    V_CPUFREQB=$(( ${V_CPUFREQB} / 1000 ))"MHz"
+  fi
   V_CPUMAXFREQB=$(( $(cat /sys/devices/system/cpu/cpufreq/policy4/cpuinfo_max_freq) / 1000 ))
 else
   V_CPUFREQ=$(( $(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq) / 1000 ))
@@ -38,7 +63,11 @@ else
 fi
 
 # RAM frequency
-V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/cur_freq) / 1000000 ))
+if [[ ${V_DEVICE} =~ RG552 ]]; then
+  V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/target_freq) / 1000000 ))
+else
+  V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/cur_freq) / 1000000 ))
+fi
 V_RAMMAXFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/max_freq) / 1000000 ))
 
 # battery
@@ -85,7 +114,9 @@ fi
 echo "GAMES PARTITION: ${G_USED}B/${G_TOTAL}B (${G_PERCENT})"
 echo "SYSTEM PARTITION: ${S_USED}B/${S_TOTAL}B (${S_PERCENT})"
 echo "RAM: ${RAM}"
-echo "CPU: ${V_CPUMODEL1} (${V_CPUNB} Cores)"
+echo "SOC: ${V_SOC}"
+echo "CPU MODEL: ${V_CPU_MODEL}"
+echo "CPU CORES: ${V_CPU_CORES}"
 if test -n "${TEMPE}"
 then
   echo "CPU TEMPERATURE: ${TEMPE}°"
@@ -95,9 +126,9 @@ then
   echo "CPU CURRENT FREQUENCY: ${V_CPUFREQ}MHz"
   echo "CPU MAXIMUM FREQUENCY: ${V_CPUMAXFREQ}MHz"
 else
-  echo "CPU CURRENT FREQUENCY (BIG): ${V_CPUFREQB}MHz"
+  echo "CPU CURRENT FREQUENCY (BIG): ${V_CPUFREQB}"
   echo "CPU MAXIMUM FREQUENCY (BIG): ${V_CPUMAXFREQB}MHz"
-  echo "CPU CURRENT FREQUENCY (LITTLE): ${V_CPUFREQL}MHz"
+  echo "CPU CURRENT FREQUENCY (LITTLE): ${V_CPUFREQL}"
   echo "CPU MAXIMUM FREQUENCY (LITTLE): ${V_CPUMAXFREQL}MHz"
 fi
 if test -n "${TEMPG}"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. /etc/profile
+
+sleep 10
+powersave "emulationstation"
+touch /dev/shm/oc_unlock
