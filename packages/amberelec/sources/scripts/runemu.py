@@ -12,7 +12,7 @@ from time import perf_counter
 from typing import TYPE_CHECKING, Optional
 
 from setsettings import set_settings
-from sanity_check import sanity_check, sanity_log
+from sanity_check import sanity_check, sanity_log, list_archive
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
@@ -88,14 +88,6 @@ def clear_screen():
 		log('Clearing screen')
 	with open('/dev/console', 'wb') as console:
 		subprocess.run('clear', stdout=console, check=True)
-
-def list_archive(path: Path) -> 'List[str]':
-	#7z path needs to be given explicitly, otherwise it won't find 7z.so
-	sevenzip_proc = subprocess.run(['/usr/bin/7z', 'l', '-slt', path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
-	if sevenzip_proc.returncode != 0:
-		raise OSError(sevenzip_proc.stderr.strip())
-	#Ignore the first Path = line which is the archive itself
-	return [line[len('Path = '):] for line in sevenzip_proc.stdout.splitlines() if line.startswith('Path = ')][1:]
 
 def extract_archive(path: Path) -> Path:
 	#Assume there is only one file, otherwise things get weird
