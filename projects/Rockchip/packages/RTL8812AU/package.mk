@@ -4,10 +4,10 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL8812AU"
-PKG_VERSION="0ae0e77ce386baba816ad30d27ede2e6bd7bef14"
+PKG_VERSION="3e8c73224cede1097c49fcd1ecd2e3e181f4540d"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/morrownr/8812au-20210629"
-PKG_URL="https://github.com/morrownr/8812au-20210629/archive/${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/morrownr/8812au-20210820"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="${LINUX_DEPENDS}"
 PKG_LONGDESC="Realtek RTL8812AU Linux 4.4-5.x driver"
