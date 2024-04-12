@@ -1,16 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
-# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
+# Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
-PKG_NAME="RTL88x2BU"
-PKG_VERSION="6e4c5ccfd6607e9f4b1c1befd165ce56e7d6a653"
+PKG_NAME="RTL8814AU"
+PKG_VERSION="b5a6f96cd20a1c6a35ccb000f2f4924dd19704a3"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/morrownr/88x2bu-20210702"
+PKG_SITE="https://github.com/morrownr/8814au"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="${LINUX_DEPENDS}"
-PKG_LONGDESC="Realtek RTL8821CU Linux 3.8-5.x driver"
+PKG_LONGDESC="Realtek RTL8814AU Linux 4.4-5.x driver"
 PKG_IS_KERNEL_PKG="yes"
 
 pre_make_target() {

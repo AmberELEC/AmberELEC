@@ -56,10 +56,10 @@ fi
 # GPU frequency
 if [[ ${V_DEVICE} =~ RG552 ]]; then
   V_GPUFREQ=$(( $(cat /sys/devices/platform/ff9a0000.gpu/devfreq/ff9a0000.gpu/cur_freq) / 1000000 ))
-  V_GPUMAXFREQ=$(( $(cat /sys/devices/platform/ff9a0000.gpu/devfreq/ff9a0000.gpu/max_freq) / 1000000 ))
+  V_GPUMAXFREQ=$(( $(cat /sys/devices/platform/ff9a0000.gpu/devfreq/ff9a0000.gpu/trans_stat | awk 'NR==2{printf "%s ", $2}') / 1000000 ))
 else
   V_GPUFREQ=$(( $(cat /sys/devices/platform/ff400000.gpu/devfreq/ff400000.gpu/cur_freq) / 1000000 ))
-  V_GPUMAXFREQ=$(( $(cat /sys/devices/platform/ff400000.gpu/devfreq/ff400000.gpu/max_freq) / 1000000 ))
+  V_GPUMAXFREQ=$(( $(cat /sys/devices/platform/ff400000.gpu/devfreq/ff400000.gpu//trans_stat | awk 'NR==2{printf "%s ", $2}') / 1000000 ))
 fi
 
 # RAM frequency
@@ -68,7 +68,7 @@ if [[ ${V_DEVICE} =~ RG552 ]]; then
 else
   V_RAMFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/cur_freq) / 1000000 ))
 fi
-V_RAMMAXFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/max_freq) / 1000000 ))
+V_RAMMAXFREQ=$(( $(cat /sys/devices/platform/dmc/devfreq/dmc/trans_stat | awk 'NR==2{printf "%s ", $(NF-1)}') / 1000000 ))
 
 # battery
 BATT=$(cat /sys/class/power_supply/{BAT,bat}*/capacity 2>/dev/null)
