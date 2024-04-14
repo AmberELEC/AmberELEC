@@ -6,12 +6,32 @@
 # Source predefined functions and variables
 . /etc/profile
 
+function get_setting() {
+        #We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
+        PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"
+        EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+
+        if [ -z "${EES}" ]; then
+                PAT="s|^${PLATFORM}[\.-]${1}=\(.*\)|\1|p"
+                EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+        fi
+
+        if [ -z "${EES}" ]; then
+                PAT="s|^global[\.-].*${1}=\(.*\)|\1|p"
+                EES=$(sed -n "${PAT}" "${CONF}" | head -1)
+        fi
+
+        [ -z "${EES}" ] && EES="false"
+}
+
+pixelperfect=$(get_setting "pixel_perfect")
+
 if [ ! -z "${1}" ] && [ -s "${1}" ]
 then
-  OPTIONS="-run"
+  OPTIONS="-run -pixel_perfect $pixelperfect"
   CART="${1}"
 else
-  OPTIONS="-splore"
+  OPTIONS="-splore -pixel_perfect $pixelperfect"
 fi
 
 mkdir -p "/storage/roms/pico-8"
