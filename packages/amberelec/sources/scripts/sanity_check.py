@@ -15,7 +15,8 @@ def list_archive(path: Path) -> 'List[str]':
 
 def show_sanity_warn( message, force_quit=True ) :
 	"""This function's sole purpose is to tell the user what we're doing and then ask for consent. If none is given, we stop here."""
-	run(["text_viewer", "-m", message, "-t", "AmberELEC Sanity Checker"], stdout=PIPE, stderr=PIPE, universal_newlines=True, check=False)
+	run(". /etc/profile", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+	run(["text_viewer", "-m", message, "-t", "AmberELEC Sanity Checker", "-w", "-e"], stdout=PIPE, stderr=PIPE, universal_newlines=True, check=False)
 	if ( True == force_quit ) :
 		exit()
 
@@ -27,7 +28,7 @@ def sanity_log():
 		command = ["zip", "-r", "/roms/logs.zip", "/tmp/logs"]
 		run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 	finally:
-		show_sanity_warn( "A general error has occurred!\n\nIf you wish to get help with this issue,\nwe've zipped your log files.\n\nThey are located at <roms_folder>\\logs.zip\n\nMake sure to send us this file on discord\nWith as much information as you can\nIf you are going to need help!\n\nExiting...", False )
+		show_sanity_warn( "A general error has occurred!\n\nIf you wish to get help with this issue, we've zipped your log files.\n\nThey are located at <roms_folder>\\logs.zip\n\nMake sure to send us this file on discord with as much information as you can if you are going to need help!", False )
 
 def sanity_check(rom, platform, emulator, core, args):
 	"""Run this to check all parameters for known issues and warn the user"""
@@ -41,9 +42,9 @@ def sanity_check(rom, platform, emulator, core, args):
 					return True
 
 		except OSError:
-			show_sanity_warn("An error has occurred...\n\nCould not load the ROM for validation at all...\n\nError type : OS Error\nPath : "+zip_file+"\n\nExiting...")
+			show_sanity_warn("An error has occurred...\n\nCould not load the ROM for validation at all...\n\nError type : OS Error\nPath : "+zip_file)
 		except Exception:
-			show_sanity_warn("The zip file you have attempted to open is either corrupt or not found\n\nExiting...")
+			show_sanity_warn("The zip file you have attempted to open is either corrupt or not found")
 		finally:
 			return False
 
@@ -52,13 +53,19 @@ def sanity_check(rom, platform, emulator, core, args):
 
 	# First we check duckstation. Our core does not support .pbp files
 	if (extension == ".pbp" and core == "duckstation" ):
-		show_sanity_warn("The Duckstation core does not support .pbp files.\n\nPlease try another core for this rom!\n\nExiting...")
+		show_sanity_warn("The Duckstation core does not support .pbp files.\n\nPlease try another core for this rom!")
 
 	# Geolith is its own beast, but I need to double check if a zip file it opens has a .neo file inside...
 	if (core == "geolith" and (extension == ".zip" or extension == ".7z") ):
-		if( False == search_archive(args['rom'], ".neo") ):
-			show_sanity_warn("You tried to load an archive file with the Geolith core\nbut we could not find a .neo file inside it.\n\nPlease double check your archive contains a .neo file to proceed\n\nExiting...")
+		if( search_archive(args['rom'], ".neo") ):
+			show_sanity_warn("You tried to load an archive file with the Geolith core but we could not find a .neo file inside it.\n\nPlease double check your archive contains a .neo file to proceed")
 
 	# I also need to make sure that if we're opening a .neo file, that we do it with Geolith!
 	if (extension == ".neo" and core != "geolith" ):
-		show_sanity_warn("Only the Geolith core supports .neo files.\n\nPlease try another core for this rom!\n\nExiting...")
+		show_sanity_warn("Only the Geolith core supports .neo files.\n\nPlease try another core for this rom!")
+
+	# Dosbox core does not support the .dosz format, make sure our users know...
+	if (extension == ".dosz" and core == "dosbox_core"):
+		show_sanity_warn("The core \"Dosbox Core\" does not support .dosz files.\n\nPlease use \"Dosbox Pure\" for this format!")
+
+	
