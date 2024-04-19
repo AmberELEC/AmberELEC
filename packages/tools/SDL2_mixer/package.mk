@@ -6,7 +6,7 @@ PKG_VERSION="2.8.0"
 PKG_LICENSE="GPLv3"
 PKG_SITE="http://www.libsdl.org/projects/SDL_mixer/release"
 PKG_URL="${PKG_SITE}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain alsa-lib SDL2 libogg libvorbis flac mpg123 libmodplug libvorbisidec opusfile"
+PKG_DEPENDS_TARGET="toolchain alsa-lib SDL2 libogg libvorbis flac mpg123 libmodplug libvorbisidec opusfile fluidsynth"
 PKG_LONGDESC="An audio mixer that supports various file formats for Simple Directmedia Layer. "
 PKG_DEPENDS_HOST="toolchain:host SDL2:host"
 

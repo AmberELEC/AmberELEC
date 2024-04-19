@@ -4,10 +4,10 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL8821AU"
-PKG_VERSION="2c0c6fef81c0c7dcf8fa06fc4ab72168abc4f7bb"
+PKG_VERSION="847c74b1c272466f89c77947f7a9703222f0093b"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/morrownr/8821au-20210708"
-PKG_URL="https://github.com/morrownr/8821au-20210708/archive/${PKG_VERSION}.tar.gz"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="${LINUX_DEPENDS}"
 PKG_LONGDESC="Realtek RTL8821AU Linux 4.4-5.x driver"
