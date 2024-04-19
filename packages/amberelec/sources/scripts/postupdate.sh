@@ -8,7 +8,7 @@ RACONF="/storage/.config/retroarch/retroarch.cfg"
 LAST_UPDATE_FILE="/storage/.lastupdateversion"
 DEVICE="$(cat /storage/.config/.OS_ARCH)"
 ECWOLFCONF="/storage/.config/distribution/ecwolf/ecwolf.cfg"
-
+SCUMMVM_CONF_FILES=("/storage/.config/scummvm/scummvm.ini" "/roms/gamedata/scummvm/scummvm.ini")
 # 2021-12-15
 ## Parse LAST_UPDATE_VERSION.  This variable will be the date of the previous upgrade. Ex: 20211222.
 ## - This variable can be used to execute upgrade logic only when crossing a version threshold.
@@ -35,6 +35,30 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
   fi
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
+
+## 2024-04-19
+## Set subtitles and speech to be both ON as default in ScummVM
+for file in "${SCUMMVM_CONF_FILES[@]}"; do
+    # Apparently scummvm can add multiples of the same settings, we
+    # wanna make sure we stick to the [scummvm] section of the ini file
+    # So we grab it and only check in there
+    scummvm_section=$(sed -n '/^\[scummvm\]/,/\[/p' "$file")
+    
+    # Check if the variable exists and if so
+    if grep -q "speech_mute=" <<< "$scummvm_section"; then
+        # This replaces the variable only from [scummvm] to the next [ character
+        sed -i '/^\[scummvm\]/,/\[/ s/\(speech_mute=\).*/\1false/' "$file"
+    else
+	# For ease of use, this simply injects the parameter after [scummvm]
+        sed -i '/^\[scummvm\]/a speech_mute=false' "$file"
+    fi
+	
+    if grep -q "subtitles=" <<< "$scummvm_section"; then
+        sed -i '/^\[scummvm\]/,/\[/ s/\(subtitles=\).*/\1true/' "$file"
+    else
+        sed -i '/^\[scummvm\]/a subtitles=true' "$file"
+    fi
+done
 
 ## 2023-01-15
 ## Add all JoyAxis[]Deadzone values to ECWolf due to default deadzones being too low.
