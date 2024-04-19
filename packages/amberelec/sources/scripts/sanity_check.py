@@ -34,7 +34,7 @@ def sanity_check(rom, platform, emulator, core, args):
 	"""Run this to check all parameters for known issues and warn the user"""
 
 	def search_archive(zip_file, filename):
-		"""Some roms come in .ZIP format, and sometimes they don't have the right ROM file we need, this checks for an extension and acts accordingly!"""
+		"""Some roms come in archives, and sometimes they don't have the right ROM file we need, this checks for an extension and acts accordingly!"""
 		try:
 			files = list_archive(zip_file)
 			for file in files:
@@ -44,28 +44,42 @@ def sanity_check(rom, platform, emulator, core, args):
 		except OSError:
 			show_sanity_warn("An error has occurred...\n\nCould not load the ROM for validation at all...\n\nError type : OS Error\nPath : "+zip_file)
 		except Exception:
-			show_sanity_warn("The zip file you have attempted to open is either corrupt or not found")
-		finally:
-			return False
+			show_sanity_warn("The archive file you have attempted to open is either corrupt, not found, not a known format or correct extension.")
+		return False
+
+	def is_archive(extension):
+		"""Simple function to check if the extension is an archive. easier to make it a function than to copy/paste code"""
+		return ( extension == ".zip" or extension == ".7z" )
 
 	# Make sure the extension of the rom file can be easily read
 	extension = rom.suffix.lower()
+	
 
-	# First we check duckstation. Our core does not support .pbp files
-	if (extension == ".pbp" and core == "duckstation" ):
-		show_sanity_warn("The Duckstation core does not support .pbp files.\n\nPlease try another core for this rom!")
+	if (platform == "psx" ):
+		# First we check duckstation. Our core does not support .pbp files
+		if (extension == ".pbp" and core == "duckstation" ):
+			show_sanity_warn("The Duckstation core does not support .pbp files.\n\nPlease try another core for this rom!")
 
-	# Geolith is its own beast, but I need to double check if a zip file it opens has a .neo file inside...
-	if (core == "geolith" and (extension == ".zip" or extension == ".7z") ):
-		if( search_archive(args['rom'], ".neo") ):
-			show_sanity_warn("You tried to load an archive file with the Geolith core but we could not find a .neo file inside it.\n\nPlease double check your archive contains a .neo file to proceed")
+	if (platform == "neogeo" ):
+		
+		# Let's first check if we're dealing with a .neo file in any way...
+		is_neo_file = False
+		if (is_archive(extension)):
+			if( search_archive(args['rom'], ".neo") ):
+				is_neo_file = True
 
-	# I also need to make sure that if we're opening a .neo file, that we do it with Geolith!
-	if (extension == ".neo" and core != "geolith" ):
-		show_sanity_warn("Only the Geolith core supports .neo files.\n\nPlease try another core for this rom!")
+		elif ( extension == ".neo" ):
+			is_neo_file = True
+	
+		if (core != "geolith" and is_neo_file) :
+			show_sanity_warn("You have attempted to load either a .neo file or an archive with a .neo file.\n\nThe only core compatible with it is the Geolith core\n\nPlease set your core settings accordingly...")
 
-	# Dosbox core does not support the .dosz format, make sure our users know...
-	if (extension == ".dosz" and core == "dosbox_core"):
-		show_sanity_warn("The core \"Dosbox Core\" does not support .dosz files.\n\nPlease use \"Dosbox Pure\" for this format!")
+		if (core == "geolith" and not is_neo_file) :
+			show_sanity_warn("The Geolith core only supports .neo files, or archives with .neo files inside!\n\nPlease change your configuration and use another core to run this ROM!")
+
+	if (platform == "pc"):
+		# Dosbox core does not support the .dosz format, make sure our users know...
+		if (extension == ".dosz" and core == "dosbox_core"):
+			show_sanity_warn("The core \"Dosbox Core\" does not support .dosz files.\n\nPlease use \"Dosbox Pure\" for this format!")
 
 	
