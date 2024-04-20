@@ -59,21 +59,27 @@ fi
 
 ## 2023-01-15
 ## Add all JoyAxis[]Deadzone values to ECWolf due to default deadzones being too low.
-if [ -e "${ECWOLFCONF}" ]; then
-        for i in {0..6}
-        do
-                sed -i "s/JoyAxis${i}Deadzone = .*/JoyAxis${i}Deadzone = 4;/g" ${ECWOLFCONF}
-        done
+if [[ "$LAST_UPDATE_VERSION" -le "20230115" ]]; then
+	if [ -e "${ECWOLFCONF}" ]; then
+	        for i in {0..6}
+	        do
+	                sed -i "s/JoyAxis${i}Deadzone = .*/JoyAxis${i}Deadzone = 4;/g" ${ECWOLFCONF}
+	        done
+	fi
 fi
+
 
 ## 2023-01-09
 ## check for audio/video filter dir in retroarch.cfg
-if ! grep -q "^audio_filter_dir" ${RACONF}; then
-  echo 'audio_filter_dir = "/usr/share/retroarch/filters/audio"' >> ${RACONF}
+if [[ "$LAST_UPDATE_VERSION" -le "20230109" ]]; then
+	if ! grep -q "^audio_filter_dir" ${RACONF}; then
+	  echo 'audio_filter_dir = "/usr/share/retroarch/filters/audio"' >> ${RACONF}
+	fi
+	if ! grep -q "^video_filter_dir" ${RACONF}; then
+	  echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
+	fi
 fi
-if ! grep -q "^video_filter_dir" ${RACONF}; then
-  echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
-fi
+
 
 ## 2024-03-28
 ## global screensaver default values
