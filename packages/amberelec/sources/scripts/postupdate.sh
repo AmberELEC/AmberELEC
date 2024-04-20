@@ -47,11 +47,11 @@ if [[ "$LAST_UPDATE_VERSION" -le "20240419" ]]; then
 	
 	if ! grep -q "speech_mute=" <<< "$scummvm_section"; then
 		# For ease of use, this simply injects the parameter after [scummvm]
-		sed -i '/^\[scummvm\]/a speech_mute=false' "$file"
+		sed -i '/^\[scummvm\]/a speech_mute=false' "$SCUMMVM_CONF"
 	fi
 	
 	if ! grep -q "subtitles=" <<< "$scummvm_section"; then
-		sed -i '/^\[scummvm\]/a subtitles=true' "$file"
+		sed -i '/^\[scummvm\]/a subtitles=true' "$SCUMMVM_CONF"
 	fi
 	
 fi
