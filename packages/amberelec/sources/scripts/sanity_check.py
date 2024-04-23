@@ -53,7 +53,11 @@ def sanity_check(rom, platform, emulator, core, args):
 
 	# Make sure the extension of the rom file can be easily read
 	extension = rom.suffix.lower()
-	
+
+	# MacOS creates files that start with ._ for metadata, imagine something like ._Final Fantasy VII.pbp and it'll be ~3KB
+	# You can't run it since it's not a real rom and only metadata, so show the user what's going on 
+	if (rom.name.startswith("._")):
+		show_sanity_warn("You are attempting to load a MacOS metadata file as a ROM, this won't work.\n\nPlease run our \"Run Remove ._ Files\" tool in EmulationStation to clear out these files!")
 
 	if (platform == "psx" ):
 		# First we check duckstation. Our core does not support .pbp files
@@ -65,9 +69,7 @@ def sanity_check(rom, platform, emulator, core, args):
 		# Let's first check if we're dealing with a .neo file in any way...
 		is_neo_file = False
 		if (is_archive(extension)):
-			if( search_archive(args['rom'], ".neo") ):
-				is_neo_file = True
-
+			is_neo_file = search_archive(args['rom'], ".neo")
 		elif ( extension == ".neo" ):
 			is_neo_file = True
 	
