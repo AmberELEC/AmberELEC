@@ -237,12 +237,14 @@ if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi
 
-# hide display fix
+# hide tools entries
 if [ "$EE_DEVICE" == "RG351MP" ]; then
   if [ "$DEVICE" == "PowKiddy Magicx XU10" ]  || [ "$DEVICE" == "SZDiiER D007 Plus" ]; then
     xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "true" /storage/.config/distribution/modules/gamelist.xml
+    xmlstarlet ed -L -u "//game[path='./joyleds_conf.sh']/hidden" -v "false" /storage/.config/distribution/modules/gamelist.xml
   else
     xmlstarlet ed -L -u "//game[path='./display_fix.sh']/hidden" -v "false" /storage/.config/distribution/modules/gamelist.xml
+    xmlstarlet ed -L -u "//game[path='./joyleds_conf.sh']/hidden" -v "true" /storage/.config/distribution/modules/gamelist.xml
   fi
 fi
 

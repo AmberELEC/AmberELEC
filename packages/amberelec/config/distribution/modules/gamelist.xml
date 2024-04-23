@@ -210,4 +210,18 @@
 		<image>./downloaded_images/timing.png</image>
 	</game>
 
+	<game>
+		<path>./joyleds_conf.sh</path>
+		<hidden>false</hidden>
+		<name>Joystick LEDs</name>
+		<desc>Control LEDs from your joysticks.</desc>
+		<developer>AmberELEC</developer>
+		<publisher>AmberELEC</publisher>
+		<rating>1.0</rating>
+		<releasedate>2024</releasedate>
+		<genre>Script</genre>
+		<thumbnail>./downloaded_images/leds-thumb.png</thumbnail>
+		<image>./downloaded_images/leds.png</image>
+	</game>
+
 </gameList>
