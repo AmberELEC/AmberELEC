@@ -54,6 +54,15 @@ if ! grep -q "^video_filter_dir" ${RACONF}; then
   echo 'video_filter_dir = "/usr/share/retroarch/filters/video"' >> ${RACONF}
 fi
 
+## 2024-04-27
+## RetroArch analog deadzone (fixes non-working analog on GO-Super Gamepad)
+if [[ "$LAST_UPDATE_VERSION" -le "20240427" ]]; then
+  sed -i "/input_analog_deadzone =/d" ${RACONF}
+  echo 'input_analog_deadzone = "0.900000"' >> ${RACONF}
+  sed -i "/input_analog_sensitivity =/d" ${RACONF}
+  echo 'input_analog_sensitivity = "0.700000"' >> ${RACONF}
+fi
+
 ## 2024-03-28
 ## global screensaver default values
 if [[ "$LAST_UPDATE_VERSION" -le "20240328" ]]; then
@@ -208,12 +217,12 @@ sed -i '/int name="audio.display_titles_time" value="120"/d;
        ' /storage/.config/emulationstation/es_settings.cfg
 
 # set savestate_thumbnail_enable = true (required for savestate menu in ES)
-sed -i "/savestate_thumbnail_enable =/d" ${RACONF}
-echo "savestate_thumbnail_enable = "true"" >> ${RACONF}
+sed -i '/savestate_thumbnail_enable =/d' ${RACONF}
+echo 'savestate_thumbnail_enable = "true"' >> ${RACONF}
 
 # set network_cmd_enable = true (required for save and restore)
-sed -i "/network_cmd_enable =/d" ${RACONF}
-echo "network_cmd_enable = "true"" >> ${RACONF}
+sed -i '/network_cmd_enable =/d' ${RACONF}
+echo 'network_cmd_enable = "true"' >> ${RACONF}
 
 # Sync ES locale only after update
 if [ ! -d "/storage/.config/emulationstation/locale" ]
