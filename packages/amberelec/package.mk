@@ -21,7 +21,7 @@ else
                   sameboy sameduck scummvm smsplus-gx snes9x snes9x2002 snes9x2005_plus snes9x2010 stella stella-2014 swanstation tgbdual theodore tic-80 uae4arm uw8 uzem vbam vba-next vecx vice vircon32 \
                   virtualjaguar wasm4 xmil"
 
-  LIBRETRO_CORES_EXTRA="beetle_snes bsnes bsnes2014_balanced bsnes2014_performance bsnes_mercury_balanced bsnes_mercury_performance geolith mesen mesen-s"
+  LIBRETRO_CORES_EXTRA="beetle_snes bsnes bsnes2014_balanced bsnes2014_performance bsnes_mercury_balanced bsnes_mercury_performance geolith mesen mesen-s melonds melondsds"
 
   PKG_EMUS="${LIBRETRO_CORES}"
 
