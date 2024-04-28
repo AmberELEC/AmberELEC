@@ -34,7 +34,7 @@ then
   ROM="${1##*/}"
 
   #Get settings for pixel perfect
-  get_setting "pixel_perfect"
+  get_setting "integer_scaling_(pixel_perfect)"
   if [ "${EES}" != "auto" ] || [ "${EES}" != "false" ]; then
 	OPTIONS="${OPTIONS} -pixel_perfect 1"
   fi
