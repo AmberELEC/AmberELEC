@@ -2,7 +2,7 @@
 # Copyright (C) 2024 AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="es-theme-art-book-next"
-PKG_VERSION="980dd312ff2ec6b85ae8b092a622d479685d7fb4"
+PKG_VERSION="0dd30f59058bfeae4c3ee1cc7f3b2eb4ac7494bf"
 PKG_ARCH="any"
 PKG_LICENSE="CUSTOM"
 PKG_SITE="https://github.com/AmberELEC/art-book-next-amberelec"
