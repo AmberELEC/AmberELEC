@@ -41,6 +41,11 @@ echo "last update version: ${LAST_UPDATE_VERSION}"
 if [[ "$LAST_UPDATE_VERSION" -le "20240419" ]]; then
 	
 	for file in "${SCUMMVM_CONF_FILES[@]}"; do
+		# Check if the file even exists, skip it if it does not
+		if [ ! -f "$file" ]; then
+			continue
+		fi
+
 		# Apparently scummvm can add multiples of the same settings, we
 		# wanna make sure we stick to the [scummvm] section of the ini file
 		# So we grab it and only check in there
