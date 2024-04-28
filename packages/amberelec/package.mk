@@ -53,6 +53,9 @@ makeinstall_target() {
       if [[ $CORE == "geolith" ]]; then
         sed -i "s|<extension>.neo .7z .zip</extension>|<extension>.7z .zip</extension>|g" ${INSTALL}/usr/config/emulationstation/es_systems.cfg
       fi
+      if [[ $CORE == "melonds" ]]; then
+        sed -i -e '/<emulator name/{:a;N;/<\/emulator>/!ba;/melonds/d}' ${INSTALL}/usr/config/emulationstation/es_systems.cfg
+      fi
       sed -i "s|<core>$CORE</core>||g" ${INSTALL}/usr/config/emulationstation/es_systems.cfg
       sed -i '/^[[:space:]]*$/d' ${INSTALL}/usr/config/emulationstation/es_systems.cfg
     done
