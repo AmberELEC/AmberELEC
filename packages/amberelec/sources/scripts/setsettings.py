@@ -197,7 +197,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         'colecovision', 'dreamcast', 'famicom', 'fbn', 'fds', 'gamegear', 'gb', 'gba', 'gbah',
         'gbc', 'gbch', 'gbh', 'genesis', 'genh', 'ggh', 'intellivision', 'mastersystem',
         'megacd', 'megadrive', 'megadrive-japan', 'megaduck', 'msx', 'msx2', 'n64',
-        'naomi', 'neogeo', 'neogeocd', 'nes', 'nesh', 'ngp', 'ngpc', 'odyssey2',
+        'naomi', 'nds', 'neogeo', 'neogeocd', 'nes', 'nesh', 'ngp', 'ngpc', 'odyssey2',
         'pcengine', 'pcenginecd', 'pcfx', 'pokemini', 'psp', 'psx', 'saturn', 'sega32x',
         'segacd', 'sfc', 'sg-1000', 'snes', 'snesh', 'snesmsu1', 'supergrafx',
         'supervision', 'tg16', 'tg16cd', 'vectrex', 'virtualboy', 'wonderswan',
