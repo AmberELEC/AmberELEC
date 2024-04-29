@@ -9,7 +9,7 @@ assignees: ''
 
 ## This is only for actual bugs that can be reproduced on multiple systems!  ##
  For Support visit us in our Discord
-https://discord.com/invite/R9Er7hkRMe
+https://discord.gg/W9F9xxRseu
 
 ### Getting started
 Before opening an issue, check the release notes of the version that you are using and recent commits.  Be sure to fill out the template completely, accurately, and with as much detail as possible.  Issues without sufficient detail will be rejected and closed.
