@@ -41,6 +41,7 @@ then
     OPTIONS="-run -pixel_perfect 1"
   fi
 else
+  jslisten set "killall pico8_64" &
   OPTIONS="-splore"
 fi
 
