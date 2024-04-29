@@ -11,7 +11,7 @@ AmberELEC (formerly know as 351ELEC) is a fork of [EmuELEC](https://github.com/E
 
 We have a [Website](https://amberelec.org) with [installation instructions](https://amberelec.org/installation#overview) and a lot of information on how to [get started using AmberELEC](https://amberelec.org/guides/getting-to-know-amberelec).
 
-Visit us on our Discord! https://discord.com/invite/R9Er7hkRMe
+Visit us on our Discord! https://discord.gg/W9F9xxRseu
 
 ## Supported Devices
 <!--devices-->
