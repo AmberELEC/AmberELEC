@@ -7,6 +7,7 @@
 . /etc/profile
 
 CONF="/storage/.config/distribution/configs/distribution.conf"
+ROM="${1##*/}"
 PLATFORM="pico-8"
 
 function get_setting() {
@@ -30,13 +31,14 @@ function get_setting() {
 
 if [ ! -z "${1}" ] && [ -s "${1}" ]
 then
-  OPTIONS="-run"
-  ROM="${1##*/}"
+  CART="${1}"
 
   #Get settings for pixel perfect
   get_setting "integer_scaling_(pixel_perfect)"
-  if [ "${EES}" != "auto" ] || [ "${EES}" != "false" ]; then
-	OPTIONS="${OPTIONS} -pixel_perfect 1"
+  if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+    OPTIONS="-run"
+  else
+    OPTIONS="-run -pixel_perfect 1"
   fi
 else
   OPTIONS="-splore"
@@ -48,7 +50,7 @@ cp -f /usr/config/SDL-GameControllerDB/gamecontrollerdb.txt /storage/roms/pico-8
 if [ ! -f "/storage/roms/pico-8/pico8_64" ] || [ ! -f "/storage/roms/pico-8/pico8.dat" ]; then
   text_viewer -e -w -t "Missing Pico-8 binaries!" -m "Extract your purchased pico8_64 and pico8.dat and place them in the pico-8 directory on your games partition."
 else
-  /storage/roms/pico-8/pico8_64 -home -root_path /storage/roms/pico-8 -joystick 0 ${OPTIONS} "${ROM}"
+  /storage/roms/pico-8/pico8_64 -home -root_path /storage/roms/pico-8 -joystick 0 ${OPTIONS} "${CART}"
 fi
 
 ret_error=$?
