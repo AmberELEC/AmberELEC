@@ -233,7 +233,7 @@ fi
 aplay /usr/bin/emustation-config-init.wav
 
 if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]]; then
-  # For some reason the audio is being reseted to 100 at boot, so we reaply the saved settings here
+  # For some reason the audio is being reseted to 100 at boot, so we reapply the saved settings here
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi
 
