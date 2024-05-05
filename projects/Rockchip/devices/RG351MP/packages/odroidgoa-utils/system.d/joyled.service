@@ -1,0 +1,14 @@
+[Unit]
+Description=Joystick LEDs service
+After=adckeys.service
+Before=amberelec.target
+
+[Service]
+Environment=HOME=/storage
+EnvironmentFile=/etc/profile
+ExecStart=/usr/bin/joyled.sh
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
