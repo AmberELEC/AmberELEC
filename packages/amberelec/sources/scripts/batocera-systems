@@ -6,6 +6,8 @@ from hashlib import md5
 from os.path import isfile
 from collections import OrderedDict
 import sys
+import zipfile
+import xml.etree.ElementTree as elementTree
 
 systems = {
 
@@ -393,11 +395,11 @@ systems = {
 
 
     # NEC
-    "pcengine":   {"name": "PC Engine", "biosFiles":  [{"md5": "38179df8f4ac870017db21ebcbf53114;ff1a674273fe3540ccef576376407d1d", "file": "bios/syscard3.pce"}]},
+    "pcengine":   {"name": "PC Engine", "biosFiles":  [{"md5": "38179df8f4ac870017db21ebcbf53114", "file": "bios/syscard3.pce"}]},
 
     "pcfx":       {"name": "PC-FX", "biosFiles":      [{"md5": "08e36edbea28a017f79f8d4f7ff9b6d7", "file": "bios/pcfx.rom"}]},
 
-    "supergrafx": {"name": "Supergrafx", "biosFiles": [{"md5": "38179df8f4ac870017db21ebcbf53114;ff1a674273fe3540ccef576376407d1d", "file": "bios/syscard3.pce"},
+    "supergrafx": {"name": "Supergrafx", "biosFiles": [{"md5": "38179df8f4ac870017db21ebcbf53114", "file": "bios/syscard3.pce"},
                                                        {"md5": "", "file": "bios/syscard2.pce"},
                                                        {"md5": "", "file": "bios/syscard1.pce"},
                                                        {"md5": "", "file": "bios/gexpress.pce"}]},
@@ -433,7 +435,7 @@ systems = {
                                                                                   {"md5": "df692a80a5b1bc90728bc3dfc76cd948", "file": "bios/bios7.bin"},
                                                                                   {"md5": "a392174eb3e572fed6447e956bde4b25", "file": "bios/bios9.bin"}]},
 
-    "satellaview": {"name": "Satellaview", "biosFiles":                          [{"md5": "fed4d8242cfbed61343d53d48432aced;96cf17bf589fcbfa6f8de2dc84f19fa2", "file": "bios/BS-X.bin"}]},
+    "satellaview": {"name": "Satellaview", "biosFiles":                          [{"md5": "96cf17bf589fcbfa6f8de2dc84f19fa2", "file": "bios/BS-X.bin"}]},
 
     "sufami":      {"name": "Sufami", "biosFiles":                               [{"md5": "d3a44ba7d42a74d3ac58cb9c14c6a5ca", "file": "bios/STBIOS.bin"}]},
 
@@ -512,14 +514,11 @@ systems = {
                                                         {"md5": "", "file": "bios/256s-2.rom"},
                                                         {"md5": "", "file": "bios/256s-3.rom"}]},
 
-
-    }
-
+}
 
 class BiosStatus:
     MISSING = "MISSING"
     UNTESTED = "UNTESTED"
-
 
 def md5sum(filename, blocksize=65536):
     hash = md5()
@@ -528,86 +527,161 @@ def md5sum(filename, blocksize=65536):
             hash.update(block)
     return hash.hexdigest()
 
+def checkInsideZip(container, fileName, md5sum):
+    # Check inside Zip files
+    try:
+        archive = zipfile.ZipFile(container)
+    except Exception as e:
+        print ('Error opening file {}: {}.'.format(container, e))
+        return False
+    blocksize = 1024**2  #1M chunks
+    for fname in archive.namelist():
+        # Only check if the file matches
+        if fname.casefold() == fileName.casefold():
+            if md5sum == "":
+                return True
+            archive = zipfile.ZipFile(container)
+            blocksize = 1024**2  #1M chunks
+            for fname in archive.namelist():
+                if fname == fileName:
+                    entry = archive.open(fname)
+                    zippedHash = md5()
+                    while True:
+                        block = entry.read(blocksize)
+                        if not block:
+                            break
+                        zippedHash.update(block)
+                    if zippedHash.hexdigest() == md5sum:
+                        return True
+                    else:
+                        print('Mismatch inside .zip: File {} in {} has MD5 {} (expected {})'.format(fileName, container, zippedHash.hexdigest(), md5sum))
+                        return False
+    # File was not found in zip.
+    print('Missing file inside .zip: File {} not found in {}'.format(fileName, container))
+    return False
 
-def checkBios(systems, prefix):
+def coreExists(checkMe, emuDict):
+    if "emulator" in checkMe:
+        if checkMe["emulator"] in emuDict.keys():
+            hasEmu = True
+        else:
+            hasEmu = False
+    else:
+        # Emulator not defined, check BIOS
+        hasEmu = True
+    if hasEmu and "core" in checkMe:
+        if checkMe["core"] in emuDict[checkMe["emulator"]]:
+            hasCore = True
+        else:
+            hasCore = False
+    else:
+        # Either core is undefined or emulator is not installed.
+        # Set core presence to emulator presence, we'll assume there's only one core or it applies to all.
+        hasCore = hasEmu
+    return hasCore
+
+def checkBios(systems, prefix, filterROMs):
+    systemDict = {}
+    emuDict = {}
+    systemName = ""
+    configFile = "/usr/config/emulationstation/es_systems.cfg"
+    configData = elementTree.parse(configFile)
+    configRoot = configData.getroot()
+
+    if filterROMs:
+        # Load systems & emulators from es_systems.cfg
+        # System full name stored but not currently used, may be useful for the readme function.
+        for activeSystem in configRoot:
+            for systemTag in activeSystem:
+                if systemTag.tag == "fullname":
+                    systemName = systemTag.text
+                elif systemTag.tag == "name":
+                    systemDict[systemTag.text] = systemName
+                    systemName = ""
+                elif systemTag.tag == "emulators":
+                    for emulatorTag in systemTag:
+                        emulatorName = emulatorTag.attrib['name']
+                        for coreTag in emulatorTag[0]:
+                            if emulatorName in emuDict.keys():
+                                if not coreTag.text in emuDict[emulatorName]:
+                                    emuDict[emulatorName].append(coreTag.text)
+                            else:
+                                emuDict[emulatorName] = [coreTag.text]
+    else:
+        for system in systems.keys():
+            systemDict[system] = systems[system]['name']
+
     missingBios = {}
     for system in systems.keys():
-        for file in systems[system]["biosFiles"]:
-            x = 0
-            filepath = prefix + "/" + file["file"]
-            if ";" in file["md5"]:
-                filehashes = file["md5"].split(";")
-            else:
-                filehashes = (file["md5"],)
-            if isfile(filepath):
-                md5 = md5sum(filepath)
-                if md5 not in filehashes and file["md5"] != "":
-                    if system not in missingBios:
-                        missingBios[system] = {}
-                    for filehash in filehashes:
-                        x += 1
-                        missingBios[system][file["file"]+"(hash%s)" % x] = {"status": BiosStatus.UNTESTED, "md5": filehash, "file": file["file"]}
-            else:
-                if system not in missingBios:
-                    missingBios[system] = {}
-                for filehash in filehashes:
-                    x += 1
-                    missingBios[system][file["file"]+"(hash%s)" % x] = {"status": BiosStatus.MISSING, "md5": filehash, "file": file["file"]}
+        if system in systemDict.keys():
+            if coreExists(systems[system], emuDict) or filterROMs == False:
+                for file in systems[system]["biosFiles"]:
+                    if coreExists(file, emuDict) or filterROMs == False:
+                        filepath = prefix + "/" + file["file"]
+                        if isfile(filepath):
+                            if not "zippedFile" in file:
+                                md5 = md5sum(filepath)
+                                if md5 != file["md5"] and file["md5"] != "":
+                                    if system not in missingBios:
+                                        missingBios[system] = {}
+                                    missingBios[system][file["file"]] = { "status": BiosStatus.UNTESTED, "md5": file["md5"], "file": file["file"] }
+                            else:
+                                if 'altmd5' in file:
+                                    if not checkInsideZip(filepath, file["zippedFile"], file["md5"], file["altmd5"]):
+                                        if system not in missingBios:
+                                            missingBios[system] = {}
+                                        missingBios[system][file["file"]] = { "status": BiosStatus.UNTESTED, "md5": file["md5"], "file": file["file"] }
+                                else:
+                                    if not checkInsideZip(filepath, file["zippedFile"], file["md5"]):
+                                        if system not in missingBios:
+                                            missingBios[system] = {}
+                                        missingBios[system][file["file"]] = { "status": BiosStatus.UNTESTED, "md5": file["md5"], "file": file["file"] }
+                        else:
+                            if system not in missingBios:
+                                missingBios[system] = {}
+                            missingBios[system][file["file"]] = { "status": BiosStatus.MISSING, "md5": file["md5"], "file": file["file"] }
     return missingBios
 
-
-# Returns True if missing, False if nothing is missing
 def displayMissingBios(systems, missingBios):
     sortedMissingBios = OrderedDict(sorted(missingBios.items()))
     if sortedMissingBios:
         for system in sortedMissingBios:
-            print("> {}".format(systems[system]["name"]))
+            print("> {}".format(system))
             for file in sortedMissingBios[system].keys():
                 md5str = "-"
                 if sortedMissingBios[system][file]["md5"] != "":
                     md5str = sortedMissingBios[system][file]["md5"]
                 print("{} {} {}".format(sortedMissingBios[system][file]["status"], md5str, sortedMissingBios[system][file]["file"]))
-        return True
     else:
         print("No missing bios")
-        return False
-
 
 def createReadme(systems):
     for system in sorted(systems):
         print("{}:".format(systems[system]["name"]))
         for bios in systems[system]["biosFiles"]:
-           if ";" in bios["md5"]:
-                filehashes = bios["md5"].split(";")
-           else:
-               filehashes = (bios["md5"],)
-           for filehash in filehashes:
-               print("{:32} {}".format(filehash, "/storage/roms/" + bios["file"]))
+            print("{} {}".format(bios["md5"], bios["file"]))
         print("")
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        prefix = "/storage/roms/"
-        if displayMissingBios(systems, checkBios(systems, prefix)):
-            exit(2)
+        prefix = "/storage/roms"
+        displayMissingBios(systems, checkBios(systems, prefix, True))
+    elif sys.argv[1] == "--noFilter":
+        prefix = "/storage/roms"
+        displayMissingBios(systems, checkBios(systems, prefix, False))
     elif sys.argv[1] == "--createReadme":
         createReadme(systems)
-    elif len(sys.argv) == 3 and sys.argv[1] in ["--filter", "--strictfilter"]:
-        prefix = "/storage/roms/"
+    elif len(sys.argv) == 3 and sys.argv[1] == "--filter":
+        prefix = "/storage/roms"
         lowered_name = sys.argv[2].lower()
 
         filtered_systems = {}
         for system in systems:
-            lowered_system = system.lower()
-            lowered_system_name = systems[system]['name'].lower()
-
-            if ((lowered_name == lowered_system or lowered_name == lowered_system_name) or
-               (sys.argv[1] == "--filter" and (lowered_name in lowered_system or lowered_name in lowered_system_name))):
+            if lowered_name in system.lower() or lowered_name in systems[system]['name'].lower():
                 filtered_systems[system] = systems[system]
 
         if len(filtered_systems) == 0:
             print("No system named {} found".format(sys.argv[2]))
             exit(1)
 
-        if displayMissingBios(filtered_systems, checkBios(filtered_systems, prefix)):
-            exit(2)
+        displayMissingBios(filtered_systems, checkBios(filtered_systems, prefix, True))

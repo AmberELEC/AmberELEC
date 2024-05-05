@@ -209,23 +209,13 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             ra_append_dict['cheevos_username'] = config.get_setting("retroachievements.username")
             ra_append_dict['cheevos_password'] = config.get_setting("retroachievements.password")
             ra_append_dict['cheevos_hardcore_mode_enable'] = config.get_bool_string("retroachievements.hardcore")
-            value = config.get_setting("retroachievements.leaderboards")
-            if value == "enabled":
-                ra_append_dict['cheevos_leaderboards_enable'] = "true"
-            elif value == "trackers only":
-                ra_append_dict['cheevos_leaderboards_enable'] = "trackers"
-            elif value == "notifications only":
-                ra_append_dict['cheevos_leaderboards_enable'] = "notifications"
-            else:
-                ra_append_dict['cheevos_leaderboards_enable'] = "false"
+            ra_append_dict['cheevos_leaderboards_enable'] = config.get_bool_string("retroachievements.leaderboards")
             ra_append_dict['cheevos_verbose_enable'] = config.get_bool_string("retroachievements.verbose")
             ra_append_dict['cheevos_auto_screenshot'] = config.get_bool_string("retroachievements.screenshot")
             ra_append_dict['cheevos_richpresence_enable'] = config.get_bool_string("retroachievements.richpresence")
-            ra_append_dict['cheevos_challenge_indicators'] = config.get_bool_string("retroachievements.challengeindicators")
-            ra_append_dict['cheevos_test_unofficial'] = config.get_bool_string("retroachievements.testunofficial")
-            ra_append_dict['cheevos_badges_enable'] = config.get_bool_string("retroachievements.badges")
-            ra_append_dict['cheevos_start_active'] = config.get_bool_string("retroachievements.active")
-            ra_append_dict['cheevos_unlock_sound_enable'] = config.get_bool_string("retroachievements.soundenable")
+            ra_append_dict['cheevos_challenge_indicators'] = config.get_bool_string("retroachievements.challenge_indicators")
+            ra_append_dict['cheevos_start_active'] = config.get_bool_string("retroachievements.encore")
+            ra_append_dict['cheevos_unlock_sound_enable'] = config.get_bool_string("retroachievements.sound")
         else:
             ra_append_dict['cheevos_enable'] = "false"
             ra_append_dict['cheevos_username'] = ""
@@ -233,13 +223,11 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             ra_append_dict['cheevos_hardcore_mode_enable'] = "false"
             ra_append_dict['cheevos_leaderboards_enable'] = "false"
             ra_append_dict['cheevos_verbose_enable'] = "false"
-            ra_append_dict['cheevos_test_unofficial'] = "false"
-            ra_append_dict['cheevos_unlock_sound_enable'] = "false"
             ra_append_dict['cheevos_auto_screenshot'] = "false"
-            ra_append_dict['cheevos_badges_enable'] = "false"
-            ra_append_dict['cheevos_start_active'] = "false"
             ra_append_dict['cheevos_richpresence_enable'] = "false"
             ra_append_dict['cheevos_challenge_indicators'] = "false"
+            ra_append_dict['cheevos_start_active'] = "false"
+            ra_append_dict['cheevos_unlock_sound_enable'] = "false"
 
     # Netplay
     if config.get_setting("netplay"):
@@ -353,25 +341,29 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
 
     # Saves
     # Incrementalsavestates
-    if config.get_setting('incrementalsavestates'):
+    logger.log(f'incr: ' + config.get_setting('incrementalsavestates'))
+    if config.get_setting('incrementalsavestates')=="":
+        ra_append_dict['savestate_auto_index'] = "true"
+        ra_append_dict['savestate_max_keep'] = "0"
+    elif config.get_setting('incrementalsavestates') == "2" and autosave == "0":
         ra_append_dict['savestate_auto_index'] = "true"
         ra_append_dict['savestate_max_keep'] = "0"
     else:
         ra_append_dict['savestate_auto_index'] = "false"
         ra_append_dict['savestate_max_keep'] = "50"
-    # Autosave
-    if config.get_setting('autosave'):
-        ra_append_dict['savestate_auto_save'] = "true"
-        ra_append_dict['savestate_auto_load'] = "true"
-    else:
-        ra_append_dict['savestate_auto_save'] = "false"
-        ra_append_dict['savestate_auto_load'] = "false"
     # Snapshots
     ra_append_dict['savestate_directory'] = f'{snapshots}/{platform}'
+    logger.log(f'slot: {snapshot}')
     if snapshot:
+        logger.log(f'autosave: {autosave}')
         if autosave == "1":
-            ra_append_dict['savestate_auto_load'] = "true"
-            ra_append_dict['savestate_auto_save'] = "true"
+            # Autosave
+            if config.get_setting('autosave'):
+                ra_append_dict['savestate_auto_save'] = "true"
+                ra_append_dict['savestate_auto_load'] = "true"
+            else:
+                ra_append_dict['savestate_auto_save'] = "false"
+                ra_append_dict['savestate_auto_load'] = "false"
         else:
             ra_append_dict['savestate_auto_load'] = "false"
             ra_append_dict['savestate_auto_save'] = "false"
@@ -533,7 +525,6 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'gbh': (80, 24, 480, 432),             # x3
             'gbc': (80, 24, 480, 432),             # x3
             'gbch': (80, 24, 480, 432),            # x3
-            'gba': (80, 80, 480, 320),             # x2
             'supervision': (80, 0, 480, 480),      # x3
             'gamegear': (80, 24, 480, 432),        # x3
             'ggh': (80, 24, 480, 432),             # x3
@@ -542,6 +533,8 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'ngpc': (80, 12, 480, 456),            # x3
             'wonderswan': (96, 96, 448, 288),      # x2
             'wonderswancolor': (96, 96, 448, 288), # x2
+            'gba': (80, 80, 480, 320),             # x2
+            'gbah': (80, 80, 480, 320),            # x2
             'arduboy': (64, 112, 512, 256),        # x4
         }
     elif device_name == "RG552":
@@ -551,7 +544,6 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'gbh': (320, 0, 1280, 1152),             # x8
             'gbc': (320, 0, 1280, 1152),             # x8
             'gbch': (320, 0, 1280, 1152),            # x8
-            'gba': (360, 176, 1200, 800),            # x5
             'supervision': (400, 16, 1120, 1120),    # x7
             'gamegear': (320, 0, 1280, 1152),        # x8
             'ggh': (320, 0, 1280, 1152),             # x8
@@ -560,6 +552,8 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'ngpc': (400, 44, 1120, 1064),           # x7
             'wonderswan': (512, 288, 896, 576),      # x4
             'wonderswancolor': (512, 288, 896, 576), # x4
+            'gba': (360, 176, 1200, 800),            # x5
+            'gbah': (360, 176, 1200, 800),           # x5
             'arduboy': (448, 320, 1024,512),         # x8
             'gameking': (432, 224, 1056, 704),       # x22
         }

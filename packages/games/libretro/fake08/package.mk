@@ -12,6 +12,10 @@ PKG_TOOLCHAIN="make"
 
 PKG_MAKE_OPTS_TARGET="-C platform/libretro"
 
+pre_make_target() {
+  sed -i 's|togglePauseMenu();|//togglePauseMenu();|g' ${PKG_BUILD}/source/vm.cpp
+}
+
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
   cp ${PKG_BUILD}/platform/libretro/fake08_libretro.so ${INSTALL}/usr/lib/libretro/

@@ -3,7 +3,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="openbor"
-PKG_VERSION="b8303cce992a0db93c3a465df3c943942fe322f8"
+PKG_VERSION="09e281bb36502e23b7616638484e0bb82b3ba0cc"
 PKG_SITE="https://github.com/DCurrent/openbor"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 libogg libvorbisidec libvpx libpng"
@@ -15,10 +15,14 @@ pre_configure_target() {
   PKG_MAKE_OPTS_TARGET="BUILD_LINUX_${ARCH}=1 NO_STRIP=1 -C ${PKG_BUILD}/engine SDKPATH=${SYSROOT_PREFIX} PREFIX=${TARGET_NAME}"
   cd ${PKG_BUILD}
   sed -i 's/\-O[23]//' engine/Makefile
+  sed -i 's|source/gfxlib/2xSaI.o||' engine/Makefile
+  sed -i 's|source/gfxlib/hq2x.o||' engine/Makefile
+  sed -i 's|savedata.fullscreen = 0;|savedata.fullscreen = 1;|g' engine/openbor.c
 }
 
 pre_make_target() {
   cd ${PKG_BUILD}/engine
+  chmod +x version.sh
   ./version.sh
 }
 
