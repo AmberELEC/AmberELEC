@@ -37,6 +37,13 @@ fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
 ## 2024-05-06
+## Set RetroArch menu widget scale
+if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
+  sed -i "/menu_widget_scale_factor =/d" ${RACONF}
+  echo 'menu_widget_scale_factor = "1.250000"' >> ${RACONF}
+fi
+
+## 2024-05-06
 ## Set new defaults after ES upgrade
 if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
   rm -rf "/storage/.config/emulationstation/scripts/"
