@@ -111,11 +111,14 @@ global.retroarch.menu_driver=ozone
 ## Set ratio for all emulators (auto,4/3,16/9,16/10,custom)
 global.ratio=core
 
-## Set autosave/load savestate for all emulators (0,1,2,3)
-global.autosave=2
+## Set autosave/load savestate for all emulators (0,1)
+global.autosave=1
 
-## Set incremental savestates for all emulators (0,1)
-global.incrementalsavestates=0
+## Set incremental savestates for all emulators
+global.incrementalsavestates=2
+
+## Set savestate manager to showup always
+global.savestates=1
 
 ## Set runahead frames for all emulators (0,1,2,3,4,5,6)
 global.runahead=0
@@ -210,9 +213,14 @@ gamemaster.integerscale=1
 gb.bezel.overlay.grid=1
 gb.bezel.overlay.shadow=1
 gb.integerscale=1
-gba.bezel=NONE
+gba.bezel.overlay.grid=1
+gba.bezel.overlay.shadow=1
 gba.ratio=3/2
+gba.shaderset=handheld/lcd3x.glslp
+gbah.bezel.overlay.grid=1
+gbah.bezel.overlay.shadow=1
 gbah.ratio=3/2
+gbah.shaderset=handheld/lcd3x.glslp
 gbc.bezel.overlay.grid=1
 gbc.bezel.overlay.shadow=1
 gbc.integerscale=1
@@ -229,6 +237,9 @@ genh.rgascale=1
 ggh.bezel.overlay.grid=1
 ggh.bezel.overlay.shadow=1
 ggh.integerscale=1
+arduboy.bezel.overlay.grid=1
+arduboy.bezel.overlay.shadow=1
+arduboy.integerscale=1
 intellivision.ratio=4/3
 intellivision.rgascale=1
 j2me.maxperf=1
