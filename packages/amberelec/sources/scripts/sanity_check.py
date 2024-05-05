@@ -15,7 +15,7 @@ def list_archive(path: Path) -> 'List[str]':
 
 def show_sanity_warn( message, force_quit=True ) :
 	"""This function's sole purpose is to tell the user what we're doing and then ask for consent. If none is given, we stop here."""
-	run([". /etc/profile ; text_viewer", "-m", message, "-t", "AmberELEC Sanity Checker", "-w", "-e"], stdout=PIPE, stderr=PIPE, universal_newlines=True, check=False)
+	run(f'. /etc/profile && text_viewer -m "%s" -t "AmberELEC Sanity Checker" -w -e' % message, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True, check=False)
 	if ( True == force_quit ) :
 		exit()
 
