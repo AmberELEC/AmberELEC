@@ -7,7 +7,7 @@ index 8b0f9a65..6e8198e0 100644
  endif
  
 +ifdef BUILD_LINUX_aarch64
-+TARGET 	        = $(VERSION_NAME).elf
++TARGET	         = $(VERSION_NAME).elf
 +TARGET_FINAL    = $(VERSION_NAME)
 +TARGET_PLATFORM = LINUX
 +BUILD_LINUX     = 1

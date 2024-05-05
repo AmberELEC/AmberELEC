@@ -3,7 +3,7 @@ Description=Hotkey and save last game played in RetroArch
 
 [Service]
 ExecStart=/usr/bin/lastgame.sh
-Restart=on-failure
+Restart=always
 Type=idle
 
 [Install]

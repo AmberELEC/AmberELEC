@@ -114,11 +114,14 @@ global.integerscale=1
 ## Set ratio for all emulators (auto,4/3,16/9,16/10,custom)
 global.ratio=4/3
 
-## Set autosave/load savestate for all emulators (0,1,2,3)
-global.autosave=2
+## Set autosave/load savestate for all emulators (0,1)
+global.autosave=1
 
-## Set incremental savestates for all emulators (0,1)
-global.incrementalsavestates=0
+## Set incremental savestates for all emulators
+global.incrementalsavestates=2
+
+## Set savestate manager to showup always
+global.savestates=1
 
 ## Set runahead frames for all emulators (0,1,2,3,4,5,6)
 global.runahead=0
@@ -181,9 +184,12 @@ gamegear.ratio=squarepixel
 gb.bezel.overlay.grid=1
 gb.bezel.overlay.shadow=1
 gb.ratio=squarepixel
-gba.bezel=NONE
+gba.bezel.overlay.grid=1
+gba.bezel.overlay.shadow=1
 gba.ratio=squarepixel
 gba.shaderset=handheld/lcd3x.glslp
+gbah.bezel.overlay.grid=1
+gbah.bezel.overlay.shadow=1
 gbah.ratio=squarepixel
 gbah.shaderset=handheld/lcd3x.glslp
 gbc.bezel.overlay.grid=1
@@ -198,6 +204,12 @@ gbh.ratio=squarepixel
 ggh.bezel.overlay.grid=1
 ggh.bezel.overlay.shadow=1
 ggh.ratio=squarepixel
+arduboy.bezel.overlay.grid=1
+arduboy.bezel.overlay.shadow=1
+arduboy.ratio=squarepixel
+gameking.bezel.overlay.grid=1
+gameking.bezel.overlay.shadow=1
+gameking.ratio=squarepixel
 j2me.maxperf=1
 megadrive.ratio=squarepixel
 mame.maxperf=1

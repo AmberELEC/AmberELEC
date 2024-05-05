@@ -36,6 +36,100 @@ if [[ -f "${LAST_UPDATE_FILE}" ]]; then
 fi
 echo "last update version: ${LAST_UPDATE_VERSION}"
 
+## 2024-05-06
+## Set RetroArch menu widget scale
+if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
+  sed -i "/menu_widget_scale_factor =/d" ${RACONF}
+  echo 'menu_widget_scale_factor = "1.250000"' >> ${RACONF}
+fi
+
+## 2024-05-06
+## Set new defaults after ES upgrade
+if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
+  rm -rf "/storage/.config/emulationstation/scripts/"
+
+  sed -i '
+        # delete lines
+        /global.autosave=/d;
+	/global.savestates=/d;
+	/global.incrementalsavestates=/d;
+	/global.bezel=/d;
+	/gba.bezel=/d;
+	/gamegear.bezel.overlay.grid=/d;
+	/gamegear.bezel.overlay.shadow=/d;
+	/gb.bezel.overlay.grid=/d;
+	/gb.bezel.overlay.shadow=/d;
+	/gbh.bezel.overlay.grid=/d;
+	/gbh.bezel.overlay.shadow=/d;
+	/gbc.bezel.overlay.grid=/d;
+	/gbc.bezel.overlay.shadow=/d;
+	/gbch.bezel.overlay.grid=/d;
+	/gbch.bezel.overlay.shadow=/d;
+	/ggh.bezel.overlay.grid=/d;
+	/ggh.bezel.overlay.shadow=/d;
+	/gamegear.bezel.overlay.grid=/d;
+	/gamegear.bezel.overlay.shadow=/d;
+	/gamegearh.bezel.overlay.grid=/d;
+	/gamegearh.bezel.overlay.shadow=/d;
+	/supervision.bezel.overlay.grid=/d;
+	/supervision.bezel.overlay.shadow=/d;
+	/wonderswan.bezel.overlay.grid=/d;
+	/wonderswan.bezel.overlay.shadow=/d;
+	/wonderswancolor.bezel.overlay.grid=/d;
+	/wonderswancolor.bezel.overlay.shadow=/d;
+	/gba.bezel.overlay.grid=/d;
+	/gba.bezel.overlay.shadow=/d;
+	/gbah.bezel.overlay.grid=/d;
+	/gbah.bezel.overlay.shadow=/d;
+	/arduboy.bezel.overlay.grid=/d;
+	/arduboy.bezel.overlay.shadow=/d;
+	/gameking.bezel.overlay.grid=/d;
+	/gameking.bezel.overlay.shadow=/d;
+  ' ${CONF}
+
+  echo "global.autosave=1" >> ${CONF}
+  echo "global.savestates=1" >> ${CONF}
+  echo "global.incrementalsavestates=2" >> ${CONF}
+  echo "global.bezel=default" >> ${CONF}
+  echo "gamegear.bezel.overlay.grid=1" >> ${CONF}
+  echo "gamegear.bezel.overlay.shadow=1" >> ${CONF}
+  echo "gb.bezel.overlay.grid=1" >> ${CONF}
+  echo "gb.bezel.overlay.shadow=1" >> ${CONF}
+  echo "gbh.bezel.overlay.grid=1" >> ${CONF}
+  echo "gbh.bezel.overlay.shadow=1" >> ${CONF}
+  echo "gbc.bezel.overlay.grid=1" >> ${CONF}
+  echo "gbc.bezel.overlay.shadow=1" >> ${CONF}
+  echo "gbch.bezel.overlay.grid=1" >> ${CONF}
+  echo "gbch.bezel.overlay.shadow=1" >> ${CONF}
+  echo "ggh.bezel.overlay.grid=1" >> ${CONF}
+  echo "ggh.bezel.overlay.shadow=1" >> ${CONF}
+  echo "gamegear.bezel.overlay.grid=1" >> ${CONF}
+  echo "gamegear.bezel.overlay.shadow=1" >> ${CONF}
+  echo "gamegearh.bezel.overlay.grid=1" >> ${CONF}
+  echo "gamegearh.bezel.overlay.shadow=1" >> ${CONF}
+  echo "supervision.bezel.overlay.grid=1" >> ${CONF}
+  echo "supervision.bezel.overlay.shadow=1" >> ${CONF}
+  echo "wonderswan.bezel.overlay.grid=1" >> ${CONF}
+  echo "wonderswan.bezel.overlay.shadow=1" >> ${CONF}
+  echo "wonderswancolor.bezel.overlay.grid=1" >> ${CONF}
+  echo "wonderswancolor.bezel.overlay.shadow=1" >> ${CONF}
+
+  if [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG351MP" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
+    echo "gba.bezel.overlay.grid=1" >> ${CONF}
+    echo "gba.bezel.overlay.shadow=1" >> ${CONF}
+    echo "gbah.bezel.overlay.grid=1" >> ${CONF}
+    echo "gbah.bezel.overlay.shadow=1" >> ${CONF}
+    echo "arduboy.bezel.overlay.grid=1" >> ${CONF}
+    echo "arduboy.bezel.overlay.shadow=1" >> ${CONF}
+  fi
+
+  if [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
+    echo "gameking.bezel.overlay.grid=1" >> ${CONF}
+    echo "gameking.bezel.overlay.shadow=1" >> ${CONF}
+  fi
+
+fi
+
 ## 2024-04-29
 ## Set subtitles and speech to be both ON as default in ScummVM
 if [[ "$LAST_UPDATE_VERSION" -le "20240429" ]]; then
@@ -231,7 +325,6 @@ fi
 ## Additionally, DAC is the name of playback device instead of Playback, so update that in es_settings.
 if [[ "$DEVICE" == "RG552" && "$LAST_UPDATE_VERSION" -le "20220211" ]]; then
   cp /usr/config/asound.conf /storage/.config/asound.conf
-  sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' /storage/.config/emulationstation/es_settings.cfg
 fi
 
 # 2021-11-03 (konsumschaf)
