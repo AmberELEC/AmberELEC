@@ -106,7 +106,7 @@ power_proc () {
                 fi
             elif ! pgrep -f "sh -c --" >/dev/null; then
                 $(/usr/bin/show_splash.sh)
-		$(/usr/bin/sync)
+                $(/usr/bin/sync)
                 $(systemctl poweroff)
             fi
         fi
@@ -117,8 +117,14 @@ hotkey_proc () {
     evtest "$hotkey_ev" | while read line; do
         case $line in
             ($hotkey_press)
+                pid_file="/var/run/power_proc.pid"
+                if [ -f "$pid_file" ]; then
+                    kill "$(cat "$pid_file")" >/dev/null 2>&1
+                    rm "$pid_file"
+                fi
                 power_proc &
                 POWER_PID=$!
+                echo $POWER_PID > "$pid_file"
             ;;
                 ($hotkey_release)
                 kill $((POWER_PID+1))

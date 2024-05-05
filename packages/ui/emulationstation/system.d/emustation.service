@@ -4,10 +4,10 @@ ConditionPathExists=/var/lock/start.games
 
 [Service]
 Environment=HOME=/storage
-EnvironmentFile=/storage/.config/emulationstation/scripts/es_env.sh
+EnvironmentFile=/usr/bin/es_env.sh
 ExecStartPre=/usr/bin/emustation-config
 ExecStartPre=/usr/bin/killes.sh
-ExecStart=/usr/bin/emulationstation --log-path /tmp/logs
+ExecStart=/usr/bin/emulationstation
 KillMode=process
 TimeoutStopSec=3
 Restart=always
