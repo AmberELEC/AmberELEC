@@ -27,6 +27,7 @@ PKG_CONFIGURE_OPTS_TARGET="${PKG_ALSA_DEBUG} \
 
 post_configure_target() {
   sed -i 's/.*PKGLIBDIR.*/#define PKGLIBDIR ""/' include/config.h
+  sed -i 's|SNDERR("%s occurred"|//SNDERR("%s occurred"|' ${PKG_BUILD}/src/pcm/pcm.c
 }
 
 post_makeinstall_target() {

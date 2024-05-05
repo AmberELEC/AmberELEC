@@ -16,7 +16,9 @@ performance
 
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
+mkdir -p /storage/.config/emulationstation/logs/
 ln -s /storage/roms/gamedata/retroarch/logs/ /tmp/logs/retroarch
+ln -s /storage/.config/emulationstation/logs/ /tmp/logs/emulationstation
 
 # Apply some kernel tuning
 sysctl vm.swappiness=1
