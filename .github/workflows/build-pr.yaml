@@ -29,7 +29,8 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
-    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
     steps:
       - uses: actions/checkout@v4
         name: Checkout (pull request)
@@ -43,7 +44,8 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
-    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
     steps:
       - name: Get date for artifacts
         id: date
@@ -67,7 +69,8 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
-    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
     steps:
       - name: Get date for artifacts
         id: date
@@ -91,7 +94,8 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
-    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
     steps:
       - name: Get date for artifacts
         id: date
@@ -115,7 +119,8 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
-    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
     steps:
       - name: Get date for artifacts
         id: date
@@ -139,7 +144,8 @@ jobs:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts - skip 'closed' PR's
-    if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
     steps:
       - name: Get short SHA for artifacts
         id: sha

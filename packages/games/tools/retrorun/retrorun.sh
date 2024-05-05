@@ -427,7 +427,11 @@ EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 echo 'confguring inputs on device:'$EE_DEVICE
 if [[ "$EE_DEVICE" == "RG351V" ]] || [[ "$EE_DEVICE" == "RG351MP" ]]
 then
-	ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+	if [[ $(cat /sys/firmware/devicetree/base/model | tr '\0' '\n') == *"D007 Plus"* ]]; then
+		ln -s /dev/input/event5 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+	else
+		ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+	fi
 else
 	ln -s /dev/input/event3 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 fi

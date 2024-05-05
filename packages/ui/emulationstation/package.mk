@@ -4,7 +4,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="3e70bd7af772897889604cf67158574779e8732b"
+PKG_VERSION="3110916356926dbd1321426db4e0bf88151811e3"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/AmberELEC/emulationstation"
@@ -12,7 +12,7 @@ PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc zstd"
 PKG_NEED_UNPACK="busybox"
 PKG_LONGDESC="Emulationstation emulator frontend"
-PKG_BUILD_FLAGS="-gold"
+PKG_BUILD_FLAGS="+lto-parallel"
 
 ##########################################################################################################
 # Uncomment the following lines (PKG_SITE, PKG_URL) to build locally from a git clone
@@ -29,7 +29,7 @@ PKG_BUILD_FLAGS="-gold"
 # themes for Emulationstation
 PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} es-theme-art-book-next"
 
-PKG_CMAKE_OPTS_TARGET=" -DENABLE_EMUELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0 -D${DEVICE}=1"
+PKG_CMAKE_OPTS_TARGET=" -DENABLE_AMBERELEC=1 -DGLES2=1 -DDISABLE_KODI=1 -DENABLE_FILEMANAGER=0 -DCEC=0 -D${DEVICE}=1"
 
 pre_configure_target() {
   if [ -f ~/developer_settings.conf ]; then
@@ -60,16 +60,6 @@ makeinstall_target() {
 	ln -sf /usr/config/emulationstation/es_systems.cfg ${INSTALL}/etc/emulationstation/es_systems.cfg
 
         cp -rf ${PKG_DIR}/config/*.cfg ${INSTALL}/usr/config/emulationstation
-        cp -rf ${PKG_DIR}/config/scripts ${INSTALL}/usr/config/emulationstation
-
-        # Set the correct playback device for the RG552 - this makes the 'volume overlay' work
-        if [ "${DEVICE}" = "RG552" ]; then
-		sed -i 's/name="AudioDevice" value="Playback"/name="AudioDevice" value="DAC"/g' ${INSTALL}/usr/config/emulationstation/es_settings.cfg
-	fi
-
-	chmod +x ${INSTALL}/usr/config/emulationstation/scripts/*
-	chmod +x ${INSTALL}/usr/config/emulationstation/scripts/configscripts/*
-	find ${INSTALL}/usr/config/emulationstation/scripts/ -type f -exec chmod o+x {} \;
 }
 
 post_install() {

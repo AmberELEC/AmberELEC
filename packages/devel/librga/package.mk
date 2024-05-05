@@ -10,3 +10,9 @@ PKG_SITE="https://github.com/AmberELEC/linux-rga"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_LONGDESC="The RGA driver userspace "
 PKG_TOOLCHAIN="auto"
+
+pre_make_target() {
+  sed -i 's|fprintf(stderr, "librga:RGA_GET_VERSION|//fprintf(stderr, "librga:RGA_GET_VERSION|' ${PKG_BUILD}/normal/NormalRga.cpp
+  sed -i 's|fprintf(stderr, "ctx=|//fprintf(stderr, "ctx=|' ${PKG_BUILD}/normal/NormalRga.cpp
+  sed -i 's|printf("Rga built version|//printf("Rga built version|' ${PKG_BUILD}/RockchipRga.cpp
+}
