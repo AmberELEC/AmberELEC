@@ -42,12 +42,18 @@ if [[ "$LAST_UPDATE_VERSION" -le "20240507" ]]; then
   mkdir -p /storage/.config/emulationstation/scripts
   cp /usr/bin/es_env.sh /storage/.config/emulationstation/scripts
 fi
-  
+
 ## 2024-05-06
 ## Set RetroArch menu widget scale
 if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
   sed -i "/menu_widget_scale_factor =/d" ${RACONF}
   echo 'menu_widget_scale_factor = "1.250000"' >> ${RACONF}
+fi
+
+## 2024-05-10
+## Delete global.powersave_es setting
+if [[ "$LAST_UPDATE_VERSION" -le "20240510" ]]; then
+  sed -i "/global.powersave_es=/d" ${CONF}
 fi
 
 ## 2024-05-06
