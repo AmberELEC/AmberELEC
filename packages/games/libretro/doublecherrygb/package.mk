@@ -2,8 +2,8 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="doublecherrygb"
-PKG_VERSION="31c85623b3a4ef50171bdb11ab2240cc6b5837b0"
-PKG_SHA256="11356e1dd46d7b651a92e5b372bf5a02e81f3871398c998d17b9b15a762ae3f0"
+PKG_VERSION="2f242676cf96b1054c1adfc94373302ed5ddc45a"
+PKG_SHA256="443058dc2ec797aea7d77458ea21091ef38cada7d7c6377239659b91385bfd24"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/TimOelrichs/doublecherryGB-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="tgbdual"
-PKG_VERSION="a6f3018e6a23030afc1873845ee54d4b2d8ec9d3"
-PKG_SHA256="5df48cf8a8091cb68b5f21e90671cf27afaf2d0fcf35431093cccff0e4e95c7f"
+PKG_VERSION="fba7d50b136abef0692b434091a9d735f7ad28b2"
+PKG_SHA256="5592d50cf26904bcc6336b6994a107a77bce315e995e491827feacde12f96de6"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/tgbdual-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

@@ -2,7 +2,7 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="melondsds"
-PKG_VERSION="a29c41595acee67e41c347fadb736f9ea2ab4b05"
+PKG_VERSION="6e48901ab9e54ff048a1bf6ea322372d7ae3ed29"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/JesseTG/melonds-ds"
 PKG_URL="${PKG_SITE}.git"
