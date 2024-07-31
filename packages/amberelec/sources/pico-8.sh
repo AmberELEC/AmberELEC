@@ -8,7 +8,7 @@
 
 CONF="/storage/.config/distribution/configs/distribution.conf"
 ROM="${1##*/}"
-PLATFORM="pico-8"
+PLATFORM="pico8"
 
 function get_setting() {
         #We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
