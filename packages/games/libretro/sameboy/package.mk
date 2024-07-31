@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="sameboy"
-PKG_VERSION="381e9d44f0aeb68ceb4964fffff35e0a0439a825"
+PKG_VERSION="17f326589a643fbde3096c3764f13654895a5697"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/LIJI32/SameBoy"
 PKG_URL="${PKG_SITE}.git"

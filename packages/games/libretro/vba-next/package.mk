@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="vba-next"
-PKG_VERSION="ee92625d2f1666496be4f5662508a2430e846b00"
-PKG_SHA256="d4f88481a367a9cf84e2212d9d76aa75a1ecf6f6f6a1bb3a6b8609df78f5f8a3"
+PKG_VERSION="2c726f25da75a5600ef5791ce904befe06c4dddd"
+PKG_SHA256="d60c8624cf2bca726d09be927e35af3d8e2b78a6be32bbe8ef8b7bc8a955702e"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/vba-next"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
