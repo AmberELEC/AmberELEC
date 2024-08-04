@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="tic-80"
-PKG_VERSION="3d0780ef6e2d37a7f18477f71e331e8c624ceab9"
+PKG_VERSION="048df32657dac9a271aedbe1c3f89f6df7a43df5"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/nesbox/TIC-80"
 PKG_URL="${PKG_SITE}.git"
@@ -27,6 +27,7 @@ PKG_CMAKE_OPTS_TARGET="-DBUILD_PLAYER=OFF \
                        -DBUILD_DEMO_CARTS=OFF \
                        -DBUILD_TOUCH_INPUT=OFF \
                        -DBUILD_LIBRETRO=ON \
+                       -DBUILD_STATIC=ON \
                        -DCMAKE_BUILD_TYPE=Release \
                        -DCMAKE_RULE_MESSAGES=OFF \
                        -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON"
