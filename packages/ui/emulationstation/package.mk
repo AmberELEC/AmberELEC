@@ -4,7 +4,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="b4af8d65a59d8a250d3baadbaabc936aa496b735"
+PKG_VERSION="31a4ac4be33abbdf7886c8f66a1d652e570fe8c3"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/navy1978/emulationstation"
