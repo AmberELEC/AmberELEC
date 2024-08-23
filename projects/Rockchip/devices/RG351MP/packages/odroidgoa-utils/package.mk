@@ -21,6 +21,7 @@ makeinstall_target() {
 	cp volume_sense.sh ${INSTALL}/usr/bin
 	cp adckeys.sh ${INSTALL}/usr/bin
 	cp adckeys.py ${INSTALL}/usr/bin
+	cp joyled.sh ${INSTALL}/usr/bin
 	chmod 0755 ${INSTALL}/usr/bin/*
 }
 
@@ -29,4 +30,5 @@ post_install() {
 	enable_service headphones.service
 	enable_service battery.service
 	enable_service adckeys.service
+	enable_service joyled.service
 }

@@ -93,4 +93,4 @@ set_es_setting "favorite_color" "4" "firmware.favorite_color"
 # End of EmulationStation settings implementation
 
 
-LD_PRELOAD=/usr/lib/libSDL2-2.0.so.0.2800.5 ./drastic "${1}" >> $EXECLOG 2>&1
+./drastic "${1}" >> $EXECLOG 2>&1

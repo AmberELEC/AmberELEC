@@ -341,7 +341,6 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
 
     # Saves
     # Incrementalsavestates
-    logger.log(f'incr: ' + config.get_setting('incrementalsavestates'))
     if config.get_setting('incrementalsavestates')=="":
         ra_append_dict['savestate_auto_index'] = "true"
         ra_append_dict['savestate_max_keep'] = "0"
@@ -353,9 +352,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
         ra_append_dict['savestate_max_keep'] = "50"
     # Snapshots
     ra_append_dict['savestate_directory'] = f'{snapshots}/{platform}'
-    logger.log(f'slot: {snapshot}')
     if snapshot:
-        logger.log(f'autosave: {autosave}')
         if autosave == "1":
             # Autosave
             if config.get_setting('autosave'):

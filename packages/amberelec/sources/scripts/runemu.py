@@ -12,6 +12,7 @@ from time import perf_counter
 from typing import TYPE_CHECKING, Optional
 
 from setsettings import set_settings
+from sanity_check import sanity_check, sanity_log, list_archive
 
 if TYPE_CHECKING:
 	#These except Union are deprecated in 3.9 and should be replaced with collections.abc / builtin list type, but we have 3.8 for now
@@ -92,14 +93,6 @@ def clear_screen():
 		log('Clearing screen')
 	with open('/dev/console', 'wb') as console:
 		subprocess.run('clear', stdout=console, check=True)
-
-def list_archive(path: Path) -> 'List[str]':
-	#7z path needs to be given explicitly, otherwise it won't find 7z.so
-	sevenzip_proc = subprocess.run(['/usr/bin/7z', 'l', '-slt', path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
-	if sevenzip_proc.returncode != 0:
-		raise OSError(sevenzip_proc.stderr.strip())
-	#Ignore the first Path = line which is the archive itself
-	return [line[len('Path = '):] for line in sevenzip_proc.stdout.splitlines() if line.startswith('Path = ')][1:]
 
 def extract_archive(path: Path) -> Path:
 	#Assume there is only one file, otherwise things get weird
@@ -369,7 +362,9 @@ class EmuRunner():
 			log(f'Executing game: {self.rom}')
 			log(f'Executing {command}')
 		with log_path.open('at', encoding='utf-8') as log_file:
-			subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, check=True, text=True, env=self.environment)
+			result = subprocess.run(command, stdout=log_file, stderr=subprocess.STDOUT, text=True, env=self.environment)
+			if (result.returncode != 0):
+				sanity_log()
 
 	def cleanup_temp_files(self) -> None:
 		for temp_file in self.temp_files:
@@ -416,7 +411,10 @@ def main():
 
 	ss_command = ['/usr/bin/screensaver.sh', platform, rom]
 
-	screensaver = subprocess.Popen(ss_command, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+	try:
+		screensaver = subprocess.Popen(ss_command, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+	except:
+		pass
 
 	shader_arg = runner.set_settings()
 	command = runner.get_command(shader_arg)
@@ -424,6 +422,7 @@ def main():
 		log(f'Took {perf_counter() - time_started} seconds to start up')
 	clear_screen()
 
+	sanity_check(rom, platform, emulator, core, args)
 	try:
 		runner.run(command)
 		exit_code = 0
@@ -443,7 +442,10 @@ def main():
 			check_bios(platform_to_check, core, emulator, rom, log_path)
 	finally:
 		runner.cleanup_temp_files()
-		os.killpg(os.getpgid(screensaver.pid), signal.SIGTERM)
+		try:
+			os.killpg(os.getpgid(screensaver.pid), signal.SIGTERM)
+		except:
+			pass
 		cleanup_and_quit(exit_code)
 
 

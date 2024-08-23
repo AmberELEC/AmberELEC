@@ -6,7 +6,7 @@ Before=amberelec.target
 
 [Service]
 Environment=HOME=/storage
-EnvironmentFile=/storage/.config/emulationstation/scripts/es_env.sh
+EnvironmentFile=/etc/profile
 ExecStart=/usr/bin/oga_events.py
 Type=simple
 

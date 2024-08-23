@@ -160,7 +160,7 @@ cd "${config}"
 if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
 	mkdir "/storage/roms/laserdisc/${name}.daphne"
 	mount -obind ${dir} "/storage/roms/laserdisc/${name}.daphne"
-	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -set_overlay oversize -retropath $TIPHAT $params
+	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -retropath $TIPHAT $params
 	sleep 0.1
 	umount "/storage/roms/laserdisc/${name}.daphne"
 	rmdir "/storage/roms/laserdisc/${name}.daphne"

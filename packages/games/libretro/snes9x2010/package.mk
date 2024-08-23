@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="snes9x2010"
-PKG_VERSION="d8b10c4cd7606ed58f9c562864c986bc960faaaf"
-PKG_SHA256="7faf4243226cfed3a2926ef78d7db74905947ecda8770575a81b1792b2345302"
+PKG_VERSION="84b963a2f627bbc41198e357430619f34bbebc8a"
+PKG_SHA256="e0acc956328bc58467403392fc90cca7992456c2fdec8b35bbb37887cd948f0e"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/snes9x2010"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

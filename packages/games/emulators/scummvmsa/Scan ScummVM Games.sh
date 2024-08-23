@@ -73,7 +73,7 @@ def show_results_screen():
 
 	# loop through the game list
 	if game_name_list:
-		
+
 		# If we have one or more, append it to the output message
 		for game in game_name_list:
 			output = output+"- "+game+"\n"
@@ -117,7 +117,7 @@ def read_scummvm_game_line(line):
 		# Some users like having multiple versions of the same game.
 		# Let's grab the version info before cleaning the string
 		match = re.search(r'\((.*?)\)', name)
-		version = match.group(1) if match else None
+		version = match.group(1) if match else ''
 		if version:
 			version = re.sub(r'[\/?\\><:*|]', '_', version)
 
@@ -159,11 +159,11 @@ def make_scummvm_file(gameinfo):
 
 	# Close the file
 	f.close()
-	
+
 
 def scan_scummvm_games():
 	"""This calls ScummVM to scan through all games. It then grabs the output and sends it off to read_scummvm_game_line to split all values"""
-	
+
 	# Grab the list by using scummvm's internal scanning routine
 	# --detect doesn't change any configs so we can use this
 	# without any changes to the OS/config
@@ -171,8 +171,8 @@ def scan_scummvm_games():
 
 	# Split the output so we can better manage it.
 	gamelist = result.stdout.splitlines()
-	
-	# Output for this list usually starts after a lot of "---" 
+
+	# Output for this list usually starts after a lot of "---"
 	# So we only start adding games when we are AFTER this list item
 	start = False
 
