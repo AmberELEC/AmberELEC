@@ -56,5 +56,5 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/config/retroarch/savefiles/mame/hi
   cp -f plugins/hiscore/hiscore.dat ${INSTALL}/usr/config/retroarch/savefiles/mame/hi
   mkdir -p ${INSTALL}/usr/config/mame
-  cp -r ${PKG_BUILD}/config/*.cfg ${INSTALL}/usr/config/mame
+  cp ${PKG_DIR}/config/*.cfg ${INSTALL}/usr/config/mame
 }
