@@ -244,10 +244,10 @@ class EmuRunner():
 
 				if mame_system and '/' in mame_system:
 					mame_system, mame_slot = mame_system.split('/', 1)
-				cmd = f'{mame_system} -{mame_slot} "{rom_path}" -rp /roms/bios/mame;/roms/bios;/roms/arcade;/roms/mame'
+				cmd = f'{mame_system} -{mame_slot} "{rom_path}" -rp /roms/bios/mame;/roms/bios;/roms/arcade;/roms/mame -cfg_directory /roms/gamedata/mame/cfg'
 			else:
 				#Allow launching the system's inbuilt game
-				cmd = f'{mame_system} -rp /roms/bios/mame;/roms/bios;/roms/arcade;/roms/mame'
+				cmd = f'{mame_system} -rp /roms/bios/mame;/roms/bios;/roms/arcade;/roms/mame -cfg_directory /roms/gamedata/mame/cfg'
 			if log_level != 'minimal':
 				log(f'MAME command: {cmd}')
 			cmd_path.write_text(cmd, encoding='utf-8')
