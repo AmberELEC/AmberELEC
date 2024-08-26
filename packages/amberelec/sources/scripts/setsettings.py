@@ -499,6 +499,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     #   wonderswan/wonderswancolor = 224×144
     #   arduboy = 128x64
     #   GameKing = 48x32
+    #   GameKing 3 = 160x160
     if device_name == "RG351P":
         system_viewport = {
             'standard': (1, 1, 479, 319),          # max-1
