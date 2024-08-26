@@ -500,6 +500,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     #   arduboy = 128x64
     #   GameKing = 48x32
     #   GameKing 3 = 160x160
+    #   Game.com = 200x160
     if device_name == "RG351P":
         system_viewport = {
             'standard': (1, 1, 479, 319),          # max-1
