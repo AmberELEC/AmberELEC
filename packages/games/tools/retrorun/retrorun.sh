@@ -378,7 +378,7 @@ fi
 
 # Pcsx-rearmed
 # PSX Disable SMC Checks (Will cause crashes when loading, and lead to memory card failure)
-get_setting "psx_gteregsunneeded"
+get_setting "psx_nosmccheck"
 echo "pcsx_rearmed_nosmccheck:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	if [[ "${CORE}" == "pcsx_rearmed" ]]; then
