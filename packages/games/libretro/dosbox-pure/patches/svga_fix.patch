@@ -1,8 +1,8 @@
 diff --git a/core_options.h b/core_options.h
-index 828710f..fe54931 100644
+index 8b22b63..0df3e0d 100644
 --- a/core_options.h
 +++ b/core_options.h
-@@ -415,21 +415,6 @@ static retro_core_option_v2_definition option_defs[] =
+@@ -451,21 +451,6 @@ static retro_core_option_v2_definition option_defs[] =
  		},
  		"svga_s3"
  	},
@@ -25,25 +25,17 @@ index 828710f..fe54931 100644
  		"dosbox_pure_voodoo",
  		"3dfx Voodoo Emulation", NULL,
 diff --git a/dosbox_pure_libretro.cpp b/dosbox_pure_libretro.cpp
-index b0f3fa9..23a3685 100644
+index ab60c56..d4750cf 100644
 --- a/dosbox_pure_libretro.cpp
 +++ b/dosbox_pure_libretro.cpp
-@@ -2351,7 +2351,6 @@ static bool check_variables(bool is_startup = false)
- 		case 'p': dbmachine = "pcjr"; break;
- 	}
- 	visibility_changed |= Variables::DosBoxSet("dosbox", "machine", dbmachine, false, true);
--	Variables::DosBoxSet("dosbox", "vmemsize", retro_get_variable("dosbox_pure_svgamem", "2"), false, true);
- 	if (dbp_reboot_machine)
- 		control->GetSection("dosbox")->GetProp("machine")->OnChangedByConfigProgram(), dbp_reboot_machine = 0;
- 
-@@ -2431,7 +2430,6 @@ static bool check_variables(bool is_startup = false)
+@@ -2847,7 +2847,6 @@ static bool check_variables(bool is_startup = false)
  		Variables::DosBoxSet("serial", "serial1", ((retro_get_variable("dosbox_pure_modem", "null")[0] == 'n') ? "libretro null" : "libretro"));
  
  	retro_set_visibility("dosbox_pure_svga", machine_is_svga);
 -	retro_set_visibility("dosbox_pure_svgamem", machine_is_svga);
  	retro_set_visibility("dosbox_pure_voodoo", machine_is_svga);
  	retro_set_visibility("dosbox_pure_voodoo_perf", machine_is_svga);
- 	if (machine_is_svga)
+ 	retro_set_visibility("dosbox_pure_voodoo_gamma", machine_is_svga);
 diff --git a/src/hardware/vga_s3.cpp b/src/hardware/vga_s3.cpp
 index 06eafe7..ac82258 100644
 --- a/src/hardware/vga_s3.cpp
