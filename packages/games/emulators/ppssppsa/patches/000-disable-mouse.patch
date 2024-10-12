@@ -1,8 +1,8 @@
 diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
-index b7e0572d9..8779a2262 100644
+index c172f439c1..cb86dec255 100644
 --- a/SDL/SDLMain.cpp
 +++ b/SDL/SDLMain.cpp
-@@ -823,12 +823,6 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
+@@ -782,12 +782,6 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
  				g_Config.iWindowWidth = new_width;
  				g_Config.iWindowHeight = new_height;
  			}
@@ -15,21 +15,21 @@ index b7e0572d9..8779a2262 100644
  			break;
  		}
  
-@@ -1482,7 +1476,7 @@ int main(int argc, char *argv[]) {
- 			if (g_QuitRequested || g_RestartRequested)
+@@ -1500,7 +1494,7 @@ int main(int argc, char *argv[]) {
  				break;
  
+ 			UpdateTextFocus();
 -			UpdateSDLCursor();
 +			//UpdateSDLCursor();
  
- 			inputTracker.MouseControl();
  			inputTracker.MouseCaptureControl();
-@@ -1512,7 +1506,7 @@ int main(int argc, char *argv[]) {
- 		if (g_QuitRequested || g_RestartRequested)
+ 
+@@ -1527,7 +1521,7 @@ int main(int argc, char *argv[]) {
  			break;
  
+ 		UpdateTextFocus();
 -		UpdateSDLCursor();
 +		//UpdateSDLCursor();
  
- 		inputTracker.MouseControl();
  		inputTracker.MouseCaptureControl();
+ 

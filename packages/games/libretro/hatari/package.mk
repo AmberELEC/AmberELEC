@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="hatari"
-PKG_VERSION="c10a21dbe99277b06ccf7de10eceb74f5d57e921"
-PKG_SHA256="6663c38c83590cddc67e49bdb3dff51a858e9caff412243eb96ed241b2878a13"
+PKG_VERSION="a4dcfcb91912066fa2a8cb613205b71dc19cab7a"
+PKG_SHA256="2fe7fd7f331dea89ceb97a03869fb408da8a50c46e7bf84734bb1563237fc7b2"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/hatari"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

@@ -3,7 +3,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="dosbox-pure"
-PKG_VERSION="97291cf0facd3da47aefee56da4b8fbc3c05cb18"
+PKG_VERSION="5d6ab819db61eaef63c9eba25ae16bc22566ab9b"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/schellingb/dosbox-pure"
 PKG_URL="${PKG_SITE}.git"

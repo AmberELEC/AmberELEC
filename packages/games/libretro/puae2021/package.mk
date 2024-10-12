@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="puae2021"
-PKG_VERSION="f37e0d53b815d4c323deaf35c492776b87c52b5e"
-PKG_SHA256="28bcba58d6537d2b446651e7dea5cba9a472ab3bcc4163e2333f59fcd5225fbc"
+PKG_VERSION="1a534dee02a093c7812d23632f2bfd6779d1c934"
+PKG_SHA256="ea9024da319595dddc0af5d2f6cc3b158d8af81c7b05655cdce65d63466d5f11"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-uae"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

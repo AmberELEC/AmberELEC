@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="gpsp"
-PKG_VERSION="f2837be54aa680c4ec0c7be0669cdcd65582cc66"
-PKG_SHA256="0705a7462ea522b4cd146c6b1789bb239a7c8c62502b40244813a9210093ed2e"
+PKG_VERSION="1d3ca75b6b1607036b0f4cb1b16d854bf8d60444"
+PKG_SHA256="956cfae9cb553bb00201e1bcc1b1a686a07e36f157a1307f1d84d34f9d9f8150"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/gpsp"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

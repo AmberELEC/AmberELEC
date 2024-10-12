@@ -3,8 +3,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="237887e817e23800997466632deb8ba63797a4cb"
-PKG_SHA256="b890fc9a1d0a6b773a9eb3e79a69abcefd9f889378499fbfa5977059c940ae90"
+PKG_VERSION="778896e3888aaaea996e81f0e641cb35b4b74694"
+PKG_SHA256="7b91a6488a242e8922de1d394f5a17818e3962477318259b5f26056cb0b3248d"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/pcsx_rearmed"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

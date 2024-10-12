@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-core"
-PKG_VERSION="b0d68c20f49b8f833afa21450e0e8874c87c13c4"
-PKG_SHA256="4173762419a3136f0ff3d3dee01e0ee242fa1c3b4cc1c0f7d25a6e2b1e46f1ba"
+PKG_VERSION="312a5befde1b44db8beee7868b929c23d896991f"
+PKG_SHA256="32807fa76aac50793dc6f2b07f8d6b34d5fe25703f43ffbe6e6f1d0eb2d90441"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-core"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-core/archive/${PKG_VERSION}.tar.gz"
