@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="race"
-PKG_VERSION="f65011e6639ccbbbb44b6ffa63ca50c070475df4"
-PKG_SHA256="c2fb9ffdcdd6475c19d094d80fd174617dee9f0a91fbea6bd1601f59bca56858"
+PKG_VERSION="171950ea64c96ead503340ed60fa7ba18f56325c"
+PKG_SHA256="410d575dbe959f762dd64b82154638e3486ce0c9d18bc4176c556b3d1fef9304"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/RACE"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

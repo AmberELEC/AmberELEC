@@ -3,11 +3,11 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="amiberry"
-PKG_VERSION="44fa30332ed4190cb0a8eb2d5bcf0da0fdd76aba"
+PKG_VERSION="d23b95d0f7ac2feb183cf7e88e49119e09dc8663"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/BlitterStudio/amiberry"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2 libserialport libportmidi"
+PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2 libserialport libportmidi enet"
 PKG_LONGDESC="Amiberry is an optimized Amiga emulator for ARM-based boards."
 PKG_TOOLCHAIN="cmake-make"
 PKG_GIT_CLONE_BRANCH="master"

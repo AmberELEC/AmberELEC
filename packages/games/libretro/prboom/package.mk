@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="prboom"
-PKG_VERSION="0b43954c75760d00737120db9d5009813778c7ae"
-PKG_SHA256="535ca72632d65198fcf113a1a0a5b7c7158400750b15aae48a386de3518e28ca"
+PKG_VERSION="d25ccfb9739069824d8fff99e3ae78a58a09df01"
+PKG_SHA256="b22b6449a6c8219a70abb13cc3b1170debe16eea076c907ad8c60f33f1e5b7d4"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/libretro-prboom"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

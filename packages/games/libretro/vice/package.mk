@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="vice"
-PKG_VERSION="10295f8991c96e4261337095db7d6027d398802b"
-PKG_SHA256="4d29abd2c497cb33df66fce471e631c5184466e5fe31a3a7858c5d07d04e63b2"
+PKG_VERSION="8afb6a3a407e5ee40d48df45031c615507dd094e"
+PKG_SHA256="3d0f24ff795241d56678f6cffb78875c8ea0274dfeb59e83b919ab0cca946c6d"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/vice-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

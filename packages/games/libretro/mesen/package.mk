@@ -2,8 +2,8 @@
 # Copyright (C) 2023-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="mesen"
-PKG_VERSION="91db6be681f70b2080525c267af6132555323ea1"
-PKG_SHA256="b5951625aeaf2549e77b6e6d1605ce66a3fd8615d4726ffa0bc19b8b9133ade8"
+PKG_VERSION="791c5e8153ee6e29691d45b5df2cf1151ff416f9"
+PKG_SHA256="b39cad667603a116b38ddea1b96b88001d8e469637bd0ff3838a7a536eff1bf4"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/Mesen"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
