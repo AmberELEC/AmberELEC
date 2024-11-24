@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="mupen64plussa-rsp-hle"
-PKG_VERSION="2798e65d6fc89d89aace0b0d779af6406809b940"
-PKG_SHA256="90b12c946008dbc3807d66b196c37a17f1c106731a35d27cd3f3ecb02a7c9404"
+PKG_VERSION="47f8e92e9a8bb9e49195ecfb03e9df0b63add242"
+PKG_SHA256="ad9903a03dbbfba22402993c1f45932bff3ed1cf9673df97d9c3c9146dc60d73"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-rsp-hle"
 PKG_URL="https://github.com/mupen64plus/mupen64plus-rsp-hle/archive/${PKG_VERSION}.tar.gz"
