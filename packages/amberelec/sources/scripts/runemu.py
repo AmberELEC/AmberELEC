@@ -115,7 +115,7 @@ standalone_emulators: 'MutableMapping[str, StandaloneEmulator]' = {
 	'OPENBOR': StandaloneEmulator('OpenBOR', ['/usr/bin/bash', '-l', '/usr/bin/openbor.sh', '<path>']),
 	'PPSSPPSDL': StandaloneEmulator('PPSSPPSDL', ['/usr/bin/bash', '-l', '/usr/bin/ppsspp.sh', '<path>']),
 	'SCUMMVMSA': StandaloneEmulator('scummvm', ['/usr/bin/scummvm.sh', 'sa', '<path>']),
-	'drastic': StandaloneEmulator('drastic', ['/usr/bin/drastic.sh', '<path>']),
+	'drastic': StandaloneEmulator('drastic', ['/usr/bin/drastic.sh', '<path>'], 'should_extract'),
 	'ecwolf': StandaloneEmulator('ecwolf', ['/usr/bin/ecwolf.sh', '<path>']),
 	'gzdoom': StandaloneEmulator('gzdoom', ['/usr/bin/gzdoom.sh', '<path>']),
 	'lzdoom': StandaloneEmulator('lzdoom', ['/usr/bin/lzdoom.sh', '<path>']),
