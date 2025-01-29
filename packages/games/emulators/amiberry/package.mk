@@ -3,7 +3,7 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="amiberry"
-PKG_VERSION="607761e7236b932f5ce0fbae5f25e056fe0c4c79"
+PKG_VERSION="c94dc4f64bd68e962338341d38fd764ab9e79f8b"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/BlitterStudio/amiberry"
 PKG_URL="${PKG_SITE}.git"
