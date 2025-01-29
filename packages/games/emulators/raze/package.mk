@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="raze"
-PKG_VERSION="cc186c2b70d80cd32e0f1a4ea53ff4b6b279cc79"
+PKG_VERSION="d7e4247faf4c982edbaaa994d72cb0cc623053be"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/Raze"
 PKG_URL="${PKG_SITE}.git"
