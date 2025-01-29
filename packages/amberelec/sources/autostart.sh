@@ -139,6 +139,12 @@ do
   fi
 done
 
+# Sync ppsspp assets
+if [ -d "${GAMEDATA}/ppsspp" ]
+then
+  rsync -a "/usr/config/ppsspp/assets" "${GAMEDATA}/ppsspp/"
+fi
+
 # Create drastic gamedata folder
 if [ ! -d "${GAMEDATA}/drastic" ]
 then
