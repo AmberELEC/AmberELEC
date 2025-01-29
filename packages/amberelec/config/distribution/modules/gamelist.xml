@@ -214,7 +214,7 @@
 		<path>./joyleds_conf.sh</path>
 		<hidden>false</hidden>
 		<name>Joystick LEDs</name>
-		<desc>Control LEDs from your joysticks.</desc>
+		<desc>Control LEDs of your joysticks.</desc>
 		<developer>AmberELEC</developer>
 		<publisher>AmberELEC</publisher>
 		<rating>1.0</rating>
