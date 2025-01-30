@@ -488,6 +488,13 @@ if [ -x /storage/.config/packages/retrorun/uninstall.sh ]; then
 	/usr/bin/amberelec-es-packages remove retrorun
 fi
 
+## Ensure we have .cfg files for systems emulated with MAME, to ensure buttons are mapped nicely
+if [ ! -f /storage/roms/gamedata/mame/cfg ]; then
+  mkdir -p /storage/roms/gamedata/mame/cfg
+fi
+#Don't want to overwrite people's configs if they already have them
+rsync -a --ignore-existing /usr/config/mame/* /storage/roms/gamedata/mame/cfg/
+
 ## Moved over from /usr/bin/autostart.sh
 ## Migrate old emuoptions.conf if it exist
 if [ -e "/storage/.config/distribution/configs/emuoptions.conf" ]
