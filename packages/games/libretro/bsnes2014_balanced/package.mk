@@ -2,8 +2,8 @@
 # Copyright (C) 2023-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="bsnes2014_balanced"
-PKG_VERSION="a9c12bad40ad9a7a5fa0139a25a10f1c24d56bb2"
-PKG_SHA256="5fb077879474be5a201232d26f12271eb5c4b7f436247db26487398e94f7a325"
+PKG_VERSION="3beff8ebfa91d6faaf8b854140fbcb7542a3c516"
+PKG_SHA256="39b329918124d39f33267f04b5e7a1fec5561b9c37da47ffd7edcc59fc1abf49"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/bsnes2014"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

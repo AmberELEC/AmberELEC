@@ -67,6 +67,10 @@ makeinstall_target() {
     rm -rf ${INSTALL}/usr/config/distribution/modules/display_fix.sh
   fi
 
+  if [ ! "${DEVICE}" == "RG351MP" ]; then
+    rm -rf ${INSTALL}/usr/config/distribution/modules/joyleds_conf.sh
+  fi
+
   ln -sf /storage/.config/distribution ${INSTALL}/distribution
   find ${INSTALL}/usr/config/distribution/ -type f -exec chmod o+x {} \;
 

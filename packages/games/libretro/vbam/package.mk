@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="vbam"
-PKG_VERSION="b5a4788747fa46afe681080db758f4a827ff7274"
-PKG_SHA256="645e9f1ebc7bbca5c54221ea8dca10672bb2991820420692abc1e034da949e1f"
+PKG_VERSION="379dd97301458a51fb69dd93ba21b64f81e01ef2"
+PKG_SHA256="baf8dc2e5039e5b15d8f061144e5ec02a73b0a5c8696c70cafd10bdf3d423b04"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/vbam-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

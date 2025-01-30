@@ -3,29 +3,21 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="amiberry"
-PKG_VERSION="9b0c94229a5a4accb7bd9edabf01cd80aff1d8b0"
+PKG_VERSION="c94dc4f64bd68e962338341d38fd764ab9e79f8b"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/BlitterStudio/amiberry"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2 libserialport libportmidi"
+PKG_DEPENDS_TARGET="toolchain linux glibc bzip2 zlib SDL2 SDL2_image SDL2_ttf capsimg freetype libxml2 flac libogg mpg123 libpng libmpeg2 libserialport libportmidi enet"
 PKG_LONGDESC="Amiberry is an optimized Amiga emulator for ARM-based boards."
-PKG_TOOLCHAIN="make"
+PKG_TOOLCHAIN="cmake-make"
 PKG_GIT_CLONE_BRANCH="master"
 
 pre_configure_target() {
-  cd ${PKG_BUILD}
-
-  if [[ "${DEVICE}" =~ RG351 ]]
-  then
-    AMIBERRY_PLATFORM="PLATFORM=RK3326"
-  elif [[ "${DEVICE}" == RG552 ]]
-  then
-    AMIBERRY_PLATFORM="PLATFORM=RK3399"
-  fi
-
-  sed -i 's/\-O[23]//' Makefile
-  unset LDFLAGS
-  PKG_MAKE_OPTS_TARGET+="all ${AMIBERRY_PLATFORM} SDL_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config CWRAPPER=ccache"
+  PKG_CMAKE_OPTS_TARGET=" -DCMAKE_BUILD_TYPE=Release \
+                      -DCMAKE_RULE_MESSAGES=OFF \
+                      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+                      -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+                      -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG""
 }
 
 makeinstall_target() {
@@ -37,8 +29,8 @@ makeinstall_target() {
   # Copy ressources
   cp -ra ${PKG_DIR}/config/* ${INSTALL}/usr/config/amiberry/
   cp -a data ${INSTALL}/usr/config/amiberry/
-  cp -a savestates ${INSTALL}/usr/config/amiberry/
-  cp -a screenshots ${INSTALL}/usr/config/amiberry/
+  mkdir -p ${INSTALL}/usr/config/amiberry/savestates
+  mkdir -p ${INSTALL}/usr/config/amiberry/screenshots
   cp -a whdboot ${INSTALL}/usr/config/amiberry/
   ln -s /storage/roms/bios ${INSTALL}/usr/config/amiberry/kickstarts
 
