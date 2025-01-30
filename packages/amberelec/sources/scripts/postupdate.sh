@@ -493,7 +493,7 @@ if [ ! -f /storage/roms/gamedata/mame/cfg ]; then
   mkdir -p /storage/roms/gamedata/mame/cfg
 fi
 #Don't want to overwrite people's configs if they already have them
-cp -n /usr/config/mame/* /storage/roms/gamedata/mame/cfg
+rsync -a --ignore-existing /usr/config/mame/* /storage/roms/gamedata/mame/cfg/
 
 ## Moved over from /usr/bin/autostart.sh
 ## Migrate old emuoptions.conf if it exist
