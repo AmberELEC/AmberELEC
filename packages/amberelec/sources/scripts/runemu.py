@@ -166,6 +166,11 @@ class EmuRunner():
 			subprocess.run('/usr/bin/freej2me.sh', check=True)
 			self.environment['JAVA_HOME']='/storage/jdk'
 			self.environment['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
+		elif self.core == 'freej2me-plus':
+			#freej2me needs the JDK to be downloaded on the first run
+			subprocess.run('/usr/bin/freej2me-plus.sh', check=True)
+			self.environment['JAVA_HOME']='/storage/jdk'
+			self.environment['PATH'] = '/storage/jdk/bin:' + os.environ['PATH']
 		elif self.core == 'easyrpg':
 			# easyrpg needs runtime files to be downloaded on the first run
 			subprocess.run('/usr/bin/easyrpg.sh', check=True)

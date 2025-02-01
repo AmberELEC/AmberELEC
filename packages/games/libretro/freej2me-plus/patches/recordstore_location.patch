@@ -1,0 +1,33 @@
+diff --git a/src/javax/microedition/rms/RecordStore.java b/src/javax/microedition/rms/RecordStore.java
+index 3942109..c03256b 100644
+--- a/src/javax/microedition/rms/RecordStore.java
++++ b/src/javax/microedition/rms/RecordStore.java
+@@ -79,8 +79,8 @@ public class RecordStore
+ 
+ 		appname = Mobile.getPlatform().loader.suitename;
+ 
+-		rmsPath = Mobile.getPlatform().dataPath + "./rms/"+appname;
+-		rmsFile = Mobile.getPlatform().dataPath + "./rms/"+appname+"/"+name;
++		rmsPath = "/roms/j2me/rms/"+appname;
++		rmsFile = "/roms/j2me/rms/"+appname+"/"+name;
+ 
+ 		try
+ 		{
+@@ -321,7 +321,7 @@ public class RecordStore
+ 		try
+ 		{
+ 			Mobile.log(Mobile.LOG_DEBUG, RecordStore.class.getPackage().getName() + "." + RecordStore.class.getSimpleName() + ": " + "Deleting RecordStore "+recordStoreName);
+-			File fstore = new File(Mobile.getPlatform().dataPath + "./rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
++			File fstore = new File("/roms/j2me/rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
+ 			fstore.delete();
+ 		}
+ 		catch (Exception e)
+@@ -431,7 +431,7 @@ public class RecordStore
+ 		Mobile.log(Mobile.LOG_DEBUG, RecordStore.class.getPackage().getName() + "." + RecordStore.class.getSimpleName() + ": " + "List Record Stores");
+ 		if(rmsPath==null)
+ 		{
+-			rmsPath = Mobile.getPlatform().dataPath + "./rms/"+Mobile.getPlatform().loader.name;
++			rmsPath = "/roms/j2me/rms/"+Mobile.getPlatform().loader.name;
+ 			try
+ 			{
+ 				Files.createDirectories(Paths.get(rmsPath));

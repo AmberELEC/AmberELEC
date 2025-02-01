@@ -318,9 +318,10 @@ elif [[ -d "/storage/roms/laserdisc/sound" ]]; then
   rm -rf /storage/roms/laserdisc/sound
 fi
 
-## 2022-03-09
+## 2025-02-01
 ## Force update of /storage/roms/bios/freej2me-lr.jar to latest version
 cp -rf /usr/config/distribution/freej2me/freej2me-lr.jar /storage/roms/bios
+cp -rf /usr/config/distribution/freej2me/freej2me-plus-lr.jar /storage/roms/bios
 
 ## 2022-02-20
 ## Delete old hypseus folder after upgrading to hypseus-singe

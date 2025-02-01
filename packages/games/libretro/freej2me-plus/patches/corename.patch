@@ -1,0 +1,13 @@
+diff --git a/src/libretro/Makefile b/src/libretro/Makefile
+index 58dde04..c3effed 100644
+--- a/src/libretro/Makefile
++++ b/src/libretro/Makefile
+@@ -31,7 +31,7 @@ endif
+ 
+ 
+ CORE_DIR    += .
+-TARGET_NAME := freej2me
++TARGET_NAME := freej2me-plus
+ LIBM		    = -lm
+ 
+ ifeq ($(ARCHFLAGS),)

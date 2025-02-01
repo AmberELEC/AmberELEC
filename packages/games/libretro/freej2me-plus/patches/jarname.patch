@@ -1,0 +1,72 @@
+diff --git a/src/libretro/freej2me_libretro.c b/src/libretro/freej2me_libretro.c
+index 5dd5b6c..24ec551 100755
+--- a/src/libretro/freej2me_libretro.c
++++ b/src/libretro/freej2me_libretro.c
+@@ -116,8 +116,8 @@ long joymouseTime = 0; /* countdown to show/hide mouse cursor */
+ long joymouseClickedTime = 0; /* Countdown to show/hide the cursor in the clicked state */
+ bool joymouseAnalog = false; /* flag - using analog stick for mouse movement */
+ int mouseLpre = 0; /* old mouse button state */
+-int rumbleTime = 0; /* Rumble duration calculated based on data received from FreeJ2ME-lr.jar */
+-unsigned short rumbleStrength = 0xFFFF; /* Rumble strength calculated based on data received from FreeJ2ME-lr.jar */
++int rumbleTime = 0; /* Rumble duration calculated based on data received from freej2me-plus-lr.jar */
++unsigned short rumbleStrength = 0xFFFF; /* Rumble strength calculated based on data received from freej2me-plus-lr.jar */
+ bool uses_mouse = true;
+ bool uses_pointer = false;
+ bool booted = false;
+@@ -551,7 +551,7 @@ void retro_init(void)
+ 	params = (char**)malloc(sizeof(char*) * 15);
+ 	params[0] = strdup("java");
+ 	params[1] = strdup("-jar");
+-	params[2] = strdup("freej2me-lr.jar");
++	params[2] = strdup("freej2me-plus-lr.jar");
+ 	params[3] = strdup(resArg[0]);
+ 	params[4] = strdup(resArg[1]);
+ 	params[5] = strdup(rotateArg);
+diff --git a/src/libretro/freej2me_libretro.h b/src/libretro/freej2me_libretro.h
+index e041d5e..5d89d7e 100644
+--- a/src/libretro/freej2me_libretro.h
++++ b/src/libretro/freej2me_libretro.h
+@@ -54,7 +54,7 @@ static const struct retro_message_ext messages[] =
+    /* Message string to be displayed/logged */
+    {"Too many frames dropped!!! Please restart the core.", 8000, 3, RETRO_LOG_ERROR, RETRO_MESSAGE_TARGET_ALL, RETRO_MESSAGE_TYPE_NOTIFICATION, 0},
+    {"Invalid status received!!! Please restart the core.", 8000, 3, RETRO_LOG_ERROR, RETRO_MESSAGE_TARGET_ALL, RETRO_MESSAGE_TYPE_NOTIFICATION, 0},
+-   {"FreeJ2ME could not start!!! \nMake sure > freej2me-lr.jar < is in the 'system' dir and that you have Java 8 or newer installed.", 15000, 3, RETRO_LOG_ERROR, RETRO_MESSAGE_TARGET_ALL, RETRO_MESSAGE_TYPE_NOTIFICATION, 0},
++   {"FreeJ2ME could not start!!! \nMake sure > freej2me-plus-lr.jar < is in the 'system' dir and that you have Java 8 or newer installed.", 15000, 3, RETRO_LOG_ERROR, RETRO_MESSAGE_TARGET_ALL, RETRO_MESSAGE_TYPE_NOTIFICATION, 0},
+    {"FreeJ2ME child process loaded successfully!", 4000, 1, RETRO_LOG_INFO, RETRO_MESSAGE_TARGET_OSD, RETRO_MESSAGE_TYPE_NOTIFICATION, 0},
+    {"", 0, 0, 0, 0, 0, 0}
+ };
+@@ -236,8 +236,8 @@ struct retro_core_option_v2_definition core_options[] =
+         "freej2me_midifont",
+         "System > MIDI Soundfont",
+         "MIDI Soundfont",
+-        "Selects which kind of MIDI soundfont to use. 'Default' uses the soundfont bundled with the system or Java VM, while 'Custom' allows you to place a custom soundfont on '<freej2me-lr.jar folder>/freej2me_system/customMIDI' and use it on J2ME apps to simulate a specific phone or improve MIDI sound quality. WARNING: Big soundfonts greatly increase the emulator's RAM footprint and processing requirements, while smaller ones can actually help it perform better.",
+-        "Selects which kind of MIDI soundfont to use. 'Default' uses the soundfont bundled with the system or Java VM, while 'Custom' allows you to place a custom soundfont on '<freej2me-lr.jar folder>/freej2me_system/customMIDI' and use it on J2ME apps to simulate a specific phone or improve MIDI sound quality. WARNING: Big soundfonts greatly increase the emulator's RAM footprint and processing requirements, while smaller ones can actually help it perform better.",
++        "Selects which kind of MIDI soundfont to use. 'Default' uses the soundfont bundled with the system or Java VM, while 'Custom' allows you to place a custom soundfont on '<freej2me-plus-lr.jar folder>/freej2me_system/customMIDI' and use it on J2ME apps to simulate a specific phone or improve MIDI sound quality. WARNING: Big soundfonts greatly increase the emulator's RAM footprint and processing requirements, while smaller ones can actually help it perform better.",
++        "Selects which kind of MIDI soundfont to use. 'Default' uses the soundfont bundled with the system or Java VM, while 'Custom' allows you to place a custom soundfont on '<freej2me-plus-lr.jar folder>/freej2me_system/customMIDI' and use it on J2ME apps to simulate a specific phone or improve MIDI sound quality. WARNING: Big soundfonts greatly increase the emulator's RAM footprint and processing requirements, while smaller ones can actually help it perform better.",
+         "system_settings",
+         {
+             { "off", "Default" },
+@@ -535,7 +535,7 @@ struct retro_core_option_definition core_options_v1 [] =
+     {
+         "freej2me_midifont",
+         "MIDI Soundfont",
+-        "Selects which kind of MIDI soundfont to use. 'Default' uses the soundfont bundled with the system or Java VM, while 'Custom' allows you to place a custom soundfont on '<freej2me-lr.jar folder>/freej2me_system/customMIDI' and use it on J2ME apps to simulate a specific phone or improve MIDI sound quality. WARNING: Big soundfonts greatly increase the emulator's RAM footprint and processing requirements, while smaller ones can actually help it perform better.",
++        "Selects which kind of MIDI soundfont to use. 'Default' uses the soundfont bundled with the system or Java VM, while 'Custom' allows you to place a custom soundfont on '<freej2me-plus-lr.jar folder>/freej2me_system/customMIDI' and use it on J2ME apps to simulate a specific phone or improve MIDI sound quality. WARNING: Big soundfonts greatly increase the emulator's RAM footprint and processing requirements, while smaller ones can actually help it perform better.",
+         {
+             { "off", "Default" },
+             { "on",  "Custom" },
+diff --git a/src/libretro/freej2me_libretro.info b/src/libretro/freej2me_libretro.info
+index 8036ff2..42092fd 100644
+--- a/src/libretro/freej2me_libretro.info
++++ b/src/libretro/freej2me_libretro.info
+@@ -26,8 +26,8 @@ core_options = "true"
+ 
+ # BIOS / Firmware
+ firmware_count = 1
+-firmware0_desc = "freej2me-lr.jar"
+-firmware0_path = "freej2me-lr.jar"
++firmware0_desc = "freej2me-plus-lr.jar"
++firmware0_path = "freej2me-plus-lr.jar"
+ firmware0_opt = "false"
+ 
+ description = "A fork of FreeJ2ME with improved compatibility and better libretro support. This core emulates Java ME applications and games for Java-based mobile phones."
