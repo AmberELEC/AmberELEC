@@ -504,37 +504,37 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     if device_name == "RG351P":
         system_viewport = {
             'standard': (1, 1, 479, 319),          # max-1
-            'gb': (0, 32, 320, 288),              # x2
-            'gbh': (0, 32, 320, 288),             # x2
-            'gbc': (0, 32, 320, 288),             # x2
-            'gbch': (0, 32, 320, 288),            # x2
-            'supervision': (0, 0, 320, 320),      # x2
-            'gamegear': (0, 32, 320, 288),        # x2
-            'ggh': (0, 32, 320, 288),             # x2
+            'gb': (0, 32, 320, 288),               # x2
+            'gbh': (0, 32, 320, 288),              # x2
+            'gbc': (0, 32, 320, 288),              # x2
+            'gbch': (0, 32, 320, 288),             # x2
+            'supervision': (0, 0, 320, 320),       # x2
+            'gamegear': (0, 32, 320, 288),         # x2
+            'ggh': (0, 32, 320, 288),              # x2
             'pokemini': (0, 128, 288, 192),        # x3
             'ngp': (0, 16, 320, 304),              # x2
             'ngpc': (0, 16, 320, 304),             # x2
-            'wonderswan': (0, 32, 448, 288),      # x2
-            'wonderswancolor': (0, 32, 448, 288), # x2
+            'wonderswan': (0, 32, 448, 288),       # x2
+            'wonderswancolor': (0, 32, 448, 288),  # x2
         }
     elif device_name == "RG351V" or device_name == "RG351MP":
         system_viewport = {
             'standard': (1, 1, 639, 479),          # max-1
-            'gb': (0, 48, 480, 432),              # x3
-            'gbh': (0, 48, 480, 432),             # x3
-            'gbc': (0, 48, 480, 432),             # x3
-            'gbch': (0, 48, 480, 432),            # x3
-            'supervision': (0, 0, 480, 480),      # x3
-            'gamegear': (0, 48, 480, 432),        # x3
-            'ggh': (0, 48, 480, 432),             # x3
-            'pokemini': (0, 224, 384, 256),      # x4
-            'ngp': (0, 24, 480, 456),             # x3
-            'ngpc': (0, 24, 480, 456),            # x3
+            'gb': (0, 48, 480, 432),               # x3
+            'gbh': (0, 48, 480, 432),              # x3
+            'gbc': (0, 48, 480, 432),              # x3
+            'gbch': (0, 48, 480, 432),             # x3
+            'supervision': (0, 0, 480, 480),       # x3
+            'gamegear': (0, 48, 480, 432),         # x3
+            'ggh': (0, 48, 480, 432),              # x3
+            'pokemini': (0, 224, 384, 256),        # x4
+            'ngp': (0, 24, 480, 456),              # x3
+            'ngpc': (0, 24, 480, 456),             # x3
             'wonderswan': (0, 192, 448, 288),      # x2
             'wonderswancolor': (0, 192, 448, 288), # x2
             'gba': (0, 160, 480, 320),             # x2
             'gbah': (0, 160, 480, 320),            # x2
-            'arduboy': (0, 224, 512, 256),        # x4
+            'arduboy': (0, 224, 512, 256),         # x4
         }
     elif device_name == "RG552":
         system_viewport = {

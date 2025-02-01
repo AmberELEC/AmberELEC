@@ -4,18 +4,21 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="scummvmsa"
-PKG_VERSION="$(get_pkg_version scummvm)"
+#PKG_VERSION="$(get_pkg_version scummvm)"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/scummvm/scummvm"
-PKG_URL=""
+#PKG_URL=""
+PKG_VERSION="d173cce7b40c06142ed583d8497f5b8a3f8502ea"
+PKG_SHA256="97fb98fa7e74cce923ec113a25f02a93cea5cc73278bfe338091670d25aa5e4c"
+PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain SDL2 SDL2_net freetype fluidsynth libmad libtheora"
 PKG_DEPENDS_UNPACK="scummvm"
 PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files."
 
-unpack() {
-  mkdir -p ${PKG_BUILD}
-  tar --strip-components=1 -xf ${SOURCES}/scummvm/scummvm-${PKG_VERSION}.tar.gz -C ${PKG_BUILD}
-}
+#unpack() {
+#  mkdir -p ${PKG_BUILD}
+#  tar --strip-components=1 -xf ${SOURCES}/scummvm/scummvm-${PKG_VERSION}.tar.gz -C ${PKG_BUILD}
+#}
 
 pre_configure_target() { 
   sed -i "s|sdl-config|sdl2-config|g" ${PKG_BUILD}/configure
