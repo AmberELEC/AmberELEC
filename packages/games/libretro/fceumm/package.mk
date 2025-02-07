@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fceumm"
-PKG_VERSION="449db5de6b56e9d44fc685e1b38399f0b233bd28"
-PKG_SHA256="5cac184772421ec3cffa19f50737a5fdd481089007d21d79b3e2760f94c8fa87"
+PKG_VERSION="0676a2092ad8255e697bc22f0020edecc65020f0"
+PKG_SHA256="4f633c824e211f1d026b08d099b949869490d24a19ab97d1cc37c672cb542fbf"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/libretro-fceumm"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
