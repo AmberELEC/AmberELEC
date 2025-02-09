@@ -460,6 +460,22 @@ fi
 
 ### PPSSPP (PSP) ###
 echo 'PPSSPP settings.'
+# PPSSPP AutoFrameSkip
+get_setting "auto_frameskip"
+echo "auto_frameskip:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	if [[ "${CORE}" == "ppsspp" ]]; then
+		sed -i "/^ppsspp_auto_frameskip/d" ${RRCONF}
+		echo 'ppsspp_auto_frameskip = disabled' >> ${RRCONF}
+	fi
+else
+	if [[ "${CORE}" == "ppsspp" ]]; then
+		sed -i "/^ppsspp_auto_frameskip/d" ${RRCONF}
+		echo "ppsspp_auto_frameskip = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+
 # PPSSPP FrameSkip
 get_setting "frameskip"
 echo "frameskip:${EES}"
