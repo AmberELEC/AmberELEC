@@ -32,7 +32,7 @@ else
   PKG_EMUS+=" advancemame ppssppsa amiberry hatarisa openbor scummvmsa solarus hypseus-singe ecwolf lzdoom gzdoom raze drastic duckstation mupen64plussa piemu yabasanshiroSA"
 fi
 
-PKG_TOOLS="bash dialog grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace rg351p-js2xbox odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone syncthing plymouth-lite imagemagick jstest-sdl sdljoytest evdev-joystick gptokeyb fbgrab"
+PKG_TOOLS="bash dialog grep wget ffmpeg libjpeg-turbo common-shaders glsl-shaders MC util-linux xmlstarlet sixaxis jslisten evtest mpv bluetool rs97-commander-sdl2 jslisten gnupg gzip valgrind strace gdb apitrace odroidgoa-utils rs97-commander-sdl2 textviewer 351files rclone syncthing plymouth-lite imagemagick jstest-sdl sdljoytest evdev-joystick gptokeyb fbgrab"
 PKG_RETROPIE_DEP="pyudev six git dbus-python coreutils"
 PKG_DEPENDS_TARGET+=" ${PKG_TOOLS} ${PKG_RETROPIE_DEP} ${PKG_EMUS} ports webui"
 
