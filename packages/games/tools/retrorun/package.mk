@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="b99f090aa38b740468222f841af58d4bef6c85df"
+PKG_VERSION="3aed8d8f7e4c1723e97b0d501d797d1149a4acbb"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/retrorun"
 PKG_URL="${PKG_SITE}.git"
