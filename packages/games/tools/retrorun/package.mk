@@ -4,7 +4,7 @@
 PKG_NAME="retrorun"
 PKG_VERSION="b99f090aa38b740468222f841af58d4bef6c85df"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/navy1978/retrorun.git"
+PKG_SITE="https://github.com/navy1978/retrorun"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft"
 PKG_TOOLCHAIN="make"
