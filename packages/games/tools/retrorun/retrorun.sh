@@ -475,7 +475,6 @@ else
 	fi
 fi
 
-
 # PPSSPP FrameSkip
 get_setting "frameskip"
 echo "frameskip:${EES}"
@@ -523,7 +522,6 @@ else
 	fi
 fi
 
-EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 echo 'using core:' "$1"
 echo 'platform:' "$3"
 echo 'starting game:' "$2"
