@@ -2,9 +2,9 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL8852BU"
-PKG_VERSION="f6aaa3c" # short hash else build fails: "Argument list too long"
+PKG_VERSION="292d7eb" # short hash else build fails: "Argument list too long"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/morrownr/rtl8852bu"
+PKG_SITE="https://github.com/morrownr/rtl8852bu-20240418"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux"
 PKG_NEED_UNPACK="${LINUX_DEPENDS}"
