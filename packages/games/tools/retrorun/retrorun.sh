@@ -148,6 +148,17 @@ else
 	echo "retrorun_loop_declared_fps = ${EES}" >> ${RRCONF}
 fi
 
+# Pixel Perfect
+get_setting "pixel_perfect"
+echo "pixel_perfect:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_pixel_perfect/d" ${RRCONF}
+	echo 'retrorun_pixel_perfect = false' >> ${RRCONF}
+else
+	sed -i "/^retrorun_pixel_perfect/d" ${RRCONF}
+	echo "retrorun_pixel_perfect = ${EES}" >> ${RRCONF}
+fi
+
 ### MISC SETTINGS ###
 echo 'Misc settings.'
 # Internal Resolution
