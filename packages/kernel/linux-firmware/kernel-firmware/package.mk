@@ -84,6 +84,10 @@ makeinstall_target() {
     ln -s "rtl8723bs_config-OBDA8723.bin" "${FW_TARGET_DIR}/rtl_bt/rtl8723bs_config.bin"
   fi
 
+  if [ ! -f "${FW_TARGET_DIR}/rtl_bt/rtl8723b_config.bin" ]; then
+    cp "${PKG_DIR}/firmwares/rtl8723b_config.bin" "${FW_TARGET_DIR}/rtl_bt/rtl8723b_config.bin"
+  fi
+
   # Cleanup - which may be project or device specific
   find_file_path scripts/cleanup.sh && ${FOUND_PATH} ${FW_TARGET_DIR} || true
 }
