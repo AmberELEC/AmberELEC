@@ -1,14 +1,15 @@
 diff --git a/UI/NativeApp.cpp b/UI/NativeApp.cpp
-index 7c26bb348e..8233e973a4 100644
+index 7e4e908aa9..2d25491a68 100644
 --- a/UI/NativeApp.cpp
 +++ b/UI/NativeApp.cpp
-@@ -1529,6 +1529,9 @@ bool Native_UpdateScreenScale(int width, int height) {
+@@ -1590,6 +1590,10 @@ bool Native_UpdateScreenScale(int pixel_width, int pixel_height, float customSca
  	float g_logical_dpi = System_GetPropertyFloat(SYSPROP_DISPLAY_LOGICAL_DPI);
- 	g_display.dpi = System_GetPropertyFloat(SYSPROP_DISPLAY_DPI);
+ 	float dpi = System_GetPropertyFloat(SYSPROP_DISPLAY_DPI);
  
 +	// override display dpi
-+	g_display.dpi = 72.0f;
++	dpi = 72.0f;
++	g_logical_dpi = 72.0f;
 +
- 	if (g_display.dpi < 0.0f) {
- 		g_display.dpi = 96.0f;
+ 	if (dpi < 0.0f) {
+ 		dpi = 96.0f;
  	}
