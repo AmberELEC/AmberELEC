@@ -278,7 +278,13 @@ if [ -f /storage/.config/lastgame ]; then
   fi
   command=`cat /storage/.config/lastgame`
   rm -rf /storage/.config/lastgame
-  sh -c -- "$command"
+  if [[ $command == *"autosave 0"* ]]; then
+    sh -c -- "$command" &
+    sleep 8
+    /usr/bin/retroarch --command LOAD_STATE
+  else
+    sh -c -- "$command"
+  fi
 fi
 
 # What to start at boot?
