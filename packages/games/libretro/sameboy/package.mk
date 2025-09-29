@@ -3,14 +3,13 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="sameboy"
-PKG_VERSION="9916fbdd8846f402957a4556546b90327ae055c1"
+PKG_VERSION="v1.0.1"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/LIJI32/SameBoy"
-PKG_URL="${PKG_SITE}.git"
+PKG_URL="https://github.com/LIJI32/SameBoy/archive/refs/tags/${PKG_VERSION}-libretro.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Gameboy and Gameboy Color emulator written in C"
 PKG_TOOLCHAIN="make"
-PKG_GIT_CLONE_BRANCH="libretro"
 
 make_target() {
   make -C libretro BOOTROMS_DIR=${PKG_BUILD}/BootROMs/prebuilt
