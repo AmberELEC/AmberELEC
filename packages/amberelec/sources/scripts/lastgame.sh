@@ -29,6 +29,28 @@ power_key="($powerkey), value 1"
 POWER_PID=0
 HOTKEY_PID=0
 
+savestate_path() {
+    local string="$1"
+
+    # Extracting the dynamic part after --rom
+    rom_part="${string#*--rom }"
+    rom_part="${rom_part%% --*}"
+
+    # Extracting the dynamic part after --platform
+    platform_part="${string#*--platform }"
+    platform_part="${platform_part%% --*}"
+
+    # Extracting the ROM file name only
+    full_file="${rom_part##*/}"
+
+    # Extract ROM without extension
+    only_rom="$(echo "$full_file" | sed 's/\\\?\.[^ ]*$//')"
+
+    # Return the savestate path
+    echo "/storage/roms/savestates/${platform_part}/${only_rom}.state"
+}
+
+
 extract_info() {
     local string="$1"
 
@@ -44,7 +66,7 @@ extract_info() {
     full_file="${rom_part##*/}"
 
     # Extract ROM without extension
-    only_rom="${full_file%.zip}"
+    only_rom="$(echo "$full_file" | sed 's/\\\?\.[^ ]*$//')"
 
     # extract last ROM saved
     save_state=$(ls -tp /storage/roms/savestates/$platform_part | grep -E "$only_rom" | head -1)
@@ -56,7 +78,6 @@ extract_info() {
     if [ -z "$save_number" ]; then
         save_number=0
     fi
-
     # Return the extracted number
     echo $save_number
 }
@@ -81,19 +102,24 @@ modify_command() {
 power_proc () {
     evtest --grab "$power_ev" | while read line; do
         if [[ $line == *"$power_key"* ]] || [[ $# -gt 0 ]]; then
-            $(/usr/bin/adckeys.py hotkey_code release)
-            PID=$(pgrep -f "sh -c -- /usr/bin/runemu.py --rom")
+            $(/usr/bin/adckeys.py $hotkey_code release)
+            PID=$(pgrep -f "sh -c -- \(\(\(\(/usr/bin/runemu.py --rom" | head -1)
             if [ -n "$PID" ]; then
-                # Extract and store the command related to running the emulator
                 echo 1 > /sys/class/backlight/backlight/bl_power
-                COMMAND=$(tr '\0' ' ' < "/proc/$PID/cmdline" | sed 's/sh -c -- //')
+                COMMAND=$(tr '\0' ' ' < "/proc/$PID/cmdline" | sed 's/^sh -c -- //')
                 if [[ $COMMAND == *"autosave 1"* ]] || [[ $(grep 'savestate_auto_save = "true"' /tmp/raappend.cfg) ]]; then
+                    platform=$(echo "$COMMAND" | sed -n 's/.*--platform \([^ ]*\).*/\1/p')                   
+                    if [ -z "$( ls -A "/storage/roms/savestates/${platform}" )" ]; then
+                       $(/usr/bin/retroarch --command STATE_SLOT_MINUS > /dev/null 2>&1)
+                       $(/usr/bin/retroarch --command SAVE_STATE > /dev/null 2>&1)
+                    fi
                     echo "$COMMAND" > /storage/.config/lastgame
                     $(/usr/bin/retroarch --command QUIT > /dev/null 2>&1 && /usr/bin/retroarch --command QUIT > /dev/null 2>&1)
                     sleep 0.5
                     $(/usr/bin/sync)
                     $(systemctl poweroff)
                 elif [[ $COMMAND == *"autosave 0"* ]]; then
+                    $(/usr/bin/retroarch --command STATE_SLOT_MINUS > /dev/null 2>&1)
                     $(/usr/bin/retroarch --command SAVE_STATE > /dev/null 2>&1)
                     sleep 0.5
                     state_number=$(extract_info "$COMMAND")

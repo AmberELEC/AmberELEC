@@ -1117,8 +1117,7 @@ check_update() {
     echo "and there is not enough space for the update to be installed!"
     echo ""
     echo "You must re-install your system using the disk image of a"
-    echo "current release, or you must re-size your existing partitions"
-    echo "so that the System (FAT) partition is at least 512MB in size."
+    echo "current release."
     echo ""
     do_cleanup
     StartProgress countdown "Normal startup in 60s... " 60 "NOW"

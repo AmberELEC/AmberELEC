@@ -1,20 +1,21 @@
 diff --git a/Core/System.cpp b/Core/System.cpp
-index 8303f08a1..5738bbccf 100644
+index 6a8f3ab1f0..0dcb137e1e 100644
 --- a/Core/System.cpp
 +++ b/Core/System.cpp
-@@ -115,6 +115,11 @@ static volatile bool pspIsInited = false;
- static volatile bool pspIsIniting = false;
- static volatile bool pspIsQuitting = false;
- static volatile bool pspIsRebooting = false;
+@@ -104,6 +104,12 @@ FileLoader *PSP_LoadedFile() {
+ 	return g_loadedFile;
+ }
+ 
 +#ifdef __ANDROID__
 +static bool isAndroid = true;
 +#else
 +static bool isAndroid = false;
 +#endif
- 
++
  void ResetUIState() {
  	globalUIState = UISTATE_MENU;
-@@ -626,7 +631,7 @@ std::string PSP_GetLoading() {
+ }
+@@ -724,7 +730,7 @@ void PSP_RunLoopFor(int cycles) {
  Path GetSysDirectory(PSPDirectories directoryType) {
  	const Path &memStickDirectory = g_Config.memStickDirectory;
  	Path pspDirectory;
@@ -24,10 +25,10 @@ index 8303f08a1..5738bbccf 100644
  		pspDirectory = memStickDirectory;
  	} else {
 diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
-index 889a58b01..79f2ec856 100644
+index 222cc98915..7dacda1af5 100644
 --- a/libretro/libretro.cpp
 +++ b/libretro/libretro.cpp
-@@ -1250,19 +1250,13 @@ void retro_init(void)
+@@ -1231,19 +1231,13 @@ void retro_init(void)
  
     Path retro_base_dir;
     Path retro_save_dir;
@@ -49,4 +50,4 @@ index 889a58b01..79f2ec856 100644
 +   g_Config.flash0Directory = retro_base_dir / "assets/flash0";
     g_Config.internalDataDirectory = retro_base_dir;
     g_Config.bEnableNetworkChat = false;
-    g_Config.bDiscordPresence = false;
+    g_Config.bDiscordRichPresence = false;

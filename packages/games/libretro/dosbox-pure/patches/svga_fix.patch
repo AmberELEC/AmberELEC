@@ -1,8 +1,8 @@
 diff --git a/core_options.h b/core_options.h
-index 8b22b63..0df3e0d 100644
+index f3c2a15..bcb47db 100644
 --- a/core_options.h
 +++ b/core_options.h
-@@ -451,21 +451,6 @@ static retro_core_option_v2_definition option_defs[] =
+@@ -529,21 +529,6 @@ static retro_core_option_v2_definition option_defs[DBP_Option::_OPTIONS_TOTAL] =
  		},
  		"svga_s3"
  	},
@@ -10,7 +10,7 @@ index 8b22b63..0df3e0d 100644
 -		"dosbox_pure_svgamem",
 -		"SVGA Memory (restart required)", NULL,
 -		"The amount of memory available to the emulated SVGA card.", NULL,
--		"Video",
+-		DBP_OptionCat::Video,
 -		{
 -			{ "0",  "512KB" },
 -			{ "1", "1MB" },
@@ -24,18 +24,6 @@ index 8b22b63..0df3e0d 100644
  	{
  		"dosbox_pure_voodoo",
  		"3dfx Voodoo Emulation", NULL,
-diff --git a/dosbox_pure_libretro.cpp b/dosbox_pure_libretro.cpp
-index ab60c56..d4750cf 100644
---- a/dosbox_pure_libretro.cpp
-+++ b/dosbox_pure_libretro.cpp
-@@ -2847,7 +2847,6 @@ static bool check_variables(bool is_startup = false)
- 		Variables::DosBoxSet("serial", "serial1", ((retro_get_variable("dosbox_pure_modem", "null")[0] == 'n') ? "libretro null" : "libretro"));
- 
- 	retro_set_visibility("dosbox_pure_svga", machine_is_svga);
--	retro_set_visibility("dosbox_pure_svgamem", machine_is_svga);
- 	retro_set_visibility("dosbox_pure_voodoo", machine_is_svga);
- 	retro_set_visibility("dosbox_pure_voodoo_perf", machine_is_svga);
- 	retro_set_visibility("dosbox_pure_voodoo_gamma", machine_is_svga);
 diff --git a/src/hardware/vga_s3.cpp b/src/hardware/vga_s3.cpp
 index 06eafe7..ac82258 100644
 --- a/src/hardware/vga_s3.cpp

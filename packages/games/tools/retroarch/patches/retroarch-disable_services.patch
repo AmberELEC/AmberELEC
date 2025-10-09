@@ -1,15 +1,18 @@
 diff --git a/menu/drivers/ozone.c b/menu/drivers/ozone.c
-index 63bdaa22e9..b4b85898b9 100644
+index e263fbd5d2..767125ca8f 100644
 --- a/menu/drivers/ozone.c
 +++ b/menu/drivers/ozone.c
-@@ -8675,20 +8675,20 @@ static void *ozone_init(void **userdata, bool video_is_threaded)
+@@ -8928,20 +8928,20 @@ static void *ozone_init(void **userdata, bool video_is_threaded)
+    if (settings->bools.menu_content_show_netplay)
        ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_NETPLAY;
  #endif
- 
 -   if (      settings->bools.menu_content_show_add
 -         && !settings->bools.kiosk_mode_enable)
 -      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_ADD;
--
++//   if (      settings->bools.menu_content_show_add
++//         && !settings->bools.kiosk_mode_enable)
++//      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_ADD;
+ #endif /* 0 */
 -#if defined(HAVE_DYNAMIC)
 -   if (settings->uints.menu_content_show_contentless_cores !=
 -         MENU_CONTENTLESS_CORES_DISPLAY_NONE)
@@ -20,10 +23,6 @@ index 63bdaa22e9..b4b85898b9 100644
 -   if (settings->bools.menu_content_show_explore)
 -      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_EXPLORE;
 -#endif
-+//   if (      settings->bools.menu_content_show_add
-+//         && !settings->bools.kiosk_mode_enable)
-+//      ozone->tabs[++ozone->system_tab_end]      = OZONE_SYSTEM_TAB_ADD;
-+
 +//#if defined(HAVE_DYNAMIC)
 +//   if (settings->uints.menu_content_show_contentless_cores !=
 +//         MENU_CONTENTLESS_CORES_DISPLAY_NONE)
