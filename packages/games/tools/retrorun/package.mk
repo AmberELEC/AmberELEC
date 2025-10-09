@@ -2,9 +2,9 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="bf5609c1b8753f96015c356f2dcd430e614d57ab"
+PKG_VERSION="59ea63f30b4784562fe04e5c849f955edcee38c8"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/navy1978/retrorun"
+PKG_SITE="https://github.com/AmberELEC/retrorun"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft"
 PKG_TOOLCHAIN="make"
