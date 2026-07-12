@@ -22,4 +22,11 @@ make_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/$(get_full_module_dir)/${PKG_NAME}
   find ${PKG_BUILD}/ -name \*.ko -not -path '*/\.*' -exec cp {} ${INSTALL}/$(get_full_module_dir)/${PKG_NAME} \;
+
+  mkdir -p ${INSTALL}/usr/lib/udev/rules.d
+  cp ${PKG_BUILD}/50-usb-realtek-net.rules ${INSTALL}/usr/lib/udev/rules.d
+}
+
+post_install() {
+  rm -f ${INSTALL}/$(get_full_module_dir)/kernel/drivers/net/usb/r8152.ko
 }
