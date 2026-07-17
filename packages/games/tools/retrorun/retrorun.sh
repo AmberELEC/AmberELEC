@@ -71,15 +71,26 @@ else
 	echo "retrorun_mouse_speed_factor= ${EES}" >> ${RRCONF}
 fi
 
-# Map left analog to DPAD
-get_setting "map_left_analog_to_dpad"
-echo "map_left_analog_to_dpad:${EES}"
+# Stable Audio Buffer
+get_setting "audio_stable_buffer"
+echo "audio_stable_buffer:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
-        echo 'retrorun_force_left_analog_stick = false' >> ${RRCONF}
+	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_stable_buffer = false' >> ${RRCONF}
 else
-        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
-        echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
+	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_stable_buffer = true' >> ${RRCONF}
+fi
+
+# Analog to digital
+get_setting "analog_to_digital"
+echo "analog_to_digital:${EES}"
+sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+sed -i "/^retrorun_analog_to_digital/d" ${RRCONF}
+if [ "${EES}" == "left" ] || [ "${EES}" == "right" ] || [ "${EES}" == "left_forced" ] || [ "${EES}" == "right_forced" ]; then
+	echo "retrorun_analog_to_digital = ${EES}" >> ${RRCONF}
+else
+	echo 'retrorun_analog_to_digital = none' >> ${RRCONF}
 fi
 
 # Game Aspect Ratio
