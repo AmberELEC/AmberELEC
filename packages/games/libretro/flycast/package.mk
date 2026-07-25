@@ -10,12 +10,17 @@ PKG_LONGDESC="Flycast is a multi-platform Sega Dreamcast, Naomi and Atomiswave e
 PKG_TOOLCHAIN="cmake-make"
 
 pre_configure_target() {
+  export TARGET_CFLAGS="${TARGET_CFLAGS} -flto=8 -fno-fat-lto-objects"
+  export TARGET_CXXFLAGS="${TARGET_CXXFLAGS} -flto=8 -fno-fat-lto-objects"
+  export TARGET_LDFLAGS="${TARGET_LDFLAGS} -flto=8 -fuse-linker-plugin"
+
   sed -i 's/"reicast"/"flycast"/g' ${PKG_BUILD}/shell/libretro/libretro_core_option_defines.h
   sed -i 's/RETRO_PIXEL_FORMAT_XRGB8888/RETRO_PIXEL_FORMAT_RGB565/g' ${PKG_BUILD}/shell/libretro/libretro.cpp 
   PKG_CMAKE_OPTS_TARGET="-DCMAKE_RULE_MESSAGES=OFF \
                          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
                          -DCMAKE_BUILD_TYPE="Release" \
-                         -DCMAKE_CXXX_FLAGS_RELEASE="" \
+                         -DCMAKE_C_FLAGS_RELEASE="" \
+                         -DCMAKE_CXX_FLAGS_RELEASE="" \
                          -DLIBRETRO=ON \
                          -DWITH_SYSTEM_ZLIB=ON \
                          -DUSE_OPENMP=ON \
