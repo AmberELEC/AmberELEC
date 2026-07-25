@@ -32,7 +32,7 @@ function get_setting() {
 		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 	fi
 
-	[ -z "${EES}" ] && EES="false"
+	[ -z "${EES}" ] && EES="auto"
 }
 
 
@@ -54,10 +54,10 @@ get_setting "audio_buffer"
 echo "audio_buffer:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
-	echo 'retrorun_audio_buffer= 1024' >> ${RRCONF}
+	echo 'retrorun_audio_buffer = -1' >> ${RRCONF}
 else
 	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
-	echo "retrorun_audio_buffer= ${EES}" >> ${RRCONF}
+	echo "retrorun_audio_buffer = ${EES}" >> ${RRCONF}
 fi
 
 # Mouse Speed Factor
@@ -74,7 +74,10 @@ fi
 # Stable Audio Buffer
 get_setting "audio_stable_buffer"
 echo "audio_stable_buffer:${EES}"
-if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
+	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_stable_buffer = true' >> ${RRCONF}
+elif [ "${EES}" == "false" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
 	echo 'retrorun_audio_stable_buffer = false' >> ${RRCONF}
 else
@@ -151,7 +154,10 @@ fi
 # Force FPS
 get_setting "force_fps"
 echo "force_fps:${EES}"
-if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
+	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
+	echo 'retrorun_loop_declared_fps = true' >> ${RRCONF}
+elif [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
 	echo 'retrorun_loop_declared_fps = false' >> ${RRCONF}
 else
@@ -185,6 +191,9 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
 		echo 'flycast2021_internal_resolution = 640x480' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_internal_resolution/d" ${RRCONF}
+		echo 'flycast2022_internal_resolution = 640x480' >> ${RRCONF}
 	fi
 else
 	if [[ "${CORE}" == "parallel_n64" ]]; then
@@ -196,6 +205,9 @@ else
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
 		echo "flycast2021_internal_resolution = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_internal_resolution/d" ${RRCONF}
+		echo "flycast2022_internal_resolution = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -243,6 +255,9 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
 		echo 'flycast2021_synchronous_rendering = disabled' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_synchronous_rendering/d" ${RRCONF}
+		echo 'flycast2022_synchronous_rendering = disabled' >> ${RRCONF}
 	fi
 else
 	if [[ "${CORE}" == "flycast" ]]; then
@@ -251,6 +266,9 @@ else
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
 		echo "flycast2021_synchronous_rendering = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_synchronous_rendering/d" ${RRCONF}
+		echo "flycast2022_synchronous_rendering = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -264,6 +282,9 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
 		echo 'flycast2021_div_matching = auto' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_div_matching/d" ${RRCONF}
+		echo 'flycast2022_div_matching = auto' >> ${RRCONF}
 	fi
 else
         if [[ "${CORE}" == "flycast" ]]; then
@@ -272,6 +293,9 @@ else
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
 		echo "flycast2021_div_matching = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_div_matching/d" ${RRCONF}
+		echo "flycast2022_div_matching = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -306,6 +330,9 @@ if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] |
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
 		echo 'flycast2021_enable_dsp = disabled' >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_enable_dsp/d" ${RRCONF}
+		echo 'flycast2022_enable_dsp = disabled' >> ${RRCONF}
 	fi
 else
         if [[ "${CORE}" == "flycast" ]]; then
@@ -314,6 +341,33 @@ else
 	elif [[ "${CORE}" == "flycast2021" ]]; then
 		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
 		echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
+	elif [[ "${CORE}" == "flycast2022" ]]; then
+		sed -i "/^flycast2022_enable_dsp/d" ${RRCONF}
+		echo "flycast2022_enable_dsp = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Flycast 2022: translucent strip merge
+get_setting "translucent_strip_merge"
+echo "translucent_strip_merge:${EES}"
+if [[ "${CORE}" == "flycast2022" ]]; then
+	sed -i "/^flycast2022_translucent_strip_merge/d" ${RRCONF}
+	if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+		echo 'flycast2022_translucent_strip_merge = menu_guarded' >> ${RRCONF}
+	else
+		echo "flycast2022_translucent_strip_merge = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Flycast 2022: SH4 clock (the EmulationStation setting keeps the legacy reicast name)
+get_setting "reicast_sh4clock"
+echo "reicast_sh4clock:${EES}"
+if [[ "${CORE}" == "flycast2022" ]]; then
+	sed -i "/^flycast2022_sh4clock/d" ${RRCONF}
+	if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+		echo 'flycast2022_sh4clock = 200' >> ${RRCONF}
+	else
+		echo "flycast2022_sh4clock = ${EES}" >> ${RRCONF}
 	fi
 fi
 
