@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="flycast2022"
-PKG_VERSION="1ca39aea8599a5cacaff41a1ba44ed849b6f96ef"
-PKG_SHA256="abe47f6ddf0d0e5beb88c09e2fb4e4d586ba507d2c32ee5ab0bd82aee6d3d0d5"
+PKG_VERSION="da9b29ce2a8b6597a358fff76ada50b549ed7c85"
+PKG_SHA256="7b3578effc4090666701ae7259fd357b99c3a2be954db30726c0a9564abb24d2"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/navy1978/flycast2022-lowend"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

@@ -85,6 +85,16 @@ else
 	echo 'retrorun_audio_stable_buffer = true' >> ${RRCONF}
 fi
 
+# Flycast 2022: optional RetroRun audio thread
+get_setting "audio_thread"
+echo "audio_thread:${EES}"
+sed -i "/^retrorun_force_audio_multithread/d" ${RRCONF}
+if [[ "${CORE}" == "flycast2022" ]] && { [ "${EES}" == "true" ] || [ "${EES}" == "enabled" ] || [ "${EES}" == "1" ]; }; then
+	echo 'retrorun_force_audio_multithread = true' >> ${RRCONF}
+else
+	echo 'retrorun_force_audio_multithread = false' >> ${RRCONF}
+fi
+
 # Analog to digital
 get_setting "analog_to_digital"
 echo "analog_to_digital:${EES}"
@@ -356,6 +366,42 @@ if [[ "${CORE}" == "flycast2022" ]]; then
 		echo 'flycast2022_translucent_strip_merge = menu_guarded' >> ${RRCONF}
 	else
 		echo "flycast2022_translucent_strip_merge = ${EES}" >> ${RRCONF}
+	fi
+fi
+
+# Flycast 2022: compatible GLES texture storage reuse
+get_setting "texture_storage_reuse"
+echo "texture_storage_reuse:${EES}"
+if [[ "${CORE}" == "flycast2022" ]]; then
+	sed -i "/^flycast2022_texture_storage_reuse/d" ${RRCONF}
+	if [ "${EES}" == "false" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "0" ]; then
+		echo 'flycast2022_texture_storage_reuse = disabled' >> ${RRCONF}
+	else
+		echo 'flycast2022_texture_storage_reuse = enabled' >> ${RRCONF}
+	fi
+fi
+
+# Flycast 2022: palette/fog lookup texture storage reuse
+get_setting "palette_fog_storage_reuse"
+echo "palette_fog_storage_reuse:${EES}"
+if [[ "${CORE}" == "flycast2022" ]]; then
+	sed -i "/^flycast2022_palette_fog_storage_reuse/d" ${RRCONF}
+	if [ "${EES}" == "true" ] || [ "${EES}" == "enabled" ] || [ "${EES}" == "1" ]; then
+		echo 'flycast2022_palette_fog_storage_reuse = enabled' >> ${RRCONF}
+	else
+		echo 'flycast2022_palette_fog_storage_reuse = disabled' >> ${RRCONF}
+	fi
+fi
+
+# Flycast 2022: direct SH4 LDS FPSCR dynarec path
+get_setting "sh4_fpscr"
+echo "sh4_fpscr:${EES}"
+if [[ "${CORE}" == "flycast2022" ]]; then
+	sed -i "/^flycast2022_sh4_fpscr/d" ${RRCONF}
+	if [ "${EES}" == "true" ] || [ "${EES}" == "enabled" ] || [ "${EES}" == "1" ]; then
+		echo 'flycast2022_sh4_fpscr = enabled' >> ${RRCONF}
+	else
+		echo 'flycast2022_sh4_fpscr = disabled' >> ${RRCONF}
 	fi
 fi
 
