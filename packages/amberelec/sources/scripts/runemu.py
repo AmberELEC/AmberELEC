@@ -176,32 +176,20 @@ class EmuRunner():
 			subprocess.run('/usr/bin/easyrpg.sh', check=True)
 
 	def toggle_max_performance(self) -> None:
-		rom_name = self.rom.name if self.rom else None
-		maxperf = get_elec_setting('maxperf', self.platform, rom_name)
-		powersave = get_elec_setting('powersave', self.platform, rom_name)
-		customperf = get_elec_setting('customperf', self.platform, rom_name)
-		flycast2022_maxperf = (
-			self.emulator == 'retrorun' and
-			self.core == 'flycast2022' and
-			maxperf not in {'0', 'false', 'disabled'} and
-			powersave != '1' and
-			customperf != '1'
-		)
-
-		if maxperf == '1' or flycast2022_maxperf:
+		if get_elec_setting('maxperf', self.platform, self.rom.name if self.rom else None) == '1':
 			if log_level == 'debug':
 				log('Enabling performance mode as requested')
-			call_profile_func('performance', self.platform, rom_name or "")
-		elif powersave == '1':
+			call_profile_func('performance', self.platform, self.rom.name if self.rom else "")
+		elif get_elec_setting('powersave', self.platform, self.rom.name if self.rom else None) == '1':
 			if log_level == 'debug':
 				log('Enabling powersave mode as requested')
-			call_profile_func('powersave', self.platform, rom_name or "")
-		elif customperf == '1':
+			call_profile_func('powersave', self.platform, self.rom.name if self.rom else "")
+		elif get_elec_setting('customperf', self.platform, self.rom.name if self.rom else None) == '1':
 			if log_level == 'debug':
 				log('Enabling custom performance mode as requested')
-			call_profile_func('custom_performance', self.platform, rom_name or "")
+			call_profile_func('custom_performance', self.platform, self.rom.name if self.rom else "")
 		else:
-			call_profile_func('ondemand', self.platform, rom_name or "")
+			call_profile_func('ondemand', self.platform, self.rom.name if self.rom else "")
 
 	def set_settings(self) -> str:
 		rom_name = str(self.rom) if self.rom else ''
