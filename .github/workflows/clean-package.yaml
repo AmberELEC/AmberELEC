@@ -16,7 +16,7 @@ jobs:
     steps:
       #- uses: hmarr/debug-action@v2
       #  name: debug
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         name: checkout
         with:
           clean: false

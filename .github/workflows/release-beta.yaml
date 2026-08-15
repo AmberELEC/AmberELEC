@@ -16,7 +16,7 @@ jobs:
       steps:
         #- uses: hmarr/debug-action@v2
         #  name: debug
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v7
           name: checkout
           with:
             clean: false
@@ -58,8 +58,8 @@ jobs:
           run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
   
         - name: Repository Dispatch
-          if: ${{ steps.changes.outputs.changes }} != '0'
-          uses: peter-evans/repository-dispatch@v3
+          if: ${{ steps.changes.outputs.changes != '0' }}
+          uses: peter-evans/repository-dispatch@v4
           with:
             token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
             repository: ${{ steps.full_name.outputs.full_name }}

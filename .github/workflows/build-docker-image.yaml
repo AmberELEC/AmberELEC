@@ -27,12 +27,12 @@ jobs:
       #- uses: hmarr/debug-action@v2
       #  name: debug
       - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{secrets.GITHUB_TOKEN}}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         name: checkout
       - id: build-docker-image
         name: Build and Publish docker image
