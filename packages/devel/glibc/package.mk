@@ -20,6 +20,7 @@ PKG_CONFIGURE_OPTS_TARGET="BASH_SHELL=/bin/sh \
                            --cache-file=config.cache \
                            --disable-profile \
                            --disable-sanity-checks \
+                           --disable-mathvec \
                            --enable-add-ons \
                            --enable-bind-now \
                            --enable-crypt \
@@ -137,17 +138,44 @@ make_init() {
 }
 
 configure_host() {
-  :
+  mkdir -p ${PKG_BUILD}/.headers-build
+  cd ${PKG_BUILD}/.headers-build
+
+  local HDR_DIR="${BUILD}/toolchain/include"
+  if [ ! -f "${HDR_DIR}/linux/version.h" ]; then
+    HDR_DIR="${SYSROOT_PREFIX}/usr/include"
+  fi
+
+  mkdir -p "${HDR_DIR}/linux" "${HDR_DIR}/asm"
+  if [ ! -f "${HDR_DIR}/linux/version.h" ]; then
+    cat << 'EOF' > "${HDR_DIR}/linux/version.h"
+#ifndef _LINUX_VERSION_H
+#define _LINUX_VERSION_H
+#define LINUX_VERSION_CODE 330240
+#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))
+#endif
+EOF
+  fi
+
+  ${PKG_BUILD}/configure \
+    --prefix=/usr \
+    --host=${TARGET_NAME} \
+    --with-headers=${HDR_DIR} \
+    --enable-kernel=4.4.0 \
+    --disable-sanity-checks \
+    --disable-mathvec \
+    libc_cv_forced_unwind=yes \
+    libc_cv_c_cleanup=yes
 }
 
 make_host() {
-  :
+  cd ${PKG_BUILD}/.headers-build
 }
 
 makeinstall_host() {
-  cd ${PKG_BUILD}
-  mkdir -p ${SYSROOT_PREFIX}/usr/include
-    cp -R include/* ${SYSROOT_PREFIX}/usr/include
+  cd ${PKG_BUILD}/.headers-build
+  make install-headers install_root=${SYSROOT_PREFIX}
+  touch ${SYSROOT_PREFIX}/usr/include/gnu/stubs.h
 }
 
 makeinstall_init() {

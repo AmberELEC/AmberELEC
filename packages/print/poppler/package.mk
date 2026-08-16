@@ -19,4 +19,5 @@ PKG_CMAKE_OPTS_TARGET="-DENABLE_LIBOPENJPEG=none \
                        -DENABLE_NSS3=OFF \
                        -DENABLE_LCMS=OFF \
                        -DENABLE_GPGME=OFF \
+                       -DENABLE_LIBTIFF=OFF \
                        -DENABLE_CPP=OFF"
