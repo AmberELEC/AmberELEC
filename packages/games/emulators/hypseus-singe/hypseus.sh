@@ -158,12 +158,12 @@ fi
 cd "${config}"
 
 if [[ "${ext}" == "ld" ]] && [[ -f "${dir}/${name}.singe" ]]; then
-	mkdir "/storage/roms/laserdisc/${name}.daphne"
-	mount -obind ${dir} "/storage/roms/laserdisc/${name}.daphne"
+	mkdir "/storage/roms/laserdisc/${name}.hypseus"
+	mount -obind ${dir} "/storage/roms/laserdisc/${name}.hypseus"
 	hypseus singe vldp -framefile "${dir}/${name}.txt" -script "${dir}/${name}.singe" -fullscreen -retropath $TIPHAT $params
 	sleep 0.1
-	umount "/storage/roms/laserdisc/${name}.daphne"
-	rmdir "/storage/roms/laserdisc/${name}.daphne"
+	umount "/storage/roms/laserdisc/${name}.hypseus"
+	rmdir "/storage/roms/laserdisc/${name}.hypseus"
 elif [[ "${ext}" == "daphne" ]] && [[ ! -f "${dir}/${name}.singe" ]]; then
 	hypseus "${name}" vldp -framefile "${dir}/${name}.txt" -fullscreen $TIPHAT $params
 else

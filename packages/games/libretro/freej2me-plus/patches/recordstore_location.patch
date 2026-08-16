@@ -1,33 +1,38 @@
 diff --git a/src/javax/microedition/rms/RecordStore.java b/src/javax/microedition/rms/RecordStore.java
-index 3942109..c03256b 100644
+index a601af34..aa745528 100644
 --- a/src/javax/microedition/rms/RecordStore.java
 +++ b/src/javax/microedition/rms/RecordStore.java
-@@ -79,8 +79,8 @@ public class RecordStore
+@@ -106,13 +106,8 @@ public class RecordStore
+ 		this.vendorname = vendorname;
+ 		this.suitename = suitename;
  
- 		appname = Mobile.getPlatform().loader.suitename;
+-		try 
+-		{
+-			// For ISO-8859-1 encodings, we'll use UTF-8 for save paths, helps with chinese and special characters
+-			rmsPath = new String((Mobile.getPlatform().dataPath + "./rms/"+suitename).getBytes(System.getProperty("file.encoding")), System.getProperty("file.encoding").equals(Mobile.supportedEncodings[Mobile.ISO_8859_1]) ? "UTF-8" : Mobile.textEncoding);
+-			rmsFile = rmsPath+"/"+basename+".rms";
+-		}
+-		catch (UnsupportedEncodingException e) { } // Shouldn't really happen
++		rmsPath = "/roms/j2me/rms/" + suitename;
++		rmsFile = rmsPath + "/" + basename + ".rms";
  
--		rmsPath = Mobile.getPlatform().dataPath + "./rms/"+appname;
--		rmsFile = Mobile.getPlatform().dataPath + "./rms/"+appname+"/"+name;
-+		rmsPath = "/roms/j2me/rms/"+appname;
-+		rmsFile = "/roms/j2me/rms/"+appname+"/"+name;
- 
+ 		// Check if the record directory exists, if not, create it.
  		try
- 		{
-@@ -321,7 +321,7 @@ public class RecordStore
+@@ -319,7 +314,7 @@ public class RecordStore
  		try
  		{
  			Mobile.log(Mobile.LOG_DEBUG, RecordStore.class.getPackage().getName() + "." + RecordStore.class.getSimpleName() + ": " + "Deleting RecordStore "+recordStoreName);
--			File fstore = new File(Mobile.getPlatform().dataPath + "./rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
-+			File fstore = new File("/roms/j2me/rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
- 			fstore.delete();
- 		}
- 		catch (Exception e)
-@@ -431,7 +431,7 @@ public class RecordStore
- 		Mobile.log(Mobile.LOG_DEBUG, RecordStore.class.getPackage().getName() + "." + RecordStore.class.getSimpleName() + ": " + "List Record Stores");
- 		if(rmsPath==null)
+-			File folder = new File(Mobile.getPlatform().dataPath + "./rms/" + Mobile.getPlatform().loader.suitename);
++			File folder = new File("/roms/j2me/rms/"+Mobile.getPlatform().loader.suitename+"/"+recordStoreName);
+ 			File[] files = folder.listFiles();
+ 			
+ 			// Delete all files that match the received name (because binary data is saved separately from the RMS)
+@@ -449,7 +444,7 @@ public class RecordStore
  		{
--			rmsPath = Mobile.getPlatform().dataPath + "./rms/"+Mobile.getPlatform().loader.name;
-+			rmsPath = "/roms/j2me/rms/"+Mobile.getPlatform().loader.name;
- 			try
- 			{
- 				Files.createDirectories(Paths.get(rmsPath));
+ 			try 
+ 			{ 
+-				rmsPath = new String((Mobile.getPlatform().dataPath + "./rms/"+Mobile.getPlatform().loader.suitename).getBytes(System.getProperty("file.encoding")), System.getProperty("file.encoding").equals(Mobile.supportedEncodings[Mobile.ISO_8859_1]) ? "UTF-8" : Mobile.textEncoding);
++				rmsPath = "/roms/j2me/rms/" + Mobile.getPlatform().loader.suitename;
+ 				File rmsDir = new File(rmsPath);
+ 				if (!rmsDir.exists()) { rmsDir.mkdirs(); }
+ 			}

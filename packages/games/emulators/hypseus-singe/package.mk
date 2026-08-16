@@ -3,11 +3,11 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="hypseus-singe"
-PKG_VERSION="64839aa9975f362f35686c8cec4041c477a8199c"
+PKG_VERSION="4cfd20d834ee6cf42c1c347ffd2627d87aaf8e2f"
 PKG_LICENSE="GPL3"
 PKG_SITE="https://github.com/DirtBagXon/hypseus-singe"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_TARGET="toolchain SDL2 libvorbis"
+PKG_DEPENDS_TARGET="toolchain SDL2 libvorbis zlib libzip"
 PKG_LONGDESC="Hypseus is a fork of Daphne. A program that lets one play the original versions of many laserdisc arcade games on one's PC."
 PKG_TOOLCHAIN="cmake-make"
 

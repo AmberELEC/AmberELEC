@@ -19,7 +19,7 @@ diff --git a/Makefile.libretro b/Makefile.libretro
 +        CPUFLAGS := -mcpu=cortex-a72.cortex-a53+crc+fp+simd+crypto
 +    endif
 +    LTOFLAGS := -flto=auto -fdevirtualize-at-ltrans
-+    CFLAGS += $(CPUFLAGS) $(LTOFLAGS) -Ofast -fomit-frame-pointer -fno-semantic-interposition -fipa-pta -fweb -frename-registers
++    CFLAGS += $(CPUFLAGS) $(LTOFLAGS) -fomit-frame-pointer -fno-semantic-interposition -fipa-pta -fweb -frename-registers
 +    CXXFLAGS += $(CFLAGS)
 +    LDFLAGS += -Wl,-O1,--sort-common,--as-needed $(LTOFLAGS)
 +

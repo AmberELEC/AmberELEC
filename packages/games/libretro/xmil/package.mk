@@ -3,7 +3,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="xmil"
-PKG_VERSION="6a52dc21a5ff106137670bb600ab2ce3fcebeb1b"
+PKG_VERSION="3e7960a433c3bca820f8b8f5511a2b92bd666829"
 PKG_LICENSE="BSD3"
 PKG_SITE="https://github.com/libretro/xmil-libretro"
 PKG_URL="${PKG_SITE}.git"

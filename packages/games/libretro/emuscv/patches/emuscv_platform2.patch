@@ -1,0 +1,16 @@
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -763,7 +763,7 @@ build-tools: tools/bin2c/bin2c$(EXE_EXT) tools/dasm7801/dasm7801$(EXE_EXT)
+ tools/bin2c/bin2c$(EXE_EXT):
+ 	@echo ''
+ 	@echo '- Build tool : bin2c$(EXE_EXT)'
+ 	@rm -f tools/bin2c/bin2c$(EXE_EXT)
+-	$(CC) $(OBJOUT) tools/bin2c/bin2c$(EXE_EXT) tools/bin2c/bin2c.c
++	$(CC_FOR_BUILD) $(OBJOUT) tools/bin2c/bin2c$(EXE_EXT) tools/bin2c/bin2c.c
+
+ tools/dasm7801/dasm7801$(EXE_EXT):
+ 	@echo ''
+ 	@echo '- Build tool : dasm7801$(EXE_EXT)'
+ 	@rm -f tools/dasm7801/dasm7801$(EXE_EXT)
+-	$(CXX) $(OBJOUT) tools/dasm7801/dasm7801$(EXE_EXT) tools/dasm7801/dasm7801.cpp
++	$(CXX_FOR_BUILD) $(OBJOUT) tools/dasm7801/dasm7801$(EXE_EXT) tools/dasm7801/dasm7801.cpp

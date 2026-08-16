@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="uzem"
-PKG_VERSION="cd6004ea143435cfdb6b12e7c6779dab499f7829"
-PKG_SHA256="338c6bff624e9c822f9d20f497e62080588b42cc3eb94c1bd52137b3e8cae977"
+PKG_VERSION="d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f"
+PKG_SHA256="b673119e7a3bf45efe5afa1cfeea79caa00bf6909f6dd3d1cef28a3bc3540079"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-uzem"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

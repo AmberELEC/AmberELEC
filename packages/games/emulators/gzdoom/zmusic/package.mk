@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="zmusic"
-PKG_VERSION="849984a5e38e6ae2a0eb99f17b05157dc6e7242d"
+PKG_VERSION="d3b730795784bff3f97571446101c57c1c6ac9bc"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/ZDoom/ZMusic"
 PKG_URL="${PKG_SITE}.git"

@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="solarus"
-PKG_VERSION="3aec70b0556a8d7aed7903d1a3e4d9a18c5d1649"
+PKG_VERSION="f411c58a467da28bcea030b420955a26878efb28"
 PKG_ARCH="aarch64"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://gitlab.com/solarus-games/solarus"
@@ -14,7 +14,7 @@ PKG_GIT_CLONE_BRANCH="master"
 
 pre_configure_target() {
 export LDFLAGS+=" -ldl"
-PKG_CMAKE_OPTS_TARGET="-DSOLARUS_GL_ES=ON -DSOLARUS_GUI=OFF -DSOLARUS_USE_LUAJIT=ON -DSOLARUS_TESTS=OFF"
+PKG_CMAKE_OPTS_TARGET="-DSOLARUS_GL_ES=ON -DSOLARUS_USE_LUAJIT=ON -DSOLARUS_TESTS=OFF"
 }
 
 pre_makeinstall_target() {

@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="flycast2021"
-PKG_VERSION="4c293f306bc16a265c2d768af5d0cea138426054"
-PKG_SHA256="7ce0bd97b095907fd4960c771364c549a54547877b5128af42c73a9257fbec6b"
+PKG_VERSION="45bd2f4e59708a7c16a5bb1cb90a94d1b39e330d"
+PKG_SHA256="5ebf68c4548e5ba0521478f5172abd7f2ca5a3e15060cb78da011e3b03f3fb10"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/flycast"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -20,6 +20,7 @@ pre_configure_target() {
   sed -i 's/"Flycast"/"Flycast 2021"/g' core/libretro/libretro.cpp
   sed -i 's/RETRO_PIXEL_FORMAT_XRGB8888/RETRO_PIXEL_FORMAT_RGB565/g' core/libretro/libretro.cpp
   PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7}"
+  export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration"
 }
 
 pre_make_target() {

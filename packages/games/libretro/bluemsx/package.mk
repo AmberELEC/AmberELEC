@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="bluemsx"
-PKG_VERSION="efaaa1052dc427d64534531cf59a6a9a659dc6a6"
-PKG_SHA256="bf0d15f03679a3decbeab9b4e329a4f0504aa6c7d42a421aff535ca827621422"
+PKG_VERSION="0f32f52c48d3e772bfdf0379756f81f00b4e08bc"
+PKG_SHA256="708565144f365e45100b59a67e4f44782ccc74ab0a3db342f754b1e56e038252"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/blueMSX-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

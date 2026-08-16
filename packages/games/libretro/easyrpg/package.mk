@@ -16,6 +16,10 @@ PKG_CMAKE_OPTS_TARGET="-DPLAYER_TARGET_PLATFORM=libretro \
                        -DBUILD_SHARED_LIBS=ON \
                        -DCMAKE_BUILD_TYPE=Release"
 
+pre_configure_target() {
+  export CXXFLAGS="${CXXFLAGS} -Wno-template-body"
+}
+
 pre_make_target() {
   find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
   find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;

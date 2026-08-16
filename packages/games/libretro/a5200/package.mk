@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="a5200"
-PKG_VERSION="526404072821bb2021fab16f8c5dbbca300512c8"
+PKG_VERSION="40c6f2f1ad4a3145b328d5baaf010fae6c7e752b"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/a5200"
 PKG_URL="${PKG_SITE}.git"
