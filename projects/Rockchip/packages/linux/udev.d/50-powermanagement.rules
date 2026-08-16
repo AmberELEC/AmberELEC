@@ -1,0 +1,2 @@
+# Disable power management for Realtek RTL8188EUS Wi-Fi adapter
+ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8179", RUN+="/bin/sh -c 'echo 0 > /sys/module/r8188eu/parameters/rtw_power_mgnt'"

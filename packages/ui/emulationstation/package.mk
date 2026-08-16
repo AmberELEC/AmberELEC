@@ -35,6 +35,7 @@ pre_configure_target() {
   if [ -f ~/developer_settings.conf ]; then
     . ~/developer_settings.conf
   fi
+  sed -i 's/GenericStringRef& operator=(const GenericStringRef& rhs) { s = rhs.s; length = rhs.length; }/GenericStringRef\& operator=(const GenericStringRef\& rhs) = delete;/g' ${SYSROOT_PREFIX}/usr/include/rapidjson/document.h
 }
 
 makeinstall_target() {

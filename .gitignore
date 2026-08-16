@@ -43,6 +43,7 @@ mkpkg-temp
 # crap
 .DS_Store
 .directory
+.config
 
 repo/
 repo

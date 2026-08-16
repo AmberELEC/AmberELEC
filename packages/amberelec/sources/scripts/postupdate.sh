@@ -58,7 +58,7 @@ fi
 
 ## 2024-05-06
 ## Set new defaults after ES upgrade
-if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
+if [[ "$LAST_UPDATE_VERSION" -le "20260811" ]]; then
   rm -rf "/storage/.config/emulationstation/scripts/"
 
   sed -i '
@@ -128,10 +128,6 @@ if [[ "$LAST_UPDATE_VERSION" -le "20240506" ]]; then
   echo "wonderswancolor.bezel.overlay.shadow=1" >> ${CONF}
 
   if [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG351MP" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
-    echo "gba.bezel.overlay.grid=1" >> ${CONF}
-    echo "gba.bezel.overlay.shadow=1" >> ${CONF}
-    echo "gbah.bezel.overlay.grid=1" >> ${CONF}
-    echo "gbah.bezel.overlay.shadow=1" >> ${CONF}
     echo "arduboy.bezel.overlay.grid=1" >> ${CONF}
     echo "arduboy.bezel.overlay.shadow=1" >> ${CONF}
   fi

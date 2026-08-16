@@ -1,2 +1,4 @@
-np2kai # build fails
-solarus # v2.0 not yet supported
+openbor # newer builds crashing
+hypseus-singe # SDL3
+amiberry # SDL3
+ppsspp # last release
