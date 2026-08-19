@@ -20,6 +20,7 @@ pre_configure_target() {
   sed -i 's/"Flycast"/"Flycast 2022 Low-End"/g' core/libretro/libretro.cpp
   sed -i 's/RETRO_PIXEL_FORMAT_XRGB8888/RETRO_PIXEL_FORMAT_RGB565/g' core/libretro/libretro.cpp
   PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7}"
+  export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration"
 }
 
 pre_make_target() {
