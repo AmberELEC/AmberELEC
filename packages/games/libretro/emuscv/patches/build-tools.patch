@@ -1,0 +1,11 @@
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -775,7 +775,7 @@ tools/dasm7801/dasm7801$(EXE_EXT):
+ 	@rm -f tools/dasm7801/dasm7801$(EXE_EXT)
+ 	$(CXX_FOR_BUILD) $(OBJOUT) tools/dasm7801/dasm7801$(EXE_EXT) tools/dasm7801/dasm7801.cpp
+
+-binary.%.c: %
++binary.%.c: % | build-tools
+ 	@echo ''
+ 	@echo '- Import binary file : $<'
+ 	rm -f $(patsubst %.c,%.h,$@) $@

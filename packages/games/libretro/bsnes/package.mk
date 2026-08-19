@@ -2,8 +2,8 @@
 # Copyright (C) 2023-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="bsnes"
-PKG_VERSION="aadae1cd3d8175a6e71525ab122e6b7a949091a7"
-PKG_SHA256="41b7efd95f82ca1a2de728e29d957df497e8533e4029b50ae693cf64cedeb09e"
+PKG_VERSION="6d19eef5835a792e241e33194b4c1e9b75405b88"
+PKG_SHA256="577ad61930db615d309c0c17713d2799a22f8f96969b43da0b2fde57e0dde539"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/bsnes-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -12,7 +12,7 @@ PKG_LONGDESC="bsnes is a Super Nintendo (SNES) emulator focused on performance, 
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
-  sed -i 's/\-O[23]/-Ofast/' ${PKG_BUILD}/Makefile
+  sed -i 's/\-O[23]//' ${PKG_BUILD}/Makefile
   sed -i 's/CFLAGS :=//' ${PKG_BUILD}/Makefile
   sed -i 's/CXXFLAGS :=//' ${PKG_BUILD}/Makefile
 }

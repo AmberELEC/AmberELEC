@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="snes9x2005_plus"
-PKG_VERSION="74d871db9b4dba6dbe6c5ecebc88cbf255be5349"
-PKG_SHA256="e8e659fe3ed3686823f77a07b22289bc36b367c39bacfbad4285cc822d7998f8"
+PKG_VERSION="deb49d80d1836e3e737480a326e31a54c46c04ae"
+PKG_SHA256="ebdce1e07e839702ef094b9edaac226c8b02abba9224a859ff18e2a28a09483a"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/snes9x2005"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

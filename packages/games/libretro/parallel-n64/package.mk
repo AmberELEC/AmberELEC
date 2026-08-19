@@ -5,7 +5,6 @@
 PKG_NAME="parallel-n64"
 PKG_VERSION="f8605345e13c018a30c8f4ed03c05d8fc8f70be8"
 PKG_SHA256="344cfa8bbbab1a2e1370a3f70de6b12e04f7ded95dd04f953c475941d19ad9b8"
-PKG_REV="3"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/parallel-n64"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -22,6 +21,10 @@ fi
 if [[ "${DEVICE}" == RG351P ]] || [[ "${DEVICE}" == RG351V ]]; then
   PKG_PATCH_DIRS="rumble"
 fi
+
+pre_configure_target() {
+  export CFLAGS="${CFLAGS} -std=gnu17 -Wno-error=mismatched-dealloc"
+}
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro

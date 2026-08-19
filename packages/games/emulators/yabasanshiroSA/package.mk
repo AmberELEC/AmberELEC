@@ -1,46 +1,43 @@
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
+
 PKG_NAME="yabasanshiroSA"
-PKG_VERSION="c7618d2ecbf77b1e8188fa8af4fa1cfb34833a72"
+PKG_VERSION="a40dace1ae0af3ebd45848549fdf396f40e3930f"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/devmiyax/yabause"
+PKG_SITE="https://github.com/sydarn/yabause"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 boost openal-soft ${OPENGLES} zlib"
 PKG_LONGDESC="Yabause is a Sega Saturn emulator and took over as Yaba Sanshiro"
 PKG_TOOLCHAIN="cmake-make"
-PKG_GIT_CLONE_BRANCH="pi4-1-9-0"
-
+PKG_GIT_CLONE_BRANCH="pi4-update"
 PKG_PATCH_DIRS="${DEVICE}"
 
-pre_patch() {
-  find $(echo "${PKG_BUILD}" | cut -f1 -d\ ) -type f -exec dos2unix -q {} \;
-}
-
 post_unpack() {
-  # use host versions
   sed -i "s|COMMAND m68kmake|COMMAND ${PKG_BUILD}/m68kmake_host|" ${PKG_BUILD}/yabause/src/musashi/CMakeLists.txt
   sed -i "s|COMMAND ./bin2c|COMMAND ${PKG_BUILD}/bin2c_host|" ${PKG_BUILD}/yabause/src/retro_arena/nanogui-sdl/CMakeLists.txt
+  find ${PKG_BUILD} -type f -name "CMakeLists.txt" -exec sed -i 's/^\s*cmake_minimum_required.*$/cmake_minimum_required(VERSION 3.10...3.25)/' {} +
+
+  sed -i 's/include(FindOpenGL)/set(OPENGL_FOUND TRUE)/g' ${PKG_BUILD}/yabause/src/CMakeLists.txt
+  sed -i 's/if (OPENGL_FOUND )/if (TRUE)/g' ${PKG_BUILD}/yabause/src/CMakeLists.txt
+  sed -i 's/if(OPENGL_FOUND)/if(TRUE)/g' ${PKG_BUILD}/yabause/src/CMakeLists.txt
 }
 
 pre_make_target() {
-  # runs on host so make them manually if package is not crosscompile friendly
   ${HOST_CC} ${PKG_BUILD}/yabause/src/retro_arena/nanogui-sdl/resources/bin2c.c -o ${PKG_BUILD}/bin2c_host
   ${HOST_CC} ${PKG_BUILD}/yabause/src/musashi/m68kmake.c -o ${PKG_BUILD}/m68kmake_host
 }
 
 pre_configure_target() {
-PKG_CMAKE_OPTS_TARGET="${PKG_BUILD}/yabause \
-                         -DYAB_PORTS=retro_arena \
+  PKG_CMAKE_OPTS_TARGET="-S ${PKG_BUILD}/yabause \
                          -DYAB_WANT_DYNAREC_DEVMIYAX=ON \
                          -DYAB_WANT_ARM7=ON \
                          -DCMAKE_TOOLCHAIN_FILE=${PKG_BUILD}/yabause/src/retro_arena/n2.cmake \
-                         -DYAB_WANT_VULKAN=OFF \
+                         -DYAB_PORTS=retro_arena \
                          -DOPENGL_INCLUDE_DIR=${SYSROOT_PREFIX}/usr/include \
-                         -DOPENGL_opengl_LIBRARY=${SYSROOT_PREFIX}/usr/lib \
-                         -DOPENGL_glx_LIBRARY=${SYSROOT_PREFIX}/usr/lib \
+                         -DOpenGL_GL_PREFERENCE=LEGACY \
                          -DLIBPNG_LIB_DIR=${SYSROOT_PREFIX}/usr/lib \
-                         -Dpng_STATIC_LIBRARIES=${SYSROOT_PREFIX}/usr/lib/libpng16.a \
-                         -DCMAKE_BUILD_TYPE=Release \
-                         -DCMAKE_RULE_MESSAGES=OFF \
-                         -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON"
+                         -Dpng_STATIC_LIBRARIES=${SYSROOT_PREFIX}/usr/lib/libpng16.so \
+                         -DCMAKE_BUILD_TYPE=Release"
 }
 
 makeinstall_target() {
@@ -50,4 +47,4 @@ makeinstall_target() {
 
   mkdir -p ${INSTALL}/usr/config/yabasanshiro
   cp ${PKG_DIR}/config/* ${INSTALL}/usr/config/yabasanshiro
-} 
+}

@@ -12,9 +12,10 @@ PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
   sed -i "s|sdl2-config|${SYSROOT_PREFIX}/usr/bin/sdl2-config|g" Makefile
+  sed -i '1s/^/#include <stdbool.h>\n/' ${PKG_BUILD}/jstest-sdl.c
 }
 
-makeinstall_target(){
+makeinstall_target() {
   mkdir -p ${INSTALL}/usr/bin
   cp jstest-sdl ${INSTALL}/usr/bin
 }

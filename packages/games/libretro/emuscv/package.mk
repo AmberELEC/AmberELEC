@@ -2,19 +2,19 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="emuscv"
-PKG_VERSION="dfce10df090ce3f5eb23bdbee289702ec1478246"
-#PKG_ARCH="aarch64"
-PKG_SITE="https://gitlab.com/MaaaX-EmuSCV/libretro-emuscv"
+PKG_VERSION="769ad162db63884222949f2add2a4b56a6499b25"
+PKG_SITE="https://gitlab.com/MaaaX-EPOCH84/libretro-emuscv"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="An EPOCH/YENO Super Cassette Vision (1984) home video game emulator for Libretro"
 PKG_TOOLCHAIN="make"
 
-PKG_MAKE_OPTS_TARGET="-C . platform=unix"
+PKG_MAKE_OPTS_TARGET="-f Makefile.libretro platform=unix"
 
-pre_configure_target() {
+pre_make_target() {
   export TERM=xterm
-  CXXFLAGS+=" -I$(get_build_dir glibc)/sysdeps/unix/sysv/linux/x86"
+  sed -i 's/`sdl2-config --cflags`//g' ${PKG_BUILD}/Makefile.libretro
+  sed -i 's/`sdl2-config --libs`/-lSDL2/g' ${PKG_BUILD}/Makefile.libretro
 }
 
 makeinstall_target() {

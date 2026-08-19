@@ -37,7 +37,7 @@ jobs:
               branch_arg="$GITHUB_REF_NAME"
             fi
             echo "branch=$branch_arg" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         name: Checkout
         with:
           clean: false
@@ -184,7 +184,7 @@ jobs:
             #main builds only include the .tar for speed
             rm -rf release/aarch64/RG*/*.img.gz*
       - name: Archive RG351V (${{github.sha}})
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: github.event.client_payload.release_tag == ''
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
@@ -192,28 +192,28 @@ jobs:
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
       - name: Archive RG351MP (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: RG351MP-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351MP/
       - name: Archive RG552 (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG552/
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-prerelease'
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
@@ -299,7 +299,7 @@ jobs:
           repo: AmberELEC-prerelease
       - name: Switch draft to start showing release
         if: github.event.action == 'release-prerelease'
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           allowUpdates: true
@@ -311,7 +311,7 @@ jobs:
           omitNameDuringUpdate: true
       - name: Create dev release as draft at first to hide during uploads
         if: github.event.action == 'release-dev'
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
@@ -337,7 +337,7 @@ jobs:
           repo: dev-builds
       - name: Switch draft to start showing release
         if: github.event.action == 'release-dev'
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           allowUpdates: true
@@ -352,7 +352,7 @@ jobs:
       #This can be removed after no more 'bridge' betas are needed
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-beta'
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           body: |
@@ -375,7 +375,7 @@ jobs:
           repo: AmberELEC-prerelease
       - name: Switch draft to start showing release
         if: github.event.action == 'release-beta'
-        uses: ncipollo/release-action@v1.13.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           tag: "${{ steps.version.outputs.version }}"
           allowUpdates: true

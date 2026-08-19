@@ -3,39 +3,41 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gdb"
-PKG_VERSION="11.1"
-PKG_SHA256="cccfcc407b20d343fb320d4a9a2110776dd3165118ffd41f4b1b162340333f94"
+PKG_VERSION="17.2"
+PKG_SHA256="1c036c0d72e4b3d1fb5c94c88632add6f9d76f4d7c4d2ea793c12a9f19a3228c"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/gdb/"
-PKG_URL="http://ftpmirror.gnu.org/gdb/${PKG_NAME}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain zlib ncurses expat"
+PKG_URL="https://ftp.gnu.org/gnu/gdb/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_TARGET="toolchain expat gmp mpfr ncurses zlib"
 PKG_LONGDESC="GNU Project debugger, allows you to see what is going on inside another program while it executes."
-# gdb could fail on runtime if build with LTO support
 
 PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
                            --disable-shared \
                            --enable-static \
                            --with-auto-load-safe-path=/ \
-			   --with-python=no \
-			   --with-guile=no \
-			   --with-mpfr=no \
-			   --with-intel-pt=no \
-			   --with-babeltrace=no \
-			   --with-expat=yes \
-			   --disable-source-highlight \
+                           --without-python \
+                           --without-guile \
+                           --with-mpfr=${SYSROOT_PREFIX}/usr \
+                           --with-gmp=${SYSROOT_PREFIX}/usr \
+                           --without-intel-pt \
+                           --without-babeltrace \
+                           --with-expat=${SYSROOT_PREFIX}/usr \
+                           --disable-source-highlight \
                            --disable-nls \
                            --disable-sim \
                            --without-x \
                            --disable-tui \
+                           --without-curses \
                            --disable-libada \
                            --without-lzma \
                            --disable-libquadmath \
                            --disable-libquadmath-support \
-                           --enable-libada \
                            --enable-libssp \
                            --disable-werror"
 
 pre_configure_target() {
+  export CFLAGS="${CFLAGS} -DNCURSES_BOOL=bool -DNCURSES_OPAQUE=1"
+  export CXXFLAGS="${CXXFLAGS} -DNCURSES_BOOL=bool -DNCURSES_OPAQUE=1"
   CC_FOR_BUILD="${HOST_CC}"
   CFLAGS_FOR_BUILD="${HOST_CFLAGS}"
 }

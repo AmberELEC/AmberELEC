@@ -13,11 +13,13 @@ PKG_TOOLCHAIN="manual"
 
 pre_configure_target() {
   cp -f ${TOOLCHAIN}/bin/waf ${PKG_BUILD}
+  sed -i 's/opt\.get_option_group/opt\.add_option_group/g' ${PKG_BUILD}/wscript
+  find ${PKG_BUILD} -type f \( -name "wscript" -o -name "*.py" \) -exec sed -i "s/type[[:space:]]*=[[:space:]]*'string'/type=str/g" {} +
 }
 
 configure_target() {
   cd ${PKG_BUILD}
-  ${PKG_BUILD}/waf configure --enable-sdl2 --enable-sdl2-gamepad --disable-pulse --enable-egl --disable-libbluray --disable-gl
+  ${PKG_BUILD}/waf configure --enable-sdl2 --enable-sdl2-gamepad --disable-pulse --enable-egl --disable-libbluray --disable-gl --disable-manpage-build --disable-libplacebo
 }
 
 make_target() {

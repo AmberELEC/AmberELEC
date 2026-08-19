@@ -2,7 +2,7 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="kernel-firmware"
-PKG_VERSION="20240410"
+PKG_VERSION="20260622"
 PKG_LICENSE="other"
 PKG_SITE="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/"
 PKG_URL="https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-${PKG_VERSION}.tar.xz"
@@ -79,11 +79,6 @@ makeinstall_target() {
   [ "${TARGET_ARCH}" != "x86_64" ] && rm -fr ${FW_TARGET_DIR}/brcm/*-pcie.*
 
   # Upstream doesn't name the file correctly so we need to symlink it
-  if [ -f "${FW_TARGET_DIR}/rtl_bt/rtl8723bs_config-OBDA8723.bin" ]; then
-    #cd "${FW_TARGET_DIR}/rtl_bt"
-    ln -s "rtl8723bs_config-OBDA8723.bin" "${FW_TARGET_DIR}/rtl_bt/rtl8723bs_config.bin"
-  fi
-
   if [ ! -f "${FW_TARGET_DIR}/rtl_bt/rtl8723b_config.bin" ]; then
     cp "${PKG_DIR}/firmwares/rtl8723b_config.bin" "${FW_TARGET_DIR}/rtl_bt/rtl8723b_config.bin"
   fi

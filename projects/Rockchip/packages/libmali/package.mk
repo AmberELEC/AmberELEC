@@ -14,6 +14,11 @@ PKG_LONGDESC="The Mali GPU library used in Rockchip Platform"
 
 PKG_PATCH_DIRS="${MALI_FAMILY}"
 
+pre_configure_target() {
+  export CFLAGS="${CFLAGS} -std=gnu11"
+  export CXXFLAGS="${CXXFLAGS} -std=gnu++11"
+}
+
 post_makeinstall_target() {
 	# remove all the extra blobs, we only need one
 	rm -rf ${INSTALL}/usr

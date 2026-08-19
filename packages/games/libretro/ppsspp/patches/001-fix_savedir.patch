@@ -1,10 +1,10 @@
-diff --git a/Core/System.cpp b/Core/System.cpp
-index 6a8f3ab1f0..0dcb137e1e 100644
---- a/Core/System.cpp
-+++ b/Core/System.cpp
-@@ -104,6 +104,12 @@ FileLoader *PSP_LoadedFile() {
- 	return g_loadedFile;
- }
+diff --git a/Core/Util/PathUtil.cpp b/Core/Util/PathUtil.cpp
+index 96be0eac06..2e43952964 100644
+--- a/Core/Util/PathUtil.cpp
++++ b/Core/Util/PathUtil.cpp
+@@ -10,6 +10,12 @@
+ #include "Core/Config.h"
+ #include "Common/VR/PPSSPPVR.h"
  
 +#ifdef __ANDROID__
 +static bool isAndroid = true;
@@ -12,10 +12,10 @@ index 6a8f3ab1f0..0dcb137e1e 100644
 +static bool isAndroid = false;
 +#endif
 +
- void ResetUIState() {
- 	globalUIState = UISTATE_MENU;
- }
-@@ -724,7 +730,7 @@ void PSP_RunLoopFor(int cycles) {
+ Path FindConfigFile(const Path &searchPath, std::string_view baseFilename, bool *exists) {
+ 	// Don't search for an absolute path.
+ 	if (baseFilename.size() > 1 && baseFilename[0] == '/') {
+@@ -45,7 +51,7 @@ Path FindConfigFile(const Path &searchPath, std::string_view baseFilename, bool
  Path GetSysDirectory(PSPDirectories directoryType) {
  	const Path &memStickDirectory = g_Config.memStickDirectory;
  	Path pspDirectory;
@@ -25,10 +25,10 @@ index 6a8f3ab1f0..0dcb137e1e 100644
  		pspDirectory = memStickDirectory;
  	} else {
 diff --git a/libretro/libretro.cpp b/libretro/libretro.cpp
-index 222cc98915..7dacda1af5 100644
+index 3b2f10317e..0b3cf6b69c 100644
 --- a/libretro/libretro.cpp
 +++ b/libretro/libretro.cpp
-@@ -1231,19 +1231,13 @@ void retro_init(void)
+@@ -1240,14 +1240,8 @@ void retro_init(void)
  
     Path retro_base_dir;
     Path retro_save_dir;
@@ -43,6 +43,9 @@ index 222cc98915..7dacda1af5 100644
 +   retro_base_dir /= "/roms/gamedata/ppsspp";
 +   retro_save_dir /= "/roms/gamedata/ppsspp";
  
+    // Check if '<system_dir>/PPSSPP/compat.ini' exists, if not we can assume
+    // the user is missing the assets entirely, so let's warn them about it.
+@@ -1288,7 +1282,7 @@ void retro_init(void)
     g_Config.currentDirectory = retro_base_dir;
     g_Config.defaultCurrentDirectory = retro_base_dir;
     g_Config.memStickDirectory = retro_save_dir;

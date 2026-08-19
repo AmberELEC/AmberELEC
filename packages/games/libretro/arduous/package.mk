@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="arduous"
-PKG_VERSION="2273b485628790a2ce954941341b5b071c3fb30e"
+PKG_VERSION="798e3950f1de7c69455bc988d55eafeebac5a1eb"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/arduous"
 PKG_URL="${PKG_SITE}.git"

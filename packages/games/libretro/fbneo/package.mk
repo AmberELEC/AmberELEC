@@ -3,8 +3,8 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="fbneo"
-PKG_VERSION="d2cf158e9ba82fc7dfec592452e6113121665c19"
-PKG_SHA256="e081bd9c224908dfbe3059aad46779cf1b763ccfa68eeab9c40c450c3d1b1455"
+PKG_VERSION="46e182f300a84ca38fcdb095d85e424e851eb5c7"
+PKG_SHA256="2871168dbb44974bc12ba21cca79d57d071a7d630a35ec5b16cdc7794af1d4d9"
 PKG_LICENSE="Non-commercial"
 PKG_SITE="https://github.com/libretro/FBNeo"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -14,10 +14,10 @@ PKG_TOOLCHAIN="make"
 
 
 pre_configure_target() {
-  sed -i "s|LDFLAGS += -static-libgcc -static-libstdc++|LDFLAGS += -static-libgcc|"  ./src/burner/libretro/Makefile
-  sed -i 's/\-O[23]//' ./src/burner/libretro/Makefile
+  sed -i "s|LDFLAGS += -static-libgcc -static-libstdc++|LDFLAGS += -static-libgcc|" ../src/burner/libretro/Makefile
+  sed -i 's/\-O[23]//' ../src/burner/libretro/Makefile
 
-  PKG_MAKE_OPTS_TARGET=" -C ./src/burner/libretro USE_CYCLONE=0 profile=performance"
+  PKG_MAKE_OPTS_TARGET=" -C ../src/burner/libretro USE_CYCLONE=0 profile=performance"
 
   if [[ "${TARGET_FPU}" =~ "neon" ]]; then
     PKG_MAKE_OPTS_TARGET+=" HAVE_NEON=1"

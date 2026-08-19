@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="SDL2"
-PKG_VERSION="2.32.4"
+PKG_VERSION="2.32.10"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://www.libsdl.org/release/SDL2-${PKG_VERSION}.tar.gz"
@@ -21,6 +21,8 @@ pre_make_host() {
 }
 
 pre_configure_target(){
+  export CFLAGS="${CFLAGS} -Wno-error=incompatible-pointer-types -Wno-error=int-conversion"
+
   PKG_CMAKE_OPTS_TARGET="-DSDL_STATIC=OFF \
                          -DSDL_LIBC=ON \
                          -DSDL_GCC_ATOMICS=ON \

@@ -16,7 +16,7 @@ PKG_BUILD_FLAGS="+pic"
 PKG_TOOLCHAIN="auto"
 
 pre_configure_target() {
-   export CFLAGS="${CFLAGS} -fcommon -fPIC"
+    export CFLAGS="${CFLAGS} -fcommon -fPIC -Wno-incompatible-pointer-types -Wno-array-parameter"
 }
 
 PKG_CONFIGURE_OPTS_TARGET="

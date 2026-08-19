@@ -2,7 +2,7 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="RTL8188FU"
-PKG_VERSION="0ede0794073495da694aeb52cdd748c6ba2ff21c"
+PKG_VERSION="c8c95708b3756c67139c456a2a6576c1e6491d82"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/kelebek333/rtl8188fu"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -13,6 +13,7 @@ PKG_IS_KERNEL_PKG="yes"
 
 pre_make_target() {
   unset LDFLAGS
+  export KCFLAGS="${KCFLAGS} -Wno-header-guard"
 }
 
 make_target() {

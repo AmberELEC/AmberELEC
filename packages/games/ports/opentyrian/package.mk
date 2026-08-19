@@ -2,8 +2,8 @@
 # Copyright (C) 2020-present Shanti Gilbert (https://github.com/shantigilbert)
 
 PKG_NAME="opentyrian"
-PKG_VERSION="405e4421f80fd6dfe3d4560604ba3fb49bccf35a"
-PKG_SHA256="1f42ecb6118d7f646f5ee909e5ef4ac1647c20d73023919a4aed12c0115f9d6a"
+PKG_VERSION="1c34d1bddac8c8f2de834229d04b5a729525c944"
+PKG_SHA256="00c271211dee4579453bc07d171f9b5989876181def39f62576a7c449ddf9d3b"
 PKG_LICENSE="GPL2"
 PKG_SITE="https://github.com/opentyrian/opentyrian"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
@@ -11,10 +11,21 @@ PKG_DEPENDS_TARGET="toolchain SDL2 SDL2_net"
 PKG_LONGDESC="An open-source port of the DOS shoot-em-up Tyrian."
 PKG_TOOLCHAIN="make"
 
+post_patch() {
+  sed -i '1i #include <stdlib.h>' ${PKG_BUILD}/src/animlib.c
+}
+
 pre_configure_target() {
-  CFLAGS+=" -I$(get_build_dir SDL2)/include"
-  CFLAGS+=" -I$(get_build_dir SDL2_net)"
-  export LDFLAGS="${LDFLAGS} -lSDL2 -lSDL2_net"
+  export SDL_CONFIG="${SYSROOT_PREFIX}/usr/bin/sdl2-config"
+}
+
+make_target() {
+  make \
+    CC="${CC}" \
+    CFLAGS="${CFLAGS} -I${SYSROOT_PREFIX}/usr/include/SDL2" \
+    LDFLAGS="${LDFLAGS} -L${SYSROOT_PREFIX}/usr/lib" \
+    LDLIBS="-lSDL2_net -lSDL2 -lm" \
+    WITH_NETWORK=true
 }
 
 makeinstall_target() {

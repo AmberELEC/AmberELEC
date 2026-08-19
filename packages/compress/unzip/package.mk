@@ -11,6 +11,11 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="UnZip is an extraction utility for archives compressed in .zip format."
 PKG_TOOLCHAIN="manual"
 
+post_unpack() {
+  sed -i 's|struct tm \*gmtime(), \*localtime();|/* struct tm *gmtime(), *localtime(); */|g' ${PKG_BUILD}/unix/unxcfg.h
+  find ${PKG_BUILD} -type f -exec sed -i 's/-DNO_DIR//g' {} +
+}
+
 make_target() {
     make CC=${CC} RANLIB=${RANLIB} AR=${AR} STRIP=${STRIP} \
          -f unix/Makefile generic LOCAL_UNZIP="${CFLAGS}"

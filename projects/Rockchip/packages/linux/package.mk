@@ -148,6 +148,8 @@ pre_make_target() {
   sed -i '/obj-$(CONFIG_FAT_FS).*+= fat\//a obj-$(CONFIG_EXFAT_FS)\t\t+= exfat\/' Makefile
   cd ${PREEXF}
 
+  export KCFLAGS="${KCFLAGS} -Wno-header-guard"
+
   kernel_make oldconfig
 
   # regdb (backward compatability with pre-4.15 kernels)

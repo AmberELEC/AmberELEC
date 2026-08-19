@@ -18,6 +18,8 @@ if [[ "${DEVICE}" == RG552 ]]; then
 fi
 
 pre_configure_target() {
+  export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration -Wno-error=int-conversion"
+
   TARGET_CONFIGURE_OPTS=""
   PKG_CONFIGURE_OPTS_TARGET="--disable-qt \
                              --enable-alsa \

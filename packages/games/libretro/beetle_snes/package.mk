@@ -2,8 +2,8 @@
 # Copyright (C) 2023-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle_snes"
-PKG_VERSION="f7bfa217cf7150779902c3a998f7624d92a5f17d"
-PKG_SHA256="a299383932e35d5030145e14c7fbab57ba6e1fa81e00c866b1bdcbc70bfac1c6"
+PKG_VERSION="08e5a8cc719859180891544517816093f4dbd40a"
+PKG_SHA256="6d6d1506a7358ff643aa90491fbae645b9e64244bcaaf2cb3851bfa0f14cc068"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-bsnes-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

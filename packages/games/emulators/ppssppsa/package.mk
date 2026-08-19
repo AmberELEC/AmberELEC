@@ -44,7 +44,7 @@ PKG_CMAKE_OPTS_TARGET+="-DUSE_WAYLAND_WSI=OFF \
                         -DUNITTEST=OFF \
                         -DSIMULATOR=OFF \
                         -DHEADLESS=OFF \
-                        -DUSE_SYSTEM_FFMPEG=ON \
+                        -DUSE_SYSTEM_FFMPEG=OFF \
                         -DUSE_SYSTEM_ZSTD=ON \
                         -DUSE_SYSTEM_LIBZIP=ON \
                         -DUSE_DISCORD=OFF"

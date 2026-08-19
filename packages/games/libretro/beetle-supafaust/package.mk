@@ -3,7 +3,7 @@
 # Copyright (C) 2020-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="beetle-supafaust"
-PKG_VERSION="e25f66765938d33f9ad5850e8d6cd597e55b7299"
+PKG_VERSION="d6187e5337e6c2646d003db3ab1936727ca75301"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/supafaust"
 PKG_URL="${PKG_SITE}.git"

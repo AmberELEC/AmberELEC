@@ -23,6 +23,10 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_have_abstract_sockets=yes \
                            --disable-bash-completion \
                            --enable-asserts=no"
 
+pre_configure_target() {
+  export CFLAGS="${CFLAGS} -std=gnu99"
+}
+
 post_makeinstall_target() {
   rm -rf ${INSTALL}/usr/bin/dbus-binding-tool
 }

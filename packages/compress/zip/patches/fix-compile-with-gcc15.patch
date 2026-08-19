@@ -1,0 +1,106 @@
+--- a/timezone.c
++++ b/timezone.c
+@@ -39,6 +39,7 @@
+
+ #include "zip.h"
+ #include "timezone.h"
++#include <time.h>
+ #include <ctype.h>
+ #include <errno.h>
+
+--- a/unix/configure
++++ b/unix/configure
+@@ -1,4 +1,3 @@
+-:
+ #!/bin/sh -x
+ # The above : is necessary on some buggy systems.
+ 
+@@ -509,19 +508,38 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
+ # Check for missing functions
+ # add NO_'function_name' to flags if missing
+ 
+-for func in rmdir strchr strrchr rename mktemp mktime mkstemp
+-do
+-  echo Check for $func
+-  echo "int main(){ $func(); return 0; }" > conftest.c
+-  $CC $BFLAG -o conftest conftest.c >/dev/null 2>/dev/null
+-  [ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_`echo $func | tr '[a-z]' '[A-Z]'`"
+-done
++check_func() {
++  cat << EOF > conftest.c
++$1
++int main(void) { $2; return 0; }
++EOF
++  $CC $BFLAG -o conftest conftest.c >/dev/null 2>&1
++}
++
++echo Check for rmdir
++check_func "#include <unistd.h>" "rmdir(\"\")" || CFLAGS="${CFLAGS} -DNO_RMDIR"
++
++echo Check for strchr
++check_func "#include <string.h>" "strchr(\"\", 0)" || CFLAGS="${CFLAGS} -DNO_STRCHR"
++
++echo Check for strrchr
++check_func "#include <string.h>" "strrchr(\"\", 0)" || CFLAGS="${CFLAGS} -DNO_STRRCHR"
++
++echo Check for rename
++check_func "#include <stdio.h>" "rename(\"\", \"\")" || CFLAGS="${CFLAGS} -DNO_RENAME"
++
++echo Check for mktemp
++check_func "#include <stdlib.h>" "mktemp(\"\")" || CFLAGS="${CFLAGS} -DNO_MKTEMP"
++
++echo Check for mktime
++check_func "#include <time.h>" "struct tm *tm_p = 0; mktime(tm_p)" || CFLAGS="${CFLAGS} -DNO_MKTIME"
++
++echo Check for mkstemp
++check_func "#include <stdlib.h>" "mkstemp(\"\")" || CFLAGS="${CFLAGS} -DNO_MKSTEMP"
+ 
+ 
+ echo Check for memset
+-echo "int main(){ char k; memset(&k,0,0); return 0; }" > conftest.c
+-$CC -o conftest conftest.c >/dev/null 2>/dev/null
+-[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DZMEM"
++check_func "#include <string.h>" "char buf; memset(&buf, 0, 0)" || CFLAGS="${CFLAGS} -DZMEM"
+ 
+ 
+ echo Check for memmove
+@@ -544,7 +562,7 @@ $CC -o conftest conftest.c >/dev/null 2>/dev/null
+ echo Check for errno declaration
+ cat > conftest.c << _EOF_
+ #include <errno.h>
+-main()
++int main(void)
+ {
+   errno = 0;
+   return 0;
+@@ -556,7 +574,8 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
+ 
+ echo Check for directory libraries
+ cat > conftest.c << _EOF_
+-int main() { return closedir(opendir(".")); }
++#include <dirent.h>
++int main(void) { return closedir(opendir(".")); }
+ _EOF_
+ 
+ $CC -o conftest conftest.c >/dev/null 2>/dev/null
+@@ -621,11 +640,13 @@ CFLAGS="${CFLAGS} ${OPT}"
+ 
+ echo Check for valloc
+ cat > conftest.c << _EOF_
+-main()
++#include <stdlib.h>
++int main(void)
+ {
+ #ifdef MMAP
+-    valloc();
++    valloc(0);
+ #endif
++    return 0;
+ }
+ _EOF_
+ $CC ${CFLAGS} -c conftest.c > /dev/null 2>/dev/null
+@@ -692,4 +713,3 @@ echo CC=\"${CC}\" CFLAGS=\"${CFLAGS}\"  CPP=\"${CPP}\" OBJA=\"${OBJA}\" \
+        LFLAGS2=\"${LFLAGS2}\" LN=\"${LN}\" \
+        CC_BZ=\"${CC_BZ}\" CFLAGS_BZ=\"${CFLAGS_BZ}\" \
+        IZ_BZIP2=\"${IZ_BZIP2}\" LIB_BZ=\"${LIB_BZ}\" > flags
+-

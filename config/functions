@@ -300,6 +300,15 @@ setup_toolchain() {
     export MAKEFLAGS="$MAKEFLAGS V=1 VERBOSE=1"
   fi
 
+  # optimize flag
+  if flag_enabled "o3" "no"; then
+    TARGET_CFLAGS+=" -O3 -fomit-frame-pointer"
+    TARGET_CXXFLAGS+=" -O3 -fomit-frame-pointer"
+  else
+    TARGET_CFLAGS+=" -Ofast -fomit-frame-pointer"
+    TARGET_CXXFLAGS+=" -Ofast -fomit-frame-pointer"
+  fi
+
   case "$1" in
     target|init)
       export DESTIMAGE="target"
