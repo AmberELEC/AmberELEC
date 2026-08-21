@@ -16,22 +16,46 @@ on:
 
 jobs:
   cleanup:
-    name: Purge ccache directories
+    name: Purge and Verify ccache
     runs-on: main
     steps:
-      - name: Delete ccache directories
+      - name: Pre-check workspace content & disk space
+        run: |
+          echo "=== RUNNER INFO ==="
+          echo "Hostname: $(hostname)"
+          echo "Workspace: ${{ github.workspace }}"
+          echo ""
+          echo "=== DISK USAGE BEFORE ==="
+          df -h "${{ github.workspace }}"
+          echo ""
+          echo "=== CCACHE FOLDERS FOUND BEFORE DELETION ==="
+          find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" -exec du -sh {} + || echo "No .ccache directories found"
+
+      - name: Delete targeted ccache folders
         run: |
           set -e
-          echo "=== Cleaning ccache on self-hosted runner: $(hostname) ==="
-          echo "Workspace: ${{ github.workspace }}"
+          echo "=== DELETING TARGET: ${{ inputs.target_folder }} ==="
 
           if [ "${{ inputs.target_folder }}" = "all" ]; then
-            echo "Removing all .ccache* directories..."
             find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" -prune -exec rm -rfv {} +
           else
-            echo "Removing specific target: ${{ inputs.target_folder }}..."
             find "${{ github.workspace }}" -maxdepth 2 -type d -name "${{ inputs.target_folder }}" -prune -exec rm -rfv {} +
           fi
 
-          echo "=== Remaining .ccache directories ==="
-          find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" || echo "None"
+      - name: Post-check workspace listing & verification
+        run: |
+          echo "=== DISK USAGE AFTER ==="
+          df -h "${{ github.workspace }}"
+          echo ""
+          echo "=== COMPLETE DIRECTORY LISTING (TOP LEVEL) ==="
+          ls -lah "${{ github.workspace }}"
+          echo ""
+          echo "=== CCACHE VERIFICATION CHECK ==="
+          REMAINING=$(find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" || true)
+          if [ -z "$REMAINING" ]; then
+            echo "SUCCESS: No .ccache directories remain in ${{ github.workspace }}."
+          else
+            echo "WARNING: Remaining directories detected:"
+            echo "$REMAINING"
+            exit 1
+          fi
