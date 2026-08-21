@@ -1,5 +1,4 @@
-name: Cleanup ccache on Self-Hosted Runner
-
+name: clean-ccache
 on:
   workflow_dispatch:
     inputs:
