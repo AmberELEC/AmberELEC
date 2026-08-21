@@ -1,0 +1,37 @@
+name: Cleanup ccache on Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_folder:
+        description: 'Cache directory to delete or "all"'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - .ccache-aarch64-cortex-a35
+          - .ccache-aarch64-cortex-a72.cortex-a53
+          - .ccache-arm-*
+
+jobs:
+  cleanup:
+    name: Purge ccache directories
+    runs-on: main
+    steps:
+      - name: Delete ccache directories
+        run: |
+          set -e
+          echo "=== Cleaning ccache on self-hosted runner: $(hostname) ==="
+          echo "Workspace: ${{ github.workspace }}"
+
+          if [ "${{ inputs.target_folder }}" = "all" ]; then
+            echo "Removing all .ccache* directories..."
+            find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" -prune -exec rm -rfv {} +
+          else
+            echo "Removing specific target: ${{ inputs.target_folder }}..."
+            find "${{ github.workspace }}" -maxdepth 2 -type d -name "${{ inputs.target_folder }}" -prune -exec rm -rfv {} +
+          fi
+
+          echo "=== Remaining .ccache directories ==="
+          find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" || echo "None"
