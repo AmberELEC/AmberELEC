@@ -13,15 +13,17 @@ PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
   sed -e "s|^GIT_VERSION ?.*$|GIT_VERSION := \" ${PKG_VERSION:0:7}\"|" -i Makefile
+}
 
-  if [ "${DEVICE}" = "RG552" ]; then
-    PKG_MAKE_OPTS_TARGET+=" platform=RK3399 HAVE_PARALLEL_RSP=1"
-  else
-    PKG_MAKE_OPTS_TARGET+=" platform=RK3326 HAVE_PARALLEL_RSP=1"
-  fi
+make_target() {
+  cd ${PKG_BUILD}
+  local platform="RK3326"
+  [ "${DEVICE}" = "RG552" ] && platform="RK3399"
+
+  make platform="${platform}" HAVE_PARALLEL_RSP=1
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp mupen64plus_next_libretro.so ${INSTALL}/usr/lib/libretro/
+  cp ${PKG_BUILD}/mupen64plus_next_libretro.so ${INSTALL}/usr/lib/libretro/
 }

@@ -2,10 +2,13 @@
   LTO_SUPPORT="yes"
 
 # GOLD (Google Linker) support
-  GOLD_SUPPORT="no"
+  GOLD_SUPPORT="yes"
 
-# default linker (bfd / gold)
-  DEFAULT_LINKER="bfd"
+# MOLD (Modern Linker) support
+  MOLD_SUPPORT="yes"
+
+# default linker (bfd / gold / mold)
+  DEFAULT_LINKER="mold"
 
 # HARDENING (security relevant linker and compiler flags) support
   HARDENING_SUPPORT="no"

@@ -2,7 +2,7 @@
 *.patch -text
 
 # build directorys
-/build.*/
+/build.*
 /.fakeroot.*
 /.ccache-*
 /.env

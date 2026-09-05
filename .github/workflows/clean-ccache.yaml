@@ -1,0 +1,60 @@
+name: clean-ccache
+on:
+  workflow_dispatch:
+    inputs:
+      target_folder:
+        description: 'Cache directory to delete or "all"'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - .ccache-aarch64-cortex-a35
+          - .ccache-aarch64-cortex-a72.cortex-a53
+          - .ccache-arm-*
+
+jobs:
+  cleanup:
+    name: Purge and Verify ccache
+    runs-on: main
+    steps:
+      - name: Pre-check workspace content & disk space
+        run: |
+          echo "=== RUNNER INFO ==="
+          echo "Hostname: $(hostname)"
+          echo "Workspace: ${{ github.workspace }}"
+          echo ""
+          echo "=== DISK USAGE BEFORE ==="
+          df -h "${{ github.workspace }}"
+          echo ""
+          echo "=== CCACHE FOLDERS FOUND BEFORE DELETION ==="
+          find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" -exec du -sh {} + || echo "No .ccache directories found"
+
+      - name: Delete targeted ccache folders
+        run: |
+          set -e
+          echo "=== DELETING TARGET: ${{ inputs.target_folder }} ==="
+
+          if [ "${{ inputs.target_folder }}" = "all" ]; then
+            find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" -prune -exec rm -rfv {} +
+          else
+            find "${{ github.workspace }}" -maxdepth 2 -type d -name "${{ inputs.target_folder }}" -prune -exec rm -rfv {} +
+          fi
+
+      - name: Post-check workspace listing & verification
+        run: |
+          echo "=== DISK USAGE AFTER ==="
+          df -h "${{ github.workspace }}"
+          echo ""
+          echo "=== COMPLETE DIRECTORY LISTING (TOP LEVEL) ==="
+          ls -lah "${{ github.workspace }}"
+          echo ""
+          echo "=== CCACHE VERIFICATION CHECK ==="
+          REMAINING=$(find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" || true)
+          if [ -z "$REMAINING" ]; then
+            echo "SUCCESS: No .ccache directories remain in ${{ github.workspace }}."
+          else
+            echo "WARNING: Remaining directories detected:"
+            echo "$REMAINING"
+            exit 1
+          fi

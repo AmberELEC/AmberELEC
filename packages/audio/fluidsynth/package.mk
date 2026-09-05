@@ -13,6 +13,7 @@ PKG_BUILD_FLAGS="+pic"
 
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-DLIB_SUFFIX= \
+                         -DCMAKE_NO_SYSTEM_FROM_IMPORTED=ON \
                          -Denable-readline=0 \
                          -Denable-oss=0 \
                          -Denable-pulseaudio=1 \

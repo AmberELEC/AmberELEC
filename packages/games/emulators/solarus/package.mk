@@ -11,6 +11,7 @@ PKG_DEPENDS_TARGET="toolchain luajit glm libmodplug physfs"
 PKG_LONGDESC="Action-RPG/Adventure 2D game engine"
 PKG_TOOLCHAIN="cmake-make"
 PKG_GIT_CLONE_BRANCH="master"
+PKG_BUILD_FLAGS="-mold +gold"
 
 pre_configure_target() {
 export LDFLAGS+=" -ldl"
