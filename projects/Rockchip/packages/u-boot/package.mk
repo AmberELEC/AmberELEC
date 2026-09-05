@@ -42,6 +42,9 @@ post_patch() {
 }
 
 make_target() {
+  if [[ "${DEVICE}" =~ RG351 ]]; then
+    sed -i 's/-T \$(EFI_LDS_PATH) //' scripts/Makefile.lib
+  fi
   sed -i -e '/	kwbimage.o..*$/d' tools/Makefile
   if [ -z "${UBOOT_SYSTEM}" ]; then
     echo "UBOOT_SYSTEM must be set to build an image"

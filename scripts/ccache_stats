@@ -1,9 +1,37 @@
 #!/bin/bash
 
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
-# Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
+# Copyright (C) 2026-present AmberELEC (https://github.com/AmberELEC)
 
-. config/options ""
+set -e
 
-${TOOLCHAIN}/bin/ccache -s
+BUILD_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "${BUILD_ROOT}"
+
+. config/options "${@}"
+
+TARGET_CCACHE_DIR="${BUILD_ROOT}/.ccache-${TARGET_ARCH}-${TARGET_CPU}"
+
+CCACHE_BIN="$(find "${BUILD_ROOT}" -maxdepth 4 -path "*/toolchain/bin/ccache" -print -quit 2>/dev/null)"
+if [ -z "${CCACHE_BIN}" ] || [ ! -x "${CCACHE_BIN}" ]; then
+  CCACHE_BIN="$(which ccache 2>/dev/null || true)"
+fi
+
+if [ -z "${CCACHE_BIN}" ]; then
+  echo "Error: ccache binary not found in toolchain or system PATH." >&2
+  exit 1
+fi
+
+if [ ! -d "${TARGET_CCACHE_DIR}" ]; then
+  echo "Notice: Cache directory does not exist yet: ${TARGET_CCACHE_DIR}"
+  exit 0
+fi
+
+echo "============================================================"
+echo " Device:    ${DEVICE:-default}"
+echo " Arch/CPU:  ${TARGET_ARCH}-${TARGET_CPU}"
+echo " Cache Dir: ${TARGET_CCACHE_DIR}"
+echo " Binary:    ${CCACHE_BIN}"
+echo "============================================================"
+
+CCACHE_DIR="${TARGET_CCACHE_DIR}" "${CCACHE_BIN}" -s

@@ -15,10 +15,11 @@ pre_configure_target() {
   sed -i 's/\-O[23]//' ${PKG_BUILD}/CMakeLists.txt
   sed -i 's/\-O[23]//' ${PKG_BUILD}/libretro/Makefile
 
+  if ! grep -q "__aarch64_cas8_acq_rel" ${PKG_BUILD}/libretro/libretro.cpp; then
 cat << 'EOF' >> ${PKG_BUILD}/libretro/libretro.cpp
 
 extern "C" {
-__attribute__((visibility("hidden")))
+__attribute__((visibility("default")))
 unsigned long long __aarch64_cas8_acq_rel(unsigned long long oldval, unsigned long long newval, unsigned long long *ptr) {
 	unsigned long long oldval_out;
 	unsigned int tmp;
@@ -37,13 +38,14 @@ unsigned long long __aarch64_cas8_acq_rel(unsigned long long oldval, unsigned lo
 }
 }
 EOF
+  fi
 
   PKG_CMAKE_OPTS_TARGET="-DLIBRETRO=ON \
-                         -DCMAKE_BUILD_TYPE="Release" \
+                         -DCMAKE_BUILD_TYPE=Release \
                          -DCMAKE_RULE_MESSAGES=OFF \
                          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-                         -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
-                         -DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
+                         -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+                         -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
                          -DUSE_SYSTEM_FFMPEG=OFF \
                          -DUSE_SYSTEM_ZSTD=ON \
                          -DUSE_SYSTEM_LIBZIP=ON \
@@ -58,9 +60,8 @@ EOF
 }
 
 pre_make_target() {
-  # fix cross compiling
-  find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
-  find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" \{} \;
+  find ${PKG_BUILD} -name flags.make -exec sed -i "s:isystem :I:g" {} \;
+  find ${PKG_BUILD} -name build.ninja -exec sed -i "s:isystem :I:g" {} \;
 }
 
 makeinstall_target() {

@@ -9,10 +9,33 @@ PKG_SITE="https://github.com/libretro/libretro-atari800"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="atari800 3.1.0 for libretro/libco WIP"
-PKG_TOOLCHAIN="auto"
-
+PKG_TOOLCHAIN="make"
+PKG_BUILD_FLAGS="+pic"
 
 PKG_MAKE_OPTS_TARGET="platform=emuelec GIT_VERSION=${PKG_VERSION:0:7}"
+
+pre_configure_target() {
+  sed -i 's|^LDFLAGS :=|LDFLAGS := -fuse-ld=mold |g' Makefile* 2>/dev/null || true
+  sed -i 's|^LDFLAGS +=|LDFLAGS += -fuse-ld=mold |g' Makefile* 2>/dev/null || true
+  sed -i 's|^SHARED :=|SHARED := -fuse-ld=mold |g' Makefile* 2>/dev/null || true
+}
+
+make_target() {
+  local my_cc="${CC}"
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cc="${TOOLCHAIN}/bin/ccache ${CC}"
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make ${PKG_MAKE_OPTS_TARGET} \
+       CC="${my_cc}" \
+       CXX="${my_cxx}" \
+       LDFLAGS="${LDFLAGS} -fuse-ld=mold" \
+       SHARED="-shared -fuse-ld=mold" \
+       ${MAKEFLAGS}
+}
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro

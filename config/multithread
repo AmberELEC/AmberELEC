@@ -70,11 +70,7 @@ package_worker() {
     fi
 
     if [ ${result} -ne 0 ]; then
-      if [ -d "${THREAD_CONTROL}/logs" ]; then
-        echo "${PKG_NAME} ${THREAD_CONTROL}/logs/${job}/stdout" >>"${THREAD_CONTROL}/addons.failed"
-      else
-        echo "${PKG_NAME}" >>"${THREAD_CONTROL}/addons.failed"
-      fi
+      echo "${PKG_NAME}" >>"${THREAD_CONTROL}/addons.failed"
     fi
   fi
 
@@ -95,15 +91,26 @@ package_worker() {
 
     print_color CLR_ERROR "FAILURE: $SCRIPTS/${task} ${pkgname} has failed!\n"
 
-    if [ -d "${THREAD_CONTROL}/logs" ]; then
-      cat >&2 <<EOF
+    # scripts/build captures output directly to ${BUILD}/.log_${PKG_NAME}_${TARGET}.log
+    local pkg_clean_name="${pkgname%%:*}"
+    local raw_logs=$(ls -t "${BUILD}"/.log_${pkg_clean_name}_*.log 2>/dev/null)
 
-The following logs for this failure are available:
-  stdout: ${THREAD_CONTROL}/logs/${job}/stdout
-  stderr: ${THREAD_CONTROL}/logs/${job}/stderr
+    echo "==========================================================================" >&2
+    echo "==> BUILD FAILURE: ${pkgname} (${task})" >&2
+    echo "==========================================================================" >&2
 
-EOF
+    if [ -n "${raw_logs}" ]; then
+      for f in ${raw_logs}; do
+        if [ -s "${f}" ]; then
+          echo "--> Last 250 lines of log file: ${f}" >&2
+          tail -n 250 "${f}" >&2
+          break
+        fi
+      done
+    else
+      echo "--> No standalone log found in ${BUILD}/.log_${pkg_clean_name}_*.log" >&2
     fi
+    echo "==========================================================================" >&2
   fi
 
   return ${result}
@@ -130,13 +137,12 @@ start_multithread_build() {
   # determine number of available slots for the given THREADCOUNT - optimise logging for single threaded builds
   [ $(seq 1 32 | ${TOOLCHAIN}/bin/parallel --plain --no-notice --max-procs ${THREADCOUNT} echo {%} | sort -n | tail -1) -eq 1 ] && singlethread=yes || singlethread=no
 
-  # create a single log file by default for a single threaded build (or the builder is a masochist)
+  # create a single log file by default for a single threaded build
   if [ "${singlethread}" = "yes" -a "${ONELOG,,}" != "no" ] || [ "${ONELOG,,}" = "yes" ]; then
     buildopts+=" --ungroup"
   else
-    mkdir -p "${THREAD_CONTROL}/logs"
-    #buildopts+=" --group --results ${THREAD_CONTROL}/logs/{#}/"
-    buildopts+=" --group"
+    # Keep output unbuffered so progress lines print immediately to stderr
+    buildopts+=" --ungroup"
   fi
 
   # When building addons, don't halt on error - keep building all packages/addons
