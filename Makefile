@@ -1,4 +1,6 @@
 BUILD_DIRS=build.*
+DEVICE_BUILD_DIRS=build.AmberELEC-RG*
+TOOLCHAIN_BUILD_DIRS=build.AmberELEC-RK*
 
 all:
 
@@ -15,7 +17,10 @@ noobs:
 	./scripts/image noobs
 
 clean:
-	rm -rf $(BUILD_DIRS)
+	rm -rf $(DEVICE_BUILD_DIRS)
+
+clean-toolchain:
+	rm -rf $(TOOLCHAIN_BUILD_DIRS)
 
 distclean:
 	rm -rf ./.ccache* ./$(BUILD_DIRS)
@@ -41,15 +46,27 @@ RG351MP:
 RG552:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
 
+toolchain-RK3326:
+	DEVICE=RK3326 ARCH=aarch64 ./scripts/build toolchain
+
+toolchain-RK3399:
+	DEVICE=RK3399 ARCH=aarch64 ./scripts/build toolchain
+
+toolchain-RK3566:
+	DEVICE=RK3566 ARCH=aarch64 ./scripts/build toolchain
+
 lib32:
+	DEVICE=RK3326 ARCH=arm ./scripts/build toolchain
 	DEVICE=RG351P ARCH=arm scripts/clean build-lib32
-	DEVICE=RG351V ARCH=arm scripts/clean build-lib32
-	DEVICE=RG351MP ARCH=arm scripts/clean build-lib32
-	DEVICE=RG552 ARCH=arm scripts/clean build-lib32
 	DEVICE=RG351P ARCH=arm scripts/build build-lib32
+	DEVICE=RG351V ARCH=arm scripts/clean build-lib32
 	DEVICE=RG351V ARCH=arm scripts/build build-lib32
+	DEVICE=RG351MP ARCH=arm scripts/clean build-lib32
 	DEVICE=RG351MP ARCH=arm scripts/build build-lib32
+	DEVICE=RK3399 ARCH=arm ./scripts/build toolchain
+	DEVICE=RG552 ARCH=arm scripts/clean build-lib32
 	DEVICE=RG552 ARCH=arm scripts/build build-lib32
+	DEVICE=RK3566 ARCH=arm ./scripts/build toolchain
 
 update:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/update_packages

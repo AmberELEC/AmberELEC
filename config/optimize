@@ -1,6 +1,10 @@
 # Linker hash-style is set to gnu via gcc default
 LD_OPTIM="-Wl,--as-needed"
 
+# Basic flags for C and C++ (including path mapping for ccache)
+TARGET_CFLAGS="$TARGET_CFLAGS -ffile-prefix-map=${BUILD_ROOT}=."
+TARGET_CXXFLAGS="$TARGET_CXXFLAGS -ffile-prefix-map=${BUILD_ROOT}=."
+
 if [ "${BUILD_WITH_DEBUG}" = "yes" ]; then
   TARGET_CFLAGS="$TARGET_CFLAGS -ggdb"
   TARGET_CXXFLAGS="$TARGET_CXXFLAGS -ggdb"
@@ -11,11 +15,18 @@ else
   TARGET_LDFLAGS="$TARGET_LDFLAGS"
 fi
 
+# Ensure atomic operations emit inline instructions on aarch64
+# and guarantee libgcc helpers are statically resolved when linking shared objects with mold
+if [ "${TARGET_ARCH}" = "aarch64" ]; then
+  TARGET_CFLAGS="$TARGET_CFLAGS -mno-outline-atomics"
+  TARGET_CXXFLAGS="$TARGET_CXXFLAGS -mno-outline-atomics"
+fi
+
 NINJA_OPTS=""
 
 TARGET_CPPFLAGS=""
 TARGET_CFLAGS="$TARGET_CFLAGS -Wall -pipe $PROJECT_CFLAGS"
-TARGET_CXXFLAGS="$TARGET_CFLAGS"
+TARGET_CXXFLAGS="$TARGET_CXXFLAGS -Wall -pipe $PROJECT_CFLAGS"
 TARGET_LDFLAGS="$TARGET_LDFLAGS $LD_OPTIM"
 TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
 TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
@@ -43,6 +54,7 @@ LDFLAGS_OPTIM_LTO_COMMON="-fuse-linker-plugin"
 LDFLAGS_OPTIM_LINKER_COMPILER_DEFAULT=""
 LDFLAGS_OPTIM_LINKER_BFD="-fuse-ld=bfd"
 LDFLAGS_OPTIM_LINKER_GOLD="-fuse-ld=gold"
+LDFLAGS_OPTIM_LINKER_MOLD="-fuse-ld=mold"
 
 # position-independent code
 CFLAGS_OPTIM_PIC="-fPIC -DPIC"

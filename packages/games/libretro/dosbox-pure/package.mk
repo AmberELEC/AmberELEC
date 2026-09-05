@@ -10,13 +10,32 @@ PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="A port of DOSBox to libretro"
 PKG_TOOLCHAIN="make"
+PKG_BUILD_FLAGS="+pic"
 
 pre_patch() {
   find $(echo "${PKG_BUILD}" | cut -f1 -d\ ) -type f -exec dos2unix -q {} \;
 }
 
+pre_configure_target() {
+  sed -i 's|^LDFLAGS :=|LDFLAGS := -shared -fuse-ld=mold |g' Makefile 2>/dev/null || true
+  sed -i 's|^LDFLAGS +=|LDFLAGS += -shared -fuse-ld=mold |g' Makefile 2>/dev/null || true
+  sed -i 's|^SHARED :=.*|SHARED := -shared -fuse-ld=mold|g' Makefile 2>/dev/null || true
+}
+
 make_target() {
-  make platform=emuelec-hh
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make platform=emuelec-hh \
+       CC="${my_cxx}" \
+       CXX="${my_cxx}" \
+       LDFLAGS="${LDFLAGS} -shared -fuse-ld=mold" \
+       EXTRA_LDFLAGS="${LDFLAGS} -shared -fuse-ld=mold" \
+       SHARED="-shared -fuse-ld=mold" \
+       ${MAKEFLAGS}
 }
 
 makeinstall_target() {

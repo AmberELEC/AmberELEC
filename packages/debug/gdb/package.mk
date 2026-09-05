@@ -36,8 +36,8 @@ PKG_CONFIGURE_OPTS_TARGET="bash_cv_have_mbstate_t=set \
                            --disable-werror"
 
 pre_configure_target() {
-  export CFLAGS="${CFLAGS} -DNCURSES_BOOL=bool -DNCURSES_OPAQUE=1"
-  export CXXFLAGS="${CXXFLAGS} -DNCURSES_BOOL=bool -DNCURSES_OPAQUE=1"
+  export CFLAGS="${CFLAGS} -DNCURSES_BOOL=bool -DNCURSES_OPAQUE=1 -mno-outline-atomics"
+  export CXXFLAGS="${CXXFLAGS} -DNCURSES_BOOL=bool -DNCURSES_OPAQUE=1 -mno-outline-atomics"
   CC_FOR_BUILD="${HOST_CC}"
   CFLAGS_FOR_BUILD="${HOST_CFLAGS}"
 }
