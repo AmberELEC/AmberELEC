@@ -13,15 +13,14 @@ PKG_LONGDESC="Late 2010 version of MAME (0.139) for libretro. Compatible with MA
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  if [ "${ARCH}" == "arm" ]; then
-    make CC="${CC}" LD="${CC}" PLATCFLAGS="${CFLAGS}" PTR64=0 ARM_ENABLED=1 LCPU=arm
-  elif [ "${ARCH}" == "i386" ]; then
-    make CC="${CC}" LD="${CC}" PLATCFLAGS="${CFLAGS}" PTR64=0 ARM_ENABLED=0 LCPU=x86
-  elif [ "${ARCH}" == "x86_64" ]; then
-    make CC="${CC}" LD="${CC}" PLATCFLAGS="${CFLAGS}" PTR64=1 ARM_ENABLED=0 LCPU=x86_64
-  elif [ "${ARCH}" == "aarch64" ]; then
-    make CC="${CC}" LD="${CC}" PLATCFLAGS="${CFLAGS}" PTR64=1 ARM_ENABLED=1 LCPU=arm64
-  fi
+  make CC="${CXX}" \
+       CXX="${CXX}" \
+       LD="${CXX} -shared" \
+       PLATCFLAGS="${CFLAGS}" \
+       LDFLAGS="${LDFLAGS} -shared" \
+       PTR64=1 \
+       ARM_ENABLED=1 \
+       LCPU=arm64
 }
 
 makeinstall_target() {

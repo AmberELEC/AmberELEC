@@ -1,0 +1,112 @@
+################################################################################
+# setup device defaults
+################################################################################
+
+  # The TARGET_CPU variable controls which processor should be targeted for
+  # generated code.
+   case $TARGET_ARCH in
+      aarch64)
+        TARGET_KERNEL_ARCH="arm64"
+        TARGET_PATCH_ARCH="aarch64"
+        TARGET_FLOAT="hard"
+        TARGET_CPU="cortex-a55"
+        TARGET_CPU_FLAGS="+crc+fp+simd+crypto"
+        TARGET_FPU="fp-armv8"
+        TARGET_FEATURES="64bit"
+        ;;
+      arm)
+        TARGET_KERNEL_ARCH="arm64"
+        TARGET_PATCH_ARCH="aarch64"
+        TARGET_FLOAT="hard"
+        TARGET_CPU="cortex-a55"
+        TARGET_CPU_FLAGS="+crc"
+        TARGET_FPU="crypto-neon-fp-armv8"
+        TARGET_FEATURES="32bit"
+        ;;
+    esac
+
+  # Kernel target
+    KERNEL_TARGET="Image"
+
+  # Additional kernel make parameters (for example to specify the u-boot loadaddress)
+    KERNEL_MAKE_EXTRACMD=""
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3566-353v.dtb"
+
+  # Mali GPU family
+    MALI_FAMILY="g52"
+    OPENGLES="libmali"
+
+  # kernel serial console
+    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:0 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"
+
+    LINUX="RG353"
+    UBOOT_SYSTEM="rg353v"
+
+  # additional packages to install
+    ADDITIONAL_PACKAGES="dtc amberelec"
+
+  # additional drivers to install:
+  # for a list of additional drivers see packages/linux-drivers
+  # Space separated list is supported,
+  # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
+    ADDITIONAL_DRIVERS=""
+
+  # debug tty path
+    DEBUG_TTY="/dev/ttyFIQ0"
+
+  # build and install PulseAudio support (yes / no)
+  PULSEAUDIO_SUPPORT="yes"
+
+  # build and install bluetooth support (yes / no)
+  BLUETOOTH_SUPPORT="no"
+
+  # build and install Avahi (Zeroconf) daemon (yes / no)
+  AVAHI_DAEMON="no"
+
+  # build with NFS support (mounting nfs shares via the OS) (yes / no)
+  NFS_SUPPORT="no"
+
+  # build with Samba Client support (mounting samba shares via the OS) (yes / no)
+  SAMBA_SUPPORT="no"
+
+  # build and install Samba Server (yes / no)
+  SAMBA_SERVER="yes"
+
+  # build and install SFTP Server (yes / no)
+  SFTP_SERVER="yes"
+
+  # build and install diskmounter support (udevil)
+  # this service provide auto mounting support for external drives in the
+  # mediacenter also automount internally drives at boottime via udev (yes / no)
+  UDEVIL="yes"
+
+  # build and install exFAT fuse support (yes / no)
+  EXFAT="yes"
+
+  # build and install NTFS-3G fuse support (yes / no)
+  NTFS3G="no"
+
+  # build and install hfs filesystem utilities (yes / no)
+  HFSTOOLS="no"
+
+  # Support for partitioning and formating disks in initramfs (yes / no)
+  # This adds support for parted and mkfs.ext3/4 to initramfs for OEM usage
+  INITRAMFS_PARTED_SUPPORT="no"
+
+  # build with swap support (yes / no)
+  SWAP_SUPPORT="yes"
+
+  # swap support enabled per default (yes / no)
+  SWAP_ENABLED_DEFAULT="yes"
+
+  # swapfile size if SWAP_SUPPORT=yes in MB
+  SWAPFILESIZE="384"
+
+  # cron support (yes / no)
+  CRON_SUPPORT="no"
+
+  # Settings package name - blank if not required
+  DISTRO_PKG_SETTINGS=""
+
+  # htop tool (yes / no)
+  HTOP_TOOL="yes"
