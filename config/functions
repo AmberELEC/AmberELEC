@@ -413,7 +413,24 @@ setup_toolchain() {
 }
 
 create_meson_conf() {
-  local endian root properties
+  local endian root properties exe_wrapper needs_exe_wrapper
+  exe_wrapper=""
+  needs_exe_wrapper=""
+
+  # On an AArch64 build host Meson assumes AArch64 target binaries can run
+  # natively. They still need the target dynamic loader and libraries when
+  # the target glibc is newer than the host glibc. Keep cross-builds from an
+  # x86_64 host on the original code path.
+  if [ "$1" = "target" ] &&
+     [ "${HOST_NAME%%-*}" = "aarch64" ] &&
+     [ "${TARGET_ARCH}" = "aarch64" ]; then
+    exe_wrapper="exe_wrapper = [\
+'$SYSROOT_PREFIX/usr/lib/ld-linux-aarch64.so.1', \
+'--library-path', \
+'$SYSROOT_PREFIX/usr/lib'\
+]"
+    needs_exe_wrapper="needs_exe_wrapper = true"
+  fi
   case "$1" in
     target|init)    root="$SYSROOT_PREFIX/usr"
                     ;;
@@ -431,6 +448,7 @@ ar = '$AR'
 strip = '$STRIP'
 pkgconfig = '$PKG_CONFIG'
 llvm-config = '$SYSROOT_PREFIX/usr/bin/llvm-config-host'
+$exe_wrapper
 
 [host_machine]
 system = 'linux'
@@ -440,6 +458,7 @@ endian = 'little'
 
 [properties]
 root = '$root'
+$needs_exe_wrapper
 $(python -c "import os; print('c_args = {}'.format([x for x in os.getenv('CFLAGS').split()]))")
 $(python -c "import os; print('c_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
 $(python -c "import os; print('cpp_args = {}'.format([x for x in os.getenv('CXXFLAGS').split()]))")

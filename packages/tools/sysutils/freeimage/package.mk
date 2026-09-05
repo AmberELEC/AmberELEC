@@ -12,6 +12,11 @@ PKG_SOURCE_DIR="FreeImage"
 PKG_LONGDESC="FreeImage library"
 
 pre_make_target() {
-  export CXXFLAGS="${CXXFLAGS} -Wno-narrowing -std=c++11"
-  export CFLAGS="${CFLAGS} -std=gnu11 -Wno-error=implicit-function-declaration -DPNG_ARM_NEON_OPT=0"
+  if [ "${HOST_NAME%%-*}" = "aarch64" ]; then
+    export CXXFLAGS="${CXXFLAGS} -fPIC -Wno-narrowing -std=c++11"
+    export CFLAGS="${CFLAGS} -fPIC -std=gnu11 -Wno-error=implicit-function-declaration -DPNG_ARM_NEON_OPT=0"
+  else
+    export CXXFLAGS="${CXXFLAGS} -Wno-narrowing -std=c++11"
+    export CFLAGS="${CFLAGS} -std=gnu11 -Wno-error=implicit-function-declaration -DPNG_ARM_NEON_OPT=0"
+  fi
 }
