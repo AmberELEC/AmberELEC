@@ -11,19 +11,43 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Late 2014/Early 2015 version of MAME (0.160-ish) for libretro. Compatible with MAME 0.160 romsets."
 PKG_TOOLCHAIN="make"
 
-PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7} platform=unix_armv"
+pre_configure_target() {
+	sed -i 's/CCOMFLAGS += -mstructure-size-boundary=32//g' Makefile
+	sed -i 's/-DSDLMAME_NO64BITIO//g' Makefile
+	sed -i 's/LDFLAGS += -Wl,--fix-cortex-a8 -Wl,--no-as-needed//g' Makefile
+	sed -i 's/"0.160"/"0.160 "/g' src/osd/retro/libretro.c
 
-pre_make_target() {
-  export REALCC=${CC}
-  export CC=${CXX}
-  export LD=${CXX}
+	mkdir -p .bin
+	cat << EOF > .bin/smart-cc
+#!/bin/sh
+for arg in "\$@"; do
+  if [ "\$arg" = "-xc++" ] || [ "\$arg" = "-x" ]; then
+    exec ${CXX} "\$@"
+  fi
+  case "\$arg" in
+    *.cpp|*.cc|*.cxx) exec ${CXX} "\$@" ;;
+  esac
+done
+exec ${CC} "\$@"
+EOF
+	chmod +x .bin/smart-cc
 }
 
-pre_configure_target() {
-  sed -i 's/CCOMFLAGS += -mstructure-size-boundary=32//g' Makefile
-  sed -i 's/-DSDLMAME_NO64BITIO//g' Makefile
-  sed -i 's/LDFLAGS += -Wl,--fix-cortex-a8 -Wl,--no-as-needed//g' Makefile
-  sed -i 's/"0.160"/"0.160 "/g' src/osd/retro/libretro.c
+make_target() {
+  make platform=unix_armv \
+                PTR64=1 \
+                ARM_ENABLED=1 \
+                LCPU=arm64 \
+                GIT_VERSION="${PKG_VERSION:0:7}" \
+                CC="$(pwd)/.bin/smart-cc" \
+                CXX="${CXX}" \
+                REALCC="$(pwd)/.bin/smart-cc" \
+                CC_FOR_BUILD="$(pwd)/.bin/smart-cc" \
+                CROSS_BUILD_CC="$(pwd)/.bin/smart-cc" \
+                AR="${AR}" \
+                LD="${CXX} -shared" \
+                PLATCFLAGS="${CFLAGS}" \
+                LDFLAGS="${LDFLAGS} -shared"
 }
 
 makeinstall_target() {

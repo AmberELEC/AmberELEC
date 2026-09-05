@@ -10,13 +10,17 @@ PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft"
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
-  CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
-  CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
-  CFLAGS+=" -I$(get_build_dir linux)/tools/include"
+  if [[ "${DEVICE}" =~ RG353 ]]; then
+    local INC_FLAGS="-I$(get_build_dir libdrm)/include/drm"
+  else
+    local INC_FLAGS="-I$(get_build_dir libdrm)/include/drm -I$(get_build_dir linux)/include/uapi -I$(get_build_dir linux)/tools/include"
+  fi
+  CFLAGS+=" ${INC_FLAGS}"
+  CXXFLAGS+=" ${INC_FLAGS} -std=gnu++17"
 }
 
 make_target() {
-  make config=release ARCH= verbose=1
+  make CC="${CXX}" CXX="${CXX}" CPP="${CXX}" LD="${CXX}" config=release ARCH= verbose=1
 }
 
 makeinstall_target() {

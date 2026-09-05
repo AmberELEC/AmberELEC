@@ -9,8 +9,7 @@ PKG_SITE="https://github.com/libretro/libretro-atari800"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="atari800 3.1.0 for libretro/libco WIP"
-PKG_TOOLCHAIN="auto"
-
+PKG_TOOLCHAIN="make"
 
 PKG_MAKE_OPTS_TARGET="platform=emuelec GIT_VERSION=${PKG_VERSION:0:7}"
 

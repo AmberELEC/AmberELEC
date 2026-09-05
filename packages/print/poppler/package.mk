@@ -4,20 +4,20 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC
 
 PKG_NAME="poppler"
-PKG_VERSION="23.10.0"
+PKG_VERSION="26.08.0"
 PKG_LICENSE="GPL"
 PKG_SITE="https://poppler.freedesktop.org/"
 PKG_URL="${PKG_SITE}poppler-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain zlib libpng libjpeg-turbo boost tiff"
+PKG_DEPENDS_TARGET="toolchain zlib libpng libjpeg-turbo boost tiff fontconfig curl"
 PKG_LONGDESC="The poppler pdf rendering library "
 PKG_TOOLCHAIN="cmake-make"
 
-PKG_CMAKE_OPTS_TARGET="-DENABLE_LIBOPENJPEG=none \
+PKG_CMAKE_OPTS_TARGET="-DCMAKE_BUILD_TYPE=release \
                        -DENABLE_GLIB=ON \
                        -DENABLE_QT5=OFF \
                        -DENABLE_QT6=OFF \
                        -DENABLE_NSS3=OFF \
                        -DENABLE_LCMS=OFF \
                        -DENABLE_GPGME=OFF \
-                       -DENABLE_LIBTIFF=OFF \
+                       -DENABLE_LIBOPENJPEG=OFF \
                        -DENABLE_CPP=OFF"

@@ -38,8 +38,23 @@ jobs:
           # clean: false ensures that we don't remove all the build files
           clean: false
 
-  build-rg351p:
+  build-toolchain-rk3326:
     needs: [build-init]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
+    steps:
+      - name: Build Toolchain RK3326
+        run: |
+            set -e
+            export DOCKER_WORK_DIR=/work
+            make docker-toolchain-RK3326
+
+  build-rg351p:
+    needs: [build-toolchain-rk3326]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -64,7 +79,7 @@ jobs:
             make docker-RG351P
 
   build-rg351v:
-    needs: [build-init, build-rg351p]
+    needs: [build-toolchain-rk3326, build-rg351p]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -89,7 +104,7 @@ jobs:
             make docker-RG351V
 
   build-rg351mp:
-    needs: [build-init, build-rg351p, build-rg351v]
+    needs: [build-toolchain-rk3326, build-rg351p, build-rg351v]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -100,9 +115,6 @@ jobs:
       - name: Get date for artifacts
         id: date
         run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
-      - name: Get short SHA for artifacts
-        id: sha
-        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get PR version
         id: version
         run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
@@ -113,8 +125,23 @@ jobs:
             export DOCKER_WORK_DIR=/work
             make docker-RG351MP
 
+  build-toolchain-rk3399:
+    needs: [build-rg351p, build-rg351v, build-rg351mp]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
+    steps:
+      - name: Build Toolchain RK3399
+        run: |
+            set -e
+            export DOCKER_WORK_DIR=/work
+            make docker-toolchain-RK3399
+
   build-rg552:
-    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp]
+    needs: [build-toolchain-rk3399]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr

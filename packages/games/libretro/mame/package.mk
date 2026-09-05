@@ -39,6 +39,7 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
 pre_configure_target() {
   export CFLAGS="${CFLAGS} -Wno-deprecated-declarations"
   sed -i "s/-static-libstdc++//g" scripts/genie.lua
+  find scripts/ -type f -name "*.lua" -exec sed -i 's|MAME_DIR\s*\.\.\s*"src/osd/libretro/retroprefix.h"|path.getrelative(path.getabsolute("build/projects/retro/mame/gmake-linux"), path.getabsolute("src/osd/libretro/retroprefix.h"))|g' {} +
 #  sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
 }
 
@@ -47,7 +48,22 @@ make_target() {
   unset DISTRO
   unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
-  make ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
+
+  local my_cc="${CC}"
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cc="${TOOLCHAIN}/bin/ccache ${CC}"
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make ${PKG_MAKE_OPTS_TARGET} \
+       OVERRIDE_CC="${my_cc}" \
+       OVERRIDE_CXX="${my_cxx}" \
+       OVERRIDE_LD="${LD}" \
+       AR="${AR}" \
+       LDFLAGS="${LDFLAGS}" \
+       ${MAKEFLAGS}
 }
 
 makeinstall_target() {

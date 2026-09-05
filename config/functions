@@ -366,7 +366,7 @@ setup_toolchain() {
         export CC="$TOOLCHAIN/bin/host-gcc"
         export CXX="$TOOLCHAIN/bin/host-g++"
       fi
-	export CPP="cpp"
+      export CPP="cpp"
       export LD="ld"
       export AS="as"
       export AR="ar"
@@ -413,17 +413,25 @@ setup_toolchain() {
 }
 
 create_meson_conf() {
-  local endian root properties
+  local root properties c_flags cpp_flags ld_flags
   case "$1" in
-    target|init)    root="$SYSROOT_PREFIX/usr"
-                    ;;
-    host|bootstrap) root="$TOOLCHAIN"
-                    ;;
+    target|init)
+      root="$SYSROOT_PREFIX/usr"
+      c_flags="${TARGET_CFLAGS:-$CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
+      cpp_flags="${TARGET_CXXFLAGS:-$CXXFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
+      ld_flags="${TARGET_LDFLAGS:-$LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
+      ;;
+    host|bootstrap)
+      root="$TOOLCHAIN"
+      c_flags="${HOST_CFLAGS:-$CFLAGS} -I${TOOLCHAIN}/include"
+      cpp_flags="${HOST_CXXFLAGS:-$CXXFLAGS} -I${TOOLCHAIN}/include"
+      ld_flags="${HOST_LDFLAGS:-$LDFLAGS} -L${TOOLCHAIN}/lib"
+      ;;
   esac
 
   properties="PKG_MESON_PROPERTIES_${1^^}"
 
-  cat > $2 <<EOF
+  cat > "$2" <<EOF
 [binaries]
 c = '$CC'
 cpp = '$CXX'
@@ -438,12 +446,14 @@ cpu_family = '$TARGET_ARCH'
 cpu = '$TARGET_SUBARCH'
 endian = 'little'
 
+[built-in options]
+$(python3 -c "import os, shlex; print('c_args = {}'.format(shlex.split('''$c_flags''')))")
+$(python3 -c "import os, shlex; print('c_link_args = {}'.format(shlex.split('''$ld_flags''')))")
+$(python3 -c "import os, shlex; print('cpp_args = {}'.format(shlex.split('''$cpp_flags''')))")
+$(python3 -c "import os, shlex; print('cpp_link_args = {}'.format(shlex.split('''$ld_flags''')))")
+
 [properties]
 root = '$root'
-$(python -c "import os; print('c_args = {}'.format([x for x in os.getenv('CFLAGS').split()]))")
-$(python -c "import os; print('c_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
-$(python -c "import os; print('cpp_args = {}'.format([x for x in os.getenv('CXXFLAGS').split()]))")
-$(python -c "import os; print('cpp_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
 ${!properties}
 EOF
 }

@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+# Copyright (C) 2020-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="usbutils"
-PKG_VERSION="008"
-PKG_SHA256="44741af0bae9d402a0ef160a29b2fa700bb656ab5e0a4b3343d51249c2a44c8c"
-PKG_LICENSE="GPL"
+PKG_VERSION="019"
+PKG_SHA256="659f40c440e31ba865c52c818a33d3ba6a97349e3353f8b1985179cb2aa71ec5"
+PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://www.linux-usb.org/"
 PKG_URL="http://kernel.org/pub/linux/utils/usb/usbutils/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain libusb systemd"

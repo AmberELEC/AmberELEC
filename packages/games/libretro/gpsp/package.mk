@@ -13,11 +13,20 @@ PKG_LONGDESC="gameplaySP is a Gameboy Advance emulator for Playstation Portable"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  if [ "${ARCH}" == "arm" ]; then
-    make CC=${CC} platform=unix
-  else
-    make CC=${CC} platform=arm64
-  fi  
+  local my_cc="${CC}"
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cc="${TOOLCHAIN}/bin/ccache ${CC}"
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make platform=arm64 \
+       CC="${my_cc}" \
+       CXX="${my_cxx}" \
+       SHARED="-shared" \
+       LDFLAGS="${LDFLAGS}" \
+       ${MAKEFLAGS}
 }
 
 makeinstall_target() {
