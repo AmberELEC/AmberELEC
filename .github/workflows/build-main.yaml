@@ -53,16 +53,6 @@ jobs:
             set -e
             make DOCKER_WORK_DIR=/work docker-toolchain-RK3326
 
-  build-toolchain-rk3399:
-    needs: [build-init]
-    timeout-minutes: 360
-    runs-on: main
-    steps:
-      - name: Build Toolchain RK3399
-        run: |
-            set -e
-            make DOCKER_WORK_DIR=/work docker-toolchain-RK3399
-
   build-rg351p:
     needs: [build-toolchain-rk3326]
     timeout-minutes: 360
@@ -144,8 +134,18 @@ jobs:
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG351MP
 
+  build-toolchain-rk3399:
+    needs: [build-rg351p, build-rg351v, build-rg351mp]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Build Toolchain RK3399
+        run: |
+            set -e
+            make DOCKER_WORK_DIR=/work docker-toolchain-RK3399
+
   build-rg552:
-    needs: [build-toolchain-rk3399, build-rg351p, build-rg351v, build-rg351mp]
+    needs: [build-toolchain-rk3399]
     timeout-minutes: 360
     runs-on: main
     steps:
