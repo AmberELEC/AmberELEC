@@ -39,7 +39,12 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
 pre_configure_target() {
   export CFLAGS="${CFLAGS} -Wno-deprecated-declarations"
   sed -i "s/-static-libstdc++//g" scripts/genie.lua
-#  sed -i 's/BARE_VCS_REVISION "$(NEW_GIT_VERSION)"/BARE_VCS_REVISION ""/g' makefile
+  find scripts/ -type f -name "*.lua" -exec sed -i 's|MAME_DIR\s*\.\.\s*"src/osd/libretro/retroprefix.h"|path.getrelative(path.getabsolute("build/projects/retro/mame/gmake-linux"), path.getabsolute("src/osd/libretro/retroprefix.h"))|g' {} +
+
+  sed -i 's|^\([ \t]*CC[ \t]*=\).*|\1 /usr/bin/gcc|g' 3rdparty/genie/build/gmake.linux/genie.make
+  sed -i 's|^\([ \t]*CXX[ \t]*=\).*|\1 /usr/bin/g++|g' 3rdparty/genie/build/gmake.linux/genie.make
+
+  sed -i 's|\$(MAKE) \$(MAKEPARAMS) -C \$(GENIE_DIR)|\$(MAKE) -C \$(GENIE_DIR) CC="/usr/bin/gcc" CXX="/usr/bin/g++" CFLAGS="" CPPFLAGS="" LDFLAGS=""|g' makefile
 }
 
 make_target() {
@@ -47,7 +52,29 @@ make_target() {
   unset DISTRO
   unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
-  make ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
+
+  env -u CFLAGS -u LDFLAGS -u CPPFLAGS make -C 3rdparty/genie/build/gmake.linux -f genie.make \
+      CC="/usr/bin/gcc" \
+      CXX="/usr/bin/g++" \
+      CFLAGS="" \
+      CPPFLAGS="" \
+      LDFLAGS=""
+
+  local my_cc="${CC}"
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cc="${TOOLCHAIN}/bin/ccache ${CC}"
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make ${PKG_MAKE_OPTS_TARGET} \
+       OVERRIDE_CC="${my_cc}" \
+       OVERRIDE_CXX="${my_cxx}" \
+       OVERRIDE_LD="${LD}" \
+       AR="${AR}" \
+       LDFLAGS="${LDFLAGS}" \
+       ${MAKEFLAGS}
 }
 
 makeinstall_target() {

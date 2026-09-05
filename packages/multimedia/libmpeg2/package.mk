@@ -14,6 +14,16 @@ PKG_LONGDESC="The MPEG Library is a collection of C routines to decode MPEG-1 an
 PKG_CONFIGURE_OPTS_TARGET="--disable-sdl \
                            --without-x"
 
+pre_configure_target() {
+  export CC="${CC} --sysroot=${SYSROOT_PREFIX}"
+  export LDFLAGS="${LDFLAGS} --sysroot=${SYSROOT_PREFIX} -Wl,-rpath-link,${SYSROOT_PREFIX}/usr/lib"
+}
+
+post_configure_target() {
+  sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+  sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+}
+
 post_makeinstall_target() {
   rm -rf ${INSTALL}/usr/bin
 }

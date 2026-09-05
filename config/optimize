@@ -1,6 +1,10 @@
 # Linker hash-style is set to gnu via gcc default
 LD_OPTIM="-Wl,--as-needed"
 
+# Basic flags for C and C++ (including path mapping for ccache)
+TARGET_CFLAGS="$TARGET_CFLAGS -ffile-prefix-map=${BUILD_ROOT}=."
+TARGET_CXXFLAGS="$TARGET_CXXFLAGS -ffile-prefix-map=${BUILD_ROOT}=."
+
 if [ "${BUILD_WITH_DEBUG}" = "yes" ]; then
   TARGET_CFLAGS="$TARGET_CFLAGS -ggdb"
   TARGET_CXXFLAGS="$TARGET_CXXFLAGS -ggdb"
@@ -11,12 +15,18 @@ else
   TARGET_LDFLAGS="$TARGET_LDFLAGS"
 fi
 
+# Ensure atomic operations emit inline instructions on aarch64
+if [ "${TARGET_ARCH}" = "aarch64" ]; then
+  TARGET_CFLAGS="$TARGET_CFLAGS -mno-outline-atomics"
+  TARGET_CXXFLAGS="$TARGET_CXXFLAGS -mno-outline-atomics"
+fi
+
 NINJA_OPTS=""
 
-TARGET_CPPFLAGS=""
-TARGET_CFLAGS="$TARGET_CFLAGS -Wall -pipe $PROJECT_CFLAGS"
+TARGET_CPPFLAGS="$TARGET_CPPFLAGS --sysroot=${SYSROOT_PREFIX}"
+TARGET_CFLAGS="$TARGET_CFLAGS --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include -Wall -pipe $PROJECT_CFLAGS"
 TARGET_CXXFLAGS="$TARGET_CFLAGS"
-TARGET_LDFLAGS="$TARGET_LDFLAGS $LD_OPTIM"
+TARGET_LDFLAGS="$TARGET_LDFLAGS --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib $LD_OPTIM"
 TARGET_LIBDIR="$SYSROOT_PREFIX/lib $SYSROOT_PREFIX/usr/lib"
 TARGET_INCDIR="$SYSROOT_PREFIX/include $SYSROOT_PREFIX/usr/include"
 

@@ -7,14 +7,19 @@ PKG_SHA256="b663391a6876f19a3cd901d862423a16e2b5ceaa2f4a3b9bb681e64b9c7ba78d"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.rodsbooks.com/gdisk/"
 PKG_URL="https://downloads.sourceforge.net/project/${PKG_NAME}/${PKG_NAME}/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain popt crossguid"
+PKG_DEPENDS_TARGET="toolchain util-linux popt crossguid"
 PKG_LONGDESC="GPT text-mode partitioning tools"
 
 make_target() {
-  make sgdisk "CC=${CC}" "CXX=${CXX}"
+  make sgdisk \
+       CC="${CC}" \
+       CXX="${CXX}" \
+       CXXFLAGS="${TARGET_CXXFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include -D_FILE_OFFSET_BITS=64" \
+       LDFLAGS="${TARGET_LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib" \
+       LDLIBS="-lpopt -luuid"
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/sbin/
-    cp -p sgdisk ${INSTALL}/usr/sbin/
+  cp -p sgdisk ${INSTALL}/usr/sbin/
 }

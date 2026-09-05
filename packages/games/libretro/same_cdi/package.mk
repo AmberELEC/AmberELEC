@@ -31,11 +31,31 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
                       USE_SYSTEM_LIB_FLAC=1 \
                       USE_SYSTEM_LIB_SQLITE3=1"
 
+pre_configure_target() {
+  sed -i "s/-static-libstdc++//g" scripts/genie.lua 2>/dev/null || true
+  sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=gold",|g' scripts/genie.lua 2>/dev/null || true
+}
+
 make_target() {
   unset ARCH
   unset DISTRO
   unset PROJECT
-  make -f Makefile.libretro ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
+
+  local my_cc="${CC}"
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cc="${TOOLCHAIN}/bin/ccache ${CC}"
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make -f Makefile.libretro ${PKG_MAKE_OPTS_TARGET} \
+       OVERRIDE_CC="${my_cc}" \
+       OVERRIDE_CXX="${my_cxx}" \
+       OVERRIDE_LD="${LD}" \
+       AR="${AR}" \
+       LDFLAGS="${LDFLAGS} -shared" \
+       ${MAKEFLAGS}
 }
 
 makeinstall_target() {

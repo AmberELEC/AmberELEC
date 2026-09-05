@@ -3,8 +3,7 @@
 # Copyright (C) 2018-present 5schatten (https://github.com/5schatten)
 
 PKG_NAME="SDL2_ttf"
-PKG_VERSION="2.22.0"
-#PKG_SHA256=""
+PKG_VERSION="2.24.0"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.libsdl.org/"
 PKG_URL="https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-${PKG_VERSION}.tar.gz"

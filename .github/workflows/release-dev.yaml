@@ -1,4 +1,3 @@
-
 # The purpose of this build is to allow a 'dev' release be created.  
 # dev releases are unsupported and should only be used by developers or at the request of a developer
 #  Typically, it will be created every day if there are new commits since the last tag
@@ -49,9 +48,9 @@ jobs:
               echo "last dev date: ${last_dev_date}"
               popd
               
-              echo changes=$(git log --after=" >> $GITHUB_OUTPUT${last_dev_date}" --oneline | wc -l)
+              echo "changes=$(git log --after="${last_dev_date}" --oneline | wc -l)" >> $GITHUB_OUTPUT
               
-              release_notes="$(git log --after=\\"${last_dev_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
+              release_notes="$(git log --after="${last_dev_date}" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
               
               # The below lines translate linebreaks so they can be set into the 'release_notes' variable
               release_notes="${release_notes//'%'/'%25'}"
@@ -76,4 +75,3 @@ jobs:
                  "release_tag" : "dev-${{steps.date.outputs.date}}",
                  "release_notes" : ${{toJSON(steps.changes.outputs.release_notes)}}
                }
-            

@@ -10,6 +10,7 @@ PKG_DEPENDS_TARGET="toolchain SDL2 boost openal-soft ${OPENGLES} zlib"
 PKG_LONGDESC="Yabause is a Sega Saturn emulator and took over as Yaba Sanshiro"
 PKG_TOOLCHAIN="cmake-make"
 PKG_GIT_CLONE_BRANCH="pi4-update"
+PKG_BUILD_FLAGS="+bfd"
 PKG_PATCH_DIRS="${DEVICE}"
 
 post_unpack() {
@@ -28,11 +29,20 @@ pre_make_target() {
 }
 
 pre_configure_target() {
+  TARGET_CFLAGS="${TARGET_CFLAGS} -D_POSIX_C_SOURCE=199309L -D__N2__ -D__RETORO_ARENA__"
+  TARGET_CXXFLAGS="${TARGET_CXXFLAGS} -D__N2__ -D__RETORO_ARENA__"
+
+  EXTRA_LDFLAGS="-Wl,-rpath-link,${SYSROOT_PREFIX}/usr/lib -Wl,--allow-multiple-definition -ldrm -lrga -lpulse"
+  TARGET_LDFLAGS="${TARGET_LDFLAGS} ${EXTRA_LDFLAGS}"
+  export LDFLAGS="${LDFLAGS} ${EXTRA_LDFLAGS}"
+
   PKG_CMAKE_OPTS_TARGET="-S ${PKG_BUILD}/yabause \
                          -DYAB_WANT_DYNAREC_DEVMIYAX=ON \
                          -DYAB_WANT_ARM7=ON \
-                         -DCMAKE_TOOLCHAIN_FILE=${PKG_BUILD}/yabause/src/retro_arena/n2.cmake \
                          -DYAB_PORTS=retro_arena \
+                         -DUSE_EGL=ON \
+                         -DBOOST_ROOT=${SYSROOT_PREFIX}/usr \
+                         -DBoost_NO_SYSTEM_PATHS=ON \
                          -DOPENGL_INCLUDE_DIR=${SYSROOT_PREFIX}/usr/include \
                          -DOpenGL_GL_PREFERENCE=LEGACY \
                          -DLIBPNG_LIB_DIR=${SYSROOT_PREFIX}/usr/lib \

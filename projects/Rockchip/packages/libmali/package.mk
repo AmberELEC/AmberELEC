@@ -14,9 +14,11 @@ PKG_LONGDESC="The Mali GPU library used in Rockchip Platform"
 
 PKG_PATCH_DIRS="${MALI_FAMILY}"
 
+PKG_MESON_OPTS_TARGET="-Dc_std=gnu11 -Dcpp_std=gnu++11"
+
 pre_configure_target() {
-  export CFLAGS="${CFLAGS} -std=gnu11"
-  export CXXFLAGS="${CXXFLAGS} -std=gnu++11"
+  export TARGET_CFLAGS="${TARGET_CFLAGS} -std=gnu11"
+  export TARGET_CXXFLAGS="${TARGET_CXXFLAGS} -std=gnu++11"
 }
 
 post_makeinstall_target() {

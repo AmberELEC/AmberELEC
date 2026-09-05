@@ -330,19 +330,28 @@ setup_toolchain() {
       setup_pkg_config_target
       export CMAKE_CONF=$TOOLCHAIN/etc/cmake-$TARGET_NAME.conf
       export CMAKE="cmake -DCMAKE_TOOLCHAIN_FILE=$CMAKE_CONF -DCMAKE_INSTALL_PREFIX=/usr"
-      if [ ! -f $CMAKE_CONF ] ; then
-        mkdir -p $TOOLCHAIN/etc
-        echo "SET(CMAKE_SYSTEM_NAME Linux)" >> $CMAKE_CONF
-        echo "SET(CMAKE_SYSTEM_VERSION 1)"  >> $CMAKE_CONF
-        echo "SET(CMAKE_SYSTEM_PROCESSOR  $TARGET_ARCH)" >> $CMAKE_CONF
-        echo "SET(CMAKE_C_COMPILER   $CC)"  >> $CMAKE_CONF
-        echo "SET(CMAKE_CXX_COMPILER $CXX)" >> $CMAKE_CONF
-        echo "SET(CMAKE_CPP_COMPILER $CPP)" >> $CMAKE_CONF
-        echo "SET(CMAKE_FIND_ROOT_PATH  $SYSROOT_PREFIX)"   >> $CMAKE_CONF
-        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)" >> $CMAKE_CONF
-        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)"  >> $CMAKE_CONF
-        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)"  >> $CMAKE_CONF
-        echo "SET(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)"  >> $CMAKE_CONF
+
+      mkdir -p "$TOOLCHAIN/etc"
+
+      if [ ! -f "$CMAKE_CONF" ]; then
+        cat > "${CMAKE_CONF}.tmp.$$" <<EOF
+SET(CMAKE_SYSTEM_NAME Linux)
+SET(CMAKE_SYSTEM_VERSION 1)
+SET(CMAKE_SYSTEM_PROCESSOR $TARGET_ARCH)
+SET(CMAKE_SYSROOT $SYSROOT_PREFIX)
+SET(CMAKE_C_COMPILER $CC)
+SET(CMAKE_CXX_COMPILER $CXX)
+SET(CMAKE_CPP_COMPILER $CPP)
+SET(CMAKE_FIND_ROOT_PATH $SYSROOT_PREFIX $SYSROOT_PREFIX/usr)
+SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+SET(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+SET(CMAKE_PROGRAM_PATH "$TOOLCHAIN/bin")
+LIST(APPEND CMAKE_SYSTEM_PREFIX_PATH "$SYSROOT_PREFIX/usr")
+SET(PKG_CONFIG_EXECUTABLE "$TOOLCHAIN/bin/pkg-config" CACHE FILEPATH "pkg-config executable" FORCE)
+EOF
+         mv -f "${CMAKE_CONF}.tmp.$$" "$CMAKE_CONF"
       fi
       export HOST_CC="$TOOLCHAIN/bin/host-gcc"
       export HOST_CXX="$TOOLCHAIN/bin/host-g++"
@@ -366,7 +375,7 @@ setup_toolchain() {
         export CC="$TOOLCHAIN/bin/host-gcc"
         export CXX="$TOOLCHAIN/bin/host-g++"
       fi
-	export CPP="cpp"
+      export CPP="cpp"
       export LD="ld"
       export AS="as"
       export AR="ar"
@@ -413,17 +422,25 @@ setup_toolchain() {
 }
 
 create_meson_conf() {
-  local endian root properties
+  local root properties c_flags cpp_flags ld_flags
   case "$1" in
-    target|init)    root="$SYSROOT_PREFIX/usr"
-                    ;;
-    host|bootstrap) root="$TOOLCHAIN"
-                    ;;
+    target|init)
+      root="$SYSROOT_PREFIX/usr"
+      c_flags="${TARGET_CFLAGS:-$CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
+      cpp_flags="${TARGET_CXXFLAGS:-$CXXFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
+      ld_flags="${TARGET_LDFLAGS:-$LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
+      ;;
+    host|bootstrap)
+      root="$TOOLCHAIN"
+      c_flags="${HOST_CFLAGS:-$CFLAGS} -I${TOOLCHAIN}/include"
+      cpp_flags="${HOST_CXXFLAGS:-$CXXFLAGS} -I${TOOLCHAIN}/include"
+      ld_flags="${HOST_LDFLAGS:-$LDFLAGS} -L${TOOLCHAIN}/lib"
+      ;;
   esac
 
   properties="PKG_MESON_PROPERTIES_${1^^}"
 
-  cat > $2 <<EOF
+  cat > "$2" <<EOF
 [binaries]
 c = '$CC'
 cpp = '$CXX'
@@ -438,12 +455,14 @@ cpu_family = '$TARGET_ARCH'
 cpu = '$TARGET_SUBARCH'
 endian = 'little'
 
+[built-in options]
+$(python3 -c "import os, shlex; print('c_args = {}'.format(shlex.split('''$c_flags''')))")
+$(python3 -c "import os, shlex; print('c_link_args = {}'.format(shlex.split('''$ld_flags''')))")
+$(python3 -c "import os, shlex; print('cpp_args = {}'.format(shlex.split('''$cpp_flags''')))")
+$(python3 -c "import os, shlex; print('cpp_link_args = {}'.format(shlex.split('''$ld_flags''')))")
+
 [properties]
 root = '$root'
-$(python -c "import os; print('c_args = {}'.format([x for x in os.getenv('CFLAGS').split()]))")
-$(python -c "import os; print('c_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
-$(python -c "import os; print('cpp_args = {}'.format([x for x in os.getenv('CXXFLAGS').split()]))")
-$(python -c "import os; print('cpp_link_args = {}'.format([x for x in os.getenv('LDFLAGS').split()]))")
 ${!properties}
 EOF
 }

@@ -11,11 +11,10 @@ PKG_LONGDESC="cryptsetup utility for managing LUKS containers"
 PKG_DEPENDS_HOST="toolchain ccache:host"
 PKG_DEPENDS_TARGET="toolchain popt libdevmapper util-linux json-c openssl"
 
-PKG_CONFIGURE_OPTS_TARGET="
-        --disable-cryptsetup-reencrypt \
-        --disable-integritysetup \
-        --disable-selinux \
-        --disable-rpath \
-        --disable-veritysetup \
-        --disable-udev \
-        --enable-blkid"
+PKG_CONFIGURE_OPTS_TARGET="--disable-cryptsetup-reencrypt \
+                           --disable-integritysetup \
+                           --disable-selinux \
+                           --disable-rpath \
+                           --disable-veritysetup \
+                           --disable-udev \
+                           --enable-blkid"
