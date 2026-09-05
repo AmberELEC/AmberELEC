@@ -3,8 +3,8 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="meowpc98"
-PKG_VERSION="0ba5965247834317fd1026dc19d302677849b9e4"
-PKG_SHA256="11945811ac1e9d6eb0a12468bf9b5e205ccae99abf508ee72d75bf41dc75dfd9"
+PKG_VERSION="5fdbb2187f6b14ca7bf668dd52b36c820b989995"
+PKG_SHA256="1a7e943f71d97408dee36fe8909b5dd078b2a90c028bca94b36701f20cb637f8"
 PKG_LICENSE="Unknown"
 PKG_SITE="https://github.com/libretro/libretro-meowPC98"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"

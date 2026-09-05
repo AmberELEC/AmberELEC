@@ -6,9 +6,10 @@ PKG_VERSION="3529f4e2cb8e74c88d83bc9fc9d695f78dc9a975"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mame2016-libretro"
 PKG_URL="${PKG_SITE}.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc alsa-lib"
+PKG_DEPENDS_TARGET="toolchain linux glibc alsa-lib expat zlib flac sqlite"
 PKG_LONGDESC="Late 2016 version of MAME (0.174) for libretro. Compatible with MAME 0.174 romsets."
 PKG_TOOLCHAIN="make"
+PKG_BUILD_FLAGS="+pic"
 
 PKG_MAKE_OPTS_TARGET="REGENIE=1 \
                       VERBOSE=1 \
@@ -35,7 +36,33 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
                       USE_SYSTEM_LIB_SQLITE3=1"
 
 pre_configure_target() {
-  sed -i "s/BARE_BUILD_VERSION \"0.174\"/BARE_BUILD_VERSION \"0.174 ${PKG_VERSION:0:7}\"/g" src/version.cpp 
+  sed -i "s/BARE_BUILD_VERSION \"0.174\"/BARE_BUILD_VERSION \"0.174 ${PKG_VERSION:0:7}\"/g" src/version.cpp
+
+  (
+    unset ARCH
+    unset TARGET_ARCH
+    unset CFLAGS
+    unset CXXFLAGS
+    unset CPPFLAGS
+    unset LDFLAGS
+    make -C 3rdparty/genie/build/gmake.linux -f genie.make \
+         CC="${HOST_CC:-gcc}" \
+         CXX="${HOST_CXX:-g++}" \
+         ARCH="" \
+         CFLAGS="" \
+         LDFLAGS=""
+  )
+
+  sed -i "s/-static-libstdc++//g" scripts/genie.lua 2>/dev/null || true
+
+  if [ -f scripts/src/osd/retro.lua ]; then
+    sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=mold",|g' scripts/src/osd/retro.lua
+  else
+    find scripts/ -type f -name "*.lua" -exec sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=mold",|g' {} +
+  fi
+
+  find scripts -type f -name "*.lua" -exec sed -i 's|MAME_DIR \.\. "src/osd/retro/retroprefix.h"|"../../../../../src/osd/retro/retroprefix.h"|g' {} +
+  find scripts -type f -name "*.lua" -exec sed -i 's|_OPTIONS\["targetos"\] \.\. "/retroprefix.h"|"../../../../../src/osd/retro/retroprefix.h"|g' {} +
 }
 
 make_target() {
@@ -43,7 +70,21 @@ make_target() {
   unset DISTRO
   unset PROJECT
   export ARCHOPTS="-D__aarch64__ -DASMJIT_BUILD_X86"
-  make ${PKG_MAKE_OPTS_TARGET} OVERRIDE_CC=${CC} OVERRIDE_CXX=${CXX} OVERRIDE_LD=${LD} AR=${AR} ${MAKEFLAGS}
+
+  local my_cc="${CC}"
+  local my_cxx="${CXX}"
+
+  if [ -n "${CCACHE_DIR}" ] && [ -x "${TOOLCHAIN}/bin/ccache" ]; then
+    my_cc="${TOOLCHAIN}/bin/ccache ${CC}"
+    my_cxx="${TOOLCHAIN}/bin/ccache ${CXX}"
+  fi
+
+  make ${PKG_MAKE_OPTS_TARGET} \
+       OVERRIDE_CC="${my_cc}" \
+       OVERRIDE_CXX="${my_cxx}" \
+       AR="${AR}" \
+       LDFLAGS="${LDFLAGS} -fuse-ld=mold" \
+       ${MAKEFLAGS}
 }
 
 makeinstall_target() {

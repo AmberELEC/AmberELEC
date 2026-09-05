@@ -1,0 +1,16 @@
+--- a/CMakeLists.txt	2026-08-19 17:21:44.816456888 +0200
++++ b/CMakeLists.txt	2026-08-19 17:23:04.446450137 +0200
+@@ -172,6 +172,13 @@
+   endif()
+ endmacro()
+ 
++if(NOT TARGET CMath::CMath)
++  add_library(CMath::CMath INTERFACE IMPORTED)
++  set_target_properties(CMath::CMath PROPERTIES
++    INTERFACE_LINK_LIBRARIES "m"
++  )
++endif()
++
+ find_soft_mandatory_package(ENABLE_NSS3 NSS3 ${NSS3_VERSION})
+ find_soft_mandatory_package(ENABLE_GPGME Gpgmepp ${GPGME_VERSION})
+ find_soft_mandatory_package(ENABLE_LIBTIFF TIFF ${TIFF_VERSION})
