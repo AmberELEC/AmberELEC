@@ -204,11 +204,6 @@ if ! listcontains "meson cmake cmake-make configure ninja make autotools manual"
 fi
 build_msg "CLR_TOOLCHAIN" "TOOLCHAIN" "${PKG_TOOLCHAIN}${_auto_toolchain}"
 
-# make autoreconf
-if [ "${PKG_TOOLCHAIN}" = "autotools" ]; then
-  run_cmd ${SCRIPTS}/autoreconf "${PKG_NAME}" "${PARENT_PKG}"
-fi
-
 pkg_lock_status "ACTIVE" "${PKG_NAME}:${TARGET}" "build"
 
 # Log capture & failure reporter
@@ -232,6 +227,11 @@ run_cmd() {
     fi
   fi
 }
+
+# make autoreconf
+if [ "${PKG_TOOLCHAIN}" = "autotools" ]; then
+  run_cmd ${SCRIPTS}/autoreconf "${PKG_NAME}" "${PARENT_PKG}"
+fi
 
 # include build template and build
 pkg_call_exists pre_build_${TARGET} && run_cmd pkg_call pre_build_${TARGET}

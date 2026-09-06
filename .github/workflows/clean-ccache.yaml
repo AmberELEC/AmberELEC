@@ -1,4 +1,3 @@
-@ -0,0 +1,70 @@
 name: clean-ccache
 on:
   workflow_dispatch:
