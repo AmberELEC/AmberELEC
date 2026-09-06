@@ -1,3 +1,6 @@
+# Build Log verbosity
+  VERBOSE="no"
+
 # LTO (Link Time Optimization) support
   LTO_SUPPORT="yes"
 

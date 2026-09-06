@@ -1,6 +1,17 @@
 name: clean-pr
 on:
   workflow_dispatch:
+    inputs:
+      clean_mode:
+        description: 'Select clean target'
+        required: true
+        default: 'clean'
+        type: choice
+        options:
+          - clean
+          - clean-toolchain
+          - distclean
+
 jobs:
   build:
     runs-on: pr
@@ -9,7 +20,7 @@ jobs:
         name: checkout
         with:
           clean: false
-      - name: clean
+      - name: Clean Workspace
         run: |
-            set -e
-            make docker-clean
+          set -e
+          make docker-${{ inputs.clean_mode }}

@@ -1,3 +1,4 @@
+@ -0,0 +1,70 @@
 name: clean-ccache
 on:
   workflow_dispatch:
@@ -10,13 +11,17 @@ on:
         options:
           - all
           - .ccache-aarch64-cortex-a35
+          - .ccache-aarch64-cortex-a55
           - .ccache-aarch64-cortex-a72.cortex-a53
-          - .ccache-arm-*
 
 jobs:
   cleanup:
-    name: Purge and Verify ccache
-    runs-on: main
+    name: Purge and Verify ccache (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [main, pr]
+    runs-on: ${{ matrix.runner }}
     steps:
       - name: Pre-check workspace content & disk space
         run: |
@@ -50,9 +55,15 @@ jobs:
           ls -lah "${{ github.workspace }}"
           echo ""
           echo "=== CCACHE VERIFICATION CHECK ==="
-          REMAINING=$(find "${{ github.workspace }}" -maxdepth 2 -type d -name ".ccache*" || true)
+          if [ "${{ inputs.target_folder }}" = "all" ]; then
+            CHECK_PATTERN=".ccache*"
+          else
+            CHECK_PATTERN="${{ inputs.target_folder }}"
+          fi
+
+          REMAINING=$(find "${{ github.workspace }}" -maxdepth 2 -type d -name "$CHECK_PATTERN" || true)
           if [ -z "$REMAINING" ]; then
-            echo "SUCCESS: No .ccache directories remain in ${{ github.workspace }}."
+            echo "SUCCESS: Targeted directory ($CHECK_PATTERN) removed from ${{ github.workspace }}."
           else
             echo "WARNING: Remaining directories detected:"
             echo "$REMAINING"

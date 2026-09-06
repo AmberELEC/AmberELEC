@@ -1,39 +1,25 @@
-# SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
-
-set -e
-
-# setup initial directorys (relative to root)
-  CONFIG=config
-  SCRIPTS=scripts
-  PACKAGES=packages
-  SOURCES=${SOURCES_DIR:-$ROOT/sources}
-  BUILD_ROOT=${BUILD_DIR:-$ROOT}
-  BUILD_BASE=build
-  TARGET_IMG=${TARGET_DIR:-$ROOT/target}
-  ADDONS=addons
-
-# include ARCH specific options
-  if [ -f config/arch.$TARGET_ARCH ]; then
-    . config/arch.$TARGET_ARCH
-  fi
-
+@ -21,13 +21,85 @@ set -e
 [ -z "${HOST_NAME}" ] && export HOST_NAME="$($LOCAL_CC -dumpmachine)"
 TARGET_NAME=$TARGET_GCC_ARCH-libreelec-linux-gnu${TARGET_ABI}
 
+BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}
 REAL_BUILD="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}"
 if [ "${LIBREELEC_VERSION}" = "devel" ] ; then
+  BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}
   REAL_BUILD="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}"
 fi
 
 if [ -n "$BUILD_SUFFIX" ]; then
+  BUILD=$BUILD-$BUILD_SUFFIX
   REAL_BUILD=$REAL_BUILD-$BUILD_SUFFIX
 fi
 
 LINK_BUILD="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-current.${TARGET_ARCH}"
 
 # --- Initialization & Disk Writes (Parent Process ONLY) ---
-if [ -z "${AMBERELEC_LOCK_HELD}" ]; then
+SCRIPT_NAME="$(basename "$0")"
+
+if [ -z "${AMBERELEC_LOCK_HELD}" ] && [ "${SCRIPT_NAME}" != "clean" ]; then
   LOCK_FILE="/tmp/amberelec_build_${TARGET_ARCH}.lock"
   exec 200>"${LOCK_FILE}"
   if ! flock -n 200; then
@@ -46,7 +32,7 @@ if [ -z "${AMBERELEC_LOCK_HELD}" ]; then
   fi
   export AMBERELEC_LOCK_HELD=1
 
-  # --- Seed Device Builds from prebuilt Base Toolchain (RK3326 / RK3399) ---
+  # --- Seed Device Builds from prebuilt Base Toolchain (RK3326 / RK3399 / RK3566) ---
   BASE_TEMPLATE_DEVICE=""
   if [[ "${DEVICE}" =~ ^(RG351P|RG351V|RG351MP)$ ]]; then
     BASE_TEMPLATE_DEVICE="RK3326"
@@ -59,13 +45,13 @@ if [ -z "${AMBERELEC_LOCK_HELD}" ]; then
   if [ -n "${BASE_TEMPLATE_DEVICE}" ]; then
     BASE_TEMPLATE_DIR="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${BASE_TEMPLATE_DEVICE}.${TARGET_ARCH}"
 
-    # Verify that the base toolchain template actually exists and has finished building
-    if [ ! -d "${BASE_TEMPLATE_DIR}/toolchain" ] || [ ! -d "${BASE_TEMPLATE_DIR}/.stamps/toolchain" ]; then
+    # Verify that the base toolchain template exists
+    if [ ! -d "${BASE_TEMPLATE_DIR}/toolchain/bin" ]; then
       echo "==========================================================================" >&2
       echo "==> ERROR: Required base toolchain template for '${DEVICE}' (${TARGET_ARCH}) is missing!" >&2
       echo "==> Expected path: ${BASE_TEMPLATE_DIR}" >&2
       echo "==> Please build the base toolchain first via:" >&2
-      echo "==>   make toolchain-${BASE_TEMPLATE_DEVICE}  (or make docker-toolchain-${BASE_TEMPLATE_DEVICE})" >&2
+      echo "==>    make toolchain-${BASE_TEMPLATE_DEVICE}  (or make docker-toolchain-${BASE_TEMPLATE_DEVICE})" >&2
       echo "==========================================================================" >&2
       exit 1
     fi
@@ -85,55 +71,27 @@ if [ -z "${AMBERELEC_LOCK_HELD}" ]; then
   # -------------------------------------------------------------------------
 
   mkdir -p "${REAL_BUILD}"
-  # Atomic symlink update. Do NOT use rm -f first, as it creates a race condition!
-  ln -sfn "${REAL_BUILD}" "${LINK_BUILD}"
+  # Maintain relative symlink pointing to the active target
+  if [ -L "${LINK_BUILD}" ] || [ -e "${LINK_BUILD}" ]; then
+    rm -f "${LINK_BUILD}"
+  fi
+  ln -sfn "$(basename "${REAL_BUILD}")" "${LINK_BUILD}"
 fi
 # ------------------------------------------------------------------
 
-BUILD="${LINK_BUILD}"
+# Use the canonical device folder directly so scripts/clean and targets always hit the real directory
+if [ -n "${DEVICE}" ] || [ "${SCRIPT_NAME}" = "clean" ]; then
+  BUILD="${REAL_BUILD}"
+else
+  BUILD="${LINK_BUILD}"
+fi
 
 THREAD_CONTROL=${BUILD}/.threads
-
-TARGET_ADDONS="$TARGET_IMG/$ADDONS/$ADDON_PATH"
-ADDON_BUILD="$BUILD/$ADDONS/$1"
-STAMPS=$BUILD/.stamps
-STAMPS_INSTALL=$BUILD/image/.stamps
-DOCS=DOCS
-TOOLCHAIN=$BUILD/toolchain
-SYSROOT_PREFIX=$TOOLCHAIN/$TARGET_NAME/sysroot
-LIB_PREFIX=$SYSROOT_PREFIX/usr
-TARGET_PREFIX=$TOOLCHAIN/bin/$TARGET_NAME-
-
-FAKEROOT_SCRIPT=$BUILD/.fakeroot
-
-if [ -z "$INSTALL" ]; then
-  INSTALL=$BUILD/image/system
-fi
-
-. config/sources
-
-MAKE="$TOOLCHAIN/bin/make"
-
-XORG_PATH_DRI=/usr/lib/dri
-XORG_PATH_XKB=/usr/share/X11/xkb
-XORG_PATH_XKB_OUTPUT=/var/lib/xkb
-XORG_PATH_RGB=/usr/lib/X11/rgb
-XORG_PATH_MODULES=/usr/lib/xorg/modules
-XORG_PATH_DRIVERS=/usr/lib/xorg/modules/drivers
-
-. config/optimize
-
-# use different toolchain for 64/32 split builds
-if [ -z "$KERNEL_TOOLCHAIN" -a "$TARGET_KERNEL_ARCH" = "arm64" -a "$TARGET_ARCH" = "arm" ]; then
-  KERNEL_TOOLCHAIN="aarch64"
-fi
-if [ -n "$KERNEL_TOOLCHAIN" ]; then
-  TARGET_KERNEL_PREFIX=$KERNEL_TOOLCHAIN-none-elf-
-else
-  TARGET_KERNEL_PREFIX=$TARGET_PREFIX
+@ -72,7 +144,27 @@ else
 fi
 
 if [ -z "$CCACHE_DIR" ]; then
+  export CCACHE_DIR=${BUILD_ROOT}/.ccache-${TARGET_ARCH}-${TARGET_CPU}
   export CCACHE_DIR="${BUILD_ROOT}/.ccache-${TARGET_ARCH}-${TARGET_CPU}"
   export CCACHE_BASEDIR="${BUILD_ROOT}"
   export CCACHE_NOHASHDIR="1"
@@ -158,30 +116,3 @@ EOF
 fi
 
 if [[ -z "$PATH" || ( "$PATH" != "$TOOLCHAIN/bin:$TOOLCHAIN/sbin" && "$PATH" = "${PATH#$TOOLCHAIN/bin:$TOOLCHAIN/sbin:}" ) ]]; then
-  export PATH="$TOOLCHAIN/bin:$TOOLCHAIN/sbin${PATH:+":$PATH"}"
-fi
-
-# redirect formatted output
-export BUILD_INDENT_SIZE=4
-SILENT_OUT=3
-VERBOSE_OUT=4
-
-if [ "$VERBOSE" = yes ]; then
-  exec 3>&1
-  exec 4>&1
-else
-  exec 3>&2
-  exec 4>/dev/null
-fi
-
-unset LD_LIBRARY_PATH
-
-# multilib? nah
-unset CONFIG_SITE
-
-# Ignore custom python installs...
-unset PYTHONHOME PYTHONPATH PYTHONSTARTUP
-export PYTHONNOUSERSITE=yes #disable PEP 370
-
-# Fix #4737
-unset PYTHONDONTWRITEBYTECODE

@@ -18,7 +18,9 @@ post_patch() {
   (
     cd ${PKG_BUILD}
     mkdir -p "${PKG_FW_SOURCE}"
-      ./copy-firmware.sh --verbose "${PKG_FW_SOURCE}"
+      local fw_verbose=""
+      [ "${VERBOSE}" = "yes" ] && fw_verbose="--verbose"
+      ./copy-firmware.sh ${fw_verbose} "${PKG_FW_SOURCE}"
 
     # copy extra firmware files (or overwrite upstream ones)
     if [ -d ${PKG_DIR}/extra-firmware ]; then
@@ -30,6 +32,9 @@ post_patch() {
 # Install additional miscellaneous drivers
 makeinstall_target() {
   FW_TARGET_DIR=${INSTALL}/$(get_full_firmware_dir)
+
+  local cp_verbose=""
+  [ "${VERBOSE}" = "yes" ] && cp_verbose="-v"
 
   if find_file_path config/kernel-firmware.dat; then
     FW_LISTS="${FOUND_PATH}"
@@ -56,7 +61,7 @@ makeinstall_target() {
 
         if [ -f "${PKG_FW_SOURCE}/${fwfile}" ]; then
           mkdir -p "$(dirname "${FW_TARGET_DIR}/${fwfile}")"
-            cp -Lv "${PKG_FW_SOURCE}/${fwfile}" "${FW_TARGET_DIR}/${fwfile}"
+            cp -L ${cp_verbose} "${PKG_FW_SOURCE}/${fwfile}" "${FW_TARGET_DIR}/${fwfile}"
         else
           echo "ERROR: Firmware file ${fwfile} does not exist - aborting"
           exit 1
