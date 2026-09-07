@@ -62,7 +62,7 @@ make_target() {
        OVERRIDE_CXX="${my_cxx}" \
        OVERRIDE_LD="${LD}" \
        AR="${AR}" \
-       LDFLAGS="${LDFLAGS} -fuse-ld=mold" \
+       LDFLAGS="${LDFLAGS}" \
        ${MAKEFLAGS}
 }
 

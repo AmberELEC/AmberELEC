@@ -56,9 +56,9 @@ pre_configure_target() {
   sed -i "s/-static-libstdc++//g" scripts/genie.lua 2>/dev/null || true
 
   if [ -f scripts/src/osd/retro.lua ]; then
-    sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=mold",|g' scripts/src/osd/retro.lua
+    sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=gold",|g' scripts/src/osd/retro.lua
   else
-    find scripts/ -type f -name "*.lua" -exec sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=mold",|g' {} +
+    find scripts/ -type f -name "*.lua" -exec sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=gold",|g' {} +
   fi
 
   find scripts -type f -name "*.lua" -exec sed -i 's|MAME_DIR \.\. "src/osd/retro/retroprefix.h"|"../../../../../src/osd/retro/retroprefix.h"|g' {} +
@@ -83,7 +83,7 @@ make_target() {
        OVERRIDE_CC="${my_cc}" \
        OVERRIDE_CXX="${my_cxx}" \
        AR="${AR}" \
-       LDFLAGS="${LDFLAGS} -fuse-ld=mold" \
+       LDFLAGS="${LDFLAGS}" \
        ${MAKEFLAGS}
 }
 

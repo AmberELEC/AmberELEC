@@ -10,13 +10,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files."
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+pic"
-
-pre_configure_target() {
-  sed -i 's|^LDFLAGS :=|LDFLAGS := -fuse-ld=mold |g' ${PKG_BUILD}/backends/platform/libretro/Makefile* 2>/dev/null || true
-  sed -i 's|^LDFLAGS +=|LDFLAGS += -fuse-ld=mold |g' ${PKG_BUILD}/backends/platform/libretro/Makefile* 2>/dev/null || true
-  sed -i 's|^SHARED :=.*|SHARED := -shared -fuse-ld=mold|g' ${PKG_BUILD}/backends/platform/libretro/Makefile* 2>/dev/null || true
-}
 
 make_target() {
   local my_cc="${CC}"
@@ -30,8 +23,8 @@ make_target() {
   make -C ${PKG_BUILD}/backends/platform/libretro all \
        CC="${my_cc}" \
        CXX="${my_cxx}" \
-       SHARED="-shared -fuse-ld=mold" \
-       LDFLAGS="${LDFLAGS} -shared -fuse-ld=mold" \
+       SHARED="-shared" \
+       LDFLAGS="${LDFLAGS} -shared" \
        ${MAKEFLAGS}
 }
 

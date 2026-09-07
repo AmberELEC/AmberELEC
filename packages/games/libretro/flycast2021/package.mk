@@ -10,7 +10,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain ${OPENGLES}"
 PKG_LONGDESC="Flycast is a multiplatform Sega Dreamcast emulator"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+pic"
 
 pre_configure_target() {
   sed -i 's/\-O[23]//' ${PKG_BUILD}/Makefile
@@ -39,8 +38,8 @@ make_target() {
        GIT_VERSION="${PKG_VERSION:0:7}" \
        CC="${my_cc}" \
        CXX="${my_cxx}" \
-       SHARED="-shared -fuse-ld=mold" \
-       LDFLAGS="${LDFLAGS} -fuse-ld=mold" \
+       SHARED="-shared" \
+       LDFLAGS="${LDFLAGS}" \
        ${MAKEFLAGS}
 }
 

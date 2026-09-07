@@ -48,12 +48,17 @@ PKG_CONFIGURE_OPTS_TARGET="WPASUPPLICANT=/usr/bin/wpa_supplicant \
 if [ "${WIREGUARD_SUPPORT}" = "yes" ]; then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-wireguard=builtin"
 else
-  PKG_CONGIGURE_OPTS_TARGET+=" --disable-wireguard"
+  PKG_CONFIGURE_OPTS_TARGET+=" --disable-wireguard"
 fi
 
 PKG_MAKE_OPTS_TARGET="storagedir=/storage/.cache/connman \
-                      vpn_storagedir=/storage/.config/wireguard \
-                      statedir=/run/connman"
+                     vpn_storagedir=/storage/.config/wireguard \
+                     statedir=/run/connman"
+
+pre_configure_target() {
+  export CFLAGS="${TARGET_CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include -I${SYSROOT_PREFIX}/usr/include/readline"
+  export LDFLAGS="${TARGET_LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
+}
 
 post_makeinstall_target() {
   rm -rf ${INSTALL}/usr/lib/systemd

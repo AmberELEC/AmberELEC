@@ -21,11 +21,23 @@ pre_configure_host() {
   rm -f ${TOOLCHAIN}/bin/host-g++
   ln -s ${LOCAL_CC} ${TOOLCHAIN}/bin/host-gcc
   ln -s ${LOCAL_CXX} ${TOOLCHAIN}/bin/host-g++
-  PKG_CMAKE_OPTS_HOST="-DREDIS_STORAGE_BACKEND=OFF -DENABLE_DOCUMENTATION=OFF -DENABLE_TESTING=OFF -DZSTD_FROM_INTERNET=ON"
+  PKG_CMAKE_OPTS_HOST="-DDEV_MODE=OFF \
+                       -DWARNINGS_AS_ERRORS=OFF \
+                       -DHTTP_STORAGE_BACKEND=OFF \
+                       -DREDIS_STORAGE_BACKEND=OFF \
+                       -DENABLE_DOCUMENTATION=OFF \
+                       -DENABLE_TESTING=OFF \
+                       -DZSTD_FROM_INTERNET=ON"
 }
 
 pre_configure_init() {
-  PKG_CMAKE_OPTS_INIT="-DREDIS_STORAGE_BACKEND=OFF -DENABLE_DOCUMENTATION=OFF -DENABLE_TESTING=OFF -DZSTD_FROM_INTERNET=ON"
+  PKG_CMAKE_OPTS_INIT="-DDEV_MODE=OFF \
+                       -DWARNINGS_AS_ERRORS=OFF \
+                       -DHTTP_STORAGE_BACKEND=OFF \
+                       -DREDIS_STORAGE_BACKEND=OFF \
+                       -DENABLE_DOCUMENTATION=OFF \
+                       -DENABLE_TESTING=OFF \
+                       -DZSTD_FROM_INTERNET=ON"
 }
 
 post_makeinstall_host() {

@@ -214,8 +214,8 @@ run_cmd() {
   if [ "${VERBOSE}" = "yes" ]; then
     "$@"
   else
-    "$@" >> "${PKG_LOG_FILE}" 2>&1
-    local status=$?
+    local status=0
+    "$@" >> "${PKG_LOG_FILE}" 2>&1 || status=$?
     if [ ${status} -ne 0 ]; then
       echo "==========================================================================" >&2
       echo "==> ERROR: Command failed with exit code ${status}:" >&2
@@ -461,7 +461,7 @@ done
 
 # Transfer the new sysroot content to the shared sysroot
 mkdir -p "${PKG_ORIG_SYSROOT_PREFIX}"
-cp -PRf "${SYSROOT_PREFIX}"/* "${PKG_ORIG_SYSROOT_PREFIX}"
+cp -PRf "${SYSROOT_PREFIX}/." "${PKG_ORIG_SYSROOT_PREFIX}/"
 rm -rf "${SYSROOT_PREFIX}"
 
 export SYSROOT_PREFIX="${PKG_ORIG_SYSROOT_PREFIX}"

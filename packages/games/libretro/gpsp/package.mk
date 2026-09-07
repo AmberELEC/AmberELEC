@@ -11,13 +11,6 @@ PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="gameplaySP is a Gameboy Advance emulator for Playstation Portable"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+pic"
-
-pre_configure_target() {
-  sed -i 's|^LDFLAGS :=|LDFLAGS := -shared -fuse-ld=mold |g' Makefile 2>/dev/null || true
-  sed -i 's|^LDFLAGS +=|LDFLAGS += -shared -fuse-ld=mold |g' Makefile 2>/dev/null || true
-  sed -i 's|^SHARED :=.*|SHARED := -shared -fuse-ld=mold|g' Makefile 2>/dev/null || true
-}
 
 make_target() {
   local my_cc="${CC}"
@@ -31,8 +24,8 @@ make_target() {
   make platform=arm64 \
        CC="${my_cc}" \
        CXX="${my_cxx}" \
-       SHARED="-shared -fuse-ld=mold" \
-       LDFLAGS="${LDFLAGS} -shared -fuse-ld=mold" \
+       SHARED="-shared" \
+       LDFLAGS="${LDFLAGS}" \
        ${MAKEFLAGS}
 }
 

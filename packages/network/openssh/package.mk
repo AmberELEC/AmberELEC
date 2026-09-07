@@ -33,8 +33,10 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_header_rpc_types_h=no \
                            --without-pam"
 
 pre_configure_target() {
+  export CC="${CC}"
   export LD="${CC}"
-  export LDFLAGS="${TARGET_CFLAGS} ${TARGET_LDFLAGS}"
+  export CFLAGS="${TARGET_CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
+  export LDFLAGS="${TARGET_LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
 }
 
 post_makeinstall_target() {

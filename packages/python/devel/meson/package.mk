@@ -1,10 +1,10 @@
-# SPDX-License-Identifier: GPL-2.0
+# SPDX-License-Identifier: GPL-2.0-only
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="meson"
-PKG_VERSION="1.3.1"
-PKG_SHA256="6020568bdede1643d4fb41e28215be38eff5d52da28ac7d125457c59e0032ad7"
-PKG_LICENSE="Apache"
+PKG_VERSION="1.4.0"
+PKG_SHA256="8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d"
+PKG_LICENSE="Apache-2.0"
 PKG_SITE="https://mesonbuild.com"
 PKG_URL="https://github.com/mesonbuild/meson/releases/download/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_HOST="Python3:host setuptools:host"

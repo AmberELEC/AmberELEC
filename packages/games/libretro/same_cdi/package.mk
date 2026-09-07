@@ -33,7 +33,7 @@ PKG_MAKE_OPTS_TARGET="REGENIE=1 \
 
 pre_configure_target() {
   sed -i "s/-static-libstdc++//g" scripts/genie.lua 2>/dev/null || true
-  sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=mold",|g' scripts/genie.lua 2>/dev/null || true
+  sed -i 's|linkoptions {|linkoptions { "-shared", "-fuse-ld=gold",|g' scripts/genie.lua 2>/dev/null || true
 }
 
 make_target() {
@@ -54,7 +54,7 @@ make_target() {
        OVERRIDE_CXX="${my_cxx}" \
        OVERRIDE_LD="${LD}" \
        AR="${AR}" \
-       LDFLAGS="${LDFLAGS} -shared -fuse-ld=mold" \
+       LDFLAGS="${LDFLAGS} -shared" \
        ${MAKEFLAGS}
 }
 
