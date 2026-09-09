@@ -1,0 +1,8 @@
+diff --git a/mupen64plus-core/src/r4300/new_dynarec/arm64/linkage_aarch64.S b/mupen64plus-core/src/r4300/new_dynarec/arm64/linkage_aarch64.S
+index b59c29cb..8059e990 100644
+--- a/mupen64plus-core/src/r4300/new_dynarec/arm64/linkage_aarch64.S
++++ b/mupen64plus-core/src/r4300/new_dynarec/arm64/linkage_aarch64.S
+@@ -450,3 +450,3 @@ GLOBAL_FUNCTION(fp_exception_ds):
+-    brk    0
++    /* Continue through the existing delay-slot FP exception handler. */
+     mov    w2, #0x90000000 /* Set high bit if delay slot */

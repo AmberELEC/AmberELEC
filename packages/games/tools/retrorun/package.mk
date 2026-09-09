@@ -2,9 +2,9 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="retrorun"
-PKG_VERSION="59ea63f30b4784562fe04e5c849f955edcee38c8"
+PKG_VERSION="0ea15c2210913bdc2466ed4901f9d860d72c0834"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/AmberELEC/retrorun"
+PKG_SITE="https://github.com/navy1978/retrorun"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft"
 PKG_TOOLCHAIN="make"
@@ -20,7 +20,7 @@ pre_configure_target() {
 }
 
 make_target() {
-  make CC="${CXX}" CXX="${CXX}" CPP="${CXX}" LD="${CXX}" config=release ARCH= verbose=1
+  make CC="${CXX}" CXX="${CXX}" CPP="${CXX}" LD="${CXX}" PLATFORM=linux-go2 config=release ARCH= verbose=1
 }
 
 makeinstall_target() {

@@ -20,6 +20,10 @@ PKG_CMAKE_OPTS_TARGET="-DCMAKE_RULE_MESSAGES=OFF \
                        -DUSE_GLES=ON"
 
 pre_configure_target() {
+  export TARGET_CFLAGS="${TARGET_CFLAGS} -flto=8 -fno-fat-lto-objects"
+  export TARGET_CXXFLAGS="${TARGET_CXXFLAGS} -flto=8 -fno-fat-lto-objects"
+  export TARGET_LDFLAGS="${TARGET_LDFLAGS} -flto=8 -fuse-linker-plugin"
+
   sed -i 's/"reicast"/"flycast"/g' ${PKG_BUILD}/shell/libretro/libretro_core_option_defines.h
   sed -i 's/RETRO_PIXEL_FORMAT_XRGB8888/RETRO_PIXEL_FORMAT_RGB565/g' ${PKG_BUILD}/shell/libretro/libretro.cpp
 }

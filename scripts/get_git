@@ -103,10 +103,10 @@ for d in "${SOURCES}/${1}/${1}-"* ; do
           # NOTE: we run the submodule update twice if the clone already
           #       exists - but deduplicating would complicate the logic quite a lot and
           #       the second time is almost a no-op
-          if ! git pull || ! git submodule update --init --recursive ${GIT_SUBMODULE_PARAMS}; then
+          if ! git pull --ff-only || ! git submodule update --init --recursive ${GIT_SUBMODULE_PARAMS}; then
               cd "${opwd}"
               build_msg "CLR_CLEAN" "DELETE" "(${d})"
-              GIT_FOUND=NO
+              GIT_FOUND=no
               rm -rf "${d}"
           fi
           cd "${opwd}"
