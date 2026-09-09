@@ -422,7 +422,17 @@ EOF
 }
 
 create_meson_conf() {
-  local root properties c_flags cpp_flags ld_flags
+  local root properties c_flags cpp_flags ld_flags exe_wrapper needs_exe_wrapper
+  exe_wrapper=""
+  needs_exe_wrapper=""
+
+  if [ "$1" = "target" ] &&
+     [ "${HOST_NAME%%-*}" = "aarch64" ] &&
+     [ "${TARGET_ARCH}" = "aarch64" ]; then
+    exe_wrapper="exe_wrapper = ['$SYSROOT_PREFIX/usr/lib/ld-linux-aarch64.so.1', '--library-path', '$SYSROOT_PREFIX/usr/lib']"
+    needs_exe_wrapper="needs_exe_wrapper = true"
+  fi
+
   case "$1" in
     target|init)
       root="$SYSROOT_PREFIX/usr"
@@ -448,6 +458,7 @@ ar = '$AR'
 strip = '$STRIP'
 pkgconfig = '$PKG_CONFIG'
 llvm-config = '$SYSROOT_PREFIX/usr/bin/llvm-config-host'
+$exe_wrapper
 
 [host_machine]
 system = 'linux'
@@ -463,6 +474,7 @@ $(python3 -c "import os, shlex; print('cpp_link_args = {}'.format(shlex.split(''
 
 [properties]
 root = '$root'
+$needs_exe_wrapper
 ${!properties}
 EOF
 }

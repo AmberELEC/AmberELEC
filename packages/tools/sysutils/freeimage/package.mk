@@ -10,6 +10,7 @@ PKG_URL="${SOURCEFORGE_SRC}/${PKG_NAME}/FreeImage${PKG_VERSION}.zip"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SOURCE_DIR="FreeImage"
 PKG_LONGDESC="FreeImage library"
+PKG_BUILD_FLAGS="+pic"
 
 pre_make_target() {
   export CXXFLAGS="${CXXFLAGS} -Wno-narrowing -std=c++11"
