@@ -6,6 +6,11 @@
 
 . config/options "${1}"
 
+# Resolve any symlink to operate strictly on the canonical target folder
+if [ -L "${BUILD}" ]; then
+  BUILD="$(readlink -f "${BUILD}")"
+fi
+
 clean_package() {
   build_msg "CLR_CLEAN" "CLEAN" "${1}" "indent"
 
@@ -14,7 +19,7 @@ clean_package() {
     return
   fi
 
-  # Use a wilcard here to remove all versions of the package
+  # Use a wildcard here to remove all versions of the package
   for i in "${BUILD}/${1}-"*; do
     if [ -d "${i}" -a -f "${i}/.libreelec-unpack" ]; then
       . "${i}/.libreelec-unpack"
@@ -31,14 +36,19 @@ clean_package() {
       fi
     fi
   done
+
+  # Wipe stamps, package logs, and temporary sysroot references
   rm -f "${STAMPS}/${1}/build_"*
+  rm -f "${BUILD}/.log_${1}_"*
+  rm -rf "${BUILD}/.sysroot/${1}."*
 }
 
 if [ "${1}" = "--all" -a -n "${2}" ]; then
   for build_dir in $(ls -1d "${ROOT}/build."*); do
+    # Skip symlinks to avoid cleaning the same directory twice
+    [ -L "${build_dir}" ] && continue
     load_build_config "${build_dir}" && "${SCRIPTS}/clean" "${2}"
   done
 elif [ -n "${1}" ]; then
   clean_package "${1}"
 fi
-

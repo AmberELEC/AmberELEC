@@ -21,13 +21,85 @@ set -e
 [ -z "${HOST_NAME}" ] && export HOST_NAME="$($LOCAL_CC -dumpmachine)"
 TARGET_NAME=$TARGET_GCC_ARCH-libreelec-linux-gnu${TARGET_ABI}
 
-BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}
+REAL_BUILD="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}"
 if [ "${LIBREELEC_VERSION}" = "devel" ] ; then
-  BUILD=${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}
+  REAL_BUILD="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${DEVICE:-$PROJECT}.${TARGET_ARCH}-${OS_VERSION}-${LIBREELEC_VERSION}"
 fi
 
 if [ -n "$BUILD_SUFFIX" ]; then
-  BUILD=$BUILD-$BUILD_SUFFIX
+  REAL_BUILD=$REAL_BUILD-$BUILD_SUFFIX
+fi
+
+LINK_BUILD="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-current.${TARGET_ARCH}"
+
+# --- Initialization & Disk Writes (Parent Process ONLY) ---
+SCRIPT_NAME="$(basename "$0")"
+
+if [ -z "${AMBERELEC_LOCK_HELD}" ] && [ "${SCRIPT_NAME}" != "clean" ]; then
+  LOCK_FILE="/tmp/amberelec_build_${TARGET_ARCH}.lock"
+  exec 200>"${LOCK_FILE}"
+  if ! flock -n 200; then
+    echo "==========================================================================" >&2
+    echo "==> ERROR: Another build is already running for ARCH=${TARGET_ARCH}!" >&2
+    echo "==> Parallel builds on the same architecture are blocked to prevent" >&2
+    echo "==> corrupting 'build.${DISTRONAME}-current.${TARGET_ARCH}'." >&2
+    echo "==========================================================================" >&2
+    exit 1
+  fi
+  export AMBERELEC_LOCK_HELD=1
+
+  # --- Seed Device Builds from prebuilt Base Toolchain (RK3326 / RK3399 / RK3566) ---
+  BASE_TEMPLATE_DEVICE=""
+  if [[ "${DEVICE}" =~ ^(RG351P|RG351V|RG351MP)$ ]]; then
+    BASE_TEMPLATE_DEVICE="RK3326"
+  elif [[ "${DEVICE}" =~ ^(RG552)$ ]]; then
+    BASE_TEMPLATE_DEVICE="RK3399"
+  elif [[ "${DEVICE}" =~ ^(RG353)$ ]]; then
+    BASE_TEMPLATE_DEVICE="RK3566"
+  fi
+
+  if [ -n "${BASE_TEMPLATE_DEVICE}" ]; then
+    BASE_TEMPLATE_DIR="${BUILD_ROOT}/${BUILD_BASE}.${DISTRONAME}-${BASE_TEMPLATE_DEVICE}.${TARGET_ARCH}"
+
+    # Verify that the base toolchain template exists
+    if [ ! -d "${BASE_TEMPLATE_DIR}/toolchain/bin" ]; then
+      echo "==========================================================================" >&2
+      echo "==> ERROR: Required base toolchain template for '${DEVICE}' (${TARGET_ARCH}) is missing!" >&2
+      echo "==> Expected path: ${BASE_TEMPLATE_DIR}" >&2
+      echo "==> Please build the base toolchain first via:" >&2
+      echo "==>    make toolchain-${BASE_TEMPLATE_DEVICE}  (or make docker-toolchain-${BASE_TEMPLATE_DEVICE})" >&2
+      echo "==========================================================================" >&2
+      exit 1
+    fi
+
+    # Seed target build directory if not already seeded
+    if [ ! -f "${REAL_BUILD}/.seeded" ]; then
+      echo "==> Seeding ${REAL_BUILD} from base template ${BASE_TEMPLATE_DIR} (Full Copy)..."
+      mkdir -p "${REAL_BUILD}"
+      cp -a "${BASE_TEMPLATE_DIR}/." "${REAL_BUILD}/"
+      rm -f "${REAL_BUILD}/.build.conf"
+      rm -f "${REAL_BUILD}/BUILD_FILENAME"
+      rm -rf "${REAL_BUILD}/.threads"
+      touch "${REAL_BUILD}/.seeded"
+      sync
+    fi
+  fi
+  # -------------------------------------------------------------------------
+
+  mkdir -p "${REAL_BUILD}"
+  # Maintain relative symlink pointing to the active target
+  if [ -L "${LINK_BUILD}" ] || [ -e "${LINK_BUILD}" ]; then
+    rm -f "${LINK_BUILD}"
+  fi
+  ln -sfn "$(basename "${REAL_BUILD}")" "${LINK_BUILD}"
+fi
+# ------------------------------------------------------------------
+
+# Use the canonical device folder directly so scripts/clean and targets always hit the real directory
+if [ -n "${DEVICE}" ] || [ "${SCRIPT_NAME}" = "clean" ]; then
+  BUILD="${REAL_BUILD}"
+else
+  BUILD="${LINK_BUILD}"
 fi
 
 THREAD_CONTROL=${BUILD}/.threads
@@ -72,7 +144,27 @@ else
 fi
 
 if [ -z "$CCACHE_DIR" ]; then
-  export CCACHE_DIR=${BUILD_ROOT}/.ccache-${TARGET_ARCH}-${TARGET_CPU}
+  export CCACHE_DIR="${BUILD_ROOT}/.ccache-${TARGET_ARCH}-${TARGET_CPU}"
+  export CCACHE_BASEDIR="${BUILD_ROOT}"
+  export CCACHE_NOHASHDIR="1"
+  export CCACHE_SLOPPINESS="pch_defines,file_macro,time_macros,include_file_mtime,include_file_ctime"
+  export CCACHE_MAXSIZE="${CCACHE_CACHE_SIZE:-20G}"
+  export CCACHE_COMPILERCHECK="content"
+  export CCACHE_COMPRESS="1"
+  export CCACHE_COMPRESSLEVEL="6"
+fi
+
+if [ ! -f "${CCACHE_DIR}/ccache.conf" ]; then
+  mkdir -p "${CCACHE_DIR}"
+  cat << EOF > "${CCACHE_DIR}/ccache.conf"
+max_size = ${CCACHE_CACHE_SIZE:-20G}
+base_dir = ${BUILD_ROOT}
+sloppiness = pch_defines,file_macro,time_macros,include_file_mtime,include_file_ctime
+hash_dir = false
+compiler_check = content
+compression = true
+compression_level = 6
+EOF
 fi
 
 if [[ -z "$PATH" || ( "$PATH" != "$TOOLCHAIN/bin:$TOOLCHAIN/sbin" && "$PATH" = "${PATH#$TOOLCHAIN/bin:$TOOLCHAIN/sbin:}" ) ]]; then

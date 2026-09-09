@@ -8,7 +8,7 @@ PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/easyrpg/player"
 PKG_URL="${PKG_SITE}.git"
 PKG_GIT_CLONE_BRANCH="0-8-0-stable"
-PKG_DEPENDS_TARGET="toolchain zlib libfmt liblcf pixman speexdsp mpg123 libsndfile libvorbis opusfile wildmidi libxmp-lite fluidsynth harfbuzz libpng"
+PKG_DEPENDS_TARGET="toolchain zlib libfmt liblcf icu expat pixman speexdsp mpg123 libsndfile libvorbis opusfile wildmidi libxmp-lite fluidsynth harfbuzz libpng"
 PKG_LONGDESC="An unofficial libretro port of the EasyRPG/Player."
 PKG_BUILD_FLAGS="+pic"
 
@@ -18,6 +18,12 @@ PKG_CMAKE_OPTS_TARGET="-DPLAYER_TARGET_PLATFORM=libretro \
 
 pre_configure_target() {
   export CXXFLAGS="${CXXFLAGS} -Wno-template-body"
+  rm -rf "${PKG_BUILD}/.${TARGET_NAME}/CMakeCache.txt" "${PKG_BUILD}/.${TARGET_NAME}/CMakeFiles"
+
+  # Fix liblcf's installed targets interface so it uses the real expat target
+  if [ -f "${SYSROOT_PREFIX}/usr/lib/cmake/liblcf/liblcf-targets.cmake" ]; then
+    sed -i 's|EXPAT::EXPAT|expat::expat|g' "${SYSROOT_PREFIX}/usr/lib/cmake/liblcf/liblcf-targets.cmake"
+  fi
 }
 
 pre_make_target() {

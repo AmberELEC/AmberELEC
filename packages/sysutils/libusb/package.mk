@@ -1,12 +1,11 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
-# Copyright (C) 2022-present AmberELEC (https://amberelec.org)
 
 PKG_NAME="libusb"
-PKG_VERSION="1.0.25"
-PKG_SHA256="8a28ef197a797ebac2702f095e81975e2b02b2eeff2774fa909c78a74ef50849"
-PKG_LICENSE="LGPLv2.1"
+PKG_VERSION="1.0.30"
+PKG_SHA256="fea36f34f9156400209595e300840767ab1a385ede1dc7ee893015aea9c6dbaf"
+PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="http://libusb.info/"
 PKG_URL="https://github.com/libusb/libusb/releases/download/v${PKG_VERSION}/libusb-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain systemd"
@@ -20,5 +19,8 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-shared \
             --disable-examples-build"
 
 pre_configure_target() {
-  export CFLAGS="${CFLAGS} -Wno-error=maybe-uninitialized"
+  export CFLAGS="${CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include -Wno-error=maybe-uninitialized"
+  export LDFLAGS="${LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
+  export UDEV_CFLAGS="-I${SYSROOT_PREFIX}/usr/include"
+  export UDEV_LIBS="-L${SYSROOT_PREFIX}/usr/lib -ludev"
 }

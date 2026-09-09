@@ -8,7 +8,7 @@ PKG_SHA256="20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7e17b2f"
 PKG_LICENSE="GPL"
 PKG_SITE="https://w1.fi/wpa_supplicant/"
 PKG_URL="https://w1.fi/releases/${PKG_NAME}-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain dbus libnl openssl"
+PKG_DEPENDS_TARGET="toolchain dbus systemd libnl openssl"
 PKG_LONGDESC="A free software implementation of an IEEE 802.11i supplicant."
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto-parallel"
@@ -18,7 +18,6 @@ PKG_MAKEINSTALL_OPTS_TARGET="-C wpa_supplicant V=1 LIBDIR=/usr/lib BINDIR=/usr/b
 
 configure_target() {
   LDFLAGS+=" -lpthread -lm"
-
   cp ${PKG_DIR}/config/makefile.config wpa_supplicant/.config
 }
 

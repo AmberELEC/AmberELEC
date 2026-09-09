@@ -8,7 +8,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://www.midnight-commander.org/"
 PKG_URL="http://ftp.midnight-commander.org/mc-${PKG_VERSION}.tar.xz"
 PKG_SOURCE_NAME="${PKG_NAME}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain libtool:host gettext:host glib libssh2 pcre slang"
+PKG_DEPENDS_TARGET="toolchain libtool:host gettext:host glib pcre slang"
 PKG_LONGDESC="Midnight Commander is a visual file manager"
 PKG_TOOLCHAIN="configure"
 
@@ -32,14 +32,10 @@ PKG_CONFIGURE_OPTS_TARGET=" \
   --with-internal-edit \
   --enable-vfs-extfs \
   --enable-vfs-ftp \
-  --enable-vfs-sftp \
+  --disable-vfs-sftp \
   --enable-vfs-tar \
   --without-x \
   --with-slang-includes=${SYSROOT_PREFIX}/usr/include"
-
-pre_configure_target() {
-  export LIBS="${LIBS} -lcrypto -lssl"
-}
 
 post_install() {
   rm -rf ${INSTALL}/etc/mc

@@ -1,6 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright (C) 2020-present Fewtarius
+# Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 ###
 ### Simple script to build AmberELEC
@@ -15,10 +16,39 @@ fi
 export DISTRO=AmberELEC
 export PROJECT=Rockchip
 
+# Early validation: Verify base toolchain template exists before starting the build
+BASE_TEMPLATE_DEVICE=""
+if [[ "${DEVICE}" =~ ^(RG351P|RG351V|RG351MP)$ ]]; then
+  BASE_TEMPLATE_DEVICE="RK3326"
+elif [[ "${DEVICE}" =~ ^(RG552)$ ]]; then
+  BASE_TEMPLATE_DEVICE="RK3399"
+elif [[ "${DEVICE}" =~ ^(RG353)$ ]]; then
+  BASE_TEMPLATE_DEVICE="RK3566"
+fi
+
+if [ -n "${BASE_TEMPLATE_DEVICE}" ]; then
+  BASE_TEMPLATE_DIR="build.${DISTRO}-${BASE_TEMPLATE_DEVICE}.${ARCH}"
+  if [ ! -d "${BASE_TEMPLATE_DIR}/toolchain" ] || [ ! -d "${BASE_TEMPLATE_DIR}/.stamps/toolchain" ]; then
+    echo "==========================================================================" >&2
+    echo "==> ERROR: Required base toolchain template for '${DEVICE}' (${ARCH}) is missing!" >&2
+    echo "==> Expected path: ${BASE_TEMPLATE_DIR}" >&2
+    echo "==> Please build the base toolchain first via:" >&2
+    echo "==>   make toolchain-${BASE_TEMPLATE_DEVICE}  (or make docker-toolchain-${BASE_TEMPLATE_DEVICE})" >&2
+    echo "==========================================================================" >&2
+    exit 1
+  fi
+fi
+
 echo "Building ${DISTRO} for ${DEVICE}"
 if [ ! -d "target" ]
 then
   mkdir target
+fi
+
+# Ensure any inherited/stale cmake toolchain files are removed before starting package builds
+CURRENT_BUILD_DIR="build.${DISTRO}-${DEVICE}.${ARCH}"
+if [ -d "${CURRENT_BUILD_DIR}/toolchain/etc" ]; then
+  rm -f "${CURRENT_BUILD_DIR}/toolchain/etc"/cmake-*.conf
 fi
 
 # Clean a few packages to ensure the build date and version are updated
@@ -42,7 +72,7 @@ then
       echo "Build failed..exiting."
       exit 1
     fi
-  
+
     scripts/install ${package}
     if [ ! $? == 0 ]
     then

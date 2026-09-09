@@ -11,7 +11,13 @@ PKG_URL="https://libzip.org/download/${PKG_NAME}-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain zlib bzip2"
 PKG_LONGDESC="A C library for reading, creating, and modifying zip archives."
 
-PKG_CMAKE_OPTS_TARGET="-DENABLE_COMMONCRYPTO=OFF \
+PKG_CMAKE_OPTS_TARGET="-DCMAKE_PREFIX_PATH=${SYSROOT_PREFIX}/usr \
+                       -DZLIB_ROOT=${SYSROOT_PREFIX}/usr \
+                       -DZLIB_INCLUDE_DIR=${SYSROOT_PREFIX}/usr/include \
+                       -DZLIB_LIBRARY=${SYSROOT_PREFIX}/usr/lib/libz.so \
+                       -DBZIP2_INCLUDE_DIR=${SYSROOT_PREFIX}/usr/include \
+                       -DBZIP2_LIBRARY_RELEASE=${SYSROOT_PREFIX}/usr/lib/libbz2.so \
+                       -DENABLE_COMMONCRYPTO=OFF \
                        -DENABLE_GNUTLS=OFF \
                        -DENABLE_MBEDTLS=OFF \
                        -DENABLE_OPENSSL=OFF \

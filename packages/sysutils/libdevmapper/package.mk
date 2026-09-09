@@ -43,7 +43,20 @@ PKG_CONFIGURE_OPTS_TARGET="${LVM2_CONFIG_DEFAULT} \
                            --disable-udev_rules \
                            --disable-pkgconfig \
                            --disable-fsadm \
+                           --disable-bcache \
+                           --disable-use_aio \
                            --disable-nls"
+
+pre_configure_target() {
+  export PKG_CONFIG_SYSROOT_DIR="${SYSROOT_PREFIX}"
+  export PKG_CONFIG_LIBDIR="${SYSROOT_PREFIX}/usr/lib/pkgconfig:${SYSROOT_PREFIX}/usr/share/pkgconfig"
+  export CPPFLAGS="--sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
+  export LDFLAGS="--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
+}
+
+make_target() {
+  make -C libdm
+}
 
 PKG_MAKEINSTALL_OPTS_TARGET="install_dynamic \
                              install_include \

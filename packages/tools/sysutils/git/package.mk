@@ -16,12 +16,16 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_fread_reads_directories=yes \
                            ac_cv_snprintf_returns_bogus=yes \
                            ac_cv_iconv_omits_bom=yes"
 
+pre_configure_target() {
+  export CFLAGS="${CFLAGS} -std=gnu17"
+}
+
 make_target() {
- cd ${PKG_BUILD}
- make NO_RUST=YesPlease git
+  cd ${PKG_BUILD}
+  make CC="${CC}" AR="${AR}" CFLAGS="${CFLAGS}" NO_RUST=YesPlease git
 }
 
 makeinstall_target() {
- mkdir -p ${INSTALL}/usr/bin
- cp git ${INSTALL}/usr/bin
+  mkdir -p ${INSTALL}/usr/bin
+  cp git ${INSTALL}/usr/bin
 }

@@ -3,19 +3,11 @@
 
 PKG_NAME="SDL"
 PKG_VERSION="92927a9b689c55c5879add79378e24f9443f56f4"
-#PKG_SHA256=""
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://github.com/libsdl-org/SDL-1.2/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain yasm:host alsa-lib systemd dbus"
-PKG_SECTION="multimedia"
-PKG_SHORTDESC="SDL: A cross-platform Graphic API"
 PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform multimedia library designed to provide fast access to the graphics framebuffer and audio device. It is used by MPEG playback software, emulators, and many popular games, including the award winning Linux port of 'Civilization: Call To Power.' Simple DirectMedia Layer supports Linux, Win32, BeOS, MacOS, Solaris, IRIX, and FreeBSD."
-
-PKG_IS_ADDON="no"
-PKG_USE_CMAKE="no"
-PKG_AUTORECONF="no"
 
 PKG_CONFIGURE_OPTS_TARGET="--enable-shared \
                            --enable-libc \
@@ -91,6 +83,20 @@ if [ "${PULSEAUDIO_SUPPORT}" = yes ]; then
 else
   PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_TARGET} --disable-pulseaudio --disable-pulseaudio-shared"
 fi
+
+post_configure_target() {
+  # 1. Force --tag=CC into libtool invocations in all Makefiles
+  find "${PKG_BUILD}" -name "Makefile" -type f | while read -r mf; do
+    sed -i "s|\$(LIBTOOL) --mode=compile|\$(LIBTOOL) --tag=CC --mode=compile|g" "${mf}"
+    sed -i "s|\$(LIBTOOL) --mode=link|\$(LIBTOOL) --tag=CC --mode=link|g" "${mf}"
+    sed -i "s|^\(EXTRA_LDFLAGS[ \t]*=\)|\1 -Wl,--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib |g" "${mf}"
+  done
+
+  # 2. Ensure the sysroot flag is preserved in libtool's link phase without touching compiler tags
+  find "${PKG_BUILD}" -name "libtool" -type f | while read -r lt; do
+    sed -i "s|^\(archive_cmds=.*\)\"|\1 -Wl,--sysroot=${SYSROOT_PREFIX}\"|g" "${lt}"
+  done
+}
 
 pre_make_target() {
 # dont build parallel

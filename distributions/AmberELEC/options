@@ -1,11 +1,14 @@
+# Build Log verbosity
+  VERBOSE="no"
+
 # LTO (Link Time Optimization) support
   LTO_SUPPORT="yes"
 
 # GOLD (Google Linker) support
-  GOLD_SUPPORT="no"
+  GOLD_SUPPORT="yes"
 
 # default linker (bfd / gold)
-  DEFAULT_LINKER="bfd"
+  DEFAULT_LINKER="gold"
 
 # HARDENING (security relevant linker and compiler flags) support
   HARDENING_SUPPORT="no"

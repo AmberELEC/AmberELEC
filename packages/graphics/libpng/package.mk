@@ -16,7 +16,8 @@ PKG_BUILD_FLAGS="+pic +pic:host"
 
 PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_z_zlibVersion=yes \
                            --enable-static \
-                           --enable-shared"
+                           --enable-shared \
+                           --with-zlib-prefix=${SYSROOT_PREFIX}/usr"
 
 PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared"
 
@@ -25,7 +26,9 @@ pre_configure_host() {
 }
 
 pre_configure_target() {
+  export CFLAGS="${TARGET_CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include"
   export CPPFLAGS="${CPPFLAGS} -I${SYSROOT_PREFIX}/usr/include"
+  export LDFLAGS="${TARGET_LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
 }
 
 post_makeinstall_target() {

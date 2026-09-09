@@ -11,10 +11,26 @@ PKG_URL="https://www.nano-editor.org/dist/v${PKG_VERSION%%.*}/${PKG_NAME}-${PKG_
 PKG_DEPENDS_TARGET="toolchain ncurses"
 PKG_LONGDESC="Nano is an enhanced clone of the Pico text editor."
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-utf8 \
+PKG_CONFIGURE_OPTS_TARGET="--enable-utf8 \
                            --disable-nls \
                            --disable-libmagic \
-                           --disable-wrapping"
+                           --disable-wrapping \
+                           NCURSESW_CONFIG=none"
+
+pre_configure_target() {
+  local ncurses_libs="-L${SYSROOT_PREFIX}/usr/lib -lncursesw -ltinfow"
+  if [ ! -f "${SYSROOT_PREFIX}/usr/lib/libtinfow.so" ] && [ ! -f "${SYSROOT_PREFIX}/usr/lib/libtinfow.a" ]; then
+    ncurses_libs="-L${SYSROOT_PREFIX}/usr/lib -lncurses -ltinfo"
+  fi
+
+  export CFLAGS="${TARGET_CFLAGS} --sysroot=${SYSROOT_PREFIX} -I${SYSROOT_PREFIX}/usr/include -I${SYSROOT_PREFIX}/usr/include/ncursesw -I${SYSROOT_PREFIX}/usr/include/ncurses"
+  export CPPFLAGS="${TARGET_CPPFLAGS} -I${SYSROOT_PREFIX}/usr/include -I${SYSROOT_PREFIX}/usr/include/ncursesw -I${SYSROOT_PREFIX}/usr/include/ncurses"
+  export LDFLAGS="${TARGET_LDFLAGS} --sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib"
+  export LIBS="${ncurses_libs}"
+  export NCURSESW_CFLAGS="-I${SYSROOT_PREFIX}/usr/include -I${SYSROOT_PREFIX}/usr/include/ncursesw"
+  export NCURSESW_LIBS="${ncurses_libs}"
+  export CURSES_LIB="${ncurses_libs}"
+}
 
 post_makeinstall_target() {
   rm -rf ${INSTALL}/usr/share/nano
