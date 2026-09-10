@@ -80,6 +80,10 @@ if [ -z "${AMBERELEC_LOCK_HELD}" ] && [ "${SCRIPT_NAME}" != "clean" ]; then
       rm -f "${REAL_BUILD}/.build.conf"
       rm -f "${REAL_BUILD}/BUILD_FILENAME"
       rm -rf "${REAL_BUILD}/.threads"
+
+      # Wipe inherited CMake toolchain configs so the child device regenerates them with its own paths
+      rm -f "${REAL_BUILD}/toolchain/etc"/cmake-*.conf 2>/dev/null || true
+
       touch "${REAL_BUILD}/.seeded"
       sync
     fi
