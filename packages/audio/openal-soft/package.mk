@@ -21,6 +21,8 @@ configure_package() {
   PKG_CMAKE_OPTS_TARGET="-DALSOFT_BACKEND_OSS=off \
                          -DALSOFT_BACKEND_WAVE=off \
                          -DALSOFT_BACKEND_PULSEAUDIO=on \
+                         -DALSOFT_BACKEND_ALSA=on \
+                         -DALSOFT_REQUIRE_ALSA=on \
                          -DALSOFT_EXAMPLES=off \
                          -DALSOFT_TESTS=off \
                          -DALSOFT_UTILS=off"

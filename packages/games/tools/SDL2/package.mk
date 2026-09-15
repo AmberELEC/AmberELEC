@@ -63,6 +63,8 @@ pre_configure_target(){
                          -DSDL_OPENGLES=ON \
                          -DSDL_VULKAN=OFF \
                          -DSDL_KMSDRM=ON \
+                         -DDRM_LIB=${SYSROOT_PREFIX}/usr/lib/libdrm.so \
+                         -DGBM_LIB=${SYSROOT_PREFIX}/usr/lib/libgbm.so \
                          -DSDL_PULSEAUDIO=ON"
   export LDFLAGS="${LDFLAGS} -lrga"
 }
