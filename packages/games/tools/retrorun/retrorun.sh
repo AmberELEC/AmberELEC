@@ -13,9 +13,10 @@ PLATFORM="$3"
 CONF="/storage/.config/distribution/configs/distribution.conf"
 RRCONF="/storage/.config/distribution/configs/retrorun.cfg"
 
-if [ ! -f ${RRCONF} ]; then
+if [ ! -f "${RRCONF}" ]; then
   cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
 fi
+/usr/bin/retrorun-config-sync
 
 function get_setting() {
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
@@ -32,7 +33,7 @@ function get_setting() {
 		EES=$(sed -n "${PAT}" "${CONF}" | head -1)
 	fi
 
-	[ -z "${EES}" ] && EES="false"
+	[ -z "${EES}" ] && EES="auto"
 }
 
 
@@ -54,10 +55,10 @@ get_setting "audio_buffer"
 echo "audio_buffer:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
-	echo 'retrorun_audio_buffer= 1024' >> ${RRCONF}
+	echo 'retrorun_audio_buffer = -1' >> ${RRCONF}
 else
 	sed -i "/^retrorun_audio_buffer/d" ${RRCONF}
-	echo "retrorun_audio_buffer= ${EES}" >> ${RRCONF}
+	echo "retrorun_audio_buffer = ${EES}" >> ${RRCONF}
 fi
 
 # Mouse Speed Factor
@@ -71,15 +72,37 @@ else
 	echo "retrorun_mouse_speed_factor= ${EES}" >> ${RRCONF}
 fi
 
-# Map left analog to DPAD
-get_setting "map_left_analog_to_dpad"
-echo "map_left_analog_to_dpad:${EES}"
-if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
-        echo 'retrorun_force_left_analog_stick = false' >> ${RRCONF}
+# Stable Audio Buffer
+get_setting "audio_stable_buffer"
+echo "audio_stable_buffer:${EES}"
+if [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
+	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_stable_buffer = false' >> ${RRCONF}
+elif [ "${EES}" == "false" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "0" ]; then
+	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_stable_buffer = false' >> ${RRCONF}
 else
-        sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
-        echo "retrorun_force_left_analog_stick = ${EES}" >> ${RRCONF}
+	sed -i "/^retrorun_audio_stable_buffer/d" ${RRCONF}
+	echo 'retrorun_audio_stable_buffer = true' >> ${RRCONF}
+fi
+
+# Analog to digital
+get_setting "analog_to_digital"
+if [ "${EES}" == "auto" ]; then
+	get_setting "map_left_analog_to_dpad"
+	if [ "${EES}" == "true" ] || [ "${EES}" == "enabled" ] || [ "${EES}" == "1" ]; then
+		EES="left_forced"
+	elif [ "${EES}" != "auto" ]; then
+		EES="none"
+	fi
+fi
+echo "analog_to_digital:${EES}"
+sed -i "/^retrorun_force_left_analog_stick/d" ${RRCONF}
+sed -i "/^retrorun_analog_to_digital/d" ${RRCONF}
+if [ "${EES}" == "left" ] || [ "${EES}" == "right" ] || [ "${EES}" == "left_forced" ] || [ "${EES}" == "right_forced" ]; then
+	echo "retrorun_analog_to_digital = ${EES}" >> ${RRCONF}
+else
+	echo 'retrorun_analog_to_digital = none' >> ${RRCONF}
 fi
 
 # Game Aspect Ratio
@@ -140,7 +163,10 @@ fi
 # Force FPS
 get_setting "force_fps"
 echo "force_fps:${EES}"
-if [ "${EES}" == "auto" ] || [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+if [ "${EES}" == "auto" ] || [ "${EES}" == "none" ]; then
+	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
+	echo 'retrorun_loop_declared_fps = true' >> ${RRCONF}
+elif [ "${EES}" == "disabled" ] || [ "${EES}" == "false" ] || [ "${EES}" == "0" ]; then
 	sed -i "/^retrorun_loop_declared_fps/d" ${RRCONF}
 	echo 'retrorun_loop_declared_fps = false' >> ${RRCONF}
 else
@@ -165,27 +191,17 @@ echo 'Misc settings.'
 get_setting "internal_resolution"
 echo "internal_resolution:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "parallel_n64" ]]; then
-		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
-		echo 'parallel-n64-screensize = 640x480' >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_internal_resolution/d" ${RRCONF}
-		echo 'flycast_internal_resolution = 640x480' >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
-		echo 'flycast2021_internal_resolution = 640x480' >> ${RRCONF}
-	fi
-else
-	if [[ "${CORE}" == "parallel_n64" ]]; then
-		sed -i "/^parallel-n64-screensize/d" ${RRCONF}
-		echo "parallel-n64-screensize = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_internal_resolution/d" ${RRCONF}
-		echo "flycast_internal_resolution = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
-		echo "flycast2021_internal_resolution = ${EES}" >> ${RRCONF}
-	fi
+	EES="640x480"
+fi
+if [[ "${CORE}" == "parallel_n64" ]]; then
+	sed -i "/^parallel-n64-screensize/d" ${RRCONF}
+	echo "parallel-n64-screensize = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" == "flycast" ]]; then
+	sed -i "/^flycast_internal_resolution/d" ${RRCONF}
+	echo "flycast_internal_resolution = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
+	sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
+	echo "flycast2021_internal_resolution = ${EES}" >> ${RRCONF}
 fi
 
 ### PARALLEL-N64 SETTINGS ###
@@ -226,42 +242,28 @@ echo 'Flycast settings.'
 get_setting "synchronous_rendering"
 echo "synchronous_rendering:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
-		echo 'flycast_synchronous_rendering = disabled' >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
-		echo 'flycast2021_synchronous_rendering = disabled' >> ${RRCONF}
-	fi
-else
-	if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
-		echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
-		echo "flycast2021_synchronous_rendering = ${EES}" >> ${RRCONF}
-	fi
+	EES="disabled"
+fi
+if [[ "${CORE}" == "flycast" ]]; then
+	sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
+	echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
+	sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
+	echo "flycast2021_synchronous_rendering = ${EES}" >> ${RRCONF}
 fi
 
 # Flycast: Enables/Disables a division optimization
 get_setting "div_matching"
 echo "div_matching:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_div_matching/d" ${RRCONF}
-		echo 'flycast_div_matching = auto' >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
-		echo 'flycast2021_div_matching = auto' >> ${RRCONF}
-	fi
-else
-        if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_div_matching/d" ${RRCONF}
-		echo "flycast_div_matching = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_div_matching/d" ${RRCONF}
-		echo "flycast2021_div_matching = ${EES}" >> ${RRCONF}
-	fi
+	EES="auto"
+fi
+if [[ "${CORE}" == "flycast" ]]; then
+	sed -i "/^flycast_div_matching/d" ${RRCONF}
+	echo "flycast_div_matching = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
+	sed -i "/^flycast2021_div_matching/d" ${RRCONF}
+	echo "flycast2021_div_matching = ${EES}" >> ${RRCONF}
 fi
 
 # Flycast Auto Frameskip
@@ -289,20 +291,37 @@ fi
 get_setting "dsp"
 echo "dsp:${EES}"
 if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-	if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
-		echo 'flycast_enable_dsp = disabled' >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
-		echo 'flycast2021_enable_dsp = disabled' >> ${RRCONF}
+	EES="disabled"
+fi
+if [[ "${CORE}" == "flycast" ]]; then
+	sed -i "/^flycast_enable_dsp/d" ${RRCONF}
+	echo "flycast_enable_dsp = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
+	sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
+	echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
+fi
+
+# Flycast 2021 LE: translucent strip merge
+get_setting "translucent_strip_merge"
+echo "translucent_strip_merge:${EES}"
+if [[ "${CORE}" == "flycast2021le" ]]; then
+	sed -i "/^flycast2021_translucent_strip_merge/d" ${RRCONF}
+	if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+		echo 'flycast2021_translucent_strip_merge = disabled' >> ${RRCONF}
+	else
+		echo "flycast2021_translucent_strip_merge = ${EES}" >> ${RRCONF}
 	fi
-else
-        if [[ "${CORE}" == "flycast" ]]; then
-		sed -i "/^flycast_enable_dsp/d" ${RRCONF}
-		echo "flycast_enable_dsp = ${EES}" >> ${RRCONF}
-	elif [[ "${CORE}" == "flycast2021" ]]; then
-		sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
-		echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
+fi
+
+# Flycast 2021 LE: SH4 clock
+get_setting "reicast_sh4clock"
+echo "reicast_sh4clock:${EES}"
+if [[ "${CORE}" == "flycast2021le" ]]; then
+	sed -i "/^flycast2021_sh4clock/d" ${RRCONF}
+	if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
+		echo 'flycast2021_sh4clock = 200' >> ${RRCONF}
+	else
+		echo "flycast2021_sh4clock = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -543,5 +562,5 @@ then
     FPS="-f"
 fi
 EMU="/tmp/cores/$1_libretro.so"
-/usr/bin/retrorun --triggers $FPS -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
+/usr/bin/retrorun -c "${RRCONF}" --triggers $FPS -s /storage/roms/"$3" -d /roms/bios "$EMU" "$2"
 echo 'end!'

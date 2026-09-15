@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+import argparse
+import os
+import stat
+import tempfile
+from pathlib import Path
+
+
+MANAGED_KEYS = (
+    "retrorun_achievements_enabled",
+    "retrorun_achievements_username",
+    "retrorun_achievements_password",
+    "retrorun_achievements_token",
+    "retrorun_achievements_unofficial",
+    "retrorun_achievements_encore",
+)
+MANAGED_HEADER = "# ---- RETROACHIEVEMENTS ----"
+
+
+def setting_key(line):
+    stripped = line.strip()
+    if not stripped or stripped.startswith(("#", ";")) or "=" not in line:
+        return None
+    key = line.split("=", 1)[0].strip()
+    return key or None
+
+
+def decode_value(raw):
+    value = raw.strip()
+    if not value:
+        return value
+
+    if value[0] not in ("'", '"'):
+        for index, character in enumerate(value):
+            if character in "#;" and (index == 0 or value[index - 1].isspace()):
+                return value[:index].rstrip()
+        return value
+
+    quote = value[0]
+    decoded = []
+    escaped = False
+    closed_at = None
+    for index, character in enumerate(value[1:], start=1):
+        if escaped:
+            escapes = {"n": "\n", "r": "\r", "t": "\t", "\\": "\\",
+                       '"': '"', "'": "'"}
+            if character in escapes:
+                decoded.append(escapes[character])
+            else:
+                decoded.extend(("\\", character))
+            escaped = False
+        elif character == "\\":
+            escaped = True
+        elif character == quote:
+            closed_at = index
+            break
+        else:
+            decoded.append(character)
+    if closed_at is None:
+        return value
+    remainder = value[closed_at + 1:].strip()
+    if remainder and remainder[0] not in "#;":
+        return value
+    return "".join(decoded)
+
+
+def read_settings(lines):
+    settings = {}
+    for line in lines:
+        key = setting_key(line)
+        if key is not None:
+            settings[key] = decode_value(line.split("=", 1)[1])
+    return settings
+
+
+def read_distribution_settings(lines):
+    settings = {}
+    for line in lines:
+        key = setting_key(line)
+        if key is not None:
+            settings[key] = line.split("=", 1)[1]
+    return settings
+
+
+def encode_value(value):
+    if not value:
+        return ""
+    requires_quotes = (
+        value[0].isspace()
+        or value[-1].isspace()
+        or value[0] in "#;'"
+        or any(character in value for character in ('"', "\\", "\n", "\r", "\t"))
+        or any(value[index] in "#;" and value[index - 1].isspace()
+               for index in range(1, len(value)))
+    )
+    if not requires_quotes:
+        return value
+    escaped = (value.replace("\\", "\\\\")
+                    .replace('"', '\\"')
+                    .replace("\n", "\\n")
+                    .replace("\r", "\\r")
+                    .replace("\t", "\\t"))
+    return f'"{escaped}"'
+
+
+def as_bool(value):
+    return str(value).strip().lower() in {"1", "true", "enabled", "yes", "on"}
+
+
+def merge_missing_defaults(lines, default_lines):
+    existing = read_settings(lines)
+    missing = []
+    for line in default_lines:
+        key = setting_key(line)
+        if key is not None and key not in existing:
+            missing.append(line)
+            existing[key] = decode_value(line.split("=", 1)[1])
+    if not missing:
+        return lines
+    merged = list(lines)
+    if merged and merged[-1].strip():
+        merged.append("")
+    merged.extend(missing)
+    return merged
+
+
+def achievement_values(distribution, current):
+    enabled_value = distribution.get("global.retroachievements")
+    if enabled_value is None:
+        return None
+
+    enabled = as_bool(enabled_value)
+    username = distribution.get("global.retroachievements.username", "")
+    token = distribution.get("global.retroachievements.token", "")
+    password = ""
+
+    if username and not token:
+        if current.get("retrorun_achievements_username") == username:
+            token = current.get("retrorun_achievements_token", "")
+        if not token:
+            password = distribution.get("global.retroachievements.password", "")
+
+    return {
+        "retrorun_achievements_enabled": "true" if enabled else "false",
+        "retrorun_achievements_username": username,
+        "retrorun_achievements_password": password,
+        "retrorun_achievements_token": token,
+        "retrorun_achievements_unofficial": (
+            "true" if as_bool(distribution.get(
+                "global.retroachievements.testunofficial", "false")) else "false"
+        ),
+        "retrorun_achievements_encore": (
+            "true" if as_bool(distribution.get(
+                "global.retroachievements.encore", "false")) else "false"
+        ),
+    }
+
+
+def update_config(distribution_path, config_path, defaults_path, merge_defaults):
+    distribution_lines = distribution_path.read_text(
+        encoding="utf-8", errors="surrogateescape").splitlines() \
+        if distribution_path.is_file() else []
+    default_lines = defaults_path.read_text(
+        encoding="utf-8", errors="surrogateescape").splitlines() \
+        if defaults_path.is_file() else []
+
+    existed = config_path.is_file()
+    original_stat = config_path.stat() if existed else None
+    if existed:
+        lines = config_path.read_text(
+            encoding="utf-8", errors="surrogateescape").splitlines()
+    else:
+        lines = list(default_lines)
+
+    if merge_defaults and existed:
+        lines = merge_missing_defaults(lines, default_lines)
+
+    current = read_settings(lines)
+    values = achievement_values(read_distribution_settings(distribution_lines), current)
+    if values is not None:
+        lines = [line for line in lines
+                 if setting_key(line) not in MANAGED_KEYS and line.strip() != MANAGED_HEADER]
+        while lines and not lines[-1].strip():
+            lines.pop()
+        if lines:
+            lines.append("")
+        lines.append(MANAGED_HEADER)
+        for key in MANAGED_KEYS:
+            lines.append(f"{key} = {encode_value(values[key])}")
+
+    output = ("\n".join(lines) + "\n").encode("utf-8", errors="surrogateescape")
+    previous = config_path.read_bytes() if existed else None
+    if previous != output:
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=f".{config_path.name}.", dir=str(config_path.parent))
+        try:
+            with os.fdopen(descriptor, "wb") as temporary:
+                temporary.write(output)
+                temporary.flush()
+                os.fsync(temporary.fileno())
+            os.chmod(temporary_name, stat.S_IRUSR | stat.S_IWUSR)
+            if original_stat is not None:
+                try:
+                    os.chown(temporary_name, original_stat.st_uid, original_stat.st_gid)
+                except PermissionError:
+                    pass
+            os.replace(temporary_name, config_path)
+        finally:
+            if os.path.exists(temporary_name):
+                os.unlink(temporary_name)
+    elif existed:
+        os.chmod(config_path, stat.S_IRUSR | stat.S_IWUSR)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--distribution", type=Path, default=Path(
+        "/storage/.config/distribution/configs/distribution.conf"))
+    parser.add_argument("--config", type=Path, default=Path(
+        "/storage/.config/distribution/configs/retrorun.cfg"))
+    parser.add_argument("--defaults", type=Path, default=Path(
+        "/usr/config/distribution/configs/retrorun.cfg"))
+    parser.add_argument("--merge-defaults", action="store_true")
+    arguments = parser.parse_args()
+    update_config(arguments.distribution, arguments.config,
+                  arguments.defaults, arguments.merge_defaults)
+
+
+if __name__ == "__main__":
+    main()
