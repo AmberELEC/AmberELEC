@@ -16,7 +16,7 @@ pre_configure_target() {
   sed -i 's/^CFLAGS[[:space:]]*:=[[:space:]]*//' ${PKG_BUILD}/Makefile
   sed -i 's/^CXXFLAGS[[:space:]]*:=[[:space:]]*//' ${PKG_BUILD}/Makefile
   sed -i 's/^LDFLAGS[[:space:]]*:=[[:space:]]*//' ${PKG_BUILD}/Makefile
-  sed -i 's/define CORE_OPTION_NAME "reicast"/define CORE_OPTION_NAME "flycast2021"/g' core/libretro/libretro_core_option_defines.h
+  sed -i 's/define CORE_OPTION_NAME "reicast"/define CORE_OPTION_NAME "flycast2021le"/g' core/libretro/libretro_core_option_defines.h
   sed -i 's/"Flycast"/"Flycast 2021 LE"/g' core/libretro/libretro.cpp
   sed -i 's/RETRO_PIXEL_FORMAT_XRGB8888/RETRO_PIXEL_FORMAT_RGB565/g' core/libretro/libretro.cpp
   export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration"

@@ -199,9 +199,9 @@ if [[ "${CORE}" == "parallel_n64" ]]; then
 elif [[ "${CORE}" == "flycast" ]]; then
 	sed -i "/^flycast_internal_resolution/d" ${RRCONF}
 	echo "flycast_internal_resolution = ${EES}" >> ${RRCONF}
-elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
-	sed -i "/^flycast2021_internal_resolution/d" ${RRCONF}
-	echo "flycast2021_internal_resolution = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^flycast2021(le)?$ ]]; then
+	sed -i "/^${CORE}_internal_resolution/d" ${RRCONF}
+	echo "${CORE}_internal_resolution = ${EES}" >> ${RRCONF}
 fi
 
 ### PARALLEL-N64 SETTINGS ###
@@ -247,9 +247,9 @@ fi
 if [[ "${CORE}" == "flycast" ]]; then
 	sed -i "/^flycast_synchronous_rendering/d" ${RRCONF}
 	echo "flycast_synchronous_rendering = ${EES}" >> ${RRCONF}
-elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
-	sed -i "/^flycast2021_synchronous_rendering/d" ${RRCONF}
-	echo "flycast2021_synchronous_rendering = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^flycast2021(le)?$ ]]; then
+	sed -i "/^${CORE}_synchronous_rendering/d" ${RRCONF}
+	echo "${CORE}_synchronous_rendering = ${EES}" >> ${RRCONF}
 fi
 
 # Flycast: Enables/Disables a division optimization
@@ -261,9 +261,9 @@ fi
 if [[ "${CORE}" == "flycast" ]]; then
 	sed -i "/^flycast_div_matching/d" ${RRCONF}
 	echo "flycast_div_matching = ${EES}" >> ${RRCONF}
-elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
-	sed -i "/^flycast2021_div_matching/d" ${RRCONF}
-	echo "flycast2021_div_matching = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^flycast2021(le)?$ ]]; then
+	sed -i "/^${CORE}_div_matching/d" ${RRCONF}
+	echo "${CORE}_div_matching = ${EES}" >> ${RRCONF}
 fi
 
 # Flycast Auto Frameskip
@@ -296,20 +296,20 @@ fi
 if [[ "${CORE}" == "flycast" ]]; then
 	sed -i "/^flycast_enable_dsp/d" ${RRCONF}
 	echo "flycast_enable_dsp = ${EES}" >> ${RRCONF}
-elif [[ "${CORE}" =~ ^(flycast2021|flycast2021le)$ ]]; then
-	sed -i "/^flycast2021_enable_dsp/d" ${RRCONF}
-	echo "flycast2021_enable_dsp = ${EES}" >> ${RRCONF}
+elif [[ "${CORE}" =~ ^flycast2021(le)?$ ]]; then
+	sed -i "/^${CORE}_enable_dsp/d" ${RRCONF}
+	echo "${CORE}_enable_dsp = ${EES}" >> ${RRCONF}
 fi
 
 # Flycast 2021 LE: translucent strip merge
 get_setting "translucent_strip_merge"
 echo "translucent_strip_merge:${EES}"
 if [[ "${CORE}" == "flycast2021le" ]]; then
-	sed -i "/^flycast2021_translucent_strip_merge/d" ${RRCONF}
+	sed -i "/^flycast2021le_translucent_strip_merge/d" ${RRCONF}
 	if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-		echo 'flycast2021_translucent_strip_merge = disabled' >> ${RRCONF}
+		echo 'flycast2021le_translucent_strip_merge = disabled' >> ${RRCONF}
 	else
-		echo "flycast2021_translucent_strip_merge = ${EES}" >> ${RRCONF}
+		echo "flycast2021le_translucent_strip_merge = ${EES}" >> ${RRCONF}
 	fi
 fi
 
@@ -317,11 +317,11 @@ fi
 get_setting "reicast_sh4clock"
 echo "reicast_sh4clock:${EES}"
 if [[ "${CORE}" == "flycast2021le" ]]; then
-	sed -i "/^flycast2021_sh4clock/d" ${RRCONF}
+	sed -i "/^flycast2021le_sh4clock/d" ${RRCONF}
 	if [ "${EES}" == "auto" ] || [ "${EES}" == "false" ] || [ "${EES}" == "none" ] || [ "${EES}" == "0" ]; then
-		echo 'flycast2021_sh4clock = 200' >> ${RRCONF}
+		echo 'flycast2021le_sh4clock = 200' >> ${RRCONF}
 	else
-		echo "flycast2021_sh4clock = ${EES}" >> ${RRCONF}
+		echo "flycast2021le_sh4clock = ${EES}" >> ${RRCONF}
 	fi
 fi
 
