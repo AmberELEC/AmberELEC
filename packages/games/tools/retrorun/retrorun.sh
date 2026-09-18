@@ -16,7 +16,10 @@ RRCONF="/storage/.config/distribution/configs/retrorun.cfg"
 if [ ! -f "${RRCONF}" ]; then
   cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
 fi
-/usr/bin/retrorun-config-sync
+if ! /usr/bin/retrorun-config-sync --merge-defaults --platform "${PLATFORM}" --rom "${ROM}"; then
+  echo 'Failed to synchronize RetroRun settings.' >&2
+  exit 1
+fi
 
 function get_setting() {
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import argparse
+import json
 import os
 import stat
 import tempfile
@@ -18,6 +19,16 @@ MANAGED_KEYS = (
     "retrorun_achievements_encore",
 )
 MANAGED_HEADER = "# ---- RETROACHIEVEMENTS ----"
+TOGGLE_STATE_HEADER = "# RetroAchievements ES toggles: "
+BASELINE_MARKER = "# Flycast 2021 LE baseline version: 1"
+# Only migrate defaults shipped by the initial PR; keep other user values.
+LEGACY_BASELINE_DEFAULTS = {
+    "flycast2021le_texture_storage_reuse": ("enabled", "disabled"),
+    "flycast2021le_translucent_menu_guard_strategy": ("all_short", "scored"),
+    "flycast2021le_translucent_menu_guard_max_vertices": ("4", "8"),
+    "flycast2021le_translucent_menu_guard_depth_tolerance": ("0.01", "0.0001"),
+    "flycast2021le_translucent_menu_guard_draw_sorting": ("per_triangle", "standard"),
+}
 
 
 def setting_key(line):
@@ -127,39 +138,106 @@ def merge_missing_defaults(lines, default_lines):
     return merged
 
 
-def achievement_values(distribution, current):
-    enabled_value = distribution.get("global.retroachievements")
-    if enabled_value is None:
-        return None
+def distribution_setting(distribution, name, platform="", rom="", inherit_auto=True):
+    # Same precedence as setsettings.py, with Auto inheriting the parent.
+    prefixes = []
+    if platform and rom:
+        prefixes.append(f'{platform}["{rom}"]')
+    if platform:
+        prefixes.append(platform)
+    prefixes.append("global")
+    for prefix in prefixes:
+        value = distribution.get(f"{prefix}.{name}")
+        if value is not None and value != "" and (
+                not inherit_auto or value.strip().lower() != "auto"):
+            return value
+    return None
 
-    enabled = as_bool(enabled_value)
-    username = distribution.get("global.retroachievements.username", "")
-    token = distribution.get("global.retroachievements.token", "")
+
+def previous_toggles(lines):
+    for line in reversed(lines):
+        if line.startswith(TOGGLE_STATE_HEADER):
+            try:
+                value = json.loads(line[len(TOGGLE_STATE_HEADER):])
+                if isinstance(value, dict):
+                    return {key: item for key, item in value.items()
+                            if type(item) is bool}
+            except (ValueError, TypeError):
+                pass
+    return {}
+
+
+def migrate_baseline(lines):
+    if BASELINE_MARKER in lines:
+        return lines
+    current = read_settings(lines)
+    replacements = {key: new for key, (old, new) in LEGACY_BASELINE_DEFAULTS.items()
+                    if current.get(key) == old}
+    migrated = []
+    for line in lines:
+        key = setting_key(line)
+        if key in replacements:
+            # Drop duplicates, then write the migrated value once.
+            continue
+        migrated.append(line)
+    migrated.extend(f"{key} = {value}" for key, value in replacements.items())
+    migrated.append(BASELINE_MARKER)
+    return migrated
+
+
+def achievement_values(distribution, current, previous=None, platform="", rom=""):
+    def setting(name, default="", literal=False):
+        value = distribution_setting(distribution, "retroachievements" + name,
+                                     platform, rom, inherit_auto=not literal)
+        return default if value is None else value
+
+    enabled_value = setting("", None)
+    if enabled_value is None:
+        return None, {}
+
+    previous = previous or {}
+    toggles = {
+        "enabled": as_bool(enabled_value),
+        "unofficial": as_bool(setting(".testunofficial", "false")),
+        "encore": as_bool(setting(".encore", "false")),
+    }
+    values = {}
+    for name, incoming in toggles.items():
+        key = "retrorun_achievements_" + name
+        # Import ES on first use or after a change. Otherwise retain the
+        # setting saved by RetroRun's menu instead of undoing it on launch.
+        value = incoming
+        if previous.get(name) == incoming and key in current:
+            value = as_bool(current[key])
+        values[key] = "true" if value else "false"
+
+    username = setting(".username", literal=True)
+    token = setting(".token", literal=True)
     password = ""
 
-    if username and not token:
+    if not username:
+        # ES may only supply the switch while the user logs in inside
+        # RetroRun. Do not erase that account on the following launch.
+        username = current.get("retrorun_achievements_username", "")
+        token = current.get("retrorun_achievements_token", "")
+        password = current.get("retrorun_achievements_password", "")
+
+    elif not token:
         if current.get("retrorun_achievements_username") == username:
             token = current.get("retrorun_achievements_token", "")
         if not token:
-            password = distribution.get("global.retroachievements.password", "")
+            password = setting(".password", password, literal=True)
 
-    return {
-        "retrorun_achievements_enabled": "true" if enabled else "false",
+    values.update({
         "retrorun_achievements_username": username,
         "retrorun_achievements_password": password,
         "retrorun_achievements_token": token,
-        "retrorun_achievements_unofficial": (
-            "true" if as_bool(distribution.get(
-                "global.retroachievements.testunofficial", "false")) else "false"
-        ),
-        "retrorun_achievements_encore": (
-            "true" if as_bool(distribution.get(
-                "global.retroachievements.encore", "false")) else "false"
-        ),
-    }
+    })
+    return values, toggles
 
 
-def update_config(distribution_path, config_path, defaults_path, merge_defaults):
+def update_config(distribution_path, config_path, defaults_path, merge_defaults,
+                  platform="", rom=""):
     distribution_lines = distribution_path.read_text(
         encoding="utf-8", errors="surrogateescape").splitlines() \
         if distribution_path.is_file() else []
@@ -176,18 +254,24 @@ def update_config(distribution_path, config_path, defaults_path, merge_defaults)
         lines = list(default_lines)
 
     if merge_defaults and existed:
+        lines = migrate_baseline(lines)
         lines = merge_missing_defaults(lines, default_lines)
 
     current = read_settings(lines)
-    values = achievement_values(read_distribution_settings(distribution_lines), current)
+    values, toggles = achievement_values(
+        read_distribution_settings(distribution_lines), current,
+        previous_toggles(lines), platform, rom)
     if values is not None:
         lines = [line for line in lines
-                 if setting_key(line) not in MANAGED_KEYS and line.strip() != MANAGED_HEADER]
+                 if setting_key(line) not in MANAGED_KEYS
+                 and line.strip() != MANAGED_HEADER
+                 and not line.startswith(TOGGLE_STATE_HEADER)]
         while lines and not lines[-1].strip():
             lines.pop()
         if lines:
             lines.append("")
         lines.append(MANAGED_HEADER)
+        lines.append(TOGGLE_STATE_HEADER + json.dumps(toggles, sort_keys=True))
         for key in MANAGED_KEYS:
             lines.append(f"{key} = {encode_value(values[key])}")
 
@@ -225,9 +309,12 @@ def main():
     parser.add_argument("--defaults", type=Path, default=Path(
         "/usr/config/distribution/configs/retrorun.cfg"))
     parser.add_argument("--merge-defaults", action="store_true")
+    parser.add_argument("--platform", default="")
+    parser.add_argument("--rom", default="")
     arguments = parser.parse_args()
     update_config(arguments.distribution, arguments.config,
-                  arguments.defaults, arguments.merge_defaults)
+                  arguments.defaults, arguments.merge_defaults,
+                  arguments.platform, arguments.rom)
 
 
 if __name__ == "__main__":
