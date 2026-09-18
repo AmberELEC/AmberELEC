@@ -1,0 +1,11 @@
+diff --git a/Makefile b/Makefile
+--- a/Makefile
++++ b/Makefile
+@@ -230,6 +230,7 @@ $(TARGET): $(RARCH_OBJ)
+ 	@$(if $(Q), $(shell echo echo LD $@),)
+ 	$(Q)$(LINK) -o $@ $(RARCH_OBJ) $(LIBS) $(LDFLAGS) $(LIBRARY_DIRS)
+ 
++$(OBJDIR)/deps/mbedtls/aes.o: CFLAGS += -O2
+ $(OBJDIR)/%.o: %.c config.h config.mk
+ 	@mkdir -p $(dir $@)
+ 	@$(if $(Q), $(shell echo echo CC $<),)
