@@ -258,10 +258,9 @@ if [ -d /storage/openbor ]; then
   fi
 fi
 
-## 2022-04-04
-## enforce update of retrorun.cfg and reotrarch-core-options.cfg
+## Update emulator defaults and preserve RetroRun settings
 cp -rf /usr/config/retroarch/retroarch-core-options.cfg /storage/roms/gamedata/retroarch/retroarch-core-options.cfg
-cp -rf /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/retrorun.cfg
+/usr/bin/retrorun-config-sync --merge-defaults
 
 ## 2022-04-04
 ## enable new frameskip option for flycast core
