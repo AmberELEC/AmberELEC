@@ -15,7 +15,7 @@ PKG_NEED_UNPACK="${PROJECT_DIR}/${PROJECT}/bootloader"
 [ -n "${DEVICE}" ] && PKG_NEED_UNPACK+=" ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/bootloader"
 
 if [[ "${DEVICE}" =~ RG351 ]]; then
-  PKG_VERSION="d8ad98256d4913bf39153a404f5e26e94cfe8b14"
+  PKG_VERSION="cc3640ed903c6ee62398da9f021ff9b2fed65b30"
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/AmberELEC/uboot_rg351.git"
@@ -30,6 +30,13 @@ elif [[ "${DEVICE}" =~ RG552 ]]; then
 fi
 
 post_patch() {
+  if [ "${DEVICE}" == "RG351MP" ]; then
+    # The MP image uses the RG351V hardware-ID branch for RG35.
+    sed -i -e 's/"rg351v"/"rg35"/g' \
+           -e 's/"rg351v-uboot\.dtb"/"rg351mp-uboot.dtb"/g' \
+           -e 's/"rk3326-rg351v-linux\.dtb"/"rk3326-rg35-linux.dtb"/g' \
+           "${PKG_BUILD}/cmd/hwrev.c"
+  fi
   if [ -f "${PKG_BUILD}/include/linux/compiler-gcc.h" ]; then
     sed -i 's/#define unreachable() __builtin_unreachable()/#undef unreachable\n#define unreachable() __builtin_unreachable()/' ${PKG_BUILD}/include/linux/compiler-gcc.h
   fi
