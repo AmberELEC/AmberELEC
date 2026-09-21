@@ -3,21 +3,14 @@
 # Copyright (C) 2022-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="dosbox-pure"
-PKG_VERSION="7f6e8fb7385fa446d1444d671063268520bf9b54"
+PKG_VERSION="a4a0bab7f8931433588f2fcad9045c85b277373d"
+PKG_SHA256="f0d04f087bb1c63a4cf1d46e314a9e0336afad427ddebbefde3daffe64b9005b"
 PKG_LICENSE="GPLv2"
-PKG_SITE="https://github.com/schellingb/dosbox-pure"
-PKG_URL="${PKG_SITE}.git"
+PKG_SITE="https://github.com/libretro/dosbox-pure"
+PKG_URL="https://github.com/libretro/dosbox-pure/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="A port of DOSBox to libretro"
 PKG_TOOLCHAIN="make"
-
-pre_patch() {
-  find $(echo "${PKG_BUILD}" | cut -f1 -d\ ) -type f -exec dos2unix -q {} \;
-}
-
-make_target() {
-  make platform=emuelec-hh
-}
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
