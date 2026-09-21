@@ -466,7 +466,7 @@ set_consolefont() {
   if [ -e /dev/fb0 ]; then
     hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
     vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
-    if [ "$DEVICE" == "Anbernic RG351V" ] || [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "PowKiddy Magicx XU10" ] || [ "$DEVICE" == "SZDiiER D007 Plus" ] || [ "$DEVICE" == "Anbernic RG35" ]; then
+    if [ "$DEVICE" == "Anbernic RG351V" ] || [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "Magicx XU10" ] || [ "$DEVICE" == "SZDiiER D007 Plus" ] || [ "$DEVICE" == "Anbernic RG35" ]; then
       setfont -C /dev/tty0 ter-v20n.psf
     elif [ "$DEVICE" == "Anbernic RG552" ]; then
       setfont -C /dev/tty0 ter-v32n.psf

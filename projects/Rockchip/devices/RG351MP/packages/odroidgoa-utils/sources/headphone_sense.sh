@@ -39,7 +39,7 @@ if [ "$DEVICE" = "SZDiiER D007 Plus" ]; then
         ;;
         esac
     done
-elif [ "$DEVICE" = "PowKiddy Magicx XU10" ]; then
+elif [ "$DEVICE" = "Magicx XU10" ]; then
     # Switch to headphones if we have them already connected at boot
     GPIO=$(cat /sys/class/gpio/gpio86/value)
     [[ "$GPIO" == "0" ]] && set_ee_setting "audio.device" "headphone" || set_ee_setting "audio.device" "speakers"

@@ -273,7 +273,7 @@ jobs:
               </tr>
               <tr>
                 <td rowspan="10">RK3326</td>
-                <td rowspan="4">Anbernic</td>
+                <td rowspan="5">Anbernic</td>
                 <td>RG351P</td>
                 <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
                 <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
@@ -288,15 +288,20 @@ jobs:
               </tr>
               <tr>
                 <td>RG351MP</td>
-                <td rowspan="7" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
-                <td rowspan="7" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
+                <td rowspan="8" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
+                <td rowspan="8" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
               </tr>
               <tr>
-                <td rowspan="2">PowKiddy</td>
+                <td>RG35</td>
+              </tr>
+
+              <tr>
+                <td>PowKiddy</td>
                 <td>RGB20S</td>
               </tr>
               <tr>
-                <td>Magicx XU10</td>
+                <td>Magicx</td>
+                <td>XU10</td>
               </tr>
               <tr>
                 <td rowspan="2">Game Console<br />Game Station</td>
