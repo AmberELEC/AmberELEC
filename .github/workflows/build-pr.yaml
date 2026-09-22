@@ -25,6 +25,8 @@ concurrency:
   cancel-in-progress: false #only 1 build at a time per PR
 jobs:
   build-init:
+    outputs:
+      branch-name: ${{ steps.branch.outputs.name }}
     timeout-minutes: 60
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -37,6 +39,13 @@ jobs:
         with:
           # clean: false ensures that we don't remove all the build files
           clean: false
+      - name: Get safe branch name for images and artifacts
+        id: branch
+        env:
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          safe_branch=$(printf '%s' "$PR_BRANCH" | LC_ALL=C tr -c 'A-Za-z0-9._-' '-')
+          printf 'name=%s\n' "$safe_branch" >> "$GITHUB_OUTPUT"
 
   build-toolchain-rk3326:
     needs: [build-init]
@@ -54,7 +63,7 @@ jobs:
             make docker-toolchain-RK3326
 
   build-rg351p:
-    needs: [build-toolchain-rk3326]
+    needs: [build-init, build-toolchain-rk3326]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -70,7 +79,7 @@ jobs:
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get PR version
         id: version
-        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG351P
         run: |
             set -e
@@ -79,7 +88,7 @@ jobs:
             make docker-RG351P
 
   build-rg351v:
-    needs: [build-toolchain-rk3326, build-rg351p]
+    needs: [build-init, build-toolchain-rk3326, build-rg351p]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -95,7 +104,7 @@ jobs:
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get PR version
         id: version
-        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG351V
         run: |
             set -e
@@ -104,7 +113,7 @@ jobs:
             make docker-RG351V
 
   build-rg351mp:
-    needs: [build-toolchain-rk3326, build-rg351p, build-rg351v]
+    needs: [build-init, build-toolchain-rk3326, build-rg351p, build-rg351v]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -115,9 +124,12 @@ jobs:
       - name: Get date for artifacts
         id: date
         run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get PR version
         id: version
-        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG351MP
         run: |
             set -e
@@ -141,7 +153,7 @@ jobs:
             make docker-toolchain-RK3399
 
   build-rg552:
-    needs: [build-toolchain-rk3399]
+    needs: [build-init, build-toolchain-rk3399]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -157,7 +169,7 @@ jobs:
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Get PR version
         id: version
-        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
       - name: Build RG552
         run: |
             set -e
@@ -184,27 +196,27 @@ jobs:
             rm -rf release/aarch64/RG*/*.kernel*
             #PR's builds only include the .tar for speed
             rm -rf release/aarch64/RG*/*.img.gz*
-      - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+      - name: Archive RG351P-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}
         uses: actions/upload-artifact@v7
         with:
-          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          name: RG351P-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351P/
-      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+      - name: Archive RG351V-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}
         uses: actions/upload-artifact@v7
         with:
-          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          name: RG351V-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351V/
-      - name: Archive RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+      - name: Archive RG351MP-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}
         uses: actions/upload-artifact@v7
         with:
-          name: RG351MP-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          name: RG351MP-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG351MP/
-      - name: Archive RG552-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
+      - name: Archive RG552-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}
         uses: actions/upload-artifact@v7
         with:
-          name: RG552-PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}-${{ steps.sha.outputs.sha }}
+          name: RG552-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG552/
