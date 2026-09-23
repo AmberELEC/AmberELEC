@@ -16,7 +16,7 @@ RRCONF="/storage/.config/distribution/configs/retrorun.cfg"
 if [ ! -f "${RRCONF}" ]; then
   cp -f /usr/config/distribution/configs/retrorun.cfg /storage/.config/distribution/configs/
 fi
-if ! /usr/bin/retrorun-config-sync --merge-defaults --platform "${PLATFORM}" --rom "${ROM}"; then
+if ! /usr/bin/retrorun-config-sync --merge-defaults --platform "${PLATFORM}" --rom "${ROM}" --core "${CORE}"; then
   echo 'Failed to synchronize RetroRun settings.' >&2
   exit 1
 fi
