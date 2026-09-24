@@ -43,9 +43,9 @@ jobs:
               echo "last beta date: ${last_beta_date}"
               popd
               
-              echo changes=$(git log --after=" >> $GITHUB_OUTPUT${last_beta_date}" --oneline | wc -l)
+              echo "changes=$(git log --after="${last_beta_date}" --oneline | wc -l)" >> $GITHUB_OUTPUT
               
-              release_notes="$(git log --after=\\"${last_beta_date}\\" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
+              release_notes="$(git log --after="${last_beta_date}" --oneline | sed 's|^|${{ steps.full_name.outputs.full_name }}@|g')"
               
               # The below lines translate linebreaks so they can be set into the 'release_notes' variable
               release_notes="${release_notes//'%'/'%25'}"
