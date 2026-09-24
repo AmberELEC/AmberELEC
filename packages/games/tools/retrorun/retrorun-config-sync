@@ -237,7 +237,7 @@ def achievement_values(distribution, current, previous=None, platform="", rom=""
 
 
 def update_config(distribution_path, config_path, defaults_path, merge_defaults,
-                  platform="", rom=""):
+                  platform="", rom="", core=""):
     distribution_lines = distribution_path.read_text(
         encoding="utf-8", errors="surrogateescape").splitlines() \
         if distribution_path.is_file() else []
@@ -256,6 +256,17 @@ def update_config(distribution_path, config_path, defaults_path, merge_defaults,
     if merge_defaults and existed:
         lines = migrate_baseline(lines)
         lines = merge_missing_defaults(lines, default_lines)
+
+    if core == "flycast2021le":
+        profile = distribution_setting(
+            read_distribution_settings(distribution_lines),
+            "flycast2021le_game_profile", platform, rom)
+        profile = profile.strip() if profile is not None else "best_performance"
+        if profile not in ("best_performance", "best_validated", "disabled"):
+            profile = "best_performance"
+        key = "retrorun_flycast2021le_game_profile"
+        lines = [line for line in lines if setting_key(line) != key]
+        lines.append(f"{key} = {profile}")
 
     current = read_settings(lines)
     values, toggles = achievement_values(
@@ -311,10 +322,11 @@ def main():
     parser.add_argument("--merge-defaults", action="store_true")
     parser.add_argument("--platform", default="")
     parser.add_argument("--rom", default="")
+    parser.add_argument("--core", default="")
     arguments = parser.parse_args()
     update_config(arguments.distribution, arguments.config,
                   arguments.defaults, arguments.merge_defaults,
-                  arguments.platform, arguments.rom)
+                  arguments.platform, arguments.rom, arguments.core)
 
 
 if __name__ == "__main__":
