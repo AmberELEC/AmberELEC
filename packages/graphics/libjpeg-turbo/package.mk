@@ -19,7 +19,7 @@ PKG_CMAKE_OPTS_HOST="-DENABLE_STATIC=ON \
                      -DWITH_SIMD=OFF"
 
 PKG_CMAKE_OPTS_TARGET="-DENABLE_STATIC=ON \
-                       -DENABLE_SHARED=OFF \
+                       -DENABLE_SHARED=ON \
                        -DWITH_JPEG8=ON"
 
 if target_has_feature "(neon|sse)"; then
