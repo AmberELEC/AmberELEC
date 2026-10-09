@@ -11,6 +11,7 @@ on:
     branches:
       - main
       - dev
+      - rk3566
     types: [opened, closed, synchronize, ready_for_review, labeled]
 
 env:
