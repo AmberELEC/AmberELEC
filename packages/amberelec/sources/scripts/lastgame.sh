@@ -17,10 +17,7 @@ if [ "${ARCH}" == "RG351P" ] || [ "${ARCH}" == "RG351V" ]; then
 elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
 elif [ "${ARCH}" == "RG353" ]; then
-    hotkey_ev=/dev/input/by-path/platform-singleadc-joypad-event-joystick
     power_ev=/dev/input/by-path/platform-fdd40000.i2c-platform-rk805-pwrkey-event
-    hotkey=BTN_SELECT
-    hotkey_code=0x13a
 fi
 
 # check if we have custom variables

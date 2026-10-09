@@ -76,9 +76,7 @@ makeinstall_target() {
   cp ${PKG_BUILD}/.${TARGET_NAME}/raze ${INSTALL}/usr/bin
 
   mkdir -p ${INSTALL}/usr/config/distribution/raze
-  if [ "${DEVICE}" = "RG353" ]; then
-    cp ${PKG_DIR}/config/RG353/* ${INSTALL}/usr/config/distribution/raze
-  elif [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [ "${DEVICE}" = "RG353" ]; then
     cp ${PKG_DIR}/config/RG351MP/* ${INSTALL}/usr/config/distribution/raze
   else
     cp ${PKG_DIR}/config/RG351P/* ${INSTALL}/usr/config/distribution/raze

@@ -19,14 +19,14 @@ set -o pipefail
 
 VOLUME_DEVICE='/dev/input/by-path/platform-gpio-keys-event'  # Device for volume key events
 
-CONTROLLER_DEVICE='/dev/input/by-path/platform-singleadc-joypad-event-joystick' # Joystick events (for Fn key)
+CONTROLLER_DEVICE='/dev/input/by-path/platform-odroidgo3-joypad-event-joystick' # Joystick events (for Fn key)
 
 VOL_EVENT='*(KEY_VOLUME*, value *' # This matches all volume events
 
 VOL_UP='*UP), value *'  # Differentiate 'up' volume event
 VOL_DOWN='*DOWN), value *' #Differentiate 'down' volume event
 
-V_FUNC_KEY_EVENT='*(BTN_MODE), value *' # Matches all RG353 Fn key events
+V_FUNC_KEY_EVENT='*(BTN_TRIGGER_HAPPY5), value *' # Matches all RG353 Fn key events
 
 # Matches if a button was pressed (1), released (0) or held down (2)
 PRESS='*value 1'
