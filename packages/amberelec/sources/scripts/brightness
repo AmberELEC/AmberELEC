@@ -4,6 +4,9 @@
 
 MIN=1
 MAX=100
+if [ "$(cat /usr/config/.OS_ARCH)" = "RG353" ]; then
+  MAX=$(cat /sys/class/backlight/backlight/max_brightness)
+fi
 STEP=1
 if [[ -n "$2" ]]; then                               
   STEP=$2                                               

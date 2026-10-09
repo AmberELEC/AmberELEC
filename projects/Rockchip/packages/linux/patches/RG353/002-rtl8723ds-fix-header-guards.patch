@@ -1,0 +1,22 @@
+--- a/drivers/net/wireless/rockchip_wlan/rtl8723ds/hal/phydm/phydm_features.h
++++ b/drivers/net/wireless/rockchip_wlan/rtl8723ds/hal/phydm/phydm_features.h
+@@ -19,7 +19,7 @@
+  ******************************************************************************/
+ 
+ #ifndef	__PHYDM_FEATURES_H__
+-#define __PHYDM_FEATURES
++#define __PHYDM_FEATURES_H__
+ 
+ 
+ #if (DM_ODM_SUPPORT_TYPE == ODM_WIN)
+--- a/drivers/net/wireless/rockchip_wlan/rtl8723ds/hal/phydm/phydm_kfree.h
++++ b/drivers/net/wireless/rockchip_wlan/rtl8723ds/hal/phydm/phydm_kfree.h
+@@ -20,7 +20,7 @@
+  ******************************************************************************/
+ 
+ #ifndef	__PHYDMKFREE_H__
+-#define    __PHYDKFREE_H__
++#define    __PHYDMKFREE_H__
+ 
+ #define KFREE_VERSION	"1.0"
+ 

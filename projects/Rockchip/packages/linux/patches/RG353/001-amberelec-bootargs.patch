@@ -1,0 +1,26 @@
+--- a/arch/arm64/boot/dts/rockchip/rk3566-353m.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-353m.dts
+@@ -17,6 +17,10 @@
+ / {
+ 	model = "Anbernic RG353M";
+ 	compatible = "anbernic,rg353m", "rockchip,rk3566";
++
++	chosen {
++		bootargs = "";
++	};
+ 
+ 	audiopwmout_diff: audiopwmout-diff {
+ 		status = "disabled";
+--- a/arch/arm64/boot/dts/rockchip/rk3566-353v.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-353v.dts
+@@ -17,6 +17,10 @@
+ / {
+ 	model = "Anbernic RG353V/VS";
+ 	compatible = "anbernic,rg353v", "rockchip,rk3566";
++
++	chosen {
++		bootargs = "";
++	};
+ 
+ 	audiopwmout_diff: audiopwmout-diff {
+ 		status = "disabled";

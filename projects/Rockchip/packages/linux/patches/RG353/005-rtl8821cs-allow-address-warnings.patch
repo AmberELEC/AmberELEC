@@ -1,0 +1,10 @@
+--- a/drivers/net/wireless/rockchip_wlan/rtl8821cs/Makefile
++++ b/drivers/net/wireless/rockchip_wlan/rtl8821cs/Makefile
+@@ -5,6 +5,7 @@
+ #EXTRA_CFLAGS += -Wall
+ #EXTRA_CFLAGS += -Wextra
+ #EXTRA_CFLAGS += -Werror
++EXTRA_CFLAGS += $(call cc-disable-warning,address)
+ #EXTRA_CFLAGS += -pedantic
+ #EXTRA_CFLAGS += -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
+ 

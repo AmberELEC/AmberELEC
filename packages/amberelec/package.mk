@@ -76,7 +76,7 @@ makeinstall_target() {
 
   if [ "${DEVICE}" == "RG351P" ]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.351p ${INSTALL}/usr/config/distribution/configs/distribution.conf
-  elif  [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ]; then
+  elif  [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] || [ "${DEVICE}" == "RG353" ]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.351v ${INSTALL}/usr/config/distribution/configs/distribution.conf
   elif [ "${DEVICE}" == "RG552" ]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.552  ${INSTALL}/usr/config/distribution/configs/distribution.conf
@@ -103,7 +103,7 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/retroarch-overlays
   if [ "${DEVICE}" == "RG351P" ]; then
     cp -r ${PKG_DIR}/overlay-p/* ${INSTALL}/usr/share/retroarch-overlays
-  elif [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ]; then
+  elif [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] || [ "${DEVICE}" == "RG353" ]; then
     cp -r ${PKG_DIR}/overlay-v/* ${INSTALL}/usr/share/retroarch-overlays
   elif [ "${DEVICE}" == "RG552" ]; then
     cp -r ${PKG_DIR}/overlay-552/* ${INSTALL}/usr/share/retroarch-overlays
@@ -131,6 +131,8 @@ post_install() {
   mkdir -p ${INSTALL}/etc/retroarch-joypad-autoconfig
   if [[ "${DEVICE}" == "RG351P" ]] || [[ "${DEVICE}" == "RG351V" ]]; then
     cp -r ${PKG_DIR}/gamepads/OpenSimHardware* ${INSTALL}/etc/retroarch-joypad-autoconfig
+  elif [[ "${DEVICE}" == "RG353" ]]; then
+    cp ${PKG_DIR}/gamepads/retrogame_joypad.cfg ${INSTALL}/etc/retroarch-joypad-autoconfig
   else
     cp -r ${PKG_DIR}/gamepads/GO-Super* ${INSTALL}/etc/retroarch-joypad-autoconfig
   fi
@@ -145,6 +147,8 @@ post_install() {
     cp -f  ${PKG_DIR}/clocks/RK3326/clocklimits ${INSTALL}/etc
   elif [[ "${DEVICE}" == "RG552" ]]; then
     cp -f  ${PKG_DIR}/clocks/RK3399/clocklimits ${INSTALL}/etc
+  elif [[ "${DEVICE}" == "RG353" ]]; then
+    cp -f ${PKG_DIR}/clocks/RK3566/clocklimits ${INSTALL}/etc
   fi
 
   echo "" >${INSTALL}/etc/issue

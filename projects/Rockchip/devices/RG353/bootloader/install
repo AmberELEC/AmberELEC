@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2026-present AmberELEC
+
+PKG_RKBIN="$(get_build_dir rkbin)"
+LINUX_DTS_DIR="$(get_build_dir linux)/.install_pkg/usr/share/bootloader"
+
+tools/mkimage -n rk356x -T rksd \
+  -d "${PKG_RKBIN}/bin/rk35/rk3566_ddr_1056MHz_v1.16.bin:spl/u-boot-spl.bin" \
+  -C bzip2 idbloader.img
+
+cp "${LINUX_DTS_DIR}/rk3566-353m.dtb" rk-kernel.dtb
+# Use the BSP U-Boot hardware-ID selection and its existing fdtfile variable.
+cp "${LINUX_DTS_DIR}/rk3566-353m.dtb" 'rk3566-353m#_saradc_ch1=512.dtb'
+cp "${LINUX_DTS_DIR}/rk3566-353v.dtb" 'rk3566-353v#_saradc_ch1=681.dtb'
+tools/resource_tool --pack --image=resource.img rk-kernel.dtb \
+  'rk3566-353m#_saradc_ch1=512.dtb' 'rk3566-353v#_saradc_ch1=681.dtb'
+
+cp idbloader.img u-boot.itb resource.img "${LINUX_DTS_DIR}"/rk3566-353*.dtb "${INSTALL}/usr/share/bootloader/"
+mkdir -p "${INSTALL}/usr/share/bootloader/extlinux"
+cat > "${INSTALL}/usr/share/bootloader/extlinux/extlinux.conf" <<EOF
+LABEL ${DISTRO_BOOTLABEL}
+  LINUX /${KERNEL_NAME}
+  FDTDIR /
+  APPEND boot=UUID=@BOOT_UUID@ disk=UUID=@DISK_UUID@ quiet ${EXTRA_CMDLINE}
+EOF

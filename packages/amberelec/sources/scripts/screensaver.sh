@@ -12,6 +12,8 @@ rm -f /tmp/onSleep /tmp/ssDate /tmp/sdDate /tmp/lastGame /tmp/resume_game
 ARCH="$(cat /storage/.config/.OS_ARCH)"
 if [ "${ARCH}" == "RG351P" ] || [ "${ARCH}" == "RG351V" ]; then
     input_device=/dev/input/by-path/platform-ff300000.usb-usb-0:1.2:1.0-event-joystick
+elif [ "${ARCH}" == "RG353" ]; then
+    input_device=/dev/input/by-path/platform-singleadc-joypad-event-joystick
 else
     input_device=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
 fi

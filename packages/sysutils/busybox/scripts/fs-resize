@@ -19,9 +19,22 @@ if [ -e /storage/.please_resize_me ] ; then
     reboot -f
   fi
 
-  # get the disk. /storage on 2nd partition
+  # The BSP RK3566 layout has /storage on partition 4, after the bootloaders.
   PART=$(grep "/storage " /proc/mounts | cut -d" " -f1)
-  DISK=$(echo ${PART} | sed s/p2$//g)
+  PART=$(readlink -f "${PART}")
+  PART_NUMBER=$(cat "/sys/class/block/${PART##*/}/partition")
+  DISK=${PART%p[0-9]*}
+  case "${PART_NUMBER}" in
+    2|4) ;;
+    *) echo "Unsupported storage partition: ${PART}"; exit 1 ;;
+  esac
+  if [ "$(cat /usr/config/.OS_ARCH)" = "RG353" ]; then
+    if [ "${PART}" != /dev/mmcblk1p4 ] || [ "$(cat /sys/class/block/mmcblk1/device/type)" != SD ]; then
+      echo "Refusing to resize anything except the RG353 system SD."
+      exit 1
+    fi
+  fi
+  GAMES_PART_NUMBER=$((PART_NUMBER + 1))
 
   rm -f /storage/.please_resize_me
   sync
@@ -42,13 +55,13 @@ if [ -e /storage/.please_resize_me ] ; then
       StartProgress spinner "Checking layout...      " "sgdisk -e ${DISK} &>/dev/null"
     fi
 
-    StartProgress spinner "Resizing partition...   " "parted -s -a optimal -m ${DISK} resizepart 2 7GiB &>/dev/null"
+    StartProgress spinner "Resizing partition...   " "parted -s -a optimal -m ${DISK} resizepart ${PART_NUMBER} 7GiB &>/dev/null"
     StartProgress spinner "Checking file system... " "e2fsck -f -p ${PART} &>/dev/null"
     StartProgress spinner "Resizing file system... " "resize2fs ${PART} &>/dev/null"
-    GAMESSTART="$(echo $(parted -m ${DISK} print all | awk 'BEGIN {FS=":"} /^2/ {gsub ("[A-Z]",""); print $3}') + 17 | bc)"
+    GAMESSTART="$(echo $(parted -m ${DISK} unit MB print | awk -v part="${PART_NUMBER}" 'BEGIN {FS=":"} $1 == part {gsub ("[A-Z]",""); print $3}') + 17 | bc)"
     StartProgress spinner "Creating exFAT partition..." "parted -s -a optimal -m ${DISK} mkpart primary ntfs ${GAMESSTART}MB 100% &>/dev/null"
     partprobe &>/dev/null
-    StartProgress spinner "Formatting exFAT partition..." "mkfs.exfat -n GAMES ${DISK}p3 &>/dev/null"
+    StartProgress spinner "Formatting exFAT partition..." "mkfs.exfat -n GAMES ${DISK}p${GAMES_PART_NUMBER} &>/dev/null"
     StartProgress countdown "Rebooting in 5s...     " 5 "NOW"
   fi
 fi
