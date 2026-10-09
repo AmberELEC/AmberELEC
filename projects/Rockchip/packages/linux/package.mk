@@ -11,8 +11,8 @@ elif [[ "${DEVICE}" =~ (RG552|RK3399) ]]; then
   PKG_VERSION="0c15ff851c1d24fac588bd4427bb45b9ab88f452"
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/${PKG_VERSION}.tar.gz"
 elif [[ "${DEVICE}" =~ ^(RG353|RK3566)$ ]]; then
-  PKG_VERSION="2120c5ebc92961aaa0df412dc072bcc111a9b769"
-  PKG_SHA256="fc5b6740f18aa2a381408d1d79162a78a596014a5ba8285aaa483e1edaec3996"
+  PKG_VERSION="9b7569e0bfb97a3806bd4d9edc0e7a879b65b69e"
+  PKG_SHA256="8ccf6f20031cdd611128dd052f12bb82f2f5127d362df4e4e3f5d67adde88e30"
   PKG_URL="https://github.com/AmberELEC/kernel-rk356x/archive/${PKG_VERSION}.tar.gz"
 fi
 
@@ -31,10 +31,6 @@ if [[ "${DEVICE}" == RG351V ]]; then
 fi
 
 if [[ "${DEVICE}" == RG552 ]]; then
-  PKG_PATCH_DIRS="${DEVICE}"
-fi
-
-if [ "${DEVICE}" = "RG353" ]; then
   PKG_PATCH_DIRS="${DEVICE}"
 fi
 
