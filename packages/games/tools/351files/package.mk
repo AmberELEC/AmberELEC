@@ -11,19 +11,16 @@ PKG_LONGDESC="A Single panel file Manager tailored for Anbernic 351 devices: RG3
 
 if [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="RG552"
+elif [ "${DEVICE}" = "RG353" ]; then
+  PKG_PATCH_DIRS="RG353"
 fi
 
 make_target() {
-  local device="${DEVICE}"
-  if [ "${DEVICE}" = "RG353" ]; then
-    device="RG351MP"
-  fi
-
   sed -i "s|-lSDL2_ttf|-lSDL2_ttf -lasound -lfreetype -Wl,-rpath-link,${SYSROOT_PREFIX}/usr/lib|g" Makefile
   sed -i "s|-o 351Files|--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib -o 351Files|g" Makefile
   sed -i "s|-o \$(TARGET)|--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib -o \$(TARGET)|g" Makefile
 
-  make DEVICE=${device} RES_PATH=/usr/share/351files/res START_PATH=/storage/roms SDL2_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config CC="${CXX} --sysroot=${SYSROOT_PREFIX}"
+  make DEVICE=${DEVICE} RES_PATH=/usr/share/351files/res START_PATH=/storage/roms SDL2_CONFIG=${SYSROOT_PREFIX}/usr/bin/sdl2-config CC="${CXX} --sysroot=${SYSROOT_PREFIX}"
 }
 
 makeinstall_target() {

@@ -25,7 +25,7 @@ else
 
   PKG_EMUS="${LIBRETRO_CORES}"
 
-  if [[ "${DEVICE}" == "RG552" ]]; then
+  if [[ "${DEVICE}" == "RG552" || "${DEVICE}" == "RG353" ]]; then
     PKG_EMUS+=" ${LIBRETRO_CORES_EXTRA}"
   fi
 
@@ -42,7 +42,7 @@ make_target() {
 
 makeinstall_target() {
   ## Remove libretro cores from unsupported devices
-  if [[ ! ${DEVICE} == "RG552" ]]; then
+  if [[ "${DEVICE}" != "RG552" && "${DEVICE}" != "RG353" ]]; then
     mkdir -p ${INSTALL}/usr/config/emulationstation
     cp -f $(get_build_dir emulationstation)/.install_pkg/usr/config/emulationstation/es_systems.cfg ${INSTALL}/usr/config/emulationstation/es_systems.cfg
     for CORE in ${LIBRETRO_CORES_EXTRA}; do
