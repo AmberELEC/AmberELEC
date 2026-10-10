@@ -47,9 +47,9 @@ makeinstall_target() {
     cp ${PKG_DIR}/config/mupen64plus-RG351P.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   elif [ "${DEVICE}" = "RG351V" ]; then
     cp ${PKG_DIR}/config/mupen64plus-RG351V.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
-  elif [ "${DEVICE}" = "RG351MP" ]; then
+  elif [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG353" ]; then
     cp ${PKG_DIR}/config/mupen64plus-RG351MP.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
-  elif [[ "${DEVICE}" =~ (RG552|RG353) ]]; then
+  elif [ "${DEVICE}" = "RG552" ]; then
     cp ${PKG_DIR}/config/mupen64plus-RG552.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   fi
   chmod 644 ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
@@ -57,4 +57,3 @@ makeinstall_target() {
   cp ${PKG_DIR}/m64p.sh ${INSTALL}/usr/bin
   chmod 755 ${INSTALL}/usr/bin/m64p.sh
 }
-

@@ -29,5 +29,10 @@ post_makeinstall_target() {
 }
 
 post_install() {
+  if [ "${DEVICE}" = "RG353" ]; then
+    # Leave Android's internal eMMC unmounted.
+    sed -i '/# check for special partitions/i KERNEL=="mmc*", ATTRS{type}=="MMC", GOTO="exit"\n' \
+      ${INSTALL}/usr/lib/udev/rules.d/95-udevil-mount.rules
+  fi
   enable_service udevil-mount@.service
 }

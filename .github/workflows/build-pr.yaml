@@ -11,6 +11,7 @@ on:
     branches:
       - main
       - dev
+      - rk3566
     types: [opened, closed, synchronize, ready_for_review, labeled]
 
 env:
@@ -177,8 +178,48 @@ jobs:
             export DOCKER_WORK_DIR=/work
             make docker-RG552
 
+  build-toolchain-rk3566:
+    needs: [build-rg552]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
+    steps:
+      - name: Build Toolchain RK3566
+        run: |
+            set -e
+            export DOCKER_WORK_DIR=/work
+            make docker-toolchain-RK3566
+
+  build-rg353:
+    needs: [build-init, build-toolchain-rk3566]
+    timeout-minutes: 360
+    # Run on self-hosted runners with the 'pr' label
+    runs-on: pr
+    # Don't run on drafts - skip 'closed' PR's
+    #if: github.event.action != 'closed' && ( github.event.pull_request.draft == false || github.event.label.name == 'build' )
+    if: github.event.action != 'closed' && ( github.event.label.name == 'build' )
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get PR version
+        id: version
+        run: echo "version=pr-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+      - name: Build RG353
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            export DOCKER_WORK_DIR=/work
+            make docker-RG353
+
   build-finalize:
-    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552]
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552, build-rg353]
     timeout-minutes: 360
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
@@ -220,3 +261,9 @@ jobs:
           name: RG552-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
             release/aarch64/RG552/
+      - name: Archive RG353-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG353-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG353/

@@ -10,6 +10,10 @@ if [[ "${DEVICE}" =~ (RG351|RK3326) ]]; then
 elif [[ "${DEVICE}" =~ (RG552|RK3399) ]]; then
   PKG_VERSION="0c15ff851c1d24fac588bd4427bb45b9ab88f452"
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/${PKG_VERSION}.tar.gz"
+elif [[ "${DEVICE}" =~ ^(RG353|RK3566)$ ]]; then
+  PKG_VERSION="a759b1efa5c08478ac6be89cdb733848a16f988c"
+  PKG_SHA256="9c99b823d0d2d905f6084c23c478514f181840b623c3208cbb1dbf592fe2483b"
+  PKG_URL="https://github.com/AmberELEC/kernel-rk356x/archive/${PKG_VERSION}.tar.gz"
 fi
 
 PKG_LICENSE="GPL"
@@ -133,6 +137,7 @@ pre_make_target() {
   fi
 
   # Add EXFat, kinda gross but I don't want it as a module.
+  if [[ ! "${DEVICE}" =~ ^(RG353|RK3566)$ ]]; then
   PREEXF=`pwd`
   cd ${PKG_BUILD}/fs
   git clone https://github.com/arter97/exfat-linux.git
@@ -147,6 +152,7 @@ pre_make_target() {
   sed -i '/source "fs\/fat\/Kconfig"/a source "fs\/exfat\/Kconfig"' Kconfig
   sed -i '/obj-$(CONFIG_FAT_FS).*+= fat\//a obj-$(CONFIG_EXFAT_FS)\t\t+= exfat\/' Makefile
   cd ${PREEXF}
+  fi
 
   export KCFLAGS="${KCFLAGS} -Wno-header-guard"
   export KCFLAGS="${KCFLAGS} -w"
@@ -161,9 +167,11 @@ pre_make_target() {
 
 make_target() {
   kernel_make modules
-  kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
-  rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
-  rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source
+  if [[ ! "${DEVICE}" =~ ^(RG353|RK3566)$ ]]; then
+    kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
+    rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
+    rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source
+  fi
 
   if [ "${PKG_BUILD_PERF}" = "yes" ] ; then
     ( cd tools/perf
@@ -218,6 +226,12 @@ make_target() {
   # file with symbols from built-in and external modules.
   # Without that it'll contain only the symbols from the kernel
   kernel_make ${KERNEL_TARGET} ${KERNEL_MAKE_EXTRACMD} modules
+
+  if [[ "${DEVICE}" =~ ^(RG353|RK3566)$ ]]; then
+    kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
+    rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
+    rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source
+  fi
 
   if [ -n "${KERNEL_UIMAGE_TARGET}" ] ; then
     # determine compression used for kernel image
@@ -303,6 +317,9 @@ makeinstall_init() {
 }
 
 post_install() {
+  if [ "${DEVICE}" = "RG353" ]; then
+    rm -f ${INSTALL}/usr/lib/udev/rules.d/99-powertargets.rules
+  fi
   mkdir -p ${INSTALL}/$(get_full_firmware_dir)/
 
   # regdb and signature is now loaded as firmware by 4.15+

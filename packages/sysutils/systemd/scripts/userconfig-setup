@@ -13,13 +13,15 @@ then
   # Copy config files, but don't overwrite.  Only run if /storage is fresh
   ## cp -iRp /usr/config/* /storage/.config/ &>/dev/null
   ## ignore es_systems.cfg and switch to rsync
-  rsync -a --ignore-existing --exclude=es-theme-art-book-next --exclude=es_systems.cfg /usr/config/* /storage/.config/
+  rsync -a --ignore-existing --exclude=es-theme-art-book-next --exclude=es_systems.cfg /usr/config/* /storage/.config/ || exit 1
   if [ "$(cat /usr/config/.OS_ARCH)" == "RG351P" ]; then
     cp -f /usr/config/splash/splash-480l.png /storage/.config/emulationstation/resources/logo.png
-  elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG351MP" ]; then
+  elif [ "$(cat /usr/config/.OS_ARCH)" == "RG351V" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG351MP" ] || [ "$(cat /usr/config/.OS_ARCH)" == "RG353" ]; then
     cp -f /usr/config/splash/splash-640.png /storage/.config/emulationstation/resources/logo.png
   elif [ "$(cat /usr/config/.OS_ARCH)" == "RG552" ]; then
     cp -f /usr/config/splash/splash-1920l.png /storage/.config/emulationstation/resources/logo.png
   fi
+  sync
   touch /storage/.configured
+  sync
 fi

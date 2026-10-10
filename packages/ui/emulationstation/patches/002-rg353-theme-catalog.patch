@@ -1,0 +1,14 @@
+--- a/es-app/src/ApiSystem.cpp
++++ b/es-app/src/ApiSystem.cpp
+@@ -870,7 +870,11 @@ std::string ApiSystem::getThemesUrl()
+ 	if (!systemsetting.empty())
+ 		return systemsetting;
+ 
++#ifdef RG353
++	return "https://github.com/AmberELEC/metadata/raw/main/RG351MP/themes.json";
++#else
+ 	return getUpdateUrl() + "/themes.json";
++#endif
+ }
+ 
+ std::string ApiSystem::getGitRepositoryDefaultBranch(const std::string& url)

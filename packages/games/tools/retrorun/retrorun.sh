@@ -21,6 +21,20 @@ if ! /usr/bin/retrorun-config-sync --merge-defaults --platform "${PLATFORM}" --r
   exit 1
 fi
 
+# Shared images identify the physical model through the device tree.
+RRDEVICE=$(tr -d '\0' 2>/dev/null < /sys/firmware/devicetree/base/model)
+RRDEVICE="${RRDEVICE#Anbernic }"
+case "${RRDEVICE}" in
+  RG351P|RG351M|RG351V|RG351MP|RG552|RG503|RG353M|RG353V|"Miniloong Pocket 1") ;;
+  RG353V/VS|RG353VS) RRDEVICE="RG353V" ;;
+  # Keep the image's compatible profile for models RetroRun does not recognize.
+  *) RRDEVICE="${EE_DEVICE}" ;;
+esac
+if [ -n "${RRDEVICE}" ]; then
+  sed -i '/^[[:space:]]*retrorun_device_name[[:space:]]*=/d' "${RRCONF}"
+  echo "retrorun_device_name = ${RRDEVICE}" >> "${RRCONF}"
+fi
+
 function get_setting() {
 	#We look for the setting on the ROM first, if not found we search for platform and lastly we search globally
 	PAT="s|^${PLATFORM}\[\"${ROM}\"\].*${1}=\(.*\)|\1|p"

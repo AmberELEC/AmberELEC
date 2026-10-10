@@ -7,7 +7,7 @@
 
 DEVICE=$(cat /storage/.config/.OS_ARCH)
 
-if [[ "$DEVICE" == RG351MP ]]; then
+if [[ "$DEVICE" == RG351MP ]] || [[ "$DEVICE" == RG353 ]]; then
   solarus-run -fullscreen=yes -quit-combo=12+13 "${1}"
 else
   solarus-run -fullscreen=yes -quit-combo=7+6 "${1}"
