@@ -28,9 +28,9 @@ elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_DEPENDS_TARGET+=" atf"
   ATF_PLATFORM="rk3399"
 elif [ "${DEVICE}" = "RG353" ]; then
-  PKG_VERSION="97c658238f7ccd436fbdede451bfd7488514a5c8"
-  PKG_SHA256="9ed0c4f341345015bef4a4264423dfe92df876f15f3e7fccf4520abd4795033f"
-  PKG_URL="https://github.com/RetroGFX/rk356x-uboot/archive/${PKG_VERSION}.tar.gz"
+  PKG_VERSION="e252ab226ac21746ff894fd8e080731355d74c0e"
+  PKG_SHA256="c1f11a5c6e3159b031526e4a6bf47427b19c667df40fcfd006cc9cf7fb85af55"
+  PKG_URL="https://github.com/AmberELEC/uboot_rg353/archive/${PKG_VERSION}.tar.gz"
   PKG_DEPENDS_TARGET+=" linux"
   PKG_NEED_UNPACK+=" ${LINUX_DEPENDS} ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/options"
 fi
