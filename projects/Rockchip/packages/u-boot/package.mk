@@ -69,7 +69,7 @@ make_target() {
         export BL31="$(get_build_dir atf)/.install_pkg/usr/share/bootloader/bl31.elf"
       fi
     elif [ "${DEVICE}" = "RG353" ]; then
-      export BL31="$(get_build_dir rkbin)/bin/rk35/rk3568_bl31_v1.42.elf"
+      export BL31="$(get_build_dir rkbin)/bin/rk35/rk3568_bl31_v1.44.elf"
     fi
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make mrproper
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make $(${ROOT}/${SCRIPTS}/uboot_helper ${PROJECT} ${DEVICE} ${UBOOT_SYSTEM} config)
