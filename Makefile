@@ -33,6 +33,7 @@ world:
 	DEVICE=RG351V ARCH=aarch64 ./scripts/build_distro
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
+	DEVICE=RG353 ARCH=aarch64 ./scripts/build_distro
 
 RG351P:
 	DEVICE=RG351P ARCH=aarch64 ./scripts/build_distro
@@ -55,6 +56,9 @@ toolchain-RK3399:
 toolchain-RK3566:
 	DEVICE=RK3566 ARCH=aarch64 ./scripts/build toolchain
 
+RG353:
+	DEVICE=RG353 ARCH=aarch64 ./scripts/build_distro
+
 lib32:
 	DEVICE=RK3326 ARCH=arm ./scripts/build toolchain
 	DEVICE=RG351P ARCH=arm scripts/clean build-lib32
@@ -67,6 +71,8 @@ lib32:
 	DEVICE=RG552 ARCH=arm scripts/clean build-lib32
 	DEVICE=RG552 ARCH=arm scripts/build build-lib32
 	DEVICE=RK3566 ARCH=arm ./scripts/build toolchain
+	DEVICE=RG353 ARCH=arm scripts/clean build-lib32
+	DEVICE=RG353 ARCH=arm scripts/build build-lib32
 
 update:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/update_packages

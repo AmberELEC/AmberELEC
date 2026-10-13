@@ -25,7 +25,7 @@ pre_configure_target() {
   sed -i "s|-o DinguxCommander|--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib -o DinguxCommander|g" Makefile
   sed -i "s|-o \$(TARGET)|--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib -o \$(TARGET)|g" Makefile
 
-  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]; then
+  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG353" ]; then
     PKG_MAKE_OPTS_TARGET="RG351V=1"
   elif [ "${DEVICE}" = "RG552" ]; then
     PKG_MAKE_OPTS_TARGET="RG552=1"

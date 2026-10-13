@@ -14,7 +14,7 @@ if [ "${ARCH}" == "RG351P" ]; then
   DEVICE="RG351P"
 elif [ "${ARCH}" == "RG351V" ]; then
   DEVICE="RG351V"
-elif [ "${ARCH}" == "RG351MP" ]; then
+elif [ "${ARCH}" == "RG351MP" ] || [ "${ARCH}" == "RG353" ]; then
   DEVICE="RG351MP"
 elif [ "${ARCH}" == "RG552" ]; then
   DEVICE="RG552"

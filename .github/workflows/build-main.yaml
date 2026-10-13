@@ -171,8 +171,45 @@ jobs:
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
             make DOCKER_WORK_DIR=/work docker-RG552
 
+  build-toolchain-rk3566:
+    needs: [build-rg552]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Build Toolchain RK3566
+        run: |
+            set -e
+            make DOCKER_WORK_DIR=/work docker-toolchain-RK3566
+
+  build-rg353:
+    needs: [build-toolchain-rk3566]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+           set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
+           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+           else
+               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+           fi
+      - name: Build RG353
+        run: |
+            set -e
+            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+            make DOCKER_WORK_DIR=/work docker-RG353
+
   build-finalize:
-    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552]
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552, build-rg353]
     timeout-minutes: 360
     runs-on: main
     steps:
@@ -317,7 +354,7 @@ jobs:
             </table>
             <!--devices-->
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
@@ -354,7 +391,7 @@ jobs:
               -`GITHUB ORG` = `351dev`
               -`GITHUB REPO` = `builds`
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
@@ -393,7 +430,7 @@ jobs:
             **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
             **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
@@ -437,6 +474,7 @@ jobs:
             release/aarch64/RG351V/*
             release/aarch64/RG351MP/*
             release/aarch64/RG552/*
+            release/aarch64/RG353/*
           prerelease: true
           draft: true
         env:

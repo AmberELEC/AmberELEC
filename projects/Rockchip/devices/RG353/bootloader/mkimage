@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2026-present AmberELEC
+
+BOOTLOADER_DIR="${RELEASE_DIR}/3rdparty/bootloader"
+dd if="${BOOTLOADER_DIR}/idbloader.img" of="${DISK}" bs=32k seek=1 conv=fsync,notrunc >"${SAVE_ERROR}" 2>&1 || show_error
+dd if="${BOOTLOADER_DIR}/u-boot.itb" of="${DISK}" bs=64k seek=128 conv=fsync,notrunc >"${SAVE_ERROR}" 2>&1 || show_error
+dd if="${BOOTLOADER_DIR}/resource.img" of="${DISK}" bs=64k seek=192 conv=fsync,notrunc >"${SAVE_ERROR}" 2>&1 || show_error
+
+for dtb in "${BOOTLOADER_DIR}"/rk3566-353*.dtb; do
+  mcopy -o "${dtb}" ::
+done
+sed -e "s/@BOOT_UUID@/${UUID_SYSTEM}/g" -e "s/@DISK_UUID@/${UUID_STORAGE}/g" \
+  "${BOOTLOADER_DIR}/extlinux/extlinux.conf" > "${LE_TMP}/extlinux/extlinux.conf"
+mcopy -so "${LE_TMP}/extlinux" ::

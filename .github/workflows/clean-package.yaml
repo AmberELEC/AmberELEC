@@ -29,7 +29,7 @@ jobs:
             export HOST_NAME=buildserver
             
             PACKAGES="$(echo "${{github.event.inputs.package}}" | tr ',' ' ')"
-            DEVICES="RG351P RG351V RG351MP RG552"
+            DEVICES="RG351P RG351V RG351MP RG552 RG353"
             echo "package: $PACKAGES"
             for package in $PACKAGES; do
               echo "removing: sources/$package"

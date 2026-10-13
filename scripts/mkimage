@@ -19,7 +19,9 @@ if [ -z "${SYSTEM_SIZE}" -o -z "${SYSTEM_PART_START}" ]; then
   exit 1
 fi
 
-if [ "${BOOTLOADER}" = "syslinux" ]; then
+if [ -n "${PARTITION_TABLE}" ]; then
+  DISK_LABEL="${PARTITION_TABLE}"
+elif [ "${BOOTLOADER}" = "syslinux" ]; then
   DISK_LABEL=gpt
 else
   DISK_LABEL=msdos
@@ -66,12 +68,20 @@ echo "image: creating ${DISK_LABEL} partition table..."
 parted -s "${DISK}" mklabel ${DISK_LABEL}
 sync
 
+SYSTEM_PART_NUMBER=1
+if [ "${DISK_LABEL}" = "gpt" ] && [ "${BOOTLOADER}" = "u-boot" ] && [ -n "${UBOOT_LABEL}" ] && [ -n "${TRUST_LABEL}" ]; then
+  # Rockchip BSP reserves partitions before the FAT boot filesystem.
+  parted -s "${DISK}" unit s mkpart "${UBOOT_LABEL}" 16384 24575 >"${SAVE_ERROR}" 2>&1 || show_error
+  parted -s "${DISK}" unit s mkpart "${TRUST_LABEL}" 24576 32767 >"${SAVE_ERROR}" 2>&1 || show_error
+  SYSTEM_PART_NUMBER=3
+fi
+
 # create part1
 echo "image: creating part1..."
 SYSTEM_PART_END=$(( ${SYSTEM_PART_START} + (${SYSTEM_SIZE} * 1024 * 1024 / 512) - 1 ))
 if [ "${DISK_LABEL}" = "gpt" ]; then
   parted -s "${DISK}" -a min unit s mkpart system fat32 ${SYSTEM_PART_START} ${SYSTEM_PART_END}
-  parted -s "${DISK}" set 1 legacy_boot on
+  parted -s "${DISK}" set "${SYSTEM_PART_NUMBER}" legacy_boot on
 else
   parted -s "${DISK}" -a min unit s mkpart primary fat32 ${SYSTEM_PART_START} ${SYSTEM_PART_END}
   parted -s "${DISK}" set 1 boot on

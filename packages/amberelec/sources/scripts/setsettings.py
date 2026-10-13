@@ -488,7 +488,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Define the resolutions of the different systems (0:x 1:y 2:width 3:height) as seen in Scaling -> Aspect Ration -> Custom
     # Devices (width x hight)
     #   RG351P/M = 480x320
-    #   RG351V/MP = 640x480
+    #   RG351V/MP, RG353 = 640x480
     #   RG552 = 1920x1152
     # Consoles (width x hight)
     #   GB/GBC/GG = 160x144
@@ -517,7 +517,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'wonderswan': (0, 0, 448, 288),       # x2
             'wonderswancolor': (0, 0, 448, 288),  # x2
         }
-    elif device_name == "RG351V" or device_name == "RG351MP":
+    elif device_name in ("RG351V", "RG351MP", "RG353"):
         system_viewport = {
             'standard': (1, 1, 639, 479),          # max-1
             'gb': (0, 0, 480, 432),               # x3

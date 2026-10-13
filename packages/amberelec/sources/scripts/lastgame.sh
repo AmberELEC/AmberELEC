@@ -16,6 +16,8 @@ if [ "${ARCH}" == "RG351P" ] || [ "${ARCH}" == "RG351V" ]; then
     hotkey_code=0x137
 elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
+elif [ "${ARCH}" == "RG353" ]; then
+    power_ev=/dev/input/by-path/platform-fdd40000.i2c-platform-rk805-pwrkey-event
 fi
 
 # check if we have custom variables

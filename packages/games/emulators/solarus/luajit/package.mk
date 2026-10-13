@@ -29,15 +29,17 @@ makeinstall_target() {
   cd .${TARGET_NAME}
   unset CFLAGS
   make PREFIX="/usr" \
+		LDFLAGS="" \
 		CC="${CC} -fPIC" \
 		TARGET_LD="${CC}" \
 		TARGET_AR="${AR} rcus" \
 		TARGET_STRIP=true \
 		TARGET_CFLAGS="${TARGET_CFLAGS}" \
 		TARGET_LDFLAGS="${LDFLAGS}" \
+		TARGET_SHLDFLAGS="${LDFLAGS}" \
 		HOST_CC="${HOST_CC} ${BIT}" \
-		HOST_CFLAGS="${CFLAGS}" \
-		HOST_LDFLAGS="${LDFLAGS}" \
+		HOST_CFLAGS="${HOST_CFLAGS}" \
+		HOST_LDFLAGS="${HOST_LDFLAGS}" \
 		XCFLAGS="-DLJ_MAX_HBITS=26" \
 		${JITARCH} \
 		amalg
