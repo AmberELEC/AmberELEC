@@ -163,14 +163,12 @@ make_target() {
 }
 
 makeinstall_target() {
-  GCC_RUNTIME_DIR=$(dirname "$(${TARGET_PREFIX}gcc -print-file-name=libgcc_s.so.1)")
   mkdir -p ${INSTALL}/usr/lib
-    cp -P ${GCC_RUNTIME_DIR}/libgcc_s.so* ${INSTALL}/usr/lib
-    cp -P ${GCC_RUNTIME_DIR}/libgomp.so* ${INSTALL}/usr/lib
-    cp -P ${GCC_RUNTIME_DIR}/libstdc++.so* ${INSTALL}/usr/lib
-    rm -f ${INSTALL}/usr/lib/libstdc++.so.*-gdb.py
+    cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgcc/libgcc_s.so* ${INSTALL}/usr/lib
+    cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libgomp/.libs/libgomp.so* ${INSTALL}/usr/lib
+    cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libstdc++-v3/src/.libs/libstdc++.so* ${INSTALL}/usr/lib
     if [ "${OPTS_LIBATOMIC}" = "--enable-libatomic" ]; then
-      cp -P ${GCC_RUNTIME_DIR}/libatomic.so* ${INSTALL}/usr/lib
+      cp -P ${PKG_BUILD}/.${HOST_NAME}/${TARGET_NAME}/libatomic/.libs/libatomic.so* ${INSTALL}/usr/lib
     fi
 }
 
