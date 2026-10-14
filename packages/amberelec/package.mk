@@ -76,7 +76,7 @@ makeinstall_target() {
 
   if [ "${DEVICE}" == "RG351P" ]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.351p ${INSTALL}/usr/config/distribution/configs/distribution.conf
-  elif  [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] || [ "${DEVICE}" == "RG353" ]; then
+  elif  [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.351v ${INSTALL}/usr/config/distribution/configs/distribution.conf
   elif [ "${DEVICE}" == "RG552" ]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.552  ${INSTALL}/usr/config/distribution/configs/distribution.conf
@@ -105,6 +105,8 @@ makeinstall_target() {
     cp -r ${PKG_DIR}/overlay-p/* ${INSTALL}/usr/share/retroarch-overlays
   elif [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] || [ "${DEVICE}" == "RG353" ]; then
     cp -r ${PKG_DIR}/overlay-v/* ${INSTALL}/usr/share/retroarch-overlays
+  elif [ "${DEVICE}" == "RG503" ]; then
+    cp -r ${PKG_DIR}/overlay-503/* ${INSTALL}/usr/share/retroarch-overlays
   elif [ "${DEVICE}" == "RG552" ]; then
     cp -r ${PKG_DIR}/overlay-552/* ${INSTALL}/usr/share/retroarch-overlays
   fi
@@ -145,7 +147,7 @@ post_install() {
     cp -f  ${PKG_DIR}/clocks/RK3326/clocklimits ${INSTALL}/etc
   elif [[ "${DEVICE}" == "RG552" ]]; then
     cp -f  ${PKG_DIR}/clocks/RK3399/clocklimits ${INSTALL}/etc
-  elif [[ "${DEVICE}" == "RG353" ]]; then
+  elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
     cp -f ${PKG_DIR}/clocks/RK3566/clocklimits ${INSTALL}/etc
   fi
 

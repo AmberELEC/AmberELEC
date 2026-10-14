@@ -27,7 +27,7 @@ elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_URL="https://github.com/u-boot/u-boot.git"
   PKG_DEPENDS_TARGET+=" atf"
   ATF_PLATFORM="rk3399"
-elif [ "${DEVICE}" = "RG353" ]; then
+elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
   PKG_VERSION="97c658238f7ccd436fbdede451bfd7488514a5c8"
   PKG_SHA256="9ed0c4f341345015bef4a4264423dfe92df876f15f3e7fccf4520abd4795033f"
   PKG_URL="https://github.com/RetroGFX/rk356x-uboot/archive/${PKG_VERSION}.tar.gz"
@@ -68,7 +68,7 @@ make_target() {
       if [ -f "$(get_build_dir atf)/.install_pkg/usr/share/bootloader/bl31.elf" ]; then
         export BL31="$(get_build_dir atf)/.install_pkg/usr/share/bootloader/bl31.elf"
       fi
-    elif [ "${DEVICE}" = "RG353" ]; then
+    elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
       export BL31="$(get_build_dir rkbin)/bin/rk35/rk3568_bl31_v1.42.elf"
     fi
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make mrproper
@@ -77,7 +77,7 @@ make_target() {
       DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm _python_sysroot="${TOOLCHAIN}" _python_prefix=/ _python_exec_prefix=/ make HOSTCC="${HOST_CC}" HOSTLDFLAGS="-L${TOOLCHAIN}/lib" HOSTSTRIP="true" CONFIG_MKIMAGE_DTC_PATH="scripts/dtc/dtc"
     elif [[ "${DEVICE}" =~ RG552 ]]; then
       DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm _python_sysroot="${TOOLCHAIN}" _python_prefix=/ _python_exec_prefix=/ LD_LIBRARY_PATH="${TOOLCHAIN}/lib:${LD_LIBRARY_PATH}" make HOSTCC="${HOST_CC}" HOSTCFLAGS="-I${TOOLCHAIN}/include" HOSTLDFLAGS="-L${TOOLCHAIN}/lib -Wl,-rpath,${TOOLCHAIN}/lib -lssl -lcrypto" HOSTSTRIP="true" CONFIG_MKIMAGE_DTC_PATH="scripts/dtc/dtc"
-    elif [ "${DEVICE}" = "RG353" ]; then
+    elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
       DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make \
         HOSTCC="${HOST_CC}" HOSTCFLAGS="${HOST_CFLAGS}" \
         HOSTLDFLAGS="-L${TOOLCHAIN}/lib -Wl,-rpath,${TOOLCHAIN}/lib -lssl -lcrypto" \

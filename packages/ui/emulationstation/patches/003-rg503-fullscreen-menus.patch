@@ -1,0 +1,11 @@
+--- a/es-core/src/Settings.cpp
++++ b/es-core/src/Settings.cpp
+@@ -140,7 +140,7 @@
+ #endif
+ 	mBoolMap["TTS"] = false;
+ 
+-#if defined(RG552)
++#if defined(RG552) || defined(RG503)
+ 	mStringMap["FullScreenMenu"] = "true";
+ #endif
+ 

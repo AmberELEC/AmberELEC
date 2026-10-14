@@ -15,3 +15,7 @@ makeinstall_target() {
     mkdir -p ${INSTALL}/usr/config/emulationstation/themes/${PKG_NAME}
     cp -rf * ${INSTALL}/usr/config/emulationstation/themes/${PKG_NAME}
 }
+
+if [ "${DEVICE}" = "RG503" ]; then
+  PKG_PATCH_DIRS="RG503"
+fi

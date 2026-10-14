@@ -28,7 +28,7 @@ if [ -e /storage/.please_resize_me ] ; then
     2|4) ;;
     *) echo "Unsupported storage partition: ${PART}"; exit 1 ;;
   esac
-  if [ "$(cat /usr/config/.OS_ARCH)" = "RG353" ]; then
+  if { [ "$(cat /usr/config/.OS_ARCH)" = "RG353" ] || [ "$(cat /usr/config/.OS_ARCH)" = "RG503" ]; }; then
     if [ "${PART}" != /dev/mmcblk1p4 ] || [ "$(cat /sys/class/block/mmcblk1/device/type)" != SD ]; then
       echo "Refusing to resize anything except the RG353 system SD."
       exit 1
@@ -58,7 +58,7 @@ if [ -e /storage/.please_resize_me ] ; then
     StartProgress spinner "Resizing partition...   " "parted -s -a optimal -m ${DISK} resizepart ${PART_NUMBER} 7GiB &>/dev/null"
     StartProgress spinner "Checking file system... " "e2fsck -f -p ${PART} &>/dev/null"
     StartProgress spinner "Resizing file system... " "resize2fs ${PART} &>/dev/null"
-    GAMESSTART="$(echo $(parted -m ${DISK} unit MB print | awk -v part="${PART_NUMBER}" 'BEGIN {FS=":"} $1 == part {gsub ("[A-Z]",""); print $3}') + 17 | bc)"
+    GAMESSTART="$(echo $(parted -s -m ${DISK} unit MB print | awk -v part="${PART_NUMBER}" 'BEGIN {FS=":"} $1 == part {gsub ("[A-Z]",""); print $3}') + 17 | bc)"
     StartProgress spinner "Creating exFAT partition..." "parted -s -a optimal -m ${DISK} mkpart primary ntfs ${GAMESSTART}MB 100% &>/dev/null"
     partprobe &>/dev/null
     StartProgress spinner "Formatting exFAT partition..." "mkfs.exfat -n GAMES ${DISK}p${GAMES_PART_NUMBER} &>/dev/null"

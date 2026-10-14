@@ -1,0 +1,95 @@
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-503.dts b/arch/arm64/boot/dts/rockchip/rk3566-503.dts
+index 85bf5e9..bb43804 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-503.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-503.dts
+@@ -330,11 +330,11 @@ wireless-bluetooth {
+ 		status = "disabled";
+ 	};
+ 	
+-	joypad: singleadc-joypad {
++	joypad: odroidgo3-joypad {
+ 		compatible = "singleadc-joypad";
+ 
+-		joypad-name = "retrogame_joypad";
+-		joypad-product = <0x1101>;
++		joypad-name = "GO-Super Gamepad";
++		joypad-product = <0x1100>;
+ 		joypad-revision = <0x0100>;
+ 
+ 		status = "okay";
+@@ -438,17 +438,17 @@ sw8 {
+ 		sw9 {
+ 		        gpios = <&gpio3 RK_PB6 GPIO_ACTIVE_LOW>;
+ 		        label = "GPIO BTN_SELECT";
+-		        linux,code = <BTN_SELECT>;
++		        linux,code = <BTN_TRIGGER_HAPPY1>;
+ 		};
+ 		sw10 {
+ 		        gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_LOW>;
+ 		        label = "GPIO BTN_START";
+-		        linux,code = <BTN_START>;
++		        linux,code = <BTN_TRIGGER_HAPPY2>;
+ 		};
+ 		sw11 {
+ 		        gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
+ 		        label = "GPIO BTN_F";
+-		        linux,code = <BTN_MODE>;
++		        linux,code = <BTN_TRIGGER_HAPPY5>;
+ 		};
+ 		sw12 {
+ 		        gpios = <&gpio3 RK_PB1 GPIO_ACTIVE_LOW>;
+@@ -473,12 +473,12 @@ sw15 {
+ 		sw16 {
+ 		        gpios = <&gpio3 RK_PA1 GPIO_ACTIVE_LOW>;
+ 		        label = "GPIO BTN_THUMBL";
+-		        linux,code = <BTN_THUMBL>;
++		        linux,code = <BTN_TRIGGER_HAPPY3>;
+ 		};
+ 		sw17 {
+ 		        gpios = <&gpio3 RK_PA2 GPIO_ACTIVE_LOW>;
+ 		        label = "GPIO BTN_THUMBR";
+-		        linux,code = <BTN_THUMBR>;
++		        linux,code = <BTN_TRIGGER_HAPPY4>;
+ 		};
+ 	
+     	};
+@@ -544,6 +544,7 @@ &dsi0 {
+ 	status = "okay";
+ 	//rockchip,lane-rate = <1000>;
+ 	dsi0_panel: panel@0 {
++		max-brightness = <100>;
+ 		status = "okay";
+ 		compatible = "simple-panel-oled-dsi";
+ 		reg = <0>;
+diff --git a/drivers/gpu/drm/panel/panel-simple-oled.c b/drivers/gpu/drm/panel/panel-simple-oled.c
+index d6280fd..7740131 100644
+--- a/drivers/gpu/drm/panel/panel-simple-oled.c
++++ b/drivers/gpu/drm/panel/panel-simple-oled.c
+@@ -999,7 +999,7 @@ static int dcs_bl_update_status(struct backlight_device *bl)
+ {
+ 	struct panel_simple *p = bl_get_data(bl);
+ 	int ret = 0;
+-	int back = bl->props.brightness;
++	int back = bl->props.brightness * 255 / bl->props.max_brightness;
+ 
+ 	if (!p->prepared)
+ 		return 0;
+@@ -3720,11 +3720,16 @@ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
+ 
+ 	if (!panel->backlight) {
+ 		struct backlight_properties props;
++		u32 max_brightness = 255;
+ 
+ 		memset(&props, 0, sizeof(props));
+ 		props.type = BACKLIGHT_RAW;
+-		props.brightness = 255;
+-		props.max_brightness = 255;
++		of_property_read_u32(dev->of_node, "max-brightness",
++				     &max_brightness);
++		if (!max_brightness || max_brightness > 255)
++			return -EINVAL;
++		props.max_brightness = max_brightness;
++		props.brightness = props.max_brightness;
+ 
+ 		panel->backlight =
+ 			devm_backlight_device_register(dev, "backlight",

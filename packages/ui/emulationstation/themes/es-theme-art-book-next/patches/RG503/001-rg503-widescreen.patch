@@ -1,0 +1,25 @@
+diff --git a/theme.xml b/theme.xml
+index 9d339f8..e8f3bc4 100644
+--- a/theme.xml
++++ b/theme.xml
+@@ -22,9 +22,10 @@ license:       creative commons CC-BY-NC-SA
+       <include ifArch="amberelec-rg552" name="5-3" displayName="5:3" />
+       <include ifArch="amberelec-rg351p" name="3-2" displayName="3:2" />
+       <include ifArch="amberelec-rg351mp,amberelec-rg351v" name="4-3" displayName="4:3" />
+-      <include ifNotArch="amberelec-rg552,amberelec-rg351p,amberelec-rg351mp,amberelec-rg351v" name="4-3" displayName="4:3" />
+-      <include ifNotArch="amberelec-rg552,amberelec-rg351p,amberelec-rg351mp,amberelec-rg351v" name="3-2" displayName="3:2" />
+-      <include ifNotArch="amberelec-rg552,amberelec-rg351p,amberelec-rg351mp,amberelec-rg351v" name="5-3" displayName="5:3" />
++      <include ifArch="amberelec-rg503" name="16-9" displayName="16:9" />
++      <include ifNotArch="amberelec-rg552,amberelec-rg351p,amberelec-rg351mp,amberelec-rg351v,amberelec-rg503" name="4-3" displayName="4:3" />
++      <include ifNotArch="amberelec-rg552,amberelec-rg351p,amberelec-rg351mp,amberelec-rg351v,amberelec-rg503" name="3-2" displayName="3:2" />
++      <include ifNotArch="amberelec-rg552,amberelec-rg351p,amberelec-rg351mp,amberelec-rg351v,amberelec-rg503" name="5-3" displayName="5:3" />
+    </subset>
+ 
+    <!-- Color Scheme -->
+@@ -436,4 +437,4 @@ license:       creative commons CC-BY-NC-SA
+    <!-- Custom Fonts -->
+    <include ifSubset="fonts:custom">${themeCustomizationsPath}fonts.xml</include>
+ 
+-</theme>
+\ No newline at end of file
++</theme>

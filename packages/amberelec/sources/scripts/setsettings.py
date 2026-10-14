@@ -489,6 +489,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Devices (width x hight)
     #   RG351P/M = 480x320
     #   RG351V/MP, RG353 = 640x480
+    #   RG503 = 960x544
     #   RG552 = 1920x1152
     # Consoles (width x hight)
     #   GB/GBC/GG = 160x144
@@ -535,6 +536,25 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'gba': (0, 0, 480, 320),             # x2
             'gbah': (0, 0, 480, 320),            # x2
             'arduboy': (0, 0, 512, 256),         # x4
+        }
+    elif device_name == "RG503":
+        system_viewport = {
+            'standard': (1, 1, 959, 543),
+            'gb': (0, 0, 480, 432),
+            'gbh': (0, 0, 480, 432),
+            'gbc': (0, 0, 480, 432),
+            'gbch': (0, 0, 480, 432),
+            'supervision': (0, 0, 480, 480),
+            'gamegear': (0, 0, 480, 432),
+            'ggh': (0, 0, 480, 432),
+            'pokemini': (0, 0, 480, 320),
+            'ngp': (0, 0, 480, 456),
+            'ngpc': (0, 0, 480, 456),
+            'wonderswan': (0, 0, 672, 432),
+            'wonderswancolor': (0, 0, 672, 432),
+            'gba': (0, 0, 720, 480),
+            'gbah': (0, 0, 720, 480),
+            'arduboy': (0, 0, 768, 384),
         }
     elif device_name == "RG552":
         system_viewport = {
