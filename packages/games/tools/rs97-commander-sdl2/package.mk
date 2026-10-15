@@ -7,6 +7,11 @@ PKG_VERSION="7907698c7ea950e393499947d6f9fd240fc0976a"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/rs97-commander-sdl2"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
+if [ "${DEVICE}" = "RG503" ]; then
+  PKG_VERSION="5343682ea6dd977e1133dae47cb2d2faa52f6750"
+  PKG_SITE="https://github.com/navy1978/rs97-commander-sdl2"
+  PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
+fi
 PKG_DEPENDS_TARGET="toolchain alsa-lib freetype SDL2 SDL2_image SDL2_gfx SDL2_ttf"
 PKG_LONGDESC="Two-pane commander for RetroFW and RG-350 (fork of Dingux Commander)"
 
@@ -25,8 +30,10 @@ pre_configure_target() {
   sed -i "s|-o DinguxCommander|--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib -o DinguxCommander|g" Makefile
   sed -i "s|-o \$(TARGET)|--sysroot=${SYSROOT_PREFIX} -L${SYSROOT_PREFIX}/usr/lib -o \$(TARGET)|g" Makefile
 
-  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG353" ]; then
     PKG_MAKE_OPTS_TARGET="RG351V=1"
+  elif [ "${DEVICE}" = "RG503" ]; then
+    PKG_MAKE_OPTS_TARGET="RG503=1"
   elif [ "${DEVICE}" = "RG552" ]; then
     PKG_MAKE_OPTS_TARGET="RG552=1"
   else

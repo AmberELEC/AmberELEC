@@ -11,7 +11,7 @@ BOOT_DISK="${BOOT_PART%p3}"
 
 # This target boots from SD; never update the Android loader on eMMC.
 case "$(tr -d '\0' < /sys/firmware/devicetree/base/model)" in
-  "Anbernic RG353M"|"Anbernic RG353V/VS") ;;
+  "Anbernic RG353M"|"Anbernic RG353P"|"Anbernic RG353V"|"Anbernic RG353V/VS") ;;
   *) exit 1 ;;
 esac
 [ "${BOOT_PART}" != "${BOOT_DISK}" ]

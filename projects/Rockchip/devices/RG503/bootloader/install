@@ -5,7 +5,7 @@ PKG_RKBIN="$(get_build_dir rkbin)"
 LINUX_DTS_DIR="$(get_build_dir linux)/.install_pkg/usr/share/bootloader"
 
 tools/mkimage -n rk356x -T rksd \
-  -d "${PKG_RKBIN}/bin/rk35/rk3566_ddr_1056MHz_v1.16.bin:spl/u-boot-spl.bin" \
+  -d "${PKG_RKBIN}/bin/rk35/rk3566_ddr_1056MHz_v1.21.bin:spl/u-boot-spl.bin" \
   -C bzip2 idbloader.img
 
 cp "${LINUX_DTS_DIR}/rk3566-503.dtb" rk-kernel.dtb

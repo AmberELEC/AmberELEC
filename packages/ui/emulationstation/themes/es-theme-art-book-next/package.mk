@@ -17,5 +17,8 @@ makeinstall_target() {
 }
 
 if [ "${DEVICE}" = "RG503" ]; then
-  PKG_PATCH_DIRS="RG503"
+  PKG_VERSION="61e62c418e4e253ad8f466b1a4c1beb24c70c1d6"
+  PKG_GIT_CLONE_BRANCH="rg503"
+  PKG_SITE="https://github.com/navy1978/art-book-next-amberelec"
+  PKG_URL="${PKG_SITE}.git"
 fi

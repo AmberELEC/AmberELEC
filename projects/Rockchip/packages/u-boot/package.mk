@@ -28,9 +28,9 @@ elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_DEPENDS_TARGET+=" atf"
   ATF_PLATFORM="rk3399"
 elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
-  PKG_VERSION="97c658238f7ccd436fbdede451bfd7488514a5c8"
-  PKG_SHA256="9ed0c4f341345015bef4a4264423dfe92df876f15f3e7fccf4520abd4795033f"
-  PKG_URL="https://github.com/RetroGFX/rk356x-uboot/archive/${PKG_VERSION}.tar.gz"
+  PKG_VERSION="94f633618000e12e8d8ac82eaeccc853e841f7f8"
+  PKG_SHA256="0a4f25241ee4d9e7f430925cc46d4321c856d1a9c24c54eba5bc5357a4e97bd6"
+  PKG_URL="https://github.com/AmberELEC/uboot_anbernic_rk3566/archive/${PKG_VERSION}.tar.gz"
   PKG_DEPENDS_TARGET+=" linux"
   PKG_NEED_UNPACK+=" ${LINUX_DEPENDS} ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/options"
 fi
@@ -69,7 +69,7 @@ make_target() {
         export BL31="$(get_build_dir atf)/.install_pkg/usr/share/bootloader/bl31.elf"
       fi
     elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
-      export BL31="$(get_build_dir rkbin)/bin/rk35/rk3568_bl31_v1.42.elf"
+      export BL31="$(get_build_dir rkbin)/bin/rk35/rk3568_bl31_v1.44.elf"
     fi
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make mrproper
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make $(${ROOT}/${SCRIPTS}/uboot_helper ${PROJECT} ${DEVICE} ${UBOOT_SYSTEM} config)

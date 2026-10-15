@@ -3,19 +3,12 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="libmali"
-PKG_VERSION="9b1375cfb1e54f89f4f5ae574d809cca486970f5"
-PKG_SHA256="8075c69f7c1123c91fb0021931651a3948859421a47d03762e76310bce38d45c"
+PKG_VERSION="00aa2ae414ab593cf31a71d1eba14397e6b1366c"
+PKG_SHA256="5498e1da7f58edd7da150ea05b1513c0da5574b8690769d1972b763b07288d0a"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
 PKG_SITE="https://github.com/AmberELEC/libmali"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
-if [[ "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
-  PKG_VERSION="8d0709c8cbc3869b8bcf0d24d5f1cc878499bffa"
-  PKG_SHA256=""
-  PKG_SITE="https://github.com/JanTrueno/libmali"
-  PKG_URL="${PKG_SITE}.git"
-  PKG_GIT_CLONE_BRANCH="master"
-fi
 PKG_DEPENDS_TARGET="toolchain libdrm"
 PKG_LONGDESC="The Mali GPU library used in Rockchip Platform"
 
@@ -44,11 +37,7 @@ post_makeinstall_target() {
 	elif [ "${MALI_FAMILY}" == "t86x" ]; then
 		BLOB="libmali-midgard-t86x-r18p0-gbm.so"
 	elif [ "${MALI_FAMILY}" == "g52" ]; then
-		if [ "${ARCH}" == "arm" ]; then
-			BLOB="libmali-bifrost-g52-g2p0-gbm.so"
-		else
-			BLOB="libmali-bifrost-g52-g29p1.so"
-		fi
+		BLOB="libmali-bifrost-g52-g29p1.so"
 	fi
 
 	mkdir -p ${INSTALL}/usr/lib/

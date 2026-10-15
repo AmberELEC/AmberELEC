@@ -9,8 +9,7 @@ if [[ "${DEVICE}" =~ RG351 ]]; then
 elif [[ "${DEVICE}" == RG552 ]]; then
 	PKG_VERSION="fc44f9401c127affb2a879c1e90fa89ddab505f6"
 elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
-	PKG_VERSION="5257e54cc6c15fef28c3b73bd95ca1b55cc8c8cd"
-	PKG_SITE="https://github.com/RetroGFX/rkbin"
+	PKG_VERSION="d6a278d15e0c6a4bf17299427f715205f2c660ea"
 fi
 
 PKG_ARCH="arm aarch64"
