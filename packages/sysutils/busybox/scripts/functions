@@ -24,6 +24,62 @@ hidecursor() {
   fi
 }
 
+# Show an initialization message using the current console geometry.
+StartInitialization() {
+  local rows columns row column line dots_row dots_column clear_row
+
+  StopInitialization
+  set -- $(stty size </dev/console 2>/dev/null)
+  [ "$#" -eq 2 ] || return 1
+  rows="$1"
+  columns="$2"
+  [ "$rows" -ge 14 ] && [ "$columns" -ge 30 ] || return 1
+  row=$(((rows - 4) / 2 + 1))
+  dots_row=$((row + 3))
+  dots_column=$(((columns - 3) / 2 + 1))
+
+  {
+    printf '\0337'
+    # Remove the previous startup message while keeping the bottom metadata.
+    clear_row=1
+    while [ "$clear_row" -le "$((rows - 5))" ]; do
+      printf '\033[%d;1H\033[2K' "$clear_row"
+      clear_row=$((clear_row + 1))
+    done
+    # Set the console's yellow palette entry to amber (#ffb000).
+    printf '\033]P3ffb000\033[33m'
+    for line in "Initialization in progress" \
+                "This may take a few minutes." \
+                "Do not turn off the console."; do
+      column=$(((columns - ${#line}) / 2 + 1))
+      printf '\033[%d;%dH%s' "$row" "$column" "$line"
+      row=$((row + 1))
+    done
+    printf '\033[%d;%dH...\033[0m\0338' "$dots_row" "$dots_column"
+  } >/dev/console
+
+  (
+    while :; do
+      for line in "   " "..."; do
+        sleep 1
+        # Preserve the cursor used by other startup messages.
+        printf '\0337\033[%d;%dH\033[33m%s\033[0m\0338' \
+          "$dots_row" "$dots_column" "$line"
+      done
+    done
+  ) >/dev/console &
+  INITIALIZATION_PID=$!
+}
+
+StopInitialization() {
+  if [ -n "$INITIALIZATION_PID" ]; then
+    kill "$INITIALIZATION_PID" 2>/dev/null
+    wait "$INITIALIZATION_PID" 2>/dev/null
+    INITIALIZATION_PID=""
+  fi
+  return 0
+}
+
 # Start a progress meter
 # $1: spinner, percent, countdown
 # $2: message to display

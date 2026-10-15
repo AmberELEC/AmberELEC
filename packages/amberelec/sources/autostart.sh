@@ -11,8 +11,15 @@ DEVICE=$(tr -d '\0' < /sys/firmware/devicetree/base/model)
 # Set performance mode to start the boot
 performance
 
-# Show splash logo
-/usr/bin/show_splash.sh &
+# Show the initialization message while preparing a fresh configuration.
+if [ ! -e "/storage/.newcfg" ]; then
+  . /usr/lib/libreelec/functions
+  StartInitialization
+  trap StopInitialization EXIT
+else
+  /usr/bin/show_splash.sh &
+  SPLASH_PID=$!
+fi
 
 # write logs to tmpfs not the sdcard
 mkdir /tmp/logs
@@ -49,11 +56,6 @@ then
   systemctl reboot
 fi
 
-if [ ! -e "/storage/.newcfg" ]
-then
-  echo -en '\e[0;0H\e[37mPlease wait, initializing system...\e[0m' >/dev/console
-fi
-
 # It seems some slow SDcards have a problem creating the symlink on time :/
 CONFIG_DIR="/storage/.emulationstation"
 CONFIG_DIR2="/storage/.config/emulationstation"
@@ -69,34 +71,41 @@ if [ ! -e "$DEFAULT_THEME_STORAGE" ]; then
   ln -s $DEFAULT_THEME_USR $DEFAULT_THEME_STORAGE
 fi
 
-# Create the distribution directory if it doesn't exist, sync it if it does
-if [ ! -d "/storage/.config/distribution" ]
-then
-  rsync -a /usr/config/distribution/ /storage/.config/distribution/ &
-else
-  rsync -a --delete --exclude=custom_start.sh --exclude=configs --exclude=lzdoom.ini --exclude=gzdoom.ini --exclude=raze.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution/ &
+# Wait only for configuration copies, not the animation process.
+(
+  # Create the distribution directory if it doesn't exist, sync it if it does
+  if [ ! -d "/storage/.config/distribution" ]
+  then
+    rsync -a /usr/config/distribution/ /storage/.config/distribution/ &
+  else
+    rsync -a --delete --exclude=custom_start.sh --exclude=configs --exclude=lzdoom.ini --exclude=gzdoom.ini --exclude=raze.ini --exclude=ecwolf.cfg /usr/config/distribution/ /storage/.config/distribution/ &
+  fi
+
+  # Clean cache garbage when boot up.
+  rsync -a --delete /tmp/cache/ /storage/.cache/cores/ &
+
+  # Copy in build metadata
+  rsync /usr/config/.OS* /storage/.config &
+
+  # Copy remappings
+  rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
+
+  # Move ports to the GAMES volume
+  rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/homebrew &
+
+  # Sync ES locale if missing
+  if [ ! -d "/storage/.config/emulationstation/locale" ]
+  then
+    rsync -a /usr/config/locale/ /storage/.config/emulationstation/locale/ &
+  fi
+
+  # Wait for the rsync processes to finish.
+  wait
+)
+
+if [ -n "$SPLASH_PID" ]; then
+  wait "$SPLASH_PID"
 fi
-
-# Clean cache garbage when boot up.
-rsync -a --delete /tmp/cache/ /storage/.cache/cores/ &
-
-# Copy in build metadata
-rsync /usr/config/.OS* /storage/.config &
-
-# Copy remappings
-rsync --ignore-existing -raz /usr/config/remappings/* /storage/remappings/ &
-
-# Move ports to the GAMES volume
-rsync -a --exclude gamelist.xml /usr/config/ports/* /storage/roms/homebrew &
-
-# Sync ES locale if missing
-if [ ! -d "/storage/.config/emulationstation/locale" ]
-then
-  rsync -a /usr/config/locale/ /storage/.config/emulationstation/locale/ &
-fi
-
-# Wait for the rsync processes to finish.
-wait
 
 if [ ! -e "/storage/roms/homebrew/gamelist.xml" ]
 then
@@ -292,6 +301,11 @@ fi
 
 # What to start at boot?
 DEFE=$(get_ee_setting ee_boot)
+
+if [ -n "$INITIALIZATION_PID" ]; then
+  StopInitialization
+  /usr/bin/show_splash.sh
+fi
 
 case "$DEFE" in
 "Retroarch")
