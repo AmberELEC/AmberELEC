@@ -20,7 +20,8 @@
 +   #define KEYBOARD_MARGIN          9
 +   #define KEYBOARD_KEY_SPACING     4
 +   #define KEYBOARD_SYMBOL_SIZE     24
- 
+-
++
  // Parameters for RGB10
  #elif defined(DEVICE_RGB10)
 @@ -188,7 +204,7 @@
