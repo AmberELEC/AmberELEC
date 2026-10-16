@@ -10,6 +10,10 @@ done
 
 if [ ! -e "/storage/.configured" ]
 then
+  . /usr/lib/libreelec/functions
+  StartInitialization
+  trap StopInitialization EXIT
+
   # Copy config files, but don't overwrite.  Only run if /storage is fresh
   ## cp -iRp /usr/config/* /storage/.config/ &>/dev/null
   ## ignore es_systems.cfg and switch to rsync
