@@ -6,7 +6,6 @@
 
 . /etc/profile
 
-EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 CONFIG_DIR="/storage/.config/distribution/ecwolf"
 CONFIG_FILE="${CONFIG_DIR}/ecwolf.cfg"
 SAVE_DIR="/storage/roms/gamedata/ecwolf"
@@ -55,12 +54,7 @@ else
   params+=" --data ${DATA}"
 fi
 
-if [[ "$EE_DEVICE" == RG351P ]]; then
-  params+=" --res 480 320"
-fi
-if [[ "$EE_DEVICE" == RG351V ]] || [[ "$EE_DEVICE" == RG351MP ]] || [[ "$EE_DEVICE" =~ ^(RG353|RG503)$ ]]; then
-  params+=" --res 640 480"
-fi
+params+=" --res 640 480 --fullscreen --aspect 4:3"
 
 cd "${CONFIG_DIR}"
 /usr/bin/ecwolf ${params} > /tmp/logs/ecwolf.log 2>&1
