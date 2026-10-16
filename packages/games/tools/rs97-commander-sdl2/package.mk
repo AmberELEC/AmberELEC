@@ -8,8 +8,8 @@ PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/rs97-commander-sdl2"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 if [ "${DEVICE}" = "RG503" ]; then
-  PKG_VERSION="5343682ea6dd977e1133dae47cb2d2faa52f6750"
-  PKG_SITE="https://github.com/navy1978/rs97-commander-sdl2"
+  PKG_VERSION="68bf059566c465c120b654fbcc6bbbac1f6f2adf"
+  PKG_SITE="https://github.com/dhwz/rs97-commander-sdl2"
   PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 fi
 PKG_DEPENDS_TARGET="toolchain alsa-lib freetype SDL2 SDL2_image SDL2_gfx SDL2_ttf"
