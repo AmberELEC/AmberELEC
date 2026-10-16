@@ -1,0 +1,101 @@
+--- a/src/sdlvideo.cpp
++++ b/src/sdlvideo.cpp
+@@ -281,6 +281,7 @@
+	friend class SDLVideo;
+
+	virtual void SetVSync (bool vsync);
++	virtual void UpdateAspectRatio ();
+	virtual void ScaleCoordsFromWindow(SWORD &x, SWORD &y);
+
+ private:
+@@ -456,20 +457,17 @@
+ void ScaleWithAspect (int &w, int &h, int Width, int Height)
+ {
+	int resRatio = CheckRatio (Width, Height);
+-	int screenRatio;
+-	CheckRatio (w, h, &screenRatio);
+-	if (resRatio == screenRatio)
+-		return;
+
+	double yratio;
+	switch(resRatio)
+	{
+-		case 0: yratio = 4./3.; break;
+-		case 1: yratio = 16./9.; break;
+-		case 2: yratio = 16./10.; break;
+-		case 3: yratio = 17./10.; break;
+-		case 4: yratio = 5./4.; break;
+-		case 5: yratio = 64./27.; break;
++		case ASPECT_NONE:
++		case ASPECT_4_3: yratio = 4./3.; break;
++		case ASPECT_16_9: yratio = 16./9.; break;
++		case ASPECT_16_10: yratio = 16./10.; break;
++		case ASPECT_17_10: yratio = 17./10.; break;
++		case ASPECT_5_4: yratio = 5./4.; break;
++		case ASPECT_64_27: yratio = 64./27.; break;
+		default: return;
+	}
+	double y = w/yratio;
+@@ -1114,15 +1112,24 @@
+			NotPaletted = false;
+	}
+
+-	// In fullscreen, set logical size according to animorphic ratio.
+-	// Windowed modes are rendered to fill the window (usually 1:1)
++	UpdateAspectRatio ();
++#endif
++}
++
++void SDLFB::UpdateAspectRatio ()
++{
++#if SDL_VERSION_ATLEAST(2,0,0)
++	if (!UsingRenderer || !Renderer)
++		return;
++
++	// Fullscreen preserves the selected aspect; windowed fills the window.
++	int w = 0, h = 0;
+	if (IsFullscreen ())
+	{
+-		int w, h;
+		SDL_GetWindowSize (Screen, &w, &h);
+		ScaleWithAspect (w, h, Width, Height);
+-		SDL_RenderSetLogicalSize (Renderer, w, h);
+-	}
++	}
++	SDL_RenderSetLogicalSize (Renderer, w, h);
+ #endif
+ }
+
+--- a/src/wl_main.cpp
++++ b/src/wl_main.cpp
+@@ -938,7 +938,7 @@
+			else param_tedlevel = argv[i];
+		}
+		else IFARG("--fullscreen")
+-			fullscreen = true;
++			vid_fullscreen = fullscreen = true;
+		else IFARG("--res")
+		{
+			if(i + 2 >= argc)
+--- a/src/v_video.h
++++ b/src/v_video.h
+@@ -386,6 +386,9 @@
+	// Changes the vsync setting, if supported by the device.
+	virtual void SetVSync (bool vsync);
+
++	// Refit the display after changing the forced aspect ratio.
++	virtual void UpdateAspectRatio () { }
++
+	// Tells the device to recreate itself with the new setting from vid_refreshrate.
+	virtual void NewRefreshRate ();
+
+--- a/src/wl_menu.cpp
++++ b/src/wl_menu.cpp
+@@ -268,6 +268,7 @@
+	vid_aspect = static_cast<Aspect>(which);
+	r_ratio = static_cast<Aspect>(CheckRatio(screenWidth, screenHeight));
+	NewViewSize(viewsize);
++	screen->UpdateAspectRatio ();
+	displayMenu.draw();
+	return true;
+ }
