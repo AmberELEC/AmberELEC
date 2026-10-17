@@ -28,7 +28,7 @@ if [ -e /storage/.please_resize_me ] ; then
     2|4) ;;
     *) echo "Unsupported storage partition: ${PART}"; exit 1 ;;
   esac
-  if [ "$(cat /usr/config/.OS_ARCH)" = "RG353" ]; then
+  if { [ "$(cat /usr/config/.OS_ARCH)" = "RG353" ] || [ "$(cat /usr/config/.OS_ARCH)" = "RG503" ]; }; then
     if [ "${PART}" != /dev/mmcblk1p4 ] || [ "$(cat /sys/class/block/mmcblk1/device/type)" != SD ]; then
       echo "Refusing to resize anything except the RG353 system SD."
       exit 1

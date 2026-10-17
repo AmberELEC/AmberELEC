@@ -13,6 +13,10 @@ PKG_TOOLCHAIN="manual"
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib32
   cd ${PKG_BUILD}
-  tar xvfz lib32_${DEVICE}.tar.gz
+  local bundle="${DEVICE}"
+  if [ "${DEVICE}" = "RG503" ]; then
+    bundle="RG353"
+  fi
+  tar xvfz lib32_${bundle}.tar.gz
   cp -rfv usr/lib32/* ${INSTALL}/usr/lib32
 }

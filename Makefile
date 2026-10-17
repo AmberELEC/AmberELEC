@@ -59,6 +59,9 @@ toolchain-RK3566:
 RG353:
 	DEVICE=RG353 ARCH=aarch64 ./scripts/build_distro
 
+RG503:
+	DEVICE=RG503 ARCH=aarch64 ./scripts/build_distro
+
 lib32:
 	DEVICE=RK3326 ARCH=arm ./scripts/build toolchain
 	DEVICE=RG351P ARCH=arm scripts/clean build-lib32

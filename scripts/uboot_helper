@@ -49,6 +49,9 @@ devices = {
     'RG353' : {
       'rg353' : { 'dtb' : 'rk3566-353m.dtb', 'config' : 'rk3568_defconfig' },
     },
+    'RG503' : {
+      'rg503' : { 'dtb' : 'rk3566-503.dtb', 'config' : 'rk3568_defconfig' },
+    },
     'RK3328' : {
       'box' : { 'dtb' : 'rk3328-box.dtb', 'config' : 'evb-rk3328_defconfig' },
       'box-trn9' : { 'dtb' : 'rk3328-box-trn9.dtb', 'config' : 'evb-rk3328_defconfig' },

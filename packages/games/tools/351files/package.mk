@@ -13,6 +13,8 @@ if [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="RG552"
 elif [ "${DEVICE}" = "RG353" ]; then
   PKG_PATCH_DIRS="RG353"
+elif [ "${DEVICE}" = "RG503" ]; then
+  PKG_PATCH_DIRS="RG503"
 fi
 
 make_target() {
