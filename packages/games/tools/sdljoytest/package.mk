@@ -12,12 +12,16 @@ PKG_LONGDESC="Test joystick with SDL2 in Linux"
 PKG_TOOLCHAIN="make"
 
 make_target() {
-  make CROSS_COMPILE="" \
-       CC="${CC}" \
-       CXX="${CXX}" \
-       CFLAGS="${CFLAGS} -I${SYSROOT_PREFIX}/usr/include/SDL2" \
-       CXXFLAGS="${CXXFLAGS} -std=gnu++17 -I${SYSROOT_PREFIX}/usr/include/SDL2" \
-       LDFLAGS="${LDFLAGS} -lSDL2"
+  local program
+
+  for program in test_gamepad_SDL2 map_gamepad_SDL2 gamepad_info; do
+    ${CXX} ${CXXFLAGS} \
+      -std=gnu++17 \
+      -I"${SYSROOT_PREFIX}/usr/include/SDL2" \
+      "${program}.cpp" \
+      -o "${program}" \
+      ${LDFLAGS} -lSDL2 || return 1
+  done
 }
 
 makeinstall_target() {
