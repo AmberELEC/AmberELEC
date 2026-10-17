@@ -4,17 +4,11 @@
 # Copyright (C) 2021-present AmberELEC (https://github.com/AmberELEC)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="6ffdc031f6ec532e17b0e277d5404673bf9e2622"
+PKG_VERSION="af17432b331accda0fcf9b746230bdc48691c1f2"
 PKG_GIT_CLONE_BRANCH="main"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/AmberELEC/emulationstation"
 PKG_URL="${PKG_SITE}.git"
-if [ "${DEVICE}" = "RG503" ]; then
-  PKG_VERSION="af17432b331accda0fcf9b746230bdc48691c1f2"
-  PKG_GIT_CLONE_BRANCH="main"
-  PKG_SITE="https://github.com/AmberELEC/emulationstation"
-  PKG_URL="${PKG_SITE}.git"
-fi
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc zstd"
 PKG_NEED_UNPACK="busybox"
 PKG_LONGDESC="Emulationstation emulator frontend"
