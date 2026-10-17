@@ -521,23 +521,28 @@ load_splash() {
 
       # Select splash image based on current native resolution
       if [ -z "$SPLASHIMAGE" ]; then
-        vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
-        hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
-        if [ "${hres}" = "640" ]
-        then
-          RES="${hres}"
+        model="$(tr -d '\0' < /sys/firmware/devicetree/base/model)"
+        if [ "$model" = "Anbernic RG ARC-D" ] && [ -f /splash/arc-d-splash.png ]; then
+          SPLASHIMAGE="/splash/arc-d-splash.png"
         else
-          RES="${vres}"
-        fi
-
-        for s in /splash/splash-${RES}.png \
-                 /splash/splash-1080.png \
-                 ; do
-          if [ -f "${s}" ]; then
-            SPLASHIMAGE="${s}"
-            break
+          vres="$(fbset 2>/dev/null | awk '/geometry/ { print $3 }')"
+          hres="$(fbset 2>/dev/null | awk '/geometry/ { print $2 }')"
+          if [ "${hres}" = "640" ]
+          then
+            RES="${hres}"
+          else
+            RES="${vres}"
           fi
-        done
+
+          for s in /splash/splash-${RES}.png \
+                   /splash/splash-1080.png \
+                   ; do
+            if [ -f "${s}" ]; then
+              SPLASHIMAGE="${s}"
+              break
+            fi
+          done
+        fi
       fi
 
       R_DEVICE="$(cat /storage/.config/device)" >/dev/null 2>&1

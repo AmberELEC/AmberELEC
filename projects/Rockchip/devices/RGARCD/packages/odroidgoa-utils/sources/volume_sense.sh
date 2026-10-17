@@ -26,7 +26,7 @@ VOL_EVENT='*(KEY_VOLUME*, value *' # This matches all volume events
 VOL_UP='*UP), value *'  # Differentiate 'up' volume event
 VOL_DOWN='*DOWN), value *' #Differentiate 'down' volume event
 
-V_FUNC_KEY_EVENT='*(BTN_TRIGGER_HAPPY5), value *' # Matches all ARC-D Fn key events
+V_FUNC_KEY_EVENT='*(BTN_MODE), value *' # Matches the ARC-D F button
 
 # Matches if a button was pressed (1), released (0) or held down (2)
 PRESS='*value 1'

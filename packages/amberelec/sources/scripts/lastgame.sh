@@ -18,6 +18,11 @@ elif [ "${ARCH}" == "RG552" ]; then
     power_ev=/dev/input/by-path/platform-rockchip-key-event
 elif [[ "${ARCH}" =~ ^(RG353|RG503)$ ]]; then
     power_ev=/dev/input/by-path/platform-fdd40000.i2c-platform-rk805-pwrkey-event
+elif [[ "${ARCH}" == "RGARCD" ]]; then
+    hotkey_ev=/dev/input/by-path/platform-arc-gamepad-event-joystick
+    power_ev=/dev/input/by-path/platform-fdd40000.i2c-platform-rk805-pwrkey-event
+    hotkey=BTN_MODE
+    hotkey_code=0x13c
 fi
 
 # check if we have custom variables
