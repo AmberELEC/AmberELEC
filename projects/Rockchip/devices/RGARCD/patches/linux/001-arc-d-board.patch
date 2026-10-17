@@ -1,18 +1,23 @@
-diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
---- a/arch/arm64/boot/dts/rockchip/Makefile
-+++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -303,3 +303,5 @@
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-tablet-rk806-single-v10.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-tablet-v10.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-tablet-v11.dtb
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-arc-d-sd-probe.dts b/arch/arm64/boot/dts/rockchip/rk3566-arc-d-sd-probe.dts
+new file mode 100644
+index 000000000..cfbf1bfd7
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3566-arc-d-sd-probe.dts
+@@ -0,0 +1,8 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-arc-d.dtb rk3566-arc-d-sd-probe.dtb
++#include "rk3566-arc-d.dts"
++
++/* The first boot trial must not access a card in the games slot. */
++&sdmmc1 {
++	status = "disabled";
++};
 diff --git a/arch/arm64/boot/dts/rockchip/rk3566-arc-d.dts b/arch/arm64/boot/dts/rockchip/rk3566-arc-d.dts
 new file mode 100644
-index 000000000..de1770da7
+index 000000000..48fa9a349
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3566-arc-d.dts
-@@ -0,0 +1,313 @@
+@@ -0,0 +1,321 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/* Reuse the existing RK3566 BSP power, storage and peripheral definitions. */
@@ -23,134 +28,142 @@ index 000000000..de1770da7
 +	compatible = "anbernic,rg-arc-d", "rockchip,rk3566";
 +
 +	arc_gamepad: arc-gamepad {
-+		compatible = "gpio-keys";
-+		label = "Anbernic RG ARC-D Gamepad";
++		/* Match the native RG ARC joypad expected by the UOS mappings. */
++		compatible = "singleadc-joypad";
++		joypad-name = "rg_arc_joypad";
++		joypad-product = <0x0a2c>;
++		joypad-revision = <0x0100>;
++		hw_info = <0x05>;
++		hw_pcb_info = <0x05>;
++		status = "okay";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&arc_btn_pins>;
++		io-channel-names = "amux_adc";
++		io-channels = <&saradc 3>;
++		amux-count = <4>;
++		amux-a-gpios = <&gpio0 RK_PB6 GPIO_ACTIVE_LOW>;
++		amux-b-gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_LOW>;
++		amux-en-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_LOW>;
++		button-adc-scale = <2>;
++		button-adc-deadzone = <255>;
++		button-adc-fuzz = <32767>;
++		button-adc-flat = <32767>;
++		abs_x-p-tuning = <0>;
++		abs_x-n-tuning = <0>;
++		abs_y-p-tuning = <0>;
++		abs_y-n-tuning = <0>;
++		abs_rx-p-tuning = <0>;
++		abs_rx-n-tuning = <0>;
++		abs_ry-p-tuning = <0>;
++		abs_ry-n-tuning = <0>;
++		poll-interval = <10>;
 +
 +		button-up {
-+			label = "UP";
++			label = "GPIO DPAD-UP";
 +			gpios = <&gpio3 RK_PA3 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_DPAD_UP>;
-+			debounce-interval = <10>;
++			linux,code = <0x220>;
 +		};
 +
 +		button-down {
-+			label = "DOWN";
++			label = "GPIO DPAD-DOWN";
 +			gpios = <&gpio3 RK_PA4 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_DPAD_DOWN>;
-+			debounce-interval = <10>;
++			linux,code = <0x221>;
 +		};
 +
 +		button-left {
-+			label = "LEFT";
++			label = "GPIO DPAD-LEFT";
 +			gpios = <&gpio3 RK_PA6 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_DPAD_LEFT>;
-+			debounce-interval = <10>;
++			linux,code = <0x222>;
 +		};
 +
 +		button-right {
-+			label = "RIGHT";
++			label = "GPIO DPAD-RIGHT";
 +			gpios = <&gpio3 RK_PA5 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_DPAD_RIGHT>;
-+			debounce-interval = <10>;
++			linux,code = <0x223>;
 +		};
 +
 +		button-a {
-+			label = "A";
++			label = "GPIO BTN-A";
 +			gpios = <&gpio3 RK_PC3 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_SOUTH>;
-+			debounce-interval = <10>;
++			linux,code = <0x134>;
 +		};
 +
 +		button-b {
-+			label = "B";
++			label = "GPIO BTN-B";
 +			gpios = <&gpio3 RK_PC2 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_EAST>;
-+			debounce-interval = <10>;
++			linux,code = <0x131>;
 +		};
 +
 +		button-c {
-+			label = "C";
++			label = "GPIO BTN-C";
 +			gpios = <&gpio3 RK_PA2 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_C>;
-+			debounce-interval = <10>;
++			linux,code = <0x13e>;
 +		};
 +
 +		button-x {
-+			label = "X";
++			label = "GPIO BTN-X";
 +			gpios = <&gpio3 RK_PC0 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_NORTH>;
-+			debounce-interval = <10>;
++			linux,code = <0x133>;
 +		};
 +
 +		button-y {
-+			label = "Y";
++			label = "GPIO BTN-Y";
 +			gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_WEST>;
-+			debounce-interval = <10>;
++			linux,code = <0x130>;
 +		};
 +
 +		button-z {
-+			label = "Z";
++			label = "GPIO BTN-Z";
 +			gpios = <&gpio3 RK_PA1 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_Z>;
-+			debounce-interval = <10>;
++			linux,code = <0x13d>;
 +		};
 +
 +		button-select {
-+			label = "SELECT";
++			label = "GPIO BTN_SELECT";
 +			gpios = <&gpio3 RK_PB6 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_SELECT>;
-+			debounce-interval = <10>;
++			linux,code = <0x13a>;
 +		};
 +
 +		button-start {
-+			label = "START";
++			label = "GPIO BTN_START";
 +			gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_START>;
-+			debounce-interval = <10>;
++			linux,code = <0x13b>;
 +		};
 +
 +		button-f {
-+			label = "F";
++			label = "GPIO BTN_F";
 +			gpios = <&gpio3 RK_PC4 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_TRIGGER_HAPPY5>;
-+			debounce-interval = <10>;
++			linux,code = <0x13c>;
 +		};
 +
 +		button-l1 {
-+			label = "L1";
++			label = "GPIO BTN_TL";
 +			gpios = <&gpio3 RK_PB1 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_TL>;
-+			debounce-interval = <10>;
++			linux,code = <0x136>;
 +		};
 +
 +		button-r1 {
-+			label = "R1";
++			label = "GPIO BTN_TR";
 +			gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_TR>;
-+			debounce-interval = <10>;
++			linux,code = <0x137>;
 +		};
 +
 +		button-l2 {
-+			label = "L2";
++			label = "GPIO BTN_TL2";
 +			gpios = <&gpio3 RK_PB2 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_TL2>;
-+			debounce-interval = <10>;
++			linux,code = <0x138>;
 +		};
 +
 +		button-r2 {
-+			label = "R2";
++			label = "GPIO BTN_TR2";
 +			gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_LOW>;
-+			linux,code = <BTN_TR2>;
-+			debounce-interval = <10>;
++			linux,code = <0x139>;
 +		};
 +	};
 +};
 +
 +/* ARC has digital controls and no sticks or rumble motor. */
-+&joypad {
++	&joypad {
 +	status = "disabled";
 +};
 +
@@ -325,18 +338,4 @@ index 000000000..de1770da7
 +
 +&gpu_opp_table {
 +	/delete-node/ opp-100000000;
-+};
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-arc-d-sd-probe.dts b/arch/arm64/boot/dts/rockchip/rk3566-arc-d-sd-probe.dts
-new file mode 100644
-index 000000000..cfbf1bfd7
---- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-arc-d-sd-probe.dts
-@@ -0,0 +1,8 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+#include "rk3566-arc-d.dts"
-+
-+/* The first boot trial must not access a card in the games slot. */
-+&sdmmc1 {
-+	status = "disabled";
 +};

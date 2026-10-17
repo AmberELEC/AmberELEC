@@ -131,7 +131,9 @@ post_install() {
   done
 
   mkdir -p ${INSTALL}/etc/retroarch-joypad-autoconfig
-  if [[ "${DEVICE}" == "RG351P" ]] || [[ "${DEVICE}" == "RG351V" ]]; then
+  if [[ "${DEVICE}" == "RGARCD" ]]; then
+    cp -r ${PKG_DIR}/gamepads/rg_arc_joypad* ${INSTALL}/etc/retroarch-joypad-autoconfig
+  elif [[ "${DEVICE}" == "RG351P" ]] || [[ "${DEVICE}" == "RG351V" ]]; then
     cp -r ${PKG_DIR}/gamepads/OpenSimHardware* ${INSTALL}/etc/retroarch-joypad-autoconfig
   else
     cp -r ${PKG_DIR}/gamepads/GO-Super* ${INSTALL}/etc/retroarch-joypad-autoconfig
