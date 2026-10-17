@@ -10,9 +10,9 @@ PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/AmberELEC/emulationstation"
 PKG_URL="${PKG_SITE}.git"
 if [ "${DEVICE}" = "RG503" ]; then
-  PKG_VERSION="471321a3f03da58b818f06ceb55119129ed8b268"
-  PKG_GIT_CLONE_BRANCH="rg503"
-  PKG_SITE="https://github.com/navy1978/emulationstation"
+  PKG_VERSION="af17432b331accda0fcf9b746230bdc48691c1f2"
+  PKG_GIT_CLONE_BRANCH="main"
+  PKG_SITE="https://github.com/AmberELEC/emulationstation"
   PKG_URL="${PKG_SITE}.git"
 fi
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer fping p7zip vlc zstd"
