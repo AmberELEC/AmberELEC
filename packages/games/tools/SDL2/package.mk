@@ -12,7 +12,7 @@ PKG_LONGDESC="Simple DirectMedia Layer is a cross-platform development library d
 
 PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} libdrm ${OPENGLES} librga"
 
-if [ "${DEVICE}" = "RG351P" ] || [ "${DEVICE}" = "RG552" ]; then
+if [ "${DEVICE}" = "RG351P" ] || [ "${DEVICE}" = "RG552" ] || [ "${DEVICE}" = "RGARCD" ]; then
   PKG_PATCH_DIRS="rotation"
 fi
 

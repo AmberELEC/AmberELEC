@@ -49,6 +49,9 @@ devices = {
     'RG353' : {
       'rg353' : { 'dtb' : 'rk3566-353m.dtb', 'config' : 'rk3568_defconfig' },
     },
+    'RGARCD' : {
+      'arcd' : { 'dtb' : 'rk3566-arc-d-sd-probe.dtb', 'config' : 'arc_d_sd_defconfig' },
+    },
     'RG503' : {
       'rg503' : { 'dtb' : 'rk3566-503.dtb', 'config' : 'rk3568_defconfig' },
     },

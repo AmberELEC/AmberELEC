@@ -27,7 +27,7 @@ elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_URL="https://github.com/u-boot/u-boot.git"
   PKG_DEPENDS_TARGET+=" atf"
   ATF_PLATFORM="rk3399"
-elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+elif [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
   PKG_VERSION="94f633618000e12e8d8ac82eaeccc853e841f7f8"
   PKG_SHA256="0a4f25241ee4d9e7f430925cc46d4321c856d1a9c24c54eba5bc5357a4e97bd6"
   PKG_URL="https://github.com/AmberELEC/uboot_anbernic_rk3566/archive/${PKG_VERSION}.tar.gz"
@@ -68,7 +68,7 @@ make_target() {
       if [ -f "$(get_build_dir atf)/.install_pkg/usr/share/bootloader/bl31.elf" ]; then
         export BL31="$(get_build_dir atf)/.install_pkg/usr/share/bootloader/bl31.elf"
       fi
-    elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+    elif [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
       export BL31="$(get_build_dir rkbin)/bin/rk35/rk3568_bl31_v1.44.elf"
     fi
     DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make mrproper
@@ -77,7 +77,7 @@ make_target() {
       DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm _python_sysroot="${TOOLCHAIN}" _python_prefix=/ _python_exec_prefix=/ make HOSTCC="${HOST_CC}" HOSTLDFLAGS="-L${TOOLCHAIN}/lib" HOSTSTRIP="true" CONFIG_MKIMAGE_DTC_PATH="scripts/dtc/dtc"
     elif [[ "${DEVICE}" =~ RG552 ]]; then
       DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm _python_sysroot="${TOOLCHAIN}" _python_prefix=/ _python_exec_prefix=/ LD_LIBRARY_PATH="${TOOLCHAIN}/lib:${LD_LIBRARY_PATH}" make HOSTCC="${HOST_CC}" HOSTCFLAGS="-I${TOOLCHAIN}/include" HOSTLDFLAGS="-L${TOOLCHAIN}/lib -Wl,-rpath,${TOOLCHAIN}/lib -lssl -lcrypto" HOSTSTRIP="true" CONFIG_MKIMAGE_DTC_PATH="scripts/dtc/dtc"
-    elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+    elif [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
       DEBUG=${PKG_DEBUG} CROSS_COMPILE="${TARGET_KERNEL_PREFIX}" LDFLAGS="" ARCH=arm make \
         HOSTCC="${HOST_CC}" HOSTCFLAGS="${HOST_CFLAGS}" \
         HOSTLDFLAGS="-L${TOOLCHAIN}/lib -Wl,-rpath,${TOOLCHAIN}/lib -lssl -lcrypto" \

@@ -10,7 +10,7 @@ PKG_DEPENDS_TARGET="toolchain libdrm libpng linux libevdev librga openal-soft cu
 PKG_TOOLCHAIN="make"
 
 pre_configure_target() {
-  if [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     local INC_FLAGS="-I$(get_build_dir libdrm)/include/drm"
   else
     local INC_FLAGS="-I$(get_build_dir libdrm)/include/drm -I$(get_build_dir linux)/include/uapi -I$(get_build_dir linux)/tools/include"

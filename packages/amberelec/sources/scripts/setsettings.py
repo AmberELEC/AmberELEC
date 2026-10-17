@@ -518,7 +518,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'wonderswan': (0, 0, 448, 288),       # x2
             'wonderswancolor': (0, 0, 448, 288),  # x2
         }
-    elif device_name in ("RG351V", "RG351MP", "RG353"):
+    elif device_name in ("RG351V", "RG351MP", "RG353", "RGARCD"):
         system_viewport = {
             'standard': (1, 1, 639, 479),          # max-1
             'gb': (0, 0, 480, 432),               # x3

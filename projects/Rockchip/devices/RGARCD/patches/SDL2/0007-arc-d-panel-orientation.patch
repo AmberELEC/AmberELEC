@@ -1,0 +1,12 @@
+diff --git a/src/video/kmsdrm/SDL_kmsdrmvideo.c b/src/video/kmsdrm/SDL_kmsdrmvideo.c
+--- a/src/video/kmsdrm/SDL_kmsdrmvideo.c
++++ b/src/video/kmsdrm/SDL_kmsdrmvideo.c
+@@ -155,7 +155,7 @@
+     // setup rotation
+     src_info.fd = -1;
+     src_info.mmuFlag = 1;
+-    src_info.rotation = HAL_TRANSFORM_ROT_270;
++    src_info.rotation = HAL_TRANSFORM_ROT_90;
+ 
+     // swap width and height and adjust stride here because our source buffer is 480x854
+     rga_set_rect(&src_info.rect, 0, 0, frameHeight, frameWidth, l_frameHeight, frameWidth, RK_FORMAT_BGRA_8888);

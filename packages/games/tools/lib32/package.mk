@@ -14,7 +14,7 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib32
   cd ${PKG_BUILD}
   local bundle="${DEVICE}"
-  if [ "${DEVICE}" = "RG503" ]; then
+  if [ "${DEVICE}" = "RG503" ] || [ "${DEVICE}" = "RGARCD" ]; then
     bundle="RG353"
   fi
   tar xvfz lib32_${bundle}.tar.gz

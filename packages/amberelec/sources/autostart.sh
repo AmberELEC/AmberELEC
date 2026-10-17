@@ -216,7 +216,7 @@ then
     echo 0 > /sys/class/gpio/gpio113/value
   elif [ "$DEVICE" == "Anbernic RG351P" ]; then
     echo 0 > /sys/class/gpio/gpio110/value
-  elif [[ ! "$EE_DEVICE" =~ ^(RG353|RG503)$ ]]; then
+  elif [[ ! "$EE_DEVICE" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     echo 0 > /sys/class/gpio/gpio5/value
   fi
 fi
@@ -241,7 +241,7 @@ if [ "$DEVICE" == "Anbernic RG351MP" ]; then
   fi
 fi
 
-if [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "Magicx XU10" ] || [ "$DEVICE" == "Anbernic RG35" ] || [[ "$EE_DEVICE" =~ ^(RG353|RG503)$ ]]; then
+if [ "$DEVICE" == "Anbernic RG351MP" ] || [ "$DEVICE" == "Magicx XU10" ] || [ "$DEVICE" == "Anbernic RG35" ] || [[ "$EE_DEVICE" =~ ^(RG353|RG503|RGARCD)$ ]]; then
 	amixer -c 0 cset iface=MIXER,name='Playback Path' SPK_HP
 fi
 
@@ -249,7 +249,7 @@ fi
 # - This is the shortest, totally silent .wav I could create with audacity - duration is .001 seconds
 aplay /usr/bin/emustation-config-init.wav
 
-if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]] || [[ "$EE_DEVICE" =~ ^(RG353|RG503)$ ]]; then
+if [ "$EE_DEVICE" == "RG552" ] || [[ "$EE_DEVICE" =~ RG351 ]] || [[ "$EE_DEVICE" =~ ^(RG353|RG503|RGARCD)$ ]]; then
   # For some reason the audio is being reseted to 100 at boot, so we reapply the saved settings here
   /usr/bin/odroidgoa_utils.sh vol $(get_ee_setting "audio.volume")
 fi

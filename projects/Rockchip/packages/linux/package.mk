@@ -10,7 +10,7 @@ if [[ "${DEVICE}" =~ (RG351|RK3326) ]]; then
 elif [[ "${DEVICE}" =~ (RG552|RK3399) ]]; then
   PKG_VERSION="0c15ff851c1d24fac588bd4427bb45b9ab88f452"
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/${PKG_VERSION}.tar.gz"
-elif [[ "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+elif [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD|RK3566)$ ]]; then
   PKG_VERSION="6564772b54d11ee1baba9e5c937d839829405c80"
   PKG_GIT_CLONE_BRANCH="master"
   PKG_GIT_CLONE_SINGLE="yes"
@@ -140,7 +140,7 @@ pre_make_target() {
   fi
 
   # Add EXFat, kinda gross but I don't want it as a module.
-  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|RGARCD|RK3566)$ ]]; then
   PREEXF=`pwd`
   cd ${PKG_BUILD}/fs
   git clone https://github.com/arter97/exfat-linux.git
@@ -170,7 +170,7 @@ pre_make_target() {
 
 make_target() {
   kernel_make modules
-  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|RGARCD|RK3566)$ ]]; then
     kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source
@@ -230,7 +230,7 @@ make_target() {
   # Without that it'll contain only the symbols from the kernel
   kernel_make ${KERNEL_TARGET} ${KERNEL_MAKE_EXTRACMD} modules
 
-  if [[ "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+  if [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD|RK3566)$ ]]; then
     kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source

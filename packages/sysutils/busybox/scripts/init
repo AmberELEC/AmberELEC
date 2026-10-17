@@ -85,7 +85,7 @@ elif [ "$DEVICE" == "Anbernic RG351P" ]; then
   echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period
   echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable
   echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
-elif [ "${DEVICE#Anbernic RG353}" = "$DEVICE" ] && [ "$DEVICE" != "Anbernic RG503" ]; then #RG351V and RG351MP
+elif [ "${DEVICE#Anbernic RG353}" = "$DEVICE" ] && [ "$DEVICE" != "Anbernic RG503" ] && [ "$DEVICE" != "Anbernic RG ARC-D" ]; then #RG351V and RG351MP
   # Enable GPIO 77 for power LED manipulation
   echo 77 > /sys/class/gpio/export
 
@@ -773,7 +773,7 @@ mount_games() {
     fi
 
     GAME_DEVICES="mmcblk1p3 mmcblk1p1 mmcblk1 mmcblk0p3"
-    if [ "${DEVICE#Anbernic RG353}" != "$DEVICE" ] || [ "$DEVICE" = "Anbernic RG503" ]; then
+    if [ "${DEVICE#Anbernic RG353}" != "$DEVICE" ] || [ "$DEVICE" = "Anbernic RG503" ] || [ "$DEVICE" = "Anbernic RG ARC-D" ]; then
       # TF2 first, then the games partition on TF1. mmcblk0 contains Android.
       GAME_DEVICES="mmcblk2p1 mmcblk2 mmcblk1p5"
     fi
