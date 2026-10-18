@@ -7,6 +7,11 @@ PKG_VERSION="7907698c7ea950e393499947d6f9fd240fc0976a"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/dhwz/rs97-commander-sdl2"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
+if [ "${DEVICE}" = "RG503" ]; then
+  PKG_VERSION="68bf059566c465c120b654fbcc6bbbac1f6f2adf"
+  PKG_SITE="https://github.com/dhwz/rs97-commander-sdl2"
+  PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
+fi
 PKG_DEPENDS_TARGET="toolchain alsa-lib freetype SDL2 SDL2_image SDL2_gfx SDL2_ttf"
 PKG_LONGDESC="Two-pane commander for RetroFW and RG-350 (fork of Dingux Commander)"
 
@@ -27,6 +32,8 @@ pre_configure_target() {
 
   if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG353" ]; then
     PKG_MAKE_OPTS_TARGET="RG351V=1"
+  elif [ "${DEVICE}" = "RG503" ]; then
+    PKG_MAKE_OPTS_TARGET="RG503=1"
   elif [ "${DEVICE}" = "RG552" ]; then
     PKG_MAKE_OPTS_TARGET="RG552=1"
   else

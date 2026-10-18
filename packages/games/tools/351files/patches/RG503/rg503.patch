@@ -1,0 +1,35 @@
+--- a/src/def.h
++++ b/src/def.h
+@@ -57,6 +57,22 @@
+    #define KEYBOARD_MARGIN          8
+    #define KEYBOARD_KEY_SPACING     4
+    #define KEYBOARD_SYMBOL_SIZE     24
++
++// Parameters for RG503
++#elif defined(DEVICE_RG503)
++   #define SCREEN_WIDTH             960
++   #define SCREEN_HEIGHT            544
++   #define HARDWARE_ACCELERATION    0
++   #define FULLSCREEN               1
++   #define FONT_NAME                "NotoSans-Regular.ttf"
++   #define FONT_NAME_MONO           "NotoSansMono-Regular.ttf"
++   #define FONT_SIZE                22
++   #define LINE_HEIGHT              36
++   #define ICON_SIZE                24
++   #define MARGIN_X                 12
++   #define KEYBOARD_MARGIN          9
++   #define KEYBOARD_KEY_SPACING     4
++   #define KEYBOARD_SYMBOL_SIZE     24
+-
++
+ // Parameters for RGB10
+ #elif defined(DEVICE_RGB10)
+@@ -188,7 +204,7 @@
+    #define BUTTON_HELD_PAGEDOWN           SDL_JoystickGetButton(g_joystick, 5) || SDL_JoystickGetButton(g_joystick, 11)
+    #define BUTTON_HELD_SELECT             SDL_JoystickGetButton(g_joystick, 3)
+    #define BUTTON_HELD_VALIDATE           SDL_JoystickGetButton(g_joystick, 0)
+-#elif defined(DEVICE_RG351MP)
++#elif defined(DEVICE_RG351MP) || defined(DEVICE_RG503)
+    #define BUTTON_PRESSED_UP              event.type == SDL_JOYBUTTONDOWN && event.jbutton.button == 8
+    #define BUTTON_PRESSED_DOWN            event.type == SDL_JOYBUTTONDOWN && event.jbutton.button == 9
+    #define BUTTON_PRESSED_LEFT            event.type == SDL_JOYBUTTONDOWN && event.jbutton.button == 10
