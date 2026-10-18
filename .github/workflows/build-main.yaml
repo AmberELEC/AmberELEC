@@ -12,14 +12,11 @@ on:
     branches:
       - main
       - dev
-# Ensure that if there are multiple builds for main only 1 is queued during a build
-# Example: 1st commit in main starts a build then 2-9 commits come in during the first build.
-#           'concurrency' makes it so that only commit 9 is enqueued to build rather builds 2-9 all runing a build.
+
 concurrency:
   group: main
 
 env:
-  # This is used by 'make docker-*' commands to determine image to build with
   DOCKER_IMAGE: ghcr.io/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}-build:latest
 
 jobs:
@@ -27,16 +24,21 @@ jobs:
     timeout-minutes: 60
     runs-on: main
     steps:
-      #- uses: hmarr/debug-action@v2
-      #  name: debug
+      - name: Prune Dangling Docker Resources
+        run: |
+          docker container prune -f || true
+          docker image prune -f || true
+          docker builder prune -f --keep-storage 20GB || true
+
       - name: Get current branch as it may not be 'default branch'
         id: branch
         run: |
-            branch_arg="${{ github.event.client_payload.branch }}"
-            if [[ -z "$branch_arg" ]]; then
-              branch_arg="$GITHUB_REF_NAME"
-            fi
-            echo "branch=$branch_arg" >> $GITHUB_OUTPUT
+          branch_arg="${{ github.event.client_payload.branch }}"
+          if [[ -z "$branch_arg" ]]; then
+            branch_arg="$GITHUB_REF_NAME"
+          fi
+          echo "branch=$branch_arg" >> $GITHUB_OUTPUT
+
       - uses: actions/checkout@v7
         name: Checkout
         with:
@@ -50,8 +52,8 @@ jobs:
     steps:
       - name: Build Toolchain RK3326
         run: |
-            set -e
-            make DOCKER_WORK_DIR=/work docker-toolchain-RK3326
+          set -e
+          make DOCKER_WORK_DIR=/work docker-toolchain-RK3326
 
   build-rg351p:
     needs: [build-toolchain-rk3326]
@@ -67,18 +69,36 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
       - name: Build RG351P
         run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351P
+          set -e
+          rm -rf release/aarch64/RG351P
+          mkdir -p release/aarch64/RG351P
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-RG351P
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/RG351P/*.system*
+          rm -rf release/aarch64/RG351P/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/RG351P/*.img.gz*
+          fi
+      - name: Archive RG351P (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351P/*.tar*
+            release/aarch64/RG351P/*.img.gz*
+      - name: Delete local RG351P release output to free disk
+        run: rm -rf release/aarch64/RG351P/
 
   build-rg351v:
     needs: [build-toolchain-rk3326, build-rg351p]
@@ -94,18 +114,36 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
       - name: Build RG351V
         run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351V
+          set -e
+          rm -rf release/aarch64/RG351V
+          mkdir -p release/aarch64/RG351V
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-RG351V
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/RG351V/*.system*
+          rm -rf release/aarch64/RG351V/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/RG351V/*.img.gz*
+          fi
+      - name: Archive RG351V (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351V/*.tar*
+            release/aarch64/RG351V/*.img.gz*
+      - name: Delete local RG351V release output to free disk
+        run: rm -rf release/aarch64/RG351V/
 
   build-rg351mp:
     needs: [build-toolchain-rk3326, build-rg351p, build-rg351v]
@@ -121,18 +159,40 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
       - name: Build RG351MP
         run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351MP
+          set -e
+          rm -rf release/aarch64/RG351MP
+          mkdir -p release/aarch64/RG351MP
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-RG351MP
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/RG351MP/*.system*
+          rm -rf release/aarch64/RG351MP/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/RG351MP/*.img.gz*
+          fi
+      - name: Archive RG351MP (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG351MP-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG351MP/*.tar*
+            release/aarch64/RG351MP/*.img.gz*
+      - name: Delete local RG351MP release output to free disk
+        run: rm -rf release/aarch64/RG351MP/
+      - name: Clean RK3326 Device Build Trees (Preserving Toolchains and ccache)
+        run: |
+          set -e
+          rm -rf build.*RG351P* build.*RG351V* build.*RG351MP*
 
   build-toolchain-rk3399:
     needs: [build-rg351p, build-rg351v, build-rg351mp]
@@ -141,8 +201,8 @@ jobs:
     steps:
       - name: Build Toolchain RK3399
         run: |
-            set -e
-            make DOCKER_WORK_DIR=/work docker-toolchain-RK3399
+          set -e
+          make DOCKER_WORK_DIR=/work docker-toolchain-RK3399
 
   build-rg552:
     needs: [build-toolchain-rk3399]
@@ -158,18 +218,40 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
       - name: Build RG552
         run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG552
+          set -e
+          rm -rf release/aarch64/RG552
+          mkdir -p release/aarch64/RG552
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-RG552
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/RG552/*.system*
+          rm -rf release/aarch64/RG552/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/RG552/*.img.gz*
+          fi
+      - name: Archive RG552 (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG552-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG552/*.tar*
+            release/aarch64/RG552/*.img.gz*
+      - name: Delete local RG552 release output to free disk
+        run: rm -rf release/aarch64/RG552/
+      - name: Clean RK3399 Device Build Trees (Preserving Toolchains and ccache)
+        run: |
+          set -e
+          rm -rf build.*RG552*
 
   build-toolchain-rk3566:
     needs: [build-rg552]
@@ -178,8 +260,8 @@ jobs:
     steps:
       - name: Build Toolchain RK3566
         run: |
-            set -e
-            make DOCKER_WORK_DIR=/work docker-toolchain-RK3566
+          set -e
+          make DOCKER_WORK_DIR=/work docker-toolchain-RK3566
 
   build-rg353:
     needs: [build-toolchain-rk3566]
@@ -195,18 +277,36 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
       - name: Build RG353
         run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG353
+          set -e
+          rm -rf release/aarch64/RG353
+          mkdir -p release/aarch64/RG353
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-RG353
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/RG353/*.system*
+          rm -rf release/aarch64/RG353/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/RG353/*.img.gz*
+          fi
+      - name: Archive RG353 (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG353-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG353/*.tar*
+            release/aarch64/RG353/*.img.gz*
+      - name: Delete local RG353 release output to free disk
+        run: rm -rf release/aarch64/RG353/
 
   build-rg503:
     needs: [build-toolchain-rk3566, build-rg353]
@@ -222,18 +322,40 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
       - name: Build RG503
         run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG503
+          set -e
+          rm -rf release/aarch64/RG503
+          mkdir -p release/aarch64/RG503
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-RG503
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/RG503/*.system*
+          rm -rf release/aarch64/RG503/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/RG503/*.img.gz*
+          fi
+      - name: Archive RG503 (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: RG503-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/RG503/*.tar*
+            release/aarch64/RG503/*.img.gz*
+      - name: Delete local RG503 release output to free disk
+        run: rm -rf release/aarch64/RG503/
+      - name: Clean RK3566 Device Build Trees (Preserving Toolchains and ccache)
+        run: |
+          set -e
+          rm -rf build.*RG353* build.*RG503*
 
   build-finalize:
     needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552, build-rg353, build-rg503]
@@ -249,66 +371,31 @@ jobs:
       - name: Get dev (or draft release) version
         id: version
         run: |
-           set -e
-           echo "full name: ${{ github.event.repository.full_name }}"
-           if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
-               echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
-           else
-               echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
-           fi
-      - name: Cleanup system artifacts
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download all device artifacts for release publication
+        if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-beta' || github.event.action == 'release-draft'
+        uses: actions/download-artifact@v4
+        with:
+          path: release/aarch64-temp
+
+      - name: Organize release files into standard release directories
+        if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-beta' || github.event.action == 'release-draft'
         run: |
-            set -e
-            rm -rf release/aarch64/RG*/*.system*
-            rm -rf release/aarch64/RG*/*.kernel*
-      - name: Cleanup system artifacts (no .img in non-release 'main' builds)
-        if: github.event.client_payload.release_tag == ''
-        run: |
-            set -e
-            #main builds only include the .tar for speed
-            rm -rf release/aarch64/RG*/*.img.gz*
-      - name: Archive RG351V (${{github.sha}})
-        uses: actions/upload-artifact@v7
-        if: github.event.client_payload.release_tag == ''
-        with:
-          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG351V/
-      - name: Archive RG351P (${{github.sha}})
-        if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v7
-        with:
-          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG351P/
-      - name: Archive RG351MP (${{github.sha}})
-        if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v7
-        with:
-          name: RG351MP-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG351MP/
-      - name: Archive RG552 (${{github.sha}})
-        if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v7
-        with:
-          name: RG552-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG552/
-      - name: Archive RG353 (${{github.sha}})
-        if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v7
-        with:
-          name: RG353-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG353/
-      - name: Archive RG503 (${{github.sha}})
-        if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v7
-        with:
-          name: RG503-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG503/
+          mkdir -p release/aarch64/RG351P release/aarch64/RG351V release/aarch64/RG351MP release/aarch64/RG552 release/aarch64/RG353 release/aarch64/RG503
+          find release/aarch64-temp -type f -name "*RG351P*" -exec cp {} release/aarch64/RG351P/ \; || true
+          find release/aarch64-temp -type f -name "*RG351V*" -exec cp {} release/aarch64/RG351V/ \; || true
+          find release/aarch64-temp -type f -name "*RG351MP*" -exec cp {} release/aarch64/RG351MP/ \; || true
+          find release/aarch64-temp -type f -name "*RG552*" -exec cp {} release/aarch64/RG552/ \; || true
+          find release/aarch64-temp -type f -name "*RG353*" -exec cp {} release/aarch64/RG353/ \; || true
+          find release/aarch64-temp -type f -name "*RG503*" -exec cp {} release/aarch64/RG503/ \; || true
+          rm -rf release/aarch64-temp
+
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-prerelease'
         uses: ncipollo/release-action@v1.21.0
@@ -423,6 +510,7 @@ jobs:
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           repo: AmberELEC-prerelease
+
       - name: Switch draft to start showing release
         if: github.event.action == 'release-prerelease'
         uses: ncipollo/release-action@v1.21.0
@@ -435,6 +523,7 @@ jobs:
           repo: AmberELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
+
       - name: Create dev release as draft at first to hide during uploads
         if: github.event.action == 'release-dev'
         uses: ncipollo/release-action@v1.21.0
@@ -451,9 +540,9 @@ jobs:
 
             ### Upgrade Instructions
             You can update to this release using the `prerelease` channel on your device if you take the following steps:
-            - Under`System Settings` -> `Developer` (`Updates` section), set the following:
-              -`GITHUB ORG` = `351dev`
-              -`GITHUB REPO` = `builds`
+            - Under `System Settings` -> `Developer` (`Updates` section), set the following:
+              - `GITHUB ORG` = `351dev`
+              - `GITHUB REPO` = `builds`
 
           artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*, release/aarch64/RG503/*"
           prerelease: true
@@ -461,6 +550,7 @@ jobs:
           token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
           owner: 351dev
           repo: dev-builds
+
       - name: Switch draft to start showing release
         if: github.event.action == 'release-dev'
         uses: ncipollo/release-action@v1.21.0
@@ -475,7 +565,6 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
 
-      #This can be removed after no more 'bridge' betas are needed
       - name: Create pre-release as draft at first to hide during uploads
         if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1.21.0
@@ -488,7 +577,7 @@ jobs:
             ### Upgrade Instructions
             You can update to this release using the `beta` channel on your device. This is the recommended way to use beta versions.
 
-             **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**!
+            **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**!
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
             **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
@@ -499,6 +588,7 @@ jobs:
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           repo: AmberELEC-prerelease
+
       - name: Switch draft to start showing release
         if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1.21.0
@@ -511,12 +601,13 @@ jobs:
           repo: AmberELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
+
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         if: github.event.action == 'release-draft'
         with:
           tag_name: "${{ steps.version.outputs.version }}"
-          name: "AmberELEC - ${{ steps.version.outputs.version }} - ${{ github.event.client_payload.release_name }}"
+          name: "AmberELEC - ${{ steps.version.outputs.version }} -${{ github.event.client_payload.release_name }}"
           body: |
             # Release Notes
             Welcome to the ${{ github.event.client_payload.release_name}} (${{ steps.version.outputs.version }}) release.
@@ -544,3 +635,10 @@ jobs:
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Final Cleanup of Temporary Release Files
+        if: always()
+        run: |
+          rm -rf release/aarch64
+          docker container prune -f || true
+          docker image prune -f || true
