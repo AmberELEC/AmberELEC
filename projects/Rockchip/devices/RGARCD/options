@@ -36,7 +36,7 @@
     OPENGLES="libmali"
 
   # kernel serial console
-    EXTRA_CMDLINE="console=ttyS2,1500000 console=tty0 net.ifnames=0 fbcon=rotate:1 vt.global_cursor_default=0 ssh consoleblank=0 systemd.show_status=0 loglevel=4 panic=0"
+    EXTRA_CMDLINE="quiet console=ttyS2,1500000 console=tty0 net.ifnames=0 fbcon=rotate:1 vt.global_cursor_default=0 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=0"
 
     LINUX="RGARCD"
     UBOOT_SYSTEM="arcd"

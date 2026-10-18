@@ -1,0 +1,283 @@
+From: AmberELEC ARC-D development
+Subject: [PATCH] Support ARC-D controls, panel/OSD rotation and safe audio flush
+
+Keep this integration confined to the RGARCD device build.
+
+diff --git a/src/globals.cpp b/src/globals.cpp
+index 5cbf569..3f34418 100755
+--- a/src/globals.cpp
++++ b/src/globals.cpp
+@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ #include <unistd.h>
+ 
+ 
+-std::string release = "3.2.2";
++std::string release = "3.2.3";
+ 
+ 
+ 
+@@ -443,9 +443,13 @@ bool isMiniloongPocket1()
+ {
+     return checkDeviceName("Miniloong Pocket 1");
+ }
++bool isRGARCD()
++{
++    return checkDeviceName("RGARCD");
++}
+ bool isRK3566Device()
+ {
+-    return isRG503() || isRG353V() || isRG353M() || isMiniloongPocket1();
++    return isRG503() || isRG353V() || isRG353M() || isRGARCD() || isMiniloongPocket1();
+ }
+ bool isRG353Family()
+ {
+@@ -480,6 +484,9 @@ bool wideScreenNotRotated(){
+ // if getDeviceName was not able to identify the device name we 
+ // take this from the retrorun.cfg and then we need to reset the Device name
+ void resetDeviceName(){
++    // A blank optional setting must preserve automatic model detection.
++    if (retrorun_device_name.empty())
++        return;
+     strncpy(DEVICE_NAME, retrorun_device_name.c_str(), DEVICE_NAME_SIZE - 1);
+     DEVICE_NAME[DEVICE_NAME_SIZE - 1] = '\0'; // Ensure null termination
+ }
+diff --git a/src/globals.h b/src/globals.h
+index 795282d..f3a36a8 100755
+--- a/src/globals.h
++++ b/src/globals.h
+@@ -204,6 +204,7 @@ bool isRG503();
+ bool isRG353V();
+ bool isRG353M();
+ bool isMiniloongPocket1();
++bool isRGARCD();
+ bool isRK3566Device();
+ bool isRG353Family();
+ bool supportsVideoMultithread();
+diff --git a/src/go2/audio.cpp b/src/go2/audio.cpp
+index f0a53e9..d7f05d8 100755
+--- a/src/go2/audio.cpp
++++ b/src/go2/audio.cpp
+@@ -278,6 +278,10 @@ static void reclaim_processed_buffers(go2_audio_t *audio)
+     {
+         ALuint buffer = 0;
+         alSourceUnqueueBuffers(audio->source, 1, &buffer);
++        if (alGetError() != AL_NO_ERROR || buffer_index(audio, buffer) < 0) {
++            logger.log(Logger::ERR, "Cannot reclaim processed audio buffer");
++            return;
++        }
+         remove_queued_buffer(audio, buffer);
+         const int index = buffer_index(audio, buffer);
+         if (index >= 0)
+@@ -693,11 +697,14 @@ void go2_audio_flush(go2_audio_t *audio)
+     if (alcGetCurrentContext() != audio->context && !alcMakeContextCurrent(audio->context))
+         return;
+     alSourceStop(audio->source);
+-    ALint queued = 0;
+-    alGetSourcei(audio->source, AL_BUFFERS_QUEUED, &queued);
+-    while (queued-- > 0) {
+-        ALuint buffer = 0;
+-        alSourceUnqueueBuffers(audio->source, 1, &buffer);
++    // A prebuffering source may still be AL_INITIAL: stopping it does not
++    // make its queued buffers processed. Detach the queue before returning
++    // any buffer to our free list, including during state loads/menu flushes.
++    alSourcei(audio->source, AL_BUFFER, 0);
++    const ALenum error = alGetError();
++    if (error != AL_NO_ERROR) {
++        logger.log(Logger::ERR, "Cannot detach audio queue during flush: 0x%x", error);
++        return;
+     }
+     audio->queue_order.clear();
+     audio->free_buffers.clear();
+diff --git a/src/go2/display.cpp b/src/go2/display.cpp
+index eb62004..e65a579 100755
+--- a/src/go2/display.cpp
++++ b/src/go2/display.cpp
+@@ -1544,6 +1544,46 @@ void go2_presenter_black(go2_presenter_t *presenter, int dstX, int dstY, int dst
+ 
+ int mx = 0;
+ 
++struct arc_status_rect {
++    double x, y, width, height;
++};
++
++static arc_status_rect arc_status_coordinates(int panel_width, int panel_height,
++        double width, double height, go2_rotation_t rotation, STATUS_POSITION position)
++{
++    if (position == FULL)
++        return {0, 0, double(panel_width), double(panel_height)};
++
++    // Select the anchor in the upright logical canvas, then transform the
++    // complete rectangle to panel coordinates. Rotating only the text leaves
++    // notification anchors in the opposite corner on ARC's +90 degree panel.
++    const bool quarter_turn = rotation == GO2_ROTATION_DEGREES_90 ||
++                              rotation == GO2_ROTATION_DEGREES_270;
++    const double canvas_width = quarter_turn ? panel_height : panel_width;
++    const double canvas_height = quarter_turn ? panel_width : panel_height;
++    const double logical_width = quarter_turn ? height : width;
++    const double logical_height = quarter_turn ? width : height;
++    double x = 0, y = 0;
++    if (position == TOP_RIGHT || position == BUTTOM_RIGHT)
++        x = canvas_width - logical_width;
++    else if (position == BUTTOM_CENTER)
++        x = (canvas_width - logical_width) / 2;
++    if (position == BUTTOM_LEFT || position == BUTTOM_RIGHT || position == BUTTOM_CENTER)
++        y = canvas_height - logical_height;
++
++    switch (rotation) {
++    case GO2_ROTATION_DEGREES_90:
++        return {panel_width - y - logical_height, x, width, height};
++    case GO2_ROTATION_DEGREES_180:
++        return {panel_width - x - logical_width,
++                panel_height - y - logical_height, width, height};
++    case GO2_ROTATION_DEGREES_270:
++        return {y, panel_height - x - logical_width, width, height};
++    default:
++        return {x, y, width, height};
++    }
++}
++
+ void blit_surface_status(go2_presenter_t *presenter, go2_surface_t *source_surface, go2_surface_t *dest_surface, int dest_width, int dest_height, go2_rotation_t rotation, STATUS_POSITION position, bool isWideScreen)
+ {
+ 
+@@ -1586,7 +1626,7 @@ void blit_surface_status(go2_presenter_t *presenter, go2_surface_t *source_surfa
+     // its DRM mode is physically portrait and its platform transform has
+     // already been composed into rotation. Use the generic rotated-blit
+     // layout below so notification surfaces keep their proportions.
+-    if (hasDeviceRotatedScreen() && !isMiniloongPocket1())
++    if (hasDeviceRotatedScreen() && !isMiniloongPocket1() && !isRGARCD())
+     {
+         // Scale the surface dimensions based on the display resolution
+         if ((rotation== GO2_ROTATION_DEGREES_0 || rotation== GO2_ROTATION_DEGREES_180)){
+@@ -1705,6 +1745,16 @@ void blit_surface_status(go2_presenter_t *presenter, go2_surface_t *source_surfa
+         }
+     }
+ 
++    if (isRGARCD()) {
++        const arc_status_rect rect = arc_status_coordinates(
++            dest_surface->width, dest_surface->height,
++            dest_width_scaled, dest_height_scaled, rotation, position);
++        dest_x = rect.x;
++        dest_y = rect.y;
++        dest_width_scaled = rect.width;
++        dest_height_scaled = rect.height;
++    }
++
+     // Blit the surface to the destination surface
+     if (source_surface != nullptr)
+     {
+diff --git a/src/go2/input.cpp b/src/go2/input.cpp
+index 9493b90..0b44d81 100755
+--- a/src/go2/input.cpp
++++ b/src/go2/input.cpp
+@@ -466,7 +466,8 @@ go2_input_t *go2_input_create(const char *device)
+     if (result->fd < 0)
+     {
+         logger.log(Logger::ERR,"Joystick: No gamepad found.\n");
+-        
++        free(result);
++        return NULL;
+     }else{
+         logger.log(Logger::DEB,"Descriptor file (EVDEV_NAME=%s) for controller found..\n",EVDEV_NAME);
+     }
+diff --git a/src/input/input.cpp b/src/input/input.cpp
+index 27c9223..a5025cb 100755
+--- a/src/input/input.cpp
++++ b/src/input/input.cpp
+@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ #include <algorithm>
+ #include <array>
+ #include <cctype>
++#include <cstdlib>
+ 
+ #if defined(__linux__) && !defined(RR_PLATFORM_SDL)
+ #include <fcntl.h>
+@@ -456,6 +457,18 @@ void initButtons(){
+      }
+ #endif
+  
++     if (isRGARCD()) {
++         // Match AmberELEC's native ARC profile. C/Z occupy the existing
++         // R3/L3 logical slots; F is BTN_MODE, and there are no sticks.
++         aButton = RRInputButton_B;
++         bButton = RRInputButton_A;
++         xButton = RRInputButton_Y;
++         yButton = RRInputButton_X;
++         f2Button = RRInputButton_MENU;
++         ignoreF2 = false;
++         logger.log(Logger::DEB, "ARC-D native joypad configuration detected.");
++     }
++
+      applyButtonRemapping();
+      hotkeyButton = isMiniloongPocket1() ? RRInputButton_MENU : selectButton;
+      if (isMiniloongPocket1())
+@@ -472,8 +485,13 @@ void input_gamepad_read()
+     if (!input)
+     {
+         if (firstExecution){
++            const char* deviceName = getDeviceName();
+             initButtons();
+-            input = rr_input_create(getDeviceName());
++            input = rr_input_create(deviceName);
++            if (!input) {
++                logger.log(Logger::ERR, "Cannot initialize controller; exiting.");
++                std::exit(EXIT_FAILURE);
++            }
+             firstExecution = false;
+         }
+         // I think this part has no sense: the has_triggered it's false even when should be true...
+@@ -621,6 +639,10 @@ void core_input_poll(void)
+     if (!input)
+     {
+         input = rr_input_create(getDeviceName());
++        if (!input) {
++            logger.log(Logger::ERR, "Cannot initialize controller; exiting.");
++            std::exit(EXIT_FAILURE);
++        }
+     }
+ 
+     // Read inputs
+diff --git a/src/js2xbox/events.cpp b/src/js2xbox/events.cpp
+index b8c0ef0..86eafb1 100755
+--- a/src/js2xbox/events.cpp
++++ b/src/js2xbox/events.cpp
+@@ -173,8 +173,16 @@ joypad events::find_event_js(const js_desc** js, js_desc const **out) {
+ 				 id.vendor == (*p)->vendor &&
+ 				 id.product == (*p)->product;
+ 
+-			if (isRetrogameJoypad || isOSHController) {
+-				if (isRetrogameJoypad) {
++			// ARC-D exposes its native digital controller directly; it needs
++			// neither the RG351 USB translator nor a PWM rumble endpoint.
++			const bool isArcJoypad = strcmp(name, "rg_arc_joypad") == 0 &&
++				id.bustype == BUS_HOST && id.vendor == 0x484b &&
++				id.product == 0x0a2c && id.version == 0x0100;
++
++			if (isRetrogameJoypad || isOSHController || isArcJoypad) {
++				if (isArcJoypad) {
++					ret.setValues(fname, "", false);
++				} else if (isRetrogameJoypad) {
+ 					ret.setValues(find_existing_evdev(), fname,false);
+ 				} else {
+ 					ret.setValues(fname, find_existing_rumble_evdev(),true);
+diff --git a/src/platform/platform_go2.cpp b/src/platform/platform_go2.cpp
+index 5c89f84..ad740d0 100644
+--- a/src/platform/platform_go2.cpp
++++ b/src/platform/platform_go2.cpp
+@@ -55,6 +55,17 @@ static_assert(static_cast<int>(RR_ROTATION_VERTICAL) == static_cast<int>(GO2_ROT
+               "GO2 and platform rotation layouts must match");
+ 
+ static go2_rotation_t native_rotation(rr_rotation_t value) {
++    // ARC-D's portrait panel needs the opposite fixed transform to the
++    // Miniloong panel. Compose it here for game, menu, OSD and overlays.
++    if (isRGARCD()) {
++        switch (value) {
++        case RR_ROTATION_DEGREES_0:   return GO2_ROTATION_DEGREES_90;
++        case RR_ROTATION_DEGREES_90:  return GO2_ROTATION_DEGREES_180;
++        case RR_ROTATION_DEGREES_180: return GO2_ROTATION_DEGREES_270;
++        case RR_ROTATION_DEGREES_270: return GO2_ROTATION_DEGREES_0;
++        default: break;
++        }
++    }
+     // The Miniloong Pocket 1 exposes its 720x1280 panel in portrait through
+     // DRM. RetroRun works in its landscape logical coordinate space, so add
+     // the panel's fixed 270 degree transform to every GO2 presentation path.

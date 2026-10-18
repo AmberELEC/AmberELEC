@@ -11,8 +11,10 @@ PKG_LONGDESC="A Single panel file Manager tailored for Anbernic 351 devices: RG3
 
 if [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="RG552"
-elif [ "${DEVICE}" = "RG353" ] || [ "${DEVICE}" = "RGARCD" ]; then
+elif [ "${DEVICE}" = "RG353" ]; then
   PKG_PATCH_DIRS="RG353"
+elif [ "${DEVICE}" = "RGARCD" ]; then
+  PKG_PATCH_DIRS="RGARCD"
 elif [ "${DEVICE}" = "RG503" ]; then
   PKG_PATCH_DIRS="RG503"
 fi
