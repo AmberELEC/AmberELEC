@@ -40,6 +40,10 @@ PKG_CONFIGURE_OPTS_TARGET="utrace_cv_cc_biarch=false \
                            --without-bzlib \
                            --without-lzma"
 
+pre_configure_target() {
+  export CFLAGS="${CFLAGS} -Wno-error=unterminated-string-initialization -Wno-unterminated-string-initialization"
+}
+
 post_makeinstall_target() {
   # don't install progs into sysroot
   rm -fr ${SYSROOT_PREFIX}/usr/bin
