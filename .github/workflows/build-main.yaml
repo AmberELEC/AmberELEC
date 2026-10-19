@@ -416,10 +416,6 @@ jobs:
             You can update to this release using the `prerelease` channel on your device. This is the recommended way to use prerelease versions.
             If you want to manually update, download the matching .tar from below and place it on your devices update folder (`GAMES/update` or `/roms/update`) on your microSD card (slot 2 if you use two cards).
 
-            > [!CAUTION]
-            > Do not replace or rename any of the `.dtb` files after flashing a new image or updating from an older AmberELEC release.
-            > To simplify the process and reduce complexity, we're determining which display the device is using, so no manual interaction is necessary.
-
             <!--devices-->
             <table>
               <tr>
