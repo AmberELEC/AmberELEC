@@ -1,7 +1,7 @@
 name: build-main
 on:
   repository_dispatch:
-    types: [release-beta, release-prerelease, release-draft, release-dev]
+    types: [release-prerelease, release-draft, release-dev]
   workflow_dispatch:
   push:
     paths-ignore:
@@ -379,13 +379,13 @@ jobs:
           fi
 
       - name: Download all device artifacts for release publication
-        if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-beta' || github.event.action == 'release-draft'
-        uses: actions/download-artifact@v4
+        if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-draft'
+        uses: actions/download-artifact@v8
         with:
           path: release/aarch64-temp
 
       - name: Organize release files into standard release directories
-        if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-beta' || github.event.action == 'release-draft'
+        if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-draft'
         run: |
           mkdir -p release/aarch64/RG351P release/aarch64/RG351V release/aarch64/RG351MP release/aarch64/RG552 release/aarch64/RG353 release/aarch64/RG503
           find release/aarch64-temp -type f -name "*RG351P*" -exec cp {} release/aarch64/RG351P/ \; || true
@@ -457,7 +457,7 @@ jobs:
                 <td align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG552.aarch64-${{ steps.version.outputs.version }}.tar">Link</a></td>
               </tr>
               <tr>
-                <td rowspan="10">RK3326</td>
+                <td rowspan="11">RK3326</td>
                 <td rowspan="5">Anbernic</td>
                 <td>RG351P</td>
                 <td rowspan="2" align="center"><a href="https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz">Link</a></td>
@@ -478,6 +478,10 @@ jobs:
               </tr>
               <tr>
                 <td>RG35</td>
+              </tr>
+              <tr>
+                <td>BATLEXP</td>
+                <td>G350</td>
               </tr>
               <tr>
                 <td>PowKiddy</td>
@@ -558,43 +562,6 @@ jobs:
           token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
           owner: 351dev
           repo: dev-builds
-          omitBodyDuringUpdate: true
-          omitNameDuringUpdate: true
-
-      - name: Create pre-release as draft at first to hide during uploads
-        if: github.event.action == 'release-beta'
-        uses: ncipollo/release-action@v1.21.0
-        with:
-          tag: "${{ steps.version.outputs.version }}"
-          body: |
-            # Release Notes (Beta)
-            This beta is provided as a OTA bridge to the new pre-releases
-
-            ### Upgrade Instructions
-            You can update to this release using the `beta` channel on your device. This is the recommended way to use beta versions.
-
-            **IMPORTANT NOTE**: There are **three different images** below, one for the **RG351P/M**, **RG351V** and **RG351MP**!
-
-            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351MP](https://github.com/${{ github.event.repository.owner.login }}/AmberELEC-prerelease/releases/download/${{ steps.version.outputs.version }}/AmberELEC-RG351MP.aarch64-${{ steps.version.outputs.version }}.tar)**
-
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*, release/aarch64/RG503/*"
-          prerelease: true
-          draft: true
-          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
-          repo: AmberELEC-prerelease
-
-      - name: Switch draft to start showing release
-        if: github.event.action == 'release-beta'
-        uses: ncipollo/release-action@v1.21.0
-        with:
-          tag: "${{ steps.version.outputs.version }}"
-          allowUpdates: true
-          draft: false
-          prerelease: true
-          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
-          repo: AmberELEC-prerelease
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
 

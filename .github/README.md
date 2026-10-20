@@ -47,7 +47,7 @@ Visit us on our Discord! https://discord.gg/W9F9xxRseu
     <td>RG552</td>
   </tr>  
   <tr>
-    <td rowspan="10">RK3326</td>
+    <td rowspan="11">RK3326</td>
     <td rowspan="5">Anbernic</td>
     <td>RG351P</td>
   </tr>
@@ -64,11 +64,16 @@ Visit us on our Discord! https://discord.gg/W9F9xxRseu
     <td>RG35<sup>[2]</sup></td>
   </tr>
   <tr>
-    <td rowspan="2">PowKiddy</td>
+    <td>BATLEXP</td>
+    <td>G350<sup>[3]</sup></td>
+  </tr>
+  <tr>
+    <td>PowKiddy</td>
     <td>RGB20S<sup>[3]</sup></td>
   </tr>
   <tr>
-    <td>Magicx XU10<sup>[3]</sup></td>
+    <td>Magicx</td>
+    <td>XU10<sup>[3]</sup></td>
   </tr>
   <tr>
     <td rowspan="2">Game Console<br />Game Station</td>
