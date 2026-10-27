@@ -11,7 +11,7 @@ elif [[ "${DEVICE}" =~ (RG552|RK3399) ]]; then
   PKG_VERSION="0c15ff851c1d24fac588bd4427bb45b9ab88f452"
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/${PKG_VERSION}.tar.gz"
 elif [[ "${DEVICE}" == RGARCD ]]; then
-  PKG_VERSION="8f15bec5a20cbce0f2e7f09e19470e8892ddc48d"
+  PKG_VERSION="de17ed3d3465a579064928f2ea6a9b52b65e687f"
   PKG_GIT_CLONE_BRANCH="rg-arc-pr"
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_SHA256=""
