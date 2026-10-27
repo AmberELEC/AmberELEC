@@ -27,7 +27,15 @@ elif [[ "${DEVICE}" =~ RG552 ]]; then
   PKG_URL="https://github.com/u-boot/u-boot.git"
   PKG_DEPENDS_TARGET+=" atf"
   ATF_PLATFORM="rk3399"
-elif [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
+elif [[ "${DEVICE}" == RGARCD ]]; then
+  PKG_VERSION="ac855fb4865927bd379a0cca3dfe492f6cd774a3"
+  PKG_GIT_CLONE_BRANCH="rg-arc-pr"
+  PKG_GIT_CLONE_SINGLE="yes"
+  PKG_SHA256=""
+  PKG_URL="https://github.com/navy1978/uboot_anbernic_rk3566.git"
+  PKG_DEPENDS_TARGET+=" linux"
+  PKG_NEED_UNPACK+=" ${LINUX_DEPENDS} ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/options"
+elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
   PKG_VERSION="94f633618000e12e8d8ac82eaeccc853e841f7f8"
   PKG_SHA256="0a4f25241ee4d9e7f430925cc46d4321c856d1a9c24c54eba5bc5357a4e97bd6"
   PKG_URL="https://github.com/AmberELEC/uboot_anbernic_rk3566/archive/${PKG_VERSION}.tar.gz"
