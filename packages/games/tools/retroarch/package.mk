@@ -17,11 +17,6 @@ if [[ "${DEVICE}" == RG552 ]]; then
   PKG_PATCH_DIRS="RG552-ui-patches"
 fi
 
-RA_SDL2_CONFIGURE="--disable-sdl2"
-if [[ "${DEVICE}" == RGARCD ]]; then
-  RA_SDL2_CONFIGURE="--enable-sdl2"
-fi
-
 pre_configure_target() {
   export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration -Wno-error=int-conversion"
 
@@ -44,7 +39,7 @@ pre_configure_target() {
                              --disable-discord \
                              --disable-vg \
                              --disable-sdl \
-                             ${RA_SDL2_CONFIGURE} \
+                             --disable-sdl2 \
                              --disable-ffmpeg \
                              --disable-oss \
                              --disable-tinyalsa \

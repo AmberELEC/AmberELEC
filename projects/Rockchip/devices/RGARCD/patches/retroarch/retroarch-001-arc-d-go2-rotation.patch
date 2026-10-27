@@ -1,0 +1,11 @@
+--- a/gfx/drivers_context/drm_go2_ctx.c
++++ b/gfx/drivers_context/drm_go2_ctx.c
+@@ -346,7 +346,7 @@
+          surf,
+          src_x, src_y, src_w, src_h,
+          out_y, out_x, out_h, out_w,
+-         GO2_ROTATION_DEGREES_270, 2);
++         GO2_ROTATION_DEGREES_90, 2);
+    go2_context_surface_unlock(drm->context, surf);
+ #endif
+ }

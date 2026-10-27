@@ -158,11 +158,10 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Dictionary for the raappend.cfg
     ra_append_dict = {}
 
-    # Use SDL's KMSDRM context on ARC-D so its device-specific SDL rotation
-    # applies consistently to the core video, menu and on-screen display.
+    # Use the GO2 context with ARC-D's device-specific presentation rotation.
     if device_name == "RGARCD":
-        ra_append_dict['video_context_driver'] = "gl_sdl"
-        logger.log('Using SDL OpenGL context on ARC-D')
+        ra_append_dict['video_context_driver'] = "kms"
+        logger.log('Using GO2 DRM context on ARC-D')
         # Flycast updates AV info during GLES teardown. Keep RetroArch from
         # treating the direct hardware video state as a threaded video wrapper.
         if core == "flycast":
