@@ -36,11 +36,11 @@ BOOTLOADER_DIR="${SYSTEM_ROOT}/usr/share/bootloader"
 mount -o remount,rw "${BOOT_ROOT}"
 trap 'sync; mount -o remount,ro "${BOOT_ROOT}"' EXIT
 mkdir -p "${BOOT_ROOT}/extlinux"
-cp "${BOOTLOADER_DIR}"/rk3566-arc-d-sd-probe.dtb "${BOOT_ROOT}/"
+cp "${BOOTLOADER_DIR}"/rk3566-arc-d-sd-probe.dtb "${BOOT_ROOT}/" &>/dev/null
 sed -e "s/@BOOT_UUID@/${BOOT_UUID}/g" -e "s/@DISK_UUID@/${DISK_UUID}/g" \
   "${BOOTLOADER_DIR}/extlinux/extlinux.conf" > "${BOOT_ROOT}/extlinux/extlinux.conf"
 
-dd if="${BOOTLOADER_DIR}/idbloader.img" of="${BOOT_DISK}" bs=32k seek=1 conv=fsync,notrunc
-dd if="${BOOTLOADER_DIR}/u-boot.itb" of="${BOOT_DISK}" bs=64k seek=128 conv=fsync,notrunc
-dd if="${BOOTLOADER_DIR}/resource.img" of="${BOOT_DISK}" bs=64k seek=192 conv=fsync,notrunc
+dd if="${BOOTLOADER_DIR}/idbloader.img" of="${BOOT_DISK}" bs=32k seek=1 conv=fsync,notrunc &>/dev/null
+dd if="${BOOTLOADER_DIR}/u-boot.itb" of="${BOOT_DISK}" bs=64k seek=128 conv=fsync,notrunc &>/dev/null
+dd if="${BOOTLOADER_DIR}/resource.img" of="${BOOT_DISK}" bs=64k seek=192 conv=fsync,notrunc &>/dev/null
 echo UPDATE > /storage/.config/boot.hint

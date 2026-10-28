@@ -4,7 +4,6 @@
 # Copyright (C) 2024-present AmberELEC (https://github.com/AmberELEC)
 
 import sys, struct, time
-import os
 
 def write_ev_key_event(device, event_code, event_value):
     ev_key_event = struct.pack('llHHI', 0, 0, 1, event_code, event_value)
@@ -13,9 +12,6 @@ def write_ev_key_event(device, event_code, event_value):
 
 # Specify your input event device
 input_device = '/dev/input/by-path/platform-odroidgo3-joypad-event-joystick'  # Change this to your actual device
-arc_input_device = '/dev/input/by-path/platform-arc-gamepad-event-joystick'
-if os.path.exists(arc_input_device):
-    input_device = arc_input_device
 
 # Specify the keys you want to simulate
 key1_code = 0x2c0  # BTN_TRIGGER_HAPPY1 code, replace with your desired code
