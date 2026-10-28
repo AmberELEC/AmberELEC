@@ -1,0 +1,17 @@
+From: navy1978 <navy1978@users.noreply.github.com>
+Subject: [PATCH] Use the DAC mixer for RG ARC-D
+
+Select the RK817 playback mixer, as on RG353 and RG503, so the volume
+indicator tracks the hardware volume keys instead of a capture gain.
+
+--- a/es-core/src/Settings.cpp
++++ b/es-core/src/Settings.cpp
+@@ -320,7 +320,7 @@ void Settings::setDefaults()
+ 	// Audio out device for volume control
+ 	#ifdef _RPI_
+ 		mStringMap["AudioDevice"] = "PCM";
+-	#elif defined(_ENABLEAMBERELEC) && (defined(RG552) || defined(RG353) || defined(RG503))
++	#elif defined(_ENABLEAMBERELEC) && (defined(RG552) || defined(RG353) || defined(RG503) || defined(RGARCD))
+ 		mStringMap["AudioDevice"] = "DAC";
+ 	#elif defined(_ENABLEAMBERELEC)
+ 		mStringMap["AudioDevice"] = "Playback";
