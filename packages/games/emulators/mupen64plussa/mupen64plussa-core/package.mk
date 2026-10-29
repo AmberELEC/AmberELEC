@@ -47,10 +47,13 @@ makeinstall_target() {
     cp ${PKG_DIR}/config/mupen64plus-RG351P.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   elif [ "${DEVICE}" = "RG351V" ]; then
     cp ${PKG_DIR}/config/mupen64plus-RG351V.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
-  elif [ "${DEVICE}" = "RG351MP" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  elif [ "${DEVICE}" = "RG351MP" ] || [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     cp ${PKG_DIR}/config/mupen64plus-RG351MP.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   elif [ "${DEVICE}" = "RG552" ]; then
     cp ${PKG_DIR}/config/mupen64plus-RG552.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
+  fi
+  if [ "${DEVICE}" = "RGARCD" ]; then
+    sed -i 's/GO-Super Gamepad/rg_arc_joypad/g' ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   fi
   chmod 644 ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   mkdir -p ${INSTALL}/usr/bin

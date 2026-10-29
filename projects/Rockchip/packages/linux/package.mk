@@ -327,7 +327,7 @@ makeinstall_init() {
 }
 
 post_install() {
-  if [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     rm -f ${INSTALL}/usr/lib/udev/rules.d/99-powertargets.rules
   fi
   mkdir -p ${INSTALL}/$(get_full_firmware_dir)/
