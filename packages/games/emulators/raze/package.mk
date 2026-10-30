@@ -82,7 +82,23 @@ makeinstall_target() {
     cp ${PKG_DIR}/config/RG351P/* ${INSTALL}/usr/config/distribution/raze
   fi
   if [ "${DEVICE}" = "RGARCD" ]; then
-    sed -i '/^\[.*\.Bindings\]$/r '${PKG_DIR}/config/RGARCD/bindings.cfg \
+    sed -i '/^\[.*\.Bindings\]$/a\
+DPadUp=+forward\
+DPadDown=+back\
+DPadLeft=+left\
+DPadRight=+right\
+Pad_Start=menu_main\
+Pad_Back=togglemap\
+Pad_A=+jump\
+Pad_B=+open\
+Pad_X=+fire\
+Pad_Y=weapnext\
+LShoulder=+run\
+RShoulder=+fire\
+LTrigger=+crouch\
+RTrigger=+jump\
+LThumb=weapprev\
+RThumb=weapnext' \
       ${INSTALL}/usr/config/distribution/raze/raze.ini
   fi
   cp ${PKG_BUILD}/.${TARGET_NAME}/*.pk3 ${INSTALL}/usr/config/distribution/raze

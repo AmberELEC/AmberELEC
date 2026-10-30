@@ -1,5 +1,0 @@
-# ARC-D: swap B/Y and use C/Z as R2/L2 in Flycast.
-input_player1_btn_a = "9"
-input_player1_btn_x = "8"
-input_player1_btn_r3 = "13"
-input_player1_btn_l3 = "12"

@@ -1,4 +1,0 @@
-# ARC-D: extra face buttons use the core six-button inputs.
-input_libretro_device_p1 = "513"
-input_player1_btn_r3 = "10"
-input_player1_btn_l3 = "11"
