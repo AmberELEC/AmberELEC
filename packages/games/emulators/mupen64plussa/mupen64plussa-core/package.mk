@@ -53,7 +53,10 @@ makeinstall_target() {
     cp ${PKG_DIR}/config/mupen64plus-RG552.cfg ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   fi
   if [ "${DEVICE}" = "RGARCD" ]; then
-    sed -i 's/GO-Super Gamepad/rg_arc_joypad/g' ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
+    sed -i -e 's/GO-Super Gamepad/rg_arc_joypad/g' \
+      -e 's|J0B12/B13|J0B8/B9|g' \
+      -e 's|J0B12/|J0B8/|g' \
+      ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   fi
   chmod 644 ${INSTALL}/usr/local/share/mupen64plus/mupen64plus.cfg
   mkdir -p ${INSTALL}/usr/bin
