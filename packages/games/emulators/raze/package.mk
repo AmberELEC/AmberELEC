@@ -11,7 +11,7 @@ PKG_DEPENDS_TARGET="toolchain SDL2 raze:host zmusic libvpx libwebp"
 PKG_LONGDESC="Raze is a fork of Build engine games backed by GZDoom tech and combines Duke Nukem 3D, Blood, Redneck Rampage, Shadow Warrior and Exhumed/Powerslave in a single package."
 PKG_TOOLCHAIN="cmake-make"
 
-if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ] && [[ ! "${DEVICE}" =~ ^(RG353|RG503)$ ]]
+if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ] && [[ ! "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]
 then
   PKG_PATCH_DIRS="RG351P"
 fi
@@ -76,10 +76,30 @@ makeinstall_target() {
   cp ${PKG_BUILD}/.${TARGET_NAME}/raze ${INSTALL}/usr/bin
 
   mkdir -p ${INSTALL}/usr/config/distribution/raze
-  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     cp ${PKG_DIR}/config/RG351MP/* ${INSTALL}/usr/config/distribution/raze
   else
     cp ${PKG_DIR}/config/RG351P/* ${INSTALL}/usr/config/distribution/raze
+  fi
+  if [ "${DEVICE}" = "RGARCD" ]; then
+    sed -i '/^\[.*\.Bindings\]$/a\
+DPadUp=+forward\
+DPadDown=+back\
+DPadLeft=+left\
+DPadRight=+right\
+Pad_Start=menu_main\
+Pad_Back=togglemap\
+Pad_A=+jump\
+Pad_B=+open\
+Pad_X=+fire\
+Pad_Y=weapnext\
+LShoulder=+run\
+RShoulder=+fire\
+LTrigger=+crouch\
+RTrigger=+jump\
+LThumb=weapprev\
+RThumb=weapnext' \
+      ${INSTALL}/usr/config/distribution/raze/raze.ini
   fi
   cp ${PKG_BUILD}/.${TARGET_NAME}/*.pk3 ${INSTALL}/usr/config/distribution/raze
   cp -r ${PKG_BUILD}/.${TARGET_NAME}/soundfonts ${INSTALL}/usr/config/distribution/raze

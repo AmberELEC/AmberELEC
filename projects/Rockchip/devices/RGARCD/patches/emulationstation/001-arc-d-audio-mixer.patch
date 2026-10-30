@@ -1,0 +1,38 @@
+From: navy1978 <navy1978@users.noreply.github.com>
+Subject: [PATCH] Use the DAC mixer for RG ARC-D
+
+Select the RK817 playback mixer, as on RG353 and RG503, so the volume
+indicator tracks the hardware volume keys instead of a capture gain.
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -61,6 +61,7 @@ option(RG351MP "Set to ON to enable Anbernic RG351MP specific changes" ${RG351MP})
+ option(RG552 "Set to ON to enable Anbernic RG552 specific changes" ${RG552})
+ option(RG353 "Set to ON to enable Anbernic RG353 specific changes" ${RG353})
+ option(RG503 "Set to ON to enable Anbernic RG503 specific changes" ${RG503})
++option(RGARCD "Set to ON to enable Anbernic RG ARC-D specific changes" ${RGARCD})
+ 
+ project(emulationstation-all)
+ 
+@@ -125,6 +126,10 @@ if("${RG503}" STREQUAL "1")
+   add_definitions(-DRG503)
+ endif()
+ 
++if("${RGARCD}" STREQUAL "1")
++  add_definitions(-DRGARCD)
++endif()
++
+ # batocera / kodi menu
+ # disable kodi
+ if(BATOCERA)
+--- a/es-core/src/Settings.cpp
++++ b/es-core/src/Settings.cpp
+@@ -320,7 +320,7 @@ void Settings::setDefaults()
+ 	// Audio out device for volume control
+ 	#ifdef _RPI_
+ 		mStringMap["AudioDevice"] = "PCM";
+-	#elif defined(_ENABLEAMBERELEC) && (defined(RG552) || defined(RG353) || defined(RG503))
++	#elif defined(_ENABLEAMBERELEC) && (defined(RG552) || defined(RG353) || defined(RG503) || defined(RGARCD))
+ 		mStringMap["AudioDevice"] = "DAC";
+ 	#elif defined(_ENABLEAMBERELEC)
+ 		mStringMap["AudioDevice"] = "Playback";

@@ -158,6 +158,16 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     # Dictionary for the raappend.cfg
     ra_append_dict = {}
 
+    # Use the GO2 context with ARC-D's device-specific presentation rotation.
+    if device_name == "RGARCD":
+        ra_append_dict['video_context_driver'] = "kms"
+        logger.log('Using GO2 DRM context on ARC-D')
+        # Flycast updates AV info during GLES teardown. Keep RetroArch from
+        # treating the direct hardware video state as a threaded video wrapper.
+        if core == "flycast":
+            ra_append_dict['video_threaded'] = "false"
+            logger.log('Disabling threaded video for Flycast on ARC-D')
+
     # Create config from distribution.conf
     config = Config(rom_name, platform)
 
@@ -518,7 +528,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'wonderswan': (0, 0, 448, 288),       # x2
             'wonderswancolor': (0, 0, 448, 288),  # x2
         }
-    elif device_name in ("RG351V", "RG351MP", "RG353"):
+    elif device_name in ("RG351V", "RG351MP", "RG353", "RGARCD"):
         system_viewport = {
             'standard': (1, 1, 639, 479),          # max-1
             'gb': (0, 0, 480, 432),               # x3

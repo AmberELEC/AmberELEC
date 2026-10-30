@@ -37,6 +37,9 @@ makeinstall_init() {
   mkdir -p ${INSTALL}/splash
   find_file_path "splash/splash-480.png" && cp ${FOUND_PATH} ${INSTALL}/splash
   find_file_path "splash/splash-544.png" && cp ${FOUND_PATH} ${INSTALL}/splash
+  if [ "${DEVICE}" = "RGARCD" ]; then
+    find_file_path "splash/arc-d-splash.png" && cp ${FOUND_PATH} ${INSTALL}/splash
+  fi
   find_file_path "splash/splash-640.png" && cp ${FOUND_PATH} ${INSTALL}/splash
   find_file_path "splash/splash-1920.png" && cp ${FOUND_PATH} ${INSTALL}/splash
 }

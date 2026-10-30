@@ -10,6 +10,8 @@ if [ "$DEVICE" == "Anbernic RG351P" ]; then
   magick /usr/config/splash/splash-480.png bgra:/dev/fb0
 elif [ "$DEVICE" == "Anbernic RG552" ]; then
   ply-image /usr/config/splash/splash-1920.png
+elif [ "$DEVICE" == "Anbernic RG ARC-D" ]; then
+  magick /usr/config/splash/splash-640.png -rotate 90 bgra:/dev/fb0
 elif [ "$DEVICE" == "Anbernic RG503" ]; then
   magick /usr/config/splash/splash-544.png bgra:/dev/fb0
 else

@@ -10,7 +10,7 @@ PKG_DEPENDS_TARGET="toolchain SDL2 lzdoom:host"
 PKG_LONGDESC="ZDoom is a family of enhanced ports of the Doom engine for running on modern operating systems. It runs on Windows, Linux, and OS X, and adds new features not found in the games as originally published by id Software."
 PKG_TOOLCHAIN="cmake-make"
 
-if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]
+if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]
 then
   PKG_PATCH_DIRS="RG351MP"
 fi
@@ -50,10 +50,30 @@ makeinstall_target() {
   cp ${PKG_BUILD}/.${TARGET_NAME}/lzdoom ${INSTALL}/usr/bin
 
   mkdir -p ${INSTALL}/usr/config/distribution/lzdoom
-  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     cp ${PKG_DIR}/config/RG351MP/* ${INSTALL}/usr/config/distribution/lzdoom
   else
     cp ${PKG_DIR}/config/RG351P/* ${INSTALL}/usr/config/distribution/lzdoom
+  fi
+  if [ "${DEVICE}" = "RGARCD" ]; then
+    sed -i '/^\[.*\.Bindings\]$/a\
+DPadUp=+forward\
+DPadDown=+back\
+DPadLeft=+left\
+DPadRight=+right\
+Pad_Start=menu_main\
+Pad_Back=togglemap\
+Pad_A=+jump\
+Pad_B=+use\
+Pad_X=+attack\
+Pad_Y=weapnext\
+LShoulder=+speed\
+RShoulder=+attack\
+LTrigger=+crouch\
+RTrigger=+jump\
+LThumb=weapprev\
+RThumb=weapnext' \
+      ${INSTALL}/usr/config/distribution/lzdoom/lzdoom.ini
   fi
   cp ${PKG_BUILD}/.${TARGET_NAME}/*.pk3 ${INSTALL}/usr/config/distribution/lzdoom
   cp -r ${PKG_BUILD}/.${TARGET_NAME}/soundfonts ${INSTALL}/usr/config/distribution/lzdoom

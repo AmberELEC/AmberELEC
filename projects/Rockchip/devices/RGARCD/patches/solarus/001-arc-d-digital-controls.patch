@@ -1,0 +1,19 @@
+From: navy1978 <navy1978@users.noreply.github.com>
+Subject: [PATCH] Use the D-pad for RG ARC-D movement
+
+ARC-D has digital controls and no analog sticks. Use the standardized
+SDL controller directions for new Solarus saves.
+
+--- a/src/core/Savegame.cpp
++++ b/src/core/Savegame.cpp
+@@ -243,6 +243,6 @@
+   set_string(KEY_JOYPAD_PAUSE, "start");
+-  set_string(KEY_JOYPAD_RIGHT,  "left_x +");
+-  set_string(KEY_JOYPAD_UP, "left_y -");
+-  set_string(KEY_JOYPAD_LEFT, "left_x -");
+-  set_string(KEY_JOYPAD_DOWN, "left_y +");
++  set_string(KEY_JOYPAD_RIGHT,  "dpad_right");
++  set_string(KEY_JOYPAD_UP, "dpad_up");
++  set_string(KEY_JOYPAD_LEFT, "dpad_left");
++  set_string(KEY_JOYPAD_DOWN, "dpad_down");
+ }

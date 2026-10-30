@@ -11,7 +11,7 @@ PKG_DEPENDS_TARGET="toolchain SDL2 gzdoom:host zmusic libwebp"
 PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_TOOLCHAIN="cmake-make"
 
-if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ] && [[ ! "${DEVICE}" =~ ^(RG353|RG503)$ ]]
+if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ] && [[ ! "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]
 then
   PKG_PATCH_DIRS="RG351P"
 fi
@@ -71,10 +71,30 @@ makeinstall_target() {
   cp ${PKG_BUILD}/.${TARGET_NAME}/gzdoom ${INSTALL}/usr/bin
 
   mkdir -p ${INSTALL}/usr/config/distribution/gzdoom
-  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ] || [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     cp ${PKG_DIR}/config/RG351MP/* ${INSTALL}/usr/config/distribution/gzdoom
   else
     cp ${PKG_DIR}/config/RG351P/* ${INSTALL}/usr/config/distribution/gzdoom
+  fi
+  if [ "${DEVICE}" = "RGARCD" ]; then
+    sed -i '/^\[.*\.Bindings\]$/a\
+DPadUp=+forward\
+DPadDown=+back\
+DPadLeft=+left\
+DPadRight=+right\
+Pad_Start=menu_main\
+Pad_Back=togglemap\
+Pad_A=+jump\
+Pad_B=+use\
+Pad_X=+attack\
+Pad_Y=weapnext\
+LShoulder=+speed\
+RShoulder=+attack\
+LTrigger=+crouch\
+RTrigger=+jump\
+LThumb=weapprev\
+RThumb=weapnext' \
+      ${INSTALL}/usr/config/distribution/gzdoom/gzdoom.ini
   fi
   cp ${PKG_BUILD}/.${TARGET_NAME}/*.pk3 ${INSTALL}/usr/config/distribution/gzdoom
   cp -r ${PKG_BUILD}/.${TARGET_NAME}/soundfonts ${INSTALL}/usr/config/distribution/gzdoom

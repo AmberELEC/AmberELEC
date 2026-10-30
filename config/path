@@ -54,7 +54,7 @@ if [ -z "${AMBERELEC_LOCK_HELD}" ] && [ "${SCRIPT_NAME}" != "clean" ]; then
     BASE_TEMPLATE_DEVICE="RK3326"
   elif [[ "${DEVICE}" =~ ^(RG552)$ ]]; then
     BASE_TEMPLATE_DEVICE="RK3399"
-  elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  elif [[ "${DEVICE}" =~ ^(RG353|RG503|RGARCD)$ ]]; then
     BASE_TEMPLATE_DEVICE="RK3566"
   fi
 
