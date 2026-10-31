@@ -491,6 +491,7 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
     #   RG351V/MP, RG353 = 640x480
     #   RG503 = 960x544
     #   RG552 = 1920x1152
+    #   MLP1 = 960x720
     # Consoles (width x hight)
     #   GB/GBC/GG = 160x144
     #   GBA = 240×160
@@ -575,6 +576,26 @@ def set_settings(rom_name: str, core: str, platform: str, controllers: str, auto
             'gbah': (0, 0, 1200, 800),             # x5
             'arduboy': (0, 0, 1024, 512),          # x8
             'gameking': (0, 0, 1056, 704),         # x22
+        }
+
+    elif device_name == "MLP1":
+        system_viewport = {
+            'standard': (1, 1, 959, 719),          # max-1
+            'gb': (0, 0, 800, 720),                # x5
+            'gbh': (0, 0, 800, 720),               # x5
+            'gbc': (0, 0, 800, 720),               # x5
+            'gbch': (0, 0, 800, 720),              # x5
+            'supervision': (0, 0, 640, 640),       # x4
+            'gamegear': (0, 0, 800, 720),          # x5
+            'ggh': (0, 0, 800, 720),               # x5
+            'pokemini': (0, 0, 960, 640),          # x10
+            'ngp': (0, 0, 640, 608),               # x4
+            'ngpc': (0, 0, 640, 608),              # x4
+            'wonderswan': (0, 0, 896, 576),        # x4
+            'wonderswancolor': (0, 0, 896, 576),   # x4
+            'gba': (0, 0, 960, 640),               # x4
+            'gbah': (0, 0, 960, 640),              # x4
+            'arduboy': (0, 0, 896, 448),           # x7
         }
 
     bezel_cfg = None

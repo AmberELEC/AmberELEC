@@ -1,0 +1,29 @@
+From 454c9f71ad61118320a2e6d1a0e3150278ea1bdd Mon Sep 17 00:00:00 2001
+From: JanTrueno <159560609+JanTrueno@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 18:38:07 +0200
+Subject: [PATCH 2/7] arm64: dts: rockchip: miniloong: run the SD slot without
+ UHS SDR104
+
+Drop sd-uhs-sdr104 from the SD card slot so cards run at high speed instead
+of UHS-I SDR104.
+
+AI assistance was used in preparing this patch.
+---
+ arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+index 42d9a9ed7..cec7e5de3 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+@@ -1467,7 +1467,6 @@ &sdmmc0 {
+ 	cap-mmc-highspeed;
+ 	cap-sd-highspeed;
+ 	disable-wp;
+-	sd-uhs-sdr104;
+ 	vmmc-supply = <&vcc_sd>;
+ 	vqmmc-supply = <&vccio_sd>;
+ 	pinctrl-names = "default";
+-- 
+2.43.0
+
