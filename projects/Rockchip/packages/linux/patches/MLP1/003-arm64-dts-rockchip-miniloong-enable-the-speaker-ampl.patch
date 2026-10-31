@@ -1,0 +1,30 @@
+From 06f56378b2870552d66a9276ab2fc8270363ae22 Mon Sep 17 00:00:00 2001
+From: JanTrueno <159560609+JanTrueno@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 18:38:08 +0200
+Subject: [PATCH 3/7] arm64: dts: rockchip: miniloong: enable the speaker
+ amplifier
+
+Wire the external speaker amplifier enable (gpio0 RK_PC0) to the rk817
+codec as spk-ctl, so the amplifier is powered for playback.
+
+AI assistance was used in preparing this patch.
+---
+ arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+index cec7e5de3..fa532ed0e 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+@@ -1025,7 +1025,7 @@ rk817_codec: codec {
+ 			spk-volume = <3>;
+ 			out-l2spk-r2hp;
+ 			/* Miniloong external speaker amp enable */
+-			//spk-ctl-gpios = <&gpio0 RK_PC0 GPIO_ACTIVE_HIGH>;
++			spk-ctl-gpios = <&gpio0 RK_PC0 GPIO_ACTIVE_HIGH>;
+ 			/* Miniloong headphone detect */
+ 			//hp-det-gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
+ 			status = "okay";
+-- 
+2.43.0
+

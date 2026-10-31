@@ -1,0 +1,29 @@
+From 78eede8bebc2ecd728c3ae77523e91cece4893ad Mon Sep 17 00:00:00 2001
+From: JanTrueno <159560609+JanTrueno@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 18:38:09 +0200
+Subject: [PATCH 5/7] arm64: dts: rockchip: miniloong: charge at full input
+ current
+
+VBUS only reaches the PMIC, so the charger is never classified. Use the AC
+charger limits in the plug-in fallback instead of the 450mA USB limit.
+
+AI assistance was used in preparing this patch.
+---
+ arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+index e54b29b2b..bef6972be 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+@@ -1009,6 +1009,7 @@ charger {
+ 			extcon = <&usb2phy0>;
+ 			rockchip,validate-charger-with-pmic-plugin;
+ 			rockchip,pmic-plugin-usb-fallback;
++			rockchip,pmic-plugin-fallback-ac;
+ 		};
+ 
+ 		rk817_codec: codec {
+-- 
+2.43.0
+

@@ -25,7 +25,7 @@ else
 
   PKG_EMUS="${LIBRETRO_CORES}"
 
-  if [[ "${DEVICE}" == "RG552" || "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [[ "${DEVICE}" == "RG552" || "${DEVICE}" =~ ^(RG353|RG503|MLP1)$ ]]; then
     PKG_EMUS+=" ${LIBRETRO_CORES_EXTRA}"
   fi
 
@@ -42,7 +42,7 @@ make_target() {
 
 makeinstall_target() {
   ## Remove libretro cores from unsupported devices
-  if [[ "${DEVICE}" != "RG552" && ! "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [[ "${DEVICE}" != "RG552" && ! "${DEVICE}" =~ ^(RG353|RG503|MLP1)$ ]]; then
     mkdir -p ${INSTALL}/usr/config/emulationstation
     cp -f $(get_build_dir emulationstation)/.install_pkg/usr/config/emulationstation/es_systems.cfg ${INSTALL}/usr/config/emulationstation/es_systems.cfg
     for CORE in ${LIBRETRO_CORES_EXTRA}; do
@@ -78,7 +78,7 @@ makeinstall_target() {
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.351p ${INSTALL}/usr/config/distribution/configs/distribution.conf
   elif  [ "${DEVICE}" == "RG351V" ] || [ "${DEVICE}" == "RG351MP" ] || [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.351v ${INSTALL}/usr/config/distribution/configs/distribution.conf
-  elif [ "${DEVICE}" == "RG552" ]; then
+  elif [ "${DEVICE}" == "RG552" ] || [ "${DEVICE}" == "MLP1" ]; then
     cp ${INSTALL}/usr/config/distribution/configs/distribution.conf.552  ${INSTALL}/usr/config/distribution/configs/distribution.conf
   fi
 
@@ -109,6 +109,9 @@ makeinstall_target() {
     cp -r ${PKG_DIR}/overlay-503/* ${INSTALL}/usr/share/retroarch-overlays
   elif [ "${DEVICE}" == "RG552" ]; then
     cp -r ${PKG_DIR}/overlay-552/* ${INSTALL}/usr/share/retroarch-overlays
+  else
+    # tmp-overlays.mount needs this directory to exist
+    touch ${INSTALL}/usr/share/retroarch-overlays/.keep
   fi
 
   mkdir -p ${INSTALL}/usr/share/libretro-database
@@ -147,7 +150,7 @@ post_install() {
     cp -f  ${PKG_DIR}/clocks/RK3326/clocklimits ${INSTALL}/etc
   elif [[ "${DEVICE}" == "RG552" ]]; then
     cp -f  ${PKG_DIR}/clocks/RK3399/clocklimits ${INSTALL}/etc
-  elif [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  elif [[ "${DEVICE}" =~ ^(RG353|RG503|MLP1)$ ]]; then
     cp -f ${PKG_DIR}/clocks/RK3566/clocklimits ${INSTALL}/etc
   fi
 

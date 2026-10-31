@@ -61,6 +61,13 @@ makeinstall_target() {
         ln -sf /usr/config/emulationstation/es_systems.cfg ${INSTALL}/etc/emulationstation/es_systems.cfg
 
         cp -rf ${PKG_DIR}/config/*.cfg ${INSTALL}/usr/config/emulationstation
+
+        if [ "${DEVICE}" == "MLP1" ]; then
+          # rk817 has no Master control
+          sed -i 's|^</config>|\t<string name="AudioDevice" value="DAC"/>\n</config>|' ${INSTALL}/usr/config/emulationstation/es_settings.cfg
+          # volume keys are a separate gpio-keys input device
+          sed -i 's|^\(\s*\)<inputConfig type="keyboard" deviceName="Keyboard"|\1<inputConfig type="joystick" deviceName="gpio-keys-vol" deviceGUID="-1">\n\1\t<input name="hotkeyenable" type="key" id="1073741952" value="1"/>\n\1</inputConfig>\n&|' ${INSTALL}/usr/config/emulationstation/es_input.cfg
+        fi
 }
 
 post_install() {

@@ -1,0 +1,31 @@
+From 80701b1ca5a676608a16f4181c23e7a1d8b02542 Mon Sep 17 00:00:00 2001
+From: JanTrueno <159560609+JanTrueno@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 18:38:08 +0200
+Subject: [PATCH 4/7] arm64: dts: rockchip: miniloong: enable rockchip-suspend
+
+Enable rockchip_suspend so the board can wake from suspend. The defaults in
+rk3568.dtsi fit this board.
+
+AI assistance was used in preparing this patch.
+---
+ arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+index fa532ed0e..e54b29b2b 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-miniloong.dts
+@@ -1391,6 +1391,10 @@ &pwm4 {
+ 	status = "okay";
+ };
+ 
++&rockchip_suspend {
++	status = "okay";
++};
++
+ &rk_rga {
+ 	status = "okay";
+ };
+-- 
+2.43.0
+

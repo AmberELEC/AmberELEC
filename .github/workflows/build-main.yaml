@@ -357,8 +357,57 @@ jobs:
           set -e
           rm -rf build.*RG353* build.*RG503*
 
+  build-mlp1:
+    needs: [build-toolchain-rk3566, build-rg503]
+    timeout-minutes: 360
+    runs-on: main
+    steps:
+      - name: Get date for artifacts
+        id: date
+        run: echo "date=$(date +'%Y%m%d_%H%M')" >> $GITHUB_OUTPUT
+      - name: Get short SHA for artifacts
+        id: sha
+        run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Get dev (or draft release) version
+        id: version
+        run: |
+          set -e
+          if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
+            echo "version=${{ github.event.client_payload.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}" >> $GITHUB_OUTPUT
+          fi
+      - name: Build MLP1
+        run: |
+          set -e
+          rm -rf release/aarch64/MLP1
+          mkdir -p release/aarch64/MLP1
+          export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
+          make DOCKER_WORK_DIR=/work docker-MLP1
+      - name: Cleanup unwanted image/kernel artifacts early
+        run: |
+          set -e
+          rm -rf release/aarch64/MLP1/*.system*
+          rm -rf release/aarch64/MLP1/*.kernel*
+          if [[ "${{ github.event.client_payload.release_tag }}" == "" ]]; then
+            rm -rf release/aarch64/MLP1/*.img.gz*
+          fi
+      - name: Archive MLP1 (${{ github.sha }})
+        uses: actions/upload-artifact@v7
+        with:
+          name: MLP1-dev-main-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}
+          path: |
+            release/aarch64/MLP1/*.tar*
+            release/aarch64/MLP1/*.img.gz*
+      - name: Delete local MLP1 release output to free disk
+        run: rm -rf release/aarch64/MLP1/
+      - name: Clean RK3566 Device Build Trees (Preserving Toolchains and ccache)
+        run: |
+          set -e
+          rm -rf build.*MLP1*
+
   build-finalize:
-    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552, build-rg353, build-rg503]
+    needs: [build-init, build-rg351p, build-rg351v, build-rg351mp, build-rg552, build-rg353, build-rg503, build-mlp1]
     timeout-minutes: 360
     runs-on: main
     steps:
@@ -387,13 +436,14 @@ jobs:
       - name: Organize release files into standard release directories
         if: github.event.action == 'release-prerelease' || github.event.action == 'release-dev' || github.event.action == 'release-draft'
         run: |
-          mkdir -p release/aarch64/RG351P release/aarch64/RG351V release/aarch64/RG351MP release/aarch64/RG552 release/aarch64/RG353 release/aarch64/RG503
+          mkdir -p release/aarch64/RG351P release/aarch64/RG351V release/aarch64/RG351MP release/aarch64/RG552 release/aarch64/RG353 release/aarch64/RG503 release/aarch64/MLP1
           find release/aarch64-temp -type f -name "*RG351P*" -exec cp {} release/aarch64/RG351P/ \; || true
           find release/aarch64-temp -type f -name "*RG351V*" -exec cp {} release/aarch64/RG351V/ \; || true
           find release/aarch64-temp -type f -name "*RG351MP*" -exec cp {} release/aarch64/RG351MP/ \; || true
           find release/aarch64-temp -type f -name "*RG552*" -exec cp {} release/aarch64/RG552/ \; || true
           find release/aarch64-temp -type f -name "*RG353*" -exec cp {} release/aarch64/RG353/ \; || true
           find release/aarch64-temp -type f -name "*RG503*" -exec cp {} release/aarch64/RG503/ \; || true
+          find release/aarch64-temp -type f -name "*MLP1*" -exec cp {} release/aarch64/MLP1/ \; || true
           rm -rf release/aarch64-temp
 
       - name: Create pre-release as draft at first to hide during uploads
@@ -505,7 +555,7 @@ jobs:
             </table>
             <!--devices-->
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*, release/aarch64/RG503/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*, release/aarch64/RG503/*, release/aarch64/MLP1/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
@@ -544,7 +594,7 @@ jobs:
               - `GITHUB ORG` = `351dev`
               - `GITHUB REPO` = `builds`
 
-          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*, release/aarch64/RG503/*"
+          artifacts: "release/aarch64/RG351P/*, release/aarch64/RG351V/*, release/aarch64/RG351MP/*, release/aarch64/RG552/*, release/aarch64/RG353/*, release/aarch64/RG503/*, release/aarch64/MLP1/*"
           prerelease: true
           draft: true
           token: ${{ secrets.TRIGGER_DEV_BUILD_TOKEN }}
@@ -594,6 +644,7 @@ jobs:
             release/aarch64/RG552/*
             release/aarch64/RG353/*
             release/aarch64/RG503/*
+            release/aarch64/MLP1/*
           prerelease: true
           draft: true
         env:

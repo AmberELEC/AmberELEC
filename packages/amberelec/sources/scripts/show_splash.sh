@@ -12,6 +12,8 @@ elif [ "$DEVICE" == "Anbernic RG552" ]; then
   ply-image /usr/config/splash/splash-1920.png
 elif [ "$DEVICE" == "Anbernic RG503" ]; then
   magick /usr/config/splash/splash-544.png bgra:/dev/fb0
+elif [ "$DEVICE" == "MLP1" ]; then
+  magick /usr/config/splash/splash-960.png bgra:/dev/fb0
 else
   magick /usr/config/splash/splash-640.png bgra:/dev/fb0
 fi

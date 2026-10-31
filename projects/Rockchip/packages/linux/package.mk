@@ -17,6 +17,14 @@ elif [[ "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
   PKG_SHA256=""
   PKG_SITE="https://github.com/AmberELEC/kernel-rk356x"
   PKG_URL="${PKG_SITE}.git"
+elif [ "${DEVICE}" = "MLP1" ]; then
+  # TODO: merged AmberELEC/kernel-rk356x commit with the MLP1 changes
+  PKG_VERSION=""
+  PKG_GIT_CLONE_BRANCH="master"
+  PKG_GIT_CLONE_SINGLE="yes"
+  PKG_SHA256=""
+  PKG_SITE="https://github.com/AmberELEC/kernel-rk356x"
+  PKG_URL="${PKG_SITE}.git"
 fi
 
 PKG_LICENSE="GPL"
@@ -34,6 +42,10 @@ if [[ "${DEVICE}" == RG351V ]]; then
 fi
 
 if [[ "${DEVICE}" == RG552 ]]; then
+  PKG_PATCH_DIRS="${DEVICE}"
+fi
+
+if [ "${DEVICE}" = "MLP1" ]; then
   PKG_PATCH_DIRS="${DEVICE}"
 fi
 
@@ -140,7 +152,7 @@ pre_make_target() {
   fi
 
   # Add EXFat, kinda gross but I don't want it as a module.
-  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|MLP1|RK3566)$ ]]; then
   PREEXF=`pwd`
   cd ${PKG_BUILD}/fs
   git clone https://github.com/arter97/exfat-linux.git
@@ -170,7 +182,7 @@ pre_make_target() {
 
 make_target() {
   kernel_make modules
-  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+  if [[ ! "${DEVICE}" =~ ^(RG353|RG503|MLP1|RK3566)$ ]]; then
     kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source
@@ -230,7 +242,7 @@ make_target() {
   # Without that it'll contain only the symbols from the kernel
   kernel_make ${KERNEL_TARGET} ${KERNEL_MAKE_EXTRACMD} modules
 
-  if [[ "${DEVICE}" =~ ^(RG353|RG503|RK3566)$ ]]; then
+  if [[ "${DEVICE}" =~ ^(RG353|RG503|MLP1|RK3566)$ ]]; then
     kernel_make INSTALL_MOD_PATH=${INSTALL}/$(get_kernel_overlay_dir) modules_install
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/build
     rm -f ${INSTALL}/$(get_kernel_overlay_dir)/lib/modules/*/source
@@ -320,7 +332,7 @@ makeinstall_init() {
 }
 
 post_install() {
-  if [[ "${DEVICE}" =~ ^(RG353|RG503)$ ]]; then
+  if [[ "${DEVICE}" =~ ^(RG353|RG503|MLP1)$ ]]; then
     rm -f ${INSTALL}/usr/lib/udev/rules.d/99-powertargets.rules
   fi
   mkdir -p ${INSTALL}/$(get_full_firmware_dir)/

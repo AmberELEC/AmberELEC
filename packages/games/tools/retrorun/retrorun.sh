@@ -28,6 +28,7 @@ case "${RRDEVICE}" in
   RG351P|RG351M|RG351V|RG351MP|RG552|RG503|RG353M|RG353V|"Miniloong Pocket 1") ;;
   RG353P) RRDEVICE="RG353M" ;;
   RG353V/VS|RG353VS) RRDEVICE="RG353V" ;;
+  MLP1) RRDEVICE="Miniloong Pocket 1" ;;
   # Keep the image's compatible profile for models RetroRun does not recognize.
   *) RRDEVICE="${EE_DEVICE}" ;;
 esac

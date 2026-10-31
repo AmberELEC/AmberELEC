@@ -1,5 +1,5 @@
 BUILD_DIRS=build.*
-DEVICE_BUILD_DIRS=build.AmberELEC-RG*
+DEVICE_BUILD_DIRS=build.AmberELEC-RG* build.AmberELEC-MLP1*
 TOOLCHAIN_BUILD_DIRS=build.AmberELEC-RK*
 
 all:
@@ -40,6 +40,9 @@ RG351MP:
 RG552:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
 
+MLP1:
+	DEVICE=MLP1 ARCH=aarch64 ./scripts/build_distro
+
 toolchain-RK3326:
 	DEVICE=RK3326 ARCH=aarch64 ./scripts/build toolchain
 
@@ -69,6 +72,8 @@ lib32:
 	DEVICE=RK3566 ARCH=arm ./scripts/build toolchain
 	DEVICE=RG353 ARCH=arm scripts/clean build-lib32
 	DEVICE=RG353 ARCH=arm scripts/build build-lib32
+	DEVICE=MLP1 ARCH=arm scripts/clean build-lib32
+	DEVICE=MLP1 ARCH=arm scripts/build build-lib32
 
 update:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/update_packages
