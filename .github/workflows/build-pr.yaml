@@ -11,7 +11,6 @@ on:
     branches:
       - main
       - dev
-      - rk3566
     types: [opened, closed, synchronize, ready_for_review, labeled]
 
 env:
@@ -323,9 +322,10 @@ jobs:
         with:
           name: RG503-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
+            release/aarch64/RG503/
       - name: Archive MLP1-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}
         uses: actions/upload-artifact@v7
         with:
           name: MLP1-PR-${{ github.event.pull_request.number }}-${{ needs.build-init.outputs.branch-name }}-${{ steps.sha.outputs.sha }}
           path: |
-            release/aarch64/RG503/
+            release/aarch64/MLP1/

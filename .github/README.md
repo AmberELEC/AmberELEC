@@ -47,8 +47,8 @@ Visit us on our Discord! https://discord.gg/W9F9xxRseu
     <td>RG552</td>
   </tr>  
   <tr>
-    <td rowspan="10">RK3326</td>
-    <td rowspan="4">Anbernic</td>
+    <td rowspan="11">RK3326</td>
+    <td rowspan="5">Anbernic</td>
     <td>RG351P</td>
   </tr>
   <tr>
@@ -61,11 +61,19 @@ Visit us on our Discord! https://discord.gg/W9F9xxRseu
     <td>RG351MP<sup>[2]</sup></td>
   </tr>
   <tr>
-    <td rowspan="2">PowKiddy</td>
+    <td>RG35<sup>[2]</sup></td>
+  </tr>
+  <tr>
+    <td>BATLEXP</td>
+    <td>G350<sup>[3]</sup></td>
+  </tr>
+  <tr>
+    <td>PowKiddy</td>
     <td>RGB20S<sup>[3]</sup></td>
   </tr>
   <tr>
-    <td>Magicx XU10<sup>[3]</sup></td>
+    <td>Magicx</td>
+    <td>XU10<sup>[3]</sup></td>
   </tr>
   <tr>
     <td rowspan="2">Game Console<br />Game Station</td>
@@ -85,7 +93,7 @@ Visit us on our Discord! https://discord.gg/W9F9xxRseu
 > <sup>[1]</sup> use the RG351P image<br>
 > <sup>[2]</sup> for RG351V and RG351MP devices with v2 display the use of the [pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases) is mandatory<br>
 > <sup>[3]</sup> use the RG351MP [pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases)<br>
-> <sup>[4]</sup> use the RG353 image
+> <sup>[4]</sup> use the RG353 [pre-release image](https://github.com/AmberELEC/AmberELEC-prerelease/releases)
 
 ## Installation
 

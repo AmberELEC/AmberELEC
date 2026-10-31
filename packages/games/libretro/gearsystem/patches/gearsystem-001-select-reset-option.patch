@@ -1,0 +1,63 @@
+Subject: [PATCH] libretro: make Select reset optional
+
+Select is the AmberELEC hotkey modifier. Disable its emulated Reset mapping
+by default so save/load hotkeys do not reset the game. Keep the mapping
+available through an Input core option.
+
+--- a/platforms/libretro/libretro.cpp
++++ b/platforms/libretro/libretro.cpp
+@@ -59,6 +59,7 @@
+     RETRO_DEVICE_SMS_GG_PAD
+ };
+ static bool allow_up_down = false;
++static bool reset_button_enabled = false;
+ static int8_t dpad_vertical_latch[2] = { 0, 0 };
+ static int8_t dpad_horizontal_latch[2] = { 0, 0 };
+ static bool lightgun_touchscreen = false;
+@@ -812,7 +813,7 @@
+                 core->KeyPressed(static_cast<GS_Joypads>(player), Key_Start);
+             else
+                 core->KeyReleased(static_cast<GS_Joypads>(player), Key_Start);
+-            if (ib & (1 << RETRO_DEVICE_ID_JOYPAD_SELECT))
++            if (reset_button_enabled && (ib & (1 << RETRO_DEVICE_ID_JOYPAD_SELECT)))
+                 reset_pressed = true;
+
+             break;
+@@ -891,6 +892,13 @@
+ static void check_variables(void)
+ {
+     struct retro_variable var = {0};
++
++    var.key = "gearsystem_reset_button";
++    var.value = NULL;
++    reset_button_enabled = false;
++
++    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
++        reset_button_enabled = (strcmp(var.value, "Enabled") == 0);
+
+     var.key = "gearsystem_up_down_allowed";
+     var.value = NULL;
+--- a/platforms/libretro/libretro_core_options.h
++++ b/platforms/libretro/libretro_core_options.h
+@@ -346,6 +346,21 @@
+     /* Input */
+
+     {
++        "gearsystem_reset_button",
++        "Reset Button on Select",
++        NULL,
++        "Map RetroPad Select to the console Reset button. Disable when Select is used as a frontend hotkey.",
++        NULL,
++        "input",
++        {
++            { "Disabled", NULL },
++            { "Enabled",  NULL },
++            { NULL, NULL },
++        },
++        "Disabled"
++    },
++
++    {
+         "gearsystem_up_down_allowed",
+         "Allow Up+Down / Left+Right",
+         NULL,

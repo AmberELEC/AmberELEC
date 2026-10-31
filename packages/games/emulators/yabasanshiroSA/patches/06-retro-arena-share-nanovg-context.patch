@@ -1,0 +1,11 @@
+diff --git a/yabause/src/CMakeLists.txt b/yabause/src/CMakeLists.txt
+--- a/yabause/src/CMakeLists.txt
++++ b/yabause/src/CMakeLists.txt
+@@ -132 +132,7 @@
++# The core OSD is built in this directory, outside the retro_arena
++# subdirectory's compile definitions. Reuse NanoGUI's context in this port.
++if (YAB_PORTS STREQUAL "retro_arena")
++    add_definitions(-D__RETORO_ARENA__)
++endif()
++
+ include_directories(nanovg)
